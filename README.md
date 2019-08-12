@@ -1,2 +1,4 @@
 # dropstore
-dropstore project
+1. 基本架构搭建完毕
+2. mobx模块还需完善
+3. 网络请求模块还需优化
