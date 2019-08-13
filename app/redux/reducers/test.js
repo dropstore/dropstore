@@ -10,6 +10,14 @@ const initialState = {
   },
 };
 
+function setList(state, action) {
+  let origList = [];
+  if (action.payload.current_page > 1) {
+    origList = state.vendors.list;
+  }
+  return [...origList, ...action.payload.list];
+}
+
 export default handleActions({
   [requestVendors]: state => ({
     ...state,
@@ -21,7 +29,7 @@ export default handleActions({
       currentPage: action.payload.current_page,
       totalPages: action.payload.total_pages,
       isFetching: false,
-      list: action.payload.list,
+      list: setList(state, action),
     },
   }),
   [resetVendors]: state => ({

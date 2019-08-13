@@ -17,7 +17,7 @@ function fetchVendors(fetchNextPage = false) {
       with_vouchers: false,
       latitude: '40.0919',
       longitude: '116.35223',
-      page: 1,
+      page,
       type: 'quick',
       discount_only: true,
       request_id: -1,

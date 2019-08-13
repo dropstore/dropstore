@@ -18,4 +18,4 @@ function debounceDelay(fun, delay = 350) {
   };
 }
 
-export default { debounce, debounceDelay };
+export { debounce, debounceDelay };

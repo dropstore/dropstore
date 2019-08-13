@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 
-export default class AuthLoading extends PureComponent {
+export default class SelfSupport extends PureComponent {
   render() {
-    return <Text>首页</Text>;
+    return <Text>Drop自营</Text>;
   }
 }

@@ -13,7 +13,7 @@
 .svn/
 __tests__
 
-# vscode 
+# vscode
 # Xcode
 #
 build/
@@ -66,3 +66,4 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+Pods/

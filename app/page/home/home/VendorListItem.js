@@ -1,26 +1,24 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { debounce } from '../../utils/commonUtils';
-import FadeImage from '../../components/FadeImage';
-import ScaleView from '../../components/ScaleView';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { withNavigation } from 'react-navigation';
+import { debounce } from '../../../utils/commonUtils';
+import FadeImage from '../../../components/FadeImage';
+import ScaleView from '../../../components/ScaleView';
+import { SCREEN_WIDTH } from '../../../common/Constant';
 
-export default class VendorListItem extends PureComponent {
+class VendorListItem extends PureComponent {
   toVendorPage = () => {
     const { navigation } = this.props;
-    navigation.push('Vendor', {
-      params: {
-
-      },
+    navigation.push('vendorDetail', {
+      title: '详情页',
     });
   }
 
   render() {
     const { vendor } = this.props;
-    console.log(SCREEN_WIDTH);
     return (
       <View style={{ backgroundColor: '#fff' }}>
-        <ScaleView style={styles.container} onPress={() => debounce(this.toVendorPage)}>
+        <ScaleView style={styles.container} onPress={debounce(this.toVendorPage)}>
           <FadeImage style={styles.image} source={{ uri: vendor.image_url }} />
           <View style={styles.containerRight}>
             <View style={styles.vendorName}>
@@ -212,3 +210,5 @@ const styles = StyleSheet.create({
     padding: 0,
   },
 });
+
+export default withNavigation(VendorListItem);
