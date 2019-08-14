@@ -1,18 +1,15 @@
 package com.dropstore;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-import com.swmansion.reanimated.ReanimatedPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-
 import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.swmansion.reanimated.ReanimatedPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,17 +29,15 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                    new MainReactPackage(),
-            new RNGestureHandlerPackage(),
-            new AsyncStoragePackage(),
-            new ReanimatedPackage(),
-            new FastImageViewPackage(),
-            new LinearGradientPackage(),
-            new VectorIconsPackage(),
-                    new RNGestureHandlerPackage(),
-                    new SplashScreenReactPackage(),
-                    new NetInfoPackage(),
-                    new AsyncStoragePackage()
+                new MainReactPackage(),
+                new AsyncStoragePackage(),
+                new NetInfoPackage(),
+                new VectorIconsPackage(),
+                new SplashScreenReactPackage(),
+                new LinearGradientPackage(),
+                new FastImageViewPackage(),
+                new RNGestureHandlerPackage(),
+                new ReanimatedPackage()
             );
         }
 

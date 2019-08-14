@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import {
+  View, StyleSheet, StatusBar, Platform,
+} from 'react-native';
+import Animated from 'react-native-reanimated';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/Tabbar';
 import { SCREEN_WIDTH, STATUSBAR_HEIGHT } from '../../common/Constant';
@@ -24,6 +27,15 @@ class HomePage extends PureComponent {
       index: 0,
       routes: ROUTES,
     };
+    this.position = new Animated.Value(0);
+  }
+
+  componentDidMount() {
+    if (Platform.OS === 'android') {
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor('transparent');
+      StatusBar.setBarStyle('dark-content');
+    }
   }
 
   onIndexChange = (index) => {
