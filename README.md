@@ -20,4 +20,5 @@ or
 react-native run-android 
 ```
 
-
+```
+```
