@@ -8,14 +8,14 @@
 
 import { Alert } from 'react-native';
 import { Toast } from 'teaset';
-import Constant from '../common/Constant';
+import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';
 
 /**
  * 吐司
  * @param {String} message 提示
  */
 export const showToast = (message) => {
-  Toast.message(message, Constant.TOAST_DURATION, Constant.TOAST_POSITON);
+  Toast.message(message, TOAST_DURATION, TOAST_POSITON);
 };
 
 /**
