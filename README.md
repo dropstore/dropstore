@@ -5,6 +5,10 @@
 ```js
 yarn 
 ```
+or
+```js
+npm i 
+```
 
 ## start
 
