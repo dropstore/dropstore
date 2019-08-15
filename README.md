@@ -21,5 +21,17 @@ or
 ```js
 react-native run-android 
 ```
+# 打包命令
 
+## ios
+
+```js
+./pack.rb appstore && rvm use system && open ios/build/dropstore.xcarchive
+```
+
+## android
+
+```js
+./pack.rb dropstore
+```
 
