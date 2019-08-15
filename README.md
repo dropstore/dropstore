@@ -28,14 +28,12 @@ react-native run-android
 ```js
 ./pack.rb appstore && rvm use system && open ios/build/dropstore.xcarchive
 ```
-### 安装包输出地址
-`dropstore/ios/build`
+`安装包输出地址:dropstore/ios/build`
 
 ## android
 
 ```js
 ./pack.rb dropstore
 ```
-### 安装包输出地址
-`dropstore/android/app/build/outputs/apk`
+`安装包输出地址:dropstore/android/app/build/outputs/apk`
 
