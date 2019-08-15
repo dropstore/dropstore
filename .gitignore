@@ -41,6 +41,8 @@ build/
 .gradle
 local.properties
 *.iml
+*.jks
+android/*.properties
 
 # node.js
 #
