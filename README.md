@@ -26,7 +26,7 @@ react-native run-android
 ## ios
 
 ```js
-./pack.rb appstore && rvm use system && open ios/build/dropstore.xcarchive
+./pack.rb appstore 
 ```
 `安装包输出地址: dropstore/ios/build`
 
