@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
   View, StyleSheet, StatusBar, Platform, TouchableWithoutFeedback,
@@ -13,16 +14,18 @@ import Wallet from '../page/wallet';
 import Message from '../page/message';
 
 const HOME_ICON_WIDTH = px2Dp(239);
+const PADDING_HORIZONTAL = 18;
+
 const ROUTES = [
   {
     screen: <Personal />,
     key: 'Personal',
-    icon: <Image style={{ width: px2Dp(69), height: px2Dp(53) }} source={require('../res/image/personal.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={require('../res/image/personal.png')} />,
   },
   {
     screen: <Search />,
     key: 'Search',
-    icon: <Image style={{ width: px2Dp(66), height: px2Dp(54) }} source={require('../res/image/search.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(66), height: '100%' }} source={require('../res/image/search.png')} />,
   },
   {
     screen: <HomePage />,
@@ -32,12 +35,12 @@ const ROUTES = [
   {
     screen: <Wallet />,
     key: 'Wallet',
-    icon: <Image style={{ width: px2Dp(65), height: px2Dp(46) }} source={require('../res/image/wallet.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(65), height: '100%' }} source={require('../res/image/wallet.png')} />,
   },
   {
     screen: <Message />,
     key: 'Message',
-    icon: <Image style={{ width: px2Dp(69), height: px2Dp(52) }} source={require('../res/image/message.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={require('../res/image/message.png')} />,
   },
 ];
 
@@ -83,16 +86,19 @@ export default class BottomNavigator extends PureComponent {
         />
         <View style={styles.tabBar}>
           {
-            routes.map((v, i) => (
+            routes.reduce((arr, v) => [...arr, false, false, v], []).slice(2).map((v, i, arr) => (
               <TouchableWithoutFeedback
+                key={`v.key${i}`}
                 hitSlop={{
-                  top: 15, left: 20, bottom: 25, right: 20,
+                  bottom: px2Dp(PADDING_TAB),
+                  left: i === 0 ? PADDING_HORIZONTAL : 0,
+                  right: i === arr.length - 1 ? PADDING_HORIZONTAL : 0,
                 }}
-                onPress={() => this.onIndexChange(i)}
+                onPress={() => this.onIndexChange((i + 1) / 3 | 0)}
               >
-                <View>
-                  {v.icon}
-                </View>
+                {
+                  v ? <View>{v.icon}</View> : <View style={{ flex: 1, height: '100%' }} />
+                }
               </TouchableWithoutFeedback>
             ))
           }
@@ -116,9 +122,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: SCREEN_WIDTH,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     backgroundColor: '#fff',
-    paddingHorizontal: px2Dp(36),
+    paddingHorizontal: PADDING_HORIZONTAL,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ddd',
   },
