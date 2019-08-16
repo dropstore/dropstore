@@ -34,10 +34,10 @@ class HomePage extends PureComponent {
 
   renderScene = ({ route }) => ({
     home: <Home />,
-    originalCost: <LuckyCharm />,
-    selfSupport: <OriginalCost />,
-    luckyCharm: <Reserve />,
-    reserve: <SelfSupport />,
+    originalCost: <OriginalCost />,
+    selfSupport: <SelfSupport />,
+    luckyCharm: <LuckyCharm />,
+    reserve: <Reserve />,
   }[route.key]);
 
   renderTabBar = (props) => {

@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
+import MyLuckycharm from './Luckycharm';
 
-export default class LuckyCharm extends PureComponent {
+export default class LuckycharmIndex extends PureComponent {
   render() {
-    return <Text>球鞋锦鲤</Text>;
+    return <MyLuckycharm />;
   }
 }
