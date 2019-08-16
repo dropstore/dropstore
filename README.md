@@ -37,3 +37,4 @@ react-native run-android
 ```
 `安装包输出地址: dropstore/android/app/build/outputs/apk`
 
+
