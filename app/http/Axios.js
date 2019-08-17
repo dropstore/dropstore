@@ -1,5 +1,6 @@
 /**
  * @file 网络请求封装
+ * https://github.com/axios/axios
  * @date 2019/8/17 15:59
  * @author ZWW
  */
@@ -8,9 +9,11 @@
 import {isConnected} from '../utils/NetUtil';
 import {showToast, showToastLoading, hideToastLoading} from '../utils/MutualUtil';
 import Strings from '../res/Strings';
-import Axios from 'axios';
+import Axios  from 'axios';
 
-export const timeout = 10000;
+
+const timeout = 10000;
+
 /**
  * 自定义Axios实例默认值
  * @type {AxiosInstance}
@@ -65,19 +68,20 @@ const request = async (url, {isShowLoading = true, loadingText = '加载中...',
     }
   } catch (error) {
     // 获取到响应拦截器里返回的的error
-    if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {// 请求超时
+    if (error.response) {
+      return error.response.data;
+    }
+    // 请求超时
+    if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
       throw `CONNECT TIMEOUT------URL:${url}------ERROR:${error}`;
-    } else {
-      if (error.response) {
-        return error.response.data;
-      }
-      throw `ERROR TO REQUEST------URL:${url}------ERROR:${error}`;
     }
+    throw `ERROR TO REQUEST------URL:${url}------ERROR:${error}`;
   } finally {
     if (isShowLoading) {
       hideToastLoading();
     }
   }
 };
-export {axiosInstance, request};
+
+export {axiosInstance, timeout, request};
