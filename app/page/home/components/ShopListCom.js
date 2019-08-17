@@ -3,11 +3,10 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-
-import React, {PureComponent} from 'react';
-import {FlatList, RefreshControl} from 'react-native';
-import ShopListItemCom from '../components/ShopListItemCom';
-import {SCREEN_HEIGHT} from '../../../common/Constant';
+import React, { PureComponent } from 'react';
+import { FlatList, RefreshControl } from 'react-native';
+import ShopListItemCom from './ShopListItemCom';
+import { SCREEN_HEIGHT } from '../../../common/Constant';
 import Colors from '../../../res/Colors';
 
 class ShopListCom extends PureComponent {
@@ -22,13 +21,15 @@ class ShopListCom extends PureComponent {
   loadMore = () => {
 
   };
+
   renderFooter = () => {
 
   };
-  _renderItemView = ({item}) => <ShopListItemCom shopList={item}/>;
+
+  _renderItemView = ({ item }) => <ShopListItemCom item={item} />;
 
   render() {
-    const {shopList} = this.props;
+    const { shopList } = this.props;
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -45,10 +46,16 @@ class ShopListCom extends PureComponent {
         onEndReached={this.loadMore}
         removeClippedSubviews={false}
         onEndReachedThreshold={0.5}
-        refreshControl={<RefreshControl progressViewOffset={20} tintColor={Colors.HEADER_COLOR}
-                                        onRefresh={this.onRefresh} refreshing={false}/>}
+        refreshControl={(
+          <RefreshControl
+            progressViewOffset={20}
+            tintColor={Colors.HEADER_COLOR}
+            onRefresh={this.onRefresh}
+            refreshing={false}
+          />
+)}
       />
-    )
+    );
   }
 }
 
