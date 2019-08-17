@@ -15,6 +15,9 @@ const IMAGES = {
   wallet: require('./image/wallet.png'),
   xh: require('./image/xh.png'),
   xm: require('./image/xm.png'),
+  qe: require('./image/qe.png'),
+  qr: require('./image/qr.png'),
+  shoe: require('./image/shoe.png'),
 };
 
 export default IMAGES;

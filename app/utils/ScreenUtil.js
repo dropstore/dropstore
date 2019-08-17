@@ -8,7 +8,8 @@ import { Dimensions, Platform, PixelRatio } from 'react-native';
 const { width } = Dimensions.get('window');
 
 // 设计图宽度
-const basePx = Platform.OS === 'ios' ? 750 : 720;
+// const basePx = Platform.OS === 'ios' ? 750 : 720;
+const basePx = 750;
 
 /**
  * 界面适配

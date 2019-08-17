@@ -8,7 +8,7 @@
 const COLORS = {
     HEADER_COLOR: '#f00',
     WHITE_COLOR: '#fff',
-    NORMAL_TEXT_0:'#000000',
+    NORMAL_TEXT_0:'#000',
     NORMAL_TEXT_A0:'#A0A0A0',
     NORMAL_TEXT_15:'#151515',
     NORMAL_TEXT_3:'#333333',
