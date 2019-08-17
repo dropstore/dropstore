@@ -36,6 +36,7 @@ axiosInstance.interceptors.response.use(
 
 /**
  * 发送请求
+ * 除了url，其他都是可选参数;结合实际业务，可提出部分可选参数为必传参数，如：params
  * @param {String} url
  * @param {Boolean} isShowLoading - 是否显示加载框
  * @param {String} loadingText - 加载框文字
@@ -44,7 +45,7 @@ axiosInstance.interceptors.response.use(
  * @param {Number} timeout - 超时时间
  * @returns {Promise<*>}
  */
-const request = async (url, {isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout}) => {
+const request = async (url, {isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout} = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
     throw `NETWORK IS UNCONNECTED------url:${url}`;
@@ -66,12 +67,12 @@ const request = async (url, {isShowLoading = true, loadingText = '加载中...',
     // 获取到响应拦截器里返回的的error
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {// 请求超时
       showToast(Strings.connectTimeout);
-      throw Strings.connectTimeout;
+      throw `CONNECT TIMEOUT------URL:${url}------ERROR:${error}`;
     } else {
       if (error.response) {
         return error.response.data;
       }
-      throw `ERROR TO REQUEST------URL:${url}-------ERROR:${error}`;
+      throw `ERROR TO REQUEST------URL:${url}------ERROR:${error}`;
     }
   } finally {
     if (isShowLoading) {
