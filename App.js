@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import NetInfo from '@react-native-community/netinfo';
 import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
-import Theme from './app/utils/Theme';
+import Theme from './app/res/Theme';
 
 Theme.setTeasetTheme();
 
@@ -34,6 +35,19 @@ export default class App extends Component {
       // 全局控制异常
       global.ErrorUtils.setGlobalHandler(jsErrorHandler);
     }
+
+    /**
+     * 开启网络监听
+     * 防止iOS有时无法正常获取网络状态
+     * @type {NetInfoSubscription}
+     */
+   this.unsubscribe = NetInfo.addEventListener(state => {
+      // console.log("Connection type", state.type);
+      // console.log("Is connected?", state.isConnected);
+    });
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
   }
 
   render() {

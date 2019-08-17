@@ -1,5 +1,6 @@
-import { createAction } from 'redux-actions';
+import {createAction} from 'redux-actions';
 import axios from 'axios';
+import {request} from '../../http/Axios';
 
 const requestVendors = createAction('REQUEST_VENDORS');
 const receiveVendors = createAction('RECEIVE_VENDORS');
@@ -23,9 +24,14 @@ function fetchVendors(fetchNextPage = false) {
       request_id: -1,
     };
     dispatch(requestVendors());
-    return axios.get(path, { params }).then((res) => {
-      dispatch(receiveVendors(res.data.result));
-    }).catch(error => console.log(error));
+
+    request(path, {method: 'get', params: params}).then((res) => {
+      dispatch(receiveVendors(res.result));
+    }).catch(error => alert(error));
+
+    // return axios.get(path, { params }).then((res) => {
+    //   dispatch(receiveVendors(res.data.result));
+    // }).catch(error => console.log(error));
   };
 }
 

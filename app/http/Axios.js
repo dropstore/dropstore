@@ -1,75 +1,82 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-10 21:48:11
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-10 22:23:09
- * @Description: 网络请求
+/**
+ * @file 网络请求封装
+ * @date 2019/8/17 15:59
+ * @author ZWW
  */
+
+'use strict';
+import {isConnected} from '../utils/NetUtil';
+import {showToast, showToastLoading, hideToastLoading} from '../utils/MutualUtil';
+import Strings from '../res/Strings';
 import Axios from 'axios';
 
-const _Axios = Axios.create({
-  baseURL: '', // baseUrl
-  timeout: 10000, // 超时时间
-  withCredentials: true, // 允许携带请求头
-  responseType: 'json', // 服务器响应的数据类型
-  headers: {
-    // 请求头
-    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-  },
+export const timeout = 10000;
+/**
+ * 自定义Axios实例默认值
+ * @type {AxiosInstance}
+ */
+const axiosInstance = Axios.create({
+  timeout: timeout,
 });
 
+// 允许携带请求头
+axiosInstance.defaults.withCredentials = true;
 // 网络请求前处理
-_Axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   config => config,
-  error => Promise.reject(error.data.message),
-);
-
-// 网络返回处理
-_Axios.interceptors.response.use(
-  res => res,
   error => Promise.reject(error),
 );
 
-const axios = {
-  get: async (url, params, config) => _Axios({
-    method: 'get',
-    url,
-    params,
-    // data: encodeQuery(params),
-    ...config,
-  })
-    .then(data => console.log(data))
-    .catch((error) => {
-      detailError(error);
-    }),
-  post: async (url, params, config) => _Axios({
-    method: 'post',
-    url,
-    data: params,
-    ...config,
-  })
-    .then(data => data)
-    .catch((error) => {
-      detailError(error);
-    }),
-};
+// 网络返回处理
+axiosInstance.interceptors.response.use(
+  res => res,
+  // 在拦截器里处理超时错误会有问题，reject给使用者
+  error => Promise.reject(error),
+);
 
 /**
- * 处理错误
- * @param {Object} error
+ * 发送请求
+ * @param {String} url
+ * @param {Boolean} isShowLoading - 是否显示加载框
+ * @param {String} loadingText - 加载框文字
+ * @param {String} method - 请求方式 ex:post、get
+ * @param {Object} params - 请求体
+ * @param {Number} timeout - 超时时间
+ * @returns {Promise<*>}
  */
-const detailError = (error) => {
-  // 请求超时
-  if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
-    // 超时处理
-    return;
+const request = async (url, {isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout}) => {
+  if (!await isConnected()) {
+    showToast(Strings.netError);
+    throw `NETWORK IS UNCONNECTED------url:${url}`;
   }
-
-  if (error.response) {
-    return error.response.data;
+  if (isShowLoading) {
+    showToastLoading({text: loadingText, duration: timeout});
   }
-  throw error;
+  let response;
+  try {
+    if (method === 'post') {
+      response = await axiosInstance.post(url, params, {method: method, timeout: timeout});
+    } else {
+      response = await axiosInstance.get(url, {method: method, params: params, timeout: timeout});
+    }
+    if (response.status >= 200 && response.status < 400) {
+      return response.data;
+    }
+  } catch (error) {
+    // 获取到响应拦截器里返回的的error
+    if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {// 请求超时
+      showToast(Strings.connectTimeout);
+      throw Strings.connectTimeout;
+    } else {
+      if (error.response) {
+        return error.response.data;
+      }
+      throw `ERROR TO REQUEST------URL:${url}-------ERROR:${error}`;
+    }
+  } finally {
+    if (isShowLoading) {
+      hideToastLoading();
+    }
+  }
 };
-export {
-  axios,
-};
+export {axiosInstance, request};
