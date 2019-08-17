@@ -1,11 +1,8 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-10 21:48:21
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 11:22:05
- * @Description: 屏幕适配
+/**
+ * @file 屏幕适配
+ * @date 2019/8/17 10:56
+ * @author ZWW
  */
-
 import { Dimensions, Platform, PixelRatio } from 'react-native';
 
 const { width } = Dimensions.get('window');

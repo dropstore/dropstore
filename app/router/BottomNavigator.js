@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
+import Images from '../res/Images';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
 import { px2Dp } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
@@ -20,27 +21,27 @@ const ROUTES = [
   {
     screen: <Personal />,
     key: 'Personal',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={require('../res/image/personal.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={Images.personal} />,
   },
   {
     screen: <Search />,
     key: 'Search',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(66), height: '100%' }} source={require('../res/image/search.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(66), height: '100%' }} source={Images.search} />,
   },
   {
     screen: <HomePage />,
     key: 'HomePage',
-    icon: <Image style={{ width: HOME_ICON_WIDTH, height: px2Dp(130), marginBottom: 27.5 }} source={require('../res/image/drop.png')} />,
+    icon: <Image style={{ width: HOME_ICON_WIDTH, height: px2Dp(130), marginBottom: 27.5 }} source={Images.drop} />,
   },
   {
     screen: <Wallet />,
     key: 'Wallet',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(65), height: '100%' }} source={require('../res/image/wallet.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(65), height: '100%' }} source={Images.wallet} />,
   },
   {
     screen: <Message />,
     key: 'Message',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={require('../res/image/message.png')} />,
+    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={Images.message} />,
   },
 ];
 

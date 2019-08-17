@@ -1,26 +1,24 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 11:04:53
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 11:23:13
- * @Description: 主题设置
+/**
+ * @file Teaset主题设置
+ * @date 2019/8/17 10:50
+ * @author ZWW
  */
 
 import { Theme } from 'teaset';
-import CommonColor from '../res/color/CommonColor';
+import Colors from '../res/Colors';
 
 const setTeasetTheme = () => {
   Theme.set({
     // Toast
     toastColor: 'rgb(88, 88, 88)',
-    toastTextColor: CommonColor.WHITE_COLOR,
+    toastTextColor: Colors.WHITE_COLOR,
     toastFontSize: 15,
 
     // NavigationBar
-    navColor: '#fff',
-    navSeparatorColor: '#fff',
-    btnColor: '#fff',
-    btnPrimaryColor: '#fff',
+    navColor: Colors.WHITE_COLOR,
+    navSeparatorColor: Colors.WHITE_COLOR,
+    btnColor: Colors.WHITE_COLOR,
+    btnPrimaryColor: Colors.WHITE_COLOR,
   });
 };
 

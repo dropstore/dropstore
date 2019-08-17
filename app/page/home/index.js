@@ -9,6 +9,7 @@ import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
 import Reserve from './reserve';
 import SelfSupport from './selfSupport';
+import {px2Dp} from "../../utils/ScreenUtil";
 
 const ROUTES = [
   { key: 'home', title: '首页' },
@@ -57,8 +58,8 @@ class HomePage extends PureComponent {
           index={index}
           onIndexChange={this.onIndexChange}
           showIndicator={false}
-          activeStyle={{ fontSize: 15, color: [33, 33, 33] }}
-          inactiveStyle={{ fontSize: 15, color: [153, 153, 153] }}
+          activeStyle={{ fontSize: 14, color: [33, 33, 33] }}
+          inactiveStyle={{ fontSize: 14, color: [153, 153, 153] }}
         />
         <TabView
           style={{ flex: 1 }}

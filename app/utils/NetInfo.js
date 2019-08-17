@@ -1,9 +1,7 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-10 21:48:21
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 15:11:21
- * @Description: 网络状态管理
+/**
+ * @file 网络状态管理类
+ * @date 2019/8/17 10:55
+ * @author ZWW
  */
 import { useNetInfo } from '@react-native-community/netinfo';
 

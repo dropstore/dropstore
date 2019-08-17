@@ -1,15 +1,13 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 14:43:12
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 19:04:36
- * @Description: 导航栏组件
+/**
+ * @file 通用导航栏组件
+ * @date 2019/8/17 10:40
+ * @author ZWW
  */
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Label, NavigationBar } from 'teaset';
-import CommonColor from '../res/color/CommonColor';
+import Colors from '../res/Colors';
 
 class NavigationBarCom extends PureComponent {
   render() {
@@ -17,8 +15,8 @@ class NavigationBarCom extends PureComponent {
     return (
       <NavigationBar
         type="ios"
-        style={{ backgroundColor: CommonColor.HEADER_COLOR }}
-        tintColor={CommonColor.WHITE_COLOR}
+        style={{ backgroundColor: Colors.HEADER_COLOR }}
+        tintColor={Colors.WHITE_COLOR}
         title={(
           <View style={styles.titleWrapper}>
             <Label style={styles.title} text={headerTitle} />
@@ -38,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: CommonColor.WHITE_COLOR,
+    color: Colors.WHITE_COLOR,
     fontSize: 20,
   },
 });

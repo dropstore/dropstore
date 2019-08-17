@@ -1,11 +1,8 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 10:37:31
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 15:04:20
- * @Description: 土司及弹框工具类
+/**
+ * @file 交互
+ * @date 2019/8/17 10:56
+ * @author ZWW
  */
-
 import { Alert } from 'react-native';
 import { Toast } from 'teaset';
 import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';

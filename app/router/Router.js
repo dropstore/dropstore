@@ -1,10 +1,4 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-11 00:20:56
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 18:34:55
- * @Description: 路由管理
- */
+
 import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
@@ -14,6 +8,8 @@ import {
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import store from '../redux/configureStore';
 import Image from '../components/Image';
+import Images from '../res/Images';
+import Colors from '../res/Colors';
 import {
   NAV_HEIGHT, IS_IPHONE_X, STATUSBAR_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
 } from '../common/Constant';
@@ -53,13 +49,13 @@ const InitNavigator = createStackNavigator({
       ios: {
         headerStyle: {
           marginTop: IS_IPHONE_X ? -10 : 0,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: Colors.WHITE_COLOR,
           height: NAV_HEIGHT,
           borderBottomWidth: StyleSheet.hairlineWidth,
         },
       },
     }),
-    headerTintColor: '#333333',
+    headerTintColor: Colors.NORMAL_TEXT_3,
     headerTitleStyle: {
       fontWeight: 'bold',
       flex: 1,
@@ -78,7 +74,7 @@ const InitNavigator = createStackNavigator({
           style={{
             marginLeft: 20, marginRight: 20, height: 21, width: 23,
           }}
-          source={require('../res/image/ic-back-gray.png')}
+          source={Images.ic_back_gray}
         />
       </TouchableOpacity>
     ),
