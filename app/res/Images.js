@@ -18,6 +18,7 @@ const IMAGES = {
   qe: require('./image/qe.png'),
   qr: require('./image/qr.png'),
   shoe: require('./image/shoe.png'),
+  lot_win_rate: require('./image/lot_win_rate.png'),
 };
 
 export default IMAGES;

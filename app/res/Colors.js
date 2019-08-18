@@ -6,7 +6,7 @@
 
 'use strict';
 const COLORS = {
-    HEADER_COLOR: '#f00',
+    HEADER_COLOR: '#C20000',
     WHITE_COLOR: '#fff',
     NORMAL_TEXT_0:'#000',
     NORMAL_TEXT_A0:'#A0A0A0',
