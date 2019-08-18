@@ -1,15 +1,9 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-11 00:23:59
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 19:22:25
- * @Description: 广告页
- */
+
 import React, { Component } from 'react';
 import {
   Button, Image, StyleSheet, View,
 } from 'react-native';
-import CommonImages from '../res/image/CommonImages';
+import Images from '../res/Images';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../common/Constant';
 
 export default class AdvertPage extends Component {
@@ -29,7 +23,7 @@ export default class AdvertPage extends Component {
         <Image
           style={styles.advert}
           resizeMode="cover"
-          source={CommonImages.advert}
+          source={Images.advert}
         />
         <View style={{ position: 'absolute', right: 20, top: 20 }}>
           <Button title="跳过" onPress={() => navigation.navigate('homePage')} />

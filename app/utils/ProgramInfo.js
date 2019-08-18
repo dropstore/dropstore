@@ -1,11 +1,8 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 10:27:59
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 11:45:17
- * @Description: 程序基本信息管理器
+/**
+ * @file 程序基本信息
+ * @date 2019/8/17 10:56
+ * @author ZWW
  */
-
 import * as pJson from '../../app.json';
 
 /**

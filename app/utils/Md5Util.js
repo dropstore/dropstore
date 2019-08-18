@@ -1,11 +1,8 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 14:02:09
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 14:59:07
- * @Description: 加密工具类
+/**
+ * @file 加密工具类
+ * @date 2019/8/17 10:55
+ * @author ZWW
  */
-
 import Forge from 'node-forge';
 
 /**

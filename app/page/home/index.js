@@ -28,51 +28,51 @@ class HomePage extends PureComponent {
     this.position = new Animated.Value(0);
   }
 
-  onIndexChange = (index) => {
-    this.setState({ index });
-  }
+    onIndexChange = (index) => {
+      this.setState({ index });
+    }
 
-  renderScene = ({ route }) => ({
-    home: <Home />,
-    originalCost: <OriginalCost />,
-    selfSupport: <SelfSupport />,
-    luckyCharm: <LuckyCharm />,
-    reserve: <Reserve />,
-  }[route.key]);
+    renderScene = ({ route }) => ({
+      home: <Home />,
+      originalCost: <OriginalCost />,
+      selfSupport: <SelfSupport />,
+      luckyCharm: <LuckyCharm />,
+      reserve: <Reserve />,
+    }[route.key]);
 
-  renderTabBar = (props) => {
-    this.position = props.position;
-    return null;
-  }
+    renderTabBar = (props) => {
+      this.position = props.position;
+      return null;
+    }
 
-  render() {
-    const { routes, index } = this.state;
-    return (
-      <View style={styles.tabView}>
-        <TabBar
-          style={styles.tabBar}
-          position={this.position}
-          contentContainerStyle={{ paddingTop: 7.5 }}
-          routes={routes}
-          index={index}
-          onIndexChange={this.onIndexChange}
-          showIndicator={false}
-          activeStyle={{ fontSize: 15, color: [33, 33, 33] }}
-          inactiveStyle={{ fontSize: 15, color: [153, 153, 153] }}
-        />
-        <TabView
-          style={{ flex: 1 }}
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          renderTabBar={this.renderTabBar}
-          onIndexChange={this.onIndexChange}
-          useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH }}
-          lazy
-        />
-      </View>
-    );
-  }
+    render() {
+      const { routes, index } = this.state;
+      return (
+        <View style={styles.tabView}>
+          <TabBar
+            style={styles.tabBar}
+            position={this.position}
+            contentContainerStyle={{ paddingTop: 7.5 }}
+            routes={routes}
+            index={index}
+            onIndexChange={this.onIndexChange}
+            showIndicator={false}
+            activeStyle={{ fontSize: 15, color: [160, 160, 160] }}
+            inactiveStyle={{ fontSize: 15, color: [0, 0, 0] }}
+          />
+          <TabView
+            style={{ flex: 1 }}
+            navigationState={this.state}
+            renderScene={this.renderScene}
+            renderTabBar={this.renderTabBar}
+            onIndexChange={this.onIndexChange}
+            useNativeDriver
+            initialLayout={{ width: SCREEN_WIDTH }}
+            lazy
+          />
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({

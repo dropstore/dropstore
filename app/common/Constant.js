@@ -1,9 +1,7 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-10 22:30:32
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 11:12:43
- * @Description: 常量类
+/**
+ * @file 常量类
+ * @date 2019/8/17 10:41
+ * @author ZWW
  */
 import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
