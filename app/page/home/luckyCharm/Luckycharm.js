@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { Text,View,FlatList,TouchableOpacity,Alert,StyleSheet } from 'react-native';
 import Image from '../../../components/Image';
-import { SCREEN_WIDTH } from '../../../common/Constant'
+import ScaleView from '../../../components/ScaleView';
+import { SCREEN_WIDTH } from '../../../common/Constant';
+
 class MyListItem extends React.PureComponent {
   _onPress = () => {
     this.props.onPressItem(this.props.id);
@@ -10,19 +12,37 @@ class MyListItem extends React.PureComponent {
   render() {
     const textColor = this.props.selected ? "red" : "black";
     return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View>
-           <Image 
-           source={this.props.selected?require('../../../res/image/xh.png'):require('../../../res/image/xm.png')}>
-        
-           </Image>
-        </View>
-        <View>
-          <Text>
 
-          </Text>
+      <ScaleView style={styles.container} onPress={this._onPress}>
+           <Image 
+           source={ this.props.selected?require('../../../res/image/xh.png'):require('../../../res/image/xm.png')}>
+           </Image>
+        <View >
+           <Text style={styles.nameText}>srgergreggrgrgr  rfrgrgrgdrf frgrdgr 黑色 efefefefefefefwaf</Text>
+           
+           <Text style={styles.priceText}>&1999</Text>
+           <Text >2019/09/21</Text>
         </View>
-      </TouchableOpacity>
+        <Image 
+           source={require('../../../res/image/x1.png')}>
+        </Image>
+      </ScaleView>
+    );
+  }
+}
+class MyTopImage extends React.PureComponent {
+  _onPress = () => {
+    
+  };
+  render() {
+    return (
+          <View style={styles.imageBox}> 
+            <Image 
+            resizeMode='cover' 
+            source={require('../../../res/image/instructions.png')} 
+            style={styles.customerNotes}/>
+          </View>
+            
     );
   }
 }
@@ -36,12 +56,37 @@ export default class LuckyCharmList extends PureComponent {
       },
       {
         title:'第二行' ,
-        id:1212556651212
+        id:15668909334351212
         },
         {
           title:'第三行' ,
-          id:12121212
+          id:121212787878712
           },
+          {
+            title:'第三行' ,
+            id:121215656565212
+            },
+            {
+              title:'第三行' ,
+              id:1212165655212
+              },
+              {
+                title:'第三行' ,
+                id:1212565651212
+                },
+                {
+                  title:'第三行' ,
+                  id:121223231212
+                  },
+                  {
+                    title:'第三行' ,
+                    id:23232
+                    },
+                    {
+                      title:'第三行' ,
+                      id:1212132212
+                      },
+                      
   ]
   };
 
@@ -59,27 +104,50 @@ export default class LuckyCharmList extends PureComponent {
       title={item.title}
     />
   );
+  _renderTopImage = () => (
+    <MyTopImage>
+
+    </MyTopImage>
+  );
   render() {
     return (
-      <View>
-         <View>
-         <TouchableOpacity>
-            <Image resizeMode='stretch' source={require('../../../res/image/instructions.png')} style={styles.customerNotes}/>
-         </TouchableOpacity> 
-         </View>
-         <FlatList
+      <FlatList
+          showsVerticalScrollIndicator={false}
+          maxToRenderPerBatch={5}
+          initialNumToRender={3}
+          style={{ flex: 1 }}
          data={this.state.data}
          extraData={this.state}
          keyExtractor={this._keyExtractor}
+         ListHeaderComponent={this._renderTopImage}
          renderItem={this._renderItem}
-       />
-      </View>)
+       />)
   }
 }
 const styles = StyleSheet.create({
           customerNotes:{
-            width:SCREEN_WIDTH,
+              width:717,
+              height:301,
+
+          },
+          container: {
+            height:123,
+            backgroundColor: '#FFFFFF',
+            paddingHorizontal: 20,
+            flexDirection: 'row',
+          },
+          nameText: {
+            maxWidth: SCREEN_WIDTH - 175,
+            flexShrink: 1,
+            fontFamily: 'PingFangSC-Medium',
+            lineHeight: 24,
+            fontSize: 15,
+            color: '#333333',
+            fontWeight: '500',
+            marginRight: 13,
+          },
+          imageBox:{
             padding:10,
             margin:10
           }
-        })
+  })
