@@ -90,7 +90,7 @@ export const tempData1=[
     leftImage: Images.xh,
     statusImage: Images.qe,
     shoe: Images.shoe,
-    shopTitle: 'CLOT x AIR JORDAN 13 2018版 CLOT x AIR JORDAN 13 2018版',
+    shopTitle: 'CLOT x AIR JORDAN 13 2018版 ',
     shopSubTitle: '"BLACK INFREAD" EDC 黑红',
     price: 1999,
     time: '2019/01/06 21:00',
