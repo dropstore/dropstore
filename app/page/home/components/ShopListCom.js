@@ -3,20 +3,14 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import React, {PureComponent} from 'react';
+import {FlatList} from 'react-native';
 import ShopListItemCom from './ShopListItemCom';
-import { SCREEN_HEIGHT } from '../../../common/Constant';
-import Colors from '../../../res/Colors';
 
 class ShopListCom extends PureComponent {
   constructor(props) {
     super(props);
   }
-
-  onRefresh = () => {
-
-  };
 
   loadMore = () => {
 
@@ -46,14 +40,7 @@ class ShopListCom extends PureComponent {
         onEndReached={this.loadMore}
         removeClippedSubviews={false}
         onEndReachedThreshold={0.5}
-        refreshControl={(
-          <RefreshControl
-            progressViewOffset={20}
-            tintColor={Colors.HEADER_COLOR}
-            onRefresh={this.onRefresh}
-            refreshing={false}
-          />
-)}
+
       />
     );
   }
