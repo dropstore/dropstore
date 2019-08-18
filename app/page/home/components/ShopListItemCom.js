@@ -3,52 +3,54 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import ScaleView from '../../../components/ScaleView';
 import Image from '../../../components/Image';
-import {px2Dp} from '../../../utils/ScreenUtil';
-import {debounce} from "../../../utils/commonUtils";
+import { px2Dp } from '../../../utils/ScreenUtil';
+import { debounce } from '../../../utils/commonUtils';
 import Colors from '../../../res/Colors';
 
 // 简单的通过自定义数据的状态值控制显示及隐藏。
 class ShopListItemCom extends PureComponent {
   toShopDetailPage = () => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     navigation.push('shopDetail', {
       title: '',
-      rate: '+25'
+      rate: '+25',
     });
   };
 
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     return (
       <ScaleView style={_styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
-        <Image style={_styles.plusIcon} source={item.leftImage}/>
+        <Image style={_styles.plusIcon} source={item.leftImage} />
         <View style={_styles.middle}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Text style={_styles.shopTitle}>{item.shopTitle}</Text>
-            <Text style={[_styles.shopTitle, {
-              marginTop: 3
-            }]}>{item.shopSubTitle}</Text>
+            <Text style={[_styles.shopTitle, { marginTop: 3 }]}>
+              {item.shopSubTitle}
+            </Text>
             <Text style={_styles.price}>{`${item.price}￥`}</Text>
             {
-              item.status !== 0 ?
-                <Text style={_styles.time}>{item.time}</Text> :
-                <View style={_styles.overView}>
-                  <Text style={_styles.overTitle}>距结束:</Text>
-                  <Text style={_styles.overTime}>{item.endTime}</Text>
-                </View>
+              item.status !== 0
+                ? <Text style={_styles.time}>{item.time}</Text>
+                : (
+                  <View style={_styles.overView}>
+                    <Text style={_styles.overTitle}>距结束:</Text>
+                    <Text style={_styles.overTime}>{item.endTime}</Text>
+                  </View>
+                )
             }
           </View>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe}/>
+          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe} />
         </View>
         {
-          item.status !== 2 ?
-            <Image style={_styles.statusImage} resizeMode="cover" source={item.statusImage}/> :
-            <View/>
+          item.status !== 2 && item.statusImage
+            ? <Image style={_styles.statusImage} resizeMode="cover" source={item.statusImage} />
+            : <View />
         }
       </ScaleView>
     );
@@ -57,7 +59,7 @@ class ShopListItemCom extends PureComponent {
 
 const _styles = StyleSheet.create({
   scaleView: {
-    marginHorizontal: px2Dp(10),
+    marginHorizontal: 10,
     marginTop: px2Dp(10),
     marginBottom: px2Dp(3),
     backgroundColor: Colors.WHITE_COLOR,
@@ -76,7 +78,7 @@ const _styles = StyleSheet.create({
     height: 13,
     marginRight: 9,
     marginLeft: 6,
-    marginTop: 4
+    marginTop: 4,
   },
   shopTitle: {
     fontSize: 10,
@@ -108,13 +110,13 @@ const _styles = StyleSheet.create({
     fontSize: 10,
     color: 'rgba(0,0,0,1)',
     marginTop: 6,
-    marginLeft: 2
+    marginLeft: 2,
   },
   overView: {
     flexDirection: 'row',
     alignItems: 'center',
     marginLeft: 3,
-    marginTop: 6
+    marginTop: 6,
   },
   overTitle: {
     fontSize: 8,
@@ -126,8 +128,8 @@ const _styles = StyleSheet.create({
     fontSize: 8,
     fontFamily: 'super',
     color: 'rgba(0,0,0,1)',
-    marginLeft: 6
-  }
+    marginLeft: 6,
+  },
 });
 
 export default withNavigation(ShopListItemCom);
