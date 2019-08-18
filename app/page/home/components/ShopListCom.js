@@ -26,7 +26,13 @@ class ShopListCom extends PureComponent {
 
   };
 
-  _renderItemView = ({ item }) => <ShopListItemCom item={item} />;
+  _renderItemView = ({ item ,index }) => {
+    if(this.props.firstCom && index===0){
+      return this.props.firstCom
+    }else{
+      return <ShopListItemCom item={item} />
+    }
+  };
 
   render() {
     const { shopList } = this.props;

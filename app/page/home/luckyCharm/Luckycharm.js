@@ -1,56 +1,28 @@
+/**
+ *@file  球鞋锦鲤
+ *@date 2019/8/18 
+ *@author YDD
+ */
 import React, {PureComponent} from 'react';
 import {Text, View, FlatList, TouchableOpacity, Alert, StyleSheet} from 'react-native';
 import Image from '../../../components/Image';
-
 import ScaleView from '../../../components/ScaleView';
 import { SCREEN_WIDTH } from '../../../common/Constant';
 import Images from '../../../res/Images';
+import Colors from '../../../res/Colors';
+import TopCom from '../components/TopCom';
+import ShopList from '../components/ShopListCom';
+import { px2Dp } from '../../../utils/ScreenUtil';
 
-
-class MyListItem extends React.PureComponent {
-    _onPress = () => {
-        this.props.onPressItem(this.props.id);
-    };
-  render() {
-    const textColor = this.props.selected ? "red" : "black";
-    return (
-
-      <ScaleView style={styles.container} onPress={this._onPress}>
-           <Image 
-           source={ this.props.selected?require('../../../res/image/xh.png'):require('../../../res/image/xm.png')}>
-           </Image>
-        <View >
-           <Text style={styles.nameText}>srgergreggrgrgr  rfrgrgrgdrf frgrdgr 黑色 efefefefefefefwaf</Text>
-           
-           <Text style={styles.priceText}>&1999</Text>
-           <Text >2019/09/21</Text>
-        </View>
-        <Image 
-           source={require('../../../res/image/x1.png')}>
-        </Image>
-      </ScaleView>
-    );
-  }
-}
 class MyTopImage extends React.PureComponent {
   _onPress = () => {
     
   };
     render() {
-        const textColor = this.props.selected ? "red" : "black";
         return (
-            <TouchableOpacity onPress={this._onPress}>
                 <View>
-                    <Image
-                        source={this.props.selected ? Images.xh : Images.xm}>
-                    </Image>
+                    <TopCom imageSource={Images.instructions} />
                 </View>
-                <View>
-                    <Text>
-
-                    </Text>
-                </View>
-            </TouchableOpacity>
         );
     }
 }
@@ -58,45 +30,118 @@ class MyTopImage extends React.PureComponent {
 export default class LuckyCharmList extends PureComponent {
   state = {
     selected: true,
-    data:[
-      {
-      title:'第一行' ,
-      id:121217676762122
-      },
-      {
-        title:'第二行' ,
-        id:15668909334351212
-        },
-        {
-          title:'第三行' ,
-          id:121212787878712
-          },
-          {
-            title:'第三行' ,
-            id:121215656565212
-            },
-            {
-              title:'第三行' ,
-              id:1212165655212
-              },
-              {
-                title:'第三行' ,
-                id:1212565651212
-                },
-                {
-                  title:'第三行' ,
-                  id:121223231212
-                  },
-                  {
-                    title:'第三行' ,
-                    id:23232
-                    },
-                    {
-                      title:'第三行' ,
-                      id:1212132212
-                      },
-                      
-  ]
+    shopList: [{
+      leftImage: Images.xh,
+      statusImage: Images.qe,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版 CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: ' "BLACK INFREAD" EDC 黑红 "BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 0,
+    }, {
+      leftImage: Images.xh,
+      statusImage: Images.qr,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 0,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      perCount: 999,
+      status: 2,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 3,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: '1111 x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }],
   };
     _keyExtractor = (item, index) => item.id;
 
@@ -105,9 +150,8 @@ export default class LuckyCharmList extends PureComponent {
     };
 
   _renderItem = ({item,index}) => {
-      debugger
-      (
-      <MyListItem
+      return index==0?(<MyTopImage></MyTopImage>):(
+       <MyListItem
         id={item.id}
         onPressItem={this._onPressItem}
         selected={true}
@@ -115,24 +159,20 @@ export default class LuckyCharmList extends PureComponent {
       />
     )
   };
-  _renderTopImage = () => (
-    <MyTopImage>
-
-    </MyTopImage>
-  );
+  _renderHeader = ()=>{
+    return (<MyTopImage></MyTopImage>)
+  }
   render() {
     return (
-      <FlatList
-          showsVerticalScrollIndicator={false}
-          maxToRenderPerBatch={5}
-          initialNumToRender={3}
-          style={{ flex: 1 }}
-         data={this.state.data}
-         extraData={this.state}
-         keyExtractor={this._keyExtractor}
-         ListHeaderComponent={this._renderTopImage}
-         renderItem={this._renderItem}
-       />)
+      <View style={{ backgroundColor: Colors.NORMAL_TEXT_F6, flex: 1 }}>
+        <View style={styles.listContainer}>
+        <ShopList 
+         shopList={this.state.shopList} 
+         firstCom={<MyTopImage/>}
+        ></ShopList> 
+        </View>
+      </View>
+      )
   }
 }
 const styles = StyleSheet.create({
@@ -141,11 +181,11 @@ const styles = StyleSheet.create({
               height:301,
 
           },
-          container: {
-            height:123,
-            backgroundColor: '#FFFFFF',
-            paddingHorizontal: 20,
-            flexDirection: 'row',
+          listContainer: {
+            marginTop: px2Dp(26),
+            marginLeft: px2Dp(15),
+            marginRight: px2Dp(18),
+            flex: 1,
           },
           nameText: {
             maxWidth: SCREEN_WIDTH - 175,
