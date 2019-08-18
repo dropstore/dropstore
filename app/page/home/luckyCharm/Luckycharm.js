@@ -3,6 +3,7 @@ import {Text, View, FlatList, TouchableOpacity, Alert, StyleSheet} from 'react-n
 import Image from '../../../components/Image';
 import {SCREEN_WIDTH} from '../../../common/Constant'
 import Images from '../../../res/Images';
+import TopCom from '../components/TopCom';
 
 class MyListItem extends React.PureComponent {
     _onPress = () => {
@@ -13,6 +14,7 @@ class MyListItem extends React.PureComponent {
         const textColor = this.props.selected ? "red" : "black";
         return (
             <TouchableOpacity onPress={this._onPress}>
+               
                 <View>
                     <Image
                         source={this.props.selected ? Images.xh : Images.xm}>
@@ -67,10 +69,11 @@ export default class LuckyCharmList extends PureComponent {
         return (
             <View>
                 <View>
-                    <TouchableOpacity>
+                    <TopCom imageSource={Images.instructions} />
+                    {/* <TouchableOpacity>
                         <Image resizeMode='stretch' source={Images.instructions}
                                style={styles.customerNotes}/>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <FlatList
                     data={this.state.data}

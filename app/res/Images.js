@@ -18,6 +18,10 @@ const IMAGES = {
   qe: require('./image/qe.png'),
   qr: require('./image/qr.png'),
   shoe: require('./image/shoe.png'),
+  shape: require('./image/Shape.png'),
+  bn: require('./image/bn.png'),
+  ht: require('./image/ht.png'),
+  jc: require('./image/jc.png'),
 };
 
 export default IMAGES;
