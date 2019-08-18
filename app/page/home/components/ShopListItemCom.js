@@ -48,7 +48,7 @@ class ShopListItemCom extends PureComponent {
           <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe} />
         </View>
         {
-          item.status !== 2 && item.statusImage
+          item.status !== 2
             ? <Image style={_styles.statusImage} resizeMode="cover" source={item.statusImage} />
             : <View />
         }
