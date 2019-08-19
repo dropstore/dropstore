@@ -22,6 +22,7 @@ const IMAGES = {
   bn: require('./image/bn.png'),
   ht: require('./image/ht.png'),
   jc: require('./image/jc.png'),
+  lot_win_rate: require('./image/lot_win_rate.png'),
 };
 
 export default IMAGES;
