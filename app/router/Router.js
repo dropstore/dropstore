@@ -31,8 +31,8 @@ const InitNavigator = createStackNavigator({
     },
   },
   vendorDetail,
-  shopDetail:{
-    screen:shopDetail,
+  shopDetail: {
+    screen: shopDetail,
     navigationOptions: ({navigation}) => ({
       headerRight: <ShopDetailHeaderRight navigation={navigation}/>
     })
@@ -81,9 +81,9 @@ const InitNavigator = createStackNavigator({
       >
         <Image
           style={{
-            marginLeft: 20, marginRight: 20, height: 21, width: 23,
+            marginLeft: 12, marginRight: 20, height: 10, width: 6,
           }}
-          source={Images.ic_back_gray}
+          source={Images.zjt}
         />
       </TouchableOpacity>
     ),

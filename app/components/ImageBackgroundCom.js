@@ -4,8 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {TouchableOpacity, ImageBackground, StyleSheet} from 'react-native';
-import {SCREEN_WIDTH} from '../common/Constant';
+import {ImageBackground, StyleSheet, TouchableOpacity} from 'react-native';
 
 type Props = {
   style: Object,

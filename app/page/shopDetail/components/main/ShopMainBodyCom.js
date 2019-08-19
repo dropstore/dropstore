@@ -1,14 +1,13 @@
 /**
- * @file 商品详细信息组件
+ * @file 商品主体信息组件
  * @date 2019/8/18 17:39
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
-import Image from '../../../components/Image';
-import Images from '../../../res/Images';
-import Colors from '../../../res/Colors';
+import Image from '../../../../components/Image';
+import Images from '../../../../res/Images';
+import Colors from '../../../../res/Colors';
 
 class ShopBasicInfoCom extends PureComponent {
   render() {
@@ -37,4 +36,4 @@ const _styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(ShopBasicInfoCom);
+export default ShopBasicInfoCom;

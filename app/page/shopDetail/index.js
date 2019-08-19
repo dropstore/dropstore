@@ -4,38 +4,68 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-import ShopBasicInfoCom from './components/ShopBasicInfoCom';
-import ShopMoreInfoCom from './components/ShopMoreInfoCom';
-import ImageBackgroundCom from '../../components/ImageBackgroundCom';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
+import ShopMainBodyCom from './components/main/ShopMainBodyCom';
+import SelfCom from "./components/main/self";
+import LuckyCom from "./components/main/lucky";
+import SelfBottomCom from "./components/bottom/SelfBottomCom";
+import LuckBottomCom from "./components/bottom/LuckBottomCom";
 import Colors from '../../res/Colors';
-import Images from '../../res/Images';
-import {SCREEN_WIDTH} from '../../common/Constant';
+import ShopConstant from '../../common/ShopConstant';
 
 export default class ShopDetail extends PureComponent {
   constructor(props) {
     super(props);
   }
 
+  /**
+   * 设置主题内容和底部UI
+   * @param type
+   * @param {boolean} isBottom 是否是底部UI调用
+   * TODO:后期模块增多后，需优化
+   * @returns {*}
+   */
+  setContentOrBottomUIByType = (type, isBottom) => {
+    // 发售、自营
+    if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
+      if (isBottom) {
+        return <SelfBottomCom/>
+      }
+      // 发售详情 === 自营的抽签模块
+      let isChooseShoeSize = false;
+      if (isChooseShoeSize) {// 是否已选择完尺寸，接口状态值
+        return <SelfCom/>
+      }
+      return <ShopMainBodyCom/>
+    }
+
+    // 锦鲤
+    if (type === ShopConstant.LUCKY_CHARM) {
+      if (isBottom) {
+        return <LuckBottomCom/>
+      }
+      // 不显示主体内容
+      return <LuckyCom/>
+    }
+  };
+
   render() {
     const {navigation} = this.props;
     const item = navigation.getParam('item');
+    const shopId = navigation.getParam('shopId');
+    const type = navigation.getParam('type');
     return (
       <View style={_styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
           <ShopBasicInfoCom item={item}/>
-          <ShopMoreInfoCom/>
+          {
+            this.setContentOrBottomUIByType(type, false)
+          }
         </ScrollView>
-        <ImageBackgroundCom
-          source={Images.hk}
-          style={{width:SCREEN_WIDTH}}
-          onPress={() => alert('通知我')}>
-          <Text style={{
-            fontSize: 14,
-            color: Colors.HEADER_COLOR,
-            textAlign: 'center',
-          }}>分享活动，参与抽签</Text>
-        </ImageBackgroundCom>
+        {
+          this.setContentOrBottomUIByType(type, true)
+        }
       </View>
     )
   }

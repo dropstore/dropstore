@@ -11,6 +11,7 @@ import Image from '../../../components/Image';
 import {px2Dp} from '../../../utils/ScreenUtil';
 import {debounce} from "../../../utils/commonUtils";
 import Colors from '../../../res/Colors';
+import ShopConstant from "../../../common/ShopConstant";
 
 // 简单的通过自定义数据的状态值控制显示及隐藏。
 class ShopListItemCom extends PureComponent {
@@ -19,7 +20,10 @@ class ShopListItemCom extends PureComponent {
     navigation.push('shopDetail', {
       title: '商品详情',
       rate: '+25',
-      item: item
+      shopId: '',
+      type: ShopConstant.SELF_SUPPORT,
+      // type: item.type,
+      item: item,// 仅用于死数据，调用接口传id
     });
   };
 

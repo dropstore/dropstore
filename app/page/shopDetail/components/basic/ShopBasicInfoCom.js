@@ -6,11 +6,8 @@
 import React, {PureComponent} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
-import ScaleView from '../../../components/ScaleView';
-import Image from '../../../components/Image';
-import {px2Dp} from '../../../utils/ScreenUtil';
-import {debounce} from "../../../utils/commonUtils";
-import Colors from '../../../res/Colors';
+import Image from '../../../../components/Image';
+import  Images from '../../../../res/Images';
 
 class ShopBasicInfoCom extends PureComponent {
   render() {
@@ -18,7 +15,7 @@ class ShopBasicInfoCom extends PureComponent {
     return (
       <View>
         <View style={_styles.explainView}>
-          <Image resizeMode="contain" style={_styles.explainImage} source={item.leftImage}/>
+          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
           <Text style={_styles.explainText}>查看活动说明</Text>
         </View>
         <View style={_styles.mainView}>
