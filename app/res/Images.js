@@ -18,6 +18,10 @@ const IMAGES = {
   xm: require('./image/xm.png'),
   qe: require('./image/qe.png'),
   qr: require('./image/qr.png'),
+  shape: require('./image/Shape.png'),
+  bn: require('./image/bn.png'),
+  ht: require('./image/ht.png'),
+  jc: require('./image/jc.png'),
   lot_win_rate: require('./image/lot_win_rate.png'),
   hk: require('./image/hkhk.png'),
   jth: require('./image/jth.png'),
@@ -35,6 +39,7 @@ const IMAGES = {
   pyq: require('./image/pyq.png'),
   wb: require('./image/wb.png'),
   qq: require('./image/qq.png'),
+
   // 测试图片
   shoe: require('./image/shoe.png'),
   test1: require('./image/test1.png'),
