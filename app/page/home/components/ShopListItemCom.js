@@ -15,10 +15,11 @@ import Colors from '../../../res/Colors';
 // 简单的通过自定义数据的状态值控制显示及隐藏。
 class ShopListItemCom extends PureComponent {
   toShopDetailPage = () => {
-    const {navigation} = this.props;
+    const {navigation, item} = this.props;
     navigation.push('shopDetail', {
-      title: '',
-      rate: '+25'
+      title: '商品详情',
+      rate: '+25',
+      item: item
     });
   };
 

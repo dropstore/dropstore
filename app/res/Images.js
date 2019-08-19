@@ -23,6 +23,11 @@ const IMAGES = {
   ht: require('./image/ht.png'),
   jc: require('./image/jc.png'),
   lot_win_rate: require('./image/lot_win_rate.png'),
+  hk: require('./image/hkhk.png'),
+  // 测试图片
+  shoe: require('./image/shoe.png'),
+  test1: require('./image/test1.png'),
+  test2: require('./image/test2.png'),
 };
 
 export default IMAGES;

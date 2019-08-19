@@ -3,6 +3,9 @@ import MyLuckycharm from './Luckycharm';
 
 export default class LuckycharmIndex extends PureComponent {
   render() {
-    return <MyLuckycharm />;
+    return (
+      <MyLuckycharm />
+    )
+    
   }
 }

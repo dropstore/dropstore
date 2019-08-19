@@ -1,93 +1,206 @@
+/**
+ *@file  球鞋锦鲤
+ *@date 2019/8/18 
+ *@author YDD
+ */
 import React, {PureComponent} from 'react';
 import {Text, View, FlatList, TouchableOpacity, Alert, StyleSheet} from 'react-native';
 import Image from '../../../components/Image';
-import {SCREEN_WIDTH} from '../../../common/Constant'
+import ScaleView from '../../../components/ScaleView';
+import { SCREEN_WIDTH } from '../../../common/Constant';
 import Images from '../../../res/Images';
+import Colors from '../../../res/Colors';
 import TopCom from '../components/TopCom';
+import ShopList from '../components/ShopListCom';
+import { px2Dp } from '../../../utils/ScreenUtil';
 
-class MyListItem extends React.PureComponent {
-    _onPress = () => {
-        this.props.onPressItem(this.props.id);
-    };
-
+class MyTopImage extends React.PureComponent {
+  _onPress = () => {
+    
+  };
     render() {
-        const textColor = this.props.selected ? "red" : "black";
         return (
-            <TouchableOpacity onPress={this._onPress}>
-               
                 <View>
-                    <Image
-                        source={this.props.selected ? Images.xh : Images.xm}>
-
-                    </Image>
+                    <TopCom imageSource={Images.instructions} />
                 </View>
-                <View>
-                    <Text>
-
-                    </Text>
-                </View>
-            </TouchableOpacity>
         );
     }
 }
 
 export default class LuckyCharmList extends PureComponent {
-    state = {
-        selected: true,
-        data: [
-            {
-                title: '第一行',
-                id: 121217676762122
-            },
-            {
-                title: '第二行',
-                id: 1212556651212
-            },
-            {
-                title: '第三行',
-                id: 12121212
-            },
-        ]
-    };
-
+  state = {
+    selected: true,
+    shopList: [{
+      leftImage: Images.xh,
+      statusImage: Images.qe,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版 CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: ' "BLACK INFREAD" EDC 黑红 "BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 0,
+    }, {
+      leftImage: Images.xh,
+      statusImage: Images.qr,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 0,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      perCount: 999,
+      status: 2,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 3,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }, {
+      leftImage: Images.xh,
+      shoe: Images.shoe,
+      shopTitle: '1111 x AIR JORDAN 13 2018版',
+      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
+      price: 1999,
+      time: '2019/01/06 21:00',
+      endTime: '10:56:27',
+      status: 4,
+    }],
+  };
     _keyExtractor = (item, index) => item.id;
 
     _onPressItem = (id) => {
         Alert('被惦记的id是' + id)
     };
 
-    _renderItem = ({item}) => (
-        <MyListItem
-            id={item.id}
-            onPressItem={this._onPressItem}
-            selected={true}
-            title={item.title}
-        />
-    );
-
-    render() {
-        return (
-            <View>
-                <View>
-                    <TopCom imageSource={Images.instructions} />
-                    {/* <TouchableOpacity>
-                        <Image resizeMode='stretch' source={Images.instructions}
-                               style={styles.customerNotes}/>
-                    </TouchableOpacity> */}
-                </View>
-                <FlatList
-                    data={this.state.data}
-                    extraData={this.state}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={this._renderItem}
-                />
-            </View>)
-    }
+  _renderItem = ({item,index}) => {
+      return index==0?(<MyTopImage></MyTopImage>):(
+       <MyListItem
+        id={item.id}
+        onPressItem={this._onPressItem}
+        selected={true}
+        title={item.title}
+      />
+    )
+  };
+  _renderHeader = ()=>{
+    return (<MyTopImage></MyTopImage>)
+  }
+  render() {
+    return (
+      <View style={{ backgroundColor: Colors.NORMAL_TEXT_F6, flex: 1 }}>
+        <View style={styles.listContainer}>
+        <ShopList 
+         shopList={this.state.shopList} 
+         firstCom={<MyTopImage/>}
+        ></ShopList> 
+        </View>
+      </View>
+      )
+  }
 }
 const styles = StyleSheet.create({
-    customerNotes: {
-        width: SCREEN_WIDTH,
-        padding: 10,
-        margin: 10
-    }
-})
+          customerNotes:{
+              width:717,
+              height:301,
+
+          },
+          listContainer: {
+            marginTop: px2Dp(26),
+            marginLeft: px2Dp(15),
+            marginRight: px2Dp(18),
+            flex: 1,
+          },
+          nameText: {
+            maxWidth: SCREEN_WIDTH - 175,
+            flexShrink: 1,
+            fontFamily: 'PingFangSC-Medium',
+            lineHeight: 24,
+            fontSize: 15,
+            color: '#333333',
+            fontWeight: '500',
+            marginRight: 13,
+          },
+          imageBox:{
+            padding:10,
+            margin:10
+          }
+  })
+
+
