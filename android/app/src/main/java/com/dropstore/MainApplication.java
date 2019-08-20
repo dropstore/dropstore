@@ -1,11 +1,16 @@
 package com.dropstore;
 
 import android.app.Application;
+
+import com.dropstore.aliay.AlipayModuleReactPackage;
+import com.dropstore.wxapi.WxpayPackage;
 import com.facebook.react.ReactApplication;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -29,15 +34,17 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
-                new MainReactPackage(),
-                new AsyncStoragePackage(),
-                new NetInfoPackage(),
-                new VectorIconsPackage(),
-                new SplashScreenReactPackage(),
-                new LinearGradientPackage(),
-                new FastImageViewPackage(),
-                new RNGestureHandlerPackage(),
-                new ReanimatedPackage()
+                    new MainReactPackage(),
+                    new AsyncStoragePackage(),
+                    new NetInfoPackage(),
+                    new VectorIconsPackage(),
+                    new SplashScreenReactPackage(),
+                    new LinearGradientPackage(),
+                    new FastImageViewPackage(),
+                    new RNGestureHandlerPackage(),
+                    new ReanimatedPackage(),
+                    new WxpayPackage(),
+                    new AlipayModuleReactPackage()
             );
         }
 

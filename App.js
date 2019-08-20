@@ -4,7 +4,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
 import Theme from './app/res/Theme';
-
+import {wxPayModule,wxAppId}from './app/native/module'
 Theme.setTeasetTheme();
 
 /**
@@ -24,6 +24,7 @@ const jsErrorHandler = (error, isFatal) => {
 export default class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
+    wxPayModule.registerApp(wxAppId); // 向微信注册
     if (!__DEV__) {
       // 全局控制log语句
       global.console = {
