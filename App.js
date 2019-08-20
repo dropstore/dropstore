@@ -25,7 +25,7 @@ const jsErrorHandler = (error, isFatal) => {
 export default class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
-    wxPayModule.registerApp(wxAppId); // 向微信注册
+    // wxPayModule.registerApp(wxAppId); // 向微信注册
     if (!__DEV__) {
       // 全局控制log语句
       global.console = {
