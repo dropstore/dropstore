@@ -538,7 +538,7 @@
 		C2CA2737230BF217005FA070 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		C2CA2738230BF218005FA070 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		C2CA273B230BF231005FA070 /* WxpayMoudle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WxpayMoudle.h; sourceTree = "<group>"; };
-		C2CA273E230BF25A005FA070 /* WxpayMoudle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WxpayMoudle.m; path = ../../stu_app_trunk/tsk_student_trunk/ios/Wxapi/WxpayMoudle.m; sourceTree = "<group>"; };
+		C2CA273E230BF25A005FA070 /* WxpayMoudle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WxpayMoudle.m; sourceTree = "<group>"; };
 		C2F95A5B230BC84400C77678 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		C2F95A5D230BC84C00C77678 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C2F95A5F230BC85500C77678 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
