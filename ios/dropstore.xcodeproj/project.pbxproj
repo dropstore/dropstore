@@ -1709,7 +1709,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dropstore.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dropstore;
 				PRODUCT_NAME = dropstore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1743,7 +1743,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.dropstore.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dropstore;
 				PRODUCT_NAME = dropstore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
