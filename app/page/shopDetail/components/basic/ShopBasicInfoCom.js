@@ -3,28 +3,34 @@
  * @date 2019/8/18 16:46
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import Image from '../../../../components/Image';
-import  Images from '../../../../res/Images';
+import Images from '../../../../res/Images';
+import { YaHei, Mario } from '../../../../res/FontFamily';
 
 class ShopBasicInfoCom extends PureComponent {
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     return (
       <View>
         <View style={_styles.explainView}>
-          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
+          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth} />
           <Text style={_styles.explainText}>查看活动说明</Text>
         </View>
         <View style={_styles.mainView}>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe}/>
+          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe} />
           <View style={_styles.overView}>
             <Text style={_styles.overTitle}>距活动结束:</Text>
             <Text style={_styles.overTime}>{item.endTime}</Text>
           </View>
-          <Text style={_styles.shopTitle}>`{item.shopTitle}{item.shopSubTitle}`</Text>
+          <Text style={_styles.shopTitle}>
+`
+            {item.shopTitle}
+            {item.shopSubTitle}
+`
+          </Text>
           <Text style={_styles.price}>{`${item.price}￥`}</Text>
         </View>
       </View>
@@ -42,13 +48,12 @@ const _styles = StyleSheet.create({
   },
   explainImage: {
     width: 12,
-    height: 10
+    height: 10,
   },
   explainText: {
     color: 'rgba(107,107,107,1)',
     fontSize: 9,
-    fontFamily: 'FZLTHJW',
-    marginLeft: 3
+    marginLeft: 3,
   },
   mainView: {
     marginTop: 19,
@@ -62,34 +67,34 @@ const _styles = StyleSheet.create({
   shopTitle: {
     fontSize: 12,
     color: 'rgba(0,0,0,1)',
-    fontFamily: 'HiraginoSansGB',
-    marginTop: 9
+    fontFamily: YaHei,
+    marginTop: 9,
   },
   overView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 21
+    marginTop: 21,
   },
   overTitle: {
     fontSize: 11,
     fontWeight: 'bold',
-    fontFamily: 'Microsoft YaHei UI',
+    fontFamily: YaHei,
     color: 'rgba(194,0,0,1)',
   },
   overTime: {
     fontSize: 12,
-    fontFamily: 'super',
+    fontFamily: Mario,
     color: 'rgba(0,0,0,1)',
-    marginLeft: 6
+    marginLeft: 6,
   },
   price: {
     fontSize: 23,
     fontWeight: 'bold',
-    fontFamily: 'Microsoft YaHei UI',
+    fontFamily: YaHei,
     color: 'rgba(0,0,0,1)',
     marginTop: 21,
     textDecorationLine: 'line-through',
-    textDecorationColor: 'rgba(0,0,0,1)'
+    textDecorationColor: 'rgba(0,0,0,1)',
   },
 });
 

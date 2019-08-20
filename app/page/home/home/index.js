@@ -5,6 +5,7 @@ import {
 import TopCom from '../components/TopCom';
 import ShopListItemCom from '../components/ShopListItemCom';
 import Colors from '../../../res/Colors';
+import { Mario, YaHei } from '../../../res/FontFamily';
 import Images from '../../../res/Images';
 
 export default class Home extends PureComponent {
@@ -110,7 +111,7 @@ export default class Home extends PureComponent {
       {
         index === section.data.length - 1 && (
           <View style={styles.getmore}>
-            <Text style={styles.moreText}>More</Text>
+            <Text style={styles.moreText}>MORE</Text>
             <Text style={styles.moreTextCN}>更多</Text>
             <Image style={styles.imageMore} source={Images.shape} />
           </View>
@@ -139,10 +140,11 @@ export default class Home extends PureComponent {
 const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 12.5,
     fontWeight: '500',
     height: 35,
     lineHeight: 35,
+    fontFamily: Mario,
   },
   getmore: {
     flexDirection: 'row',
@@ -157,11 +159,13 @@ const styles = StyleSheet.create({
   },
   moreText: {
     marginRight: 5,
-    fontSize: 14,
+    fontSize: 10,
     fontWeight: '500',
+    fontFamily: Mario,
   },
   moreTextCN: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#000',
+    fontFamily: YaHei,
   },
 });

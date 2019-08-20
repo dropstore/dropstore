@@ -5,6 +5,7 @@ import { debounce } from '../../../utils/commonUtils';
 import FadeImage from '../../../components/FadeImage';
 import ScaleView from '../../../components/ScaleView';
 import { SCREEN_WIDTH } from '../../../common/Constant';
+import { YaHei } from '../../../res/FontFamily';
 
 class VendorListItem extends PureComponent {
   toVendorPage = () => {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   nameText: {
     maxWidth: SCREEN_WIDTH - 175,
     flexShrink: 1,
-    fontFamily: 'PingFangSC-Medium',
+    fontFamily: YaHei,
     lineHeight: 24,
     fontSize: 15,
     color: '#333333',

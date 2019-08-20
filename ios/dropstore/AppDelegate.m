@@ -13,6 +13,9 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "RNSplashScreen.h"
 #import <React/RCTLinkingManager.h>
+#import "RNUMConfigure.h"
+#import <UMShare/UMShare.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -30,6 +33,11 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [RNSplashScreen show];
+  [UMConfigure setLogEnabled:YES];
+  [RNUMConfigure initWithAppkey:@"5d5393a1570df324ba000e51" channel:@"AppStore"];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx179afsafasw23b54ae" appSecret:@"5a4142fsdsfswe9a40e93fc" redirectURL:nil];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"110233248545" appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:@"27239964"  appSecret:@"fac50980a44sdsdsssdsc968ea572887" redirectURL:@"http://sns.whalecloud.com"];
   return YES;
 }
 
@@ -60,8 +68,6 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
   return  [WXApi handleOpenURL:url delegate:self];
 }
-
-
 
 //ios9以后的方法
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
