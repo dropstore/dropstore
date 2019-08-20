@@ -63,6 +63,7 @@
 		C2B6FFCF442A4B31B3C56E22 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2663448A8D6C4ACCA261350E /* SimpleLineIcons.ttf */; };
 		CE8E6100438E47DBB9E9ADB3 /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 743F541AAA2548D299B4D46C /* libRNCNetInfo.a */; };
 		D1AAB42522C14167898D9D31 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEC28E9C3FB457DB2F4D81C /* Octicons.ttf */; };
+		D40EE88E230BE33F00CA4F52 /* Super Mario World Text Box.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */; };
 		D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */; };
 		D46A2218230BB55E00EE6CA5 /* UShareUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46A21D7230BB55E00EE6CA5 /* UShareUI.framework */; };
 		D46A2219230BB55E00EE6CA5 /* UMShare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46A21D8230BB55E00EE6CA5 /* UMShare.framework */; };
@@ -512,6 +513,7 @@
 		C1851B6702FB41BBBAC220D7 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		C9EC084647194FB5927A2BC4 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		CA40E32A86FE4A0DB1D4D53B /* libFastImage-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libFastImage-tvOS.a"; sourceTree = "<group>"; };
+		D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Mario World Text Box.ttf"; sourceTree = "<group>"; };
 		D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResources.bundle; sourceTree = "<group>"; };
 		D46A21D7230BB55E00EE6CA5 /* UShareUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UShareUI.framework; sourceTree = "<group>"; };
 		D46A21D8230BB55E00EE6CA5 /* UMShare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMShare.framework; sourceTree = "<group>"; };
@@ -729,6 +731,7 @@
 		2EC46F3B25D242FA85AC1A18 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */,
 				402A9A36C22B4336B1AB0A50 /* AntDesign.ttf */,
 				C1851B6702FB41BBBAC220D7 /* Entypo.ttf */,
 				B1E8028BE5B8446AB369FC35 /* EvilIcons.ttf */,
@@ -1586,6 +1589,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				8A82502A11F44CA7A958DE81 /* AntDesign.ttf in Resources */,
+				D40EE88E230BE33F00CA4F52 /* Super Mario World Text Box.ttf in Resources */,
 				ADA9D3515FBA4AFF9D283C75 /* Entypo.ttf in Resources */,
 				4708C856FD404DB6B75B36D2 /* EvilIcons.ttf in Resources */,
 				086682D755234A94969C15A6 /* Feather.ttf in Resources */,

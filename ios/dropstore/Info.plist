@@ -90,6 +90,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Super Mario World Text Box.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>

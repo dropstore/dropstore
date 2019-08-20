@@ -8,9 +8,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import ScaleView from '../../../components/ScaleView';
 import Image from '../../../components/Image';
-import { px2Dp } from '../../../utils/ScreenUtil';
 import { debounce } from '../../../utils/commonUtils';
 import Colors from '../../../res/Colors';
+import { YaHei, Mario } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
 
 // 简单的通过自定义数据的状态值控制显示及隐藏。
@@ -87,13 +87,12 @@ const _styles = StyleSheet.create({
   shopTitle: {
     fontSize: 10,
     color: 'rgba(0,0,0,1)',
-    fontFamily: 'HiraginoSansGB',
+    fontFamily: YaHei,
   },
   imageShoe: {
     width: 92,
     height: 49,
-    right: 20,
-    position: 'relative',
+    marginRight: 20,
   },
   statusImage: {
     width: 15,
@@ -105,7 +104,6 @@ const _styles = StyleSheet.create({
   price: {
     fontSize: 11,
     fontWeight: 'bold',
-    fontFamily: 'Microsoft YaHei UI',
     color: 'rgba(0,0,0,1)',
     marginLeft: 3,
     marginTop: 23,
@@ -125,12 +123,12 @@ const _styles = StyleSheet.create({
   overTitle: {
     fontSize: 8,
     fontWeight: 'bold',
-    fontFamily: 'Microsoft YaHei UI',
+    fontFamily: YaHei,
     color: 'rgba(194,0,0,1)',
   },
   overTime: {
     fontSize: 8,
-    fontFamily: 'super',
+    fontFamily: Mario,
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
   },
