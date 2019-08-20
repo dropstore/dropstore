@@ -19,6 +19,10 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.dropstore.share.RNUMConfigure;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
+import com.dropstore.share.DplusReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +48,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNGestureHandlerPackage(),
                     new ReanimatedPackage(),
                     new WxpayPackage(),
-                    new AlipayModuleReactPackage()
+                    new AlipayModuleReactPackage(),
+                    new DplusReactPackage()
             );
         }
 
@@ -63,5 +68,13 @@ public class MainApplication extends Application implements ReactApplication {
     public void onCreate() {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
+        RNUMConfigure.init(this, "5d53936f3fc19594650009c5", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+    }
+
+    // 配置平台key、secret信息
+    {
+        PlatformConfig.setWeixin("wxxxxxxx", "5a4142ff9xxxxxxxx93fc");
+        PlatformConfig.setQQZone("110xxxxxx59", "3JjbG8aXxxxxsV");
+        PlatformConfig.setSinaWeibo("27xxxxxxx964", "fac50980a44e3e3afdxxxa572887", "http://sns.whalecloud.com");
     }
 }

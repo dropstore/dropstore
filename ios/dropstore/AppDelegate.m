@@ -29,6 +29,11 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [UMConfigure setLogEnabled:YES];
+  [RNUMConfigure initWithAppkey:@"5d5393a1570df324ba000e51" channel:@"AppStore"];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx179afsafasw23b54ae" appSecret:@"5a4142fsdsfswe9a40e93fc" redirectURL:nil];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"110233248545" appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
+  [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:@"27239964"  appSecret:@"fac50980a44sdsdsssdsc968ea572887" redirectURL:@"http://sns.whalecloud.com"];
   return YES;
 }
 

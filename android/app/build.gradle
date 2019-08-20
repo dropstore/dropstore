@@ -140,7 +140,7 @@ android {
         versionCode _versionCode
         versionName _versionName
         ndk {
-            abiFilters "armeabi-v7a"
+            abiFilters "armeabi-v7a", "x86"
         }
         // multiDexEnabled true
         // renderscriptSupportModeEnabled true
@@ -193,6 +193,7 @@ dependencies {
     implementation project(':react-native-fast-image')
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-reanimated')
+    // 第三方登录分享所需的配置
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
