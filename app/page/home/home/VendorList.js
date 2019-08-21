@@ -10,6 +10,7 @@ import { getVendors } from '../../../redux/reselect/test';
 import VendorListItem from './VendorListItem';
 import Images from '../../../res/Images';
 import Colors from '../../../res/Colors';
+
 function mapStateToProps() {
   return state => ({
     vendors: getVendors(state),

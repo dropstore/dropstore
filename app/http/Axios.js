@@ -4,22 +4,22 @@
  * @date 2019/8/17 15:59
  * @author ZWW
  */
-
-'use strict';
-import {isConnected} from '../utils/NetUtil';
-import {showToast, showToastLoading, hideToastLoading} from '../utils/MutualUtil';
+import Axios from 'axios';
+import { isConnected } from '../utils/NetUtil';
+import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
-import Axios  from 'axios';
-
 
 const timeout = 10000;
+const headers = {
+
+};
 
 /**
  * 自定义Axios实例默认值
  * @type {AxiosInstance}
  */
 const axiosInstance = Axios.create({
-  timeout: timeout,
+  timeout,
 });
 
 // 允许携带请求头
@@ -48,20 +48,24 @@ axiosInstance.interceptors.response.use(
  * @param {Number} timeout - 超时时间
  * @returns {Promise<*>}
  */
-const request = async (url, {isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout} = {}) => {
+const request = async (url, {
+  isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
+} = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
-    throw `NETWORK IS UNCONNECTED------url:${url}`;
+    throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
   }
   if (isShowLoading) {
-    showToastLoading({text: loadingText, duration: timeout});
+    showToastLoading({ text: loadingText, duration: timeout });
   }
   let response;
   try {
     if (method === 'post') {
-      response = await axiosInstance.post(url, params, {method: method, timeout: timeout});
+      response = await axiosInstance.post(url, params, { method, timeout, headers });
     } else {
-      response = await axiosInstance.get(url, {method: method, params: params, timeout: timeout});
+      response = await axiosInstance.get(url, {
+        method, params, timeout, headers,
+      });
     }
     if (response.status >= 200 && response.status < 400) {
       return response.data;
@@ -74,9 +78,9 @@ const request = async (url, {isShowLoading = true, loadingText = '加载中...',
     // 请求超时
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
-      throw `CONNECT TIMEOUT------URL:${url}------ERROR:${error}`;
+      throw new Error(`CONNECT TIMEOUT------URL:${url}------ERROR:${error}`);
     }
-    throw `ERROR TO REQUEST------URL:${url}------ERROR:${error}`;
+    throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
   } finally {
     if (isShowLoading) {
       hideToastLoading();
@@ -84,4 +88,4 @@ const request = async (url, {isShowLoading = true, loadingText = '加载中...',
   }
 };
 
-export {axiosInstance, timeout, request};
+export { axiosInstance, timeout, request };

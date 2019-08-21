@@ -19,6 +19,7 @@ import AuthLoading from '../page/auth';
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
 import ShopDetailHeaderRight from '../components/ShopDetailHeaderRight';
+
 const AuthStack = createStackNavigator({
   AuthLoading,
 });
@@ -33,10 +34,10 @@ const InitNavigator = createStackNavigator({
   vendorDetail,
   shopDetail: {
     screen: shopDetail,
-    navigationOptions: ({navigation}) => ({
-      headerRight: <ShopDetailHeaderRight navigation={navigation}/>
-    })
-  }
+    navigationOptions: ({ navigation }) => ({
+      headerRight: <ShopDetailHeaderRight navigation={navigation} />,
+    }),
+  },
 
 }, {
   initialRouteName: 'main',
@@ -102,11 +103,12 @@ const InitNavigator = createStackNavigator({
     },
   }),
 });
+
 const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Auth',
 }));
 
 export { Router, store };
