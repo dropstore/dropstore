@@ -91,7 +91,7 @@ export default class BottomNavigator extends PureComponent {
               <TouchableWithoutFeedback
                 key={`v.key${i}`}
                 hitSlop={{
-                  bottom: px2Dp(PADDING_TAB),
+                  bottom: PADDING_TAB,
                   left: i === 0 ? PADDING_HORIZONTAL : 0,
                   right: i === arr.length - 1 ? PADDING_HORIZONTAL : 0,
                 }}
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
   },
   tabBar: {
-    height: px2Dp(101 + PADDING_TAB),
-    paddingBottom: px2Dp(PADDING_TAB),
+    height: 101 + PADDING_TAB,
+    paddingBottom: PADDING_TAB,
     alignItems: 'center',
     width: SCREEN_WIDTH,
     flexDirection: 'row',
@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
     width: HOME_ICON_WIDTH,
     position: 'absolute',
     alignSelf: 'center',
-    bottom: px2Dp(101 + PADDING_TAB),
+    bottom: 101 + PADDING_TAB,
   },
 });

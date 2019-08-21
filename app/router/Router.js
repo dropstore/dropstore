@@ -22,6 +22,10 @@ import ShopDetailHeaderRight from '../components/ShopDetailHeaderRight';
 
 const AuthStack = createStackNavigator({
   AuthLoading,
+}, {
+  defaultNavigationOptions: {
+    header: null,
+  },
 });
 
 const InitNavigator = createStackNavigator({

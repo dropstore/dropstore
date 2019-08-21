@@ -32,6 +32,7 @@ export default class SelfCom extends PureComponent {
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 16,
     backgroundColor: Colors.WHITE_COLOR
   },
 });

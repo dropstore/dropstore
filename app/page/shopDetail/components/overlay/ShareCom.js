@@ -11,10 +11,11 @@ import Images from '../../../../res/Images';
 const imageSource = [Images.wx, Images.pyq, Images.wb, Images.qq];
 
 class ShareCom extends PureComponent {
-  shareByIndex = (index) => {
+  shareByIndex = (index, closeOver) => {
     switch (index) {
       case 0:
         alert('微信好友');
+        closeOver();
         break;
       case 1:
         alert('微信朋友圈');
@@ -30,7 +31,7 @@ class ShareCom extends PureComponent {
 
   // 需要根据数据状态去初始化不同的背景图和分享按钮的margin
   render() {
-    const {data} = this.props;
+    const {data, closeOver} = this.props;
     let isSelect = data.isSelect;
     return (
       <ImageBackground
@@ -41,7 +42,7 @@ class ShareCom extends PureComponent {
         <View style={[_styles.mainView, {marginTop: isSelect ? 67 : 159,}]}>
           {
             imageSource.map((item, index) => (
-              <TouchableOpacity onPress={() => this.shareByIndex(index)} key={index}>
+              <TouchableOpacity onPress={() => this.shareByIndex(index, closeOver)} key={index}>
                 <Image style={_styles.imageView} source={item}/>
               </TouchableOpacity>
             ))

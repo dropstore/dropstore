@@ -4,15 +4,14 @@
  * @date 2019/8/17 15:59
  * @author ZWW
  */
-
-'use strict';
-
 import Axios from 'axios';
 import { isConnected } from '../utils/NetUtil';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
-
 import Strings from '../res/Strings';
+import { sortObj } from '../utils/SortUtil';
+import { md5 } from '../utils/Md5Util';
 
+const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
 const headers = {
 
@@ -55,57 +54,40 @@ axiosInstance.interceptors.response.use(
 
 
 const request = async (url, {
-    isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
-  } = {}) => {
-    if (!await isConnected()) {
-      showToast(Strings.netError);
-      throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+  isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
+} = {}) => {
+  if (!await isConnected()) {
+    showToast(Strings.netError);
+    throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+  }
+  if (isShowLoading) {
+    showToastLoading({ text: loadingText, duration: timeout });
+  }
+  let response;
+  try {
+    const data = { ...params, timestamp: Date.now() };
+    response = await axiosInstance({
+      url, method, timeout, headers, params: { ...data, token: md5(sortObj(data)) }, baseURL,
+    });
+    if (response.status >= 200 && response.status < 400) {
+      return response.data;
     }
+  } catch (error) {
+    // 获取到响应拦截器里返回的的error
+    if (error.response) {
+      return error.response.data;
+    }
+    // 请求超时
+    if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
+      showToast(Strings.connectTimeout);
+      throw new Error(`CONNECT TIMEOUT------URL:${url}------ERROR:${error}`);
+    }
+    throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
+  } finally {
     if (isShowLoading) {
-      showToastLoading({
-        text: loadingText,
-        duration: timeout
-      });
+      hideToastLoading();
     }
-    let response;
-    try {
-      if (method === 'post') {
-        response = await axiosInstance.post(
-          url,
-          params,
-          {
-            method: method,
-            timeout: timeout,
-            headers:headers
-          });
-      } else {
-        response = await axiosInstance.get(
-          url,
-          {
-            method: method,
-            params: params,
-            timeout: timeout
-          });
-      }
-      if (response.status >= 200 && response.status < 400) {
-        return response.data;
-      }
-    } catch (error) {
-      // 获取到响应拦截器里返回的的error
-      if (error.response) {
-        return error.response.data;
-      }
-      // 请求超时
-      if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
-        showToast(Strings.connectTimeout);
-        throw new Error(`CONNECT TIMEOUT------URL:${url}------ERROR:${error}`);
-      }
-      throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
-    } finally {
-      if (isShowLoading) {
-        hideToastLoading();
-      }
-    }
-  };
+  }
+};
 
-  export { axiosInstance, timeout, request };
+export { axiosInstance, timeout, request };

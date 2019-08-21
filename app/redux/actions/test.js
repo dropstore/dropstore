@@ -24,7 +24,7 @@ function fetchVendors(fetchNextPage = false) {
       request_id: -1,
     };
     dispatch(requestVendors());
-    request(path, {method: 'get', params: params}).then((res) => {
+    request(path, params, {method: 'get'}).then((res) => {
       dispatch(receiveVendors(res.result));
     }).catch(error => alert(error));
     // return axios.get(path, { params }).then((res) => {
