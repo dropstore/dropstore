@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Image from '../../../../components/Image';
-import ImageBackgroundCom from '../../../../components/ImageBackgroundCom';
+import ImageBackground from '../../../../components/ImageBackground';
 import {hideOlView, SelectShoeSizeCom} from '../overlay';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
@@ -53,6 +53,7 @@ class SelfBottomCom extends PureComponent<Props> {
     );
     this.setState({overSelShoeSizeKey: key})
   };
+
   // 关闭浮层
   closeOver() {
     hideOlView(this.state.overSelShoeSizeKey);
@@ -65,10 +66,10 @@ class SelfBottomCom extends PureComponent<Props> {
         <TouchableOpacity onPress={() => alert('通知我')}>
           <Image style={{width: 178, height: 49}} source={Images.tzw}/>
         </TouchableOpacity>
-        <ImageBackgroundCom style={{width: 178}} source={Images.bg_right}
-                            onPress={() => this.showOver(activityId)}>
+        <ImageBackground style={_styles.ibg} source={Images.bg_right}
+                         onPress={() => this.showOver(activityId)}>
           <Text style={_styles.selShoe}>{this._showBottomRightText(type, status)}</Text>
-        </ImageBackgroundCom>
+        </ImageBackground>
       </View>
     );
   }
@@ -87,6 +88,12 @@ const _styles = StyleSheet.create({
     fontSize: 16,
     color: 'rgba(255,255,255,1)',
   },
+  ibg:{
+    justifyContent:'center',
+    alignItems:'center',
+    width: 178,
+    height: 48
+  }
 });
 
 export default withNavigation(SelfBottomCom);

@@ -6,7 +6,7 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Image from '../../../../components/Image';
-import ImageBackgroundCom from '../../../../components/ImageBackgroundCom';
+import ImageBackground from '../../../../components/ImageBackground';
 import {commonStyle} from '../../../../res/style/CommonStyle';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
@@ -149,10 +149,10 @@ export default class SelectShoeSizeCom extends Component <Props> {
             </ScrollView>
           </View>
         </View>
-        <ImageBackgroundCom style={_style.okView} source={Images.bg_right}
-                            onPress={() => closeOver()}>
+        <ImageBackground style={_style.okView} source={Images.bg_right}
+                         onPress={() => closeOver()}>
           <Text style={_style.okText}>确认</Text>
-        </ImageBackgroundCom>
+        </ImageBackground>
       </View>
     );
   }
@@ -216,6 +216,9 @@ const _style = StyleSheet.create({
   },
   okView: {
     width: 178,
+    height:48,
+    justifyContent:'center',
+    alignItems:'center',
     position: 'absolute',
     right: 5,
     bottom: 6,
