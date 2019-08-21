@@ -8,7 +8,10 @@ import Axios from 'axios';
 import { isConnected } from '../utils/NetUtil';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
+import { sortObj } from '../utils/SortUtil';
+import { md5 } from '../utils/Md5Util';
 
+const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
 const headers = {
 
@@ -60,13 +63,10 @@ const request = async (url, {
   }
   let response;
   try {
-    if (method === 'post') {
-      response = await axiosInstance.post(url, params, { method, timeout, headers });
-    } else {
-      response = await axiosInstance.get(url, {
-        method, params, timeout, headers,
-      });
-    }
+    const data = { ...params, timestamp: Date.now() };
+    response = await axiosInstance({
+      url, method, timeout, headers, params: { ...data, token: md5(sortObj(data)) }, baseURL,
+    });
     if (response.status >= 200 && response.status < 400) {
       return response.data;
     }

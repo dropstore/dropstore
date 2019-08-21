@@ -22,6 +22,10 @@ import ShopDetailHeaderRight from '../components/ShopDetailHeaderRight';
 
 const AuthStack = createStackNavigator({
   AuthLoading,
+}, {
+  defaultNavigationOptions: {
+    header: null,
+  },
 });
 
 const InitNavigator = createStackNavigator({
@@ -108,7 +112,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Auth',
+  initialRouteName: 'Main',
 }));
 
 export { Router, store };

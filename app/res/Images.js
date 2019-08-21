@@ -40,6 +40,10 @@ const IMAGES = {
   wb: require('./image/wb.png'),
   qq: require('./image/qq.png'),
 
+  // 背景边框图片
+  framePhoneInput: require('./image/frame-phone-input.png'),
+  frameLogin: require('./image/frame-login.png'),
+
   // 测试图片
   shoe: require('./image/shoe.png'),
   test1: require('./image/test1.png'),
