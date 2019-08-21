@@ -4,7 +4,7 @@
  * @author ZWW
  */
 
-//https://github.com/react-native-community/react-native-netinfo
+// https://github.com/react-native-community/react-native-netinfo
 import NetInfo from '@react-native-community/netinfo';
 
 /**
@@ -35,13 +35,11 @@ export const isConnected = async () => {
  * @returns {Promise<boolean>}
  */
 export const isMobile = async () => {
-  return await _getNetType() === "cellular";
+  return await _getNetType() === 'cellular';
 };
 
 /**
  * 是否是wifi
  * @returns {Promise<boolean>}
  */
-export const isWifi = async () => {
-  return await _getNetType() === "wifi";
-};
+export const isWifi = async () => await _getNetType() === 'wifi';

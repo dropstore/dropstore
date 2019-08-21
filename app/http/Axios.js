@@ -6,6 +6,7 @@
  */
 
 'use strict';
+
 import {isConnected} from '../utils/NetUtil';
 import {showToast, showToastLoading, hideToastLoading} from '../utils/MutualUtil';
 import Strings from '../res/Strings';
@@ -48,7 +49,15 @@ axiosInstance.interceptors.response.use(
  * @param {Number} timeout - 超时时间
  * @returns {Promise<*>}
  */
-const request = async (url, {isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout} = {}) => {
+const request = async (
+          url,
+          {isShowLoading = true,
+          loadingText = '加载中...',
+          method = 'post',
+          params = Object,
+          timeout = timeout
+          } = {}
+    ) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
     throw `NETWORK IS UNCONNECTED------url:${url}`;
@@ -59,9 +68,21 @@ const request = async (url, {isShowLoading = true, loadingText = '加载中...',
   let response;
   try {
     if (method === 'post') {
-      response = await axiosInstance.post(url, params, {method: method, timeout: timeout});
+      response = await axiosInstance.post(
+        url,
+        params,
+        {
+          method: method,
+          timeout: timeout
+        });
     } else {
-      response = await axiosInstance.get(url, {method: method, params: params, timeout: timeout});
+      response = await axiosInstance.get(
+        url,
+        {
+          method: method,
+          params: params,
+          timeout: timeout
+        });
     }
     if (response.status >= 200 && response.status < 400) {
       return response.data;

@@ -32,7 +32,7 @@ export default class ShopDetail extends PureComponent {
       if (isBottom) {
         return <SelfBottomCom/>
       }
-      // 发售详情 === 自营的抽签模块
+      // 发售详情 === 自营的抽签模块`
       let isChooseShoeSize = false;
       if (isChooseShoeSize) {// 是否已选择完尺寸，接口状态值
         return <SelfCom/>
