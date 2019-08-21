@@ -27,6 +27,7 @@ export default class ShopDetail extends PureComponent {
    * @returns {*}
    */
   setContentOrBottomUIByType = (type, isBottom) => {
+
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       if (isBottom) {
