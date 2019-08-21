@@ -5,6 +5,7 @@
  */
 import React, {PureComponent} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import ShopMainBodyCom from './components/main/ShopMainBodyCom';
@@ -16,7 +17,7 @@ import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
 import RuleCom from "./components/main/self/components/RuleCom";
 
-export default class ShopDetail extends PureComponent {
+class ShopDetail extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -92,6 +93,7 @@ export default class ShopDetail extends PureComponent {
     )
   }
 }
+
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -104,3 +106,4 @@ const _styles = StyleSheet.create({
   // },
 
 });
+export default withNavigation(ShopDetail)

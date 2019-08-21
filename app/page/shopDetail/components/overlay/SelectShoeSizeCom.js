@@ -6,11 +6,13 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Image from '../../../../components/Image';
+import {SCREEN_WIDTH} from "../../../../common/Constant";
 import ImageBackground from '../../../../components/ImageBackground';
 import {commonStyle} from '../../../../res/style/CommonStyle';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
 import {YaHei} from "../../../../res/FontFamily";
+import {bottomStyle} from '../../../../res/style/BottomStyle';
 
 type Props = {
   activityId: Object,
@@ -106,6 +108,13 @@ export default class SelectShoeSizeCom extends Component <Props> {
     this.setState({shoeList: shoeList, totalCount: totalCount});
   };
 
+  toPayPage = (closeOver) => {
+    closeOver();
+    this.props.navigation.push('pay', {
+      title: '选择支付账户',
+    });
+  };
+
   render() {
     const {activityId, closeOver} = this.props;
     return (
@@ -149,14 +158,17 @@ export default class SelectShoeSizeCom extends Component <Props> {
             </ScrollView>
           </View>
         </View>
-        <ImageBackground style={_style.okView} source={Images.bg_right}
-                         onPress={() => closeOver()}>
-          <Text style={_style.okText}>确认</Text>
-        </ImageBackground>
+        <View style={bottomStyle.bottomView}>
+          <ImageBackground style={_style.okView} source={Images.bg_right}
+                           onPress={() => this.toPayPage(closeOver)}>
+            <Text style={bottomStyle.buttonText}>确认</Text>
+          </ImageBackground>
+        </View>
       </View>
     );
   }
 }
+
 const _style = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE_COLOR,
@@ -176,8 +188,8 @@ const _style = StyleSheet.create({
     marginLeft: 23
   },
   close: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     position: 'absolute',
     right: 10,
     top: 5,
@@ -216,16 +228,12 @@ const _style = StyleSheet.create({
   },
   okView: {
     width: 178,
-    height:48,
-    justifyContent:'center',
-    alignItems:'center',
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     right: 5,
     bottom: 6,
-  },
-  okText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
   },
   line: {
     width: 340,
@@ -235,4 +243,5 @@ const _style = StyleSheet.create({
     marginLeft: 26
   }
 });
+
 

@@ -8,12 +8,14 @@ import {
   StyleSheet, TouchableOpacity, View, Text,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
+import {Overlay} from "teaset";
 import Image from '../../../../components/Image';
 import ImageBackground from '../../../../components/ImageBackground';
-import {hideOlView, SelectShoeSizeCom} from '../overlay';
+import SelectShoeSizeCom from '../overlay/SelectShoeSizeCom';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
-import {Overlay} from "teaset";
+import {bottomStyle} from '../../../../res/style/BottomStyle';
+import {hideOlView} from '../../../../utils/ViewUtils';
 
 type Props = {
   type: Object,
@@ -41,11 +43,12 @@ class SelfBottomCom extends PureComponent<Props> {
   /**
    * 显示选鞋浮层
    * @param activityId
+   * @param navigation
    */
-  showOver = (activityId) => {
+  showOver = (activityId, navigation) => {
     let olView = (
       <Overlay.PullView>
-        <SelectShoeSizeCom activityId={activityId} closeOver={this.closeOver.bind(this)}/>
+        <SelectShoeSizeCom navigation={navigation} activityId={activityId} closeOver={this.closeOver.bind(this)}/>
       </Overlay.PullView>
     );
     let key = Overlay.show(
@@ -60,15 +63,15 @@ class SelfBottomCom extends PureComponent<Props> {
   };
 
   render() {
-    const {type, status, activityId} = this.props;
+    const {type, status, activityId, navigation} = this.props;
     return (
       <View style={_styles.bottomView}>
         <TouchableOpacity onPress={() => alert('通知我')}>
-          <Image style={{width: 178, height: 49}} source={Images.tzw}/>
+          <Image style={bottomStyle.buttonView} source={Images.tzw}/>
         </TouchableOpacity>
-        <ImageBackground style={_styles.ibg} source={Images.bg_right}
-                         onPress={() => this.showOver(activityId)}>
-          <Text style={_styles.selShoe}>{this._showBottomRightText(type, status)}</Text>
+        <ImageBackground style={bottomStyle.buttonView} source={Images.bg_right}
+                         onPress={() => this.showOver(activityId, navigation)}>
+          <Text style={bottomStyle.buttonText}>{this._showBottomRightText(type, status)}</Text>
         </ImageBackground>
       </View>
     );
@@ -88,12 +91,6 @@ const _styles = StyleSheet.create({
     fontSize: 16,
     color: 'rgba(255,255,255,1)',
   },
-  ibg:{
-    justifyContent:'center',
-    alignItems:'center',
-    width: 178,
-    height: 48
-  }
 });
 
 export default withNavigation(SelfBottomCom);

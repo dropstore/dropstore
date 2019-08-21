@@ -51,6 +51,13 @@ const IMAGES = {
   shoe_zjr: require('./image/shoe_zjr.png'),
   shoe_hth: require('./image/shoe_hth.png'),
   close_shoe: require('./image/chazi.png'),
+
+  // 支付界面
+  pay_wx: require('./image/pay_wx.png'),
+  pay_zfb: require('./image/pay_zfb.png'),
+  pay_drop: require('./image/pay_drop.png'),
+  sel: require('./image/sel.png'),
+  unSel: require('./image/unsel.png'),
   // 背景边框图片
   framePhoneInput: require('./image/frame-phone-input.png'),
   frameLogin: require('./image/frame-login.png'),
