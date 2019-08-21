@@ -93,8 +93,8 @@ const _styles = StyleSheet.create({
     fontFamily: YaHei,
     color: 'rgba(0,0,0,1)',
     marginTop: 21,
-    textDecorationLine: 'line-through',
-    textDecorationColor: 'rgba(0,0,0,1)',
+    // textDecorationLine: 'line-through',
+    // textDecorationColor: 'rgba(0,0,0,1)',
   },
 });
 

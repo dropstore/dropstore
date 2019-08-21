@@ -5,6 +5,7 @@
  */
 import React, {PureComponent} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import ShopMainBodyCom from './components/main/ShopMainBodyCom';
 import SelfCom from "./components/main/self";
@@ -13,6 +14,7 @@ import SelfBottomCom from "./components/bottom/SelfBottomCom";
 import LuckBottomCom from "./components/bottom/LuckBottomCom";
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
+import RuleCom from "./components/main/self/components/RuleCom";
 
 export default class ShopDetail extends PureComponent {
   constructor(props) {
@@ -29,17 +31,8 @@ export default class ShopDetail extends PureComponent {
   setContentOrBottomUIByType = (type, isBottom) => {
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
-      if (isBottom) {
-        return <SelfBottomCom/>
-      }
-      // 发售详情 === 自营的抽签模块`
-      let isChooseShoeSize = false;
-      if (isChooseShoeSize) {// 是否已选择完尺寸，接口状态值
-        return <SelfCom/>
-      }
-      return <ShopMainBodyCom/>
+      return this._showSelf(isBottom);
     }
-
     // 锦鲤
     if (type === ShopConstant.LUCKY_CHARM) {
       if (isBottom) {
@@ -48,6 +41,34 @@ export default class ShopDetail extends PureComponent {
       // 不显示主体内容
       return <LuckyCom/>
     }
+  };
+
+  /**
+   * 设置发售和自营布局
+   * @param isBottom
+   * @returns {*}
+   * @private
+   */
+  _showSelf = (isBottom) => {
+    if (isBottom) {
+      return <SelfBottomCom type={1} status={1}/>
+    }
+    // 发售详情 === 自营的抽签模块`
+    let isChooseShoeSize = false;
+    if (isChooseShoeSize) {// 是否已选择完尺寸，接口状态值
+      return (
+        <View>
+          <RuleCom type={1} status={1}/>
+          <SelfCom/>
+        </View>
+      )
+    }
+    return (
+      <View>
+        <RuleCom type={1} status={1}/>
+        <ShopMainBodyCom/>
+      </View>
+    )
   };
 
   render() {
@@ -59,6 +80,7 @@ export default class ShopDetail extends PureComponent {
       <View style={_styles.container}>
         <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
           <ShopBasicInfoCom item={item}/>
+          <EmptyViewCom/>
           {
             this.setContentOrBottomUIByType(type, false)
           }
