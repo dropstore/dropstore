@@ -112,7 +112,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Auth',
 }));
 
 export { Router, store };

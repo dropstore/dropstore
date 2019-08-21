@@ -40,9 +40,10 @@ class AuthLoading extends PureComponent {
 
   componentDidMount() {
     const { navigation } = this.props;
+    navigation.navigate('Main');
     AsyncStorage.getItem('token').then((res) => {
       if (res) {
-        // navigation.navigate('Main');
+        navigation.navigate('Main');
         SplashScreen.hide();
       } else {
         SplashScreen.hide();
