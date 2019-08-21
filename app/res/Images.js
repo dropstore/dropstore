@@ -51,6 +51,9 @@ const IMAGES = {
   shoe_zjr: require('./image/shoe_zjr.png'),
   shoe_hth: require('./image/shoe_hth.png'),
   close_shoe: require('./image/chazi.png'),
+  // 背景边框图片
+  framePhoneInput: require('./image/frame-phone-input.png'),
+  frameLogin: require('./image/frame-login.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),
