@@ -7,18 +7,41 @@ import React, {PureComponent} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Image from '../../../../components/Image';
-import {showShareOlView} from '../overlay';
+import {hideOlView, ShareCom} from '../overlay';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
+import {Overlay} from "teaset";
 
 const data = {'isSelect': false};
 
 class LuckBottomCom extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shareOlKey: -1,
+    }
+  }
+
+  showShareOverView = (data) => {
+    let olView = (
+      <Overlay.PullView>
+        <ShareCom data={data} closeOver={this.closeShareOver.bind(this)}/>
+      </Overlay.PullView>
+    );
+    let key = Overlay.show(
+      olView
+    );
+    this.setState({shareOlKey: key})
+  };
+
+  closeShareOver() {
+    hideOlView(this.state.shareOlKey);
+  };
 
   render() {
     return (
       <View style={_styles.bottomView}>
-        <TouchableOpacity onPress={() => showShareOlView(data)}>
+        <TouchableOpacity onPress={() => this.showShareOverView(data)}>
           <Image source={Images.fx}/>
         </TouchableOpacity>
       </View>

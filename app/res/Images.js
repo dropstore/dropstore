@@ -40,6 +40,18 @@ const IMAGES = {
   wb: require('./image/wb.png'),
   qq: require('./image/qq.png'),
 
+  // 抽签或抢鞋流程图标 -- 1、2、3、4
+  ex1: require('./image/ex1.png'),
+  ex2: require('./image/ex2.png'),
+  ex3: require('./image/ex3.png'),
+  ex4: require('./image/ex4.png'),
+
+  // 选择鞋码
+  shoe_zjt: require('./image/shoe_zjt.png'),
+  shoe_zjr: require('./image/shoe_zjr.png'),
+  shoe_hth: require('./image/shoe_hth.png'),
+  close_shoe: require('./image/chazi.png'),
+
   // 测试图片
   shoe: require('./image/shoe.png'),
   test1: require('./image/test1.png'),

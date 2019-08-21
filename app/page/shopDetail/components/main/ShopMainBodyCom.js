@@ -5,6 +5,7 @@
  */
 import React, {PureComponent} from 'react';
 import {StyleSheet, View} from 'react-native';
+
 import Image from '../../../../components/Image';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
@@ -28,6 +29,7 @@ class ShopBasicInfoCom extends PureComponent {
 const _styles = StyleSheet.create({
   detailView: {
     flex: 1,
+    marginTop: 10,
     backgroundColor: Colors.WHITE_COLOR,
   },
   detailImage: {

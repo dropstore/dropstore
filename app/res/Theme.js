@@ -42,6 +42,10 @@ const setTeasetTheme = () => {
     miScreenPaddingRight: 40,
     miScreenPaddingTop: 100,
     miScreenPaddingBottom: 80,
+    //Overlay
+    overlayOpacity: 0.8,
+    overlayRootScale: 0.93,
+
   });
 };
 

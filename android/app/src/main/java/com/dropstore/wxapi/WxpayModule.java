@@ -30,7 +30,6 @@ class WxpayModule extends ReactContextBaseJavaModule {
 
     /**
      * 向微信注册
-     *
      * @param APP_ID
      */
     @ReactMethod
@@ -41,7 +40,6 @@ class WxpayModule extends ReactContextBaseJavaModule {
 
     /**
      * 支付
-     *
      * @param order   支付信息
      * @param promise
      */
@@ -61,7 +59,6 @@ class WxpayModule extends ReactContextBaseJavaModule {
 
     /**
      * 判断是否支持微信
-     *
      * @param promise
      */
     @ReactMethod
