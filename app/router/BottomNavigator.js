@@ -16,6 +16,7 @@ import Message from '../page/message';
 
 const HOME_ICON_WIDTH = px2Dp(239);
 const PADDING_HORIZONTAL = 18;
+const TAB_HEIGHT = 53;
 
 const ROUTES = [
   {
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
   },
   tabBar: {
-    height: 101 + PADDING_TAB,
+    height: TAB_HEIGHT + PADDING_TAB,
     paddingBottom: PADDING_TAB,
     alignItems: 'center',
     width: SCREEN_WIDTH,
@@ -133,6 +134,6 @@ const styles = StyleSheet.create({
     width: HOME_ICON_WIDTH,
     position: 'absolute',
     alignSelf: 'center',
-    bottom: 101 + PADDING_TAB,
+    bottom: TAB_HEIGHT + PADDING_TAB,
   },
 });
