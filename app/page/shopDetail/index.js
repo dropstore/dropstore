@@ -4,43 +4,56 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View, Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {getShopDetail} from '../../redux/actions/shopDetailInfo';
+import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
 import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
-import ShopMainBodyCom from './components/main/ShopMainBodyCom';
 import SelfCom from "./components/main/self";
 import LuckyCom from "./components/main/lucky";
-import SelfBottomCom from "./components/bottom/SelfBottomCom";
+import SelfBottomCom from "./components/bottom/self";
 import LuckBottomCom from "./components/bottom/LuckBottomCom";
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import RuleCom from "./components/main/self/components/RuleCom";
+import {shopDetail} from '../../page/TempData';
+
+function mapStateToProps() {
+  return state => ({
+    shopDetailInfo: getShopDetailInfo(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getShopDetail,
+  }, dispatch);
+}
 
 class ShopDetail extends PureComponent {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    const {getShopDetail, navigation} = this.props;
+    const shopId = navigation.getParam('shopId');
+    getShopDetail(shopDetail)
+  }
+
   /**
-   * 设置主题内容和底部UI
-   * @param type
+   * 设置主体内容和底部UI
    * @param {boolean} isBottom 是否是底部UI调用
-   * TODO:后期模块增多后，需优化
+   * @param shopInfo
    * @returns {*}
    */
-  setContentOrBottomUIByType = (type, isBottom) => {
+  _setContentOrBottomUI = (isBottom, shopInfo) => {
+    let type = shopInfo.activity.type;
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       return this._showSelf(isBottom);
-    }
-    // 锦鲤
-    if (type === ShopConstant.LUCKY_CHARM) {
-      if (isBottom) {
-        return <LuckBottomCom/>
-      }
-      // 不显示主体内容
-      return <LuckyCom/>
     }
   };
 
@@ -52,43 +65,55 @@ class ShopDetail extends PureComponent {
    */
   _showSelf = (isBottom) => {
     if (isBottom) {
-      return <SelfBottomCom type={1} status={1}/>
-    }
-    // 发售详情 === 自营的抽签模块`
-    let isChooseShoeSize = false;
-    if (isChooseShoeSize) {// 是否已选择完尺寸，接口状态值
-      return (
-        <View>
-          <RuleCom type={1} status={1}/>
-          <SelfCom/>
-        </View>
-      )
+      return <SelfBottomCom/>
     }
     return (
       <View>
-        <RuleCom type={1} status={1}/>
-        <ShopMainBodyCom/>
+        <SelfCom/>
       </View>
     )
   };
 
-  render() {
-    const {navigation} = this.props;
-    const item = navigation.getParam('item');
+  onRefresh = () => {
+    const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
-    const type = navigation.getParam('type');
-    return (
-      <View style={_styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
-          <ShopBasicInfoCom item={item}/>
-          <EmptyViewCom/>
+    getShopDetail(shopDetail);
+  };
+
+  render() {
+    const {shopDetailInfo} = this.props;
+    const data = shopDetailInfo.shopData.data;
+    if (shopDetailInfo.shopData.isStartRequest && Object.keys(data).length === 0) {
+      return <ActivityIndicator style={{marginTop: 50}}/>;
+    }
+    if (data instanceof Object && Object.keys(data).length !== 0) {
+      return (
+        <View style={_styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}
+                      refreshControl={(
+                        <RefreshControl
+                          progressViewOffset={20}
+                          tintColor={Colors.HEADER_COLOR}
+                          onRefresh={this.onRefresh}
+                          refreshing={false}
+                        />
+                      )}
+          >
+            <ShopBasicInfoCom/>
+            <EmptyViewCom/>
+            {
+              this._setContentOrBottomUI(false, data)
+            }
+          </ScrollView>
           {
-            this.setContentOrBottomUIByType(type, false)
+            this._setContentOrBottomUI(true, data)
           }
-        </ScrollView>
-        {
-          this.setContentOrBottomUIByType(type, true)
-        }
+        </View>
+      )
+    }
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
+        <Text>暂无数据</Text>
       </View>
     )
   }
@@ -106,4 +131,4 @@ const _styles = StyleSheet.create({
   // },
 
 });
-export default withNavigation(ShopDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail))

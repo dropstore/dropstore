@@ -1,6 +1,6 @@
 /**
- * @file 选择鞋码组件
- * @date 2019/8/19 9:26
+ * @file 支付状态组件
+ * @date 2019/8/21 22:30
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
@@ -30,11 +30,11 @@ export default class PayStatusCom extends PureComponent {
           </View>
         </View>
         <View style={[bottomStyle.bottomView, commonStyle.row, {justifyContent: 'space-between'}]}>
-          <ImageBackground style={bottomStyle.buttonView} source={Images.bg_left}
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
                            onPress={() => alert('分享')}>
             <Text style={bottomStyle.buttonText}>分享邀请</Text>
           </ImageBackground>
-          <ImageBackground style={bottomStyle.buttonView} source={Images.bg_right}
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
                            onPress={() => {
                              closeOver();
                              navigation.navigate('shopDetail')

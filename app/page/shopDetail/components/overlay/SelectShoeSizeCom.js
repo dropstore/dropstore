@@ -13,13 +13,10 @@ import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
 import {YaHei} from "../../../../res/FontFamily";
 import {bottomStyle} from '../../../../res/style/BottomStyle';
+import {shopDetail1} from '../../../../page/TempData';
 
-type Props = {
-  activityId: Object,
-  closeOver: Function
-}
 
-export default class SelectShoeSizeCom extends Component <Props> {
+export default class SelectShoeSizeCom extends Component  {
   constructor(props) {
     super(props);
     this.state = {
@@ -108,15 +105,13 @@ export default class SelectShoeSizeCom extends Component <Props> {
     this.setState({shoeList: shoeList, totalCount: totalCount});
   };
 
-  toPayPage = (closeOver) => {
+  confirmChoose = (closeOver,getShopDetail) => {
     closeOver();
-    this.props.navigation.push('pay', {
-      title: '选择支付账户',
-    });
+    getShopDetail();
   };
 
   render() {
-    const {activityId, closeOver} = this.props;
+    const {closeOver,getShopDetail} = this.props;
     return (
       <View style={_style.container}>
         <View style={{flex: 1,}}>
@@ -159,8 +154,8 @@ export default class SelectShoeSizeCom extends Component <Props> {
           </View>
         </View>
         <View style={bottomStyle.bottomView}>
-          <ImageBackground style={_style.okView} source={Images.bg_right}
-                           onPress={() => this.toPayPage(closeOver)}>
+          <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
+                           onPress={() => this.confirmChoose(closeOver,getShopDetail)}>
             <Text style={bottomStyle.buttonText}>确认</Text>
           </ImageBackground>
         </View>
@@ -225,15 +220,6 @@ const _style = StyleSheet.create({
   lrImage: {
     width: 6,
     height: 8,
-  },
-  okView: {
-    width: 178,
-    height: 48,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    right: 5,
-    bottom: 6,
   },
   line: {
     width: 340,

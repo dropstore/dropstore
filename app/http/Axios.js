@@ -52,7 +52,6 @@ axiosInstance.interceptors.response.use(
  * @returns {Promise<*>}
  */
 
-
 const request = async (url, {
   isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
 } = {}) => {

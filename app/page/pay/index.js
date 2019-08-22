@@ -18,6 +18,7 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {showToast} from '../../utils/MutualUtil';
 import {debounce} from '../../utils/commonUtils';
 import {hideOlView} from "../../utils/ViewUtils";
+import {bottomStyle} from "../../res/style/BottomStyle";
 
 class Pay extends Component {
   constructor(props) {
@@ -82,7 +83,7 @@ class Pay extends Component {
    */
   showOver = (navigation) => {
     let olView = (
-      <Overlay.PullView model={true}>
+      <Overlay.PullView modl={true}>
         <PayStatusCom navigation={navigation} closeOver={this.closeOver.bind(this)}/>
       </Overlay.PullView>
     );
@@ -125,8 +126,9 @@ class Pay extends Component {
             <Text style={_styles.price}>10000￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
-          <ImageBackground style={_styles.bottomRightView} source={Images.bg_right} onPress={debounce(this._pay)}>
-            <Text style={_styles.buttonText}>支付</Text>
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                           onPress={debounce(this._pay)}>
+            <Text style={bottomStyle.buttonText}>支付</Text>
           </ImageBackground>
         </View>
       </View>

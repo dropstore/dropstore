@@ -8,12 +8,21 @@ export const bottomStyle = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(215, 215, 215, 1)',
   },
-  buttonView: {
+  buttonNormalView: {
     width: 178,
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal:8
+  },
+  buttonOnlyOneChildView: {
+    width: 178,
+    height: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 5,
+    bottom: 6,
   },
   buttonText: {
     color: 'rgba(255,255,255,1)',
