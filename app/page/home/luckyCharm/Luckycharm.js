@@ -20,9 +20,7 @@ class MyTopImage extends React.PureComponent {
 
   render() {
     return (
-      <View>
-        <TopCom imageSource={Images.instructions} />
-      </View>
+        <TopCom  imageSource={Images.instructions} />
     );
   }
 }
@@ -59,7 +57,7 @@ export default class LuckyCharmList extends PureComponent {
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
       perCount: 999,
-      status: 2,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -77,7 +75,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -86,7 +84,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -95,7 +93,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -104,7 +102,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -113,7 +111,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status:3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -122,7 +120,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -131,7 +129,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }, {
       leftImage: Images.xh,
       shoe: Images.shoe,
@@ -140,7 +138,7 @@ export default class LuckyCharmList extends PureComponent {
       price: 1999,
       time: '2019/01/06 21:00',
       endTime: '10:56:27',
-      status: 4,
+      status: 3,
     }],
   };
 
@@ -163,14 +161,10 @@ export default class LuckyCharmList extends PureComponent {
 
   render() {
     return (
-      <View style={{ backgroundColor: Colors.NORMAL_TEXT_F6, flex: 1 }}>
-        <View style={styles.listContainer}>
           <ShopList
             shopList={this.state.shopList}
-            firstCom={<MyTopImage />}
+            firstCom={<MyTopImage style={styles.imageBox} />}
           />
-        </View>
-      </View>
     );
   }
 }

@@ -16,6 +16,7 @@ type Props = {
 };
 export default class RuleCom extends PureComponent<Props> {
   _getShowInfo = (type, status) => {
+  debugger
     if (type === 1) {
       return (
         this._drawStatus(status)
@@ -82,8 +83,40 @@ export default class RuleCom extends PureComponent<Props> {
         </View>
       )
     }
-  };
 
+  };
+  _drawLuckRulesCom = ( )=>{
+      return (
+        <View style={_styles.mainView}>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex1}/>
+            <Text style={_styles.textView}>首次分享</Text>
+            <Text style={_styles.textView}>(签号*1)</Text>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex2}/>
+            <View>
+              <Text style={_styles.textView}>好友注册</Text>
+              <Text style={_styles.textView}>登录app</Text>
+            </View>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex3}/>
+            <View>
+              <Text style={_styles.textView}>好友激活</Text>
+              <Text style={_styles.textView}>(签号*5)</Text>
+            </View>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex4}/>
+            <View>
+              <Text style={_styles.textView}>查看结果</Text>
+              <Text style={_styles.textView}>免费领取</Text>
+            </View>
+          </View>
+        </View>
+      )
+  }
   render() {
     const {type, status} = this.props;
     return this._getShowInfo(type, status)

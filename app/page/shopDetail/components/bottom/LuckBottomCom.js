@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View,Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Image from '../../../../components/Image';
 import {hideOlView, ShareCom} from '../overlay';
@@ -43,6 +43,7 @@ class LuckBottomCom extends PureComponent {
       <View style={_styles.bottomView}>
         <TouchableOpacity onPress={() => this.showShareOverView(data)}>
           <Image source={Images.fx}/>
+          <Text>你好</Text>
         </TouchableOpacity>
       </View>
     );

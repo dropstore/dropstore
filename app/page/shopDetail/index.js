@@ -20,7 +20,6 @@ export default class ShopDetail extends PureComponent {
   constructor(props) {
     super(props);
   }
-
   /**
    * 设置主题内容和底部UI
    * @param type
