@@ -1,26 +1,40 @@
 /**
- * @file 锦鲤业务模块
- * @date 2019/8/19 15:11
- * @author ZWW
+ * @file 锦鲤详情模块
+ * @date 2019/8/23
+ * @author YDD
  */
 import React, {PureComponent} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {View,Text} from 'react-native';
+import {connect} from "react-redux";
+import {withNavigation} from "react-navigation";
+import LuckBottom from '../../bottom/LuckBottomCom';
+import ShopDetail from '../../main/ShopMainBodyCom';
+import RuleCom from "../self/components/RuleCom";
+import {getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
+import {checkTime} from "../../../../../utils/TimeUtils";
 
-export default class LuckyCom extends PureComponent {
+
+function mapStateToProps() {
+  return state => ({
+    shopDetailInfo: getShopDetailInfo(state),
+  });
+}
+
+class LuckCom extends PureComponent {
   constructor(props) {
     super(props);
   }
 
   render() {
+    const {shopDetailInfo} = this.props;
+    let shopInfo = shopDetailInfo.shopData.data;
     return (
-      <View style={_styles.container}>
-        <Text>锦鲤不显示主体内容模块</Text>
+      <View>
+        <RuleCom shopInfo={shopInfo}/>
+        <ShopDetail />
       </View>
     )
   }
 }
-const _styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+
+export default connect(mapStateToProps)(withNavigation(LuckCom));

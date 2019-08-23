@@ -43,9 +43,7 @@ class LuckBottomCom extends PureComponent {
     return (
       <View style={_styles.bottomView}>
         <TouchableOpacity onPress={() => this.showShareOverView(data)}>
-
           <Image source={Images.fx} style={{width: 178, height: 49}}/>
-
         </TouchableOpacity>
       </View>
     );

@@ -52,10 +52,13 @@ class ShopDetail extends PureComponent {
    */
 
   _setContentOrBottomUI = (isBottom, shopInfo) => {
-    let type = shopInfo.activity.type;
+    // let type = shopInfo.activity.type;
+    let type = 3;
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       return this._showSelf(isBottom);
+    }else if(type === ShopConstant.LUCKY_CHARM){
+      return  this._showLuck(isBottom)
     }
   };
 
@@ -75,7 +78,24 @@ class ShopDetail extends PureComponent {
       </View>
     )
   };
+  /**
+   * 锦鲤详情
+   * @param isBottom
+   * @returns {*}
+   * @private
+   */
+  _showLuck = (isBottom) =>{
 
+    if (isBottom) {
+      return <LuckBottomCom/>
+    }
+    return (
+      <View>
+        <LuckyCom/>
+      </View>
+    )
+
+  }
   onRefresh = () => {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
