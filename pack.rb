@@ -62,10 +62,15 @@ end
 def export_appstore
   puts "---------- packing ios ------------"
   edit_modules()
+  new_content = File.read("ios/dropstore/Info.plist")
+  new_content = new_content.gsub(/<key>CFBundleDevelopmentRegion<\/key>/,
+    "<key>method<\/key>\n  <string>ad-hoc<\/string>\n  <key>CFBundleDevelopmentRegion<\/key>")
+  File.write("ios/adhoc.plist", new_content)
   puts `cd ios &&
     rm -rf build/* &&
     xcodebuild clean -workspace dropstore.xcworkspace -scheme dropstore -configuration Release &&
     xcodebuild archive -workspace dropstore.xcworkspace -scheme dropstore -archivePath build/dropstore.xcarchive &&
+    rvm use system &&
     xcodebuild -exportArchive -archivePath build/dropstore.xcarchive -exportPath build -exportOptionsPlist adhoc.plist
   `
   puts "---------- finish packing ios ------------"

@@ -29,17 +29,17 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx3b91a5e24549cb96</string>
+				<string>wx4def04c004d5c07d</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>dropstore</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.dropstore</string>
+				<string>dropstore</string>
 			</array>
 		</dict>
 	</array>

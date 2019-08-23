@@ -9,6 +9,7 @@ type Props = {
   children: any,
   onPress?: Function,
   disabled?: boolean,
+  hitSlop?: Object,
 };
 
 export default class ImageBackgroundCom extends PureComponent<Props> {
@@ -16,15 +17,16 @@ export default class ImageBackgroundCom extends PureComponent<Props> {
     resizeMode: 'contain',
     onPress: null,
     disabled: false,
+    hitSlop: {},
   };
 
   render() {
     const {
-      style, resizeMode, source, children, onPress, disabled,
+      style, resizeMode, source, children, onPress, disabled, hitSlop,
     } = this.props;
     const Wrapper = onPress ? TouchableOpacity : View;
     return (
-      <Wrapper style={style} onPress={onPress} disabled={disabled}>
+      <Wrapper hitSlop={hitSlop} style={style} onPress={onPress} disabled={disabled}>
         <Image resizeMode={resizeMode} source={source} style={{ position: 'absolute', width: style.width, height: style.height }} />
         {children}
       </Wrapper>

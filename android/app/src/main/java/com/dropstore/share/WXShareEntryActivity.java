@@ -1,4 +1,4 @@
-package com.dropstore.wxapi;
+package com.dropstore.share;
 
 import android.content.Intent;
 import com.umeng.socialize.UMShareAPI;

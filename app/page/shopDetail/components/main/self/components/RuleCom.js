@@ -1,5 +1,5 @@
 /**
- * @file 抽签或抢购规则组件
+ * @file 抽签或抢购或锦鲤规则组件
  * @date 2019/8/19 13:50
  * @author ZWW
  */
@@ -11,6 +11,7 @@ import {YaHei} from '../../../../../../res/FontFamily';
 import Images from '../../../../../../res/Images';
 import ShopConstant from '../../../../../../common/ShopConstant';
 import {checkTime} from '../../../../../../utils/TimeUtils';
+
 
 export default class RuleCom extends PureComponent {
 
@@ -27,12 +28,17 @@ export default class RuleCom extends PureComponent {
     let is_join = shopInfo.is_join;
     // 活动开始时间
     let start_time = shopInfo.activity.start_time;
+    if (3 === ShopConstant.LUCKY_CHARM) {
+      return this._drawLuckRulesCom(is_join, start_time)
+    }
     if (b_type === ShopConstant.DRAW) {
       return this._drawStatus(is_join)
     }
     if (b_type === ShopConstant.BUY) {
       return this._buyStatus(is_join, start_time)
     }
+
+
   };
 
   /**
@@ -151,6 +157,7 @@ export default class RuleCom extends PureComponent {
         </View>
       )
     }
+
     // 活动未开始
     if (status === ShopConstant.NOT_JOIN) {
       return (
@@ -178,7 +185,45 @@ export default class RuleCom extends PureComponent {
       )
     }
   };
-
+  /**
+   * 锦鲤模块
+   * @returns {*}
+   * @private
+   */
+  _drawLuckRulesCom = ( )=>{
+      return (
+        <View style={_styles.mainView}>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex1}/>
+            <View>
+              <Text style={_styles.textView}>首次分享</Text>
+              <Text style={_styles.textView}>(签号*1)</Text>
+            </View>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex2}/>
+            <View>
+              <Text style={_styles.textView}>好友注册</Text>
+              <Text style={_styles.textView}>登录app</Text>
+            </View>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex3}/>
+            <View>
+              <Text style={_styles.textView}>好友激活</Text>
+              <Text style={_styles.textView}>(签号*5)</Text>
+            </View>
+          </View>
+          <View style={_styles.itemMainView}>
+            <Image style={_styles.imageView} source={Images.ex4}/>
+            <View>
+              <Text style={_styles.textView}>查看结果</Text>
+              <Text style={_styles.textView}>免费领取</Text>
+            </View>
+          </View>
+        </View>
+      )
+  }
   render() {
     const {shopInfo} = this.props;
     return this._setMainDOM(shopInfo)

@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View,Text} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Overlay} from "teaset";
 import Image from '../../../../components/Image';

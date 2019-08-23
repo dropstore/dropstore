@@ -7,6 +7,7 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import org.devio.rn.splashscreen.SplashScreen;
+import com.dropstore.share.ShareModule;
 
 public class MainActivity extends ReactActivity {
 
@@ -33,5 +34,6 @@ public class MainActivity extends ReactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.show(this, R.style.SplashScreenTheme);  // 启动页
         super.onCreate(savedInstanceState);
+        ShareModule.initSocialSDK(this);
     }
 }
