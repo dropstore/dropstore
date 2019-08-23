@@ -51,7 +51,7 @@ const InitNavigator = createStackNavigator({
     }),
   },
   pay,
-  commission
+  commission,
 
 }, {
   initialRouteName: 'main',
@@ -122,7 +122,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Auth',
+  initialRouteName: 'Main',
 }));
 
 export { Router, store };
