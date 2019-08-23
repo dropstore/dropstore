@@ -14,6 +14,8 @@ import Identify from '../page/identify';
 import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Message from '../page/message';
+import ShareUtil from '../utils/ShareUtil';
+import AuthUtil from '../utils/AuthUtil';
 
 const HOME_ICON_WIDTH = px2Dp(239);
 const PADDING_HORIZONTAL = 18;
@@ -66,6 +68,14 @@ export default class BottomNavigator extends PureComponent {
   onIndexChange = (index) => {
     this.setState({ index });
     if (index === 0) {
+      // AuthUtil(200).then((res) => {
+      //   console.log(res);
+      // }).catch((err) => {
+      //   console.log(err);
+      // });
+      // ShareUtil('1', '2', '', '4', 2).then((res) => {
+      //   console.log(res);
+      // }).catch(err => console.log(err, 'error'));
       StatusBar.setBarStyle('light-content', true);
     } else {
       StatusBar.setBarStyle('dark-content', true);

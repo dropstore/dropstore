@@ -25,6 +25,7 @@ const jsErrorHandler = (error, isFatal) => {
 
 export default class App extends Component {
   componentDidMount() {
+    console.disableYellowBox = true;
     SplashScreen.hide();
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);
