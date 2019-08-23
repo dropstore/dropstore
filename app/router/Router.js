@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import {createAppContainer, createStackNavigator, createSwitchNavigator} from 'react-navigation';
 import {
   Platform, StyleSheet, TouchableOpacity, Animated, Easing,
 } from 'react-native';
@@ -21,7 +20,7 @@ import GenderSize from '../page/auth/GenderSize';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
-import ShopDetailHeaderRight from '../components/ShopDetailHeaderRight';
+import ShopDetailHeaderRight from '../page/shopDetail/components/basic/ShopDetailHeaderRight';
 import pay from '../page/pay';
 import commission from '../page/commission';
 
@@ -46,16 +45,25 @@ const InitNavigator = createStackNavigator({
   vendorDetail,
   shopDetail: {
     screen: shopDetail,
-    navigationOptions: ({ navigation }) => ({
-      headerRight: <ShopDetailHeaderRight navigation={navigation} />,
-    }),
+    navigationOptions: {
+      header: null,
+    },
   },
-  pay,
-  commission,
-
+  pay: {
+    screen: pay,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  commission: {
+    screen: commission,
+    navigationOptions: {
+      header: null,
+    },
+  }
 }, {
   initialRouteName: 'main',
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({navigation}) => ({
     ...Platform.select({
       android: {
         headerStyle: {
@@ -88,9 +96,9 @@ const InitNavigator = createStackNavigator({
     headerBackTitle: null,
     headerLeft: (
       <TouchableOpacity
-        style={{ height: NAV_HEIGHT, justifyContent: 'center' }}
+        style={{height: NAV_HEIGHT, justifyContent: 'center'}}
         onPress={() => {
-        // eslint-disable-next-line no-unused-expressions
+          // eslint-disable-next-line no-unused-expressions
           typeof navigation.getParam('customBack') === 'function' ? navigation.getParam('customBack')() : navigation.pop();
         }}
       >
@@ -125,4 +133,4 @@ const Router = createAppContainer(createSwitchNavigator({
   initialRouteName: 'Main',
 }));
 
-export { Router, store };
+export {Router, store};

@@ -10,6 +10,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getShopDetail} from '../../redux/actions/shopDetailInfo';
 import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
+import NavigationBarCom from '../../components/NavigationBarCom';
+import {STATUSBAR_AND_NAV_HEIGHT} from '../../common/Constant';
+import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
 import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import SelfCom from "./components/main/self";
@@ -17,6 +20,8 @@ import SelfBottomCom from "./components/bottom/self";
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
 import {shopDetail, shopDetail1} from '../../page/TempData';
+import LuckBottomCom from "./components/bottom/LuckBottomCom";
+import LuckCom from "../shopDetail/components/main/lucky";
 
 function mapStateToProps() {
   return state => ({
@@ -64,8 +69,8 @@ class ShopDetail extends PureComponent {
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       return this._showSelf(isBottom);
-    }else if(type === ShopConstant.LUCKY_CHARM){
-      return  this._showLuck(isBottom)
+    } else if (type === ShopConstant.LUCKY_CHARM) {
+      return this._showLuck(isBottom)
     }
   };
 
@@ -91,14 +96,14 @@ class ShopDetail extends PureComponent {
    * @returns {*}
    * @private
    */
-  _showLuck = (isBottom) =>{
+  _showLuck = (isBottom) => {
 
     if (isBottom) {
       return <LuckBottomCom/>
     }
     return (
       <View>
-        <LuckyCom/>
+        <LuckCom/>
       </View>
     )
 
@@ -108,8 +113,7 @@ class ShopDetail extends PureComponent {
     const shopId = navigation.getParam('shopId');
     getShopDetail(shopDetail, {isDispatchStart: false});
   };
-
-  render() {
+  _mainDOM = () => {
     const {shopDetailInfo} = this.props;
     const data = shopDetailInfo.data;
     let isNormalObject = data instanceof Object && Object.keys(data).length !== 0;
@@ -126,8 +130,7 @@ class ShopDetail extends PureComponent {
                           tintColor={Colors.HEADER_COLOR}
                           onRefresh={this.onRefresh}
                           refreshing={false}
-                        />
-                      )}
+                        />)}
           >
             <ShopBasicInfoCom/>
             <EmptyViewCom/>
@@ -153,19 +156,32 @@ class ShopDetail extends PureComponent {
         <Text>暂无数据</Text>
       </View>
     )
+  };
+
+  render() {
+    const {navigation} = this.props;
+    return (
+      <View style={{flex: 1,}}>
+        <NavigationBarCom
+          headerTitle="活动详情"
+          isShowLeftView={true}
+          navigation={navigation}
+          bgColor={Colors.OTHER_BACK}
+          rightView={<ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')}/>}
+        />
+        {
+          this._mainDOM()
+        }
+      </View>
+    )
   }
 }
 
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR
+    backgroundColor: Colors.WHITE_COLOR,
+    marginTop: STATUSBAR_AND_NAV_HEIGHT,
   },
-  // emptyView: {
-  //   width: '100%',
-  //   height: 18,
-  //   backgroundColor: Colors.NORMAL_TEXT_F6
-  // },
-
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail))

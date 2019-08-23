@@ -7,13 +7,12 @@ import React, { PureComponent } from 'react';
 import {
   Image, StyleSheet, Text, View,
 } from 'react-native';
-import Images from '../res/Images';
-import { YaHei } from '../res/FontFamily';
+import Images from '../../../../res/Images';
+import { YaHei } from '../../../../res/FontFamily';
 
 export default class ShopDetailHeaderRight extends PureComponent {
   render() {
-    const { navigation } = this.props;
-    const rate = navigation.getParam('rate');
+    const { rate } = this.props;
     if (rate) {
       return (
         <View style={_styles.mainView}>

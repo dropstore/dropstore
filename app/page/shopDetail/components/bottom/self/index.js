@@ -74,7 +74,7 @@ class SelfBottomCom extends PureComponent {
       </View>
     );
   };
-  _setRightDOM = (shopInfo, navigation) => {
+  _setRightDOM = (shopInfo) => {
     let is_join = shopInfo.is_join;
     // 未参加活动
     if (is_join === ShopConstant.NOT_JOIN) {
@@ -95,7 +95,7 @@ class SelfBottomCom extends PureComponent {
 
   _toCommissionPage = () => {
     const {navigation} = this.props;
-    navigation.push('commission', {title: '助攻佣金设定',})
+    navigation.push('commission', {navigation: navigation})
   };
 
   /**

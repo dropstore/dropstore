@@ -8,7 +8,8 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from "react-redux";
 import ImageBackground from '../../components/ImageBackground';
-import {SCREEN_WIDTH} from '../../common/Constant';
+import NavigationBarCom from '../../components/NavigationBarCom';
+import {SCREEN_WIDTH, STATUSBAR_AND_NAV_HEIGHT} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Normal, YaHei} from '../../res/FontFamily';
@@ -37,9 +38,7 @@ class Commission extends PureComponent {
     if (this.state.totalPrice < min_price) {
       return showToast(`总价不得低于${min_price}元`);
     }
-    navigation.push('pay', {
-      title: '选择支付账户',
-    });
+    navigation.push('pay', {navigation: navigation});
   };
 
   onChange = (event) => {
@@ -48,8 +47,15 @@ class Commission extends PureComponent {
   };
 
   render() {
+    const {navigation} = this.props;
     return (
       <View style={_styles.container}>
+        <NavigationBarCom
+          headerTitle="助攻佣金设定"
+          isShowLeftView={true}
+          navigation={navigation}
+          bgColor={Colors.OTHER_BACK}
+        />
         <View style={_styles.mainView}>
           <Text style={_styles.countTitle}>合计数量
             <Text style={_styles.count}> 6</Text> 双
@@ -97,7 +103,7 @@ const _styles = StyleSheet.create({
   },
   mainView: {
     flex: 1,
-    marginTop: 177,
+    marginTop: 177 + STATUSBAR_AND_NAV_HEIGHT,
     marginLeft: 74
   },
   countTitle: {

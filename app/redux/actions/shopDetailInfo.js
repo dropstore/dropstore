@@ -79,10 +79,8 @@ const startGroup = (shoesList) => {
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
   }, 500)
   // request('/activity/do_add_user_activity', {params}).then((res) => {
-  // if (res.callbackCode === RequestConstant.REQUEST_SUCCESS_CODE) {
   // 开团成功后刷新活动详情
-  // getShopDetail(shopDetail);
-  // }
+  //  DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
   // }).catch((err) => {
   //
   // })
