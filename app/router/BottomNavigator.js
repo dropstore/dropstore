@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, StatusBar, Platform, TouchableWithoutFeedback,
+  View, StyleSheet, TouchableWithoutFeedback,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
@@ -55,14 +55,6 @@ export default class BottomNavigator extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    if (Platform.OS === 'android') {
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor('transparent');
-      StatusBar.setBarStyle('dark-content');
-    }
-  }
-
   onIndexChange = (index) => {
     this.setState({ index });
   }
@@ -75,7 +67,6 @@ export default class BottomNavigator extends PureComponent {
     const { routes, index } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
         <TabView
           style={{ flex: 1 }}
           navigationState={this.state}

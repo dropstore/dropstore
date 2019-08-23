@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
 
 
 const request = async (url, {
-  isShowLoading = true, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
+  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -70,7 +70,11 @@ const request = async (url, {
       url, method, timeout, headers, params: { ...data, token: md5(sortObj(data)) }, baseURL,
     });
     if (response.status >= 200 && response.status < 400) {
-      return response.data;
+      if (response.data.callbackCode === 1) {
+        return response.data;
+      }
+      showToast(response.data.callbackMsg);
+      throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
     // 获取到响应拦截器里返回的的error
