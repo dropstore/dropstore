@@ -114,9 +114,7 @@ export default class RuleCom extends PureComponent {
     if (!checkTime(start_time)) {
       // 未参加
       if (status === ShopConstant.NOT_JOIN) {
-        return (
-          <View/>
-        )
+        return <View/>
       }
       // 团员身份无法查看当前抢鞋状态
       if (status === ShopConstant.MEMBER) {

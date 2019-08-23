@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View, Text} from 'react-native';
+import {DeviceEventEmitter, RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -13,12 +13,10 @@ import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
 import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import SelfCom from "./components/main/self";
-import LuckyCom from "./components/main/lucky";
 import SelfBottomCom from "./components/bottom/self";
-import LuckBottomCom from "./components/bottom/LuckBottomCom";
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import {shopDetail} from '../../page/TempData';
+import {shopDetail, shopDetail1} from '../../page/TempData';
 
 function mapStateToProps() {
   return state => ({
@@ -40,7 +38,16 @@ class ShopDetail extends PureComponent {
   componentDidMount() {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
+    this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
+      if (res) {
+        getShopDetail(shopDetail1, {isDispatchStart: false});
+      }
+    });
     getShopDetail(shopDetail)
+  }
+
+  componentWillUnmount() {
+    this.refreshShopInfo.remove();
   }
 
   /**
@@ -77,16 +84,17 @@ class ShopDetail extends PureComponent {
   onRefresh = () => {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
-    getShopDetail(shopDetail);
+    getShopDetail(shopDetail, {isDispatchStart: false});
   };
 
   render() {
     const {shopDetailInfo} = this.props;
-    const data = shopDetailInfo.shopData.data;
-    if (shopDetailInfo.shopData.isStartRequest && Object.keys(data).length === 0) {
-      return <ActivityIndicator style={{marginTop: 50}}/>;
+    const data = shopDetailInfo.data;
+    let isNormalObject = data instanceof Object && Object.keys(data).length !== 0;
+    if (shopDetailInfo.isStartRequest) {
+      return <View/>
     }
-    if (data instanceof Object && Object.keys(data).length !== 0) {
+    if (isNormalObject) {
       return (
         <View style={_styles.container}>
           <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}
@@ -108,6 +116,13 @@ class ShopDetail extends PureComponent {
           {
             this._setContentOrBottomUI(true, data)
           }
+        </View>
+      )
+    }
+    if (!shopDetailInfo.isRequestSuccess) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
+          <Text>网络连接失败</Text>
         </View>
       )
     }

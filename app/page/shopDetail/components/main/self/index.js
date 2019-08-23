@@ -61,7 +61,7 @@ class SelfCom extends PureComponent {
 
   render() {
     const {shopDetailInfo} = this.props;
-    let shopInfo = shopDetailInfo.shopData.data;
+    let shopInfo = shopDetailInfo.data;
     return (
       <View>
         <RuleCom shopInfo={shopInfo}/>

@@ -43,7 +43,7 @@ class ShopBasicInfoCom extends PureComponent {
 
   render() {
     const {shopDetailInfo} = this.props;
-    const shopInfo = shopDetailInfo.shopData.data;
+    const shopInfo = shopDetailInfo.data;
     return (
       <View>
         <View style={_styles.explainView}>

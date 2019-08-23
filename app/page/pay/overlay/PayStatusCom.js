@@ -29,7 +29,7 @@ export default class PayStatusCom extends PureComponent {
             <Text style={_style.time}>10:56:57</Text>
           </View>
         </View>
-        <View style={[bottomStyle.bottomView, commonStyle.row, {justifyContent: 'space-between'}]}>
+        <View style={bottomStyle.bottomView}>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
                            onPress={() => alert('分享')}>
             <Text style={bottomStyle.buttonText}>分享邀请</Text>

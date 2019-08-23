@@ -3,7 +3,7 @@
  * @date 2019/8/21 20:07
  * @author ZWW
  */
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Overlay} from "teaset";
@@ -20,7 +20,7 @@ import {debounce} from '../../utils/commonUtils';
 import {hideOlView} from "../../utils/ViewUtils";
 import {bottomStyle} from "../../res/style/BottomStyle";
 
-class Pay extends Component {
+class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class Pay extends Component {
    * @private
    */
   _changePayStatus = (index) => {
-    let payData = this.state.payData;
+    let payData = JSON.parse(JSON.stringify(this.state.payData));
     for (let i = 0; i < payData.length; i++) {
       if (index === i) {
         let _payData = payData[i];
@@ -64,12 +64,18 @@ class Pay extends Component {
     }
     this.setState({payData: payData})
   };
-
+  /**
+   * TODO 选择付款方式流程有问题
+   * @private
+   */
   _pay = () => {
     let payData = this.state.payData;
     let isChoosePayWay = false;
     for (let i = 0; i < payData.length; i++) {
       isChoosePayWay = payData[i].isSelect;
+      if (isChoosePayWay) {
+        break;
+      }
     }
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
@@ -83,7 +89,7 @@ class Pay extends Component {
    */
   showOver = (navigation) => {
     let olView = (
-      <Overlay.PullView modl={true}>
+      <Overlay.PullView modal={true}>
         <PayStatusCom navigation={navigation} closeOver={this.closeOver.bind(this)}/>
       </Overlay.PullView>
     );
@@ -177,8 +183,8 @@ const _styles = StyleSheet.create({
     height: 61,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(215, 215, 215, 1)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(215, 215, 215, 1)',
   },
   bottomLeftView: {
     flex: 1,

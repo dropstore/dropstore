@@ -276,3 +276,47 @@ export const shopDetail1 = {
     }
   ]
 };
+
+export const shoesList = [{
+  'id': 1,
+  'size': 36,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 2,
+  'size': 33,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 3,
+  'size': 32,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 4,
+  'size': 32,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 5,
+  'size': 32,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 6,
+  'size': 32,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}, {
+  'id': 7,
+  'size': 32,
+  'limit_num': 10,
+  'stock': 10,
+  'price': 1999
+}];

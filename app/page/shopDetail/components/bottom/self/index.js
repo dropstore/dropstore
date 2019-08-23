@@ -18,22 +18,25 @@ import Colors from '../../../../../res/Colors';
 import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
 import {hideOlView} from '../../../../../utils/ViewUtils';
-import {getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
+import {getReShoesList, getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
 import {bindActionCreators} from "redux";
-import {getShopDetail} from "../../../../../redux/actions/shopDetailInfo";
+import {getShoesList, getShopDetail} from "../../../../../redux/actions/shopDetailInfo";
 import {checkTime} from "../../../../../utils/TimeUtils";
 import commission from "../../../../commission";
-import {shopDetail1} from "../../../../TempData";
+import {shoesList, shopDetail1} from "../../../../TempData";
+import {debounce} from "../../../../../utils/commonUtils";
 
 function mapStateToProps() {
   return state => ({
     shopDetailInfo: getShopDetailInfo(state),
+    shoesInfo: getReShoesList(state)
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getShopDetail,
+    getShoesList,
   }, dispatch);
 }
 
@@ -61,7 +64,7 @@ class SelfBottomCom extends PureComponent {
   };
   _normalDOM = (shopInfo, navigation) => {
     return (
-      <View style={_styles.bottomView}>
+      <View style={bottomStyle.bottomView}>
         <TouchableOpacity onPress={() => alert('通知我')}>
           <Image style={bottomStyle.buttonNormalView} source={Images.tzw}/>
         </TouchableOpacity>
@@ -77,38 +80,48 @@ class SelfBottomCom extends PureComponent {
     if (is_join === ShopConstant.NOT_JOIN) {
       return (
         <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                         onPress={() => this.showOver(shopInfo, navigation)}>
+                         onPress={debounce(this.showOver)}>
           <Text style={bottomStyle.buttonText}>选择尺码</Text>
         </ImageBackground>
       )
     }
     return (
       <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                       onPress={() => navigation.push('commission', {title: '助攻佣金设定',})}>
+                       onPress={debounce(this._toCommissionPage)}>
         <Text style={bottomStyle.buttonText}>邀请助攻</Text>
       </ImageBackground>
     )
   };
 
+  _toCommissionPage = () => {
+    const {navigation} = this.props;
+    navigation.push('commission', {title: '助攻佣金设定',})
+  };
+
   /**
    * 显示选鞋浮层
-   * @param shopInfo
-   * @param navigation
    */
-  showOver = (shopInfo, navigation) => {
-    let olView = (
-      <Overlay.PullView>
-        <SelectShoeSizeCom
-          navigation={navigation}
-          shopInfo={shopInfo}
-          getShopDetail={this.getShopDetail.bind(this)}
-          closeOver={this.closeOver.bind(this)}/>
-      </Overlay.PullView>
-    );
-    let key = Overlay.show(
-      olView
-    );
-    this.setState({overSelShoeSizeKey: key})
+  showOver = () => {
+    const {shopInfo, navigation, getShoesList} = this.props;
+    getShoesList(shoesList).then(isSuccess => {
+      if (isSuccess) {
+        const {shoesInfo} = this.props;
+        const myShoesList = shoesInfo.shoesList;
+        if (myShoesList && myShoesList.length !== 0) {
+          let olView = (
+            <Overlay.PullView>
+              <SelectShoeSizeCom
+                navigation={navigation}
+                shopInfo={shopInfo}
+                shoesList={myShoesList}
+                closeOver={this.closeOver.bind(this)}/>
+            </Overlay.PullView>
+          );
+          let key = Overlay.show(olView);
+          this.setState({overSelShoeSizeKey: key})
+        }
+      }
+    });
   };
 
   /**
@@ -125,7 +138,7 @@ class SelfBottomCom extends PureComponent {
 
   render() {
     const {shopDetailInfo, navigation} = this.props;
-    const shopInfo = shopDetailInfo.shopData.data;
+    const shopInfo = shopDetailInfo.data;
     return this._setMainDOM(shopInfo, navigation);
   }
 }
