@@ -15,7 +15,8 @@ class NavigationBarCom extends PureComponent {
     return (
       <NavigationBar
         type="ios"
-        style={{ backgroundColor: Colors.HEADER_COLOR }}
+        statusBarStyle="dark-content"
+        style={styles.container}
         tintColor={Colors.WHITE_COLOR}
         title={(
           <View style={styles.titleWrapper}>
@@ -36,8 +37,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: Colors.WHITE_COLOR,
+    color: Colors.NORMAL_TEXT_0,
     fontSize: 20,
+  },
+  container: {
+    backgroundColor: Colors.MAIN_BACK,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#aaa',
   },
 });
 
