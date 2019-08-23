@@ -22,7 +22,6 @@ class ShopListItemCom extends PureComponent {
       rate: '+25',
       shopId: '',
       type: ShopConstant.SELF_SUPPORT,
-      // type: item.type,
       item, // 仅用于死数据，调用接口传id
     });
   };

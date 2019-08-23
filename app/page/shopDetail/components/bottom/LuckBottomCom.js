@@ -6,11 +6,12 @@
 import React, {PureComponent} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
+import {Overlay} from "teaset";
 import Image from '../../../../components/Image';
-import {hideOlView, ShareCom} from '../overlay';
+import ShareCom from '../overlay/ShareCom';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
-import {Overlay} from "teaset";
+import {hideOlView} from '../../../../utils/ViewUtils';
 
 const data = {'isSelect': false};
 
@@ -42,7 +43,7 @@ class LuckBottomCom extends PureComponent {
     return (
       <View style={_styles.bottomView}>
         <TouchableOpacity onPress={() => this.showShareOverView(data)}>
-          <Image source={Images.fx}/>
+          <Image source={Images.fx} style={{width: 178, height: 49}}/>
         </TouchableOpacity>
       </View>
     );

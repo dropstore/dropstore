@@ -25,5 +25,9 @@ const COLORS = {
     NORMAL_TEXT_E8:'#E8E8E8',
     NORMAL_TEXT_97:'#979797',
     NORMAL_TEXT_03:'#030303',
+
+    // 支付
+    PAY_WX_BG:'#61D759',
+    PAY_ZFB_BG:'#5EC1EA',
 };
 export default COLORS;

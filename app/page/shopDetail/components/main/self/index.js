@@ -1,38 +1,76 @@
 /**
- * @file 自营抢购和抽签业务模块
- * @date 2019/8/18 15:55
+ * @file 自营抽签和抢购成员模块
+ * @date 2019/8/22 17:10
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {ScrollView, StyleSheet, View,Text} from 'react-native';
-import RuleCom from './components/RuleCom';
-import PandectCom from './components/PandectCom';
-import TeamListCom from './components/TeamListCom';
-import Colors from '../../../../../res/Colors';
+import {View} from 'react-native';
+import {connect} from "react-redux";
+import {withNavigation} from "react-navigation";
+import BuyMainCom from './components/BuyMainCom';
+import DrawMainCom from './components/DrawMainCom';
+import ShopMainBodyCom from '../../main/ShopMainBodyCom';
+import ShopConstant from '../../../../../common/ShopConstant';
+import RuleCom from "./components/RuleCom";
+import {getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
+import {checkTime} from "../../../../../utils/TimeUtils";
 
-export default class SelfCom extends PureComponent {
+
+function mapStateToProps() {
+  return state => ({
+    shopDetailInfo: getShopDetailInfo(state),
+  });
+}
+
+class SelfCom extends PureComponent {
   constructor(props) {
     super(props);
   }
 
+  /**
+   * 设置主View
+   * @param shopInfo 商品详情
+   * @returns {*}
+   * @private
+   */
+  _setMainDOM = (shopInfo) => {
+    let b_type = shopInfo.activity.b_type;
+    // 参加状态
+    let is_join = shopInfo.is_join;
+    // 活动开始时间
+    let start_time = shopInfo.activity.start_time;
+    // 无论是否开始活动，只要状态属于未参加
+    if (is_join === ShopConstant.NOT_JOIN) {
+      return <ShopMainBodyCom shopInfo={shopInfo}/>
+    }
+    if (b_type === ShopConstant.DRAW) {
+      return <DrawMainCom shopInfo={shopInfo}/>
+    }
+    if (b_type === ShopConstant.BUY) {
+      // 已参加，且活动已开始
+      if (!checkTime(start_time)) {
+        // 团员身份无法查看当前抢鞋状态
+        if (is_join === ShopConstant.MEMBER) {
+          return <ShopMainBodyCom shopInfo={shopInfo}/>
+        }
+      }
+      // 团长可以查看当前抢鞋状态
+      return <BuyMainCom shopInfo={shopInfo}/>
+    }
+  };
+
   render() {
-    const {navigation} = this.props;
+    const {shopDetailInfo} = this.props;
+    let shopInfo = shopDetailInfo.shopData.data;
     return (
-      <View style={_styles.container}>
-        {/*<ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>*/}
-          {/*<RuleCom/>*/}
-          {/*<PandectCom/>*/}
-          {/*<TeamListCom/>*/}
-        {/*</ScrollView>*/}
-        <Text>自营抽签和抢购模块</Text>
+      <View>
+        <RuleCom shopInfo={shopInfo}/>
+        {
+          this._setMainDOM(shopInfo)
+        }
       </View>
     )
   }
 }
-const _styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 16,
-    backgroundColor: Colors.WHITE_COLOR
-  },
-});
+
+export default connect(mapStateToProps)(withNavigation(SelfCom));

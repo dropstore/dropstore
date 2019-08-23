@@ -22,6 +22,8 @@ import GenderSize from '../page/auth/GenderSize';
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
 import ShopDetailHeaderRight from '../components/ShopDetailHeaderRight';
+import pay from '../page/pay';
+import commission from '../page/commission';
 
 const AuthStack = createStackNavigator({
   AuthLoading,
@@ -48,6 +50,8 @@ const InitNavigator = createStackNavigator({
       headerRight: <ShopDetailHeaderRight navigation={navigation} />,
     }),
   },
+  pay,
+  commission
 
 }, {
   initialRouteName: 'main',
