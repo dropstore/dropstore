@@ -69,11 +69,8 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         SoLoader.init(this, /* native exopackage */ false);
         RNUMConfigure.init(this, "5d53936f3fc19594650009c5", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
-    }
-
-    // 配置平台key、secret信息
-    {
-        PlatformConfig.setWeixin("wxxxxxxx", "5a4142ff9xxxxxxxx93fc");
+        // 配置平台key、secret信息
+        PlatformConfig.setWeixin("wx4def04c004d5c07d", "de810c561534f71384850e79a7455ecb");
         PlatformConfig.setQQZone("110xxxxxx59", "3JjbG8aXxxxxsV");
         PlatformConfig.setSinaWeibo("27xxxxxxx964", "fac50980a44e3e3afdxxxa572887", "http://sns.whalecloud.com");
     }

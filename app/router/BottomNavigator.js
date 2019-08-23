@@ -73,7 +73,7 @@ export default class BottomNavigator extends PureComponent {
       // }).catch((err) => {
       //   console.log(err);
       // });
-      // ShareUtil('1', '2', '', '4', 2).then((res) => {
+      // ShareUtil('1', '2', 'https://www.baidu.com/img/bd_logo1.png', '4', 2).then((res) => {
       //   console.log(res);
       // }).catch(err => console.log(err, 'error'));
       StatusBar.setBarStyle('light-content', true);
