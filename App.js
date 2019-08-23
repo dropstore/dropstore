@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NetInfo from '@react-native-community/netinfo';
+import { View, StatusBar, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
 import Theme from './app/res/Theme';
@@ -23,6 +24,11 @@ const jsErrorHandler = (error, isFatal) => {
 
 export default class App extends Component {
   componentDidMount() {
+    if (Platform.OS === 'android') {
+      StatusBar.setTranslucent(true);
+      StatusBar.setBackgroundColor('transparent');
+      StatusBar.setBarStyle('dark-content');
+    }
     wxPayModule.registerApp(wxAppId); // 向微信注册
     if (!__DEV__) {
       // 全局控制log语句
@@ -54,7 +60,10 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router />
+        <View style={{ flex: 1 }}>
+          <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+          <Router />
+        </View>
       </Provider>
     );
   }

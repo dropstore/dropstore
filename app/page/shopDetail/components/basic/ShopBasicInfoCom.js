@@ -3,35 +3,66 @@
  * @date 2019/8/18 16:46
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import React, {PureComponent} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
 import Image from '../../../../components/Image';
 import Images from '../../../../res/Images';
-import { YaHei, Mario } from '../../../../res/FontFamily';
+import {YaHei, Mario} from '../../../../res/FontFamily';
+import ShopConstant from "../../../../common/ShopConstant";
+import {getShopDetailInfo} from '../../../../redux/reselect/shopDetailInfo';
+import {checkTime} from "../../../../utils/TimeUtils";
+
+function mapStateToProps() {
+  return state => ({
+    shopDetailInfo: getShopDetailInfo(state),
+  });
+}
 
 class ShopBasicInfoCom extends PureComponent {
+
+  _setTime = (shopInfo) => {
+    // 活动类型
+    let type = shopInfo.activity.type;
+    let startText = (type === ShopConstant.ORIGIN_CONST ? "距发售时间:" : "距开始时间");
+    // 活动开始时间
+    let start_time = shopInfo.activity.start_time;
+    // 活动结束时间
+    let end_time = shopInfo.activity.end_time;
+    if (checkTime(start_time)) {
+      return (
+        <Text style={_styles.overTitle}>{startText}{start_time}</Text>
+      )
+    } else {
+      return (
+        <Text style={_styles.overTitle}>距结束时间{end_time}</Text>
+      )
+    }
+  };
+
   render() {
-    const { item } = this.props;
+    const {shopDetailInfo} = this.props;
+    const shopInfo = shopDetailInfo.shopData.data;
     return (
       <View>
         <View style={_styles.explainView}>
-          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth} />
+          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
           <Text style={_styles.explainText}>查看活动说明</Text>
         </View>
         <View style={_styles.mainView}>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe} />
+          <Image resizeMode="contain" style={_styles.imageShoe} source={shopInfo.goods.image}/>
           <View style={_styles.overView}>
-            <Text style={_styles.overTitle}>距活动结束:</Text>
-            <Text style={_styles.overTime}>{item.endTime}</Text>
+            {
+              this._setTime(shopInfo)
+            }
           </View>
           <Text style={_styles.shopTitle}>
-`
-            {item.shopTitle}
-            {item.shopSubTitle}
-`
+            `
+            {shopInfo.goods.goods_name}
+            `
           </Text>
-          <Text style={_styles.price}>{`${item.price}￥`}</Text>
+          <Text style={_styles.price}>{`${shopInfo.activity.price}￥`}</Text>
         </View>
       </View>
     );
@@ -97,5 +128,5 @@ const _styles = StyleSheet.create({
     // textDecorationColor: 'rgba(0,0,0,1)',
   },
 });
+export default connect(mapStateToProps())(withNavigation(ShopBasicInfoCom))
 
-export default withNavigation(ShopBasicInfoCom);

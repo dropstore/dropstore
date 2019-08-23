@@ -22,41 +22,32 @@ function weChatAuth(wechat) {
   });
 }
 
-// 短信登录
-function messageAuth(phone, code) {
+// 发送验证码
+function sendMessage(mobile, sendTime = 0) {
   return dispatch => new Promise((resolve, reject) => {
-    // fetchData(`/api/user?phone=${phone}&code=${code}`, { method: 'POST' }).then((json) => {
-    //   if (json.status === 'ok') {
-    //     dispatch(receiveUser(json.result.user));
-    //     resolve(true);
-    //   } else {
-    //     dispatch(setMessageSendFlag({ errorMessage: json.message }));
-    //     reject(json);
-    //   }
-    // }).catch(err => reject(err));
+    request('/user/send_message', { params: { mobile } }).then((res) => {
+      if (res.callbackCode === 1) {
+        dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
+        resolve();
+      } else {
+        dispatch(setMessageSendFlag({ sendTime: 0, sendPhone: '' }));
+        reject(res.callbackMsg);
+      }
+    });
   });
 }
 
-// 发送验证码
-function sendMessage(phone, sendTime = 0) {
+// 短信登录
+function messageAuth(mobile, codes) {
   return dispatch => new Promise((resolve, reject) => {
-    const params = {
-      mobile: 17554265585,
-    };
-    request('/user/send_message', { params }).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
+    request('/user/login', { params: { mobile, codes } }).then((res) => {
+      if (res.callbackCode === 1) {
+        dispatch(receiveUser(res.data));
+        resolve(res.data.user_s_id);
+      } else {
+        reject(res.callbackMsg);
+      }
     });
-    // fetchData(`/api/user/request_sms_code?phone=${phone}`).then((json) => {
-    //   if (json.status === 'ok') {
-    //     dispatch(setMessageSendFlag({ errorMessage: null, sendTime, sendPhone: phone }));
-    //     resolve(true);
-    //   } else {
-    //     dispatch(setMessageSendFlag({ errorMessage: json.message, sendTime, sendPhone: phone }));
-    //     reject(json);
-    //   }
-    // }).catch(err => reject(err));
   });
 }
 

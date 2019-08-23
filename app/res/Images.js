@@ -39,6 +39,19 @@ const IMAGES = {
   pyq: require('./image/pyq.png'),
   wb: require('./image/wb.png'),
   qq: require('./image/qq.png'),
+  // 登陆相关
+  wxLogin: require('./image/wxlogin.png'),
+  wxLoginGray: require('./image/wx-login.png'),
+  qqLoginGray: require('./image/qq-login.png'),
+  wbLoginGray: require('./image/wb-login.png'),
+  nameAge: require('./image/name-age.png'),
+  sizeGender: require('./image/size-gender.png'),
+  boy: require('./image/boy.png'),
+  girl: require('./image/girl.png'),
+  iconBoy: require('./image/icon-boy.png'),
+  iconGirl: require('./image/icon-girl.png'),
+  iconUp: require('./image/icon-up.png'),
+  iconDown: require('./image/icon-down.png'),
 
   // 抽签或抢鞋流程图标 -- 1、2、3、4
   ex1: require('./image/ex1.png'),
@@ -51,9 +64,25 @@ const IMAGES = {
   shoe_zjr: require('./image/shoe_zjr.png'),
   shoe_hth: require('./image/shoe_hth.png'),
   close_shoe: require('./image/chazi.png'),
+
+  // 支付界面
+  pay_wx: require('./image/pay_wx.png'),
+  pay_zfb: require('./image/pay_zfb.png'),
+  pay_drop: require('./image/pay_drop.png'),
+  sel: require('./image/sel.png'),
+  unSel: require('./image/unsel.png'),
   // 背景边框图片
   framePhoneInput: require('./image/frame-phone-input.png'),
-  frameLogin: require('./image/frame-login.png'),
+  sendVerifiCode: require('./image/send-verifi-code.png'),
+  inSendVerifiCode: require('./image/insendVerifiCode.png'),
+  verifiCode: require('./image/verifi-code.png'),
+  frameLogin: require('./image/login.png'),
+  frameInLogin: require('./image/inlogin.png'),
+  frameNickname: require('./image/frame-nickname.png'),
+  frameRed: require('./image/frame-red.png'),
+  frameBlack: require('./image/frame-black.png'),
+  frameSize: require('./image/frame-size.png'),
+  sexText: require('./image/sex-text.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),

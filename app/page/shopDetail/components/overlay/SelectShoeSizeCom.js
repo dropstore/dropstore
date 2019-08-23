@@ -6,18 +6,17 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Image from '../../../../components/Image';
-import ImageBackgroundCom from '../../../../components/ImageBackgroundCom';
+import {SCREEN_WIDTH} from "../../../../common/Constant";
+import ImageBackground from '../../../../components/ImageBackground';
 import {commonStyle} from '../../../../res/style/CommonStyle';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
 import {YaHei} from "../../../../res/FontFamily";
+import {bottomStyle} from '../../../../res/style/BottomStyle';
+import {shopDetail1} from '../../../../page/TempData';
 
-type Props = {
-  activityId: Object,
-  closeOver: Function
-}
 
-export default class SelectShoeSizeCom extends Component <Props> {
+export default class SelectShoeSizeCom extends Component  {
   constructor(props) {
     super(props);
     this.state = {
@@ -106,8 +105,13 @@ export default class SelectShoeSizeCom extends Component <Props> {
     this.setState({shoeList: shoeList, totalCount: totalCount});
   };
 
+  confirmChoose = (closeOver,getShopDetail) => {
+    closeOver();
+    getShopDetail();
+  };
+
   render() {
-    const {activityId, closeOver} = this.props;
+    const {closeOver,getShopDetail} = this.props;
     return (
       <View style={_style.container}>
         <View style={{flex: 1,}}>
@@ -149,14 +153,17 @@ export default class SelectShoeSizeCom extends Component <Props> {
             </ScrollView>
           </View>
         </View>
-        <ImageBackgroundCom style={_style.okView} source={Images.bg_right}
-                            onPress={() => closeOver()}>
-          <Text style={_style.okText}>确认</Text>
-        </ImageBackgroundCom>
+        <View style={bottomStyle.bottomView}>
+          <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
+                           onPress={() => this.confirmChoose(closeOver,getShopDetail)}>
+            <Text style={bottomStyle.buttonText}>确认</Text>
+          </ImageBackground>
+        </View>
       </View>
     );
   }
 }
+
 const _style = StyleSheet.create({
   container: {
     backgroundColor: Colors.WHITE_COLOR,
@@ -176,8 +183,8 @@ const _style = StyleSheet.create({
     marginLeft: 23
   },
   close: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     position: 'absolute',
     right: 10,
     top: 5,
@@ -214,16 +221,6 @@ const _style = StyleSheet.create({
     width: 6,
     height: 8,
   },
-  okView: {
-    width: 178,
-    position: 'absolute',
-    right: 5,
-    bottom: 6,
-  },
-  okText: {
-    color: 'rgba(255,255,255,1)',
-    fontSize: 16,
-  },
   line: {
     width: 340,
     height: 1,
@@ -232,4 +229,5 @@ const _style = StyleSheet.create({
     marginLeft: 26
   }
 });
+
 

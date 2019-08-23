@@ -21,7 +21,7 @@ export const px2Dp = function px2dp(px) {
   return PixelRatio.roundToNearestPixel(layoutSize);
 };
 
-export const wPx2p = function wPx2p(px) {
+export const wPx2P = function wPx2P(px) {
   return px / 375 * width; // design for height 375
 };
 

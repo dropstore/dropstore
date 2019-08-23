@@ -12,10 +12,24 @@ const SELF_SUPPORT = 2;
 const LUCKY_CHARM = 3;
 // 球鞋预定
 const RESERVE = 4;
-
+// 抽签
+const DRAW = 1;
+// 抢购
+const BUY = 2;
+// 未参加
+const NOT_JOIN = 0;
+// 已参加，团长
+const LEADING = 1;
+// 已参加，团员
+const MEMBER = 2;
 export default {
   ORIGIN_CONST,
   SELF_SUPPORT,
   LUCKY_CHARM,
-  RESERVE
+  RESERVE,
+  DRAW,
+  BUY,
+  NOT_JOIN,
+  LEADING,
+  MEMBER
 }

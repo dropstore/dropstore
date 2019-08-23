@@ -6,8 +6,6 @@
 
 import React from "react";
 import {Overlay} from 'teaset';
-import SelectShoeSizeCom from './SelectShoeSizeCom';
-import ShareCom from './ShareCom';
 
 /**
  * 关闭浮层
@@ -21,8 +19,6 @@ let hideOlView = (key) => {
   }
 };
 export {
-  SelectShoeSizeCom,
-  ShareCom,
   hideOlView
 }
 
