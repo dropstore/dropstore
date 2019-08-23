@@ -52,6 +52,17 @@ const IMAGES = {
   iconGirl: require('./image/icon-girl.png'),
   iconUp: require('./image/icon-up.png'),
   iconDown: require('./image/icon-down.png'),
+  framePhoneInput: require('./image/frame-phone-input.png'),
+  sendVerifiCode: require('./image/send-verifi-code.png'),
+  inSendVerifiCode: require('./image/insendVerifiCode.png'),
+  verifiCode: require('./image/verifi-code.png'),
+  frameLogin: require('./image/login.png'),
+  frameInLogin: require('./image/inlogin.png'),
+  frameNickname: require('./image/frame-nickname.png'),
+  frameRed: require('./image/frame-red.png'),
+  frameBlack: require('./image/frame-black.png'),
+  frameSize: require('./image/frame-size.png'),
+  sexText: require('./image/sex-text.png'),
 
   // 抽签或抢鞋流程图标 -- 1、2、3、4
   ex1: require('./image/ex1.png'),
@@ -71,18 +82,9 @@ const IMAGES = {
   pay_drop: require('./image/pay_drop.png'),
   sel: require('./image/sel.png'),
   unSel: require('./image/unsel.png'),
-  // 背景边框图片
-  framePhoneInput: require('./image/frame-phone-input.png'),
-  sendVerifiCode: require('./image/send-verifi-code.png'),
-  inSendVerifiCode: require('./image/insendVerifiCode.png'),
-  verifiCode: require('./image/verifi-code.png'),
-  frameLogin: require('./image/login.png'),
-  frameInLogin: require('./image/inlogin.png'),
-  frameNickname: require('./image/frame-nickname.png'),
-  frameRed: require('./image/frame-red.png'),
-  frameBlack: require('./image/frame-black.png'),
-  frameSize: require('./image/frame-size.png'),
-  sexText: require('./image/sex-text.png'),
+
+  // 个人中心
+  frameHead: require('./image/frame-head.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),
