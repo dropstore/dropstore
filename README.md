@@ -42,6 +42,7 @@ react-native run-android
 ## ios
 
 ```js
+rvm use system
 ./pack.rb appstore pnu 
 ```
 `安装包下载地址: https://www.pgyer.com/pbFd`
