@@ -89,7 +89,7 @@ class ShopBasicInfoCom extends PureComponent {
     const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
-      <View>
+      <View style={{marginBottom: 16}}>
         <View style={_styles.explainView}>
           <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
           <Text style={_styles.explainText}>查看活动说明</Text>

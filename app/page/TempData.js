@@ -251,7 +251,7 @@ export const shopDetail1 = {
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 2
+    b_type: 1
   },
   goods: {
     id: "g_Id1",

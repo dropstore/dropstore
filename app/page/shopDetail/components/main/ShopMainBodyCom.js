@@ -29,7 +29,7 @@ class ShopBasicInfoCom extends PureComponent {
 const _styles = StyleSheet.create({
   detailView: {
     flex: 1,
-    marginTop: 10,
+    marginTop: 16,
     backgroundColor: Colors.WHITE_COLOR,
   },
   detailImage: {

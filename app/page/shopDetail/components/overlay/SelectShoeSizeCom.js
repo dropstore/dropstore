@@ -6,6 +6,7 @@
 import React, {Component} from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Image from '../../../../components/Image';
+import {hitSlop} from '../../../../common/Constant';
 import ImageBackground from '../../../../components/ImageBackground';
 import {commonStyle} from '../../../../res/style/CommonStyle';
 import Images from '../../../../res/Images';
@@ -14,6 +15,7 @@ import {YaHei} from "../../../../res/FontFamily";
 import {bottomStyle} from '../../../../res/style/BottomStyle';
 import {debounce} from "../../../../utils/commonUtils";
 import {startGroup} from "../../../../redux/actions/shopDetailInfo";
+
 
 export default class SelectShoeSizeCom extends Component {
   constructor(props) {
@@ -77,7 +79,7 @@ export default class SelectShoeSizeCom extends Component {
               <Text style={_style.title}>鞋码选择</Text>
               <Text style={_style.alreadyChoose}>已选数量 {this.state.totalCount}</Text>
             </View>
-            <TouchableOpacity style={_style.close} onPress={() => closeOver()}>
+            <TouchableOpacity hitSlop={hitSlop} style={_style.close} onPress={() => closeOver()}>
               <Image style={_style.close} source={Images.close_shoe}/>
             </TouchableOpacity>
           </View>
@@ -90,12 +92,12 @@ export default class SelectShoeSizeCom extends Component {
                       <Text style={_style.sizeAndCount}>{item.size}</Text>
                       <View style={[commonStyle.row, _style.rightView]}>
                         <Text style={_style.price}>{item.price}￥</Text>
-                        <TouchableOpacity style={{padding: 5}}
+                        <TouchableOpacity style={{padding: 5}} hitSlop={hitSlop}
                                           onPress={() => this.changeChooseCount(item, '-')}>
                           <Image style={_style.lrImage} source={Images.shoe_zjt}/>
                         </TouchableOpacity>
                         <Text style={_style.sizeAndCount}>{item.num}</Text>
-                        <TouchableOpacity style={{padding: 5}}
+                        <TouchableOpacity style={{padding: 5}} hitSlop={hitSlop}
                                           onPress={() => this.changeChooseCount(item, '+')}>
                           <Image style={_style.lrImage} source={Images.shoe_zjr}/>
                         </TouchableOpacity>
@@ -112,6 +114,7 @@ export default class SelectShoeSizeCom extends Component {
         </View>
         <View style={bottomStyle.bottomView}>
           <ImageBackground
+            hitSlop={hitSlop}
             style={bottomStyle.buttonOnlyOneChildView}
             source={Images.bg_right}
             disabled={this.state.totalCount === 0}

@@ -4,9 +4,10 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {Label, NavigationBar} from 'teaset';
+import {NavigationBar} from 'teaset';
+import {hitSlop} from '../common/Constant';
 import Colors from '../res/Colors';
 import Images from "../res/Images";
 import Image from '../components/Image';
@@ -20,16 +21,13 @@ class NavigationBarCom extends PureComponent {
         statusBarStyle="dark-content"
         style={[styles.container, {backgroundColor: (bgColor ? bgColor : Colors.MAIN_BACK)}]}
         tintColor={Colors.WHITE_COLOR}
-        title={(
-          <View style={styles.titleWrapper}>
-            <Label style={[styles.title, {color: (bgColor ? Colors.WHITE_COLOR : Colors.NORMAL_TEXT_6)}]}
-                   text={headerTitle}/>
-          </View>
-        )}
+        title={headerTitle}
+        titleStyle={[styles.title, {color: (bgColor ? Colors.WHITE_COLOR : Colors.NORMAL_TEXT_6)}]}
         leftView={isShowLeftView ?
-          <TouchableOpacity style={styles.leftImage} onPress={() => navigation.goBack()}>
-            <Image source={Images.zjt} style={styles.leftImage}/>
-          </TouchableOpacity> : <View/>}
+          <TouchableOpacity hitSlop={hitSlop}  onPress={() => navigation.goBack()}>
+            <Image source={Images.zjt} style={styles.leftImage} resizeMode={"contain"}/>
+          </TouchableOpacity>
+          : <View/>}
         rightView={rightView ? rightView : <View/>}
       />
     );
@@ -44,16 +42,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
   },
   container: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#aaa',
   },
   leftImage: {
-    width: 6,
-    height: 10,
-    marginLeft: 8
+    width: 12,
+    height: 12,
+    marginLeft: 10
   }
 });
 
