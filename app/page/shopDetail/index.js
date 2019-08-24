@@ -111,7 +111,7 @@ class ShopDetail extends PureComponent {
   onRefresh = () => {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
-    getShopDetail(shopDetail, {isDispatchStart: false});
+    getShopDetail(shopDetail1, {isDispatchStart: false});
   };
   _mainDOM = () => {
     const {shopDetailInfo} = this.props;

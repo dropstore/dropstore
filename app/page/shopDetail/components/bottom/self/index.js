@@ -54,7 +54,7 @@ class SelfBottomCom extends PureComponent {
     // 活动开始时间
     let start_time = shopInfo.activity.start_time;
     // 活动未开始
-    if (checkTime(start_time)) {
+    if (checkTime(start_time) > 0) {
       return this._normalDOM(shopInfo, navigation);
     }
     if (b_type === ShopConstant.DRAW) {

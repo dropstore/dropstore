@@ -206,13 +206,13 @@ export const shopDetail = {
     "type": 2,
     price: 1999,
     a_price: 999,
-    start_time: 1566490200,
+    start_time: 1566647070,
     end_time: 1566483000,
     add_time: "10:67:90",
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 1
+    b_type: 2
   },
   goods: {
     id: "g_Id1",
@@ -245,13 +245,13 @@ export const shopDetail1 = {
     "type": 2,
     price: 1999,
     a_price: 999,
-    start_time: 1566472200,
-    end_time: 1566483000,
+    start_time: 1566615690,
+    end_time: 1566655290,
     add_time: "10:67:90",
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 1
+    b_type: 2
   },
   goods: {
     id: "g_Id1",
@@ -259,7 +259,7 @@ export const shopDetail1 = {
     details: "111",
     image: Images.shoe
   },
-  is_join: 1,
+  is_join: 2,
   is_follow: 1,
   join_user: [
     {

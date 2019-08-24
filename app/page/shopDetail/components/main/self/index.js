@@ -48,7 +48,7 @@ class SelfCom extends PureComponent {
     }
     if (b_type === ShopConstant.BUY) {
       // 已参加，且活动已开始
-      if (!checkTime(start_time)) {
+      if (checkTime(start_time) < 0) {
         // 团员身份无法查看当前抢鞋状态
         if (is_join === ShopConstant.MEMBER) {
           return <ShopMainBodyCom shopInfo={shopInfo}/>

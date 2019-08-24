@@ -12,7 +12,7 @@ import Images from '../../../../res/Images';
 import {YaHei, Mario} from '../../../../res/FontFamily';
 import ShopConstant from "../../../../common/ShopConstant";
 import {getShopDetailInfo} from '../../../../redux/reselect/shopDetailInfo';
-import {checkTime} from "../../../../utils/TimeUtils";
+import {checkTime, countDown} from "../../../../utils/TimeUtils";
 
 function mapStateToProps() {
   return state => ({
@@ -21,24 +21,68 @@ function mapStateToProps() {
 }
 
 class ShopBasicInfoCom extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDownTime: '',
+      endDownTime: '',
+    }
+  }
 
-  _setTime = (shopInfo) => {
-    // 活动类型
-    let type = shopInfo.activity.type;
-    let startText = (type === ShopConstant.ORIGIN_CONST ? "距发售时间:" : "距开始时间");
+  componentDidMount() {
+    this._setTime();
+    this._timer = setInterval(() => {
+      this._setTime();
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    this._timer && clearInterval(this._timer);
+  }
+
+  _setTime = () => {
+    const {shopDetailInfo} = this.props;
+    const shopInfo = shopDetailInfo.data;
     // 活动开始时间
     let start_time = shopInfo.activity.start_time;
     // 活动结束时间
     let end_time = shopInfo.activity.end_time;
-    if (checkTime(start_time)) {
+    let sTimeStamp = checkTime(start_time);
+    let eTimeStamp = checkTime(end_time);
+    if (sTimeStamp > 0) {
+      this.setState({startDownTime: countDown(sTimeStamp)})
+    } else if (eTimeStamp > 0) {
+      this.setState({endDownTime: countDown(eTimeStamp)})
+    }
+  };
+
+  _setTimeDOM = (shopInfo) => {
+    // 活动类型
+    let type = shopInfo.activity.type;
+    let startText = (type === ShopConstant.ORIGIN_CONST ? "距发售时间:" : "距开始时间:");
+    // 活动开始时间
+    let start_time = shopInfo.activity.start_time;
+    // 活动结束时间
+    let end_time = shopInfo.activity.end_time;
+    let sTimeStamp = checkTime(start_time);
+    let eTimeStamp = checkTime(end_time);
+    if (sTimeStamp > 0) {
       return (
-        <Text style={_styles.overTitle}>{startText}{start_time}</Text>
-      )
-    } else {
-      return (
-        <Text style={_styles.overTitle}>距结束时间{end_time}</Text>
+        <View style={_styles.overView}>
+          <Text style={_styles.overTitle}>{startText}</Text>
+          <Text style={_styles.overTime}>{this.state.startDownTime}</Text>
+        </View>
       )
     }
+    if (eTimeStamp > 0) {
+      return (
+        <View style={_styles.overView}>
+          <Text style={_styles.overTitle}>距结束时间:</Text>
+          <Text style={_styles.overTime}>{this.state.endDownTime}</Text>
+        </View>
+      )
+    }
+    return <View/>
   };
 
   render() {
@@ -52,11 +96,9 @@ class ShopBasicInfoCom extends PureComponent {
         </View>
         <View style={_styles.mainView}>
           <Image resizeMode="contain" style={_styles.imageShoe} source={shopInfo.goods.image}/>
-          <View style={_styles.overView}>
-            {
-              this._setTime(shopInfo)
-            }
-          </View>
+          {
+            this._setTimeDOM(shopInfo)
+          }
           <Text style={_styles.shopTitle}>
             `
             {shopInfo.goods.goods_name}
