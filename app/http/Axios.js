@@ -11,13 +11,15 @@ import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUt
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
+import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
-const headers = {
-      formHeader:{'Content-Type': 'application/x-www-form-urlencoded'},
-      jsonHeader:{'Content-Type': 'application/json'}
-};
+const Authheaders = ()=>({
+      Authorization: store.getState().userInfo.user_s_id,
+});
+
+
 
 /**
  * 自定义Axios实例默认值
@@ -74,32 +76,36 @@ const request = async (url, {
   let response;
   try {
     const data = { ...params, timestamp: Date.now() };
+
     if(method === 'post' && type === 'form'){//form方式请求
       response = await axiosInstance({
         url,
         method: 'post',
-        headers:headers.formHeader,
-        data: qs.stringify({ ...data, token: md5(sortObj(data)) }),
+        headers:{'Content-Type': 'application/x-www-form-urlencoded',...Authheaders()},
+        data: qs.stringify({ ...data, token: md5(encodeURIComponent(sortObj(data))) }),
       });
     }else if (method === 'post' && type === 'json'){//json方式请求
       response = await axiosInstance({
         url,
         method: 'post',
-        headers:headers.jsonHeader,
-        data: { ...data, token: md5(sortObj(data)) },
+        headers:{'Content-Type': 'application/json',...Authheaders()},
+        data: { ...data, token: md5(encodeURIComponent(sortObj(data)))},
       });
     }else if (method === 'get'){//get方式请求
       response = await axiosInstance({
         url,
         method: 'get',
-        params: { ...data, token: md5(sortObj(data)) },
+        headers:Authheaders(),
+        params: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       });
     }
+
 
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
         return response.data;
       }
+      console.log(response.data);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }

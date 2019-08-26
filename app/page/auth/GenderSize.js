@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import Image from '../../components/Image';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 import Images from '../../res/Images';
@@ -10,12 +13,28 @@ import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
+import { updateUser } from '../../redux/actions/userInfo';
+import { getUserInfo } from '../../redux/reselect/userInfo';
 
-export default class GenderSize extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    updateUser,
+  }, dispatch);
+}
+
+class GenderSize extends PureComponent {
   constructor(props) {
     super(props);
+    const { userInfo } = this.props;
     this.state = {
       size: 42.5,
+      gender: userInfo.sex,
     };
   }
 
@@ -25,13 +44,16 @@ export default class GenderSize extends PureComponent {
   }
 
   goNext = () => {
-    const { navigation } = this.props;
-    const { size } = this.state;
-    const { nickName, age } = navigation.getParam('params');
-    if (this.gender) {
-      console.log(nickName, age, size, this.gender);
-
-      navigation.navigate('Main');
+    const { navigation, userInfo, updateUser } = this.props;
+    const { size, gender } = this.state;
+    if (gender) {
+      const user = {
+        size, sex: gender, user_name: userInfo.user_name, age: userInfo.age,
+      };
+      updateUser(user).then(() => {
+        AsyncStorage.setItem('token', userInfo.user_s_id);
+        navigation.navigate('Main');
+      });
     } else {
       showToast('请选择性别');
     }
@@ -54,49 +76,51 @@ export default class GenderSize extends PureComponent {
   }
 
   chooseGender = (gender) => {
-    this.gender = gender;
+    this.setState({ gender });
   }
 
   render() {
-    const { size } = this.state;
+    const { size, gender } = this.state;
     const hitSlop = {
       top: 20, left: 50, right: 50, bottom: 20,
     };
     return (
-      <KeyboardDismiss>
-        <View style={styles.container}>
-          <Image style={styles.sizeGender} source={Images.sizeGender} />
-          <ImageBackground
-            style={styles.iconUp}
-            source={Images.iconUp}
-            onPress={this.upSize}
-            hitSlop={hitSlop}
-          />
-          <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
-            <Text style={styles.sizeText}>{size}</Text>
-          </ImageBackground>
-          <ImageBackground
-            style={styles.iconUp}
-            source={Images.iconDown}
-            onPress={this.downSize}
-            hitSlop={hitSlop}
-          />
-          <Image style={styles.sexText} source={Images.sexText} />
-          <View style={styles.genderWrapper}>
-            <TouchableOpacity style={styles.gender} onPress={() => this.chooseGender(1)}>
+      <KeyboardDismiss style={styles.container}>
+        <Image style={styles.sizeGender} source={Images.sizeGender} />
+        <ImageBackground
+          style={styles.iconUp}
+          source={Images.iconUp}
+          onPress={this.upSize}
+          hitSlop={hitSlop}
+        />
+        <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
+          <Text style={styles.sizeText}>{size}</Text>
+        </ImageBackground>
+        <ImageBackground
+          style={styles.iconUp}
+          source={Images.iconDown}
+          onPress={this.downSize}
+          hitSlop={hitSlop}
+        />
+        <Image style={styles.sexText} source={Images.sexText} />
+        <View style={[styles.genderWrapper]}>
+          <TouchableOpacity onPress={() => this.chooseGender(1)}>
+            <View style={[styles.gender, { opacity: parseInt(gender) === 1 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconBoy} />
               <Image style={styles.boy} source={Images.boy} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.gender} onPress={() => this.chooseGender(2)}>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.chooseGender(2)}>
+            <View style={[styles.gender, { opacity: parseInt(gender) === 2 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconGirl} />
               <Image style={styles.boy} source={Images.girl} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.bottom}>
-            <ImageBackground source={Images.frameLogin} style={styles.frameLogin} onPress={this.goNext}>
-              <Text style={styles.nextText}>开始体验</Text>
-            </ImageBackground>
-          </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bottom}>
+          <ImageBackground source={Images.frameLogin} style={styles.frameLogin} onPress={this.goNext}>
+            <Text style={styles.nextText}>开始体验</Text>
+          </ImageBackground>
         </View>
       </KeyboardDismiss>
     );
@@ -175,3 +199,5 @@ const styles = StyleSheet.create({
     width: wPx2P(66),
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(GenderSize);

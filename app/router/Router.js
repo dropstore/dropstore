@@ -1,5 +1,5 @@
 import React from 'react';
-import {createAppContainer, createStackNavigator, createSwitchNavigator} from 'react-navigation';
+import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
   Platform, StyleSheet, TouchableOpacity, Animated, Easing,
 } from 'react-native';
@@ -17,6 +17,7 @@ import BottomNavigator from './BottomNavigator';
 import AuthLoading from '../page/auth';
 import NameAge from '../page/auth/NameAge';
 import GenderSize from '../page/auth/GenderSize';
+import PhoneNum from '../page/auth/PhoneNum';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
@@ -28,6 +29,7 @@ const AuthStack = createStackNavigator({
   AuthLoading,
   NameAge,
   GenderSize,
+  PhoneNum,
 }, {
   initialRouteName: 'AuthLoading',
   defaultNavigationOptions: {
@@ -60,10 +62,10 @@ const InitNavigator = createStackNavigator({
     navigationOptions: {
       header: null,
     },
-  }
+  },
 }, {
   initialRouteName: 'main',
-  defaultNavigationOptions: ({navigation}) => ({
+  defaultNavigationOptions: ({ navigation }) => ({
     ...Platform.select({
       android: {
         headerStyle: {
@@ -96,7 +98,7 @@ const InitNavigator = createStackNavigator({
     headerBackTitle: null,
     headerLeft: (
       <TouchableOpacity
-        style={{height: NAV_HEIGHT, justifyContent: 'center'}}
+        style={{ height: NAV_HEIGHT, justifyContent: 'center' }}
         onPress={() => {
           // eslint-disable-next-line no-unused-expressions
           typeof navigation.getParam('customBack') === 'function' ? navigation.getParam('customBack')() : navigation.pop();
@@ -130,7 +132,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Auth',
 }));
 
-export {Router, store};
+export { Router, store };

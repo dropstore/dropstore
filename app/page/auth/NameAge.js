@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, TextInput, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Image from '../../components/Image';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 import Images from '../../res/Images';
@@ -9,15 +11,35 @@ import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
+import { receiveUser } from '../../redux/actions/userInfo';
+import { getUserInfo } from '../../redux/reselect/userInfo';
 
-export default class NameAge extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    receiveUser,
+  }, dispatch);
+}
+
+class NameAge extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { userInfo } = this.props;
+    this.nickName = userInfo.user_name;
+  }
+
   goBack = () => {
     const { navigation } = this.props;
     navigation.pop();
   }
 
   goNext = () => {
-    const { navigation } = this.props;
+    const { navigation, receiveUser } = this.props;
     if (!this.nickName) {
       showToast('请输入昵称');
       return;
@@ -25,9 +47,8 @@ export default class NameAge extends PureComponent {
       showToast('请输入年龄');
       return;
     }
-    navigation.push('GenderSize', {
-      params: { nickName: this.nickName, age: this.age },
-    });
+    receiveUser({ user_name: this.nickName, age: this.age });
+    navigation.push('GenderSize');
   }
 
   onChangeName = (nickName) => {
@@ -39,41 +60,41 @@ export default class NameAge extends PureComponent {
   }
 
   render() {
+    const { userInfo } = this.props;
     return (
-      <KeyboardDismiss>
-        <View style={styles.container}>
-          <Image style={styles.nameAge} source={Images.nameAge} />
-          <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
-            <TextInput
-              maxLength={6}
-              placeholder="昵称_"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              style={styles.age}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChangeName}
-            />
+      <KeyboardDismiss style={styles.container}>
+        <Image style={styles.nameAge} source={Images.nameAge} />
+        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+          <TextInput
+            maxLength={6}
+            placeholder="昵称_"
+            placeholderTextColor="#d3d3d3"
+            underlineColorAndroid="transparent"
+            style={styles.age}
+            defaultValue={userInfo.user_name}
+            clearButtonMode="while-editing"
+            onChangeText={this.onChangeName}
+          />
+        </ImageBackground>
+        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+          <TextInput
+            maxLength={6}
+            keyboardType="number-pad"
+            placeholder="年龄_"
+            placeholderTextColor="#d3d3d3"
+            underlineColorAndroid="transparent"
+            style={styles.age}
+            clearButtonMode="while-editing"
+            onChangeText={this.onChangeAge}
+          />
+        </ImageBackground>
+        <View style={styles.bottom}>
+          <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
+            <Text style={styles.nextText}>上一步</Text>
           </ImageBackground>
-          <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
-            <TextInput
-              maxLength={6}
-              keyboardType="number-pad"
-              placeholder="年龄_"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              style={styles.age}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChangeAge}
-            />
+          <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
+            <Text style={styles.nextText}>下一步</Text>
           </ImageBackground>
-          <View style={styles.bottom}>
-            <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
-              <Text style={styles.nextText}>上一步</Text>
-            </ImageBackground>
-            <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
-              <Text style={styles.nextText}>下一步</Text>
-            </ImageBackground>
-          </View>
         </View>
       </KeyboardDismiss>
     );
@@ -118,3 +139,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(NameAge);
