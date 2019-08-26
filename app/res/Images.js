@@ -92,6 +92,9 @@ const IMAGES = {
   // 个人中心
   frameHead: require('./image/frame-head.png'),
 
+  // 自由贸易
+  freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
+
   // 测试图片
   shoe: require('./image/shoe.png'),
   test1: require('./image/test1.png'),

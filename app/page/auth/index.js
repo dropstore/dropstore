@@ -40,19 +40,22 @@ class AuthLoading extends PureComponent {
 
   componentDidMount() {
     const { navigation } = this.props;
-    navigation.navigate('Main');
-    SplashScreen.hide();
-    // AsyncStorage.getItem('token').then((res) => {
-    //   if (res) {
-    //     navigation.navigate('Main');
-    //     SplashScreen.hide();
-    //   } else {
-    //     SplashScreen.hide();
-    //   }
-    // }).catch(() => {
-    //   navigation.navigate('Main');
-    //   SplashScreen.hide();
-    // });
+    if (require('../../../app.json').needLogin) {
+      AsyncStorage.getItem('token').then((res) => {
+        if (res) {
+          navigation.navigate('Main');
+          SplashScreen.hide();
+        } else {
+          SplashScreen.hide();
+        }
+      }).catch(() => {
+        navigation.navigate('Main');
+        SplashScreen.hide();
+      });
+    } else {
+      navigation.navigate('Main');
+      SplashScreen.hide();
+    }
   }
 
   toLogin = () => {
