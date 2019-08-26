@@ -15,7 +15,6 @@ import { Mario, YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { showShare } from '../../redux/actions/component';
 
 function mapStateToProps() {
   return state => ({
@@ -25,7 +24,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, showShare,
+    updateUser,
   }, dispatch);
 }
 
@@ -77,8 +76,6 @@ class GenderSize extends PureComponent {
   }
 
   chooseGender = (gender) => {
-    const { showShare } = this.props;
-    showShare();
     this.setState({ gender });
   }
 
