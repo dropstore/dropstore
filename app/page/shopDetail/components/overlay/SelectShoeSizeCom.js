@@ -128,8 +128,7 @@ export default class SelectShoeSizeCom extends Component {
   }
 }
 
-const
-  _style = StyleSheet.create({
+const _style = StyleSheet.create({
     container: {
       backgroundColor: Colors.WHITE_COLOR,
       height: 400

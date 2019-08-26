@@ -18,15 +18,15 @@ const resetActivityList = createAction('RESET_ACTIVITY_LIST');
  */
 function getActivityList(type, {fetchNextPage = false} = {}) {
   return (dispatch, getState) => {
-    // const activityData = getState().activityList.activityData;
-    // const pn = fetchNextPage ? activityData.currentPage + 1 : 1;
-    // pn === 1 && dispatch(resetActivityList());
-    //
-    // const params = {
-    //   type: type,
-    //   limit: activityData.limit,
-    //   pn: pn,
-    // };
+    const activityData = getState().activityList.activityData;
+    const pn = fetchNextPage ? activityData.currentPage + 1 : 1;
+    pn === 1 && dispatch(resetActivityList());
+
+    const params = {
+      type: type,
+      limit: activityData.limit,
+      pn: pn,
+    };
 
     showModalLoading();
     dispatch(requestActivityList());
@@ -35,7 +35,7 @@ function getActivityList(type, {fetchNextPage = false} = {}) {
       hideModalLoading();
     }, 500)
     // request('/activity/activity_list', {params}).then((res) => {
-    //   dispatch(receiveActivityList(res.data))
+    //   dispatch(receiveActivityList({'list':res.list,'totalPage':xxx}))
     // }).catch((err) => {
     //   dispatch(resetActivityList(err))
     // })

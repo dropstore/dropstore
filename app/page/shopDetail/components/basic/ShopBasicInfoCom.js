@@ -44,31 +44,21 @@ class ShopBasicInfoCom extends PureComponent {
   _setTime = () => {
     const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
-    // 活动开始时间
-    let start_time = shopInfo.activity.start_time;
-    // 活动结束时间
-    let end_time = shopInfo.activity.end_time;
-    let sTimeStamp = checkTime(start_time);
-    let eTimeStamp = checkTime(end_time);
+    let sTimeStamp = this._getTimeStamp(shopInfo).sTimeStamp;
+    let eTimeStamp = this._getTimeStamp(shopInfo).eTimeStamp;
     if (sTimeStamp > 0) {
       this.setState({startDownTime: countDown(sTimeStamp)})
     } else if (eTimeStamp > 0) {
       this.setState({endDownTime: countDown(eTimeStamp)})
-    }else{
+    } else {
       // this._timer && clearInterval(this._timer);
     }
   };
 
   _setTimeDOM = (shopInfo) => {
-    // 活动类型
-    let type = shopInfo.activity.type;
-    let startText = (type === ShopConstant.ORIGIN_CONST ? "距发售时间:" : "距开始时间:");
-    // 活动开始时间
-    let start_time = shopInfo.activity.start_time;
-    // 活动结束时间
-    let end_time = shopInfo.activity.end_time;
-    let sTimeStamp = checkTime(start_time);
-    let eTimeStamp = checkTime(end_time);
+    let startText = this._getTimeStamp(shopInfo).startText;
+    let sTimeStamp = this._getTimeStamp(shopInfo).sTimeStamp;
+    let eTimeStamp = this._getTimeStamp(shopInfo).eTimeStamp;
     if (sTimeStamp > 0) {
       return (
         <View style={_styles.overView}>
@@ -87,13 +77,25 @@ class ShopBasicInfoCom extends PureComponent {
     }
     return <View/>
   };
+  _getTimeStamp = (shopInfo) => {
+    // 活动类型
+    let type = shopInfo.activity.type;
+    let startText = (type === ShopConstant.ORIGIN_CONST ? "距发售时间:" : "距开始时间:");
+    // 活动开始时间
+    let start_time = shopInfo.activity.start_time;
+    // 活动结束时间
+    let end_time = shopInfo.activity.end_time;
+    let sTimeStamp = checkTime(start_time);
+    let eTimeStamp = checkTime(end_time);
+    return {'startText': startText, 'sTimeStamp': sTimeStamp, 'eTimeStamp': eTimeStamp}
+  };
 
   render() {
     const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
-      <View style={{marginBottom: 16}}>
-        <TouchableOpacity hitSlop={{top: 50, bottom: 50, left: 50, right: 50}} onPress={()=>alert('查看活动说明')}>
+      <View style={{marginBottom: 10}}>
+        <TouchableOpacity hitSlop={{top: 50, bottom: 50, left: 50, right: 50}} onPress={() => alert('查看活动说明')}>
           <View style={_styles.explainView}>
             <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
             <Text style={_styles.explainText}>查看活动说明</Text>

@@ -39,18 +39,39 @@ export default class DrawMainCom extends PureComponent {
         </View>
         <View style={_styles.listContainer}>
           <View style={[_styles.itemContainer, {backgroundColor: Colors.OTHER_BACK}]}>
-            <Text style={_styles.index}>1</Text>
+            <Text style={[_styles.index, {color: Colors.WHITE_COLOR}]}>1</Text>
             <ImageBackground style={_styles.userImageBg} source={Images.tx}/>
             <View style={{flex: 1, marginLeft: 12}}>
               <View style={commonStyle.row}>
-                <Text style={_styles.qhStatus}>已取号</Text>
-                <Text style={_styles.code}>0045342345</Text>
+                <Text style={[_styles.qhStatus, {color: Colors.WHITE_COLOR}]}>已取号</Text>
+                <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>0045342345</Text>
               </View>
               <View style={[commonStyle.row, {marginTop: 7}]}>
                 <Image style={_styles.jt} source={Images.shape_1_ji3}/>
-                <Text style={_styles.userName}>Lorem Ipsum</Text>
+                <Text style={[_styles.userName, {color: Colors.WHITE_COLOR}]}>Lorem Ipsum</Text>
                 <Image style={_styles.sexImage} source={Images.xt_xn}/>
               </View>
+            </View>
+            <View style={{justifyContent: 'center', alignItems: 'flex-start', marginRight: 17}}>
+              <Text style={[_styles.zg, {marginBottom: 5}]}>我的助攻团队：1人</Text>
+              <Text style={[_styles.zg, {marginTop: 5}]}>助攻佣金：500￥</Text>
+            </View>
+          </View>
+        </View>
+        <View style={_styles.listContainer}>
+          <View style={[_styles.itemContainer, {backgroundColor: Colors.NORMAL_TEXT_F6}]}>
+            <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>2</Text>
+            <ImageBackground style={_styles.userImageBg} source={Images.tx}/>
+            <View style={{flex: 1, marginLeft: 12}}>
+              <View style={commonStyle.row}>
+                <Text style={[_styles.qhStatus, {color: Colors.NORMAL_TEXT_1E}]}>已取号</Text>
+                <Text style={[_styles.code, {color: Colors.NORMAL_TEXT_1E}]}>0045342345</Text>
+              </View>
+            </View>
+            <View style={[commonStyle.row, {marginRight: 17}]}>
+              <Image style={[_styles.jt,]} source={Images.shape_1_ji3}/>
+              <Text style={[_styles.userName, {color: Colors.NORMAL_TEXT_1E}]}>Lorem Ipsum</Text>
+              <Image style={_styles.sexImage} source={Images.xt_xn}/>
             </View>
           </View>
         </View>
@@ -61,6 +82,7 @@ export default class DrawMainCom extends PureComponent {
 const _styles = {
   container: {
     marginTop: 13,
+    marginBottom: 13
   },
   acContainer: {
     width: SCREEN_WIDTH,
@@ -86,18 +108,17 @@ const _styles = {
   },
   listContainer: {
     marginHorizontal: 10,
-    marginTop: 7
+    marginTop: 7,
+    width: SCREEN_WIDTH - 20,
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: SCREEN_WIDTH - 100,
-    height: 67
+    height: 67,
   },
   index: {
     fontSize: 12,
     fontFamily: Mario,
-    color: Colors.WHITE_COLOR,
     marginLeft: 8,
   },
   userImageBg: {
@@ -109,11 +130,9 @@ const _styles = {
     fontSize: 10,
     fontFamily: YaHei,
     fontWeight: '400',
-    color: Colors.WHITE_COLOR,
   },
   code: {
     fontSize: 11,
-    color: Colors.WHITE_COLOR,
     marginLeft: 12
   },
   zg: {
@@ -128,7 +147,6 @@ const _styles = {
   },
   userName: {
     fontSize: 11,
-    color: Colors.WHITE_COLOR,
     marginLeft: 11
   },
   sexImage: {

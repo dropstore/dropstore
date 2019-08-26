@@ -3,10 +3,10 @@
  * @date 2019/8/17 15:56
  * @author ZWW
  */
-import React from "react";
-import {Text, Alert, ActivityIndicator} from 'react-native';
-import {ModalIndicator, Toast} from 'teaset';
-import {TOAST_DURATION, TOAST_POSITON} from '../common/Constant';
+import React from 'react';
+import { Text, Alert, ActivityIndicator } from 'react-native';
+import { ModalIndicator, Toast } from 'teaset';
+import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';
 import Colors from '../res/Colors';
 
 let customKey = null;
@@ -30,7 +30,9 @@ export const showToast = (message) => {
  * @param {Boolean} cancelable - 是否可点击外部或Android返回键关闭
  * @param leftCallBack
  */
-export const showModal = (content, rightCallBack, {title = '提示', leftText = '取消', rightText = '确定', cancelable = false, leftCallBack = Function} = {},) => {
+export const showModal = (content, rightCallBack, {
+  title = '提示', leftText = '取消', rightText = '确定', cancelable = false, leftCallBack = Function,
+} = {}) => {
   Alert.alert(
     title,
     content,
@@ -44,7 +46,7 @@ export const showModal = (content, rightCallBack, {title = '提示', leftText = 
         onPress: () => rightCallBack(),
       },
     ], {
-      cancelable: cancelable,
+      cancelable,
     },
   );
 };
@@ -54,7 +56,7 @@ export const showModal = (content, rightCallBack, {title = '提示', leftText = 
  * @param {String} text
  * @param {Boolean} isModal - 是否是modal
  */
-export const showModalLoading = ({text = '加载中...', isModal = false} = {}) => {
+export const showModalLoading = ({ text = '加载中...', isModal = false } = {}) => {
   ModalIndicator.IndicatorView.defaultProps.modal = isModal;
   ModalIndicator.show(text);
 };
@@ -71,13 +73,13 @@ export const hideModalLoading = () => {
  * @param {String} text
  * @param {Number} duration 自动关闭时长
  */
-export const showToastLoading = ({text = '加载中...', duration = 10000} = {}) => {
+export const showToastLoading = ({ text = '加载中...', duration = 10000 } = {}) => {
   if (customKey) return;
   customKey = Toast.show({
     text: textView(text),
-    icon: <ActivityIndicator size='large'/>,
+    icon: <ActivityIndicator size="large" />,
     position: 'center',
-    duration: duration,
+    duration,
   });
 };
 
@@ -90,8 +92,6 @@ export const hideToastLoading = () => {
   customKey = null;
 };
 
-const textView = (text) => {
-  return (
-    <Text style={{fontSize: 15, color: Colors.WHITE_COLOR}}>{text}</Text>
-  )
-};
+const textView = text => (
+  <Text style={{ fontSize: 15, color: Colors.WHITE_COLOR }}>{text}</Text>
+);

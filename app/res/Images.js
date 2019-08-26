@@ -6,14 +6,19 @@
 const IMAGES = {
   advert: require('./image/advert.png'),
   drop: require('./image/drop.png'),
+  message: require('./image/message.png'),
+  personal: require('./image/personal.png'),
+  identify: require('./image/identify.png'),
+  freeTrade: require('./image/freeTrade.png'),
+  dropInactive: require('./image/drop-inactive.png'),
+  messageInactive: require('./image/message-inactive.png'),
+  personalInactive: require('./image/personal-inactive.png'),
+  identifyInactive: require('./image/identify-inactive.png'),
+  freeTradeInactive: require('./image/freeTrade-inactive.png'),
   zjt: require('./image/zjt.png'),
   ic_back_gray: require('./image/ic-back-gray.png'),
   instructions: require('./image/instructions.png'),
   loading: require('./image/loading.gif'),
-  message: require('./image/message.png'),
-  personal: require('./image/personal.png'),
-  search: require('./image/search.png'),
-  wallet: require('./image/wallet.png'),
   xh: require('./image/xh.png'),
   xm: require('./image/xm.png'),
   qe: require('./image/qe.png'),
@@ -63,6 +68,7 @@ const IMAGES = {
   frameBlack: require('./image/frame-black.png'),
   frameSize: require('./image/frame-size.png'),
   sexText: require('./image/sex-text.png'),
+  phoneNum: require('./image/phoneNum.png'),
 
   // 抽签或抢鞋流程图标 -- 1、2、3、4
   ex1: require('./image/ex1.png'),
@@ -90,6 +96,9 @@ const IMAGES = {
   tx: require('./image/tx.png'),
   // 个人中心
   frameHead: require('./image/frame-head.png'),
+
+  // 自由贸易
+  freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),

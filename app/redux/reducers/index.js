@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import test from './test';
 import userInfo from './userInfo';
 import activityList from './activityList';
@@ -8,5 +8,5 @@ export default combineReducers({
   test,
   userInfo,
   activityList,
-  shopDetailInfo
+  shopDetailInfo,
 });

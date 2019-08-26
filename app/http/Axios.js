@@ -10,13 +10,13 @@ import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUt
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
+import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
-const headers = {
-
-};
-
+const headers = () => ({
+  Authorization: store.getState().userInfo.user_s_id,
+});
 /**
  * 自定义Axios实例默认值
  * @type {AxiosInstance}
@@ -66,12 +66,13 @@ const request = async (url, {
   try {
     const data = { ...params, timestamp: Date.now() };
     response = await axiosInstance({
-      url, method, timeout, headers, params: { ...data, token: md5(sortObj(data)) }, baseURL,
+      url, method, timeout, headers: headers(), params: { ...data, token: md5(encodeURIComponent(sortObj(data))) }, baseURL,
     });
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
         return response.data;
       }
+      console.log(response.data);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }
