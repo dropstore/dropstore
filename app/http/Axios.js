@@ -5,6 +5,7 @@
  * @author ZWW
  */
 import Axios from 'axios';
+import qs from 'qs';
 import { isConnected } from '../utils/NetUtil';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
@@ -14,7 +15,8 @@ import { md5 } from '../utils/Md5Util';
 const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
 const headers = {
-
+      formHeader:{'Content-Type': 'application/x-www-form-urlencoded'},
+      jsonHeader:{'Content-Type': 'application/json'}
 };
 
 /**
@@ -24,9 +26,11 @@ const headers = {
 const axiosInstance = Axios.create({
   timeout,
 });
-
+axiosInstance.defaults.baseURL = baseURL;
 // 允许携带请求头
 axiosInstance.defaults.withCredentials = true;
+// 默认超时时间
+axiosInstance.defaults.timeout = timeout;
 // 网络请求前处理
 axiosInstance.interceptors.request.use(
   config => config,
@@ -53,7 +57,12 @@ axiosInstance.interceptors.response.use(
  */
 
 const request = async (url, {
-  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
+  isShowLoading = false,
+  loadingText = '加载中...',
+  method = 'post',
+  params = Object,
+  type = 'form',//默认是post下的formdata请求方式，可以换做post方式下的json方式
+
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -65,9 +74,28 @@ const request = async (url, {
   let response;
   try {
     const data = { ...params, timestamp: Date.now() };
-    response = await axiosInstance({
-      url, method, timeout, headers, params: { ...data, token: md5(sortObj(data)) }, baseURL,
-    });
+    if(method === 'post' && type === 'form'){//form方式请求
+      response = await axiosInstance({
+        url,
+        method: 'post',
+        headers:headers.formHeader,
+        data: qs.stringify({ ...data, token: md5(sortObj(data)) }),
+      });
+    }else if (method === 'post' && type === 'json'){//json方式请求
+      response = await axiosInstance({
+        url,
+        method: 'post',
+        headers:headers.jsonHeader,
+        data: { ...data, token: md5(sortObj(data)) },
+      });
+    }else if (method === 'get'){//get方式请求
+      response = await axiosInstance({
+        url,
+        method: 'get',
+        params: { ...data, token: md5(sortObj(data)) },
+      });
+    }
+
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
         return response.data;
