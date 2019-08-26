@@ -12,14 +12,8 @@ import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
 import { messageAuth, weChatAuth } from '../../redux/actions/userInfo';
-import { getUserInfo } from '../../redux/reselect/userInfo';
 import PhoneNumCom from './PhoneNumCom';
-
-function mapStateToProps() {
-  return state => ({
-    userInfo: getUserInfo(state),
-  });
-}
+import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -94,7 +88,7 @@ class AuthLoading extends PureComponent {
     const { showLoading, disabled } = this.state;
 
     return (
-      <View style={styles.container}>
+      <KeyboardDismiss style={styles.container}>
         <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
         <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
         <ImageBackground
@@ -113,7 +107,7 @@ class AuthLoading extends PureComponent {
           />
         </View>
         { showLoading && <ActivityIndicator size="large" style={styles.centering} /> }
-      </View>
+      </KeyboardDismiss>
     );
   }
 }
@@ -164,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthLoading);
+export default connect(null, mapDispatchToProps)(AuthLoading);

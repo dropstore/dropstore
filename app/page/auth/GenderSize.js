@@ -31,9 +31,10 @@ function mapDispatchToProps(dispatch) {
 class GenderSize extends PureComponent {
   constructor(props) {
     super(props);
+    const { userInfo } = this.props;
     this.state = {
       size: 42.5,
-      gender: null,
+      gender: userInfo.sex,
     };
   }
 
@@ -104,13 +105,13 @@ class GenderSize extends PureComponent {
         <Image style={styles.sexText} source={Images.sexText} />
         <View style={[styles.genderWrapper]}>
           <TouchableOpacity onPress={() => this.chooseGender(1)}>
-            <View style={[styles.gender, { opacity: gender === 1 ? 1 : 0.35 }]}>
+            <View style={[styles.gender, { opacity: parseInt(gender) === 1 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconBoy} />
               <Image style={styles.boy} source={Images.boy} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.chooseGender(2)}>
-            <View style={[styles.gender, { opacity: gender === 2 ? 1 : 0.35 }]}>
+            <View style={[styles.gender, { opacity: parseInt(gender) === 2 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconGirl} />
               <Image style={styles.boy} source={Images.girl} />
             </View>

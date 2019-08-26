@@ -12,6 +12,13 @@ import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import { receiveUser } from '../../redux/actions/userInfo';
+import { getUserInfo } from '../../redux/reselect/userInfo';
+
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -20,6 +27,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 class NameAge extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { userInfo } = this.props;
+    this.nickName = userInfo.user_name;
+  }
+
   goBack = () => {
     const { navigation } = this.props;
     navigation.pop();
@@ -47,6 +60,7 @@ class NameAge extends PureComponent {
   }
 
   render() {
+    const { userInfo } = this.props;
     return (
       <KeyboardDismiss style={styles.container}>
         <Image style={styles.nameAge} source={Images.nameAge} />
@@ -57,6 +71,7 @@ class NameAge extends PureComponent {
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
             style={styles.age}
+            defaultValue={userInfo.user_name}
             clearButtonMode="while-editing"
             onChangeText={this.onChangeName}
           />
@@ -125,4 +140,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(NameAge);
+export default connect(mapStateToProps, mapDispatchToProps)(NameAge);

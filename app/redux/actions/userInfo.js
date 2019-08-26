@@ -12,20 +12,31 @@ const receiveIosNativeDeviceId = createAction('RECEIVE_IOS_NATIVE_DEVICE_ID');
 // 微信登录
 function weChatAuth(i) {
   return dispatch => new Promise((resolve) => {
-    AuthUtil(i).then((res) => {
+    AuthUtil(i).then((wxRes) => {
+      const sex = {
+        男: 1,
+        女: 2,
+        1: 1,
+        2: 2,
+      }[wxRes.gender];
       const params = {
-        unionid: res.unionid,
-        openid: res.openid,
-        avatar: res.iconurl,
-        sex: res.gender,
-        user_name: res.name,
+        unionid: wxRes.unionid,
+        openid: wxRes.openid,
+        avatar: wxRes.iconurl,
+        sex,
+        user_name: wxRes.name,
       };
       request('user/wx_login', { params }).then((res) => {
-        if (res.data.user_name) {
+        if (parseInt(res.data.size) > 0) {
           dispatch(receiveUser(res.data));
           resolve(true);
         } else {
-          dispatch(receiveUser({ user_s_id: res.data.user_s_id }));
+          dispatch(receiveUser({
+            user_s_id: res.data.user_s_id,
+            user_name: wxRes.name,
+            sex,
+            avatar: wxRes.iconurl,
+          }));
           resolve(false);
         }
       });
