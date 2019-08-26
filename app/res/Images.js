@@ -83,6 +83,11 @@ const IMAGES = {
   sel: require('./image/sel.png'),
   unSel: require('./image/unsel.png'),
 
+  // 活动成员列表
+  xt_xn: require('./image/xtxn.png'),
+  nh_tx: require('./image/nhtx.png'),
+  shape_1_ji3: require('./image/shape_1_ji3.png'),
+  tx: require('./image/tx.png'),
   // 个人中心
   frameHead: require('./image/frame-head.png'),
 

@@ -4,10 +4,11 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import Image from '../../../../components/Image';
+import {hitSlop} from '../../../../common/Constant';
 import Images from '../../../../res/Images';
 import {YaHei, Mario} from '../../../../res/FontFamily';
 import ShopConstant from "../../../../common/ShopConstant";
@@ -53,6 +54,8 @@ class ShopBasicInfoCom extends PureComponent {
       this.setState({startDownTime: countDown(sTimeStamp)})
     } else if (eTimeStamp > 0) {
       this.setState({endDownTime: countDown(eTimeStamp)})
+    }else{
+      // this._timer && clearInterval(this._timer);
     }
   };
 
@@ -90,10 +93,13 @@ class ShopBasicInfoCom extends PureComponent {
     const shopInfo = shopDetailInfo.data;
     return (
       <View style={{marginBottom: 16}}>
-        <View style={_styles.explainView}>
-          <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
-          <Text style={_styles.explainText}>查看活动说明</Text>
-        </View>
+        <TouchableOpacity hitSlop={{top: 50, bottom: 50, left: 50, right: 50}} onPress={()=>alert('查看活动说明')}>
+          <View style={_styles.explainView}>
+            <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth}/>
+            <Text style={_styles.explainText}>查看活动说明</Text>
+          </View>
+        </TouchableOpacity>
+
         <View style={_styles.mainView}>
           <Image resizeMode="contain" style={_styles.imageShoe} source={shopInfo.goods.image}/>
           {

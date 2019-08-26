@@ -1,16 +1,16 @@
 /**
- * @file 抽签或抢购或锦鲤规则组件
+ * @file 抽签、抢购、锦鲤规则组件
  * @date 2019/8/19 13:50
  * @author ZWW
  */
 
 import React, {PureComponent} from 'react';
 import {StyleSheet, Text, View,} from 'react-native';
-import Image from '../../../../../../components/Image';
-import {YaHei} from '../../../../../../res/FontFamily';
-import Images from '../../../../../../res/Images';
-import ShopConstant from '../../../../../../common/ShopConstant';
-import {checkTime} from '../../../../../../utils/TimeUtils';
+import Image from '../../../../components/Image';
+import {YaHei} from '../../../../res/FontFamily';
+import Images from '../../../../res/Images';
+import ShopConstant from '../../../../common/ShopConstant';
+import {checkTime} from '../../../../utils/TimeUtils';
 
 
 export default class RuleCom extends PureComponent {

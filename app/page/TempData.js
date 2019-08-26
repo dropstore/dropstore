@@ -206,13 +206,13 @@ export const shopDetail = {
     "type": 2,
     price: 1999,
     a_price: 999,
-    start_time: 1566647070,
+    start_time: 1566803587,
     end_time: 1566483000,
     add_time: "10:67:90",
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 2
+    b_type: 1
   },
   goods: {
     id: "g_Id1",
