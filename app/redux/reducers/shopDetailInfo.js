@@ -8,7 +8,7 @@ import {
 
 const initShopInfo = {
   shopData: {
-    isStartRequest: false,
+    isFetching: false,
     isRequestSuccess: false,
     activity_id: '',
     data: {},
@@ -22,14 +22,14 @@ const actions = {};
 actions[requestShopDetailInfo] = (state) => {
   return {
     ...state,
-    shopData: {...state.shopData, isStartRequest: true}
+    shopData: {...state.shopData, isFetching: true}
   }
 };
 actions[receiveShopDetailInfo] = (state, action) => {
   return {
     ...state,
     shopData: {
-      isStartRequest: false,
+      isFetching: false,
       isRequestSuccess: true,
       // activity_id: action.payload.activity_id,
       data: action.payload.shopDetail
@@ -40,7 +40,7 @@ actions[notReceiveShopDetailInfo] = (state) => {
   return {
     ...state,
     shopData: {
-      isStartRequest: false,
+      isFetching: false,
       isRequestSuccess: false,
       activity_id: '',
       data: {},

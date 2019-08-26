@@ -21,7 +21,7 @@ function setList(state, action) {
   if (action.payload.currentPage > 1) {
     activityList = state.activityData.list;
   }
-  return [...activityList, ...action.payload.list];
+  return [...activityList, ...action.payload.data.list];
 }
 
 const actions = {};
@@ -38,7 +38,7 @@ actions[receiveActivityList] = (state, action) => {
       isFetching: false,
       isSuccess: true,
       currentPage: action.payload.currentPage,
-      totalPages: action.payload.totalPages,
+      totalPages: action.payload.data.number,
       limit: initActivity.activityData.limit,
       list: setList(state, action),
     }

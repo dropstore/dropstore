@@ -1,7 +1,8 @@
 import {DeviceEventEmitter} from 'react-native';
+import {request} from '../../http/Axios';
 import {createAction} from 'redux-actions';
 
-import {hideModalLoading, showModalLoading} from "../../utils/MutualUtil";
+import {hideModalLoading, showModalLoading, showToast} from "../../utils/MutualUtil";
 import {shopDetail1, tempData} from "../../page/TempData";
 import ShopConstant from "../../common/ShopConstant";
 
@@ -21,29 +22,22 @@ function getActivityList(type, {fetchNextPage = false} = {}) {
     const activityData = getState().activityList.activityData;
     const pn = fetchNextPage ? activityData.currentPage + 1 : 1;
     pn === 1 && dispatch(resetActivityList());
-
     const params = {
       type: type,
-      limit: activityData.limit,
+      limit: activityData.currentPage.limit,
       pn: pn,
     };
-
-    showModalLoading();
-    dispatch(requestActivityList());
-    setTimeout(() => {
-      dispatch(receiveActivityList({'list': tempData}));
-      hideModalLoading();
-    }, 500)
-    // request('/activity/activity_list', {params}).then((res) => {
-    //   dispatch(receiveActivityList({'list':res.list,'totalPage':xxx}))
-    // }).catch((err) => {
-    //   dispatch(resetActivityList(err))
-    // })
+    request('/activity/activity_list', {params: params, type: 'form'}).then((res) => {
+      dispatch(receiveActivityList({'data': res.list, 'currentPage': pn}));
+    }).catch((err) => {
+      dispatch(resetActivityList());
+    })
   };
 }
 
 export {
   requestActivityList,
   receiveActivityList,
-  resetActivityList
+  resetActivityList,
+  getActivityList
 }

@@ -3,58 +3,113 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import React, {PureComponent} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
 import ScaleView from '../../../components/ScaleView';
 import Image from '../../../components/Image';
-import { debounce } from '../../../utils/commonUtils';
+import {debounce} from '../../../utils/commonUtils';
 import Colors from '../../../res/Colors';
-import { YaHei, Mario } from '../../../res/FontFamily';
+import Images from '../../../res/Images';
+import {Mario, YaHei} from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
+import {checkTime, countDown, submitFormat} from "../../../utils/TimeUtils";
 
-// 简单的通过自定义数据的状态值控制显示及隐藏。
 class ShopListItemCom extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDownTime: '',
+      endDownTime: '',
+    }
+  }
+
+  componentDidMount() {
+    this._setBuyTimeDOM();
+    this._timer = setInterval(() => {
+      this._setBuyTimeDOM();
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    this._timer && clearInterval(this._timer);
+  }
+
   toShopDetailPage = () => {
-    const { navigation, item } = this.props;
+    const {navigation, item} = this.props;
     navigation.push('shopDetail', {
       rate: '+25',
-      shopId: '',
-      type: ShopConstant.SELF_SUPPORT,
-      // type: item.status,
-      item, // 仅用于死数据，调用接口传id
+      shopId: item.id,
+      type: item.type,
     });
   };
 
+  _setTimeDOM = (item) => {
+    this._setBuyTimeDOM();
+    return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>
+  };
+
+  _setBuyTimeDOM = () => {
+    const {item} = this.props;
+    if (item.type === ShopConstant.SELF_SUPPORT) {
+      if (item.b_type === ShopConstant.BUY) {
+        // 活动开始时间
+        let start_time = item.start_time;
+        // 活动结束时间
+        let end_time = item.end_time;
+        let sTimeStamp = checkTime(start_time);
+        let eTimeStamp = checkTime(end_time);
+        if (sTimeStamp > 0) {
+          this.setState({startDownTime: countDown(sTimeStamp)}, () => {
+            return this._setBuyDOM('距开始：', this.state.startDownTime)
+          })
+        } else if (eTimeStamp > 0) {
+          this.setState({endDownTime: countDown(eTimeStamp)}, () => {
+            return this._setBuyDOM('距结束：', this.state.endDownTime)
+          })
+        } else {
+          this._timer && clearInterval(this._timer);
+          return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>
+        }
+      }
+    }
+  };
+
+  _setBuyDOM = (text, time) => {
+    return (
+      <View style={_styles.overView}>
+        <Text style={_styles.overTitle}>{text}</Text>
+        <Text style={_styles.overTime}>{time}</Text>
+      </View>
+    )
+  };
+
+  _setBTypeDOM = (item) => {
+    if (item.type === ShopConstant.SELF_SUPPORT) {
+      if (item.b_type === ShopConstant.BUY) {
+        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qe}/>
+      }
+      return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr}/>
+    }
+  };
+
   render() {
-    const { item } = this.props;
+    const {item} = this.props;
     return (
       <ScaleView style={_styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
-        <Image style={_styles.plusIcon} source={item.leftImage} />
+        <Image style={_styles.plusIcon} source={item.leftImage}/>
         <View style={_styles.middle}>
-          <View style={{ flex: 1 }}>
-            <Text style={_styles.shopTitle}>{item.shopTitle}</Text>
-            <Text style={[_styles.shopTitle, { marginTop: 3 }]}>
-              {item.shopSubTitle}
-            </Text>
+          <View style={{flex: 1}}>
+            <Text style={_styles.shopTitle}>{item.activity_name}</Text>
             <Text style={_styles.price}>{`${item.price}￥`}</Text>
             {
-              item.status !== 0
-                ? <Text style={_styles.time}>{item.time}</Text>
-                : (
-                  <View style={_styles.overView}>
-                    <Text style={_styles.overTitle}>距结束:</Text>
-                    <Text style={_styles.overTime}>{item.endTime}</Text>
-                  </View>
-                )
+              this._setTimeDOM(item)
             }
           </View>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={item.shoe} />
+          <Image resizeMode="contain" style={_styles.imageShoe} source={item.image}/>
         </View>
         {
-          item.status !== 2
-            ? <Image style={_styles.statusImage} resizeMode="cover" source={item.statusImage} />
-            : <View />
+          this._setBTypeDOM(item)
         }
       </ScaleView>
     );

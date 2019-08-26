@@ -117,7 +117,7 @@ class ShopDetail extends PureComponent {
     const {shopDetailInfo} = this.props;
     const data = shopDetailInfo.data;
     let isNormalObject = data instanceof Object && Object.keys(data).length !== 0;
-    if (shopDetailInfo.isStartRequest) {
+    if (shopDetailInfo.isFetching) {
       return <View/>
     }
     if (isNormalObject) {

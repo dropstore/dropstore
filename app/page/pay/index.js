@@ -83,7 +83,7 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    this.showOver(navigation, shopDetailInfo, true)
+    this.showOver(navigation, shopDetailInfo, false)
   };
 
   /**
