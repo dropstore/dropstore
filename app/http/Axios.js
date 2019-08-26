@@ -63,7 +63,7 @@ const request = async (url, {
   loadingText = '加载中...',
   method = 'post',
   params = Object,
-  type = 'form',//默认是post下的formdata请求方式，可以换做post方式下的json方式
+  type = 'json',//默认是post下的formdata请求方式，可以换做post方式下的json方式
 
 } = {}) => {
   if (!await isConnected()) {
