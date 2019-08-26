@@ -18,6 +18,8 @@ const NAV_HEIGHT = 44;
 const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : 25;
 const PADDING_TAB = IS_IPHONE_X ? 20 : 0;
 const STATUSBAR_AND_NAV_HEIGHT = STATUSBAR_HEIGHT + NAV_HEIGHT;
+
+// 适用于小图标
 const hitSlop = {
   top: 12, bottom: 12, left: 8, right: 8,
 };

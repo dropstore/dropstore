@@ -12,11 +12,41 @@ import {bottomStyle} from '../../../res/style/BottomStyle';
 import Images from '../../../res/Images';
 import Colors from '../../../res/Colors';
 import {Mario, YaHei} from "../../../res/FontFamily";
+import {checkTime, countDown} from "../../../utils/TimeUtils";
 
-export default class PayStatusCom extends PureComponent {
+export default class PaySuccessCom extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      startDownTime: '',
+    }
   }
+
+  componentDidMount() {
+    this._setTime();
+    this._timer = setInterval(() => {
+      this._setTime();
+    }, 1000)
+  }
+
+  componentWillUnmount() {
+    this._timer && clearInterval(this._timer);
+  }
+
+  _setTime = () => {
+    let sTimeStamp = this._getStartTime();
+    if (sTimeStamp > 0) {
+      this.setState({startDownTime: countDown(sTimeStamp)})
+    }
+  };
+
+  _getStartTime = () => {
+    const {shopDetailInfo} = this.props;
+    const data = shopDetailInfo.data;
+    // 活动开始时间
+    let start_time = data.activity.start_time;
+    return checkTime(start_time);
+  };
 
   render() {
     const {navigation, closeOver} = this.props;
@@ -24,16 +54,21 @@ export default class PayStatusCom extends PureComponent {
       <View style={_style.container}>
         <View style={_style.mainView}>
           <Text style={_style.statusText}>支付成功</Text>
-          <View style={[commonStyle.row, {marginTop: 26}]}>
-            <Text style={_style.waitLeft}>等待发布：</Text>
-            <Text style={_style.time}>10:56:57</Text>
-          </View>
+          {
+            this._getStartTime() > 0 ? <View style={[commonStyle.row, {marginTop: 26}]}>
+              <Text style={_style.waitLeft}>等待发布：</Text>
+              <Text style={_style.time}>{this.state.startDownTime}</Text>
+            </View> : <View/>
+          }
         </View>
         <View style={bottomStyle.bottomView}>
-          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
-                           onPress={() => alert('分享')}>
-            <Text style={bottomStyle.buttonText}>分享邀请</Text>
-          </ImageBackground>
+          {
+            this._getStartTime() > 0 ? <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
+                                                        onPress={() => alert('分享')}>
+              <Text style={bottomStyle.buttonText}>分享邀请</Text>
+            </ImageBackground> : <View/>
+          }
+
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
                            onPress={() => {
                              closeOver();

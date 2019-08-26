@@ -11,7 +11,7 @@ import BuyMainCom from './components/BuyMainCom';
 import DrawMainCom from './components/DrawMainCom';
 import ShopMainBodyCom from '../../main/ShopMainBodyCom';
 import ShopConstant from '../../../../../common/ShopConstant';
-import RuleCom from "./components/RuleCom";
+import RuleCom from "../RuleCom";
 import {getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
 import {checkTime} from "../../../../../utils/TimeUtils";
 

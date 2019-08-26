@@ -164,6 +164,7 @@ export default class LuckyCharmList extends PureComponent {
           <ShopList
             shopList={this.state.shopList}
             firstCom={<MyTopImage style={styles.imageBox} />}
+
           />
     );
   }

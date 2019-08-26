@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import {withNavigation} from "react-navigation";
 import LuckBottom from '../../bottom/LuckBottomCom';
 import ShopDetail from '../../main/ShopMainBodyCom';
-import RuleCom from "../self/components/RuleCom";
+import RuleCom from "../RuleCom";
 import {getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
 import {checkTime} from "../../../../../utils/TimeUtils";
 
