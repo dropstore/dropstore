@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import NavigationBarCom from '../../components/NavigationBarCom';
+import Images from '../../res/Images';
+import Image from '../../components/Image';
+import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class Identify extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
         <NavigationBarCom headerTitle="鉴定" isShowLeftView={false} />
-        <Text style={{ fontSize: 16 }}>敬请期待</Text>
+        <Image style={{ width: wPx2P(480 / 2), height: wPx2P(190 / 2) }} source={Images.identifyPlaceholder} />
       </View>
     );
   }

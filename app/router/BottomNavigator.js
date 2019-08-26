@@ -6,6 +6,7 @@ import {
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
+import ImageBackground from '../components/ImageBackground';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
 import Colors from '../res/Colors';
 import { wPx2P } from '../utils/ScreenUtil';
@@ -15,7 +16,7 @@ import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Message from '../page/message';
 
-const HOME_ICON_WIDTH = wPx2P(120);
+const HOME_ICON_WIDTH = wPx2P(110);
 const PADDING_HORIZONTAL = 18;
 const TAB_HEIGHT = 53;
 
@@ -121,28 +122,10 @@ export default class BottomNavigator extends PureComponent {
                         ? (
                           <Animated.View style={{ opacity: this.opacity[index] }}>
                             {
-                              v.key === 'drop' ? (
-                                <Image
-                                  style={{
-                                    width: HOME_ICON_WIDTH,
-                                    height: wPx2P(65),
-                                    marginBottom: 27.5,
-                                    opacity: indexState === index ? 1 : 0.35,
-                                  }}
-                                  source={Images.drop}
-                                />
-                              )
-                                : (
-                                  <Image
-                                    resizeMode="contain"
-                                    style={{
-                                      width: wPx2P(26),
-                                      height: '100%',
-                                      opacity: indexState === index ? 1 : 0.35,
-                                    }}
-                                    source={Images[v.key]}
-                                  />
-                                )
+                              v.key === 'drop'
+                                ? <Image style={styles.drop} source={indexState === index ? Images.drop : Images.dropInactive} />
+                                : <Image resizeMode="contain" style={{ width: wPx2P(26), height: '100%', opacity: indexState === index ? 1 : 0.35 }} source={Images[v.key]} />
+
                             }
                           </Animated.View>
                         )
@@ -187,5 +170,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     bottom: TAB_HEIGHT + PADDING_TAB,
+  },
+  drop: {
+    width: HOME_ICON_WIDTH,
+    height: wPx2P(59),
+    marginBottom: 27.5,
   },
 });
