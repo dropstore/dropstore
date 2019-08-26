@@ -33,6 +33,7 @@ class GenderSize extends PureComponent {
     super(props);
     this.state = {
       size: 42.5,
+      gender: null,
     };
   }
 
@@ -43,10 +44,10 @@ class GenderSize extends PureComponent {
 
   goNext = () => {
     const { navigation, userInfo, updateUser } = this.props;
-    const { size } = this.state;
-    if (this.gender) {
+    const { size, gender } = this.state;
+    if (gender) {
       const user = {
-        size, sex: this.gender, user_name: userInfo.user_name, age: userInfo.age,
+        size, sex: gender, user_name: userInfo.user_name, age: userInfo.age,
       };
       updateUser(user).then(() => {
         AsyncStorage.setItem('token', userInfo.user_s_id);
@@ -74,49 +75,51 @@ class GenderSize extends PureComponent {
   }
 
   chooseGender = (gender) => {
-    this.gender = gender;
+    this.setState({ gender });
   }
 
   render() {
-    const { size } = this.state;
+    const { size, gender } = this.state;
     const hitSlop = {
       top: 20, left: 50, right: 50, bottom: 20,
     };
     return (
-      <KeyboardDismiss>
-        <View style={styles.container}>
-          <Image style={styles.sizeGender} source={Images.sizeGender} />
-          <ImageBackground
-            style={styles.iconUp}
-            source={Images.iconUp}
-            onPress={this.upSize}
-            hitSlop={hitSlop}
-          />
-          <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
-            <Text style={styles.sizeText}>{size}</Text>
-          </ImageBackground>
-          <ImageBackground
-            style={styles.iconUp}
-            source={Images.iconDown}
-            onPress={this.downSize}
-            hitSlop={hitSlop}
-          />
-          <Image style={styles.sexText} source={Images.sexText} />
-          <View style={styles.genderWrapper}>
-            <TouchableOpacity style={styles.gender} onPress={() => this.chooseGender(1)}>
+      <KeyboardDismiss style={styles.container}>
+        <Image style={styles.sizeGender} source={Images.sizeGender} />
+        <ImageBackground
+          style={styles.iconUp}
+          source={Images.iconUp}
+          onPress={this.upSize}
+          hitSlop={hitSlop}
+        />
+        <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
+          <Text style={styles.sizeText}>{size}</Text>
+        </ImageBackground>
+        <ImageBackground
+          style={styles.iconUp}
+          source={Images.iconDown}
+          onPress={this.downSize}
+          hitSlop={hitSlop}
+        />
+        <Image style={styles.sexText} source={Images.sexText} />
+        <View style={[styles.genderWrapper]}>
+          <TouchableOpacity onPress={() => this.chooseGender(1)}>
+            <View style={[styles.gender, { opacity: gender === 1 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconBoy} />
               <Image style={styles.boy} source={Images.boy} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.gender} onPress={() => this.chooseGender(2)}>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.chooseGender(2)}>
+            <View style={[styles.gender, { opacity: gender === 2 ? 1 : 0.35 }]}>
               <Image style={styles.iconBoy} source={Images.iconGirl} />
               <Image style={styles.boy} source={Images.girl} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.bottom}>
-            <ImageBackground source={Images.frameLogin} style={styles.frameLogin} onPress={this.goNext}>
-              <Text style={styles.nextText}>开始体验</Text>
-            </ImageBackground>
-          </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bottom}>
+          <ImageBackground source={Images.frameLogin} style={styles.frameLogin} onPress={this.goNext}>
+            <Text style={styles.nextText}>开始体验</Text>
+          </ImageBackground>
         </View>
       </KeyboardDismiss>
     );

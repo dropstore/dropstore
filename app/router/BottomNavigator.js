@@ -127,7 +127,7 @@ export default class BottomNavigator extends PureComponent {
                                     width: HOME_ICON_WIDTH,
                                     height: wPx2P(65),
                                     marginBottom: 27.5,
-                                    opacity: indexState === index ? 1 : 0.4,
+                                    opacity: indexState === index ? 1 : 0.35,
                                   }}
                                   source={Images.drop}
                                 />
@@ -138,7 +138,7 @@ export default class BottomNavigator extends PureComponent {
                                     style={{
                                       width: wPx2P(26),
                                       height: '100%',
-                                      opacity: indexState === index ? 1 : 0.4,
+                                      opacity: indexState === index ? 1 : 0.35,
                                     }}
                                     source={Images[v.key]}
                                   />

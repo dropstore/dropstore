@@ -47,18 +47,16 @@ class PhoneNum extends PureComponent {
 
   render() {
     return (
-      <KeyboardDismiss>
-        <View style={styles.container}>
-          <Image style={styles.phoneNum} source={Images.phoneNum} />
-          <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
-          <View style={styles.bottom}>
-            <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
-              <Text style={styles.nextText}>上一步</Text>
-            </ImageBackground>
-            <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
-              <Text style={styles.nextText}>下一步</Text>
-            </ImageBackground>
-          </View>
+      <KeyboardDismiss style={styles.container}>
+        <Image style={styles.phoneNum} source={Images.phoneNum} />
+        <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
+        <View style={styles.bottom}>
+          <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
+            <Text style={styles.nextText}>上一步</Text>
+          </ImageBackground>
+          <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
+            <Text style={styles.nextText}>下一步</Text>
+          </ImageBackground>
         </View>
       </KeyboardDismiss>
     );

@@ -48,40 +48,38 @@ class NameAge extends PureComponent {
 
   render() {
     return (
-      <KeyboardDismiss>
-        <View style={styles.container}>
-          <Image style={styles.nameAge} source={Images.nameAge} />
-          <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
-            <TextInput
-              maxLength={6}
-              placeholder="昵称_"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              style={styles.age}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChangeName}
-            />
+      <KeyboardDismiss style={styles.container}>
+        <Image style={styles.nameAge} source={Images.nameAge} />
+        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+          <TextInput
+            maxLength={6}
+            placeholder="昵称_"
+            placeholderTextColor="#d3d3d3"
+            underlineColorAndroid="transparent"
+            style={styles.age}
+            clearButtonMode="while-editing"
+            onChangeText={this.onChangeName}
+          />
+        </ImageBackground>
+        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+          <TextInput
+            maxLength={6}
+            keyboardType="number-pad"
+            placeholder="年龄_"
+            placeholderTextColor="#d3d3d3"
+            underlineColorAndroid="transparent"
+            style={styles.age}
+            clearButtonMode="while-editing"
+            onChangeText={this.onChangeAge}
+          />
+        </ImageBackground>
+        <View style={styles.bottom}>
+          <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
+            <Text style={styles.nextText}>上一步</Text>
           </ImageBackground>
-          <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
-            <TextInput
-              maxLength={6}
-              keyboardType="number-pad"
-              placeholder="年龄_"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              style={styles.age}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChangeAge}
-            />
+          <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
+            <Text style={styles.nextText}>下一步</Text>
           </ImageBackground>
-          <View style={styles.bottom}>
-            <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
-              <Text style={styles.nextText}>上一步</Text>
-            </ImageBackground>
-            <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
-              <Text style={styles.nextText}>下一步</Text>
-            </ImageBackground>
-          </View>
         </View>
       </KeyboardDismiss>
     );
