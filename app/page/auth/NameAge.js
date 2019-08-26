@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, TextInput, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Image from '../../components/Image';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 import Images from '../../res/Images';
@@ -9,15 +11,22 @@ import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
+import { receiveUser } from '../../redux/actions/userInfo';
 
-export default class NameAge extends PureComponent {
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    receiveUser,
+  }, dispatch);
+}
+
+class NameAge extends PureComponent {
   goBack = () => {
     const { navigation } = this.props;
     navigation.pop();
   }
 
   goNext = () => {
-    const { navigation } = this.props;
+    const { navigation, receiveUser } = this.props;
     if (!this.nickName) {
       showToast('请输入昵称');
       return;
@@ -25,9 +34,8 @@ export default class NameAge extends PureComponent {
       showToast('请输入年龄');
       return;
     }
-    navigation.push('GenderSize', {
-      params: { nickName: this.nickName, age: this.age },
-    });
+    receiveUser({ user_name: this.nickName, age: this.age });
+    navigation.push('GenderSize');
   }
 
   onChangeName = (nickName) => {
@@ -118,3 +126,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default connect(null, mapDispatchToProps)(NameAge);

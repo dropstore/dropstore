@@ -12,7 +12,7 @@ function configureStore() {
   const store = createStore(persistReducer({
     key: 'root',
     storage: AsyncStorage,
-    whitelist: [],
+    whitelist: ['userInfo'],
   }, reducers), undefined, compose(middlewares));
 
   persistStore(store);

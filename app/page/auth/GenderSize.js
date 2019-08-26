@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import AsyncStorage from '@react-native-community/async-storage';
 import Image from '../../components/Image';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 import Images from '../../res/Images';
@@ -10,8 +13,22 @@ import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
+import { updateUser } from '../../redux/actions/userInfo';
+import { getUserInfo } from '../../redux/reselect/userInfo';
 
-export default class GenderSize extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    updateUser,
+  }, dispatch);
+}
+
+class GenderSize extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,13 +42,16 @@ export default class GenderSize extends PureComponent {
   }
 
   goNext = () => {
-    const { navigation } = this.props;
+    const { navigation, userInfo, updateUser } = this.props;
     const { size } = this.state;
-    const { nickName, age } = navigation.getParam('params');
     if (this.gender) {
-      console.log(nickName, age, size, this.gender);
-
-      navigation.navigate('Main');
+      const user = {
+        size, sex: this.gender, user_name: userInfo.user_name, age: userInfo.age,
+      };
+      updateUser(user).then(() => {
+        AsyncStorage.setItem('token', userInfo.user_s_id);
+        navigation.navigate('Main');
+      });
     } else {
       showToast('请选择性别');
     }
@@ -175,3 +195,5 @@ const styles = StyleSheet.create({
     width: wPx2P(66),
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(GenderSize);

@@ -8,45 +8,23 @@ import Image from '../components/Image';
 import Images from '../res/Images';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
 import Colors from '../res/Colors';
-import { px2Dp } from '../utils/ScreenUtil';
+import { wPx2P } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
 import Identify from '../page/identify';
 import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Message from '../page/message';
-import ShareUtil from '../utils/ShareUtil';
-import AuthUtil from '../utils/AuthUtil';
 
-const HOME_ICON_WIDTH = px2Dp(239);
+const HOME_ICON_WIDTH = wPx2P(120);
 const PADDING_HORIZONTAL = 18;
 const TAB_HEIGHT = 53;
 
 const ROUTES = [
-  {
-    screen: <Personal />,
-    key: 'Personal',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={Images.personal} />,
-  },
-  {
-    screen: <Identify />,
-    key: 'Identify',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(66), height: '100%' }} source={Images.search} />,
-  },
-  {
-    screen: <HomePage />,
-    key: 'HomePage',
-    icon: <Image style={{ width: HOME_ICON_WIDTH, height: px2Dp(130), marginBottom: 27.5 }} source={Images.drop} />,
-  },
-  {
-    screen: <FreeTrade />,
-    key: 'FreeTrade',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(65), height: '100%' }} source={Images.wallet} />,
-  },
-  {
-    screen: <Message />,
-    key: 'Message',
-    icon: <Image resizeMode="contain" style={{ width: px2Dp(69), height: '100%' }} source={Images.message} />,
-  },
+  { screen: <Personal />, key: 'personal' },
+  { screen: <Identify />, key: 'identify' },
+  { screen: <HomePage />, key: 'drop' },
+  { screen: <FreeTrade />, key: 'freeTrade' },
+  { screen: <Message />, key: 'message' },
 ];
 
 export default class BottomNavigator extends PureComponent {
@@ -109,7 +87,7 @@ export default class BottomNavigator extends PureComponent {
   renderTabBar = () => null;
 
   render() {
-    const { routes, index } = this.state;
+    const { routes, index: indexState } = this.state;
     return (
       <View style={styles.container}>
         <TabView
@@ -140,7 +118,34 @@ export default class BottomNavigator extends PureComponent {
                 >
                   {
                       v
-                        ? <Animated.View style={{ opacity: this.opacity[index] }}>{v.icon}</Animated.View>
+                        ? (
+                          <Animated.View style={{ opacity: this.opacity[index] }}>
+                            {
+                              v.key === 'drop' ? (
+                                <Image
+                                  style={{
+                                    width: HOME_ICON_WIDTH,
+                                    height: wPx2P(65),
+                                    marginBottom: 27.5,
+                                    opacity: indexState === index ? 1 : 0.4,
+                                  }}
+                                  source={Images.drop}
+                                />
+                              )
+                                : (
+                                  <Image
+                                    resizeMode="contain"
+                                    style={{
+                                      width: wPx2P(26),
+                                      height: '100%',
+                                      opacity: indexState === index ? 1 : 0.4,
+                                    }}
+                                    source={Images[v.key]}
+                                  />
+                                )
+                            }
+                          </Animated.View>
+                        )
                         : <View style={{ flex: 1, height: '100%' }} />
                     }
                 </TouchableWithoutFeedback>

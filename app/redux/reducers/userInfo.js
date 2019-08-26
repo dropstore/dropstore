@@ -4,22 +4,6 @@ import {
 } from '../actions/userInfo';
 
 const initialState = {
-  user_s_id: null,
-  uid: null,
-  wechat_open_id: null,
-  wechat_union_id: null,
-  messageSendSuccess: false,
-  sendTime: 0,
-  iosNativeDeviceId: null,
-  profile_image: null,
-  nickname: null,
-  gender: null,
-  phone: null,
-  name: null,
-  level: null,
-  checkout_times: null,
-  sendPhone: null,
-  guan_list: '',
 };
 
 export default handleActions({
@@ -44,7 +28,7 @@ export default handleActions({
     nickname: null,
     gender: null,
     name: null,
-    phone: null,
+    mobile: null,
     level: null,
     checkout_times: null,
   }),

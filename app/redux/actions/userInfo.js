@@ -1,5 +1,7 @@
 import { createAction } from 'redux-actions';
 import { request } from '../../http/Axios';
+import AuthUtil from '../../utils/AuthUtil';
+import { showToast } from '../../utils/MutualUtil';
 
 const receiveAuth = createAction('RECEIVE_AUTH');
 const setMessageSendFlag = createAction('SET_MESSAGE_SEND_FLAG');
@@ -8,44 +10,53 @@ const resetUser = createAction('RESET_USER');
 const receiveIosNativeDeviceId = createAction('RECEIVE_IOS_NATIVE_DEVICE_ID');
 
 // 微信登录
-function weChatAuth(wechat) {
-  return dispatch => new Promise((resolve, reject) => {
-    // fetchData(`/api/user?appid=wx8268a8058a81a2fe&code=${wechat.code}`, { method: 'POST' }).then((json) => {
-    //   if (json.status === 'ok') {
-    //     dispatch(receiveUser(json.result.user));
-    //     resolve(true);
-    //   } else {
-    //     dispatch(setMessageSendFlag({ errorMessage: json.message }));
-    //     reject(json);
-    //   }
-    // }).catch(err => reject(err));
+function weChatAuth(i) {
+  return dispatch => new Promise((resolve) => {
+    AuthUtil(i).then((res) => {
+      const params = {
+        unionid: res.unionid,
+        openid: res.openid,
+        avatar: res.iconurl,
+        sex: res.gender,
+        user_name: res.name,
+      };
+      request('user/wx_login', { params }).then((res) => {
+        if (res.data.user_name) {
+          dispatch(receiveUser(res.data));
+          resolve(true);
+        } else {
+          dispatch(receiveUser({ user_s_id: res.data.user_s_id }));
+          resolve(false);
+        }
+      });
+    }).catch(() => {
+      showToast('登录失败，请重新登录');
+    });
   });
 }
 
 // 发送验证码
 function sendMessage(mobile, sendTime = 0) {
-  return dispatch => new Promise((resolve, reject) => {
-    request('/user/send_message', { params: { mobile } }).then((res) => {
-      if (res.callbackCode === 1) {
-        dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
-        resolve();
-      } else {
-        dispatch(setMessageSendFlag({ sendTime: 0, sendPhone: '' }));
-        reject(res.callbackMsg);
-      }
+  return dispatch => new Promise((resolve) => {
+    request('/user/send_message', { params: { mobile } }).then(() => {
+      dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
+      resolve();
+    }).catch(() => {
+      dispatch(setMessageSendFlag({ sendTime: 0, sendPhone: '' }));
     });
   });
 }
 
 // 短信登录
 function messageAuth(mobile, codes) {
-  return dispatch => new Promise((resolve, reject) => {
+  return dispatch => new Promise((resolve) => {
     request('/user/login', { params: { mobile, codes } }).then((res) => {
-      if (res.callbackCode === 1) {
+      if (res.data.user_name) {
         dispatch(receiveUser(res.data));
-        resolve(res.data.user_s_id);
+        resolve(true);
       } else {
-        reject(res.callbackMsg);
+        dispatch(receiveUser({ ...res.data, mobile }));
+        resolve(false);
       }
     });
   });
@@ -72,7 +83,17 @@ function fecthUser(user, type = 'GET') {
   };
 }
 
+// 更新用户信息
+function updateUser(params) {
+  return dispatch => new Promise((resolve) => {
+    request('/user/n_register', { params }).then((res) => {
+      dispatch(receiveUser(res.data));
+      resolve();
+    });
+  });
+}
+
 export {
-  receiveAuth, sendMessage, setMessageSendFlag, messageAuth,
+  receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser,
   fecthUser, receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser,
 };

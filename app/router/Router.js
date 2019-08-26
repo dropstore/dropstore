@@ -18,6 +18,7 @@ import BottomNavigator from './BottomNavigator';
 import AuthLoading from '../page/auth';
 import NameAge from '../page/auth/NameAge';
 import GenderSize from '../page/auth/GenderSize';
+import PhoneNum from '../page/auth/PhoneNum';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
@@ -29,6 +30,7 @@ const AuthStack = createStackNavigator({
   AuthLoading,
   NameAge,
   GenderSize,
+  PhoneNum,
 }, {
   initialRouteName: 'AuthLoading',
   defaultNavigationOptions: {
@@ -52,7 +54,6 @@ const InitNavigator = createStackNavigator({
   },
   pay,
   commission,
-
 }, {
   initialRouteName: 'main',
   defaultNavigationOptions: ({ navigation }) => ({
@@ -122,7 +123,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
   Main: InitNavigator,
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Auth',
 }));
 
 export { Router, store };
