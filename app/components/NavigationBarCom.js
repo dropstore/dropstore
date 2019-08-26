@@ -3,27 +3,32 @@
  * @date 2019/8/17 10:40
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { Label, NavigationBar } from 'teaset';
+import React, {PureComponent} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
+import {NavigationBar} from 'teaset';
+import {hitSlop} from '../common/Constant';
 import Colors from '../res/Colors';
+import Images from "../res/Images";
+import Image from '../components/Image';
 
 class NavigationBarCom extends PureComponent {
   render() {
-    const { isShowLeftView, navigation, headerTitle } = this.props;
+    const {isShowLeftView, navigation, headerTitle, bgColor, rightView} = this.props;
     return (
       <NavigationBar
         type="ios"
         statusBarStyle="dark-content"
-        style={styles.container}
+        style={[styles.container, {backgroundColor: (bgColor ? bgColor : Colors.MAIN_BACK)}]}
         tintColor={Colors.WHITE_COLOR}
-        title={(
-          <View style={styles.titleWrapper}>
-            <Label style={styles.title} text={headerTitle} />
-          </View>
-        )}
-        leftView={isShowLeftView ? <NavigationBar.BackButton title="Back" onPress={() => navigation.goBack()} /> : <View />}
+        title={headerTitle}
+        titleStyle={[styles.title, {color: (bgColor ? Colors.WHITE_COLOR : Colors.NORMAL_TEXT_6)}]}
+        leftView={isShowLeftView ?
+          <TouchableOpacity hitSlop={hitSlop}  onPress={() => navigation.goBack()}>
+            <Image source={Images.zjt} style={styles.leftImage} resizeMode={"contain"}/>
+          </TouchableOpacity>
+          : <View/>}
+        rightView={rightView ? rightView : <View/>}
       />
     );
   }
@@ -37,14 +42,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: Colors.NORMAL_TEXT_0,
-    fontSize: 20,
+    fontSize: 18,
   },
   container: {
-    backgroundColor: Colors.MAIN_BACK,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#aaa',
   },
+  leftImage: {
+    width: 12,
+    height: 12,
+    marginLeft: 10
+  }
 });
 
 export default withNavigation(NavigationBarCom);

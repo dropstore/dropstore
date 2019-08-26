@@ -3,14 +3,15 @@
  * @date 2019/8/21 20:07
  * @author ZWW
  */
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {PureComponent} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {Overlay} from "teaset";
 import Image from '../../components/Image';
+import NavigationBarCom from '../../components/NavigationBarCom';
 import ImageBackground from '../../components/ImageBackground';
 import PayStatusCom from "./overlay/PayStatusCom";
-import {SCREEN_WIDTH} from '../../common/Constant';
+import {STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Normal, YaHei} from '../../res/FontFamily';
@@ -20,7 +21,7 @@ import {debounce} from '../../utils/commonUtils';
 import {hideOlView} from "../../utils/ViewUtils";
 import {bottomStyle} from "../../res/style/BottomStyle";
 
-class Pay extends Component {
+class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +43,7 @@ class Pay extends Component {
         'subImage': Images.pay_drop,
         'name': 'Drop账户',
         'isSelect': false,
-        'bgColor': Colors.HEADER_COLOR
+        'bgColor': Colors.NORMAL_TEXT_C2
       }]
     }
   }
@@ -53,7 +54,7 @@ class Pay extends Component {
    * @private
    */
   _changePayStatus = (index) => {
-    let payData = this.state.payData;
+    let payData = JSON.parse(JSON.stringify(this.state.payData));
     for (let i = 0; i < payData.length; i++) {
       if (index === i) {
         let _payData = payData[i];
@@ -64,12 +65,18 @@ class Pay extends Component {
     }
     this.setState({payData: payData})
   };
-
+  /**
+   * TODO 选择付款方式流程有问题
+   * @private
+   */
   _pay = () => {
     let payData = this.state.payData;
     let isChoosePayWay = false;
     for (let i = 0; i < payData.length; i++) {
       isChoosePayWay = payData[i].isSelect;
+      if (isChoosePayWay) {
+        break;
+      }
     }
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
@@ -83,7 +90,7 @@ class Pay extends Component {
    */
   showOver = (navigation) => {
     let olView = (
-      <Overlay.PullView modl={true}>
+      <Overlay.PullView modal={true}>
         <PayStatusCom navigation={navigation} closeOver={this.closeOver.bind(this)}/>
       </Overlay.PullView>
     );
@@ -99,37 +106,45 @@ class Pay extends Component {
   };
 
   render() {
-    const {payData} = this.state;
+    const {payData, navigation} = this.state;
     return (
-      <View style={_styles.container}>
-        <Text style={_styles.alSel}>请选择付款方式:</Text>
-        <View style={{flex: 1}}>
-          {
-            payData.map((item, index) => (
-              <View key={index}
-                    style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
-                <View style={[commonStyle.row, {flex: 1}]}>
-                  <Image style={_styles.payImage} source={item.subImage}/>
-                  <Text style={_styles.payTitle}>{item.name}</Text>
+      <View style={{flex: 1}}>
+        <NavigationBarCom
+          headerTitle="选择支付账户"
+          isShowLeftView={true}
+          navigation={navigation}
+          bgColor={Colors.OTHER_BACK}
+        />
+        <View style={_styles.container}>
+          <Text style={_styles.alSel}>请选择付款方式:</Text>
+          <View style={{flex: 1}}>
+            {
+              payData.map((item, index) => (
+                <View key={index}
+                      style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
+                  <View style={[commonStyle.row, {flex: 1}]}>
+                    <Image style={_styles.payImage} source={item.subImage}/>
+                    <Text style={_styles.payTitle}>{item.name}</Text>
+                  </View>
+                  <View style={{alignItems: 'flex-end'}}>
+                    <TouchableOpacity onPress={() => this._changePayStatus(index)}>
+                      <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={{alignItems: 'flex-end'}}>
-                  <TouchableOpacity onPress={() => this._changePayStatus(index)}>
-                    <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))
-          }
-        </View>
-        <View style={_styles.bottomView}>
-          <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>10000￥</Text>
-            <Text style={_styles.yj}>(已减300)</Text>
+              ))
+            }
           </View>
-          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                           onPress={debounce(this._pay)}>
-            <Text style={bottomStyle.buttonText}>支付</Text>
-          </ImageBackground>
+          <View style={_styles.bottomView}>
+            <View style={_styles.bottomLeftView}>
+              <Text style={_styles.price}>10000￥</Text>
+              <Text style={_styles.yj}>(已减300)</Text>
+            </View>
+            <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                             onPress={debounce(this._pay)}>
+              <Text style={bottomStyle.buttonText}>支付</Text>
+            </ImageBackground>
+          </View>
         </View>
       </View>
     );
@@ -139,7 +154,8 @@ class Pay extends Component {
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR
+    backgroundColor: Colors.WHITE_COLOR,
+    marginTop: STATUSBAR_AND_NAV_HEIGHT
   },
   alSel: {
     fontSize: 16,
@@ -177,8 +193,8 @@ const _styles = StyleSheet.create({
     height: 61,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(215, 215, 215, 1)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(215, 215, 215, 1)',
   },
   bottomLeftView: {
     flex: 1,

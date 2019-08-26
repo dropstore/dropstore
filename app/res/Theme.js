@@ -6,9 +6,23 @@
 
 import {Theme} from 'teaset';
 import Colors from './Colors';
-
+import {NAV_HEIGHT} from '../common/Constant'
 const setTeasetTheme = () => {
   Theme.set({
+    //NavigationBar
+    navType: 'ios', //'auto', 'ios', 'android'
+    navStatusBarStyle: 'light-content', //'default', 'light-content'
+    navBarContentHeight: NAV_HEIGHT,
+    navColor: Colors.WHITE_COLOR,
+    navTintColor: '#fff',
+    navTitleColor: '#fff',
+    navTitleFontSize: 18,
+    navButtonFontSize: 15,
+    navSeparatorColor: Colors.WHITE_COLOR,
+    navSeparatorLineWidth: 0,
+    btnColor: Colors.WHITE_COLOR,
+    btnPrimaryColor: Colors.WHITE_COLOR,
+
     // Toast
     toastColor: 'rgb(88, 88, 88)',
     toastPaddingLeft: 12,
@@ -27,11 +41,7 @@ const setTeasetTheme = () => {
     toastScreenPaddingRight: 40,
     toastScreenPaddingTop: 100,
     toastScreenPaddingBottom: 80,
-    // NavigationBar
-    navColor: Colors.WHITE_COLOR,
-    navSeparatorColor: Colors.WHITE_COLOR,
-    btnColor: Colors.WHITE_COLOR,
-    btnPrimaryColor: Colors.WHITE_COLOR,
+
 
     // ModalIndicator
     miIndicatorColor: '#fff',
@@ -43,7 +53,7 @@ const setTeasetTheme = () => {
     miScreenPaddingTop: 100,
     miScreenPaddingBottom: 80,
     //Overlay
-    overlayOpacity: 0.8,
+    overlayOpacity: 0.5,
     overlayRootScale: 0.93,
 
   });

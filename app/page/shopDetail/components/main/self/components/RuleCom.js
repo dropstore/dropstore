@@ -1,5 +1,5 @@
 /**
- * @file 抽签或抢购规则组件
+ * @file 抽签或抢购或锦鲤规则组件
  * @date 2019/8/19 13:50
  * @author ZWW
  */
@@ -11,6 +11,7 @@ import {YaHei} from '../../../../../../res/FontFamily';
 import Images from '../../../../../../res/Images';
 import ShopConstant from '../../../../../../common/ShopConstant';
 import {checkTime} from '../../../../../../utils/TimeUtils';
+
 
 export default class RuleCom extends PureComponent {
 
@@ -27,6 +28,9 @@ export default class RuleCom extends PureComponent {
     let is_join = shopInfo.is_join;
     // 活动开始时间
     let start_time = shopInfo.activity.start_time;
+    if (b_type === ShopConstant.LUCKY_CHARM) {
+      return this._drawLuckRulesCom(is_join, start_time)
+    }
     if (b_type === ShopConstant.DRAW) {
       return this._drawStatus(is_join)
     }
@@ -111,49 +115,20 @@ export default class RuleCom extends PureComponent {
    */
   _buyStatus = (status, start_time) => {
     // 活动已开始
-    if (!checkTime(start_time)) {
+    if (checkTime(start_time) < 0) {
       // 未参加
       if (status === ShopConstant.NOT_JOIN) {
-        return (
-          <View/>
-        )
+        return <View/>
       }
       // 团员身份无法查看当前抢鞋状态
       if (status === ShopConstant.MEMBER) {
         return <View/>
       }
       // 只有团长可以看当前抢鞋状态
-      return (
-        <View style={_styles.mainView}>
-          <View style={_styles.itemMainView}>
-            <Image style={_styles.imageView} source={Images.ex1}/>
-            <Text style={_styles.textView}>选择商品</Text>
-          </View>
-          <View style={_styles.itemMainView}>
-            <Image style={_styles.imageView} source={Images.ex2}/>
-            <View>
-              <Text style={_styles.textView}>发起助攻</Text>
-              <Text style={_styles.textView}>设定奖金</Text>
-            </View>
-          </View>
-          <View style={_styles.itemMainView}>
-            <Image style={_styles.imageView} source={Images.ex3}/>
-            <View>
-              <Text style={_styles.textView}>等待好友</Text>
-              <Text style={_styles.textView}>助攻支付</Text>
-            </View>
-          </View>
-          <View style={_styles.itemMainView}>
-            <Image style={_styles.imageView} source={Images.ex4}/>
-            <View>
-              <Text style={_styles.textView}>达到人数</Text>
-              <Text style={_styles.textView}>查看结果</Text>
-            </View>
-          </View>
-        </View>
-      )
+      return this._joinBuyDOM()
     }
-    // 活动未开始
+
+    // 未参加活动
     if (status === ShopConstant.NOT_JOIN) {
       return (
         <View style={_styles.mainView}>
@@ -179,7 +154,79 @@ export default class RuleCom extends PureComponent {
         </View>
       )
     }
+    // 已参加活动
+    return this._joinBuyDOM()
   };
+  _joinBuyDOM = () => {
+    return (
+      <View style={_styles.mainView}>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex1}/>
+          <Text style={_styles.textView}>选择商品</Text>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex2}/>
+          <View>
+            <Text style={_styles.textView}>发起助攻</Text>
+            <Text style={_styles.textView}>设定奖金</Text>
+          </View>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex3}/>
+          <View>
+            <Text style={_styles.textView}>等待好友</Text>
+            <Text style={_styles.textView}>助攻支付</Text>
+          </View>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex4}/>
+          <View>
+            <Text style={_styles.textView}>达到人数</Text>
+            <Text style={_styles.textView}>查看结果</Text>
+          </View>
+        </View>
+      </View>
+    )
+  };
+  /**
+   * 锦鲤模块
+   * @returns {*}
+   * @private
+   */
+  _drawLuckRulesCom = () => {
+    return (
+      <View style={_styles.mainView}>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex1}/>
+          <View>
+            <Text style={_styles.textView}>首次分享</Text>
+            <Text style={_styles.textView}>(签号*1)</Text>
+          </View>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex2}/>
+          <View>
+            <Text style={_styles.textView}>好友注册</Text>
+            <Text style={_styles.textView}>登录app</Text>
+          </View>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex3}/>
+          <View>
+            <Text style={_styles.textView}>好友激活</Text>
+            <Text style={_styles.textView}>(签号*5)</Text>
+          </View>
+        </View>
+        <View style={_styles.itemMainView}>
+          <Image style={_styles.imageView} source={Images.ex4}/>
+          <View>
+            <Text style={_styles.textView}>查看结果</Text>
+            <Text style={_styles.textView}>免费领取</Text>
+          </View>
+        </View>
+      </View>
+    )
+  }
 
   render() {
     const {shopInfo} = this.props;

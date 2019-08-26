@@ -54,14 +54,18 @@ export const showModal = (content, rightCallBack, {
 /**
  * 全屏加载框
  * @param {String} text
- * @param {Boolean} isClose - 是否关闭
+ * @param {Boolean} isModal - 是否是modal
  */
-export const showModalLoading = ({ text = '加载中...', isClose = false } = {}) => {
-  if (isClose) {
-    ModalIndicator.hide();
-    return;
-  }
+export const showModalLoading = ({ text = '加载中...', isModal = false } = {}) => {
+  ModalIndicator.IndicatorView.defaultProps.modal = isModal;
   ModalIndicator.show(text);
+};
+
+/**
+ * 关闭全屏加载框
+ */
+export const hideModalLoading = () => {
+  ModalIndicator.hide();
 };
 
 /**

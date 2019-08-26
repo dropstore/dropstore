@@ -22,6 +22,9 @@ const NOT_JOIN = 0;
 const LEADING = 1;
 // 已参加，团员
 const MEMBER = 2;
+
+// De
+const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
 export default {
   ORIGIN_CONST,
   SELF_SUPPORT,
@@ -31,5 +34,6 @@ export default {
   BUY,
   NOT_JOIN,
   LEADING,
-  MEMBER
+  MEMBER,
+  REFRESH_SHOP_DETAIL_INFO
 }

@@ -79,6 +79,7 @@ const request = async (url, {
   } catch (error) {
     // 获取到响应拦截器里返回的的error
     if (error.response) {
+      showToast(error.response.data.callbackMsg);
       return error.response.data;
     }
     // 请求超时

@@ -18,10 +18,10 @@ class ShopListItemCom extends PureComponent {
   toShopDetailPage = () => {
     const { navigation, item } = this.props;
     navigation.push('shopDetail', {
-      title: '商品详情',
       rate: '+25',
       shopId: '',
       type: ShopConstant.SELF_SUPPORT,
+      // type: item.status,
       item, // 仅用于死数据，调用接口传id
     });
   };

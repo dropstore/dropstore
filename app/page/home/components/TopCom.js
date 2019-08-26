@@ -29,6 +29,7 @@ const _styles = StyleSheet.create({
   scaleView: {
     paddingLeft: px2Dp(15),
     paddingRight: px2Dp(18),
+    marginBottom:px2Dp(20)
   },
   topImage: {
     width: px2Dp(717),
