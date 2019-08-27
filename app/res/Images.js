@@ -113,6 +113,9 @@ const IMAGES = {
   address: require('./image/address.png'),
   illustration: require('./image/illustration.png'),
   safesetting: require('./image/safesetting.png'),
+  // 个人设置
+  frameAvatar: require('./image/frameAvatar.png'),
+  iconRight: require('./image/icon-arrow-right.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),

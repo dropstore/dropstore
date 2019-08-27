@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import AsyncStorage from '@react-native-community/async-storage';
 import { request } from '../../http/Axios';
 import AuthUtil from '../../utils/AuthUtil';
 import { showToast } from '../../utils/MutualUtil';
@@ -28,6 +29,7 @@ function weChatAuth(i) {
       };
       request('user/wx_login', { params }).then((res) => {
         if (parseInt(res.data.size) > 0) {
+          AsyncStorage.setItem('token', res.data.user_s_id);
           dispatch(receiveUser(res.data));
           resolve(true);
         } else {
@@ -63,6 +65,7 @@ function messageAuth(mobile, codes) {
   return dispatch => new Promise((resolve) => {
     request('/user/login', { params: { mobile, codes } }).then((res) => {
       if (res.data.user_name) {
+        AsyncStorage.setItem('token', res.data.user_s_id);
         dispatch(receiveUser(res.data));
         resolve(true);
       } else {
@@ -71,27 +74,6 @@ function messageAuth(mobile, codes) {
       }
     });
   });
-}
-
-// 请求用户信息数据
-function fecthUser(user, type = 'GET') {
-  return (dispatch, getState) => {
-    const auth_token = getState().userInfo.auth_token;
-    let params = { method: type };
-    if (type === 'PUT') {
-      params = {
-        method: type,
-        body: JSON.stringify({ user: { auth_token, ...user } }),
-      };
-    }
-    // return fetchData('/api/user', params).then((json) => {
-    //   if (json.status === 'ok') {
-    //     dispatch(receiveUser({ ...json.result.user, auth_token }));
-    //   } else {
-    //     dispatch(resetUser());
-    //   }
-    // }).catch(() => dispatch(resetUser()));
-  };
 }
 
 // 更新用户信息
@@ -106,5 +88,5 @@ function updateUser(params) {
 
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser,
-  fecthUser, receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser,
+  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser,
 };
