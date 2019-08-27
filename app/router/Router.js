@@ -13,6 +13,7 @@ import {
 import Image from '../components/Image';
 import Colors from '../res/Colors';
 import Images from '../res/Images';
+import Web from '../page/Web';
 
 import AuthLoading from '../page/auth';
 import NameAge from '../page/auth/NameAge';
@@ -41,7 +42,7 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState, Safesetting, Address, shopDetail, pay, commission, Notice, AddressEdit,
+  Setting, vendorDetail, OrderState, Safesetting, Address, shopDetail, pay, commission, Notice, AddressEdit, Web,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {

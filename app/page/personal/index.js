@@ -27,9 +27,11 @@ const list1 = [
   {
     title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
   },
-  // { title: '提现', icon: 'extract' },
+  { title: '提现', icon: 'extract' },
   // { title: '我的商品', icon: 'myGoods' },
-  // { title: '帮助中心', icon: 'helper' },
+  {
+    title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'https://www.baidu.com/' },
+  },
 ];
 
 const list2 = [
@@ -48,7 +50,9 @@ const list3 = [
   {
     title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
   },
-  // { title: '中签率说明', icon: 'illustration' },
+  {
+    title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'https://www.baidu.com/' },
+  },
   {
     title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },
   },
@@ -59,7 +63,7 @@ const list3 = [
 
 const list = [
   { title: '我的记录', list: list1 },
-  { title: '新消息通知', list: list2 },
+  // { title: '新消息通知', list: list2 },
   { title: '设置中心', list: list3 },
 ];
 
