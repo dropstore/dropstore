@@ -1,15 +1,35 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
+import ScaleView from '../../components/ScaleView';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
+import { YaHei } from '../../res/FontFamily';
+import { wPx2P } from '../../utils/ScreenUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+
+const address = [{
+  name: '张超',
+  address: '北京市朝阳区佳汇国际中心A座509',
+  mobile: '17554265585',
+  default: true,
+}, {
+  name: '张超',
+  address: '北京市朝阳区佳汇国际中心A座509',
+  mobile: '17554265585',
+  default: false,
+}, {
+  name: '张超',
+  address: '北京市朝阳区佳汇国际中心A座509',
+  mobile: '17554265585',
+  default: false,
+}];
 
 function mapStateToProps() {
   return state => ({
@@ -26,73 +46,158 @@ function mapDispatchToProps(dispatch) {
 class Address extends PureComponent {
   constructor(props) {
     super(props);
-    const { userInfo, navigation } = this.props;
-    navigation.setParams({ headerRight: <Text>123</Text> });
-    this.state = {
-      list: [
-        { title: '头像', name: 'avatar', value: userInfo.avatar },
-        { title: '昵称', name: 'name', value: userInfo.user_name },
-        { title: '性别', name: 'sex', value: userInfo.sex },
-        { title: '年龄', name: 'age', value: userInfo.age },
-        { title: '鞋码', name: 'size', value: userInfo.size },
-      ],
-    };
+    const { navigation } = this.props;
+    navigation.setParams({
+      headerRight: (
+        <TouchableOpacity style={styles.rightWrapper}>
+          <Image source={Images.xiaoJiaHao} style={{ width: 9, height: 9 }} />
+        </TouchableOpacity>
+      ),
+    });
+  }
+
+  edit = (v) => {
+    // alert('编辑');
   }
 
   render() {
-    const { list } = this.state;
+    // const {  } = this.props;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {
-          list.map(v => (
-            <TouchableOpacity key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
-              <Text style={styles.text}>{v.title}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {
-                    v.name === 'avatar'
-                      ? (
-                        <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
-                          <Image source={Images.iconBoy} style={{ height: 45, width: 45 }} />
-                        </ImageBackground>
-                      ) : <Text style={styles.text}>{v.value}</Text>
-                  }
-                <Image source={Images.iconRight} style={styles.right} />
+          address.map(v => (
+            <ScaleView style={styles.item} onPress={() => this.edit(v)}>
+              <View style={styles.nameWrapper}>
+                <Text style={styles.nameText}>{`收货人: ${v.name}`}</Text>
+                <Text style={styles.nameText}>{v.mobile}</Text>
               </View>
-            </TouchableOpacity>
+              <Text style={styles.address}>{v.address}</Text>
+              <View style={styles.bottom}>
+                <TouchableOpacity style={styles.choose} onPress={() => {}}>
+                  <ImageBackground style={styles.chooseCircle} source={Images.chooseCircle}>
+                    {v.default && <View style={styles.default} />}
+                  </ImageBackground>
+                  <Text style={styles.address}>默认地址</Text>
+                </TouchableOpacity>
+
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity style={styles.btnWrapper} onPress={() => {}}>
+                    <ImageBackground style={styles.btn} source={Images.frameAddressEdit}>
+                      <Image source={Images.bianji} style={styles.bianji} />
+                      <Text style={styles.deleteText}>编辑</Text>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.btnWrapper, { marginLeft: 7 }]} onPress={() => {}}>
+                    <ImageBackground style={styles.btn} source={Images.frameAddressEdit}>
+                      <Image source={Images.shanchu} style={styles.shanchu} />
+                      <Text style={styles.deleteText}>删除</Text>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ScaleView>
           ))
         }
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  default: {
+    width: wPx2P(5),
+    height: wPx2P(5),
+    backgroundColor: '#C20000',
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.MAIN_BACK,
+    paddingTop: wPx2P(20),
   },
-  itemWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
+  item: {
     backgroundColor: '#fff',
-    paddingHorizontal: 18,
-    alignItems: 'center',
+    marginHorizontal: wPx2P(12),
+    borderRadius: wPx2P(5),
+    marginBottom: wPx2P(10),
+    paddingTop: wPx2P(12),
+    paddingHorizontal: wPx2P(15),
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgb(211, 211, 211)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 1.5,
+        position: 'relative',
+      },
+    }),
   },
-  text: {
-    color: '#333',
-    fontSize: 13,
-  },
-  frameAvatar: {
-    height: 60,
-    width: 60,
+  rightWrapper: {
+    paddingRight: wPx2P(12),
+    height: '100%',
+    paddingLeft: wPx2P(40),
     alignItems: 'center',
     justifyContent: 'center',
   },
-  right: {
-    height: 15,
-    width: 10,
-    marginLeft: 10,
+  nameWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: wPx2P(7),
+  },
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  nameText: {
+    fontSize: 14,
+    fontFamily: YaHei,
+  },
+  address: {
+    fontSize: 11,
+  },
+  btnWrapper: {
+    paddingTop: wPx2P(15),
+    paddingBottom: wPx2P(13),
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  btn: {
+    width: wPx2P(53),
+    height: wPx2P(17),
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  choose: {
+    paddingTop: wPx2P(15),
+    paddingBottom: wPx2P(13),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  chooseCircle: {
+    width: wPx2P(16),
+    height: wPx2P(16),
+    marginRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bianji: {
+    width: wPx2P(13),
+    height: wPx2P(10),
+  },
+  shanchu: {
+    width: wPx2P(10),
+    height: wPx2P(12),
+  },
+  deleteText: {
+    fontSize: wPx2P(10),
+    color: '#fff',
+    marginLeft: 2,
   },
 });
 
