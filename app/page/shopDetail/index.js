@@ -144,15 +144,15 @@ class ShopDetail extends PureComponent {
         </View>
       )
     }
-    if (!shopDetailInfo.isRequestSuccess) {
+    if (!shopDetailInfo.isSuccess) {
       return (
-        <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
-          <Text>网络连接失败</Text>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>请求失败，请重试</Text>
         </View>
       )
     }
     return (
-      <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>暂无数据</Text>
       </View>
     )

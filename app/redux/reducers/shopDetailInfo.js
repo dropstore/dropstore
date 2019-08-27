@@ -9,7 +9,7 @@ import {
 const initShopInfo = {
   shopData: {
     isFetching: false,
-    isRequestSuccess: false,
+    isSuccess: false,
     activity_id: '',
     data: {},
   },
@@ -41,7 +41,7 @@ actions[notReceiveShopDetailInfo] = (state) => {
     ...state,
     shopData: {
       isFetching: false,
-      isRequestSuccess: false,
+      isSuccess: false,
       activity_id: '',
       data: {},
     }

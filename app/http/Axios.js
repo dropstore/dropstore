@@ -99,7 +99,6 @@ const request = async (url, {
     }
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
-        alert(JSON.stringify(response.data));
         return response.data;
       }
       showToast(response.data.callbackMsg);

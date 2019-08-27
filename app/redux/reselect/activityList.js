@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 
 const getActivityInfo = createSelector(
-  state => state.activityList.activityData,
+  state => state.activityList,
   value => value,
 );
 
