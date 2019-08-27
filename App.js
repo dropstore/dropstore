@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { Router, store } from './app/router/Router';
 import Theme from './app/res/Theme';
 import { wxPayModule, wxAppId } from './app/native/module';
+import ShareCom from './app/components/ShareCom';
 
 Theme.setTeasetTheme();
 
@@ -66,6 +67,7 @@ export default class App extends Component {
         <View style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
           <Router />
+          <ShareCom />
         </View>
       </Provider>
     );

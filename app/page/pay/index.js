@@ -10,7 +10,8 @@ import {Overlay} from "teaset";
 import Image from '../../components/Image';
 import NavigationBarCom from '../../components/NavigationBarCom';
 import ImageBackground from '../../components/ImageBackground';
-import PayStatusCom from "./overlay/PayStatusCom";
+import PaySuccessCom from "./overlay/PaySuccessCom";
+import PayFailCom from "./overlay/PayFailCom";
 import {STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -66,10 +67,11 @@ class Pay extends PureComponent {
     this.setState({payData: payData})
   };
   /**
-   * TODO 选择付款方式流程有问题
    * @private
    */
   _pay = () => {
+    const {navigation} = this.props;
+    const shopDetailInfo = navigation.getParam('shopDetailInfo');
     let payData = this.state.payData;
     let isChoosePayWay = false;
     for (let i = 0; i < payData.length; i++) {
@@ -81,17 +83,25 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    this.showOver(this.props.navigation)
+    this.showOver(navigation, shopDetailInfo, true)
   };
 
   /**
    * 显示支付状态浮层
    * @param navigation
+   * @param shopDetailInfo
+   * @param isSuccess
    */
-  showOver = (navigation) => {
+  showOver = (navigation, shopDetailInfo, isSuccess) => {
     let olView = (
       <Overlay.PullView modal={true}>
-        <PayStatusCom navigation={navigation} closeOver={this.closeOver.bind(this)}/>
+        {
+          isSuccess
+            ? <PaySuccessCom navigation={navigation} shopDetailInfo={shopDetailInfo}
+                             closeOver={this.closeOver.bind(this)}/>
+            : <PayFailCom navigation={navigation} shopDetailInfo={shopDetailInfo}
+                             closeOver={this.closeOver.bind(this)}/>
+        }
       </Overlay.PullView>
     );
     let key = Overlay.show(
@@ -106,7 +116,8 @@ class Pay extends PureComponent {
   };
 
   render() {
-    const {payData, navigation} = this.state;
+    const {payData} = this.state;
+    const {navigation} = this.props;
     return (
       <View style={{flex: 1}}>
         <NavigationBarCom

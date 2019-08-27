@@ -25,6 +25,7 @@ import {checkTime} from "../../../../../utils/TimeUtils";
 import commission from "../../../../commission";
 import {shoesList, shopDetail1} from "../../../../TempData";
 import {debounce} from "../../../../../utils/commonUtils";
+import {showToast} from "../../../../../utils/MutualUtil";
 
 function mapStateToProps() {
   return state => ({
@@ -143,19 +144,6 @@ class SelfBottomCom extends PureComponent {
   }
 }
 
-const _styles = StyleSheet.create({
-  bottomView: {
-    flexDirection: 'row',
-    marginVertical: 5,
-    marginHorizontal: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: Colors.WHITE_COLOR,
-  },
-  selShoe: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,1)',
-  },
-});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom))

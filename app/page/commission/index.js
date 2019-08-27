@@ -38,7 +38,7 @@ class Commission extends PureComponent {
     if (this.state.totalPrice < min_price) {
       return showToast(`总价不得低于${min_price}元`);
     }
-    navigation.push('pay', {navigation: navigation});
+    navigation.push('pay', {navigation: navigation,shopDetailInfo:shopDetailInfo});
   };
 
   onChange = (event) => {

@@ -89,11 +89,36 @@ const IMAGES = {
   sel: require('./image/sel.png'),
   unSel: require('./image/unsel.png'),
 
+  // 活动成员列表
+  xt_xn: require('./image/xtxn.png'),
+  nh_tx: require('./image/nhtx.png'),
+  shape_1_ji3: require('./image/shape_1_ji3.png'),
+  tx: require('./image/tx.png'),
   // 个人中心
   frameHead: require('./image/frame-head.png'),
+  frameWallet: require('./image/frame-wallet.png'),
+  wallet: require('./image/wallet.png'),
+  uncomplete: require('./image/uncomplete.png'),
+  daishouhuo: require('./image/daishouhuo.png'),
+  completed: require('./image/completed.png'),
+  myActivity: require('./image/myActivity.png'),
+  myWarehouse: require('./image/myWarehouse.png'),
+  extract: require('./image/extract.png'),
+  myGoods: require('./image/myGoods.png'),
+  helper: require('./image/helper.png'),
+  fashounotice: require('./image/fashounotice.png'),
+  activitynotice: require('./image/activitynotice.png'),
+  systemnotice: require('./image/systemnotice.png'),
+  setting: require('./image/setting.png'),
+  address: require('./image/address.png'),
+  illustration: require('./image/illustration.png'),
+  safesetting: require('./image/safesetting.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
+
+  // 鉴定
+  identifyPlaceholder: require('./image/identify-placeholder.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),

@@ -1,17 +1,8 @@
-import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import {
-  Platform, StyleSheet, TouchableOpacity, Animated, Easing,
-} from 'react-native';
+import { Platform, Animated, Easing } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import store from '../redux/configureStore';
-import Image from '../components/Image';
-import Images from '../res/Images';
-import Colors from '../res/Colors';
-import {
-  NAV_HEIGHT, IS_IPHONE_X, STATUSBAR_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
-} from '../common/Constant';
 import BottomNavigator from './BottomNavigator';
 
 import AuthLoading from '../page/auth';
@@ -24,6 +15,8 @@ import shopDetail from '../page/shopDetail';
 import ShopDetailHeaderRight from '../page/shopDetail/components/basic/ShopDetailHeaderRight';
 import pay from '../page/pay';
 import commission from '../page/commission';
+
+import OrderState from '../page/personal/OrderState';
 
 const AuthStack = createStackNavigator({
   AuthLoading,
@@ -38,82 +31,15 @@ const AuthStack = createStackNavigator({
 });
 
 const InitNavigator = createStackNavigator({
-  main: {
-    screen: BottomNavigator,
-    navigationOptions: {
-      header: null,
-    },
-  },
   vendorDetail,
-  shopDetail: {
-    screen: shopDetail,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  pay: {
-    screen: pay,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  commission: {
-    screen: commission,
-    navigationOptions: {
-      header: null,
-    },
-  },
+  main: { screen: BottomNavigator },
+  OrderState,
+  shopDetail,
+  pay,
+  commission,
 }, {
   initialRouteName: 'main',
-  defaultNavigationOptions: ({ navigation }) => ({
-    ...Platform.select({
-      android: {
-        headerStyle: {
-          backgroundColor: Colors.HEADER_COLOR,
-          elevation: StyleSheet.hairlineWidth,
-          height: STATUSBAR_AND_NAV_HEIGHT,
-          borderBottomColor: 'rgb(210, 210, 210)',
-          paddingTop: STATUSBAR_HEIGHT,
-        },
-        headerTitleContainerStyle: {
-          left: 56,
-          right: 56,
-        },
-      },
-      ios: {
-        headerStyle: {
-          marginTop: IS_IPHONE_X ? -10 : 0,
-          backgroundColor: Colors.HEADER_COLOR,
-          height: NAV_HEIGHT,
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        },
-      },
-    }),
-    headerTintColor: Colors.WHITE_COLOR,
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      flex: 1,
-      textAlign: 'center',
-    },
-    headerBackTitle: null,
-    headerLeft: (
-      <TouchableOpacity
-        style={{ height: NAV_HEIGHT, justifyContent: 'center' }}
-        onPress={() => {
-          // eslint-disable-next-line no-unused-expressions
-          typeof navigation.getParam('customBack') === 'function' ? navigation.getParam('customBack')() : navigation.pop();
-        }}
-      >
-        <Image
-          style={{
-            marginLeft: 12, marginRight: 20, height: 10, width: 6,
-          }}
-          source={Images.zjt}
-        />
-      </TouchableOpacity>
-    ),
-    title: navigation.getParam('title'),
-  }),
+  defaultNavigationOptions: { header: null },
   ...Platform.select({
     android: {
       transitionConfig: () => ({
