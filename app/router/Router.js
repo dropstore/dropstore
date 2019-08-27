@@ -41,11 +41,11 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState, Safesetting, Address, Notice, AddressEdit,
+  Setting, vendorDetail, OrderState, Safesetting, Address, shopDetail, pay, commission, Notice, AddressEdit,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
-  BottomNavigator, shopDetail, pay, commission,
+  BottomNavigator,
 };
 
 for (const i in routesWithoutHeader) {

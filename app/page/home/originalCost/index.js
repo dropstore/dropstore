@@ -1,32 +1,59 @@
 /**
  * @file 原价发售
- * @date 2019/8/17 19:11
+ * @date 2019/8/18 14:52
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import TopCom from '../components/TopCom';
 import ShopListCom from '../components/ShopListCom';
-
 import Images from '../../../res/Images';
-import { tempData } from '../../TempData';
+import {getActivityInfo} from "../../../redux/reselect/activityList";
+import {getActivityList} from "../../../redux/actions/activityList";
+import ShopConstant from "../../../common/ShopConstant";
 
-export default class OriginalCost extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    activityInfo: getActivityInfo(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getActivityList,
+  }, dispatch);
+}
+
+class OriginalCost extends PureComponent {
+  constructor(props) {
+    super(props);
+    const {getActivityList} = this.props;
+    getActivityList(ShopConstant.ORIGIN_CONST);
+    this.state = {};
+  }
+
   onRefresh = () => {
-
+    const {getActivityList} = this.props;
+    getActivityList(ShopConstant.ORIGIN_CONST);
   };
 
   loadMore = () => {
-
-  }
+    const {getActivityList} = this.props;
+    getActivityList(ShopConstant.ORIGIN_CONST, {fetchNextPage: true});
+  };
 
   render() {
+    const {activityInfo} = this.props;
     return (
       <ShopListCom
-        shopList={tempData}
+        shopList={activityInfo[ShopConstant.ORIGIN_CONST]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions} />}
+        ListHeaderComponent={<TopCom imageSource={Images.instructions}/>}
       />
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(OriginalCost)

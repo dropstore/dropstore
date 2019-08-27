@@ -30,7 +30,8 @@
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "teaset": "^0.6.3"
+    "teaset": "^0.6.3",
+    "qs": "latest"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",

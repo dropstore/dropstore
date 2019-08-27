@@ -83,7 +83,7 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    this.showOver(navigation, shopDetailInfo, true)
+    this.showOver(navigation, shopDetailInfo, false)
   };
 
   /**
@@ -100,7 +100,7 @@ class Pay extends PureComponent {
             ? <PaySuccessCom navigation={navigation} shopDetailInfo={shopDetailInfo}
                              closeOver={this.closeOver.bind(this)}/>
             : <PayFailCom navigation={navigation} shopDetailInfo={shopDetailInfo}
-                             closeOver={this.closeOver.bind(this)}/>
+                          closeOver={this.closeOver.bind(this)}/>
         }
       </Overlay.PullView>
     );
@@ -117,45 +117,36 @@ class Pay extends PureComponent {
 
   render() {
     const {payData} = this.state;
-    const {navigation} = this.props;
     return (
-      <View style={{flex: 1}}>
-        <NavigationBarCom
-          headerTitle="选择支付账户"
-          isShowLeftView={true}
-          navigation={navigation}
-          bgColor={Colors.OTHER_BACK}
-        />
-        <View style={_styles.container}>
-          <Text style={_styles.alSel}>请选择付款方式:</Text>
-          <View style={{flex: 1}}>
-            {
-              payData.map((item, index) => (
-                <View key={index}
-                      style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
-                  <View style={[commonStyle.row, {flex: 1}]}>
-                    <Image style={_styles.payImage} source={item.subImage}/>
-                    <Text style={_styles.payTitle}>{item.name}</Text>
-                  </View>
-                  <View style={{alignItems: 'flex-end'}}>
-                    <TouchableOpacity onPress={() => this._changePayStatus(index)}>
-                      <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
-                    </TouchableOpacity>
-                  </View>
+      <View style={_styles.container}>
+        <Text style={_styles.alSel}>请选择付款方式:</Text>
+        <View style={{flex: 1}}>
+          {
+            payData.map((item, index) => (
+              <View key={index}
+                    style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
+                <View style={[commonStyle.row, {flex: 1}]}>
+                  <Image style={_styles.payImage} source={item.subImage}/>
+                  <Text style={_styles.payTitle}>{item.name}</Text>
                 </View>
-              ))
-            }
+                <View style={{alignItems: 'flex-end'}}>
+                  <TouchableOpacity onPress={() => this._changePayStatus(index)}>
+                    <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))
+          }
+        </View>
+        <View style={_styles.bottomView}>
+          <View style={_styles.bottomLeftView}>
+            <Text style={_styles.price}>10000￥</Text>
+            <Text style={_styles.yj}>(已减300)</Text>
           </View>
-          <View style={_styles.bottomView}>
-            <View style={_styles.bottomLeftView}>
-              <Text style={_styles.price}>10000￥</Text>
-              <Text style={_styles.yj}>(已减300)</Text>
-            </View>
-            <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                             onPress={debounce(this._pay)}>
-              <Text style={bottomStyle.buttonText}>支付</Text>
-            </ImageBackground>
-          </View>
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                           onPress={debounce(this._pay)}>
+            <Text style={bottomStyle.buttonText}>支付</Text>
+          </ImageBackground>
         </View>
       </View>
     );
@@ -166,7 +157,6 @@ const _styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
-    marginTop: STATUSBAR_AND_NAV_HEIGHT
   },
   alSel: {
     fontSize: 16,

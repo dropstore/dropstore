@@ -203,7 +203,7 @@ export const shopDetail = {
     id: "1",
     activity_name: "CLOT x AIR JORDAN 13 2018版 BLACK INFREAD\" EDC 黑红",
     describe: "xxxxxxxxxxxxxxxxxxxxxxx",
-    "type": 2,
+    "type": '2',
     price: 1999,
     a_price: 999,
     start_time: 1566828787,
@@ -212,7 +212,7 @@ export const shopDetail = {
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 1
+    b_type: '1'
   },
   goods: {
     id: "g_Id1",
@@ -220,7 +220,7 @@ export const shopDetail = {
     details: "111",
     image: Images.shoe
   },
-  is_join: 0,
+  is_join: '0',
   is_follow: 1,
   join_user: [
     {
@@ -242,7 +242,7 @@ export const shopDetail1 = {
     id: "1",
     activity_name: "CLOT x AIR JORDAN 13 2018版 BLACK INFREAD\" EDC 黑红",
     describe: "xxxxxxxxxxxxxxxxxxxxxxx",
-    "type": 2,
+    "type": '2',
     price: 1999,
     a_price: 999,
     start_time: 1566828787,
@@ -251,7 +251,7 @@ export const shopDetail1 = {
     min_price: 100,
     goods_id: "g_Id1",
     l_time: "2",
-    b_type: 1
+    b_type: '1'
   },
   goods: {
     id: "g_Id1",
@@ -259,7 +259,7 @@ export const shopDetail1 = {
     details: "111",
     image: Images.shoe
   },
-  is_join: 2,
+  is_join: '2',
   is_follow: 1,
   join_user: [
     {

@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {SCREEN_WIDTH} from '../../common/Constant';
+import {SCREEN_WIDTH, PADDING_TAB} from '../../common/Constant';
 import Colors from "../Colors";
 
 export const bottomStyle = StyleSheet.create({
@@ -12,6 +12,7 @@ export const bottomStyle = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
     borderTopWidth: 1,
     borderTopColor: 'rgba(215, 215, 215, 1)',
+    marginBottom: PADDING_TAB
   },
 
   buttonNormalView: {

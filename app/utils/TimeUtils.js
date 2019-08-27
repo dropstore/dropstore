@@ -27,16 +27,24 @@ export function countDown(timeStamp) {
     let h1 = h;
     let m1 = m;
     let s1 = s;
-    if (h1 < 10) {
-      h1 = `0${h1}`;
-    }
-    if (m1 < 10) {
-      m1 = `0${m1}`;
-    }
-    if (s1 < 10) {
-      s1 = `0${s1}`;
-    }
-    return `${h1}：${m1}：${s1}`
+    return `${add(h1)}：${add(m1)}：${add(s1)}`
   }
 }
 
+/**
+ * 格式化时间戳
+ * @param timeStamp
+ * @returns {string}
+ */
+export const submitFormat = (timeStamp) => {
+  let time = new Date(timeStamp * 1000);
+  let y = time.getFullYear();
+  let m = time.getMonth() + 1;
+  let d = time.getDate();
+  let h = time.getHours();
+  let mm = time.getMinutes();
+  return `${add(y)}/${add(m)}/${add(d)} ${add(h)}:${add(mm)}`
+};
+const add = (m) => {
+  return m < 10 ? '0' + m : m
+};
