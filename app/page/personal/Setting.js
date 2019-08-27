@@ -57,7 +57,7 @@ class Setting extends PureComponent {
                         <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
                           <Image source={Images.iconBoy} style={{ height: 45, width: 45 }} />
                         </ImageBackground>
-                      ) : <Text style={styles.text}>{v.title}</Text>
+                      ) : <Text style={styles.text}>{v.value}</Text>
                   }
                   <Image source={Images.iconRight} style={styles.right} />
                 </View>

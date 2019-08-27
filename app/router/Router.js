@@ -73,7 +73,7 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
     headerTitleStyle: { fontWeight: 'bold', flex: 1, textAlign: 'center' },
     headerBackTitle: null,
     headerLeft: (
-      <TouchableOpacity style={{ height: NAV_HEIGHT, justifyContent: 'center' }} onPress={navigation.pop}>
+      <TouchableOpacity style={{ height: NAV_HEIGHT, justifyContent: 'center' }} onPress={() => navigation.pop()}>
         <Image resizeMode="contain" style={{ marginLeft: 10, height: 12, width: 12 }} source={Images.zjt} />
       </TouchableOpacity>
     ),
