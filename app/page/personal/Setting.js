@@ -1,15 +1,12 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, Platform, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
-import { YaHei } from '../../res/FontFamily';
-import { wPx2P } from '../../utils/ScreenUtil';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
@@ -49,9 +46,8 @@ class Setting extends PureComponent {
           list.map(v => (
             <TouchableOpacity key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
               <Text style={styles.text}>{v.title}</Text>
-              {
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  {
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {
                     v.name === 'avatar'
                       ? (
                         <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
@@ -59,9 +55,8 @@ class Setting extends PureComponent {
                         </ImageBackground>
                       ) : <Text style={styles.text}>{v.value}</Text>
                   }
-                  <Image source={Images.iconRight} style={styles.right} />
-                </View>
-              }
+                <Image source={Images.iconRight} style={styles.right} />
+              </View>
             </TouchableOpacity>
           ))
         }

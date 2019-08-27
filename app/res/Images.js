@@ -116,6 +116,12 @@ const IMAGES = {
   // 个人设置
   frameAvatar: require('./image/frameAvatar.png'),
   iconRight: require('./image/icon-arrow-right.png'),
+  // 地址
+  xiaoJiaHao: require('./image/xiaojiah.png'),
+  chooseCircle: require('./image/chooseCircle.png'),
+  frameAddressEdit: require('./image/frame-address-edit.png'),
+  shanchu: require('./image/shanchu.png'),
+  bianji: require('./image/bianji.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
