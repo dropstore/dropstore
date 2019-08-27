@@ -43,17 +43,16 @@ class CardSection extends PureComponent {
     }
     return (
       <View style={styles.container}>
-        <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.title}> 
+        <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.title}>
           <Text style={{
             textAlign: 'center',
             fontSize: 18,
-            lineHeight: 36,
+            lineHeight: 28,
             fontWeight: '500',
-            color: '#ffffff'
+            color: '#ffffff',
           }}>{title}</Text>
         </ImageBackground>
-         
-          
+
           <View >
               {
                 shopList.map( item => <ImageBackground resizeMode="stretch" source={Images.jc} style={styles.content} onPress={debounce(this.toVendorPage)}>
@@ -61,7 +60,7 @@ class CardSection extends PureComponent {
                 </ImageBackground> )
               }
           </View>
-          
+
       </View>
     );
   }
@@ -73,12 +72,13 @@ const styles = StyleSheet.create({
   },
   content: {
       flex: 1,
+      marginBottom:3
       // height: 154
   },
   title:{
     flex: 1,
-    height: 36,
-    marginBottom: 5
+    height: 28,
+    marginBottom: 7
   },
   loadingFooter: {
     alignItems: 'center',

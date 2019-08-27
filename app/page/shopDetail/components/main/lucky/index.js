@@ -28,6 +28,7 @@ class LuckCom extends PureComponent {
   render() {
     const {shopDetailInfo} = this.props;
     let shopInfo = shopDetailInfo.shopData.data;
+
     return (
       <View>
         <RuleCom shopInfo={shopInfo}/>
