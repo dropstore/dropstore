@@ -48,7 +48,7 @@ class NameAge extends PureComponent {
       return;
     }
     receiveUser({ user_name: this.nickName, age: this.age });
-    navigation.push('GenderSize');
+    navigation.navigate('GenderSize');
   }
 
   onChangeName = (nickName) => {

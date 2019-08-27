@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  FlatList, RefreshControl, ActivityIndicator, View, Text, StyleSheet,
+  FlatList, View, Text, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,7 +8,6 @@ import Image from '../../../components/Image';
 import OrderListItem from './OrderListItem';
 import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
-
 
 function mapStateToProps() {
   return state => ({
@@ -25,19 +24,12 @@ function mapDispatchToProps(dispatch) {
 class OrderList extends PureComponent {
   constructor(props) {
     super(props);
-    const { fetchVendors } = this.props;
-    fetchVendors();
+
     this.state = {};
   }
 
-  onRefresh = () => {
-    const { fetchVendors } = this.props;
-    fetchVendors();
-  }
-
   loadMore = () => {
-    const { fetchVendors } = this.props;
-    fetchVendors(true);
+
   }
 
   renderFooter = () => {
@@ -60,10 +52,10 @@ class OrderList extends PureComponent {
   renderItem = () => <OrderListItem />
 
   render() {
-    const { vendors } = this.props;
-    if (vendors.isFetching && vendors.totalPages < 0) {
-      return <ActivityIndicator style={{ marginTop: 50 }} />;
-    }
+    // const { vendors } = this.props;
+    // if (vendors.isFetching && vendors.totalPages < 0) {
+    //   return <ActivityIndicator style={{ marginTop: 50 }} />;
+    // }
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -71,15 +63,13 @@ class OrderList extends PureComponent {
         initialNumToRender={3}
         style={{ flex: 1 }}
         // ListHeaderComponent={this.renderHeader}
-        ListFooterComponent={this.renderFooter}
+        // ListFooterComponent={this.renderFooter}
         ref={(l) => { this.innerList = l; }}
-        data={vendors.list}
+        data={[1, 2, 3, 4]}
         renderItem={this.renderItem}
         keyExtractor={(item, index) => `${item.source_id}-${index}`}
         onEndReached={this.loadMore}
         removeClippedSubviews={false}
-        onEndReachedThreshold={0.5}
-        refreshControl={<RefreshControl progressViewOffset={20} tintColor="#F65440" onRefresh={this.onRefresh} refreshing={false} />}
       />
     );
   }

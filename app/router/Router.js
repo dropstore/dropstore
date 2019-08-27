@@ -1,9 +1,18 @@
+import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
-import { Platform, Animated, Easing } from 'react-native';
+import {
+  Platform, Animated, Easing, TouchableOpacity,
+} from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import store from '../redux/configureStore';
 import BottomNavigator from './BottomNavigator';
+import {
+  NAV_HEIGHT, STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, IS_IPHONE_X,
+} from '../common/Constant';
+import Image from '../components/Image';
+import Colors from '../res/Colors';
+import Images from '../res/Images';
 
 import AuthLoading from '../page/auth';
 import NameAge from '../page/auth/NameAge';
@@ -17,29 +26,59 @@ import pay from '../page/pay';
 import commission from '../page/commission';
 
 import OrderState from '../page/personal/OrderState';
+import Setting from '../page/personal/Setting';
 
 const AuthStack = createStackNavigator({
-  AuthLoading,
-  NameAge,
-  GenderSize,
-  PhoneNum,
+  AuthLoading, NameAge, GenderSize, PhoneNum,
 }, {
   initialRouteName: 'AuthLoading',
-  defaultNavigationOptions: {
-    header: null,
-  },
+  defaultNavigationOptions: { header: null },
 });
 
-const InitNavigator = createStackNavigator({
-  vendorDetail,
-  main: { screen: BottomNavigator },
-  OrderState,
-  shopDetail,
-  pay,
-  commission,
-}, {
-  initialRouteName: 'main',
-  defaultNavigationOptions: { header: null },
+// 需要导航头部的路由写在这里
+const routesWithHeader = {
+  Setting, vendorDetail, OrderState,
+};
+// 不需要导航头部的路由写在这里
+const routesWithoutHeader = {
+  BottomNavigator, shopDetail, pay, commission,
+};
+
+for (const i in routesWithoutHeader) {
+  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+}
+const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
+  initialRouteName: 'BottomNavigator',
+  defaultNavigationOptions: ({ navigation }) => ({
+    ...Platform.select({
+      android: {
+        headerStyle: {
+          height: STATUSBAR_AND_NAV_HEIGHT,
+          borderBottomWidth: 0,
+          paddingTop: STATUSBAR_HEIGHT,
+          backgroundColor: Colors.OTHER_BACK,
+        },
+        headerTitleContainerStyle: { left: 56, right: 56 },
+      },
+      ios: {
+        headerStyle: {
+          marginTop: IS_IPHONE_X ? -10 : 0,
+          backgroundColor: Colors.OTHER_BACK,
+          height: NAV_HEIGHT,
+          borderBottomWidth: 0,
+        },
+      },
+    }),
+    headerTintColor: Colors.WHITE_COLOR,
+    headerTitleStyle: { fontWeight: 'bold', flex: 1, textAlign: 'center' },
+    headerBackTitle: null,
+    headerLeft: (
+      <TouchableOpacity style={{ height: NAV_HEIGHT, justifyContent: 'center' }} onPress={navigation.pop}>
+        <Image resizeMode="contain" style={{ marginLeft: 10, height: 12, width: 12 }} source={Images.zjt} />
+      </TouchableOpacity>
+    ),
+    title: navigation.getParam('title'),
+  }),
   ...Platform.select({
     android: {
       transitionConfig: () => ({
@@ -56,7 +95,7 @@ const InitNavigator = createStackNavigator({
 
 const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
-  Main: InitNavigator,
+  Main: MainStack,
 }, {
   initialRouteName: 'Auth',
 }));

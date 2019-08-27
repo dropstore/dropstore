@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import {
+  StyleSheet, Text, View, TouchableOpacity,
+} from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import { STATUSBAR_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../common/Constant';
-import { wPx2P } from '../../../utils/ScreenUtil';
+import { STATUSBAR_AND_NAV_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../common/Constant';
 import OrderList from './OrderList';
-
 
 export default class OrderState extends Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    const routes = navigation.getParam('title') === '购买记录' ? [
+      { key: 'uncomplete', title: '未完成' },
+      { key: 'daishouhuo', title: '待收货' },
+      { key: 'completed', title: '已完成' },
+    ] : [
+      { key: 'uncomplete', title: '未完成' },
+      { key: 'intoWarehouse', title: '已入库' },
+      { key: 'deliverted', title: '已发货' },
+      { key: 'completed', title: '已完成' },
+    ];
     this.state = {
-      routes: [
-        { key: 'uncomplete', title: '未完成' },
-        { key: 'intoWarehouse', title: '已入库' },
-        { key: 'deliverted', title: '已发货' },
-        { key: 'completed', title: '已完成' },
-      ],
-      index: 2,
+      routes,
+      index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
   }
 
@@ -24,19 +30,32 @@ export default class OrderState extends Component {
     this.setState({ index });
   }
 
-  renderScene = ({ route }) => <OrderList />;
+  renderScene = ({ route }) => <OrderList type={route.key} />;
 
-  renderTabBar = () => null;
+  renderTabBar = () => {
+    const { routes, index } = this.state;
+    return (
+      <View style={styles.tabBar}>
+        {
+          routes.map((route, i) => (
+            <TouchableOpacity key={route.key} style={[styles.tab, { backgroundColor: index === i ? '#E86868' : '#fff' }]} onPress={() => this.onIndexChange(i)}>
+              <Text style={{ fontSize: 13, color: index === i ? '#fff' : '#000' }}>{route.title}</Text>
+            </TouchableOpacity>
+          ))
+        }
+      </View>
+    );
+  }
 
   render() {
     return (
       <TabView
         navigationState={this.state}
         renderScene={this.renderScene}
-        // renderTabBar={this.renderTabBar}
+        renderTabBar={this.renderTabBar}
         onIndexChange={this.onIndexChange}
         useNativeDriver
-        initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT - STATUSBAR_HEIGHT }}
+        initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT }}
         lazy
       />
     );
@@ -44,29 +63,15 @@ export default class OrderState extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  header: {
-    paddingTop: STATUSBAR_HEIGHT,
-    backgroundColor: '#c20000',
-    alignItems: 'center',
-  },
-  headerTitle: {
-    marginTop: 10,
-    color: '#fff',
-    fontSize: 16,
-  },
-  frameHead: {
-    height: wPx2P(59),
-    width: wPx2P(61),
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerWrapper: {
+  tabBar: {
+    height: 37,
+    width: '100%',
     flexDirection: 'row',
-    width: SCREEN_WIDTH,
-    paddingHorizontal: wPx2P(22),
-    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+  },
+  tab: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
   },
 });
