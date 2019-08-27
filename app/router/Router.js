@@ -29,6 +29,8 @@ import OrderState from '../page/personal/OrderState';
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
 import Address from '../page/personal/Address';
+import AddressEdit from '../page/personal/Address/AddressEdit';
+import Notice from '../page/personal/Notice';
 
 const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
@@ -39,7 +41,7 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState, Safesetting, Address,
+  Setting, vendorDetail, OrderState, Safesetting, Address, Notice, AddressEdit,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {

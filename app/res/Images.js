@@ -122,6 +122,7 @@ const IMAGES = {
   frameAddressEdit: require('./image/frame-address-edit.png'),
   shanchu: require('./image/shanchu.png'),
   bianji: require('./image/bianji.png'),
+  frameAddres: require('./image/frameAddres.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),

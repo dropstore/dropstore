@@ -23,19 +23,25 @@ const list1 = [
   {
     title: '已完成', icon: 'completed', route: 'OrderState', params: { title: '购买记录', type: 'completed' },
   },
-  { title: '我的活动', icon: 'myActivity' },
+  // { title: '我的活动', icon: 'myActivity' },
   {
     title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
   },
   // { title: '提现', icon: 'extract' },
-  { title: '我的商品', icon: 'myGoods' },
-  { title: '帮助中心', icon: 'helper' },
+  // { title: '我的商品', icon: 'myGoods' },
+  // { title: '帮助中心', icon: 'helper' },
 ];
 
 const list2 = [
-  { title: '发售通知', icon: 'fashounotice' },
-  { title: '活动通知', icon: 'activitynotice' },
-  { title: '系统通知', icon: 'systemnotice' },
+  {
+    title: '发售通知', icon: 'fashounotice', route: 'Notice', params: { title: '发售通知', type: 'fashounotice' },
+  },
+  {
+    title: '活动通知', icon: 'activitynotice', route: 'Notice', params: { title: '活动通知', type: 'activitynotice' },
+  },
+  {
+    title: '系统通知', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
+  },
 ];
 
 const list3 = [

@@ -1,18 +1,20 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ImageBackground from '../../components/ImageBackground';
-import Image from '../../components/Image';
-import ScaleView from '../../components/ScaleView';
-import Images from '../../res/Images';
-import Colors from '../../res/Colors';
-import { YaHei } from '../../res/FontFamily';
-import { wPx2P } from '../../utils/ScreenUtil';
-import { updateUser } from '../../redux/actions/userInfo';
-import { getUserInfo } from '../../redux/reselect/userInfo';
+import ImageBackground from '../../../components/ImageBackground';
+import Image from '../../../components/Image';
+import ScaleView from '../../../components/ScaleView';
+import Images from '../../../res/Images';
+import Colors from '../../../res/Colors';
+import { YaHei } from '../../../res/FontFamily';
+import { wPx2P } from '../../../utils/ScreenUtil';
+import { updateUser } from '../../../redux/actions/userInfo';
+import { getUserInfo } from '../../../redux/reselect/userInfo';
+import { showModal } from '../../../utils/MutualUtil';
 
 const address = [{
   name: '张超',
@@ -49,15 +51,31 @@ class Address extends PureComponent {
     const { navigation } = this.props;
     navigation.setParams({
       headerRight: (
-        <TouchableOpacity style={styles.rightWrapper}>
+        <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
           <Image source={Images.xiaoJiaHao} style={{ width: 9, height: 9 }} />
         </TouchableOpacity>
       ),
     });
   }
 
-  edit = (v) => {
-    // alert('编辑');
+  setDefault = (address) => {
+
+  }
+
+  delete = (address) => {
+    showModal('确认删除该地址吗？', () => {
+
+    }, { title: '' });
+  }
+
+  add = () => {
+    const { navigation } = this.props;
+    navigation.navigate('AddressEdit');
+  }
+
+  edit = (address) => {
+    const { navigation } = this.props;
+    navigation.navigate('AddressEdit', { title: '编辑地址', address });
   }
 
   render() {
@@ -65,15 +83,15 @@ class Address extends PureComponent {
     return (
       <ScrollView style={styles.container}>
         {
-          address.map(v => (
-            <ScaleView style={styles.item} onPress={() => this.edit(v)}>
+          address.map((v, i) => (
+            <ScaleView key={`address${i}`} style={styles.item} onPress={() => this.edit(v)}>
               <View style={styles.nameWrapper}>
                 <Text style={styles.nameText}>{`收货人: ${v.name}`}</Text>
                 <Text style={styles.nameText}>{v.mobile}</Text>
               </View>
               <Text style={styles.address}>{v.address}</Text>
               <View style={styles.bottom}>
-                <TouchableOpacity style={styles.choose} onPress={() => {}}>
+                <TouchableOpacity style={styles.choose} onPress={() => this.setDefault(v)}>
                   <ImageBackground style={styles.chooseCircle} source={Images.chooseCircle}>
                     {v.default && <View style={styles.default} />}
                   </ImageBackground>
@@ -81,13 +99,13 @@ class Address extends PureComponent {
                 </TouchableOpacity>
 
                 <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity style={styles.btnWrapper} onPress={() => {}}>
+                  <TouchableOpacity style={styles.btnWrapper} onPress={() => this.edit(v)}>
                     <ImageBackground style={styles.btn} source={Images.frameAddressEdit}>
                       <Image source={Images.bianji} style={styles.bianji} />
                       <Text style={styles.deleteText}>编辑</Text>
                     </ImageBackground>
                   </TouchableOpacity>
-                  <TouchableOpacity style={[styles.btnWrapper, { marginLeft: 7 }]} onPress={() => {}}>
+                  <TouchableOpacity style={[styles.btnWrapper, { marginLeft: 7 }]} onPress={() => this.delete(v)}>
                     <ImageBackground style={styles.btn} source={Images.frameAddressEdit}>
                       <Image source={Images.shanchu} style={styles.shanchu} />
                       <Text style={styles.deleteText}>删除</Text>
@@ -107,7 +125,7 @@ const styles = StyleSheet.create({
   default: {
     width: wPx2P(5),
     height: wPx2P(5),
-    backgroundColor: '#C20000',
+    backgroundColor: Colors.OTHER_BACK,
   },
   container: {
     flex: 1,
