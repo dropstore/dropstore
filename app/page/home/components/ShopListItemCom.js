@@ -37,7 +37,8 @@ class ShopListItemCom extends PureComponent {
 
   toShopDetailPage = () => {
     const {navigation, item} = this.props;
-    navigation.push('shopDetail', {
+    navigation.navigate('shopDetail', {
+      title:'商品详情',
       rate: '+25',
       shopId: item.id,
       type: item.type,
@@ -88,8 +89,9 @@ class ShopListItemCom extends PureComponent {
     if (item.type === ShopConstant.SELF_SUPPORT) {
       if (item.b_type === ShopConstant.BUY) {
         return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qe}/>
+      }else if(item.b_type === ShopConstant.DRAW){
+        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr}/>
       }
-      return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr}/>
     }
   };
 
@@ -97,7 +99,7 @@ class ShopListItemCom extends PureComponent {
     const {item} = this.props;
     return (
       <ScaleView style={_styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
-        <Image style={_styles.plusIcon} source={item.leftImage}/>
+        <Image style={_styles.plusIcon} source={Images.xh}/>
         <View style={_styles.middle}>
           <View style={{flex: 1}}>
             <Text style={_styles.shopTitle}>{item.activity_name}</Text>
@@ -106,7 +108,8 @@ class ShopListItemCom extends PureComponent {
               this._setTimeDOM(item)
             }
           </View>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={item.image}/>
+          {/*<Image resizeMode="contain" style={_styles.imageShoe} source={item.image}/>*/}
+          <Image resizeMode="contain" style={_styles.imageShoe} source={Images.shoe}/>
         </View>
         {
           this._setBTypeDOM(item)
@@ -136,7 +139,6 @@ const _styles = StyleSheet.create({
     height: 13,
     marginRight: 9,
     marginLeft: 6,
-    marginTop: 4,
   },
   shopTitle: {
     fontSize: 10,
@@ -146,7 +148,7 @@ const _styles = StyleSheet.create({
   imageShoe: {
     width: 92,
     height: 49,
-    marginRight: 20,
+    marginRight: 30,
   },
   statusImage: {
     width: 15,

@@ -29,7 +29,7 @@ class SelfSupport extends PureComponent {
   constructor(props) {
     super(props);
     const {getActivityList} = this.props;
-    getActivityList(ShopConstant.SELF_SUPPORT, {isReset: true});
+    getActivityList(ShopConstant.SELF_SUPPORT);
     this.state = {};
   }
 
@@ -39,8 +39,7 @@ class SelfSupport extends PureComponent {
   };
 
   loadMore = () => {
-    const {getActivityList, activityInfo} = this.props;
-
+    const {getActivityList} = this.props;
     getActivityList(ShopConstant.SELF_SUPPORT, {fetchNextPage: true});
   };
 

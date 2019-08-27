@@ -30,7 +30,7 @@ actions[receiveShopDetailInfo] = (state, action) => {
     ...state,
     shopData: {
       isFetching: false,
-      isRequestSuccess: true,
+      isSuccess: true,
       // activity_id: action.payload.activity_id,
       data: action.payload.shopDetail
     }

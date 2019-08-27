@@ -36,10 +36,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 class ShopDetail extends PureComponent {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: navigation.getParam('title', '商品详情'),
+      headerRight: <ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')}/>
+    };
+  };
+
   constructor(props) {
     super(props);
   }
-
 
   componentDidMount() {
     const {getShopDetail, navigation} = this.props;
@@ -159,20 +165,8 @@ class ShopDetail extends PureComponent {
   };
 
   render() {
-    const {navigation} = this.props;
     return (
-      <View style={{flex: 1,}}>
-        <NavigationBarCom
-          headerTitle="活动详情"
-          isShowLeftView={true}
-          navigation={navigation}
-          bgColor={Colors.OTHER_BACK}
-          rightView={<ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')}/>}
-        />
-        {
-          this._mainDOM()
-        }
-      </View>
+      this._mainDOM()
     )
   }
 }
@@ -180,8 +174,7 @@ class ShopDetail extends PureComponent {
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
-    marginTop: STATUSBAR_AND_NAV_HEIGHT,
+    backgroundColor: Colors.WHITE_COLOR
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail))

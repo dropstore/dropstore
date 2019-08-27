@@ -29,22 +29,18 @@ class OriginalCost extends PureComponent {
   constructor(props) {
     super(props);
     const {getActivityList} = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST, {isReset: true});
+    getActivityList(ShopConstant.ORIGIN_CONST);
     this.state = {};
   }
 
   onRefresh = () => {
     const {getActivityList} = this.props;
-    getActivityList(ShopConstant.SELF_SUPPORT);
+    getActivityList(ShopConstant.ORIGIN_CONST);
   };
 
   loadMore = () => {
-    const {getActivityList, activityInfo} = this.props;
-    // 解决FlatList 数据少于一屏多次触发onEndReached回调
-    if (activityInfo.totalPages <= activityInfo.currentPage) {
-      return;
-    }
-    getActivityList(ShopConstant.SELF_SUPPORT, {fetchNextPage: true});
+    const {getActivityList} = this.props;
+    getActivityList(ShopConstant.ORIGIN_CONST, {fetchNextPage: true});
   };
 
   render() {

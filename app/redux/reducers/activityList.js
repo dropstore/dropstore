@@ -8,15 +8,6 @@ import {
 } from '../actions/activityList';
 
 const initActivity = {
-  [ShopConstant.HOME]: {
-    isFetching: false,
-    isSuccess: false,
-    isSendRequest: false,
-    currentPage: 1,
-    totalPages: -1,
-    limit: 10,
-    list: []
-  },
   [ShopConstant.ORIGIN_CONST]: {
     isFetching: false,
     isSuccess: false,
@@ -117,7 +108,7 @@ actions[notReceiveActivityList] = (state, action) => {
       currentPage: 1,
       totalPages: -1,
       limit: 10,
-      list: []
+      list: initActivity[action.payload].list
     }
   }
 };

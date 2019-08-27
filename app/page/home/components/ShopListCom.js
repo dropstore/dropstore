@@ -19,7 +19,7 @@ class ShopListCom extends PureComponent {
     if (shopList.totalPages === shopList.currentPage && shopList.totalPages > 0) {
       return (
         <View style={loadStyle.loadingFooter}>
-          <Text style={loadStyle.loadingText}>没有更多了</Text>
+          <Text style={loadStyle.loadingText}>---------  已加载全部  --------- </Text>
         </View>
       );
     }
@@ -43,7 +43,7 @@ class ShopListCom extends PureComponent {
     const {shopList, ListHeaderComponent, onRefresh, loadMore} = this.props;
     const list = shopList.list;
     if (shopList.isSendRequest) {
-      // 界面无数据渲染的情况下
+      // 界面无数据渲染且请求失败的情况下
       if (!shopList.isSuccess && list.length === 0) {
         return (
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

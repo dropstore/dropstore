@@ -96,7 +96,7 @@ class SelfBottomCom extends PureComponent {
 
   _toCommissionPage = () => {
     const {navigation} = this.props;
-    navigation.push('commission', {navigation: navigation})
+    navigation.push('commission', {title:'助攻佣金设定'})
   };
 
   /**
