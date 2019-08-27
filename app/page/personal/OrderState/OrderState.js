@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import { STATUSBAR_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../common/Constant';
-import { wPx2P } from '../../utils/ScreenUtil';
+import { STATUSBAR_HEIGHT, SCREEN_HEIGHT, SCREEN_WIDTH } from '../../../common/Constant';
+import { wPx2P } from '../../../utils/ScreenUtil';
 import OrderList from './OrderList';
 
 

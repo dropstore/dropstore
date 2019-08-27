@@ -4,10 +4,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../components/Image';
+import Image from '../../../components/Image';
 import OrderListItem from './OrderListItem';
-import Colors from '../../res/Colors';
-import Images from '../../res/Images';
+import Colors from '../../../res/Colors';
+import Images from '../../../res/Images';
 
 
 function mapStateToProps() {
