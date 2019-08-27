@@ -28,6 +28,7 @@ import commission from '../page/commission';
 import OrderState from '../page/personal/OrderState';
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
+import Address from '../page/personal/Address';
 
 const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
@@ -38,7 +39,7 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState, Safesetting,
+  Setting, vendorDetail, OrderState, Safesetting, Address,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
@@ -79,6 +80,7 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
         <Image resizeMode="contain" style={{ marginLeft: 10, height: 12, width: 12 }} source={Images.zjt} />
       </TouchableOpacity>
     ),
+    headerRight: navigation.getParam('headerRight'),
     title: navigation.getParam('title'),
   }),
   ...Platform.select({
