@@ -16,15 +16,19 @@ import { showToast } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 
+import { showShare } from '../../redux/actions/component';
+import { getShareSuccess } from '../../redux/reselect/component';
+
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
+    shareSuccess: getShareSuccess(state),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser,
+    updateUser, showShare,
   }, dispatch);
 }
 
@@ -36,6 +40,13 @@ class GenderSize extends PureComponent {
       size: 42.5,
       gender: userInfo.sex,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { shareSuccess } = this.props;
+    if (!shareSuccess && nextProps.shareSuccess) {
+      console.log('分享成功');
+    }
   }
 
   goBack = () => {
@@ -76,6 +87,13 @@ class GenderSize extends PureComponent {
   }
 
   chooseGender = (gender) => {
+    const { showShare } = this.props;
+    showShare({
+      text: '分享的正文',
+      img: 'https://www.baidu.com/img/bd_logo1.png',
+      url: 'https://www.baidu.com/',
+      title: '分享的标题',
+    });
     this.setState({ gender });
   }
 
