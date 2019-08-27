@@ -27,6 +27,7 @@ import commission from '../page/commission';
 
 import OrderState from '../page/personal/OrderState';
 import Setting from '../page/personal/Setting';
+import Safesetting from '../page/personal/Safesetting';
 
 const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
@@ -37,7 +38,7 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState,
+  Setting, vendorDetail, OrderState, Safesetting,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
@@ -57,6 +58,7 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
           borderBottomWidth: 0,
           paddingTop: STATUSBAR_HEIGHT,
           backgroundColor: Colors.OTHER_BACK,
+          elevation: 0,
         },
         headerTitleContainerStyle: { left: 56, right: 56 },
       },

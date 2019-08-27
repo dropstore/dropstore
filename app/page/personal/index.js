@@ -42,9 +42,11 @@ const list3 = [
   {
     title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
   },
-  { title: '中签率说明', icon: 'illustration' },
+  // { title: '中签率说明', icon: 'illustration' },
   { title: '我的地址', icon: 'address' },
-  { title: '安全设置', icon: 'safesetting' },
+  {
+    title: '安全设置', icon: 'safesetting', route: 'Safesetting', params: { title: '安全设置' },
+  },
 ];
 
 const list = [
