@@ -123,6 +123,10 @@ const IMAGES = {
   shanchu: require('./image/shanchu.png'),
   bianji: require('./image/bianji.png'),
   frameAddres: require('./image/frameAddres.png'),
+  // 提现
+  extractRed: require('./image/extract-red.png'),
+  extractWhite: require('./image/extract-white.png'),
+  arrowRed: require('./image/arrow-red.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),

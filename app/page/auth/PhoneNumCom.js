@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   framePhoneInput: {
     height: wPx2P(51),
     width: wPx2P(240),
-    marginTop: hPx2P(80),
+    marginTop: hPx2P(65),
   },
   phoneInput: {
     flex: 1,

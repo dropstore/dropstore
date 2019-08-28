@@ -70,6 +70,7 @@ class AddressEdit extends PureComponent {
             <TextInput
               style={styles.input}
               placeholder="手机号码_"
+              keyboardType="number-pad"
               defaultValue={address.mobile}
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
