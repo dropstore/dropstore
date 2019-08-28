@@ -153,9 +153,9 @@ const styles = StyleSheet.create({
     }),
   },
   rightWrapper: {
-    paddingRight: wPx2P(12),
+    paddingRight: 12,
     height: '100%',
-    paddingLeft: wPx2P(40),
+    paddingLeft: 40,
     alignItems: 'center',
     justifyContent: 'center',
   },

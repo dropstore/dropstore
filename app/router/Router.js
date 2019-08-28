@@ -22,7 +22,6 @@ import PhoneNum from '../page/auth/PhoneNum';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
-import ShopDetailHeaderRight from '../page/shopDetail/components/basic/ShopDetailHeaderRight';
 import pay from '../page/pay';
 import commission from '../page/commission';
 
@@ -32,6 +31,8 @@ import Safesetting from '../page/personal/Safesetting';
 import Address from '../page/personal/Address';
 import AddressEdit from '../page/personal/Address/AddressEdit';
 import Notice from '../page/personal/Notice';
+import Extract from '../page/personal/Extract';
+import Detaile from '../page/personal/Detaile';
 
 const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
@@ -42,7 +43,19 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting, vendorDetail, OrderState, Safesetting, Address, shopDetail, pay, commission, Notice, AddressEdit, Web,
+  Setting,
+  vendorDetail,
+  OrderState,
+  Safesetting,
+  Address,
+  shopDetail,
+  pay,
+  commission,
+  Notice,
+  AddressEdit,
+  Web,
+  Extract,
+  Detaile,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {

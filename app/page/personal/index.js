@@ -27,7 +27,9 @@ const list1 = [
   {
     title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
   },
-  { title: '提现', icon: 'extract' },
+  {
+    title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
+  },
   // { title: '我的商品', icon: 'myGoods' },
   {
     title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'https://www.baidu.com/' },
