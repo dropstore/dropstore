@@ -1,7 +1,7 @@
 import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
-  Platform, Animated, Easing, TouchableOpacity,
+  Platform, Animated, Easing, TouchableOpacity, StyleSheet,
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
@@ -68,32 +68,14 @@ for (const i in routesWithoutHeader) {
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
   initialRouteName: 'BottomNavigator',
   defaultNavigationOptions: ({ navigation }) => ({
-    ...Platform.select({
-      android: {
-        headerStyle: {
-          height: STATUSBAR_AND_NAV_HEIGHT,
-          borderBottomWidth: 0,
-          paddingTop: STATUSBAR_HEIGHT,
-          backgroundColor: Colors.OTHER_BACK,
-          elevation: 0,
-        },
-        headerTitleContainerStyle: { left: 56, right: 56 },
-      },
-      ios: {
-        headerStyle: {
-          marginTop: IS_IPHONE_X ? -10 : 0,
-          backgroundColor: Colors.OTHER_BACK,
-          height: NAV_HEIGHT,
-          borderBottomWidth: 0,
-        },
-      },
-    }),
+    headerStyle: styles.headerStyle,
     headerTintColor: Colors.WHITE_COLOR,
-    headerTitleStyle: { fontWeight: 'bold', flex: 1, textAlign: 'center' },
+    headerTitleStyle: styles.headerTitleStyle,
     headerBackTitle: null,
+    headerTitleContainerStyle: { left: 56, right: 56, backgroundColor: 'red' },
     headerLeft: (
-      <TouchableOpacity style={{ height: NAV_HEIGHT, justifyContent: 'center' }} onPress={() => navigation.pop()}>
-        <Image resizeMode="contain" style={{ marginLeft: 10, height: 12, width: 12 }} source={Images.zjt} />
+      <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
+        <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.zjt} />
       </TouchableOpacity>
     ),
     headerRight: navigation.getParam('headerRight'),
@@ -119,5 +101,36 @@ const Router = createAppContainer(createSwitchNavigator({
 }, {
   initialRouteName: 'Auth',
 }));
+
+const styles = StyleSheet.create({
+  btnWrapper: {
+    height: NAV_HEIGHT,
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 40,
+  },
+  headerStyle: {
+    ...Platform.select({
+      android: {
+        height: STATUSBAR_AND_NAV_HEIGHT,
+        borderBottomWidth: 0,
+        paddingTop: STATUSBAR_HEIGHT,
+        backgroundColor: Colors.OTHER_BACK,
+        elevation: 0,
+      },
+      ios: {
+        marginTop: IS_IPHONE_X ? -10 : 0,
+        backgroundColor: Colors.OTHER_BACK,
+        height: NAV_HEIGHT,
+        borderBottomWidth: 0,
+      },
+    }),
+  },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+  },
+});
 
 export { Router, store };
