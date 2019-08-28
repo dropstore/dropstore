@@ -72,7 +72,7 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
     headerTintColor: Colors.WHITE_COLOR,
     headerTitleStyle: styles.headerTitleStyle,
     headerBackTitle: null,
-    headerTitleContainerStyle: { left: 56, right: 56, backgroundColor: 'red' },
+    headerTitleContainerStyle: { left: 56, right: 56 },
     headerLeft: (
       <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
         <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.zjt} />
