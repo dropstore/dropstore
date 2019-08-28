@@ -1,4 +1,6 @@
 rootProject.name = 'dropstore'
+include ':react-native-clear-cache'
+project(':react-native-clear-cache').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-clear-cache/android')
 include ':react-native-webview'
 project(':react-native-webview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview/android')
 include ':@react-native-community_async-storage'

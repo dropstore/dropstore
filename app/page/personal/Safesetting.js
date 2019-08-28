@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import clear from 'react-native-clear-cache';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -33,13 +34,15 @@ class Safesetting extends PureComponent {
     super(props);
     const { userInfo } = this.props;
     this.state = {
+      cache: 0,
+      unit: '',
       list: [
         [
           { title: '交易密码', name: 'name' },
         ], [
           { title: '绑定微信', name: 'wx', value: userInfo.wx_openid },
         ], [
-          { title: '清理内存', name: 'sex' },
+          { title: '清理内存', name: 'clearCache' },
           { title: '关于Drop store', name: 'age' },
           { title: '帮助与反馈', name: 'size' },
         ],
@@ -47,20 +50,41 @@ class Safesetting extends PureComponent {
     };
   }
 
+  componentDidMount() {
+    clear.getCacheSize((cache, unit) => {
+      this.setState({ cache, unit });
+    });
+  }
+
+  onPress = (type) => {
+    if (type === 'clearCache') {
+      clear.runClearCache(() => {
+        clear.getCacheSize((cache, unit) => {
+          this.setState({ cache, unit });
+        });
+      });
+    }
+  }
+
   render() {
-    const { list } = this.state;
+    const { list, cache, unit } = this.state;
     return (
       <View style={styles.container}>
         <View>
           {
-            list.map((v, i) => (
+            list.map((group, i) => (
               <View key={`group${i}`} style={{ marginBottom: 15 }}>
                 {
-                  v.map((item, index) => (
-                    <TouchableOpacity key={item.name} style={[styles.itemWrapper, { marginBottom: item.name === 'avatar' ? 7 : 2 }]}>
+                  group.map((item, index) => (
+                    <TouchableOpacity
+                      onPress={() => this.onPress(item.name)}
+                      key={item.name}
+                      style={[styles.itemWrapper, { marginBottom: item.name === 'avatar' ? 7 : 2 }]}
+                    >
                       <Text style={styles.text}>{item.title}</Text>
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {index === 1 && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{item.value ? '已绑定' : '未绑定'}</Text>}
+                        {item.name === 'wx' && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{item.value ? '已绑定' : '未绑定'}</Text>}
+                        {item.name === 'clearCache' && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{cache + unit}</Text>}
                         <Image source={Images.iconRight} style={styles.right} />
                       </View>
                     </TouchableOpacity>

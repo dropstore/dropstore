@@ -5,6 +5,7 @@ import android.app.Application;
 import com.dropstore.aliay.AlipayModuleReactPackage;
 import com.dropstore.wxapi.WxpayPackage;
 import com.facebook.react.ReactApplication;
+import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new ClearCachePackage(),
             new RNCWebViewPackage(),
                     new AsyncStoragePackage(),
                     new NetInfoPackage(),
