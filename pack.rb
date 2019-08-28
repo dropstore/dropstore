@@ -82,6 +82,7 @@ def edit_modules
   File.write('./node_modules/react-native-clear-cache/android/build.gradle', result1)
   result3 = File.read('./edit_node_modules/metro/DependencyGraph.js')
   File.write('./node_modules/metro/src/node-haste/DependencyGraph.js', result3)
+  puts "---------- finish install and edit node_modules ------------"
 end
 
 def bundleVersion(version)
