@@ -36,9 +36,9 @@ class AuthLoading extends PureComponent {
   componentDidMount() {
     const { navigation, getUser } = this.props;
     if (require('../../../app.json').needLogin) {
-      AsyncStorage.getItem('token').then((res) => {
-        if (res) {
-          getUser();
+      AsyncStorage.getItem('token').then((token) => {
+        if (token) {
+          getUser(token);
           navigation.navigate('Main');
           SplashScreen.hide();
         } else {

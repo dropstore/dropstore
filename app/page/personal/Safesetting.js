@@ -10,7 +10,7 @@ import clear from 'react-native-clear-cache';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { updateUser, weChatBind } from '../../redux/actions/userInfo';
+import { updateUser, weChatBind, logout } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showModal } from '../../utils/MutualUtil';
 
@@ -27,7 +27,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, weChatBind,
+    updateUser, weChatBind, logout,
   }, dispatch);
 }
 
@@ -59,7 +59,7 @@ class Safesetting extends PureComponent {
   }
 
   onPress = (type) => {
-    const { navigation, weChatBind } = this.props;
+    const { navigation, weChatBind, logout } = this.props;
     const { list } = this.state;
     if (type === 'clearCache') {
       clear.runClearCache(() => {
@@ -69,6 +69,7 @@ class Safesetting extends PureComponent {
       });
     } else if (type === 'logout') {
       showModal('确认退出登录吗？', () => {
+        logout();
         navigation.goBack();
       }, { title: '' });
     } if (type === 'password') {
@@ -91,20 +92,23 @@ class Safesetting extends PureComponent {
             list.map((group, i) => (
               <View key={`group${i}`} style={{ marginBottom: 15 }}>
                 {
-                  group.map(item => (
-                    <TouchableOpacity
-                      onPress={() => this.onPress(item.type)}
-                      key={item.type}
-                      style={[styles.itemWrapper, { marginBottom: item.type === 'avatar' ? 7 : 2 }]}
-                    >
-                      <Text style={styles.text}>{item.title}</Text>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        {item.value && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{item.value ? '已绑定' : '未绑定'}</Text>}
-                        {item.type === 'clearCache' && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{cache + unit}</Text>}
-                        <Image source={Images.iconRight} style={styles.right} />
-                      </View>
-                    </TouchableOpacity>
-                  ))
+                  group.map((item) => {
+                    const Wrapper = item.value ? View : TouchableOpacity;
+                    return (
+                      <Wrapper
+                        onPress={() => this.onPress(item.type)}
+                        key={item.type}
+                        style={[styles.itemWrapper, { marginBottom: item.type === 'avatar' ? 7 : 2 }]}
+                      >
+                        <Text style={styles.text}>{item.title}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          {['wx'].includes(item.type) && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{item.value ? '已绑定' : '未绑定'}</Text>}
+                          {item.type === 'clearCache' && <Text style={{ color: '#BDBDBD', fontSize: 12 }}>{cache + unit}</Text>}
+                          {item.value || <Image source={Images.iconRight} style={styles.right} />}
+                        </View>
+                      </Wrapper>
+                    );
+                  })
                 }
               </View>
             ))
@@ -115,9 +119,7 @@ class Safesetting extends PureComponent {
             bottomList.map(item => (
               <TouchableOpacity onPress={() => this.onPress(item.type)} key={item.type} style={[styles.itemWrapper, { marginBottom: 15 }]}>
                 <Text style={styles.text}>{item.title}</Text>
-                {
-                  item.type === 'changeAccount' && <Image source={Images.iconRight} style={styles.right} />
-                }
+                <Image source={Images.iconRight} style={styles.right} />
               </TouchableOpacity>
             ))
           }

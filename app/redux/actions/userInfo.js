@@ -106,16 +106,23 @@ function updateUser(params) {
 }
 
 // 获取用户信息
-function getUser() {
-  return (dispatch, getState) => {
-    console.log({ uid: getState().userInfo.uid });
-    request('/user/userinfo', { params: { uid: getState().userInfo.user_s_id } }).then((res) => {
+function getUser(token) {
+  return (dispatch) => {
+    request('/user/userinfo', { params: { uid: token } }).then((res) => {
       dispatch(receiveUser(res.data));
     });
   };
 }
 
+// 退出登录
+function logout() {
+  return (dispatch) => {
+    AsyncStorage.removeItem('token');
+    dispatch(resetUser());
+  };
+}
+
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
-  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind,
+  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
 };
