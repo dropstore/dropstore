@@ -64,8 +64,8 @@ class ShopDetail extends PureComponent {
    */
 
   _setContentOrBottomUI = (isBottom, shopInfo) => {
-    let type = shopInfo.activity.type;
-    // let type = 3;
+    // let type = shopInfo.activity.type;
+    let type = 3;
     // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       return this._showSelf(isBottom);
