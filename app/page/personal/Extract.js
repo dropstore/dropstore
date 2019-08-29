@@ -62,7 +62,7 @@ class Extract extends PureComponent {
             <Text style={{ color: '#666', fontSize: 14 }}>15300</Text>
           </ImageBackground>
           <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text style={styles.text}>姓名: </Text>
+            <Text>姓名: </Text>
             <TextInput
               style={styles.input}
               placeholder="_姓名"
@@ -74,7 +74,7 @@ class Extract extends PureComponent {
             />
           </ImageBackground>
           <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text style={styles.text}>支付宝账号: </Text>
+            <Text>支付宝账号: </Text>
             <TextInput
               style={styles.input}
               placeholder="_账号"
@@ -86,7 +86,7 @@ class Extract extends PureComponent {
             />
           </ImageBackground>
           <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text style={styles.text}>提现金额: </Text>
+            <Text>提现金额: </Text>
             <TextInput
               style={styles.input}
               placeholder="_金额"
@@ -158,10 +158,6 @@ const styles = StyleSheet.create({
     color: '#666',
     height: '100%',
     textAlign: 'right',
-  },
-  text: {
-    color: '#000',
-    fontSize: 14,
   },
   btn: {
     flexDirection: 'row',

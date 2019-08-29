@@ -73,7 +73,7 @@ class Safesetting extends PureComponent {
         navigation.goBack();
       }, { title: '' });
     } if (type === 'password') {
-      navigation.navigate('Password');
+      navigation.navigate('Password', { title: '交易密码' });
     } if (type === 'wx') {
       weChatBind(2).then(() => {
         this.setState({

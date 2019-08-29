@@ -122,7 +122,37 @@ function logout() {
   };
 }
 
+// 创建支付密码
+function setPassword(password) {
+  return dispatch => new Promise((resolve) => {
+    const params = {
+      password,
+      enter_password: password,
+    };
+    request('/user/p_register', { params }).then(() => {
+      dispatch(receiveUser({ password: true }));
+      resolve();
+    });
+  });
+}
+
+// 修改支付密码
+function updatePassword(password, new_password) {
+  return dispatch => new Promise((resolve) => {
+    const params = {
+      new_password,
+      new_enter_password: new_password,
+      password,
+    };
+    request('/user/change_password', { params }).then(() => {
+      dispatch(receiveUser({ password: true }));
+      resolve();
+    });
+  });
+}
+
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
   receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
+  setPassword, updatePassword,
 };
