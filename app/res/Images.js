@@ -127,6 +127,8 @@ const IMAGES = {
   extractRed: require('./image/extract-red.png'),
   extractWhite: require('./image/extract-white.png'),
   arrowRed: require('./image/arrow-red.png'),
+  salou: require('./image/salou.png'),
+  sanjiaotanhao: require('./image/sanjiaotanhao.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
