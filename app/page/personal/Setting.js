@@ -3,13 +3,16 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
+import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
+import { ActionSheet } from 'teaset';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { SCREEN_WIDTH } from '../../common/Constant';
 
 function mapStateToProps() {
   return state => ({
@@ -39,7 +42,27 @@ class Setting extends PureComponent {
 
   onPress = (v) => {
     const { navigation } = this.props;
-    navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
+    if (v.name === 'avatar') {
+      ActionSheet.show([{
+        title: '相册',
+        onPress: () => {
+          ImagePicker.openPicker({
+            width: SCREEN_WIDTH,
+            height: SCREEN_WIDTH,
+            cropping: true,
+          }).then((image) => {
+            console.log(image);
+          });
+        },
+      }, {
+        title: '相机',
+        onPress: () => {
+
+        },
+      }], { title: '取消' });
+    } else {
+      navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
+    }
   }
 
   render() {
