@@ -6,7 +6,6 @@ import {
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
-import ImageBackground from '../components/ImageBackground';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
 import Colors from '../res/Colors';
 import { wPx2P } from '../utils/ScreenUtil';
@@ -47,14 +46,6 @@ export default class BottomNavigator extends PureComponent {
   onIndexChange = (index) => {
     this.setState({ index });
     if (index === 0) {
-      // AuthUtil(200).then((res) => {
-      //   console.log(res);
-      // }).catch((err) => {
-      //   console.log(err);
-      // });
-      // ShareUtil('1', '2', 'https://www.baidu.com/img/bd_logo1.png', '4', 2).then((res) => {
-      //   console.log(res);
-      // }).catch(err => console.log(err, 'error'));
       StatusBar.setBarStyle('light-content', true);
     } else {
       StatusBar.setBarStyle('dark-content', true);
@@ -123,9 +114,18 @@ export default class BottomNavigator extends PureComponent {
                           <Animated.View style={{ opacity: this.opacity[index] }}>
                             {
                               v.key === 'drop'
-                                ? <Image style={styles.drop} source={indexState === index ? Images.drop : Images.dropInactive} />
-                                : <Image resizeMode="contain" style={{ width: wPx2P(26), height: '100%', opacity: indexState === index ? 1 : 0.35 }} source={Images[v.key]} />
-
+                                ? <Image style={styles.drop} source={Images.drop} />
+                                : (
+                                  <Image
+                                    resizeMode="contain"
+                                    style={{
+                                      width: wPx2P(26),
+                                      height: '100%',
+                                      opacity: indexState === index ? 1 : 0.35,
+                                    }}
+                                    source={Images[v.key]}
+                                  />
+                                )
                             }
                           </Animated.View>
                         )

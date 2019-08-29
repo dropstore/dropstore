@@ -15,23 +15,9 @@ export default handleActions({
     sendPhone: action.payload.sendPhone || state.sendPhone,
   }),
 
-  [receiveUser]: (state, action) => ({ ...state, ...action.payload }),
+  [receiveUser]: (state, action) => ({ ...state, ...action.payload, sex: { 1: '男', 2: '女' }[action.payload.sex] }),
 
-  [resetUser]: state => ({
-    ...state,
-    auth_token: null,
-    wechat_open_id: null,
-    wechat_union_id: null,
-    messageSendSuccess: false,
-    sendTime: 0,
-    profile_image: null,
-    nickname: null,
-    gender: null,
-    name: null,
-    mobile: null,
-    level: null,
-    checkout_times: null,
-  }),
+  [resetUser]: () => ({}),
 
   [receiveIosNativeDeviceId]: (state, action) => ({ ...state, iosNativeDeviceId: action.payload }),
 }, initialState);

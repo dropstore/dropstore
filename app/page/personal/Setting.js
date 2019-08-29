@@ -26,25 +26,30 @@ function mapDispatchToProps(dispatch) {
 class Setting extends PureComponent {
   constructor(props) {
     super(props);
-    const { userInfo } = this.props;
     this.state = {
       list: [
-        { title: '头像', name: 'avatar', value: userInfo.avatar },
-        { title: '昵称', name: 'name', value: userInfo.user_name },
-        { title: '性别', name: 'sex', value: userInfo.sex },
-        { title: '年龄', name: 'age', value: userInfo.age },
-        { title: '鞋码', name: 'size', value: userInfo.size },
+        { title: '头像', name: 'avatar', value: 'avatar' },
+        { title: '昵称', name: 'name', value: 'user_name' },
+        { title: '性别', name: 'sex', value: 'sex' },
+        { title: '年龄', name: 'age', value: 'age' },
+        { title: '鞋码', name: 'size', value: 'size' },
       ],
     };
   }
 
+  onPress = (v) => {
+    const { navigation } = this.props;
+    navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
+  }
+
   render() {
     const { list } = this.state;
+    const { userInfo } = this.props;
     return (
       <View style={styles.container}>
         {
           list.map(v => (
-            <TouchableOpacity key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
+            <TouchableOpacity onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
               <Text style={styles.text}>{v.title}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {
@@ -53,7 +58,7 @@ class Setting extends PureComponent {
                         <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
                           <Image source={Images.iconBoy} style={{ height: 45, width: 45 }} />
                         </ImageBackground>
-                      ) : <Text style={styles.text}>{v.value}</Text>
+                      ) : <Text style={styles.text}>{userInfo[v.value]}</Text>
                   }
                 <Image source={Images.iconRight} style={styles.right} />
               </View>
