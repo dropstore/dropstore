@@ -1,7 +1,5 @@
 import {request} from '../../http/Axios';
 import {createAction} from 'redux-actions';
-import {requestVendors} from "./test";
-import ShopConstant from "../../common/ShopConstant";
 
 const requestActivityList = createAction('REQUEST_ACTIVITY_LIST');
 const receiveActivityList = createAction('RECEIVE_ACTIVITY_LIST');
@@ -33,7 +31,7 @@ function getActivityList(type, {fetchNextPage = false} = {}) {
       pn: page,
     };
     dispatch(requestActivityList(type));
-    request('/activity/activity_list', {params: params, type: 'form'}).then((res) => {
+    request('/activity/activity_list', {params}).then((res) => {
       dispatch(receiveActivityList({'type': type, 'data': res.data, 'currentPage': page}));
     }).catch(() => {
       dispatch(notReceiveActivityList(type));

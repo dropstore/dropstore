@@ -42,7 +42,10 @@ class SelfSupport extends PureComponent {
     const {getActivityList} = this.props;
     getActivityList(ShopConstant.SELF_SUPPORT, {fetchNextPage: true});
   };
-
+  againLoad = () => {
+    const {getActivityList} = this.props;
+    getActivityList(ShopConstant.SELF_SUPPORT);
+  };
   render() {
     const {activityInfo} = this.props;
     return (
@@ -50,6 +53,7 @@ class SelfSupport extends PureComponent {
         shopList={activityInfo[ShopConstant.SELF_SUPPORT]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
+        againLoad={this.againLoad}
         ListHeaderComponent={<TopCom imageSource={Images.instructions}/>}
       />
     );

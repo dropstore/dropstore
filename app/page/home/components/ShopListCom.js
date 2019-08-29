@@ -6,6 +6,8 @@
 import React, {PureComponent} from 'react';
 import {ActivityIndicator, FlatList, RefreshControl, Text, View} from 'react-native';
 import ShopListItemCom from './ShopListItemCom';
+import NoDataCom from '../../../components/NoDataCom';
+import AgainLoadCom from '../../../components/AgainLoadCom';
 import Colors from '../../../res/Colors';
 import Image from "../home/VendorList";
 import Images from "../../../res/Images";
@@ -40,16 +42,12 @@ class ShopListCom extends PureComponent {
   };
 
   render() {
-    const {shopList, ListHeaderComponent, onRefresh, loadMore} = this.props;
+    const {shopList, ListHeaderComponent, onRefresh, loadMore,againLoad} = this.props;
     const list = shopList.list;
     if (shopList.isSendRequest) {
       // 界面无数据渲染且请求失败的情况下
       if (!shopList.isSuccess && list.length === 0) {
-        return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>请求失败，请重试</Text>
-          </View>
-        )
+          return <AgainLoadCom againLoad={againLoad}/>
       }
       if (list.length !== 0) {
         return (
@@ -59,6 +57,7 @@ class ShopListCom extends PureComponent {
             initialNumToRender={3}
             ListHeaderComponent={ListHeaderComponent}
             ListFooterComponent={this.renderFooter}
+            ListEmptyComponent={<NoDataCom/>}
             ref={(l) => {
               this.shopList = l;
             }}
@@ -78,12 +77,6 @@ class ShopListCom extends PureComponent {
               />
             )}
           />
-        );
-      } else {
-        return (
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Text>暂无数据</Text>
-          </View>
         );
       }
     } else {

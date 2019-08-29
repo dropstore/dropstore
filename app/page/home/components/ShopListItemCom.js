@@ -38,7 +38,7 @@ class ShopListItemCom extends PureComponent {
   toShopDetailPage = () => {
     const {navigation, item} = this.props;
     navigation.navigate('shopDetail', {
-      title:'商品详情',
+      title: '商品详情',
       rate: '+25',
       shopId: item.id,
       type: item.type,
@@ -89,7 +89,7 @@ class ShopListItemCom extends PureComponent {
     if (item.type === ShopConstant.SELF_SUPPORT) {
       if (item.b_type === ShopConstant.BUY) {
         return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qe}/>
-      }else if(item.b_type === ShopConstant.DRAW){
+      } else if (item.b_type === ShopConstant.DRAW) {
         return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr}/>
       }
     }
@@ -103,7 +103,7 @@ class ShopListItemCom extends PureComponent {
         <View style={_styles.middle}>
           <View style={{flex: 1}}>
             <Text style={_styles.shopTitle}>{item.activity_name}</Text>
-            <Text style={_styles.price}>{`${item.price}￥`}</Text>
+            <Text style={_styles.price}>{`${item.price / 100}￥`}</Text>
             {
               this._setTimeDOM(item)
             }
@@ -139,9 +139,10 @@ const _styles = StyleSheet.create({
     height: 13,
     marginRight: 9,
     marginLeft: 6,
+    marginTop: 3,
   },
   shopTitle: {
-    fontSize: 10,
+    fontSize: 13,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
   },
@@ -155,14 +156,14 @@ const _styles = StyleSheet.create({
     height: 15,
     position: 'absolute',
     right: 6,
-    top: 4,
+    top: 7,
   },
   price: {
     fontSize: 11,
     fontWeight: 'bold',
     color: 'rgba(0,0,0,1)',
     marginLeft: 3,
-    marginTop: 23,
+    marginTop: 13,
   },
   time: {
     fontSize: 10,
