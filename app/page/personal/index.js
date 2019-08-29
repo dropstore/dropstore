@@ -32,7 +32,7 @@ const list1 = [
   },
   // { title: '我的商品', icon: 'myGoods' },
   {
-    title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'https://www.baidu.com/' },
+    title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'http://m.dropstore.cn/index.html#/help' },
   },
 ];
 
@@ -53,7 +53,7 @@ const list3 = [
     title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
   },
   {
-    title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'https://www.baidu.com/' },
+    title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'http://m.dropstore.cn/index.html#/drawlots' },
   },
   {
     title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },

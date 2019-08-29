@@ -45,6 +45,7 @@ class Safesetting extends PureComponent {
           { title: '绑定微信', type: 'wx', value: !!userInfo.wx_openid },
         ], [
           { title: '清理内存', type: 'clearCache' },
+          { title: '隐私协议', type: 'secret' },
           { title: '关于Drop store', type: 'age' },
           { title: '帮助与反馈', type: 'size' },
         ],
@@ -72,14 +73,16 @@ class Safesetting extends PureComponent {
         logout();
         navigation.goBack();
       }, { title: '' });
-    } if (type === 'password') {
+    } else if (type === 'password') {
       navigation.navigate('Password', { title: '交易密码' });
-    } if (type === 'wx') {
+    } else if (type === 'wx') {
       weChatBind(2).then(() => {
         this.setState({
           list: list.map(group => group.map(item => (item.type === type ? { ...item, value: true } : item))),
         });
       });
+    } else if (type === 'secret') {
+      navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/secret' });
     }
   }
 
