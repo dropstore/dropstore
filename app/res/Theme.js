@@ -53,7 +53,7 @@ const setTeasetTheme = () => {
     miScreenPaddingTop: 100,
     miScreenPaddingBottom: 80,
     //Overlay
-    overlayOpacity: 0.5,
+    overlayOpacity: 0.2,
     overlayRootScale: 0.93,
 
   });

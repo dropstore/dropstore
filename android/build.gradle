@@ -34,3 +34,7 @@ allprojects {
         }
     }
 }
+ext {
+    googlePlayServicesVersion = "16.+"
+    firebaseVersion = "17.3.4"
+}

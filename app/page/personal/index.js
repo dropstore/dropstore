@@ -1,47 +1,75 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, Platform, TouchableOpacity, Animated,
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
+import Colors from '../../res/Colors';
 
 const HEADER_HEIGHT = 44;
 
 const list1 = [
-  { title: '未完成', icon: 'uncomplete' },
-  { title: '待收货', icon: 'daishouhuo' },
-  { title: '已完成', icon: 'completed' },
-  { title: '我的活动', icon: 'myActivity' },
-  { title: '我的库房', icon: 'myWarehouse' },
-  { title: '提现', icon: 'extract' },
-  { title: '我的商品', icon: 'myGoods' },
-  { title: '帮助中心', icon: 'helper' },
+  {
+    title: '未完成', icon: 'uncomplete', route: 'OrderState', params: { title: '购买记录', type: 'uncomplete' },
+  },
+  {
+    title: '待收货', icon: 'daishouhuo', route: 'OrderState', params: { title: '购买记录', type: 'daishouhuo' },
+  },
+  {
+    title: '已完成', icon: 'completed', route: 'OrderState', params: { title: '购买记录', type: 'completed' },
+  },
+  // { title: '我的活动', icon: 'myActivity' },
+  {
+    title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
+  },
+  {
+    title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
+  },
+  // { title: '我的商品', icon: 'myGoods' },
+  {
+    title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'https://www.baidu.com/' },
+  },
 ];
 
 const list2 = [
-  { title: '发售通知', icon: 'fashounotice' },
-  { title: '活动通知', icon: 'activitynotice' },
-  { title: '系统通知', icon: 'systemnotice' },
+  {
+    title: '发售通知', icon: 'fashounotice', route: 'Notice', params: { title: '发售通知', type: 'fashounotice' },
+  },
+  {
+    title: '活动通知', icon: 'activitynotice', route: 'Notice', params: { title: '活动通知', type: 'activitynotice' },
+  },
+  {
+    title: '系统通知', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
+  },
 ];
 
 const list3 = [
-  { title: '个人设置', icon: 'setting' },
-  { title: '中签率说明', icon: 'illustration' },
-  { title: '我的地址', icon: 'address' },
-  { title: '安全设置', icon: 'safesetting' },
+  {
+    title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
+  },
+  {
+    title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'https://www.baidu.com/' },
+  },
+  {
+    title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },
+  },
+  {
+    title: '安全设置', icon: 'safesetting', route: 'Safesetting', params: { title: '安全设置' },
+  },
 ];
 
 const list = [
   { title: '我的记录', list: list1 },
-  { title: '新消息通知', list: list2 },
+  // { title: '新消息通知', list: list2 },
   { title: '设置中心', list: list3 },
 ];
 
-export default class PersonalCenterPage extends Component {
+class PersonalCenterPage extends PureComponent {
   constructor(props) {
     super(props);
     this.scrollY = new Animated.Value(0);
@@ -53,6 +81,7 @@ export default class PersonalCenterPage extends Component {
       outputRange: [0, STATUSBAR_HEIGHT - SCREEN_HEIGHT + HEADER_HEIGHT],
       extrapolate: 'clamp',
     });
+    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -103,7 +132,7 @@ export default class PersonalCenterPage extends Component {
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: wPx2P(10) }}>
                   {
                     group.list.map(v => (
-                      <TouchableOpacity style={styles.itemWrapper} key={v.icon}>
+                      <TouchableOpacity onPress={() => navigation.navigate(v.route, v.params)} style={styles.itemWrapper} key={v.icon}>
                         <Image style={styles.itemIcon} source={Images[v.icon]} />
                         <Text style={styles.itemTitle}>{v.title}</Text>
                       </TouchableOpacity>
@@ -125,7 +154,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    backgroundColor: '#c20000',
+    backgroundColor: Colors.OTHER_BACK,
     marginBottom: 15,
   },
   headerTitle: {
@@ -134,7 +163,7 @@ const styles = StyleSheet.create({
     fontSize: wPx2P(16),
     textAlign: 'center',
     fontFamily: YaHei,
-    backgroundColor: '#c20000',
+    backgroundColor: Colors.OTHER_BACK,
     height: HEADER_HEIGHT + STATUSBAR_HEIGHT,
     lineHeight: HEADER_HEIGHT,
   },
@@ -253,7 +282,9 @@ const styles = StyleSheet.create({
   placeholder: {
     height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
-    backgroundColor: '#c20000',
+    backgroundColor: Colors.OTHER_BACK,
     position: 'absolute',
   },
 });
+
+export default withNavigation(PersonalCenterPage);

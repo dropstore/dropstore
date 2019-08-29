@@ -10,8 +10,8 @@ import Image from '../../components/Image';
 import ImageBackground from '../../components/ImageBackground';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
-import { messageAuth, weChatAuth } from '../../redux/actions/userInfo';
+import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     messageAuth,
     weChatAuth,
+    getUser,
   }, dispatch);
 }
 
@@ -33,10 +34,11 @@ class AuthLoading extends PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, getUser } = this.props;
     if (require('../../../app.json').needLogin) {
-      AsyncStorage.getItem('token').then((res) => {
-        if (res) {
+      AsyncStorage.getItem('token').then((token) => {
+        if (token) {
+          getUser(token);
           navigation.navigate('Main');
           SplashScreen.hide();
         } else {
@@ -89,16 +91,19 @@ class AuthLoading extends PureComponent {
 
     return (
       <KeyboardDismiss style={styles.container}>
-        <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
-        <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
-        <ImageBackground
-          onPress={this.toLogin}
-          source={disabled ? Images.frameInLogin : Images.frameLogin}
-          style={styles.frameLogin}
-          disabled={disabled}
-        >
-          <Text style={styles.login}>登陆</Text>
-        </ImageBackground>
+        <View style={{ alignItems: 'center' }}>
+          <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
+          <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
+          <ImageBackground
+            onPress={this.toLogin}
+            source={disabled ? Images.frameInLogin : Images.frameLogin}
+            style={styles.frameLogin}
+            disabled={disabled}
+          >
+            <Text style={styles.login}>登陆</Text>
+          </ImageBackground>
+        </View>
+
         <View style={styles.thirdWrapper}>
           <ImageBackground
             onPress={() => this.auth(2)}
@@ -113,25 +118,15 @@ class AuthLoading extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  centering: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
-    flex: 1,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#000000AA',
-    zIndex: 5,
-  },
   container: {
     flex: 1,
+    height: SCREEN_HEIGHT,
+    width: SCREEN_WIDTH,
     alignItems: 'center',
     paddingTop: hPx2P(114),
     backgroundColor: 'rgb(246,246,246)',
     position: 'relative',
+    justifyContent: 'space-between',
   },
   drop: {
     height: wPx2P(103),
@@ -149,12 +144,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   thirdWrapper: {
-    position: 'absolute',
-    bottom: hPx2P(36 + PADDING_TAB),
+    marginBottom: hPx2P(36 + PADDING_TAB),
   },
   wechat: {
     height: wPx2P(46),
     width: wPx2P(46),
+  },
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#000000AA',
+    zIndex: 5,
   },
 });
 

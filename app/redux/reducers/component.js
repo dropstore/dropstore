@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { closeShare, showShare, shareCallback } from '../actions/component';
+import { closeShare, setShowShare, shareCallback } from '../actions/component';
 
 const initialState = {
   share: {
@@ -15,7 +15,7 @@ export default handleActions({
       success: false,
     },
   }),
-  [showShare]: (state, action) => ({
+  [setShowShare]: (state, action) => ({
     ...state,
     share: {
       ...state.share,

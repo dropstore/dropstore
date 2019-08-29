@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {px2Dp} from '../../utils/ScreenUtil';
 import Colors from "../Colors";
 
-export const loadStyle= StyleSheet.create({
+export const loadStyle = StyleSheet.create({
   loadingFooter: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -14,6 +14,7 @@ export const loadStyle= StyleSheet.create({
   loadingText: {
     fontSize: 12,
     color: Colors.NORMAL_TEXT_6,
+    marginTop: 10
   },
   loadingGif: {
     width: px2Dp(23),

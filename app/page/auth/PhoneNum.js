@@ -30,7 +30,7 @@ class PhoneNum extends PureComponent {
       showToast('请输入验证码');
     } else {
       messageAuth(this.mobile, this.code).then(() => {
-        navigation.push('NameAge');
+        navigation.navigate('NameAge');
       });
     }
   }

@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import AsyncStorage from '@react-native-community/async-storage';
 import { request } from '../../http/Axios';
 import AuthUtil from '../../utils/AuthUtil';
 import { showToast } from '../../utils/MutualUtil';
@@ -28,6 +29,7 @@ function weChatAuth(i) {
       };
       request('user/wx_login', { params }).then((res) => {
         if (parseInt(res.data.size) > 0) {
+          AsyncStorage.setItem('token', res.data.user_s_id);
           dispatch(receiveUser(res.data));
           resolve(true);
         } else {
@@ -46,6 +48,25 @@ function weChatAuth(i) {
   });
 }
 
+// 微信绑定
+function weChatBind(i) {
+  return dispatch => new Promise((resolve) => {
+    AuthUtil(i).then((wxRes) => {
+      const params = {
+        unionid: wxRes.unionid,
+        openid: wxRes.openid,
+      };
+      request('/user/up_wx', { params }).then(() => {
+        dispatch(receiveUser({ wx_openid: wxRes.openid, wx_unionid: wxRes.unionid }));
+        resolve();
+      });
+    }).catch(() => {
+      showToast('绑定失败，请稍后重试');
+    });
+  });
+}
+
+
 // 发送验证码
 function sendMessage(mobile, sendTime = 0) {
   return dispatch => new Promise((resolve) => {
@@ -63,6 +84,7 @@ function messageAuth(mobile, codes) {
   return dispatch => new Promise((resolve) => {
     request('/user/login', { params: { mobile, codes } }).then((res) => {
       if (res.data.user_name) {
+        AsyncStorage.setItem('token', res.data.user_s_id);
         dispatch(receiveUser(res.data));
         resolve(true);
       } else {
@@ -71,27 +93,6 @@ function messageAuth(mobile, codes) {
       }
     });
   });
-}
-
-// 请求用户信息数据
-function fecthUser(user, type = 'GET') {
-  return (dispatch, getState) => {
-    const auth_token = getState().userInfo.auth_token;
-    let params = { method: type };
-    if (type === 'PUT') {
-      params = {
-        method: type,
-        body: JSON.stringify({ user: { auth_token, ...user } }),
-      };
-    }
-    // return fetchData('/api/user', params).then((json) => {
-    //   if (json.status === 'ok') {
-    //     dispatch(receiveUser({ ...json.result.user, auth_token }));
-    //   } else {
-    //     dispatch(resetUser());
-    //   }
-    // }).catch(() => dispatch(resetUser()));
-  };
 }
 
 // 更新用户信息
@@ -104,7 +105,54 @@ function updateUser(params) {
   });
 }
 
+// 获取用户信息
+function getUser(token) {
+  return (dispatch) => {
+    request('/user/userinfo', { params: { uid: token } }).then((res) => {
+      dispatch(receiveUser(res.data));
+    });
+  };
+}
+
+// 退出登录
+function logout() {
+  return (dispatch) => {
+    AsyncStorage.removeItem('token');
+    dispatch(resetUser());
+  };
+}
+
+// 创建支付密码
+function setPassword(password) {
+  return dispatch => new Promise((resolve) => {
+    const params = {
+      password,
+      enter_password: password,
+    };
+    request('/user/p_register', { params }).then(() => {
+      dispatch(receiveUser({ password: true }));
+      resolve();
+    });
+  });
+}
+
+// 修改支付密码
+function updatePassword(password, new_password) {
+  return dispatch => new Promise((resolve) => {
+    const params = {
+      new_password,
+      new_enter_password: new_password,
+      password,
+    };
+    request('/user/change_password', { params }).then(() => {
+      dispatch(receiveUser({ password: true }));
+      resolve();
+    });
+  });
+}
+
 export {
-  receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser,
-  fecthUser, receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser,
+  receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
+  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
+  setPassword, updatePassword,
 };

@@ -77,9 +77,12 @@ def export_appstore
   return true
 end
 
-def edit_modules()
+def edit_modules
+  result1 = File.read('./edit_node_modules/react-native-clear-cache/build.gradle')
+  File.write('./node_modules/react-native-clear-cache/android/build.gradle', result1)
   result3 = File.read('./edit_node_modules/metro/DependencyGraph.js')
   File.write('./node_modules/metro/src/node-haste/DependencyGraph.js', result3)
+  puts "---------- finish install and edit node_modules ------------"
 end
 
 def bundleVersion(version)
@@ -149,5 +152,9 @@ elsif action == 'sourcemap'
 elsif action == 'bundleVersion'
   case channel
   when channel then bundleVersion(extras)
+  end
+elsif action == 'edit'
+  case channel
+  when channel then edit_modules()
   end
 end

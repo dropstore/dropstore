@@ -36,10 +36,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 class ShopDetail extends PureComponent {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: navigation.getParam('title', '商品详情'),
+      headerRight: <ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')}/>
+    };
+  };
+
   constructor(props) {
     super(props);
   }
-
 
   componentDidMount() {
     const {getShopDetail, navigation} = this.props;
@@ -117,7 +123,7 @@ class ShopDetail extends PureComponent {
     const {shopDetailInfo} = this.props;
     const data = shopDetailInfo.data;
     let isNormalObject = data instanceof Object && Object.keys(data).length !== 0;
-    if (shopDetailInfo.isStartRequest) {
+    if (shopDetailInfo.isFetching) {
       return <View/>
     }
     if (isNormalObject) {
@@ -144,35 +150,23 @@ class ShopDetail extends PureComponent {
         </View>
       )
     }
-    if (!shopDetailInfo.isRequestSuccess) {
+    if (!shopDetailInfo.isSuccess) {
       return (
-        <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
-          <Text>网络连接失败</Text>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>请求失败，请重试</Text>
         </View>
       )
     }
     return (
-      <View style={{flex: 1, justifyContent: 'center', alert: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>暂无数据</Text>
       </View>
     )
   };
 
   render() {
-    const {navigation} = this.props;
     return (
-      <View style={{flex: 1,}}>
-        <NavigationBarCom
-          headerTitle="活动详情"
-          isShowLeftView={true}
-          navigation={navigation}
-          bgColor={Colors.OTHER_BACK}
-          rightView={<ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')}/>}
-        />
-        {
-          this._mainDOM()
-        }
-      </View>
+      this._mainDOM()
     )
   }
 }
@@ -180,8 +174,7 @@ class ShopDetail extends PureComponent {
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
-    marginTop: STATUSBAR_AND_NAV_HEIGHT,
+    backgroundColor: Colors.WHITE_COLOR
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail))

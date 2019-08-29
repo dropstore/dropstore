@@ -38,7 +38,7 @@ class Commission extends PureComponent {
     if (this.state.totalPrice < min_price) {
       return showToast(`总价不得低于${min_price}元`);
     }
-    navigation.push('pay', {navigation: navigation,shopDetailInfo:shopDetailInfo});
+    navigation.push('pay', {shopDetailInfo: shopDetailInfo,title:'选择支付账户'});
   };
 
   onChange = (event) => {
@@ -47,15 +47,8 @@ class Commission extends PureComponent {
   };
 
   render() {
-    const {navigation} = this.props;
     return (
       <View style={_styles.container}>
-        <NavigationBarCom
-          headerTitle="助攻佣金设定"
-          isShowLeftView={true}
-          navigation={navigation}
-          bgColor={Colors.OTHER_BACK}
-        />
         <View style={_styles.mainView}>
           <Text style={_styles.countTitle}>合计数量
             <Text style={_styles.count}> 6</Text> 双
@@ -103,7 +96,7 @@ const _styles = StyleSheet.create({
   },
   mainView: {
     flex: 1,
-    marginTop: 177 + STATUSBAR_AND_NAV_HEIGHT,
+    marginTop: 177,
     marginLeft: 74
   },
   countTitle: {

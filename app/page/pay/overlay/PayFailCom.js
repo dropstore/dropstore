@@ -25,7 +25,7 @@ export default class PayFailCom extends PureComponent {
           <Text style={_style.statusText}>支付失败</Text>
         </View>
         <View style={bottomStyle.bottomView}>
-          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+          <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
                            onPress={() => {
                              closeOver();
                              navigation.navigate('shopDetail')

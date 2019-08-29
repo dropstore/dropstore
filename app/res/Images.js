@@ -113,6 +113,20 @@ const IMAGES = {
   address: require('./image/address.png'),
   illustration: require('./image/illustration.png'),
   safesetting: require('./image/safesetting.png'),
+  // 个人设置
+  frameAvatar: require('./image/frameAvatar.png'),
+  iconRight: require('./image/icon-arrow-right.png'),
+  // 地址
+  xiaoJiaHao: require('./image/xiaojiah.png'),
+  chooseCircle: require('./image/chooseCircle.png'),
+  frameAddressEdit: require('./image/frame-address-edit.png'),
+  shanchu: require('./image/shanchu.png'),
+  bianji: require('./image/bianji.png'),
+  frameAddres: require('./image/frameAddres.png'),
+  // 提现
+  extractRed: require('./image/extract-red.png'),
+  extractWhite: require('./image/extract-white.png'),
+  arrowRed: require('./image/arrow-red.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),

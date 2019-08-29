@@ -26,8 +26,8 @@ function mapDispatchToProps(dispatch) {
 class HomePage extends PureComponent {
   constructor(props) {
     super(props);
-    const { fetchVendors } = this.props;
-    fetchVendors();
+    // const { fetchVendors } = this.props;
+    // fetchVendors();
     this.state = {};
   }
 

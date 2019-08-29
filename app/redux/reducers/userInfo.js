@@ -17,21 +17,7 @@ export default handleActions({
 
   [receiveUser]: (state, action) => ({ ...state, ...action.payload }),
 
-  [resetUser]: state => ({
-    ...state,
-    auth_token: null,
-    wechat_open_id: null,
-    wechat_union_id: null,
-    messageSendSuccess: false,
-    sendTime: 0,
-    profile_image: null,
-    nickname: null,
-    gender: null,
-    name: null,
-    mobile: null,
-    level: null,
-    checkout_times: null,
-  }),
+  [resetUser]: () => ({}),
 
   [receiveIosNativeDeviceId]: (state, action) => ({ ...state, iosNativeDeviceId: action.payload }),
 }, initialState);
