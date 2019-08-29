@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {SCREEN_WIDTH} from "../common/Constant";
 import Colors from '../res/Colors';
 
@@ -23,4 +23,3 @@ const _styles = StyleSheet.create({
     backgroundColor: Colors.NORMAL_TEXT_F6
   },
 });
-

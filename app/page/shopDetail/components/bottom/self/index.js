@@ -49,28 +49,28 @@ class SelfBottomCom extends PureComponent {
     }
   }
 
-  _setMainDOM = (shopInfo, navigation) => {
+  _setMainDOM = (shopInfo) => {
     // 活动子类型:1、抽签；2、抢购
     let b_type = shopInfo.activity.b_type;
     // 活动开始时间
     let start_time = shopInfo.activity.start_time;
     // 活动未开始
     if (checkTime(start_time) > 0) {
-      return this._normalDOM(shopInfo, navigation);
+      return this._normalDOM(shopInfo);
     }
     if (b_type === ShopConstant.DRAW) {
-      return this._normalDOM(shopInfo, navigation);
+      return this._normalDOM(shopInfo);
     }
     return <BuyBottomCom shopInfo={shopInfo}/>
   };
-  _normalDOM = (shopInfo, navigation) => {
+  _normalDOM = (shopInfo) => {
     return (
       <View style={bottomStyle.bottomView}>
         <TouchableOpacity onPress={() => alert('通知我')}>
           <Image style={bottomStyle.buttonNormalView} source={Images.tzw}/>
         </TouchableOpacity>
         {
-          this._setRightDOM(shopInfo, navigation)
+          this._setRightDOM(shopInfo)
         }
       </View>
     );
@@ -103,8 +103,9 @@ class SelfBottomCom extends PureComponent {
    * 显示选鞋浮层
    */
   showOver = () => {
-    const {shopInfo, navigation, getShoesList} = this.props;
-    getShoesList(shoesList).then(isSuccess => {
+    const {shopDetailInfo, navigation, getShoesList} = this.props;
+    const shopInfo = shopDetailInfo.data;
+    getShoesList(shopInfo.activity.id).then(isSuccess => {
       if (isSuccess) {
         const {shoesInfo} = this.props;
         const myShoesList = shoesInfo.shoesList;
@@ -138,9 +139,9 @@ class SelfBottomCom extends PureComponent {
   };
 
   render() {
-    const {shopDetailInfo, navigation} = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
-    return this._setMainDOM(shopInfo, navigation);
+    return this._setMainDOM(shopInfo);
   }
 }
 

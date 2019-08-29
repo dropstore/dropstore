@@ -123,18 +123,18 @@ class Pay extends PureComponent {
         <View style={{flex: 1}}>
           {
             payData.map((item, index) => (
-              <View key={index}
-                    style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
-                <View style={[commonStyle.row, {flex: 1}]}>
-                  <Image style={_styles.payImage} source={item.subImage}/>
-                  <Text style={_styles.payTitle}>{item.name}</Text>
-                </View>
-                <View style={{alignItems: 'flex-end'}}>
-                  <TouchableOpacity onPress={() => this._changePayStatus(index)}>
+              <TouchableOpacity onPress={() => this._changePayStatus(index)}>
+                <View key={index}
+                      style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}>
+                  <View style={[commonStyle.row, {flex: 1}]}>
+                    <Image style={_styles.payImage} source={item.subImage}/>
+                    <Text style={_styles.payTitle}>{item.name}</Text>
+                  </View>
+                  <View style={{alignItems: 'flex-end'}}>
                     <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
-                  </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           }
         </View>

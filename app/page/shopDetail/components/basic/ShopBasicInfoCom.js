@@ -8,7 +8,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import Image from '../../../../components/Image';
-import {hitSlop} from '../../../../common/Constant';
+import FadeImage from '../../../../components/FadeImage';
 import Images from '../../../../res/Images';
 import {YaHei, Mario} from '../../../../res/FontFamily';
 import ShopConstant from "../../../../common/ShopConstant";
@@ -103,7 +103,7 @@ class ShopBasicInfoCom extends PureComponent {
         </TouchableOpacity>
 
         <View style={_styles.mainView}>
-          <Image resizeMode="contain" style={_styles.imageShoe} source={shopInfo.goods.image}/>
+          <FadeImage resizeMode="contain" style={_styles.imageShoe} source={{uri: shopInfo.activity.image}}/>
           {
             this._setTimeDOM(shopInfo)
           }

@@ -49,6 +49,7 @@ axiosInstance.interceptors.response.use(
  * @param {String} method - 请求方式 ex:post、get
  * @param {Object} params - 请求体
  * @param {Number} timeout - 超时时间
+ * @param type
  * @returns {Promise<*>}
  */
 

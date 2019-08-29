@@ -52,10 +52,10 @@ class ShopDetail extends PureComponent {
     const shopId = navigation.getParam('shopId');
     this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
       if (res) {
-        getShopDetail(shopDetail1, {isDispatchStart: false});
+        getShopDetail(shopId, {isDispatchStart: false});
       }
     });
-    getShopDetail(shopDetail)
+    getShopDetail(shopId)
   }
 
   componentWillUnmount() {
@@ -113,16 +113,16 @@ class ShopDetail extends PureComponent {
       </View>
     )
 
-  }
+  };
   onRefresh = () => {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
-    getShopDetail(shopDetail1, {isDispatchStart: false});
+    getShopDetail(shopId, {isDispatchStart: false});
   };
   _mainDOM = () => {
     const {shopDetailInfo} = this.props;
     const data = shopDetailInfo.data;
-    let isNormalObject = data instanceof Object && Object.keys(data).length !== 0;
+    let isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
     if (shopDetailInfo.isFetching) {
       return <View/>
     }
