@@ -5,7 +5,6 @@ import {
 import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
-import { ActionSheet } from 'teaset';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
@@ -13,6 +12,7 @@ import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { SCREEN_WIDTH } from '../../common/Constant';
+import ActionSheet from '../../components/ActionSheet';
 
 function mapStateToProps() {
   return state => ({
@@ -25,6 +25,8 @@ function mapDispatchToProps(dispatch) {
     updateUser,
   }, dispatch);
 }
+
+const options = ['相册', '相机', '取消'];
 
 class Setting extends PureComponent {
   constructor(props) {
@@ -43,26 +45,26 @@ class Setting extends PureComponent {
   onPress = (v) => {
     const { navigation } = this.props;
     if (v.name === 'avatar') {
-      ActionSheet.show([{
-        title: '相册',
-        onPress: () => {
-          ImagePicker.openPicker({
-            width: SCREEN_WIDTH,
-            height: SCREEN_WIDTH,
-            cropping: true,
-          }).then((image) => {
-            console.log(image);
-          });
-        },
-      }, {
-        title: '相机',
-        onPress: () => {
-
-        },
-      }], { title: '取消' });
+      this.actionSheet.show();
     } else {
       navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
     }
+  }
+
+  openPicker = (i) => {
+    ImagePicker[['openPicker', 'openCamera'][i]]({
+      width: SCREEN_WIDTH,
+      height: SCREEN_WIDTH,
+      cropping: true,
+      freeStyleCropEnabled: true,
+      useFrontCamera: true,
+      mediaType: 'photo',
+      cropperChooseText: '选择',
+      cropperCancelText: '取消',
+      loadingLabelText: '加载中...',
+    }).then((image) => {
+      console.log(image);
+    });
   }
 
   render() {
@@ -88,6 +90,12 @@ class Setting extends PureComponent {
             </TouchableOpacity>
           ))
         }
+        <ActionSheet
+          ref={(o) => { this.actionSheet = o; }}
+          options={options}
+          cancelButtonIndex={2}
+          onPress={this.openPicker}
+        />
       </View>
     );
   }
