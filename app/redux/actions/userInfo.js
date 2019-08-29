@@ -48,6 +48,25 @@ function weChatAuth(i) {
   });
 }
 
+// 微信绑定
+function weChatBind(i) {
+  return dispatch => new Promise((resolve) => {
+    AuthUtil(i).then((wxRes) => {
+      const params = {
+        unionid: wxRes.unionid,
+        openid: wxRes.openid,
+      };
+      request('/user/up_wx', { params }).then(() => {
+        dispatch(receiveUser({ wx_openid: wxRes.openid, wx_unionid: wxRes.unionid }));
+        resolve();
+      });
+    }).catch(() => {
+      showToast('绑定失败，请稍后重试');
+    });
+  });
+}
+
+
 // 发送验证码
 function sendMessage(mobile, sendTime = 0) {
   return dispatch => new Promise((resolve) => {
@@ -86,7 +105,17 @@ function updateUser(params) {
   });
 }
 
+// 获取用户信息
+function getUser() {
+  return (dispatch, getState) => {
+    console.log({ uid: getState().userInfo.uid });
+    request('/user/userinfo', { params: { uid: getState().userInfo.user_s_id } }).then((res) => {
+      dispatch(receiveUser(res.data));
+    });
+  };
+}
+
 export {
-  receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser,
-  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser,
+  receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
+  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind,
 };

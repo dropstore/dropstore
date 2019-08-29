@@ -11,7 +11,7 @@ import ImageBackground from '../../components/ImageBackground';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
-import { messageAuth, weChatAuth } from '../../redux/actions/userInfo';
+import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     messageAuth,
     weChatAuth,
+    getUser,
   }, dispatch);
 }
 
@@ -33,10 +34,11 @@ class AuthLoading extends PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, getUser } = this.props;
     if (require('../../../app.json').needLogin) {
       AsyncStorage.getItem('token').then((res) => {
         if (res) {
+          getUser();
           navigation.navigate('Main');
           SplashScreen.hide();
         } else {
