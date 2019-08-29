@@ -1,6 +1,6 @@
 /* @flow */
-import React, { PureComponent } from 'react';
-import { Platform, Image } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Platform, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 type Props = {
@@ -20,19 +20,19 @@ export default class ImageOrFastImage extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    const { source } = this.props;
-    this.state = { source };
+    const {source} = this.props;
+    this.state = {source};
   }
 
   componentWillReceiveProps(nextProps: Object) {
-    const { source } = this.props;
+    const {source} = this.props;
     if (source !== nextProps.source) {
-      this.setState({ source: nextProps.source });
+      this.setState({source: nextProps.source});
     }
   }
 
   onError = () => {
-    const { source } = this.state;
+    const {source} = this.state;
     if (source.constructor === Object && source.uri) {
       this.setState({
         source: {
@@ -40,14 +40,14 @@ export default class ImageOrFastImage extends PureComponent<Props, State> {
         },
       });
     }
-  }
+  };
 
   render() {
-    const { source } = this.state;
+    const {source} = this.state;
     if (!source) {
       return null;
     }
-    const { style, resizeMode } = this.props;
+    const {style, resizeMode} = this.props;
     const Wrapper = Platform.OS === 'ios' && source.constructor !== Object ? FastImage : Image;
     return (
       <Wrapper

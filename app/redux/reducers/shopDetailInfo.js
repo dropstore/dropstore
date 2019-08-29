@@ -10,11 +10,9 @@ const initShopInfo = {
   shopData: {
     isFetching: false,
     isSuccess: false,
-    activity_id: '',
     data: {},
   },
   shoesData: {
-    activity_id: '',
     shoesList: [],
   },
 };
@@ -31,8 +29,7 @@ actions[receiveShopDetailInfo] = (state, action) => {
     shopData: {
       isFetching: false,
       isSuccess: true,
-      // activity_id: action.payload.activity_id,
-      data: action.payload.shopDetail
+      data: action.payload
     }
   }
 };
@@ -42,7 +39,6 @@ actions[notReceiveShopDetailInfo] = (state) => {
     shopData: {
       isFetching: false,
       isSuccess: false,
-      activity_id: '',
       data: {},
     }
   }
@@ -51,8 +47,7 @@ actions[receiveShoesList] = (state, actions) => {
   return {
     ...state,
     shoesData: {
-      // activity_id: action.payload.activity_id,
-      shoesList: actions.payload.shoesList
+      shoesList: actions.payload
     },
   }
 };

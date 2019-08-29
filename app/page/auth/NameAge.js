@@ -66,7 +66,7 @@ class NameAge extends PureComponent {
         <Image style={styles.nameAge} source={Images.nameAge} />
         <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
           <TextInput
-            maxLength={6}
+            maxLength={12}
             placeholder="昵称_"
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
@@ -78,7 +78,7 @@ class NameAge extends PureComponent {
         </ImageBackground>
         <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
           <TextInput
-            maxLength={6}
+            maxLength={3}
             keyboardType="number-pad"
             placeholder="年龄_"
             placeholderTextColor="#d3d3d3"

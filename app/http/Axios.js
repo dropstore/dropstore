@@ -49,11 +49,12 @@ axiosInstance.interceptors.response.use(
  * @param {String} method - 请求方式 ex:post、get
  * @param {Object} params - 请求体
  * @param {Number} timeout - 超时时间
+ * @param type
  * @returns {Promise<*>}
  */
 
 const request = async (url, {
-  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout,
+  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout, type = 'form',
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -66,7 +67,7 @@ const request = async (url, {
   try {
     const data = { ...params, timestamp: Date.now() };
     response = await axiosInstance({
-      url, method, timeout, headers: headers(), params: { ...data, token: md5(encodeURIComponent(sortObj(data))) }, baseURL,
+      url, method, timeout, headers: headers(), [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) }, baseURL,
     });
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {

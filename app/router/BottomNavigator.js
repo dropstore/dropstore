@@ -114,7 +114,7 @@ export default class BottomNavigator extends PureComponent {
                           <Animated.View style={{ opacity: this.opacity[index] }}>
                             {
                               v.key === 'drop'
-                                ? <Image style={styles.drop} source={indexState === index ? Images.drop : Images.dropInactive} />
+                                ? <Image style={styles.drop} source={Images.drop} />
                                 : (
                                   <Image
                                     resizeMode="contain"

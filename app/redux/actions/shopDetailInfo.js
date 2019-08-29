@@ -1,8 +1,8 @@
 import {DeviceEventEmitter} from 'react-native';
+import {request} from '../../http/Axios';
 import {createAction} from 'redux-actions';
 
-import {hideModalLoading, showModalLoading} from "../../utils/MutualUtil";
-import {shopDetail1} from "../../page/TempData";
+import {hideModalLoading, showModalLoading, showToast} from "../../utils/MutualUtil";
 import ShopConstant from "../../common/ShopConstant";
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
@@ -12,78 +12,62 @@ const receiveShoesList = createAction('RECEIVE_SHOP_SHOE_LIST');
 
 /**
  * 获取商品详情
- * @param shopDetail
+ * @param shopId
  * @param isDispatchStart
  * @returns {Function}
  */
-function getShopDetail(shopDetail, {isDispatchStart = true} = {}) {
+function getShopDetail(shopId, {isDispatchStart = true} = {}) {
   return (dispatch) => {
-    // const params = {
-    //   id: id,
-    // };
-    showModalLoading();
+    const params = {
+      id: shopId,
+    };
     if (isDispatchStart) {
       dispatch(requestShopDetailInfo());
     }
-    setTimeout(() => {
-      // dispatch(receiveShopDetailInfo({'activity_id':id,'shopDetail':shopDetail}));
-      dispatch(receiveShopDetailInfo({'shopDetail': shopDetail}));
-      hideModalLoading();
-    }, 500)
-    // request('/activity/activity_info', {params}).then((res) => {
-    //   dispatch(receiveShopDetailInfo(res.data))
-    // }).catch((err) => {
-    //   dispatch(notReceiveShopDetailInfo(err))
-    // })
+    request('/activity/activity_info', {params, isShowLoading: true}).then((res) => {
+      dispatch(receiveShopDetailInfo(res.data))
+    }).catch(() => {
+      dispatch(notReceiveShopDetailInfo());
+    })
   };
 }
 
 /**
  * 获取鞋码数据
- * @param shoesList
+ * @param shopId
  * @returns {Function}
  */
-function getShoesList(shoesList) {
+function getShoesList(shopId) {
   return (dispatch) => new Promise((resolve, reject) => {
-    showModalLoading({isModal: false});
-    setTimeout(() => {
-      // dispatch(receiveShopDetailInfo({'activity_id':id,'shoesList':shoesList}));
-      dispatch(receiveShoesList({'shoesList': shoesList}));
-      resolve(true);
-      hideModalLoading();
-    }, 500)
-
-    // request('/activity/activity_info', {params}).then((res) => {
-    // let data = res.data;
-    // if(!(data && data.length)){
-    //   return showToast('暂无数据');
-    // }
-    //  dispatch(receiveShoesList(data))
-    // }).catch((err) => {
-    //
-    // })
+    const params = {
+      id: shopId,
+    };
+    request('/activity/activity_size', {params, isShowLoading: true}).then((res) => {
+      let data = res.data;
+      if (!(data && data.length)) {
+        return showToast('暂无数据');
+      }
+      dispatch(receiveShoesList(data));
+      resolve(true)
+    }).catch((err) => {
+      reject(err);
+    })
   });
 }
 
 /**
  * 团长开团
  */
-const startGroup = (shoesList) => {
-  // const params = {
-  // activity_id: activity_id,
-  // size_list:size_list
-  // };
-  showModalLoading();
-  setTimeout(() => {
-    hideModalLoading();
+const startGroup = (activity_id, size_list) => {
+  const params = {
+    activity_id: activity_id,
+    size_list: size_list
+  };
+  request('/activity/do_add_user_activity', {params, isShowLoading: true}).then((res) => {
+    // 开团成功后刷新活动详情
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
-  }, 500)
-  // request('/activity/do_add_user_activity', {params}).then((res) => {
-  // 开团成功后刷新活动详情
-  //  DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
-  // }).catch((err) => {
-  //
-  // })
+  }).catch((err) => {
+  })
 };
 
 export {

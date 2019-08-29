@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
+import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
@@ -10,6 +11,8 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { SCREEN_WIDTH } from '../../common/Constant';
+import ActionSheet from '../../components/ActionSheet';
 
 function mapStateToProps() {
   return state => ({
@@ -23,28 +26,55 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
+const options = ['相册', '相机', '取消'];
+
 class Setting extends PureComponent {
   constructor(props) {
     super(props);
-    const { userInfo } = this.props;
     this.state = {
       list: [
-        { title: '头像', name: 'avatar', value: userInfo.avatar },
-        { title: '昵称', name: 'name', value: userInfo.user_name },
-        { title: '性别', name: 'sex', value: userInfo.sex },
-        { title: '年龄', name: 'age', value: userInfo.age },
-        { title: '鞋码', name: 'size', value: userInfo.size },
+        { title: '头像', name: 'avatar', value: 'avatar' },
+        { title: '昵称', name: 'name', value: 'user_name' },
+        { title: '性别', name: 'sex', value: 'sex' },
+        { title: '年龄', name: 'age', value: 'age' },
+        { title: '鞋码', name: 'size', value: 'size' },
       ],
     };
   }
 
+  onPress = (v) => {
+    const { navigation } = this.props;
+    if (v.name === 'avatar') {
+      this.actionSheet.show();
+    } else {
+      navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
+    }
+  }
+
+  openPicker = (i) => {
+    ImagePicker[['openPicker', 'openCamera'][i]]({
+      width: SCREEN_WIDTH,
+      height: SCREEN_WIDTH,
+      cropping: true,
+      freeStyleCropEnabled: true,
+      useFrontCamera: true,
+      mediaType: 'photo',
+      cropperChooseText: '选择',
+      cropperCancelText: '取消',
+      loadingLabelText: '加载中...',
+    }).then((image) => {
+      console.log(image);
+    });
+  }
+
   render() {
     const { list } = this.state;
+    const { userInfo } = this.props;
     return (
       <View style={styles.container}>
         {
           list.map(v => (
-            <TouchableOpacity key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
+            <TouchableOpacity onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
               <Text style={styles.text}>{v.title}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {
@@ -53,13 +83,19 @@ class Setting extends PureComponent {
                         <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
                           <Image source={Images.iconBoy} style={{ height: 45, width: 45 }} />
                         </ImageBackground>
-                      ) : <Text style={styles.text}>{v.value}</Text>
+                      ) : <Text style={styles.text}>{userInfo[v.value]}</Text>
                   }
                 <Image source={Images.iconRight} style={styles.right} />
               </View>
             </TouchableOpacity>
           ))
         }
+        <ActionSheet
+          ref={(o) => { this.actionSheet = o; }}
+          options={options}
+          cancelButtonIndex={2}
+          onPress={this.openPicker}
+        />
       </View>
     );
   }

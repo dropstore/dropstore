@@ -15,7 +15,7 @@ export default handleActions({
     sendPhone: action.payload.sendPhone || state.sendPhone,
   }),
 
-  [receiveUser]: (state, action) => ({ ...state, ...action.payload }),
+  [receiveUser]: (state, action) => ({ ...state, ...action.payload, sex: { 1: '男', 2: '女' }[action.payload.sex] }),
 
   [resetUser]: () => ({}),
 

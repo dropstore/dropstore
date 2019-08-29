@@ -97,8 +97,15 @@ function messageAuth(mobile, codes) {
 
 // 更新用户信息
 function updateUser(params) {
-  return dispatch => new Promise((resolve) => {
-    request('/user/n_register', { params }).then((res) => {
+  return (dispatch, getState) => new Promise((resolve) => {
+    const {
+      sex, age, size, user_name,
+    } = getState().userInfo;
+    request('/user/n_register', {
+      params: {
+        sex: { 男: 1, 女: 2 }[sex], age, size, user_name, ...params,
+      },
+    }).then((res) => {
       dispatch(receiveUser(res.data));
       resolve();
     });

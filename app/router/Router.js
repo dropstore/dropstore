@@ -34,6 +34,7 @@ import Notice from '../page/personal/Notice';
 import Extract from '../page/personal/Extract';
 import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
+import UpdateUser from '../page/personal/UpdateUser';
 
 const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
@@ -58,6 +59,7 @@ const routesWithHeader = {
   Extract,
   Detaile,
   Password,
+  UpdateUser,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
