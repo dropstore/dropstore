@@ -84,6 +84,7 @@ class PhoneNumCom extends PureComponent {
       sendMessage(mobile, Date.now()).then(() => {
         Toast.show({ text: `验证码已发送至${mobile}` });
         this.startTimer();
+        this.codeInput.focus();
       });
     }
   }
@@ -139,6 +140,7 @@ class PhoneNumCom extends PureComponent {
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
               style={styles.phoneInput}
+              ref={(v) => { this.codeInput = v; }}
               clearButtonMode="while-editing"
               onChangeText={this.onChangeText}
             />
