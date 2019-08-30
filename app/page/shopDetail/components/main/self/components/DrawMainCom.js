@@ -52,7 +52,7 @@ export default class DrawMainCom extends PureComponent {
     return (
       <View style={_styles.listContainer}>
         <View style={[_styles.itemContainer, {backgroundColor: Colors.NORMAL_TEXT_F6}]}>
-          <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>{index}</Text>
+          <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>{index + 1}</Text>
           <ImageBackground style={_styles.userImageBg} source={Images.tx} children={
             <Image style={_styles.userImage} source={item.avatar}/>
           }/>
@@ -77,7 +77,7 @@ export default class DrawMainCom extends PureComponent {
     const joinUser = shopInfo.join_user;
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
-    const upper = number+1;
+    const upper = number + 1;
     return (
       <View style={_styles.container}>
         <View style={_styles.acContainer}>

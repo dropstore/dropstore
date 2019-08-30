@@ -12,7 +12,6 @@ import Colors from '../../../res/Colors';
 import Image from "../home/VendorList";
 import Images from "../../../res/Images";
 import {loadStyle} from "../../../res/style/LoadStyle";
-import {SCREEN_WIDTH} from "../../../common/Constant";
 
 class ShopListCom extends PureComponent {
 

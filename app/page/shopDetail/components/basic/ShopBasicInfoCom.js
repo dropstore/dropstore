@@ -112,7 +112,7 @@ class ShopBasicInfoCom extends PureComponent {
             {shopInfo.goods.goods_name}
             `
           </Text>
-          <Text style={_styles.price}>{`${shopInfo.activity.price}￥`}</Text>
+          <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
         </View>
       </View>
     );

@@ -90,13 +90,13 @@ export default class SelectShoeSizeCom extends Component {
                     <View style={[commonStyle.row, {marginLeft: 43,}]}>
                       <Text style={_style.sizeAndCount}>{item.size}</Text>
                       <View style={[commonStyle.row, _style.rightView]}>
-                        <Text style={_style.price}>{item.price}￥</Text>
-                        <TouchableOpacity style={{padding: 5}} hitSlop={hitSlop}
+                        <Text style={_style.price}>{item.price/100}￥</Text>
+                        <TouchableOpacity style={{padding: 15}} hitSlop={hitSlop}
                                           onPress={() => this.changeChooseCount(item, '-')}>
                           <Image style={_style.lrImage} source={Images.shoe_zjt}/>
                         </TouchableOpacity>
                         <Text style={_style.sizeAndCount}>{item.num}</Text>
-                        <TouchableOpacity style={{padding: 5}} hitSlop={hitSlop}
+                        <TouchableOpacity style={{padding: 15}} hitSlop={hitSlop}
                                           onPress={() => this.changeChooseCount(item, '+')}>
                           <Image style={_style.lrImage} source={Images.shoe_zjr}/>
                         </TouchableOpacity>

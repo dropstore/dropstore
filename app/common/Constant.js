@@ -8,7 +8,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const IS_IPHONE_X = isIphoneX();
 const { width, height } = Dimensions.get('window');
-const TOAST_DURATION = 2500;
+const TOAST_DURATION = 2000;
 const TOAST_POSITON = 'center';// top center bottom
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';

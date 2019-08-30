@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import Modalbox from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { closeShare, shareCallback } from '../redux/actions/component';
-import { getModalbox } from '../redux/reselect/component';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {closeShare, shareCallback} from '../redux/actions/component';
+import {getModalbox} from '../redux/reselect/component';
 
 function mapStateToProps() {
   return state => ({
@@ -19,7 +19,7 @@ function mapDispatchToProps(dispatch) {
 
 class Modal extends PureComponent {
   componentWillReceiveProps(nextProps) {
-    const { modalbox } = this.props;
+    const {modalbox} = this.props;
     if (!modalbox.element && nextProps.modalbox.element) {
       setTimeout(() => {
         console.log();
@@ -31,12 +31,14 @@ class Modal extends PureComponent {
   }
 
   render() {
-    const { modalbox } = this.props;
+    const {modalbox} = this.props;
     if (!modalbox.element) {
       return null;
     }
     return (
-      <Modalbox {...modalbox.options} ref={(v) => { this.modalbox = v; }}>
+      <Modalbox backButtonClose={true} {...modalbox.options} ref={(v) => {
+        this.modalbox = v;
+      }}>
         {modalbox.element}
       </Modalbox>
     );

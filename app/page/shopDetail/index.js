@@ -4,14 +4,12 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {DeviceEventEmitter, RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {DeviceEventEmitter, RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {getShopDetail} from '../../redux/actions/shopDetailInfo';
 import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
-import NavigationBarCom from '../../components/NavigationBarCom';
-import {STATUSBAR_AND_NAV_HEIGHT} from '../../common/Constant';
 import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
 import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
@@ -19,9 +17,10 @@ import SelfCom from "./components/main/self";
 import SelfBottomCom from "./components/bottom/self";
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import {shopDetail, shopDetail1} from '../../page/TempData';
 import LuckBottomCom from "./components/bottom/LuckBottomCom";
 import LuckCom from "../shopDetail/components/main/lucky";
+import AgainLoadCom from "../../components/AgainLoadCom";
+import NoDataCom from "../../components/NoDataCom";
 
 function mapStateToProps() {
   return state => ({
@@ -103,7 +102,6 @@ class ShopDetail extends PureComponent {
    * @private
    */
   _showLuck = (isBottom) => {
-
     if (isBottom) {
       return <LuckBottomCom/>
     }
@@ -112,12 +110,16 @@ class ShopDetail extends PureComponent {
         <LuckCom/>
       </View>
     )
-
   };
   onRefresh = () => {
     const {getShopDetail, navigation} = this.props;
     const shopId = navigation.getParam('shopId');
     getShopDetail(shopId, {isDispatchStart: false});
+  };
+  againLoad = () => {
+    const {getShopDetail, navigation} = this.props;
+    const shopId = navigation.getParam('shopId');
+    getShopDetail(shopId, {isDispatchStart: true});
   };
   _mainDOM = () => {
     const {shopDetailInfo} = this.props;
@@ -151,17 +153,9 @@ class ShopDetail extends PureComponent {
       )
     }
     if (!shopDetailInfo.isSuccess) {
-      return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text>请求失败，请重试</Text>
-        </View>
-      )
+      return <AgainLoadCom againLoad={this.againLoad}/>
     }
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>暂无数据</Text>
-      </View>
-    )
+    return <NoDataCom/>
   };
 
   render() {

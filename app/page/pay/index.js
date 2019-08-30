@@ -78,7 +78,7 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    navigation.push('payStatus',{'payStatus':false,'shopDetailInfo':shopDetailInfo})
+    navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
   };
 
   render() {
