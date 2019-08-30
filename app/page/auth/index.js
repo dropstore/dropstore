@@ -80,7 +80,6 @@ class AuthLoading extends PureComponent {
     this.mobile = mobile;
     this.code = code;
     this.setState({ disabled: false });
-    this.toLogin();
   }
 
   unfinished = () => {

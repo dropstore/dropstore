@@ -57,9 +57,9 @@ class PhoneNumCom extends PureComponent {
       this.setState({ mobile });
     } else {
       this.setState({ mobile });
-      if (/^1[0-9]{10}$/.test(mobile.replace(/\s/g, ''))) {
-        this.toSendCode();
-      }
+      // if (/^1[0-9]{10}$/.test(mobile.replace(/\s/g, ''))) {
+      //   this.toSendCode();
+      // }
     }
   }
 
