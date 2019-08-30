@@ -47,6 +47,10 @@ class Setting extends PureComponent {
     if (v.name === 'avatar') {
       this.actionSheet.show();
     } else {
+      if (v.name === 'sex' || v.name === 'size') {
+        alert('待做');
+        return;
+      }
       navigation.navigate('UpdateUser', { title: `修改${v.title}`, type: v.name });
     }
   }
@@ -81,7 +85,10 @@ class Setting extends PureComponent {
                     v.name === 'avatar'
                       ? (
                         <ImageBackground source={Images.frameAvatar} style={styles.frameAvatar}>
-                          <Image source={Images.iconBoy} style={{ height: 45, width: 45 }} />
+                          <Image
+                            source={userInfo.avatar ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                            style={{ height: 45, width: 45 }}
+                          />
                         </ImageBackground>
                       ) : <Text style={styles.text}>{userInfo[v.value]}</Text>
                   }

@@ -1,10 +1,11 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
   ImageBackground, ActivityIndicator, View, Text, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
-import ShopListItemCom from '../components/ShopListItemCom';
 import { bindActionCreators } from 'redux';
+import ShopListItemCom from '../components/ShopListItemCom';
 import { fetchVendors } from '../../../redux/actions/test';
 import { getVendors } from '../../../redux/reselect/test';
 import Colors from '../../../res/Colors';
@@ -36,6 +37,7 @@ class CardSection extends PureComponent {
       title: '详情页',
     });
   }
+
   render() {
     const { vendors, shopList, title } = this.props;
     if (vendors.isFetching && vendors.totalPages < 0) {
@@ -43,42 +45,45 @@ class CardSection extends PureComponent {
     }
     return (
       <View style={styles.container}>
-        <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.title}> 
+        <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.title}>
           <Text style={{
             textAlign: 'center',
             fontSize: 18,
             lineHeight: 36,
             fontWeight: '500',
-            color: '#ffffff'
-          }}>{title}</Text>
+            color: '#ffffff',
+          }}
+          >
+            {title}
+
+          </Text>
         </ImageBackground>
-         
-          
-          <View >
-              {
-                shopList.map( item => <ImageBackground resizeMode="stretch" source={Images.jc} style={styles.content} onPress={debounce(this.toVendorPage)}>
-                  <ShopListItemCom item={item}/>
-                </ImageBackground> )
-              }
-          </View>
-          
+        <View>
+          {
+            shopList.map((item, index) => (
+              <ImageBackground key={index} resizeMode="stretch" source={Images.jc} style={styles.content} onPress={debounce(this.toVendorPage)}>
+                <ShopListItemCom item={item} />
+              </ImageBackground>
+            ))
+          }
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container:{
-    marginBottom: 20
+  container: {
+    marginBottom: 20,
   },
   content: {
-      flex: 1,
-      // height: 154
+    paddingVertical: 3,
+    marginVertical: 3,
   },
-  title:{
+  title: {
     flex: 1,
     height: 36,
-    marginBottom: 5
+    marginBottom: 5,
   },
   loadingFooter: {
     alignItems: 'center',
