@@ -106,7 +106,6 @@ const _styles = {
   },
   acContainer: {
     width: SCREEN_WIDTH,
-    height: 20,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.NORMAL_TEXT_F6,
