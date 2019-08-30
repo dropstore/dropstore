@@ -6,21 +6,16 @@
 import React, {PureComponent} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {Overlay} from "teaset";
 import Image from '../../components/Image';
-import NavigationBarCom from '../../components/NavigationBarCom';
 import ImageBackground from '../../components/ImageBackground';
-import PaySuccessCom from "./overlay/PaySuccessCom";
-import PayFailCom from "./overlay/PayFailCom";
-import {STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH} from '../../common/Constant';
+import {SCREEN_WIDTH} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Normal, YaHei} from '../../res/FontFamily';
 import {commonStyle} from '../../res/style/CommonStyle';
-import {showToast} from '../../utils/MutualUtil';
 import {debounce} from '../../utils/commonUtils';
-import {hideOlView} from "../../utils/ViewUtils";
 import {bottomStyle} from "../../res/style/BottomStyle";
+import {showToast} from "../../utils/MutualUtil";
 
 class Pay extends PureComponent {
   constructor(props) {
@@ -83,40 +78,12 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    this.showOver(navigation, shopDetailInfo, false)
-  };
-
-  /**
-   * 显示支付状态浮层
-   * @param navigation
-   * @param shopDetailInfo
-   * @param isSuccess
-   */
-  showOver = (navigation, shopDetailInfo, isSuccess) => {
-    let olView = (
-      <Overlay.PullView modal={true}>
-        {
-          isSuccess
-            ? <PaySuccessCom navigation={navigation} shopDetailInfo={shopDetailInfo}
-                             closeOver={this.closeOver.bind(this)}/>
-            : <PayFailCom navigation={navigation} shopDetailInfo={shopDetailInfo}
-                          closeOver={this.closeOver.bind(this)}/>
-        }
-      </Overlay.PullView>
-    );
-    let key = Overlay.show(
-      olView
-    );
-    this.setState({overPayStatusKey: key})
-  };
-
-  // 关闭浮层
-  closeOver() {
-    hideOlView(this.state.overPayStatusKey);
+    navigation.push('payStatus',{'payStatus':false,'shopDetailInfo':shopDetailInfo})
   };
 
   render() {
     const {payData} = this.state;
+   
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
@@ -140,7 +107,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>10000￥</Text>
+            <Text style={_styles.price}>{this.props.navigation.getParam('totalPrice')}￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
@@ -158,6 +125,7 @@ const _styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
   },
+
   alSel: {
     fontSize: 16,
     color: 'rgba(0,0,0,1)',

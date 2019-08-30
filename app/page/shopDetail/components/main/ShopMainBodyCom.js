@@ -1,66 +1,40 @@
-import React, {PureComponent} from 'react'
-import {WebView} from 'react-native'
-import {SCREEN_WIDTH} from "../../../../common/Constant";
+/**
+ * @file 商品主体信息组件
+ * @date 2019/8/18 17:39
+ * @author ZWW
+ */
+import React, {PureComponent} from 'react';
+import {StyleSheet, View} from 'react-native';
+import Image from '../../../../components/Image';
+import Images from '../../../../res/Images';
+import Colors from '../../../../res/Colors';
 
-const BaseScript =
-  `
-    (function () {
-        var height = null;
-        function changeHeight() {
-          if (document.body.scrollHeight != height) {
-            height = document.body.scrollHeight;
-            if (window.postMessage) {
-              window.postMessage(JSON.stringify({
-                type: 'setHeight',
-                height: height,
-              }))
-            }
-          }
-        }
-        setInterval(changeHeight, 100);
-    } ())
-    `
-
-export default class ShopMainBodyCom extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = ({
-      height: 0
-    })
-  }
-
-  /**
-   * web端发送过来的交互消息
-   */
-  onMessage(event) {
-    try {
-      const action = JSON.parse(event.nativeEvent.data)
-      if (action.type === 'setHeight' && action.height > 0) {
-        this.setState({height: action.height})
-      }
-    } catch (error) {
-      // pass
-    }
-  }
-
+class ShopBasicInfoCom extends PureComponent {
   render() {
-    const {shopInfo} = this.props;
+    const {item} = this.props;
     return (
-      <WebView
-        injectedJavaScript={BaseScript}
-        style={{
-          width: SCREEN_WIDTH,
-          height: this.state.height
-        }}
-        automaticallyAdjustContentInsets
-        source={{html: shopInfo.goods.details}}
-        decelerationRate='normal'
-        scalesPageToFit
-        javaScriptEnabled
-        domStorageEnabled
-        scrollEnabled={false}
-        onMessage={this.onMessage.bind(this)}
-      />
-    )
+      <View style={_styles.detailView}>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
+        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
+      </View>
+    );
   }
 }
+
+const _styles = StyleSheet.create({
+  detailView: {
+    flex: 1,
+    marginTop: 16,
+    backgroundColor: Colors.WHITE_COLOR,
+  },
+  detailImage: {
+    width: '100%',
+    height: 300
+  },
+});
+
+export default ShopBasicInfoCom;

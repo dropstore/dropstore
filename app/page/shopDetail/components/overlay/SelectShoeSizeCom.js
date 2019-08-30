@@ -15,6 +15,7 @@ import {YaHei} from "../../../../res/FontFamily";
 import {bottomStyle} from '../../../../res/style/BottomStyle';
 import {debounce} from "../../../../utils/commonUtils";
 import {startGroup} from "../../../../redux/actions/shopDetailInfo";
+import {showToast} from "../../../../utils/MutualUtil";
 
 
 export default class SelectShoeSizeCom extends Component {
@@ -42,18 +43,16 @@ export default class SelectShoeSizeCom extends Component {
       if (shoesList[i].id === item.id) {
         let _shoeData = shoesList[i];
         if (operator === '+') {
-          if (_shoeData.num < 20) {
+          if (_shoeData.num < _shoeData.limit_num) {
             _shoeData.num++;
             totalCount++;
           } else {
-            alert('不能大于20')
+            showToast('选择数量不能大于限购数量')
           }
         } else {
           if (_shoeData.num !== 0) {
             _shoeData.num--;
             totalCount--;
-          } else {
-            alert('不能小于0')
           }
         }
       }
@@ -62,9 +61,9 @@ export default class SelectShoeSizeCom extends Component {
   };
 
   _confirmChoose = () => {
-    const {closeOver} = this.props;
+    const {shopId, closeOver} = this.props;
     closeOver();
-    startGroup(this.state.shoesList);
+    startGroup(shopId, this.state.shoesList);
   };
 
   render() {
@@ -129,70 +128,70 @@ export default class SelectShoeSizeCom extends Component {
 }
 
 const _style = StyleSheet.create({
-    container: {
-      backgroundColor: Colors.WHITE_COLOR,
-      height: 400
-    },
-    mainView: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 20
-    },
-    title: {
-      color: 'rgba(0,0,0,1)',
-      fontFamily: YaHei,
-      fontWeight: 'bold',
-      fontSize: 16,
-      marginLeft: 23
-    },
-    close: {
-      width: 20,
-      height: 20,
-      position: 'absolute',
-      right: 10,
-      top: 5,
-      marginLeft: 10
-    },
-    alreadyChoose: {
-      fontSize: 15,
-      color: Colors.NORMAL_TEXT_0,
-      fontFamily: YaHei,
-      fontWeight: '300',
-      marginLeft: 20
-    },
-    centerView: {
-      marginTop: 28,
-      height: 250,
-    },
-    rightView: {
-      position: 'absolute',
-      right: 46,
-      top: 0,
-    },
-    sizeAndCount: {
-      color: 'rgba(0,0,0,1)',
-      fontFamily: YaHei,
-      fontWeight: 'bold',
-      fontSize: 18
-    },
-    price: {
-      color: 'rgba(0,0,0,1)',
-      fontSize: 15,
-      marginRight: 31
-    },
-    lrImage: {
-      width: 6,
-      height: 8,
-    },
-    line: {
-      width: 340,
-      height: 1,
-      marginTop: 12,
-      marginBottom: 19,
-      marginLeft: 26
-    }
-  });
+  container: {
+    backgroundColor: Colors.WHITE_COLOR,
+    height: 400
+  },
+  mainView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20
+  },
+  title: {
+    color: 'rgba(0,0,0,1)',
+    fontFamily: YaHei,
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: 23
+  },
+  close: {
+    width: 20,
+    height: 20,
+    position: 'absolute',
+    right: 10,
+    top: 5,
+    marginLeft: 10
+  },
+  alreadyChoose: {
+    fontSize: 15,
+    color: Colors.NORMAL_TEXT_0,
+    fontFamily: YaHei,
+    fontWeight: '300',
+    marginLeft: 20
+  },
+  centerView: {
+    marginTop: 28,
+    height: 250,
+  },
+  rightView: {
+    position: 'absolute',
+    right: 46,
+    top: 0,
+  },
+  sizeAndCount: {
+    color: 'rgba(0,0,0,1)',
+    fontFamily: YaHei,
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+  price: {
+    color: 'rgba(0,0,0,1)',
+    fontSize: 15,
+    marginRight: 31
+  },
+  lrImage: {
+    width: 6,
+    height: 8,
+  },
+  line: {
+    width: 340,
+    height: 1,
+    marginTop: 12,
+    marginBottom: 19,
+    marginLeft: 26
+  }
+});
 
 
 

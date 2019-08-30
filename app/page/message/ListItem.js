@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import Image from '../../../components/Image';
-import ScaleView from '../../../components/ScaleView';
-import Images from '../../../res/Images';
-import { YaHei, Mario } from '../../../res/FontFamily';
+import Image from '../../components/Image';
+import ScaleView from '../../components/ScaleView';
+import Images from '../../res/Images';
+import { YaHei, Mario } from '../../res/FontFamily';
 
-class OrderListItem extends PureComponent {
+class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(OrderListItem);
+export default withNavigation(ListItem);

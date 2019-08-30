@@ -8,13 +8,13 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from "react-redux";
 import ImageBackground from '../../components/ImageBackground';
-import NavigationBarCom from '../../components/NavigationBarCom';
-import {SCREEN_WIDTH, STATUSBAR_AND_NAV_HEIGHT} from '../../common/Constant';
+import {SCREEN_WIDTH} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Normal, YaHei} from '../../res/FontFamily';
 import {debounce} from '../../utils/commonUtils';
 import {getShopDetailInfo} from "../../redux/reselect/shopDetailInfo";
+import {setCommission, getPayMes} from "../../redux/actions/shopDetailInfo";
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
 
@@ -28,22 +28,39 @@ class Commission extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      totalPrice: 0
+      totalPrice: 0,
+      number: 1,
+      commission: 30,
     }
+  }
+
+  componentDidMount() {
+    const {shopDetailInfo, navigation} = this.props;
+    const shopInfo = shopDetailInfo.data;
+    // getPayMes(shopInfo.activity.id, shopInfo.user_activity.id).then(res => {
+    //   if(res){
+    //     this.setState({number: res.number, commission: res.commission})
+    //   }
+    // })
   }
 
   _toPay = () => {
     const {shopDetailInfo, navigation} = this.props;
-    const min_price = shopDetailInfo.data.activity.min_price;
-    if (this.state.totalPrice < min_price) {
-      return showToast(`总价不得低于${min_price}元`);
+    const shopInfo = shopDetailInfo.data;
+    let minPrice = this.state.number * this.state.commission;
+    if (this.state.totalPrice < minPrice) {
+      return showToast(`总价不得低于${minPrice}元`);
     }
-    navigation.push('pay', {shopDetailInfo: shopDetailInfo,title:'选择支付账户'});
+    setCommission(shopInfo.activity.id, shopInfo.user_activity.id, this.state.totalPrice).then(res => {
+      // if (res) {
+      navigation.push('pay', {shopDetailInfo: shopDetailInfo, title: '选择支付账户', totalPrice: this.state.totalPrice});
+      // }
+    })
   };
 
   onChange = (event) => {
     const singlePrice = event.nativeEvent.text;
-    this.setState({totalPrice: singlePrice * (6 - 1)})
+    this.setState({totalPrice: singlePrice * this.state.number})
   };
 
   render() {
@@ -51,7 +68,7 @@ class Commission extends PureComponent {
       <View style={_styles.container}>
         <View style={_styles.mainView}>
           <Text style={_styles.countTitle}>合计数量
-            <Text style={_styles.count}> 6</Text> 双
+            <Text style={_styles.count}> {this.state.number}</Text> 双
           </Text>
           <ImageBackground source={Images.framePhoneInput} style={_styles.inputBg}>
             <TextInput
