@@ -162,7 +162,7 @@ class SelfBottomCom extends PureComponent {
     const shopInfo = shopDetailInfo.data;
     const shopId = shopInfo.activity.id;
     return (
-      <View style={{ backgroundColor: 'red' }}>
+      <View>
         {
           this._setMainDOM(shopInfo)
         }
