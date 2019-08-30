@@ -140,7 +140,8 @@ android {
         versionCode _versionCode
         versionName _versionName
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
+            // abiFilters "armeabi-v7a", "x86"
         }
         vectorDrawables.useSupportLibrary = true
         // multiDexEnabled true
