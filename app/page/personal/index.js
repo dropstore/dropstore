@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
+import Frame from '../../components/Frame';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -133,11 +134,11 @@ class PersonalCenterPage extends PureComponent {
           </View>
           {
             list.map(group => (
-              <View key={group.title} style={styles.list}>
+              <Frame key={group.title} style={styles.list} containerStyle={styles.containerStyle}>
                 <View style={styles.groupTitleWrapper}>
                   <Text style={styles.groupTitle}>{group.title}</Text>
                 </View>
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: wPx2P(10) }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: wPx2P(7) }}>
                   {
                     group.list.map(v => (
                       <TouchableOpacity onPress={() => navigation.navigate(v.route, v.params)} style={styles.itemWrapper} key={v.icon}>
@@ -147,7 +148,7 @@ class PersonalCenterPage extends PureComponent {
                     ))
                   }
                 </View>
-              </View>
+              </Frame>
             ))
           }
         </Animated.ScrollView>
@@ -248,26 +249,29 @@ const styles = StyleSheet.create({
     paddingVertical: 7.5,
   },
   list: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     marginHorizontal: wPx2P(13),
-    borderRadius: 5,
-    paddingBottom: 7.5,
+    // borderRadius: 5,
     marginBottom: wPx2P(25),
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(211, 211, 211)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 1.5,
-        position: 'relative',
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     shadowColor: 'rgb(211, 211, 211)',
+    //     shadowOffset: { width: 0, height: 0 },
+    //     shadowOpacity: 0.35,
+    //     shadowRadius: 5,
+    //   },
+    //   android: {
+    //     elevation: 1.5,
+    //     position: 'relative',
+    //   },
+    // }),
+  },
+  containerStyle: {
+    backgroundColor: '#fff',
+    paddingBottom: 7.5,
   },
   groupTitleWrapper: {
-    paddingLeft: 14,
+    paddingLeft: 11,
     paddingVertical: 5,
     borderBottomColor: '#ddd',
     borderBottomWidth: StyleSheet.hairlineWidth,

@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import Image from '../../components/Image';
-import ScaleView from '../../components/ScaleView';
-import Images from '../../res/Images';
+import ScaleViewWithFrame from '../../components/ScaleViewWithFrame';
 import { YaHei, Mario } from '../../res/FontFamily';
 
 class ListItem extends PureComponent {
@@ -35,21 +34,12 @@ class ListItem extends PureComponent {
 
   render() {
     const { item } = this.props;
-    const { date } = this.state;
-    const time = `${parseInt(date / 3600000).toString().padStart(2, 0)}:${
-      parseInt((date % 3600000) / 60000).toString().padStart(2, 0)}:${
-      parseInt((date % 60000) / 1000).toString().padStart(2, 0)}`;
     const creat = new Date(item.creat);
     return (
-      <ScaleView style={styles.container}>
-        <View style={[styles.header, { backgroundColor: item.type === 0 ? '#c20000' : '#999' }]}>
+      <ScaleViewWithFrame style={styles.container} containerStyle={styles.containerStyle}>
+        <View style={styles.header}>
           <View style={styles.headerLeft}>
-            {
-              item.type === 0 ? <Image style={{ width: 10, height: 13 }} source={Images.salou} />
-                : <Image style={{ width: 9, height: 8 }} source={Images.sanjiaotanhao} />
-            }
-            <Text style={styles.dateText}>{`${item.type === 0 ? '待付款 ' : '待公布 '}`}</Text>
-            <Text style={styles.date}>{time}</Text>
+            <Text style={styles.dateText}>{`${item.type === 0 ? '即将发售' : ''}`}</Text>
           </View>
           {
             item.hint && <Text style={styles.hint}>{item.hint}</Text>
@@ -68,20 +58,22 @@ class ListItem extends PureComponent {
           </View>
           <Image resizeMode="contain" style={{ width: 92, height: 50 }} source={item.image} />
         </View>
-      </ScaleView>
+      </ScaleViewWithFrame>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginHorizontal: 13,
+  },
+  containerStyle: {
     backgroundColor: '#fff',
-    marginHorizontal: 8,
-    marginTop: 14,
-    paddingBottom: 10,
+    paddingBottom: 8,
+    paddingHorizontal: 13,
   },
   header: {
-    height: 18,
+    height: 22,
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
@@ -89,11 +81,11 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 5,
+    width: '100%',
+    borderBottomColor: '#ddd',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   dateText: {
-    marginLeft: 5,
-    color: '#fff',
     fontFamily: YaHei,
     lineHeight: 17.5,
     fontSize: 12,
@@ -115,7 +107,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 5,
     marginTop: 5,
   },
   price: {
