@@ -61,24 +61,24 @@ export default class SelectShoeSizeCom extends Component {
   };
 
   _confirmChoose = () => {
-    const {shopId, closeOver} = this.props;
-    closeOver();
+    const {shopId, closeBox} = this.props;
+    closeBox();
     startGroup(shopId, this.state.shoesList);
   };
 
   render() {
-    const {shoesList, closeOver} = this.props;
+    const {shoesList, closeBox} = this.props;
     let _shoesList = this.state.shoesList;
     let showShoesLit = _shoesList.length !== 0 ? _shoesList : shoesList;
     return (
       <View style={_style.container}>
-        <View style={{flex: 1,}}>
+        <View style={{flex: 1,height: 400}}>
           <View style={commonStyle.row}>
             <View style={_style.mainView}>
               <Text style={_style.title}>鞋码选择</Text>
               <Text style={_style.alreadyChoose}>已选数量 {this.state.totalCount}</Text>
             </View>
-            <TouchableOpacity hitSlop={hitSlop} style={_style.close} onPress={() => closeOver()}>
+            <TouchableOpacity hitSlop={hitSlop} style={_style.close} onPress={() => closeBox()}>
               <Image style={_style.close} source={Images.close_shoe}/>
             </TouchableOpacity>
           </View>

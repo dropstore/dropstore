@@ -83,7 +83,6 @@ class Pay extends PureComponent {
 
   render() {
     const {payData} = this.state;
-   
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
