@@ -57,7 +57,7 @@ class PhoneNumCom extends PureComponent {
       this.setState({ mobile });
     } else {
       this.setState({ mobile });
-      if (/^(0|86|17951)?1[0-9]{10}$/.test(mobile.replace(/\s/g, ''))) {
+      if (/^1[0-9]{10}$/.test(mobile.replace(/\s/g, ''))) {
         this.toSendCode();
       }
     }
@@ -76,7 +76,7 @@ class PhoneNumCom extends PureComponent {
   toSendCode =() => {
     const { userInfo, sendMessage } = this.props;
     const mobile = this.mobile.replace(/\s/g, '');
-    if (!/^(0|86|17951)?1[0-9]{10}$/.test(mobile)) {
+    if (!/^1[0-9]{10}$/.test(mobile)) {
       Toast.show({ text: '手机号格式错误，请重新输入' });
       return;
     }
