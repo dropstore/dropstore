@@ -57,17 +57,63 @@ function getShoesList(shopId) {
 
 /**
  * 团长开团
+ * @param activity_id
+ * @param size_list
  */
 const startGroup = (activity_id, size_list) => {
+  let toServerSizeList = [];
+  for (let i = 0; i < size_list.length; i++) {
+    let sizeData = size_list[i];
+    if (sizeData.num !== 0) {
+      toServerSizeList.push({
+        "id": sizeData.id,
+        "num": sizeData.num,
+      })
+    }
+  }
   const params = {
     activity_id: activity_id,
-    size_list: size_list
+    size_list: JSON.stringify(toServerSizeList)
   };
-  request('/activity/do_add_user_activity', {params, isShowLoading: true}).then((res) => {
+  request('/activity/do_add_user_activity', {params, isShowLoading: true}).then(() => {
     // 开团成功后刷新活动详情
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
   }).catch((err) => {
   })
+};
+
+/**
+ * 填写佣金
+ * @param activity_id
+ * @param u_a_id
+ */
+const getPayMes = async (activity_id, u_a_id) => {
+  const params = {
+    activity_id: activity_id,
+    u_a_id: u_a_id,
+  };
+  try {
+    return await request('/activity/pay_activity', {params, isShowLoading: true});
+  } catch (e) {
+  }
+};
+
+/**
+ * 设置佣金
+ * @param activity_id
+ * @param u_a_id
+ * @param commission
+ */
+const setCommission = async (activity_id, u_a_id, commission) => {
+  const params = {
+    activity_id: activity_id,
+    u_a_id: u_a_id,
+    commission: commission
+  };
+  try {
+    return await request('/activity/set_commission', {params, isShowLoading: true});
+  } catch (e) {
+  }
 };
 
 export {
@@ -77,5 +123,7 @@ export {
   receiveShoesList,
   getShopDetail,
   getShoesList,
-  startGroup
+  startGroup,
+  getPayMes,
+  setCommission
 }

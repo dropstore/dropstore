@@ -89,6 +89,13 @@ const IMAGES = {
   sel: require('./image/sel.png'),
   unSel: require('./image/unsel.png'),
 
+  // 支付及购买
+  gm_cg: require('./image/gmcg.png'),
+  gx_zq: require('./image/gxzq.png'),
+  qx_sb: require('./image/qxsb.png'),
+  zf_cg: require('./image/zfcg.png'),
+  zf_sb: require('./image/zfsb.png'),
+  got_em: require('./image/got_em.png'),
   // 活动成员列表
   xt_xn: require('./image/xtxn.png'),
   nh_tx: require('./image/nhtx.png'),

@@ -54,7 +54,7 @@ class ShopListCom extends PureComponent {
           <FlatList
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={5}
-            initialNumToRender={3}
+            initialNumToRender={10}
             ListHeaderComponent={ListHeaderComponent}
             ListFooterComponent={this.renderFooter}
             ListEmptyComponent={<NoDataCom/>}

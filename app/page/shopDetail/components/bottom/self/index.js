@@ -96,7 +96,7 @@ class SelfBottomCom extends PureComponent {
 
   _toCommissionPage = () => {
     const {navigation} = this.props;
-    navigation.push('commission', {title:'助攻佣金设定'})
+    navigation.push('commission', {title: '助攻佣金设定'})
   };
 
   /**
@@ -105,7 +105,8 @@ class SelfBottomCom extends PureComponent {
   showOver = () => {
     const {shopDetailInfo, navigation, getShoesList} = this.props;
     const shopInfo = shopDetailInfo.data;
-    getShoesList(shopInfo.activity.id).then(isSuccess => {
+    const shopId = shopInfo.activity.id;
+    getShoesList(shopId).then(isSuccess => {
       if (isSuccess) {
         const {shoesInfo} = this.props;
         const myShoesList = shoesInfo.shoesList;
@@ -113,6 +114,7 @@ class SelfBottomCom extends PureComponent {
           let olView = (
             <Overlay.PullView>
               <SelectShoeSizeCom
+                shopId={shopId}
                 navigation={navigation}
                 shopInfo={shopInfo}
                 shoesList={myShoesList}
@@ -144,7 +146,6 @@ class SelfBottomCom extends PureComponent {
     return this._setMainDOM(shopInfo);
   }
 }
-
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom))
