@@ -142,6 +142,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        vectorDrawables.useSupportLibrary = true
         // multiDexEnabled true
         // renderscriptSupportModeEnabled true
     }
@@ -185,6 +186,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-clear-cache')
     implementation project(':react-native-webview')
     implementation project(':@react-native-community_async-storage')

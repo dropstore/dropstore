@@ -9,6 +9,27 @@ import OrderListItem from './OrderListItem';
 import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
 
+const LIST = [
+  {
+    title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
+    image: Images.shoe,
+    price: 1999,
+    type: 0,
+    hint: '请在规定内时间完成支付，错过将失去中奖资格。',
+    id: 'D537639998765663425',
+    date: Date.now() + 1000 * 60 * 12,
+    creat: Date.now() - 1000 * 60 * 12,
+  }, {
+    title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
+    image: Images.shoe,
+    price: 1999,
+    type: 1,
+    id: 'D537639998765663425',
+    date: Date.now() + 1000 * 60 * 60 * 5,
+    creat: Date.now() - 1000 * 60 * 12,
+  },
+];
+
 function mapStateToProps() {
   return state => ({
 
@@ -49,7 +70,7 @@ class OrderList extends PureComponent {
     );
   }
 
-  renderItem = () => <OrderListItem />
+  renderItem = ({ item }) => <OrderListItem item={item} />
 
   render() {
     // const { vendors } = this.props;
@@ -61,11 +82,11 @@ class OrderList extends PureComponent {
         showsVerticalScrollIndicator={false}
         maxToRenderPerBatch={5}
         initialNumToRender={3}
-        style={{ flex: 1 }}
+        style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
         // ListHeaderComponent={this.renderHeader}
         // ListFooterComponent={this.renderFooter}
         ref={(l) => { this.innerList = l; }}
-        data={[1, 2, 3, 4]}
+        data={LIST}
         renderItem={this.renderItem}
         keyExtractor={(item, index) => `${item.source_id}-${index}`}
         onEndReached={this.loadMore}

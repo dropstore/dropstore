@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, Platform, TouchableOpacity, Animated,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
@@ -10,6 +11,7 @@ import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Colors from '../../res/Colors';
+import { getUserInfo } from '../../redux/reselect/userInfo';
 
 const HEADER_HEIGHT = 44;
 
@@ -69,6 +71,12 @@ const list = [
   { title: '设置中心', list: list3 },
 ];
 
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
 class PersonalCenterPage extends PureComponent {
   constructor(props) {
     super(props);
@@ -76,12 +84,12 @@ class PersonalCenterPage extends PureComponent {
   }
 
   render() {
+    const { navigation, userInfo } = this.props;
     const translateY = this.scrollY.interpolate({
       inputRange: [STATUSBAR_HEIGHT + HEADER_HEIGHT - SCREEN_HEIGHT, 0],
       outputRange: [0, STATUSBAR_HEIGHT - SCREEN_HEIGHT + HEADER_HEIGHT],
       extrapolate: 'clamp',
     });
-    const { navigation } = this.props;
 
     return (
       <View style={styles.container}>
@@ -101,8 +109,8 @@ class PersonalCenterPage extends PureComponent {
                   <Image source={Images.iconBoy} style={{ height: wPx2P(47.2), width: wPx2P(52.8) }} />
                 </ImageBackground>
                 <View style={{ alignSelf: 'flex-end', marginLeft: 10 }}>
-                  <Text style={styles.name}>User Name</Text>
-                  <Text style={styles.id}>ID:636574</Text>
+                  <Text style={styles.name}>{userInfo.user_name}</Text>
+                  <Text style={styles.id}>{`ID: ${userInfo.id.padStart(6, '100000')}`}</Text>
                 </View>
               </View>
               <ImageBackground style={styles.frameWallet} source={Images.frameWallet}>
@@ -287,4 +295,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(PersonalCenterPage);
+export default withNavigation(connect(mapStateToProps)(PersonalCenterPage));
