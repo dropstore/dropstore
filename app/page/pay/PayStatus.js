@@ -133,6 +133,7 @@ class PayStatus extends PureComponent {
 
 const _style = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
   },
   mainView: {

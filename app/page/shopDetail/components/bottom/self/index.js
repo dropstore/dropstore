@@ -8,24 +8,23 @@ import React, {PureComponent} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from "react-redux";
-import {Overlay} from "teaset";
 import Image from '../../../../../components/Image';
 import ImageBackground from '../../../../../components/ImageBackground';
-import SelectShoeSizeCom from '../../overlay/SelectShoeSizeCom';
+import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import Images from '../../../../../res/Images';
 import Colors from '../../../../../res/Colors';
 import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import {hideOlView} from '../../../../../utils/ViewUtils';
 import {getReShoesList, getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
 import {bindActionCreators} from "redux";
 import {getShoesList, getShopDetail} from "../../../../../redux/actions/shopDetailInfo";
 import {checkTime} from "../../../../../utils/TimeUtils";
 import commission from "../../../../commission";
-import {shoesList, shopDetail1} from "../../../../TempData";
+import {shopDetail1} from "../../../../TempData";
 import {debounce} from "../../../../../utils/commonUtils";
-import {showToast} from "../../../../../utils/MutualUtil";
+import Modalbox from "react-native-modalbox";
+import {SCREEN_WIDTH} from "../../../../../common/Constant";
 
 function mapStateToProps() {
   return state => ({
@@ -45,7 +44,7 @@ class SelfBottomCom extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      overSelShoeSizeKey: -1,
+      myShoesList: []
     }
   }
 
@@ -95,44 +94,36 @@ class SelfBottomCom extends PureComponent {
   };
 
   _toCommissionPage = () => {
-    const {navigation} = this.props;
-    navigation.push('commission', {title: '助攻佣金设定'})
+    const {shopDetailInfo, navigation} = this.props;
+    const shopInfo = shopDetailInfo.data;
+    // 邀请人数达到上限，需重新选择尺码
+    if (shopInfo.user_activity.number === shopInfo.join_user.length - 1) {
+      this.showOver();
+    } else {
+      navigation.push('commission', {title: '助攻佣金设定'})
+    }
   };
 
   /**
    * 显示选鞋浮层
    */
   showOver = () => {
-    const {shopDetailInfo, navigation, getShoesList} = this.props;
-    const shopInfo = shopDetailInfo.data;
-    const shopId = shopInfo.activity.id;
+    const {shopDetailInfo, getShoesList} = this.props;
+    const shopId = shopDetailInfo.data.activity.id;
     getShoesList(shopId).then(isSuccess => {
       if (isSuccess) {
         const {shoesInfo} = this.props;
         const myShoesList = shoesInfo.shoesList;
         if (myShoesList && myShoesList.length !== 0) {
-          let olView = (
-            <Overlay.PullView>
-              <SelectShoeSizeCom
-                shopId={shopId}
-                navigation={navigation}
-                shopInfo={shopInfo}
-                shoesList={myShoesList}
-                closeOver={this.closeOver.bind(this)}/>
-            </Overlay.PullView>
-          );
-          let key = Overlay.show(olView);
-          this.setState({overSelShoeSizeKey: key})
+          this.setState({myShoesList: myShoesList}, () => {
+            this.selShoeBox && this.selShoeBox.open();
+          })
         }
       }
     });
   };
-
-  /**
-   * 关闭浮层
-   */
-  closeOver() {
-    hideOlView(this.state.overSelShoeSizeKey);
+  closeBox = () => {
+    this.selShoeBox && this.selShoeBox.close();
   };
 
   getShopDetail() {
@@ -141,11 +132,39 @@ class SelfBottomCom extends PureComponent {
   };
 
   render() {
-    const {shopDetailInfo} = this.props;
+    const {navigation, shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
-    return this._setMainDOM(shopInfo);
+    const shopId = shopInfo.activity.id;
+    return (
+      <View>
+        {
+          this._setMainDOM(shopInfo)
+        }
+        <Modalbox
+          position="bottom"
+          style={_styles.container}
+          ref={(v) => {
+            this.selShoeBox = v;
+          }}
+        >
+          <SelectShoeSizeCom shopId={shopId}
+                             navigation={navigation}
+                             shopInfo={shopInfo}
+                             shoesList={this.state.myShoesList}
+                             closeBox={this.closeBox}
+          />
+        </Modalbox>
+      </View>
+    )
   }
 }
 
+const _styles = StyleSheet.create({
+  container: {
+    width: SCREEN_WIDTH,
+    backgroundColor: Colors.WHITE_COLOR,
+    height:400
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom))

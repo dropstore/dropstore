@@ -20,8 +20,8 @@ class ShopListCom extends PureComponent {
     const {shopList} = this.props;
     if (shopList.totalPages === shopList.currentPage && shopList.totalPages > 0) {
       return (
-        <View style={loadStyle.loadingFooter}>
-          <Text style={loadStyle.loadingText}>---------  已加载全部  --------- </Text>
+        <View style={[loadStyle.loadingFooter, {paddingBottom: 50}]}>
+          <Text style={loadStyle.loadingText}>--------- 已加载全部 --------- </Text>
         </View>
       );
     }
@@ -42,12 +42,12 @@ class ShopListCom extends PureComponent {
   };
 
   render() {
-    const {shopList, ListHeaderComponent, onRefresh, loadMore,againLoad} = this.props;
+    const {shopList, ListHeaderComponent, onRefresh, loadMore, againLoad} = this.props;
     const list = shopList.list;
     if (shopList.isSendRequest) {
       // 界面无数据渲染且请求失败的情况下
       if (!shopList.isSuccess && list.length === 0) {
-          return <AgainLoadCom againLoad={againLoad}/>
+        return <AgainLoadCom againLoad={againLoad}/>
       }
       if (list.length !== 0) {
         return (
@@ -67,7 +67,6 @@ class ShopListCom extends PureComponent {
             onEndReached={loadMore}
             removeClippedSubviews={false}
             onEndReachedThreshold={0.2}
-            style={{height: SCREEN_WIDTH - 100}}
             refreshControl={(
               <RefreshControl
                 progressViewOffset={20}
