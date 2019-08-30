@@ -23,6 +23,7 @@ import PhoneNum from '../page/auth/PhoneNum';
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
 import pay from '../page/pay';
+import payStatus from '../page/pay/PayStatus';
 import commission from '../page/commission';
 
 import OrderState from '../page/personal/OrderState';
@@ -64,6 +65,7 @@ const routesWithHeader = {
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator,
+  payStatus
 };
 
 for (const i in routesWithoutHeader) {
