@@ -107,7 +107,10 @@ class PersonalCenterPage extends PureComponent {
             <View style={styles.headerWrapper}>
               <View style={{ flex: 1, flexDirection: 'row' }}>
                 <ImageBackground style={styles.frameHead} source={Images.frameHead}>
-                  <Image source={Images.iconBoy} style={{ height: wPx2P(47.2), width: wPx2P(52.8) }} />
+                  <Image
+                    source={userInfo.avatar ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                    style={{ height: wPx2P(47.2), width: wPx2P(52.8) }}
+                  />
                 </ImageBackground>
                 <View style={{ alignSelf: 'flex-end', marginLeft: 10 }}>
                   <Text style={styles.name}>{userInfo.user_name}</Text>
