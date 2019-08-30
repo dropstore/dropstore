@@ -114,7 +114,7 @@ class PersonalCenterPage extends PureComponent {
                 </ImageBackground>
                 <View style={{ alignSelf: 'flex-end', marginLeft: 10 }}>
                   <Text style={styles.name}>{userInfo.user_name}</Text>
-                  <Text style={styles.id}>{`ID: ${userInfo.id.padStart(6, '100000')}`}</Text>
+                  <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
                 </View>
               </View>
               <ImageBackground style={styles.frameWallet} source={Images.frameWallet}>
