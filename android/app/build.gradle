@@ -187,6 +187,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-text-input-mask')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-clear-cache')
     implementation project(':react-native-webview')

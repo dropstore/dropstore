@@ -69,12 +69,13 @@ function weChatBind(i) {
 
 // 发送验证码
 function sendMessage(mobile, sendTime = 0) {
-  return dispatch => new Promise((resolve) => {
+  return dispatch => new Promise((resolve, reject) => {
     request('/user/send_message', { params: { mobile } }).then(() => {
       dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
       resolve();
     }).catch(() => {
       dispatch(setMessageSendFlag({ sendTime: 0, sendPhone: '' }));
+      reject();
     });
   });
 }

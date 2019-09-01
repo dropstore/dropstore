@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000044560A2746BB8C7D3E9E /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CA2F44B10E42E7A4CB28B1 /* libRNTextInputMask.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
@@ -82,6 +83,8 @@
 		CE8E6100438E47DBB9E9ADB3 /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 743F541AAA2548D299B4D46C /* libRNCNetInfo.a */; };
 		D1AAB42522C14167898D9D31 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEC28E9C3FB457DB2F4D81C /* Octicons.ttf */; };
 		D40EE88E230BE33F00CA4F52 /* Super Mario World Text Box.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */; };
+		D422FDFB231B6B89001EA602 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D422FDFA231B6B89001EA602 /* InputMask.framework */; };
+		D422FDFC231B6B89001EA602 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D422FDFA231B6B89001EA602 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */; };
 		D46A2218230BB55E00EE6CA5 /* UShareUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46A21D7230BB55E00EE6CA5 /* UShareUI.framework */; };
 		D46A2219230BB55E00EE6CA5 /* UMShare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46A21D8230BB55E00EE6CA5 /* UMShare.framework */; };
@@ -351,6 +354,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		D422FDF8231B6B5F001EA602 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28410E3C43FA4A0880C7CB31 /* RNTextInputMask.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNTextInputMask;
+		};
 		D45381582302ECBC00E20CE2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -509,6 +519,7 @@
 			files = (
 				D46F1CB42317BB9800E0ED6F /* QBImagePicker.framework in Embed Frameworks */,
 				D46F1CB72317BB9B00E0ED6F /* RSKImageCropper.framework in Embed Frameworks */,
+				D422FDFC231B6B89001EA602 /* InputMask.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -540,6 +551,7 @@
 		1FEC28E9C3FB457DB2F4D81C /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		2663448A8D6C4ACCA261350E /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		2790A994866348D0AC644B05 /* libRCTClearCacheModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTClearCacheModule.a; sourceTree = "<group>"; };
+		28410E3C43FA4A0880C7CB31 /* RNTextInputMask.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTextInputMask.xcodeproj; path = "../node_modules/react-native-text-input-mask/ios/RNTextInputMask.xcodeproj"; sourceTree = "<group>"; };
 		291072F970F84D0CAE014D89 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* dropstore-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dropstore-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* dropstore-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "dropstore-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -563,6 +575,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		852EE6A3A6B34D3F81CE69E9 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		912AEB730715401F9E4776D1 /* libRNReanimated.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReanimated.a; sourceTree = "<group>"; };
+		A7CA2F44B10E42E7A4CB28B1 /* libRNTextInputMask.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTextInputMask.a; sourceTree = "<group>"; };
 		AC1811246691470696656321 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B066FBE16A97464B91E8E8BE /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -601,6 +614,7 @@
 		D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		D3D4752806934763BD284BF2 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Mario World Text Box.ttf"; sourceTree = "<group>"; };
+		D422FDFA231B6B89001EA602 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResources.bundle; sourceTree = "<group>"; };
 		D46A21D7230BB55E00EE6CA5 /* UShareUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UShareUI.framework; sourceTree = "<group>"; };
 		D46A21D8230BB55E00EE6CA5 /* UMShare.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UMShare.framework; sourceTree = "<group>"; };
@@ -664,6 +678,7 @@
 				D46A221B230BB55E00EE6CA5 /* libSocialSina.a in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				D422FDFB231B6B89001EA602 /* InputMask.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -693,6 +708,7 @@
 				A20B40B3D6B84074AC15BA42 /* libRNCWebView.a in Frameworks */,
 				5287F1B52EB7446295FEE327 /* libRCTClearCacheModule.a in Frameworks */,
 				D513C320C3814A44B5C5143A /* libimageCropPicker.a in Frameworks */,
+				000044560A2746BB8C7D3E9E /* libRNTextInputMask.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +940,7 @@
 				D3D4752806934763BD284BF2 /* RNCWebView.xcodeproj */,
 				DB8E2958C62B43458F0AC9B9 /* RCTClearCacheModule.xcodeproj */,
 				F2E19AEA509F4D92B858DE7B /* imageCropPicker.xcodeproj */,
+				28410E3C43FA4A0880C7CB31 /* RNTextInputMask.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -940,6 +957,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D422FDFA231B6B89001EA602 /* InputMask.framework */,
 				D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */,
 				D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */,
 				13B07FAE1A68108700A75B9A /* dropstore */,
@@ -999,6 +1017,14 @@
 			name = Wxpay;
 			sourceTree = "<group>";
 		};
+		D422FDF5231B6B5F001EA602 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D422FDF9231B6B5F001EA602 /* libRNTextInputMask.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D45381322302ECBC00E20CE2 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -1019,6 +1045,7 @@
 				748A86BE80DF4306AA05050B /* libRNCWebView.a */,
 				2790A994866348D0AC644B05 /* libRCTClearCacheModule.a */,
 				D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */,
+				A7CA2F44B10E42E7A4CB28B1 /* libRNTextInputMask.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1395,6 +1422,10 @@
 					ProjectRef = B1D60F815C17483999213AF2 /* RNReanimated.xcodeproj */;
 				},
 				{
+					ProductGroup = D422FDF5231B6B5F001EA602 /* Products */;
+					ProjectRef = 28410E3C43FA4A0880C7CB31 /* RNTextInputMask.xcodeproj */;
+				},
+				{
 					ProductGroup = D497F35B2303AAB000CBEEA6 /* Products */;
 					ProjectRef = 852EE6A3A6B34D3F81CE69E9 /* RNVectorIcons.xcodeproj */;
 				},
@@ -1643,6 +1674,13 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D422FDF9231B6B5F001EA602 /* libRNTextInputMask.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNTextInputMask.a;
+			remoteRef = D422FDF8231B6B5F001EA602 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D45381592302ECBC00E20CE2 /* libjsi.a */ = {
@@ -1968,12 +2006,14 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2014,12 +2054,14 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2068,6 +2110,7 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = dropstore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2121,6 +2164,7 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = dropstore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2174,11 +2218,13 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2228,11 +2274,13 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2281,11 +2329,13 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2334,11 +2384,13 @@
 					"$(SRCROOT)/../node_modules/react-native-webview/ios",
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

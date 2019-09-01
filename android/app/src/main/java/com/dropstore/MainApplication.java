@@ -5,6 +5,7 @@ import android.app.Application;
 import com.dropstore.aliay.AlipayModuleReactPackage;
 import com.dropstore.wxapi.WxpayPackage;
 import com.facebook.react.ReactApplication;
+import com.RNTextInputMask.RNTextInputMaskPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNTextInputMaskPackage(),
             new PickerPackage(),
             new ClearCachePackage(),
             new RNCWebViewPackage(),
