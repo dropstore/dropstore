@@ -37,4 +37,20 @@ react-native run-android
 ```
 `安装包输出地址: dropstore/android/app/build/outputs/apk`
 
+# 打包并上传到测试地址
+
+## ios
+
+```js
+rvm use system
+./pack.rb appstore pnu 
+```
+`安装包下载地址: https://www.pgyer.com/pbFd`
+
+## android
+
+```js
+./pack.rb dropstore pnu
+```
+`安装包下载地址: https://www.pgyer.com/oq1O`
 
