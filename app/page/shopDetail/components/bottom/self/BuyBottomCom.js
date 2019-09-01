@@ -10,42 +10,54 @@ import ImageBackground from '../../../../../components/ImageBackground';
 import Images from '../../../../../res/Images';
 import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from "../../../../../common/ShopConstant";
+import {doBuy, doHelpBuy, doBuyNow} from "../../../../../redux/actions/shopDetailInfo";
 
 class BuyBottomCom extends PureComponent {
   constructor(props) {
     super(props);
   }
 
-  _setBuyBottomText = (shopInfo, isOnPress) => {
+  _setBuyBottomText = (navigation,shopInfo, isOnPress) => {
+    let activityId= shopInfo.activity.id;
     let is_join = shopInfo.is_join;
     if (is_join === ShopConstant.NOT_JOIN) {
       if (isOnPress) {
         alert('挑选鞋码')
       } else {
-        return '挑选鞋码';
+        return '选择尺码';
       }
     } else if (is_join === ShopConstant.LEADING) {
       if (isOnPress) {
-        alert('抢鞋')
+       doBuy(activityId).then((res)=>{
+         let data =res.data;
+         if(data){
+           navigation.push('panicStatus',{shopInfo: shopInfo})
+         }
+       })
       } else {
-        return '抢鞋';
+        return '立即抢购';
       }
     } else if (is_join === ShopConstant.MEMBER) {
       if (isOnPress) {
-        alert('帮忙抢鞋')
+       doHelpBuy(activityId).then((res)=>{
+         let data =res.data;
+         if(data){
+           navigation.push('panicStatus',{shopInfo: shopInfo})
+         }
+       })
       } else {
-        return '帮忙抢鞋';
+        return '助攻抢购';
       }
     }
   };
 
   render() {
-    const {shopInfo} = this.props;
+    const {shopInfo, navigation} = this.props;
     return (
       <View style={bottomStyle.bottomView}>
         <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
                          onPress={() => this._setBuyBottomText(shopInfo, true)}>
-          <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(shopInfo, false)}</Text>
+          <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(navigation,shopInfo, false)}</Text>
         </ImageBackground>
       </View>
     );

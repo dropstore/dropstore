@@ -2,7 +2,7 @@ import {DeviceEventEmitter} from 'react-native';
 import {request} from '../../http/Axios';
 import {createAction} from 'redux-actions';
 
-import {hideModalLoading, showModalLoading, showToast} from "../../utils/MutualUtil";
+import {showToast} from "../../utils/MutualUtil";
 import ShopConstant from "../../common/ShopConstant";
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
@@ -116,6 +116,49 @@ const setCommission = async (activity_id, u_a_id, commission) => {
   }
 };
 
+/**
+ * 团长抢购
+ * @param activity_id
+ */
+const doBuy = async (activity_id) => {
+  const params = {
+    activity_id: activity_id,
+  };
+  try {
+    return await request('/order/do_buy', {params, isShowLoading: true});
+  } catch (e) {
+  }
+};
+
+/**
+ * 团员参加
+ * @param activity_id
+ */
+const doHelpBuy = async (activity_id) => {
+  const params = {
+    activity_id: activity_id,
+  };
+  try {
+    return await request('/order/do_help_buy', {params, isShowLoading: true});
+  } catch (e) {
+  }
+};
+
+/**
+ * 直接参加
+ * @param activity_id
+ * @param size_id
+ */
+const doBuyNow = async (activity_id, size_id) => {
+  const params = {
+    activity_id: activity_id,
+    size_id: size_id
+  };
+  try {
+    return await request('/order/do_buy_now', {params, isShowLoading: true});
+  } catch (e) {
+  }
+};
 export {
   requestShopDetailInfo,
   receiveShopDetailInfo,
@@ -125,5 +168,8 @@ export {
   getShoesList,
   startGroup,
   getPayMes,
-  setCommission
+  setCommission,
+  doBuy,
+  doHelpBuy,
+  doBuyNow,
 }

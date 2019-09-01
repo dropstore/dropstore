@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import {createAppContainer, createStackNavigator, createSwitchNavigator} from 'react-navigation';
 import {
   Platform, Animated, Easing, TouchableOpacity, StyleSheet,
 } from 'react-native';
@@ -25,6 +25,8 @@ import shopDetail from '../page/shopDetail';
 import pay from '../page/pay';
 import payStatus from '../page/pay/PayStatus';
 import commission from '../page/commission';
+import panicStatus from '../page/panicstatus';
+import drawStatus from '../page/drawstatus';
 
 import OrderState from '../page/personal/OrderState';
 import Setting from '../page/personal/Setting';
@@ -41,7 +43,7 @@ const AuthStack = createStackNavigator({
   AuthLoading, NameAge, GenderSize, PhoneNum,
 }, {
   initialRouteName: 'AuthLoading',
-  defaultNavigationOptions: { header: null },
+  defaultNavigationOptions: {header: null},
 });
 
 // 需要导航头部的路由写在这里
@@ -65,23 +67,25 @@ const routesWithHeader = {
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator,
-  payStatus
+  payStatus,
+  panicStatus,
+  drawStatus
 };
 
 for (const i in routesWithoutHeader) {
-  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+  routesWithoutHeader[i] = {screen: routesWithoutHeader[i], navigationOptions: {header: null}};
 }
-const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
+const MainStack = createStackNavigator({...routesWithHeader, ...routesWithoutHeader}, {
   initialRouteName: 'BottomNavigator',
-  defaultNavigationOptions: ({ navigation }) => ({
+  defaultNavigationOptions: ({navigation}) => ({
     headerStyle: styles.headerStyle,
     headerTintColor: Colors.WHITE_COLOR,
     headerTitleStyle: styles.headerTitleStyle,
     headerBackTitle: null,
-    headerTitleContainerStyle: { left: 56, right: 56 },
+    headerTitleContainerStyle: {left: 56, right: 56},
     headerLeft: (
       <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
-        <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.zjt} />
+        <Image resizeMode="contain" style={{height: 12, width: 12}} source={Images.zjt}/>
       </TouchableOpacity>
     ),
     headerRight: navigation.getParam('headerRight'),
@@ -139,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Router, store };
+export {Router, store};

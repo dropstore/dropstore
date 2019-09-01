@@ -77,21 +77,20 @@ export default class DrawMainCom extends PureComponent {
     const joinUser = shopInfo.join_user;
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
-    const upper = number + 1;
     return (
       <View style={_styles.container}>
         <View style={_styles.acContainer}>
           <Text style={_styles.acNormalMes}>预期购买
-            <Text style={_styles.acImpMes}> {number === 0 ? upper : number}</Text> 双
+            <Text style={_styles.acImpMes}> {number}</Text> 双
           </Text>
           <Text style={_styles.acNormalMes}>团队上限
-            <Text style={_styles.acImpMes}> {upper}</Text> 人
+            <Text style={_styles.acImpMes}> {number === 1 ? number : number + 1}</Text> 人
           </Text>
           <Text style={_styles.acNormalMes}>参与人数
             <Text style={_styles.acImpMes}> {joinUser.length}</Text> 人
           </Text>
           <Text style={_styles.acNormalMes}>还差
-            <Text style={_styles.acImpMes}> {upper - joinUser.length}</Text> 人满额
+            <Text style={_styles.acImpMes}> {number === 1 ? number - 1 : (number + 1 - joinUser.length)}</Text> 人满额
           </Text>
         </View>
         {
