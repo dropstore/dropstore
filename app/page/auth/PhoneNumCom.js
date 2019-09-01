@@ -28,7 +28,6 @@ function mapDispatchToProps(dispatch) {
 class PhoneNumCom extends PureComponent {
   constructor(props) {
     super(props);
-    this.mobile = '';
     this.code = '';
     this.state = {
       mobile: '',
@@ -46,8 +45,9 @@ class PhoneNumCom extends PureComponent {
 
   onChangeText = (code) => {
     const { finished, unfinished } = this.props;
+    const { mobile } = this.state;
     if (code.length === 6) {
-      finished(this.mobile.replace(/\s/g, ''), code);
+      finished(mobile.replace(/\s/g, ''), code);
     } else if (this.code.length === 6 && code.length === 5) {
       unfinished();
     }
@@ -56,11 +56,7 @@ class PhoneNumCom extends PureComponent {
 
   toSendCode =() => {
     const { userInfo, sendMessage } = this.props;
-    const mobile = this.mobile.replace(/\s/g, '');
-    if (!/^1[0-9]{10}$/.test(mobile)) {
-      showToast('手机号格式错误，请重新输入');
-      return;
-    }
+    const { mobile } = this.state;
     if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
       sendMessage(mobile, Date.now()).then(() => {
         showToast(`验证码已发送至${mobile}`);
@@ -109,7 +105,6 @@ class PhoneNumCom extends PureComponent {
             keyboardType="number-pad"
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
-            ref={(v) => { this.codeInput = v; }}
           />
         </ImageBackground>
         <View style={styles.verifiCodeWrapper}>
