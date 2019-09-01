@@ -117,10 +117,10 @@ class PersonalCenterPage extends PureComponent {
                   <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
                 </View>
               </View>
-              <ImageBackground style={styles.frameWallet} source={Images.frameWallet}>
+              {/* <ImageBackground style={styles.frameWallet} source={Images.frameWallet}>
                 <Image source={Images.wallet} style={{ height: wPx2P(12), width: wPx2P(14), marginBottom: 1 }} />
                 <Text style={{ fontSize: wPx2P(10), color: '#fff' }}>钱包</Text>
-              </ImageBackground>
+              </ImageBackground> */}
             </View>
             <View style={styles.hengtiao} />
             <View style={styles.walletWrapper}>
