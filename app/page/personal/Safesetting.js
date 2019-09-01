@@ -15,7 +15,7 @@ import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showModal } from '../../utils/MutualUtil';
 
 const bottomList = [
-  { title: '切换账号', type: 'changeAccount' },
+  // { title: '切换账号', type: 'changeAccount' },
   { title: '退出登录', type: 'logout' },
 ];
 
@@ -47,7 +47,7 @@ class Safesetting extends PureComponent {
           { title: '清理内存', type: 'clearCache' },
           { title: '隐私协议', type: 'secret' },
           { title: '关于Drop store', type: 'age' },
-          { title: '帮助与反馈', type: 'size' },
+          // { title: '帮助与反馈', type: 'size' },
         ],
       ],
     };

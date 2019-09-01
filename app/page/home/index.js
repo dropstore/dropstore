@@ -11,7 +11,7 @@ import Reserve from './reserve';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [
-  { key: 'home', title: '首页' },
+  // { key: 'home', title: '首页' },
   { key: 'originalCost', title: '原价发售' },
   { key: 'selfSupport', title: 'Drop自营' },
   { key: 'luckyCharm', title: '球鞋锦鲤' },
