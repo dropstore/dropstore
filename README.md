@@ -45,12 +45,12 @@ react-native run-android
 rvm use system
 ./pack.rb appstore pnu 
 ```
-`安装包下载地址: https://www.pgyer.com/pbFd`
+`安装包下载地址: https://www.pgyer.com/oq1O`
 
 ## android
 
 ```js
 ./pack.rb dropstore pnu
 ```
-`安装包下载地址: https://www.pgyer.com/oq1O`
+`安装包下载地址: https://www.pgyer.com/pbFd`
 
