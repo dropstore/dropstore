@@ -27,6 +27,7 @@ class TopCom extends PureComponent {
         loop
         autoplay
         autoplayInterval={4000}
+        removeClippedSubviews={false}
       />
     );
   }
