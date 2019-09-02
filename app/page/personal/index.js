@@ -98,9 +98,7 @@ class PersonalCenterPage extends PureComponent {
         <Text style={styles.headerTitle}>个人中心</Text>
         <Animated.ScrollView
           scrollEventThrottle={1}
-          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollY } } }],
-            { listener: this.onScroll, useNativeDriver: true })
-          }
+          onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollY } } }], { useNativeDriver: true })}
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.header}>

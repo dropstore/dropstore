@@ -5,6 +5,7 @@ import activityList from './activityList';
 import shopDetailInfo from './shopDetailInfo';
 import component from './component';
 import orderState from './orderState';
+import message from './message';
 
 export default combineReducers({
   test,
@@ -13,4 +14,5 @@ export default combineReducers({
   shopDetailInfo,
   component,
   orderState,
+  message,
 });
