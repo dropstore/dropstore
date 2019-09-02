@@ -6,31 +6,31 @@
 
 import React, { PureComponent } from 'react';
 import { StyleSheet } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import Image from '../../../components/Image';
-import ScaleView from '../../../components/ScaleView';
 import { px2Dp } from '../../../utils/ScreenUtil';
+import { SCREEN_WIDTH } from '../../../common/Constant';
 
 class TopCom extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { imageSource } = this.props;
     return (
-      <ScaleView style={_styles.scaleView}>
-        <Image style={_styles.topImage} source={imageSource} />
-      </ScaleView>
+      <Carousel
+        data={[1, 2]}
+        slideStyle={{ alignItems: 'center', justifyContent: 'center' }}
+        renderItem={() => <Image style={_styles.topImage} source={imageSource} />}
+        sliderWidth={SCREEN_WIDTH}
+        itemWidth={SCREEN_WIDTH}
+        inactiveSlideScale={1}
+        inactiveSlideOpacity={1}
+        enableSnap
+        loop
+      />
     );
   }
 }
 
 const _styles = StyleSheet.create({
-  scaleView: {
-    paddingLeft: px2Dp(15),
-    paddingRight: px2Dp(18),
-    marginBottom:px2Dp(20)
-  },
   topImage: {
     width: px2Dp(717),
     height: px2Dp(301),
