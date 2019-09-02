@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  FlatList, View, Text, StyleSheet,
+  FlatList, View, Text, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,54 +8,37 @@ import Image from '../../../components/Image';
 import OrderListItem from './OrderListItem';
 import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
-
-const LIST = [
-  {
-    title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
-    image: Images.shoe,
-    price: 1999,
-    type: 0,
-    hint: '请在规定内时间完成支付，错过将失去中奖资格。',
-    id: 'D537639998765663425',
-    date: Date.now() + 1000 * 60 * 12,
-    creat: Date.now() - 1000 * 60 * 12,
-  }, {
-    title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
-    image: Images.shoe,
-    price: 1999,
-    type: 1,
-    id: 'D537639998765663425',
-    date: Date.now() + 1000 * 60 * 60 * 5,
-    creat: Date.now() - 1000 * 60 * 12,
-  },
-];
+import { getOrderStateList } from '../../../redux/reselect/orderState';
+import { fetchOrderStateList } from '../../../redux/actions/orderState';
 
 function mapStateToProps() {
-  return state => ({
-
+  return (state, props) => ({
+    orderStateList: getOrderStateList(state, props.type) || {},
   });
 }
 
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-
+    fetchOrderStateList,
   }, dispatch);
 }
 
 class OrderList extends PureComponent {
   constructor(props) {
     super(props);
-
-    this.state = {};
+    const { fetchOrderStateList, type } = this.props;
+    fetchOrderStateList(type);
   }
 
   loadMore = () => {
-
+    const { fetchOrderStateList, type } = this.props;
+    fetchOrderStateList(type, true);
   }
 
   renderFooter = () => {
-    const { vendors } = this.props;
-    if (vendors.totalPages === vendors.currentPage && vendors.totalPages > 0) {
+    const { orderStateList } = this.props;
+    if (orderStateList.totalPages === orderStateList.currentPage && orderStateList.totalPages > 0) {
       return (
         <View style={styles.loadingFooter}>
           <Text style={styles.loadingText}>没有更多了</Text>
@@ -70,13 +53,16 @@ class OrderList extends PureComponent {
     );
   }
 
-  renderItem = ({ item }) => <OrderListItem item={item} />
+  renderItem = ({ item }) => {
+    const { type } = this.props;
+    return <OrderListItem type={type} item={item} />;
+  }
 
   render() {
-    // const { vendors } = this.props;
-    // if (vendors.isFetching && vendors.totalPages < 0) {
-    //   return <ActivityIndicator style={{ marginTop: 50 }} />;
-    // }
+    const { orderStateList } = this.props;
+    if (orderStateList.isFetching && orderStateList.totalPages < 0) {
+      return <ActivityIndicator style={{ marginTop: 30 }} />;
+    }
     return (
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -86,7 +72,7 @@ class OrderList extends PureComponent {
         // ListHeaderComponent={this.renderHeader}
         // ListFooterComponent={this.renderFooter}
         ref={(l) => { this.innerList = l; }}
-        data={LIST}
+        data={orderStateList.list}
         renderItem={this.renderItem}
         keyExtractor={(item, index) => `${item.source_id}-${index}`}
         onEndReached={this.loadMore}
