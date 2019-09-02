@@ -1,49 +1,42 @@
+import { handleActions } from 'redux-actions';
 import ShopConstant from '../../common/ShopConstant';
-import {handleActions} from 'redux-actions';
 import {
-  requestActivityList,
-  receiveActivityList,
-  resetActivityList,
-  notReceiveActivityList
+  requestActivityList, receiveActivityList, resetActivityList, notReceiveActivityList,
 } from '../actions/activityList';
 
 const initActivity = {
   [ShopConstant.ORIGIN_CONST]: {
     isFetching: false,
-    isSuccess: false,
-    isSendRequest: false,
+    error: false,
     currentPage: 1,
     totalPages: -1,
     limit: 10,
-    list: []
+    list: [],
   },
   [ShopConstant.SELF_SUPPORT]: {
     isFetching: false,
-    isSuccess: false,
-    isSendRequest: false,
+    error: false,
     currentPage: 1,
     totalPages: -1,
     limit: 10,
-    list: []
+    list: [],
   },
   [ShopConstant.LUCKY_CHARM]: {
     isFetching: false,
-    isSuccess: false,
-    isSendRequest: false,
+    error: false,
     currentPage: 1,
     totalPages: -1,
     limit: 10,
-    list: []
+    list: [],
   },
   [ShopConstant.RESERVE]: {
     isFetching: false,
-    isSuccess: false,
-    isSendRequest: false,
+    error: false,
     currentPage: 1,
     totalPages: -1,
     limit: 10,
-    list: []
-  }
+    list: [],
+  },
 };
 
 function setList(state, action) {
@@ -55,64 +48,49 @@ function setList(state, action) {
 }
 
 const actions = {};
-actions[requestActivityList] = (state, action) => {
-  return {
-    ...state,
-    [action.payload]: {
-      isFetching: true,
-      isSuccess: false,
-      isSendRequest: false,
-      currentPage: 1,
-      totalPages: -1,
-      limit: 10,
-      list: []
-    }
-  }
-};
-actions[receiveActivityList] = (state, action) => {
-  return {
-    ...state,
-    [action.payload.type]: {
-      isFetching: false,
-      isSuccess: true,
-      isSendRequest: true,
-      currentPage: action.payload.currentPage,
-      totalPages: action.payload.data.number,
-      limit: initActivity[action.payload.type].limit,
-      list: setList(state, action),
-    },
-  }
-};
+actions[requestActivityList] = (state, action) => ({
+  ...state,
+  [action.payload]: {
+    ...state[action.payload],
+    isFetching: true,
+    error: false,
+  },
+});
+actions[receiveActivityList] = (state, action) => ({
+  ...state,
+  [action.payload.type]: {
+    isFetching: false,
+    error: false,
+    currentPage: action.payload.currentPage,
+    totalPages: action.payload.data.number,
+    limit: initActivity[action.payload.type].limit,
+    list: setList(state, action),
+  },
+});
 
-actions[resetActivityList] = (state, action) => {
-  return {
-    ...state,
-    [action.payload]: {
-      isFetching: false,
-      isSuccess: false,
-      isSendRequest: false,
-      currentPage: 1,
-      totalPages: -1,
-      limit: 10,
-      list: []
-    }
-  }
-};
-actions[notReceiveActivityList] = (state, action) => {
-  return {
-    ...state,
-    [action.payload]: {
-      isFetching: false,
-      isSuccess: false,
-      isSendRequest: true,
-      currentPage: 1,
-      totalPages: -1,
-      limit: 10,
-      list: initActivity[action.payload].list
-    }
-  }
-};
+actions[resetActivityList] = (state, action) => ({
+  ...state,
+  [action.payload]: {
+    ...state[action.payload],
+    isFetching: false,
+    error: false,
+    currentPage: 1,
+    totalPages: -1,
+    limit: 10,
+  },
+});
+actions[notReceiveActivityList] = (state, action) => ({
+  ...state,
+  [action.payload]: {
+    isFetching: false,
+    error: true,
+    currentPage: 1,
+    totalPages: -1,
+    limit: 10,
+    list: initActivity[action.payload].list,
+  },
+});
 const reducer = handleActions(
-  actions, initActivity
+  actions, initActivity,
 );
-export default reducer
+export default reducer;

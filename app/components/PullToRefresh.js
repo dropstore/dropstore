@@ -32,8 +32,8 @@ export default class PullToRefresh extends PureComponent {
       onPanResponderRelease: () => {
         if (this.containerTranslateY._value >= THRESHOLD) {
           this.startRefresh();
-          // const { onRefresh } = this.props;
-          // onRefresh();
+          const { onRefresh } = this.props;
+          onRefresh();
         } else {
           this.resetContainerPosition();
         }
@@ -43,6 +43,13 @@ export default class PullToRefresh extends PureComponent {
         this.resetContainerPosition();
       },
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { totalPages } = this.props;
+    if (totalPages === -1 && nextProps.totalPages > -1) {
+      this.resetContainerPosition();
+    }
   }
 
   resetContainerPosition = () => {
@@ -67,9 +74,6 @@ export default class PullToRefresh extends PureComponent {
         useNativeDriver: true,
       },
     ).start();
-    setTimeout(() => {
-      this.resetContainerPosition();
-    }, 2000);
   }
 
   innerScrollCallback = (event) => {
@@ -87,14 +91,14 @@ export default class PullToRefresh extends PureComponent {
     };
     return (
       <Animated.View style={style}>
-        <ActivityIndicator color="#c20000" />
+        <ActivityIndicator color={Colors.OTHER_BACK} />
       </Animated.View>
     );
   }
 
   renderFooter = () => {
-    const { vendors } = this.props;
-    if (vendors.totalPages === vendors.currentPage && vendors.totalPages > 0) {
+    const { totalPages, currentPage } = this.props;
+    if (totalPages === currentPage && totalPages > 0) {
       return (
         <View style={styles.loadingFooter}>
           <Text style={styles.loadingText}>没有更多了</Text>
@@ -110,10 +114,10 @@ export default class PullToRefresh extends PureComponent {
   }
 
   render() {
-    const { children, style, renderFooter } = this.props;
+    const { children, renderFooter } = this.props;
     const child = React.cloneElement(children, {
-      bounces: false,
-      alwaysBounceVertical: false,
+      // bounces: false,
+      // alwaysBounceVertical: false,
       onScroll: this.innerScrollCallback,
       scrollEventThrottle: 1,
       ListFooterComponent: renderFooter || this.renderFooter,
@@ -124,7 +128,7 @@ export default class PullToRefresh extends PureComponent {
       extrapolate: 'clamp',
     });
     return (
-      <View style={style} {...this._panResponder.panHandlers}>
+      <View style={{ flex: 1 }} {...this._panResponder.panHandlers}>
         <Animated.View style={[{ flex: 1, transform: [{ translateY }] }]}>
           {child}
         </Animated.View>
@@ -139,9 +143,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    height: 40,
-    borderTopColor: Colors.NORMAL_TEXT_E5,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    height: 60,
+    paddingBottom: 20,
+    // borderTopColor: Colors.NORMAL_TEXT_E5,
+    // borderTopWidth: StyleSheet.hairlineWidth,
   },
   loadingText: {
     fontSize: 12,
