@@ -87,7 +87,7 @@ export default class PullToRefresh extends PureComponent {
     };
     return (
       <Animated.View style={style}>
-        <ActivityIndicator />
+        <ActivityIndicator color="#c20000" />
       </Animated.View>
     );
   }
