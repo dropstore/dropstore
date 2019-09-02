@@ -25,6 +25,8 @@ class TopCom extends PureComponent {
         inactiveSlideOpacity={1}
         enableSnap
         loop
+        autoplay
+        autoplayInterval={4000}
       />
     );
   }
