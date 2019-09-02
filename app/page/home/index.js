@@ -56,9 +56,6 @@ class HomePage extends PureComponent {
             routes={routes}
             index={index}
             onIndexChange={this.onIndexChange}
-            showIndicator={false}
-            activeStyle={{ fontSize: 15, color: [160, 160, 160] }}
-            inactiveStyle={{ fontSize: 15, color: [0, 0, 0] }}
           />
           <TabView
             style={{ flex: 1 }}
