@@ -82,7 +82,7 @@ class Safesetting extends PureComponent {
         });
       });
     } else if (type === 'secret') {
-      navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/secret' });
+      navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/secret', title: '隐私协议' });
     }
   }
 
