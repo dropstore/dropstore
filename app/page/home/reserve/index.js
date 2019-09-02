@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import TopCom from '../components/TopCom';
+import PullToRefresh from '../../../components/PullToRefresh';
 import VendorSection from './VendorSection';
 import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
@@ -176,14 +177,16 @@ export default class Reserve extends PureComponent {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: Colors.NORMAL_TEXT_F6, flex: 1 }}>
-        <TopCom imageSource={Images.bn} />
-        <View style={_styles.listContainer}>
-          {
+      <PullToRefresh style={{ flex: 1 }}>
+        <ScrollView style={{ backgroundColor: Colors.NORMAL_TEXT_F6, flex: 1 }}>
+          <TopCom imageSource={Images.bn} />
+          <View style={_styles.listContainer}>
+            {
             Object.keys(this.state.shopList).map((key, index) => <VendorSection key={index} title={key} shopList={this.state.shopList[key]} />)
           }
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      </PullToRefresh>
     );
   }
 }
