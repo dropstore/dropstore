@@ -6,8 +6,7 @@
 import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import ShopListItemCom from './ShopListItemCom';
-import AgainLoadCom from '../../../components/AgainLoadCom';
-import PullToRefresh from '../../../components/PullToRefresh';
+import { AgainLoadCom, PullToRefresh } from '../../../components';
 
 class ShopListCom extends PureComponent {
   _renderItemView = ({ item, index }) => {

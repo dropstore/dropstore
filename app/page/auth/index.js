@@ -6,14 +6,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
-import Image from '../../components/Image';
-import ImageBackground from '../../components/ImageBackground';
+import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
-import KeyboardDismiss from '../../components/KeyboardDismiss';
 import ModalTreaty from './ModalTreaty';
 
 function mapDispatchToProps(dispatch) {

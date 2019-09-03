@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import NavigationBarCom from '../../components/NavigationBarCom';
+import { NavigationBarCom, Image } from '../../components';
 import Images from '../../res/Images';
-import Image from '../../components/Image';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class FreeTrade extends PureComponent {

@@ -2,15 +2,13 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../components/Image';
-import KeyboardDismiss from '../../components/KeyboardDismiss';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import PhoneNumCom from './PhoneNumCom';
 import { messageAuth } from '../../redux/actions/userInfo';
+import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
