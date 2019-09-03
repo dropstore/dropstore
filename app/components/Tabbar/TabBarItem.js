@@ -18,7 +18,8 @@ class TabBarItem extends PureComponent {
           fontSize: activeIndex === index ? activeSize : inactiveSize,
           textAlign: 'center',
           fontFamily: YaHei,
-          fontWeight: '400',
+          fontWeight: 'bold',
+          color: '#272727',
         }}
         >
           {item.title}

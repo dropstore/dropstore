@@ -19,11 +19,11 @@ class ShopListCom extends PureComponent {
 
   render() {
     const {
-      shopList, ListHeaderComponent, onRefresh, loadMore, againLoad,
+      shopList, ListHeaderComponent, onRefresh, loadMore,
     } = this.props;
     const list = shopList.list;
     if (shopList.error && list.length === 0) {
-      return <AgainLoadCom againLoad={againLoad} />;
+      return <AgainLoadCom againLoad={onRefresh} />;
     }
     return (
       <PullToRefresh

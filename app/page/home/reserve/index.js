@@ -42,11 +42,6 @@ class OriginalCost extends PureComponent {
     getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
   };
 
-  againLoad = () => {
-    const { getActivityList } = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST);
-  };
-
   renderItem = ({ item }) => (
     <ImageBackground resizeMode="stretch" source={Images.jc} style={styles.content}>
       <ShopListItemCom item={item} />
@@ -64,28 +59,21 @@ class OriginalCost extends PureComponent {
     const list = activityInfo['1'];
     return (
       <PullToRefresh
+        Wrapper={SectionList}
         totalPages={list.totalPages}
         currentPage={list.currentPage}
-        onRefresh={this.onRefresh}
-        firstRequest={list.isFetching && list.totalPages < 0}
-      >
-        <SectionList
-          showsVerticalScrollIndicator={false}
-          renderSectionHeader={this.renderSectionHeader}
-          ListHeaderComponent={<TopCom imageSource={Images.bn} />}
-          sections={[
-            {
-              title: '六月',
-              data: list.list,
-            },
-          ]}
-          renderItem={this.renderItem}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          onEndReached={this.loadMore}
-          removeClippedSubviews={false}
-          onEndReachedThreshold={0.2}
-        />
-      </PullToRefresh>
+        refresh={this.onRefresh}
+        renderSectionHeader={this.renderSectionHeader}
+        ListHeaderComponent={<TopCom imageSource={Images.bn} />}
+        sections={[
+          {
+            title: '六月',
+            data: list.list,
+          },
+        ]}
+        renderItem={this.renderItem}
+        onEndReached={this.loadMore}
+      />
     );
   }
 }
