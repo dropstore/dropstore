@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated,
+  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
@@ -20,11 +20,11 @@ const PADDING_HORIZONTAL = 18;
 const TAB_HEIGHT = 53;
 
 const ROUTES = [
-  { screen: <Personal />, key: 'personal' },
-  { screen: <Identify />, key: 'identify' },
-  { screen: <HomePage />, key: 'drop' },
-  { screen: <FreeTrade />, key: 'freeTrade' },
-  { screen: <Message />, key: 'message' },
+  { screen: <FreeTrade />, key: 'freeTrade', title: '交易' },
+  { screen: <Identify />, key: 'identify', title: '鉴定' },
+  { screen: <HomePage />, key: 'drop', title: '' },
+  { screen: <Message />, key: 'message', title: '消息' },
+  { screen: <Personal />, key: 'personal', title: '我的' },
 ];
 
 export default class BottomNavigator extends PureComponent {
@@ -111,7 +111,7 @@ export default class BottomNavigator extends PureComponent {
                   {
                       v
                         ? (
-                          <Animated.View style={{ opacity: this.opacity[index] }}>
+                          <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center' }}>
                             {
                               v.key === 'drop'
                                 ? <Image style={styles.drop} source={Images.drop} />
@@ -120,12 +120,13 @@ export default class BottomNavigator extends PureComponent {
                                     resizeMode="contain"
                                     style={{
                                       width: wPx2P(26),
-                                      height: '100%',
+                                      height: wPx2P(26),
                                     }}
                                     source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
                                   />
                                 )
                             }
+                            {v.key !== 'drop' ? <Text style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10 }}>{v.title}</Text> : null}
                           </Animated.View>
                         )
                         : <View style={{ flex: 1, height: '100%' }} />
