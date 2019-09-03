@@ -18,7 +18,7 @@ const TextRender = Text.render;
 Text.render = function render(props) {
   /* eslint-disable */
   const oldProps = props;
-  props = { ...props, allowFontScaling: false, style: [{ fontFamily: Normal, fontSize: 14, color: '#000' }, props.style] };
+  props = { ...props, allowFontScaling: false, style: [{ fontFamily: Normal, fontSize: 14, color: '#000',includeFontPadding: false, padding: 0 }, props.style] };
   try {
     return TextRender.apply(this, arguments);
   } finally {

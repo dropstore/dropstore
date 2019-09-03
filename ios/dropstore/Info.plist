@@ -120,6 +120,8 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Roboto-BlackItalic.ttf</string>
+		<string>Aldrich-Regular.ttf</string>
 		<string>Super Mario World Text Box.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>

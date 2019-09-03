@@ -101,6 +101,8 @@
 		D46F1CB42317BB9800E0ED6F /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D46F1CB62317BB9B00E0ED6F /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */; };
 		D46F1CB72317BB9B00E0ED6F /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D4C6DC79231E536E00E4C596 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */; };
+		D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */; };
 		D513C320C3814A44B5C5143A /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */; };
 		DC7D1A31FD8F4E72B0E1F93F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B729B459F2A743E980DB1156 /* libBVLinearGradient.a */; };
 		E9A0211D108A4B46817DB332 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5FEC24424CDB446BAC8E8F25 /* FontAwesome5_Brands.ttf */; };
@@ -633,6 +635,8 @@
 		D46A2227230BB5AA00EE6CA5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RSKImageCropper.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/RSKImageCropper.framework"; sourceTree = "<group>"; };
 		D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/QBImagePicker.framework"; sourceTree = "<group>"; };
+		D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
+		D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 		D4EF51772317B7FA003E4F6E /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EF51792317B803003E4F6E /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8ECB821B5424F9288D5C689 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -878,7 +882,9 @@
 				D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */,
 				402A9A36C22B4336B1AB0A50 /* AntDesign.ttf */,
 				C1851B6702FB41BBBAC220D7 /* Entypo.ttf */,
+				D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */,
 				B1E8028BE5B8446AB369FC35 /* EvilIcons.ttf */,
+				D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */,
 				19497B2FF6464E5187572957 /* Feather.ttf */,
 				82A4DA7DBA5C407A975B02CF /* FontAwesome.ttf */,
 				5FEC24424CDB446BAC8E8F25 /* FontAwesome5_Brands.ttf */,
@@ -1851,8 +1857,10 @@
 				C2CA2714230BECA2005FA070 /* AlipaySDK.bundle in Resources */,
 				4708C856FD404DB6B75B36D2 /* EvilIcons.ttf in Resources */,
 				086682D755234A94969C15A6 /* Feather.ttf in Resources */,
+				D4C6DC79231E536E00E4C596 /* Aldrich-Regular.ttf in Resources */,
 				0DCD2BC925844152A4B17743 /* FontAwesome.ttf in Resources */,
 				E9A0211D108A4B46817DB332 /* FontAwesome5_Brands.ttf in Resources */,
+				D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */,
 				D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */,
 				ADCA2C667EB64845B2B6332A /* FontAwesome5_Regular.ttf in Resources */,
 				4870DDB66A6148F4854540CB /* FontAwesome5_Solid.ttf in Resources */,
