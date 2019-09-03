@@ -16,8 +16,9 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
-import {getOrderInfo} from "../../redux/actions/pay";
+import {getOrderInfo,getCommisionInfo} from "../../redux/actions/pay";
 import {alipayModule} from "../../native/module";
+import ShopConstant from "../../common/ShopConstant";
 
 class Pay extends PureComponent {
   constructor(props) {
@@ -67,7 +68,8 @@ class Pay extends PureComponent {
    */
   _pay = async () => {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
+    const data = navigation.getParam('payData');
+    const type = navigation.getParam('type');
     let payData = this.state.payData;
     let isChoosePayWay = false;
     let chooseWay = -1;
@@ -81,8 +83,20 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    if (chooseWay === 0) {
-      getOrderInfo('2').then((res) => {
+    if(type===ShopConstant.PAY_COMMISSION){
+      getCommisionInfo(data.order_id).then((res) => {
+        let data = res.data;
+        if (data) {
+          // alert(data);
+         alipayModule.pay(data).then((res)=>{
+            console.log(res);
+          }).catch((res)=>{
+           console.log(res);
+         });
+        }
+      })
+    }else if(type === ShopConstant.PAY_ORDER){
+      getOrderInfo(data.order_id).then((res) => {
         let data = res.data;
         if (data) {
           let result = alipayModule.pay(data);
@@ -95,6 +109,8 @@ class Pay extends PureComponent {
 
   render() {
     const {payData} = this.state;
+    const {navigation} = this.props;
+    const data = navigation.getParam('payData');
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
@@ -118,7 +134,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>{this.props.navigation.getParam('totalPrice')}￥</Text>
+            <Text style={_styles.price}>{data.price}￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}

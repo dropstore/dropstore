@@ -25,7 +25,10 @@ const NOT_JOIN = 0;
 const LEADING = 1;
 // 已参加，团员
 const MEMBER = 2;
-
+// 支付佣金
+const PAY_COMMISSION = 'pay_commission';
+// 支付订单
+const PAY_ORDER = 'pay_commission';
 // DeviceEventEmitter.key
 const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
 export default {
@@ -39,5 +42,7 @@ export default {
   NOT_JOIN,
   LEADING,
   MEMBER,
+  PAY_COMMISSION,
+  PAY_ORDER,
   REFRESH_SHOP_DETAIL_INFO
 }

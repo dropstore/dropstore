@@ -1,5 +1,5 @@
 import React from 'react';
-import {createAppContainer, createStackNavigator, createSwitchNavigator} from 'react-navigation';
+import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
   Platform, Animated, Easing, TouchableOpacity, StyleSheet,
 } from 'react-native';
@@ -39,12 +39,43 @@ import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
 import UpdateUser from '../page/personal/UpdateUser';
 
-const AuthStack = createStackNavigator({
-  AuthLoading, NameAge, GenderSize, PhoneNum,
-}, {
-  initialRouteName: 'AuthLoading',
-  defaultNavigationOptions: {header: null},
+const defaultNavigationOptions = ({ navigation }) => ({
+  headerStyle: styles.headerStyle,
+  headerTintColor: Colors.WHITE_COLOR,
+  headerTitleStyle: styles.headerTitleStyle,
+  headerBackTitle: null,
+  headerTitleContainerStyle: { left: 56, right: 56 },
+  headerLeft: (
+    <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
+      <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.zjt} />
+    </TouchableOpacity>
+  ),
+  headerRight: navigation.getParam('headerRight'),
+  title: navigation.getParam('title'),
 });
+
+const transition = {
+  ...Platform.select({
+    android: {
+      transitionConfig: () => ({
+        transitionSpec: {
+          duration: 500,
+          easing: Easing.out(Easing.poly(4)),
+          timing: Animated.timing,
+        },
+        screenInterpolator: CardStackStyleInterpolator.forHorizontal,
+      }),
+    },
+  }),
+};
+
+const AuthStack = createStackNavigator({
+  AuthLoading: { screen: AuthLoading, navigationOptions: { header: null } },
+  NameAge: { screen: NameAge, navigationOptions: { header: null } },
+  GenderSize: { screen: GenderSize, navigationOptions: { header: null } },
+  PhoneNum: { screen: PhoneNum, navigationOptions: { header: null } },
+  Web,
+}, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
@@ -69,40 +100,14 @@ const routesWithoutHeader = {
   BottomNavigator,
   payStatus,
   panicStatus,
-  drawStatus
+  drawStatus,
 };
 
 for (const i in routesWithoutHeader) {
-  routesWithoutHeader[i] = {screen: routesWithoutHeader[i], navigationOptions: {header: null}};
+  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
 }
-const MainStack = createStackNavigator({...routesWithHeader, ...routesWithoutHeader}, {
-  initialRouteName: 'BottomNavigator',
-  defaultNavigationOptions: ({navigation}) => ({
-    headerStyle: styles.headerStyle,
-    headerTintColor: Colors.WHITE_COLOR,
-    headerTitleStyle: styles.headerTitleStyle,
-    headerBackTitle: null,
-    headerTitleContainerStyle: {left: 56, right: 56},
-    headerLeft: (
-      <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
-        <Image resizeMode="contain" style={{height: 12, width: 12}} source={Images.zjt}/>
-      </TouchableOpacity>
-    ),
-    headerRight: navigation.getParam('headerRight'),
-    title: navigation.getParam('title'),
-  }),
-  ...Platform.select({
-    android: {
-      transitionConfig: () => ({
-        transitionSpec: {
-          duration: 500,
-          easing: Easing.out(Easing.poly(4)),
-          timing: Animated.timing,
-        },
-        screenInterpolator: CardStackStyleInterpolator.forHorizontal,
-      }),
-    },
-  }),
+const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
+  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
 });
 
 const Router = createAppContainer(createSwitchNavigator({
@@ -110,6 +115,7 @@ const Router = createAppContainer(createSwitchNavigator({
   Main: MainStack,
 }, {
   initialRouteName: 'Auth',
+  ...transition,
 }));
 
 const styles = StyleSheet.create({
@@ -143,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export {Router, store};
+export { Router, store };

@@ -160,9 +160,8 @@ class SelfBottomCom extends PureComponent {
   }
 
   render() {
-    const {navigation, shopDetailInfo} = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
-    const shopId = shopInfo.activity.id;
     return (
       <View>
         {

@@ -17,6 +17,7 @@ import {getShopDetailInfo} from "../../redux/reselect/shopDetailInfo";
 import {setCommission, getPayMes} from "../../redux/actions/shopDetailInfo";
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
+import ShopConstant from "../../common/ShopConstant";
 
 function mapStateToProps() {
   return state => ({
@@ -54,7 +55,11 @@ class Commission extends PureComponent {
     }
     setCommission(shopInfo.activity.id, shopInfo.user_activity.id, this.state.commission).then(res => {
       if (res) {
-        navigation.push('pay', {shopDetailInfo: shopDetailInfo, title: '选择支付账户', totalPrice: this.state.totalPrice});
+        let payData = {
+          'order_id': shopInfo.user_activity.id,
+          'price': this.state.totalPrice
+        };
+        navigation.navigate('pay', {title: '选择支付账户', type: ShopConstant.PAY_COMMISSION, payData: payData});
       }
     })
   };

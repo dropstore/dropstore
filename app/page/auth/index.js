@@ -14,6 +14,7 @@ import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant'
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
+import ModalTreaty from './ModalTreaty';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -29,6 +30,7 @@ class AuthLoading extends PureComponent {
     this.mobile = '';
     this.state = {
       disabled: true,
+      showTreaty: false,
       showLoading: false,
     };
   }
@@ -36,13 +38,16 @@ class AuthLoading extends PureComponent {
   componentDidMount() {
     const { navigation, getUser } = this.props;
     if (require('../../../app.json').needLogin) {
-      AsyncStorage.getItem('token').then((token) => {
-        if (token) {
-          getUser(token);
+      AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
+        if (res[0][1]) {
+          getUser(res[0][1]);
           navigation.navigate('Main');
           SplashScreen.hide();
         } else {
           SplashScreen.hide();
+        }
+        if (!res[1][1]) {
+          this.setState({ showTreaty: true });
         }
       }).catch(() => {
         navigation.navigate('Main');
@@ -86,8 +91,13 @@ class AuthLoading extends PureComponent {
     this.setState({ disabled: true });
   }
 
+  closeTreaty = () => {
+    this.setState({ showTreaty: false });
+  }
+
   render() {
-    const { showLoading, disabled } = this.state;
+    const { showLoading, disabled, showTreaty } = this.state;
+    const { navigation } = this.props;
 
     return (
       <KeyboardDismiss style={styles.container}>
@@ -112,6 +122,8 @@ class AuthLoading extends PureComponent {
           />
         </View>
         { showLoading && <ActivityIndicator size="large" style={styles.centering} /> }
+
+        { showTreaty && <ModalTreaty closeTreaty={this.closeTreaty} navigation={navigation} close={this.closeTreaty} /> }
       </KeyboardDismiss>
     );
   }

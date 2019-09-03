@@ -6,7 +6,20 @@ import {request} from '../../http/Axios';
 // const resetActivityList = createAction('RESET_ACTIVITY_LIST');
 // const notReceiveActivityList = createAction('NOT_RECEIVE_ACTIVITY_LIST');
 
-
+/**
+ * 获取支付佣金信息
+ * @param u_a_id
+ * @returns {Promise<*>}
+ */
+const getCommisionInfo = async (u_a_id) => {
+  const params = {
+    u_a_id: u_a_id,
+  };
+  try {
+    return await request('/pay/getAlipayActivity', {params, isShowLoading: true});
+  } catch (e) {
+  }
+};
 /**
  * 获取订单信息
  * @param order_id
@@ -22,5 +35,6 @@ const getOrderInfo = async (order_id) => {
   }
 };
 export {
+  getCommisionInfo,
   getOrderInfo
 }

@@ -17,8 +17,7 @@ export default class OrderState extends Component {
     ] : [
       { key: 'uncomplete', title: '未完成' },
       { key: 'intoWarehouse', title: '已入库' },
-      { key: 'deliverted', title: '已发货' },
-      { key: 'completed', title: '已完成' },
+      { key: 'sendOut', title: '已出库' },
     ];
     this.state = {
       routes,

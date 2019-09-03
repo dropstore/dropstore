@@ -11,7 +11,7 @@ import Reserve from './reserve';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [
-  { key: 'home', title: '首页' },
+  // { key: 'home', title: '首页' },
   { key: 'originalCost', title: '原价发售' },
   { key: 'selfSupport', title: 'Drop自营' },
   { key: 'luckyCharm', title: '球鞋锦鲤' },
@@ -56,9 +56,6 @@ class HomePage extends PureComponent {
             routes={routes}
             index={index}
             onIndexChange={this.onIndexChange}
-            showIndicator={false}
-            activeStyle={{ fontSize: 15, color: [160, 160, 160] }}
-            inactiveStyle={{ fontSize: 15, color: [0, 0, 0] }}
           />
           <TabView
             style={{ flex: 1 }}

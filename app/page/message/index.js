@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 import {
   SectionList, View, Text, StyleSheet,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ListItem from './ListItem';
 import Images from '../../res/Images';
 import NavigationBarCom from '../../components/NavigationBarCom';
 import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
+import { fetchMessage } from '../../redux/actions/message';
+import { getMessage } from '../../redux/reselect/message';
 
 const LIST = [
   {
@@ -39,14 +43,30 @@ const LIST = [
   },
 ];
 
-export default class MessageCenterPage extends Component {
+function mapStateToProps() {
+  return state => ({
+    message: getMessage(state),
+  });
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchMessage,
+  }, dispatch);
+}
+
+class MessageCenterPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    const { fetchMessage } = this.props;
+    fetchMessage('message');
   }
 
   loadMore = () => {
-
+    const { fetchMessage } = this.props;
+    fetchMessage('message', true);
   }
 
   renderItem = ({ item }) => <ListItem item={item} />
@@ -86,3 +106,5 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessageCenterPage);

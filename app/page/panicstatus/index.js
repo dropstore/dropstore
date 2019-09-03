@@ -18,6 +18,7 @@ import {bindActionCreators} from "redux";
 import {showToast} from "../../utils/MutualUtil";
 import {showShare} from '../../redux/actions/component';
 import {getShareSuccess} from '../../redux/reselect/component';
+import ShopConstant from "../../common/ShopConstant";
 
 function mapStateToProps() {
   return state => ({
@@ -86,7 +87,11 @@ class PanicBuy extends PureComponent {
       title: '分享的标题',
     });
   };
-
+  _toPay=()=>{
+    const {navigation} = this.props;
+    const payData = navigation.getParam('data');
+    navigation.navigate('pay', {title: '选择支付账户',type:ShopConstant.PAY_ORDER,payData: payData})
+  };
   render() {
     const {navigation} = this.props;
     const data = navigation.getParam('shopInfo');
@@ -120,7 +125,7 @@ class PanicBuy extends PureComponent {
                 <Text style={bottomStyle.buttonText}>分享邀请</Text>
               </ImageBackground>
               <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                               onPress={() => navigation.navigate('shopDetail')}>
+                               onPress={() => this._toPay()}>
                 <Text style={bottomStyle.buttonText}>去付款</Text>
               </ImageBackground>
             </View>
