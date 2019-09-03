@@ -64,7 +64,7 @@ class OriginalCost extends PureComponent {
         currentPage={list.currentPage}
         refresh={this.onRefresh}
         renderSectionHeader={this.renderSectionHeader}
-        ListHeaderComponent={<TopCom imageSource={Images.bn} />}
+        ListHeaderComponent={<TopCom bannerId={4} imageSource={Images.bn} />}
         sections={[
           {
             title: '六月',

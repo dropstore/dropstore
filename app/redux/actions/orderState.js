@@ -15,10 +15,10 @@ function fetchOrderStateList(type, fetchMore = false) {
       dispatch(resetOrderStateList(type));
     }
     const params = {
-
+      status: type,
     };
     dispatch(requestOrderStateList(type));
-    request('/user/userinfo', { params }).then((res) => {
+    request('/order/order_list', { params }).then((res) => {
       dispatch(receiveOrderStateList(res.data, type));
     });
   };

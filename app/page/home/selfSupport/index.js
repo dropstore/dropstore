@@ -50,7 +50,7 @@ class SelfSupport extends PureComponent {
         shopList={activityInfo[ShopConstant.SELF_SUPPORT]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions} />}
+        ListHeaderComponent={<TopCom bannerId={2} imageSource={Images.instructions} />}
       />
     );
   }

@@ -50,7 +50,7 @@ class OriginalCost extends PureComponent {
         shopList={activityInfo[ShopConstant.ORIGIN_CONST]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions} />}
+        ListHeaderComponent={<TopCom bannerId={1} imageSource={Images.instructions} />}
       />
     );
   }

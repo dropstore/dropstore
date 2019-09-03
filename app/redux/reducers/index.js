@@ -6,6 +6,7 @@ import shopDetailInfo from './shopDetailInfo';
 import component from './component';
 import orderState from './orderState';
 import message from './message';
+import banner from './banner';
 
 export default combineReducers({
   test,
@@ -15,4 +16,5 @@ export default combineReducers({
   component,
   orderState,
   message,
+  banner,
 });

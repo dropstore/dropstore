@@ -45,7 +45,7 @@ class Lucky extends PureComponent {
         shopList={activityInfo[ShopConstant.LUCKY_CHARM]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions} />}
+        ListHeaderComponent={<TopCom bannerId={3} imageSource={Images.instructions} />}
       />
     );
   }
