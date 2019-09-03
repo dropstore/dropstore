@@ -71,6 +71,7 @@ class OriginalCost extends PureComponent {
             data: list.list,
           },
         ]}
+        stickySectionHeadersEnabled={false}
         renderItem={this.renderItem}
         onEndReached={this.loadMore}
       />

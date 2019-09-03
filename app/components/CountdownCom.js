@@ -8,7 +8,7 @@ type Props = {
   style: Object
 };
 
-const maxTime = 24 * 360000;
+const maxTime = 24 * 3600;
 
 export default class CountdownCom extends PureComponent<Props> {
   constructor(props) {
@@ -16,7 +16,7 @@ export default class CountdownCom extends PureComponent<Props> {
     const { time } = this.props;
     const timer = time - Date.now() / 1000;
     this.state = {
-      text: timer < maxTime ? this.formatTime(timer) : '即将开始',
+      text: timer > maxTime ? '即将开始' : timer < 1 ? '已结束' : this.formatTime(timer),
     };
   }
 
@@ -47,12 +47,13 @@ export default class CountdownCom extends PureComponent<Props> {
   render() {
     const { style } = this.props;
     const { text } = this.state;
+    const noTimer = ['已结束', '即将开始'].includes(text);
     return (
       <Text style={{
         ...style,
-        fontSize: text === '即将开始' ? style.fontSize * 0.86 : style.fontSize,
-        color: text === '即将开始' ? '#666' : '#000',
-        width: text === '即将开始' ? 57 : 70,
+        fontSize: noTimer ? style.fontSize * 0.86 : style.fontSize,
+        color: noTimer ? '#666' : '#000',
+        width: noTimer ? 57 : 70,
       }}
       >
         {text}

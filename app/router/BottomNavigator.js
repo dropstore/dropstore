@@ -121,9 +121,8 @@ export default class BottomNavigator extends PureComponent {
                                     style={{
                                       width: wPx2P(26),
                                       height: '100%',
-                                      opacity: indexState === index ? 1 : 0.35,
                                     }}
-                                    source={Images[v.key]}
+                                    source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
                                   />
                                 )
                             }
