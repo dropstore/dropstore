@@ -29,24 +29,13 @@ class ShopListCom extends PureComponent {
       <PullToRefresh
         totalPages={shopList.totalPages}
         currentPage={shopList.currentPage}
-        onRefresh={onRefresh}
-        firstRequest={shopList.isFetching && shopList.totalPages < 0}
-      >
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          maxToRenderPerBatch={5}
-          initialNumToRender={10}
-          ListHeaderComponent={ListHeaderComponent}
-          // ListEmptyComponent={<NoDataCom />}
-          ref={(l) => { this.shopList = l; }}
-          data={shopList.list}
-          renderItem={this._renderItemView}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
-          onEndReached={loadMore}
-          removeClippedSubviews={false}
-          onEndReachedThreshold={0.2}
-        />
-      </PullToRefresh>
+        Wrapper={FlatList}
+        ListHeaderComponent={ListHeaderComponent}
+        data={shopList.list}
+        refresh={onRefresh}
+        renderItem={this._renderItemView}
+        onEndReached={loadMore}
+      />
     );
   }
 }
