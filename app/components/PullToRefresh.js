@@ -50,7 +50,7 @@ export default class PullToRefresh extends PureComponent {
     return (
       <Wrapper
         ListFooterComponent={renderFooter || this.renderFooter}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+        refreshControl={<RefreshControl tintColor="#c20000" refreshing={refreshing} onRefresh={this.onRefresh} />}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         removeClippedSubviews={false}
         onEndReachedThreshold={0.2}

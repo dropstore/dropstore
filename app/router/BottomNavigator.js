@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated,
+  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
@@ -15,16 +15,16 @@ import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Message from '../page/message';
 
-const HOME_ICON_WIDTH = wPx2P(110);
-const PADDING_HORIZONTAL = 18;
-const TAB_HEIGHT = 53;
+const HOME_ICON_WIDTH = wPx2P(97);
+const PADDING_HORIZONTAL = wPx2P(22);
+const TAB_HEIGHT = 52;
 
 const ROUTES = [
-  { screen: <Personal />, key: 'personal' },
-  { screen: <Identify />, key: 'identify' },
-  { screen: <HomePage />, key: 'drop' },
-  { screen: <FreeTrade />, key: 'freeTrade' },
-  { screen: <Message />, key: 'message' },
+  { screen: <FreeTrade />, key: 'freeTrade', title: '交易' },
+  { screen: <Identify />, key: 'identify', title: '鉴定' },
+  { screen: <HomePage />, key: 'drop', title: '' },
+  { screen: <Message />, key: 'message', title: '消息' },
+  { screen: <Personal />, key: 'personal', title: '我的' },
 ];
 
 export default class BottomNavigator extends PureComponent {
@@ -111,7 +111,7 @@ export default class BottomNavigator extends PureComponent {
                   {
                       v
                         ? (
-                          <Animated.View style={{ opacity: this.opacity[index] }}>
+                          <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center', paddingTop: 5 }}>
                             {
                               v.key === 'drop'
                                 ? <Image style={styles.drop} source={Images.drop} />
@@ -120,12 +120,13 @@ export default class BottomNavigator extends PureComponent {
                                     resizeMode="contain"
                                     style={{
                                       width: wPx2P(26),
-                                      height: '100%',
+                                      height: wPx2P(26),
                                     }}
                                     source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
                                   />
                                 )
                             }
+                            {v.key !== 'drop' ? <Text style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}>{v.title}</Text> : null}
                           </Animated.View>
                         )
                         : <View style={{ flex: 1, height: '100%' }} />
@@ -135,13 +136,13 @@ export default class BottomNavigator extends PureComponent {
             })
           }
         </View>
-        <TouchableWithoutFeedback
-          onPressIn={() => this.onPressIn(2)}
-          onPressOut={() => this.onPressOut(2)}
-          onPress={() => this.onIndexChange(2)}
-        >
-          <View style={styles.placeholder} />
-        </TouchableWithoutFeedback>
+        {
+          Platform.OS === 'android' && (
+          <TouchableWithoutFeedback onPressIn={() => this.onPressIn(2)} onPressOut={() => this.onPressOut(2)} onPress={() => this.onIndexChange(2)}>
+            <View style={styles.placeholder} />
+          </TouchableWithoutFeedback>
+          )
+        }
       </View>
     );
   }
@@ -155,7 +156,6 @@ const styles = StyleSheet.create({
   tabBar: {
     height: TAB_HEIGHT + PADDING_TAB,
     paddingBottom: PADDING_TAB,
-    alignItems: 'center',
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#ddd',
   },
   placeholder: {
-    height: 20,
+    height: 10,
     width: HOME_ICON_WIDTH,
     position: 'absolute',
     alignSelf: 'center',
@@ -172,7 +172,9 @@ const styles = StyleSheet.create({
   },
   drop: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(59),
-    marginBottom: 27.5,
+    height: wPx2P(51),
+    // marginBottom: 27.5,
+    position: 'relative',
+    top: -15,
   },
 });
