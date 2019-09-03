@@ -30,6 +30,7 @@ class ShopListCom extends PureComponent {
         totalPages={shopList.totalPages}
         currentPage={shopList.currentPage}
         Wrapper={FlatList}
+        style={{ paddingTop: 5 }}
         ListHeaderComponent={ListHeaderComponent}
         data={shopList.list}
         refresh={onRefresh}
