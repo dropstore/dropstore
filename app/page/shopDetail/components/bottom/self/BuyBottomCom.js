@@ -31,7 +31,7 @@ class BuyBottomCom extends PureComponent {
        doBuy(activityId).then((res)=>{
          let data =res.data;
          if(data){
-           navigation.push('panicStatus',{shopInfo: shopInfo})
+           navigation.push('panicStatus',{data})
          }
        })
       } else {

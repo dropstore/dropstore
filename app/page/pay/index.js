@@ -16,26 +16,27 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
+import {getOrderInfo} from "../../redux/actions/pay";
+import {alipayModule} from "../../native/module";
 
 class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      overPayStatusKey: -1,
       payData: [{
-        'type': 1,
+        'type': 0,
         'subImage': Images.pay_zfb,
         'name': '支付宝',
         'isSelect': false,
         'bgColor': Colors.PAY_ZFB_BG
       }, {
-        'type': 2,
+        'type': 1,
         'subImage': Images.pay_wx,
         'name': '微信钱包',
         'isSelect': false,
         'bgColor': Colors.PAY_WX_BG
       }, {
-        'type': 3,
+        'type': 2,
         'subImage': Images.pay_drop,
         'name': 'Drop账户',
         'isSelect': false,
@@ -64,21 +65,32 @@ class Pay extends PureComponent {
   /**
    * @private
    */
-  _pay = () => {
+  _pay = async () => {
     const {navigation} = this.props;
     const shopDetailInfo = navigation.getParam('shopDetailInfo');
     let payData = this.state.payData;
     let isChoosePayWay = false;
+    let chooseWay = -1;
     for (let i = 0; i < payData.length; i++) {
       isChoosePayWay = payData[i].isSelect;
       if (isChoosePayWay) {
+        chooseWay = payData[i].type;
         break;
       }
     }
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
+    if (chooseWay === 0) {
+      getOrderInfo('2').then((res) => {
+        let data = res.data;
+        if (data) {
+          let result = alipayModule.pay(data);
+          alert(JSON.stringify(result));
+        }
+      })
+    }
+    // navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
   };
 
   render() {
