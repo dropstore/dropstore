@@ -14,9 +14,9 @@ function fetchMessage(type, fetchMore = false) {
       dispatch(resetMessage(type));
     }
     dispatch(requestMessage(type));
-    request('/user/userinfo', { params: { page: 1 } }).then((res) => {
-      dispatch(receiveMessage(res.data, type));
-    });
+    // request('/user/userinfo', { params: { page: 1 } }).then((res) => {
+    //   dispatch(receiveMessage(res.data, type));
+    // });
   };
 }
 

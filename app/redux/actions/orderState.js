@@ -8,7 +8,8 @@ const removeOrderStateListItem = createAction('REMOVE_ORDER_STATE_LIST_ITEM', a 
 
 function fetchOrderStateList(type, fetchMore = false) {
   return (dispatch, getState) => {
-    if ((getState().orderState[type] || {}).isFetching) {
+    const orderState = getState().orderState[type] || {};
+    if (orderState.isFetching) {
       return;
     }
     if (!fetchMore) {
@@ -16,6 +17,8 @@ function fetchOrderStateList(type, fetchMore = false) {
     }
     const params = {
       status: type,
+      limit: 10,
+      pn: fetchMore ? orderState.currentPage + 1 : 1,
     };
     dispatch(requestOrderStateList(type));
     request('/order/order_list', { params }).then((res) => {
