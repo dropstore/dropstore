@@ -1,5 +1,3 @@
-import {DeviceEventEmitter} from "react-native";
-
 /**
  * @file 商品业务模块常量类
  * @date 2019/8/19 15:18
@@ -39,5 +37,5 @@ export default {
   NOT_JOIN,
   LEADING,
   MEMBER,
-  REFRESH_SHOP_DETAIL_INFO
-}
+  REFRESH_SHOP_DETAIL_INFO,
+};

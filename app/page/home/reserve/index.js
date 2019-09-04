@@ -14,7 +14,7 @@ import ShopListItemCom from '../components/ShopListItemCom';
 
 function mapStateToProps() {
   return state => ({
-    activityInfo: getActivityInfo(state),
+    activityInfo: getActivityInfo(state, ShopConstant.RESERVE),
   });
 }
 
@@ -28,18 +28,17 @@ class OriginalCost extends PureComponent {
   constructor(props) {
     super(props);
     const { getActivityList } = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST);
-    this.state = {};
+    getActivityList(ShopConstant.RESERVE);
   }
 
   onRefresh = () => {
     const { getActivityList } = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST);
+    getActivityList(ShopConstant.RESERVE);
   };
 
   loadMore = () => {
     const { getActivityList } = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
+    getActivityList(ShopConstant.RESERVE, { fetchNextPage: true });
   };
 
   renderItem = ({ item }) => (
@@ -56,19 +55,18 @@ class OriginalCost extends PureComponent {
 
   render() {
     const { activityInfo } = this.props;
-    const list = activityInfo['1'];
     return (
       <PullToRefresh
         Wrapper={SectionList}
-        totalPages={list.totalPages}
-        currentPage={list.currentPage}
+        totalPages={activityInfo.totalPages}
+        currentPage={activityInfo.currentPage}
         refresh={this.onRefresh}
         renderSectionHeader={this.renderSectionHeader}
         ListHeaderComponent={<TopCom bannerId={4} imageSource={Images.bn} />}
         sections={[
           {
             title: '六月',
-            data: list.list,
+            data: activityInfo.list,
           },
         ]}
         stickySectionHeadersEnabled={false}

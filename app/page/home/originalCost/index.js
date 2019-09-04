@@ -15,7 +15,7 @@ import ShopConstant from '../../../common/ShopConstant';
 
 function mapStateToProps() {
   return state => ({
-    activityInfo: getActivityInfo(state),
+    activityInfo: getActivityInfo(state, ShopConstant.ORIGIN_CONST),
   });
 }
 
@@ -47,7 +47,7 @@ class OriginalCost extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <ShopListCom
-        shopList={activityInfo[ShopConstant.ORIGIN_CONST]}
+        shopList={activityInfo}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
         ListHeaderComponent={<TopCom bannerId={1} imageSource={Images.instructions} />}

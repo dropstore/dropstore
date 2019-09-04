@@ -10,7 +10,7 @@ import Images from '../../../res/Images';
 
 function mapStateToProps() {
   return state => ({
-    activityInfo: getActivityInfo(state),
+    activityInfo: getActivityInfo(state, ShopConstant.LUCKY_CHARM),
   });
 }
 
@@ -42,7 +42,7 @@ class Lucky extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <ShopListCom
-        shopList={activityInfo[ShopConstant.LUCKY_CHARM]}
+        shopList={activityInfo}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
         ListHeaderComponent={<TopCom bannerId={3} imageSource={Images.instructions} />}

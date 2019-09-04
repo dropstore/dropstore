@@ -1,10 +1,10 @@
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 
 const getActivityInfo = createSelector(
-  state => state.activityList,
+  (state, type) => state.activityList[type],
   value => value,
 );
 
 export {
-  getActivityInfo
-}
+  getActivityInfo,
+};
