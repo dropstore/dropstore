@@ -78,11 +78,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBar: {
-    width: SCREEN_WIDTH,
+    width: 330,
     height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 9,
+    marginBottom: 5,
   },
 });
 

@@ -43,16 +43,10 @@ class OriginalCost extends PureComponent {
     getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
   };
 
-  againLoad = () => {
-    const { getActivityList } = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST);
-  };
-
   render() {
     const { activityInfo } = this.props;
     return (
       <ShopListCom
-        againLoad={this.againLoad}
         shopList={activityInfo[ShopConstant.ORIGIN_CONST]}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}

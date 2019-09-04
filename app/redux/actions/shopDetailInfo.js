@@ -117,30 +117,26 @@ const setCommission = async (activity_id, u_a_id, commission) => {
 };
 
 /**
- * 团长抢购
- * @param activity_id
+ * 团长抢购或团员参加
+ * @param {Boolean} isLeading - 是否是团长
+ * @param {String} activity_id - 活动ID
+ * @param navigation
+ * @param {Object} shopInfo - 活动详情
  */
-const doBuy = async (activity_id) => {
+const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
+  let url = isLeading ? "/order/do_buy" : "/order/do_help_buy";
   const params = {
     activity_id: activity_id,
   };
   try {
-    return await request('/order/do_buy', {params, isShowLoading: true});
+    let data = await request(url, {params, isShowLoading: true});
+    if (data) {
+      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: true})
+    } else {
+      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+    }
   } catch (e) {
-  }
-};
-
-/**
- * 团员参加
- * @param activity_id
- */
-const doHelpBuy = async (activity_id) => {
-  const params = {
-    activity_id: activity_id,
-  };
-  try {
-    return await request('/order/do_help_buy', {params, isShowLoading: true});
-  } catch (e) {
+    navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
   }
 };
 
@@ -170,6 +166,5 @@ export {
   getPayMes,
   setCommission,
   doBuy,
-  doHelpBuy,
   doBuyNow,
 }

@@ -29,12 +29,7 @@ class BuyBottomCom extends PureComponent {
       }
     } else if (is_join === ShopConstant.LEADING) {
       if (isOnPress) {
-        doBuy(activityId).then((res) => {
-          let data = res.data;
-          if (data) {
-            navigation.push('panicStatus', {shopInfo: shopInfo, data: data})
-          }
-        })
+        doBuy(true, activityId, navigation, shopInfo);
       } else {
         return '立即抢购';
       }
@@ -53,7 +48,6 @@ class BuyBottomCom extends PureComponent {
   };
 
   render() {
-
     return (
       <View style={bottomStyle.bottomView}>
         <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}

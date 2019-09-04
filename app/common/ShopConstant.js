@@ -29,6 +29,10 @@ const MEMBER = 2;
 const PAY_COMMISSION = 'pay_commission';
 // 支付订单
 const PAY_ORDER = 'pay_commission';
+
+const ALIPAY = 0;
+const WECHATPAY = 1;
+const DROPPAY = 2;
 // DeviceEventEmitter.key
 const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
 export default {
@@ -44,5 +48,8 @@ export default {
   MEMBER,
   PAY_COMMISSION,
   PAY_ORDER,
-  REFRESH_SHOP_DETAIL_INFO
+  REFRESH_SHOP_DETAIL_INFO,
+  ALIPAY,
+  WECHATPAY,
+  DROPPAY
 }

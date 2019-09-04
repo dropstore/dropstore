@@ -3,17 +3,18 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
+import React, { PureComponent } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import ScaleView from '../../../components/ScaleView';
 import Image from '../../../components/Image';
-import {debounce} from '../../../utils/commonUtils';
+import { debounce } from '../../../utils/commonUtils';
 import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
-import {Mario, YaHei} from '../../../res/FontFamily';
+import { Mario, YaHei } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
-import {checkTime, countDown, submitFormat} from "../../../utils/TimeUtils";
+import { MARGIN_HORIZONTAL } from '../../../common/Constant';
+import { checkTime, countDown, submitFormat } from '../../../utils/TimeUtils';
 
 class ShopListItemCom extends PureComponent {
   constructor(props) {
@@ -21,14 +22,14 @@ class ShopListItemCom extends PureComponent {
     this.state = {
       startDownTime: '',
       endDownTime: '',
-    }
+    };
   }
 
   componentDidMount() {
     this._setBuyTimeDOM();
     this._timer = setInterval(() => {
       this._setBuyTimeDOM();
-    }, 1000)
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -36,7 +37,7 @@ class ShopListItemCom extends PureComponent {
   }
 
   toShopDetailPage = () => {
-    const {navigation, item} = this.props;
+    const { navigation, item } = this.props;
     navigation.navigate('shopDetail', {
       title: '商品详情',
       rate: '+25',
@@ -47,69 +48,64 @@ class ShopListItemCom extends PureComponent {
 
   _setTimeDOM = (item) => {
     this._setBuyTimeDOM();
-    return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>
+    return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>;
   };
 
   _setBuyTimeDOM = () => {
-    const {item} = this.props;
+    const { item } = this.props;
+    const { startDownTime, endDownTime } = this.state;
     if (item.type === ShopConstant.SELF_SUPPORT) {
       if (item.b_type === ShopConstant.BUY) {
         // 活动开始时间
-        let start_time = item.start_time;
+        const start_time = item.start_time;
         // 活动结束时间
-        let end_time = item.end_time;
-        let sTimeStamp = checkTime(start_time);
-        let eTimeStamp = checkTime(end_time);
+        const end_time = item.end_time;
+        const sTimeStamp = checkTime(start_time);
+        const eTimeStamp = checkTime(end_time);
         if (sTimeStamp > 0) {
-          this.setState({startDownTime: countDown(sTimeStamp)}, () => {
-            return this._setBuyDOM('距开始：', this.state.startDownTime)
-          })
+          this.setState({ startDownTime: countDown(sTimeStamp) }, () => this._setBuyDOM('距开始：', startDownTime));
         } else if (eTimeStamp > 0) {
-          this.setState({endDownTime: countDown(eTimeStamp)}, () => {
-            return this._setBuyDOM('距结束：', this.state.endDownTime)
-          })
+          this.setState({ endDownTime: countDown(eTimeStamp) }, () => this._setBuyDOM('距结束：', endDownTime));
         } else {
           this._timer && clearInterval(this._timer);
-          return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>
+          return <Text style={_styles.time}>{submitFormat(item.l_time)}</Text>;
         }
       }
     }
   };
 
-  _setBuyDOM = (text, time) => {
-    return (
-      <View style={_styles.overView}>
-        <Text style={_styles.overTitle}>{text}</Text>
-        <Text style={_styles.overTime}>{time}</Text>
-      </View>
-    )
-  };
+  _setBuyDOM = (text, time) => (
+    <View style={_styles.overView}>
+      <Text style={_styles.overTitle}>{text}</Text>
+      <Text style={_styles.overTime}>{time}</Text>
+    </View>
+  );
 
   _setBTypeDOM = (item) => {
     if (item.type === ShopConstant.SELF_SUPPORT) {
       if (item.b_type === ShopConstant.BUY) {
-        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qe}/>
-      } else if (item.b_type === ShopConstant.DRAW) {
-        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr}/>
+        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qe} />;
+      } if (item.b_type === ShopConstant.DRAW) {
+        return <Image style={_styles.statusImage} resizeMode="cover" source={Images.qr} />;
       }
     }
   };
 
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     return (
       <ScaleView style={_styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
-        <Image style={_styles.plusIcon} source={Images.xh}/>
+        <Image style={_styles.plusIcon} source={Images.xh} />
         <View style={_styles.middle}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Text style={_styles.shopTitle}>{item.activity_name}</Text>
             <Text style={_styles.price}>{`${item.price / 100}￥`}</Text>
             {
               this._setTimeDOM(item)
             }
           </View>
-          {/*<Image resizeMode="contain" style={_styles.imageShoe} source={item.image}/>*/}
-          <Image resizeMode="contain" style={_styles.imageShoe} source={Images.shoe}/>
+          {/* <Image resizeMode="contain" style={_styles.imageShoe} source={item.image}/> */}
+          <Image resizeMode="contain" style={_styles.imageShoe} source={Images.shoe} />
         </View>
         {
           this._setBTypeDOM(item)
@@ -121,12 +117,13 @@ class ShopListItemCom extends PureComponent {
 
 const _styles = StyleSheet.create({
   scaleView: {
-    marginHorizontal: 10,
-    marginBottom: 3,
+    marginHorizontal: MARGIN_HORIZONTAL,
     backgroundColor: Colors.WHITE_COLOR,
     flexDirection: 'row',
-    paddingTop: 5,
-    paddingBottom: 9,
+    marginTop: 7,
+    paddingVertical: 9,
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   middle: {
     flex: 1,

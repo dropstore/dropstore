@@ -36,19 +36,15 @@ class PanicBuy extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      startDownTime: '',
+      endDownTime: '',
     }
   }
 
   componentDidMount() {
-    const {navigation} = this.props;
-    const payStatus = navigation.getParam('payStatus');
-    if (payStatus) {
+    this._setTime();
+    this._timer = setInterval(() => {
       this._setTime();
-      this._timer = setInterval(() => {
-        this._setTime();
-      }, 1000)
-    }
+    }, 1000)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,19 +60,19 @@ class PanicBuy extends PureComponent {
   }
 
   _setTime = () => {
-    let sTimeStamp = this._getStartTime();
-    if (sTimeStamp > 0) {
-      this.setState({startDownTime: countDown(sTimeStamp)})
+    let eTimeStamp = this._getEndTime();
+    if (eTimeStamp > 0) {
+      this.setState({endDownTime: countDown(eTimeStamp)})
     }
   };
 
-  _getStartTime = () => {
+  _getEndTime = () => {
     const {navigation} = this.props;
     const shopDetailInfo = navigation.getParam('shopDetailInfo');
     const data = shopDetailInfo.data;
     // 活动开始时间
-    let start_time = data.activity.start_time;
-    return checkTime(start_time);
+    let end_time = data.activity.end_time;
+    return checkTime(end_time);
   };
   _showShare = () => {
     const {showShare} = this.props;
@@ -87,49 +83,49 @@ class PanicBuy extends PureComponent {
       title: '分享的标题',
     });
   };
-  _toPay=()=>{
+  _diffClick = () => {
     const {navigation} = this.props;
-    const payData = navigation.getParam('data');
-    navigation.navigate('pay', {title: '选择支付账户',type:ShopConstant.PAY_ORDER,payData: payData})
+    const data = navigation.getParam('shopInfo');
+    const panicStatus = navigation.getParam('panicStatus');
+    const payData = navigation.getParam('payData');
+    let is_join = data.is_join;
+    if (panicStatus && is_join === ShopConstant.NOT_JOIN) {
+      navigation.navigate('pay', {title: '选择支付账户', type: ShopConstant.PAY_ORDER, payData: payData})
+    } else {
+      navigation.goBack();
+    }
   };
+
   render() {
     const {navigation} = this.props;
     const data = navigation.getParam('shopInfo');
-    const payStatus = navigation.getParam('payStatus');
+    const panicStatus = navigation.getParam('panicStatus');
+    let is_join = data.is_join;
     return (
       <View style={_style.container}>
         <View style={_style.mainView}>
-          <Image source={payStatus ? Images.gm_cg : Images.qx_sb}/>
+          <Image source={panicStatus ? Images.gm_cg : Images.qx_sb}/>
           <Image source={Images.got_em}/>
           <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
           {
-            payStatus && this._getStartTime() > 0 ? <View style={[commonStyle.row, {marginTop: 26}]}>
-              <Text style={_style.waitLeft}>等待发布：</Text>
-              <Text style={_style.time}>{this.state.startDownTime}</Text>
+            this._getEndTime() > 0 ? <View style={[commonStyle.row, {marginTop: 26}]}>
+              <Text style={_style.waitLeft}>距结束：</Text>
+              <Text style={_style.time}>{this.state.endDownTime}</Text>
             </View> : <View/>
           }
           <Text style={_style.shopName}>{data.goods.goods_name}</Text>
         </View>
-        {
-          payStatus ?
-            <View style={bottomStyle.bottomView}>
-              <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
-                               onPress={() => {
-                                 navigation.navigate('shopDetail')
-                               }}>
-                <Text style={bottomStyle.buttonText}>确认</Text>
-              </ImageBackground>
-            </View> : <View style={[bottomStyle.bottomView, commonStyle.row]}>
-              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
-                               onPress={() => this._showShare()}>
-                <Text style={bottomStyle.buttonText}>分享邀请</Text>
-              </ImageBackground>
-              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                               onPress={() => this._toPay()}>
-                <Text style={bottomStyle.buttonText}>去付款</Text>
-              </ImageBackground>
-            </View>
-        }
+        <View style={[bottomStyle.bottomView, commonStyle.row]}>
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
+                           onPress={() => this._showShare()}>
+            <Text style={bottomStyle.buttonText}>分享邀请</Text>
+          </ImageBackground>
+          <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                           onPress={() => this._diffClick()}>
+            <Text
+              style={bottomStyle.buttonText}>{panicStatus && is_join === ShopConstant.NOT_JOIN ? "去付款" : "确认"}</Text>
+          </ImageBackground>
+        </View>
       </View>
     );
   }

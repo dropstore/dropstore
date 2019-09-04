@@ -37,6 +37,7 @@ const _styles = StyleSheet.create({
   topImage: {
     width: px2Dp(717),
     height: px2Dp(301),
+    borderRadius: 2,
   },
 });
 export default TopCom;

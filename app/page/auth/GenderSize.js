@@ -5,11 +5,9 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import Image from '../../components/Image';
-import KeyboardDismiss from '../../components/KeyboardDismiss';
+import { Image, KeyboardDismiss, ImageBackground } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';

@@ -3,22 +3,25 @@ import { TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { YaHei } from '../../res/FontFamily';
 
 const activeSize = 25;
-const inactiveSize = 15;
+const inactiveSize = 12;
 
 class TabBarItem extends PureComponent {
   render() {
     const {
       item, index, onPress, activeIndex,
     } = this.props;
+    const focused = activeIndex === index;
     return (
       <TouchableOpacity style={styles.wrapper} onPress={() => onPress(index)}>
         <Text style={{
           padding: 0,
           includeFontPadding: false,
-          fontSize: activeIndex === index ? activeSize : inactiveSize,
+          fontSize: focused ? activeSize : inactiveSize,
           textAlign: 'center',
           fontFamily: YaHei,
-          fontWeight: '400',
+          paddingBottom: focused ? 0 : 2,
+          fontWeight: focused ? 'bold' : 'normal',
+          color: '#272727',
         }}
         >
           {item.title}

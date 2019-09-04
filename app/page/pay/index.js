@@ -16,7 +16,7 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
-import {getOrderInfo,getCommisionInfo} from "../../redux/actions/pay";
+import {getOrderInfo, getCommisionInfo,pay} from "../../redux/actions/pay";
 import {alipayModule} from "../../native/module";
 import ShopConstant from "../../common/ShopConstant";
 
@@ -25,19 +25,19 @@ class Pay extends PureComponent {
     super(props);
     this.state = {
       payData: [{
-        'type': 0,
+        'type': ShopConstant.ALIPAY,
         'subImage': Images.pay_zfb,
         'name': '支付宝',
         'isSelect': false,
         'bgColor': Colors.PAY_ZFB_BG
       }, {
-        'type': 1,
+        'type': ShopConstant.WECHATPAY,
         'subImage': Images.pay_wx,
         'name': '微信钱包',
         'isSelect': false,
         'bgColor': Colors.PAY_WX_BG
       }, {
-        'type': 2,
+        'type': ShopConstant.DROPPAY,
         'subImage': Images.pay_drop,
         'name': 'Drop账户',
         'isSelect': false,
@@ -83,26 +83,10 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    if(type===ShopConstant.PAY_COMMISSION){
-      getCommisionInfo(data.order_id).then((res) => {
-        let data = res.data;
-        if (data) {
-          // alert(data);
-         alipayModule.pay(data).then((res)=>{
-            console.log(res);
-          }).catch((res)=>{
-           console.log(res);
-         });
-        }
-      })
-    }else if(type === ShopConstant.PAY_ORDER){
-      getOrderInfo(data.order_id).then((res) => {
-        let data = res.data;
-        if (data) {
-          let result = alipayModule.pay(data);
-          alert(JSON.stringify(result));
-        }
-      })
+    if (type === ShopConstant.PAY_COMMISSION) {
+      getCommisionInfo(chooseWay,data.order_id);
+    } else if (type === ShopConstant.PAY_ORDER) {
+      getOrderInfo(chooseWay,data.order_id);
     }
     // navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
   };
