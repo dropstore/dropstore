@@ -15,7 +15,7 @@ import ShopConstant from '../../../common/ShopConstant';
 
 function mapStateToProps() {
   return state => ({
-    activityInfo: getActivityInfo(state),
+    activityInfo: getActivityInfo(state, ShopConstant.SELF_SUPPORT),
   });
 }
 
@@ -47,10 +47,10 @@ class SelfSupport extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <ShopListCom
-        shopList={activityInfo[ShopConstant.SELF_SUPPORT]}
+        shopList={activityInfo}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions} />}
+        ListHeaderComponent={<TopCom bannerId={2} imageSource={Images.instructions} />}
       />
     );
   }

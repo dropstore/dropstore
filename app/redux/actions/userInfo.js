@@ -114,9 +114,9 @@ function updateUser(params) {
 }
 
 // 获取用户信息
-function getUser(token) {
+function getUser() {
   return (dispatch) => {
-    request('/user/userinfo', { params: { uid: token } }).then((res) => {
+    request('/user/userinfo', { params: { uid: -1 } }).then((res) => {
       dispatch(receiveUser(res.data));
     });
   };

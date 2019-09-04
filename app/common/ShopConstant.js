@@ -1,5 +1,3 @@
-import {DeviceEventEmitter} from "react-native";
-
 /**
  * @file 商品业务模块常量类
  * @date 2019/8/19 15:18
@@ -28,7 +26,7 @@ const MEMBER = 2;
 // 支付佣金
 const PAY_COMMISSION = 'pay_commission';
 // 支付订单
-const PAY_ORDER = 'pay_commission';
+const PAY_ORDER = 'pay_order';
 
 const ALIPAY = 0;
 const WECHATPAY = 1;
@@ -48,8 +46,8 @@ export default {
   MEMBER,
   PAY_COMMISSION,
   PAY_ORDER,
-  REFRESH_SHOP_DETAIL_INFO,
   ALIPAY,
   WECHATPAY,
-  DROPPAY
-}
+  DROPPAY,
+  REFRESH_SHOP_DETAIL_INFO,
+};

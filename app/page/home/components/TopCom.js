@@ -3,22 +3,47 @@
  * @date 2019/8/17 19:09
  * @author ZWW
  */
-
 import React, { PureComponent } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Image from '../../../components/Image';
 import { px2Dp } from '../../../utils/ScreenUtil';
 import { SCREEN_WIDTH } from '../../../common/Constant';
+import { getBanner } from '../../../redux/reselect/banner';
+import { fetchBanner } from '../../../redux/actions/banner';
+
+function mapStateToProps() {
+  return (state, props) => ({
+    banner: getBanner(state, `banner${props.bannerId}`),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchBanner,
+  }, dispatch);
+}
 
 class TopCom extends PureComponent {
+  componentDidMount() {
+    const { fetchBanner, bannerId } = this.props;
+    fetchBanner(bannerId);
+  }
+
   render() {
-    const { imageSource } = this.props;
+    const { banner } = this.props;
+    if (!banner) {
+      return <View style={_styles.topImage} />;
+    } if (banner.length === 1) {
+      return <Image style={_styles.topImage} source={banner[0]} />;
+    }
     return (
       <Carousel
-        data={[1, 2]}
+        data={banner}
         slideStyle={{ alignItems: 'center', justifyContent: 'center' }}
-        renderItem={() => <Image style={_styles.topImage} source={imageSource} />}
+        renderItem={({ item }) => <Image style={_styles.topImage} source={{ uri: item.image }} />}
         sliderWidth={SCREEN_WIDTH}
         itemWidth={SCREEN_WIDTH}
         inactiveSlideScale={1}
@@ -38,6 +63,8 @@ const _styles = StyleSheet.create({
     width: px2Dp(717),
     height: px2Dp(301),
     borderRadius: 2,
+    alignSelf: 'center',
   },
 });
-export default TopCom;
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopCom);

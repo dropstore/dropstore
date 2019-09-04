@@ -13,9 +13,11 @@ import NavigationBarCom from './NavigationBarCom';
 import PullToRefresh from './PullToRefresh';
 import ScaleView from './ScaleView';
 import ShareCom from './ShareCom';
+import CountdownCom from './CountdownCom';
 
 export {
   Image, ImageBackground, KeyboardDismiss, Modalbox, Tabbar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
+  CountdownCom,
 };
