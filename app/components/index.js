@@ -3,7 +3,7 @@ import ImageBackground from './ImageBackground';
 import KeyboardDismiss from './KeyboardDismiss';
 import Modalbox from './Modalbox';
 import ActionSheet from './ActionSheet';
-import Tabbar from './Tabbar';
+import TabBar from './TabBar';
 import AgainLoadCom from './AgainLoadCom';
 import EmptyViewCom from './EmptyViewCom';
 import Frame from './Frame';
@@ -14,10 +14,11 @@ import PullToRefresh from './PullToRefresh';
 import ScaleView from './ScaleView';
 import ShareCom from './ShareCom';
 import CountdownCom from './CountdownCom';
+import Price from './Price';
 
 export {
-  Image, ImageBackground, KeyboardDismiss, Modalbox, Tabbar,
+  Image, ImageBackground, KeyboardDismiss, Modalbox, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
-  CountdownCom,
+  CountdownCom, Price,
 };

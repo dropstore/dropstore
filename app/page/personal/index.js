@@ -19,23 +19,18 @@ const list1 = [
     title: '我的活动', icon: 'myActivity', route: 'OrderState', params: { title: '我的活动' },
   },
   {
-    title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
+    title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
   },
   {
-    title: '我的商品', icon: 'myGoods', route: 'OrderState', params: { title: '我的商品' },
+    title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
   },
   {
     title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
   },
-  // {
-  //   title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'http://m.dropstore.cn/index.html#/help' },
-  // },
 ];
 
 const list2 = [
-  {
-    title: '发售通知', icon: 'fashounotice', route: 'Notice', params: { title: '发售通知', type: 'fashounotice' },
-  },
+  { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
   {
     title: '系统消息', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
   },
@@ -46,13 +41,7 @@ const list2 = [
 
 // const list3 = [
 //   {
-//     title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
-//   },
-//   {
 //     title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'http://m.dropstore.cn/index.html#/drawlots' },
-//   },
-//   {
-//     title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },
 //   },
 // ];
 
@@ -63,10 +52,19 @@ function mapStateToProps() {
 }
 
 class PersonalCenterPage extends PureComponent {
+  onPress = (v) => {
+    const { navigation, onIndexChange } = this.props;
+    if (v.route === 'fashounotice') {
+      onIndexChange(3);
+    } else {
+      navigation.navigate(v.route, v.params);
+    }
+  }
+
   render() {
     const { navigation, userInfo } = this.props;
     return (
-      <ScrollView contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -107,7 +105,7 @@ class PersonalCenterPage extends PureComponent {
               list1.map((v, i) => (
                 <TouchableOpacity
                   key={v.title}
-                  onPress={() => navigation.navigate(v.route, v.params)}
+                  onPress={() => this.onPress(v)}
                   style={[styles.list1Item, {
                     borderRightWidth: i % 2 === 1 ? 0 : StyleSheet.hairlineWidth,
                     borderBottomWidth: [0, 1].includes(i) ? StyleSheet.hairlineWidth : 0,
@@ -123,7 +121,7 @@ class PersonalCenterPage extends PureComponent {
             {
               list2.map((v, i) => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate(v.route, v.params)}
+                  onPress={() => this.onPress(v)}
                   key={v.title}
                   style={styles.list2Item}
                 >

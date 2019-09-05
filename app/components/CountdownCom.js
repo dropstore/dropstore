@@ -50,10 +50,11 @@ export default class CountdownCom extends PureComponent<Props> {
     const noTimer = ['已结束', '即将开始'].includes(text);
     return (
       <Text style={{
-        ...style,
         fontSize: noTimer ? style.fontSize * 0.86 : style.fontSize,
         color: noTimer ? '#666' : '#000',
         width: noTimer ? 57 : 70,
+        textAlign: 'right',
+        ...style,
       }}
       >
         {text}
