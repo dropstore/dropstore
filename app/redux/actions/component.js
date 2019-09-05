@@ -7,16 +7,28 @@ const closeModalbox = createAction('CLOSE_MODALBOX');
 const openModalbox = createAction('OPEN_MODALBOX');
 
 function showShare(params) {
-  return (dispatch) => {
-    dispatch(closeShare());
-    dispatch(setShowShare(params));
+  return (dispatch, getState) => {
+    if (getState().component.share.show) {
+      dispatch(closeShare());
+      setTimeout(() => {
+        dispatch(setShowShare(params));
+      });
+    } else {
+      dispatch(setShowShare(params));
+    }
   };
 }
 
 function showModalbox(element, options) {
-  return (dispatch) => {
-    dispatch(closeModalbox());
-    dispatch(openModalbox(element, options));
+  return (dispatch, getState) => {
+    if (getState().component.modalbox.element) {
+      dispatch(closeModalbox());
+      setTimeout(() => {
+        dispatch(openModalbox(element, options));
+      });
+    } else {
+      dispatch(openModalbox(element, options));
+    }
   };
 }
 

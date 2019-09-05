@@ -22,7 +22,7 @@ const list1 = [
     title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
   },
   {
-    title: '我的商品', icon: 'myGoods', route: 'OrderState', params: { title: '我的商品' },
+    title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
   },
   {
     title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
@@ -33,9 +33,7 @@ const list1 = [
 ];
 
 const list2 = [
-  {
-    title: '发售通知', icon: 'fashounotice', route: 'Notice', params: { title: '发售通知', type: 'fashounotice' },
-  },
+  { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
   {
     title: '系统消息', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
   },
@@ -63,10 +61,19 @@ function mapStateToProps() {
 }
 
 class PersonalCenterPage extends PureComponent {
+  onPress = (v) => {
+    const { navigation, onIndexChange } = this.props;
+    if (v.route === 'fashounotice') {
+      onIndexChange(3);
+    } else {
+      navigation.navigate(v.route, v.params);
+    }
+  }
+
   render() {
     const { navigation, userInfo } = this.props;
     return (
-      <ScrollView contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -107,7 +114,7 @@ class PersonalCenterPage extends PureComponent {
               list1.map((v, i) => (
                 <TouchableOpacity
                   key={v.title}
-                  onPress={() => navigation.navigate(v.route, v.params)}
+                  onPress={() => this.onPress(v)}
                   style={[styles.list1Item, {
                     borderRightWidth: i % 2 === 1 ? 0 : StyleSheet.hairlineWidth,
                     borderBottomWidth: [0, 1].includes(i) ? StyleSheet.hairlineWidth : 0,
@@ -123,7 +130,7 @@ class PersonalCenterPage extends PureComponent {
             {
               list2.map((v, i) => (
                 <TouchableOpacity
-                  onPress={() => navigation.navigate(v.route, v.params)}
+                  onPress={() => this.onPress(v)}
                   key={v.title}
                   style={styles.list2Item}
                 >

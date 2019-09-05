@@ -20,11 +20,11 @@ const PADDING_HORIZONTAL = wPx2P(22);
 const TAB_HEIGHT = 52;
 
 const ROUTES = [
-  { screen: <FreeTrade />, key: 'freeTrade', title: '交易' },
-  { screen: <Identify />, key: 'identify', title: '鉴定' },
-  { screen: <HomePage />, key: 'drop', title: '' },
-  { screen: <Message />, key: 'message', title: '消息' },
-  { screen: <Personal />, key: 'personal', title: '我的' },
+  { screen: FreeTrade, key: 'freeTrade', title: '交易' },
+  { screen: Identify, key: 'identify', title: '鉴定' },
+  { screen: HomePage, key: 'drop', title: '' },
+  { screen: Message, key: 'message', title: '消息' },
+  { screen: Personal, key: 'personal', title: '我的' },
 ];
 
 export default class BottomNavigator extends PureComponent {
@@ -74,7 +74,10 @@ export default class BottomNavigator extends PureComponent {
     ).start();
   }
 
-  renderScene = ({ route }) => route.screen;
+  renderScene = ({ route }) => {
+    const Screen = route.screen;
+    return <Screen onIndexChange={this.onIndexChange} />;
+  };
 
   renderTabBar = () => null;
 
@@ -126,7 +129,13 @@ export default class BottomNavigator extends PureComponent {
                                   />
                                 )
                             }
-                            {v.key !== 'drop' ? <Text style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}>{v.title}</Text> : null}
+                            {v.key !== 'drop' ? (
+                              <Text
+                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}
+                              >
+                                {v.title}
+                              </Text>
+                            ) : null}
                           </Animated.View>
                         )
                         : <View style={{ flex: 1, height: '100%' }} />

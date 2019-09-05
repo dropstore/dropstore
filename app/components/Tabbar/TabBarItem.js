@@ -26,17 +26,6 @@ class TabBarItem extends PureComponent {
         >
           {item.title}
         </Text>
-        {/* <Animated.Text
-          style={{
-            padding: 0,
-            includeFontPadding: false,
-            fontSize: inactiveSize,
-            transform: [{ scale, translateY }],
-            textAlign: 'center',
-          }}
-        >
-          {item.title}
-        </Animated.Text> */}
       </TouchableOpacity>
     );
   }

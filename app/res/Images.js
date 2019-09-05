@@ -140,7 +140,8 @@ const IMAGES = {
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
-
+  cha: require('./image/cha.png'),
+  wenhao: require('./image/wenhao.png'),
   // 鉴定
   identifyPlaceholder: require('./image/identify-placeholder.png'),
   price: require('./image/price.png'),
