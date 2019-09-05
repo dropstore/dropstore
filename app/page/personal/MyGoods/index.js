@@ -9,15 +9,23 @@ import { SCREEN_WIDTH } from '../../../common/Constant';
 import Colors from '../../../res/Colors';
 import { YaHei } from '../../../res/FontFamily';
 
-const ROUTES = [
-  { key: 'onSale', title: '销售中' },
-  { key: 'selled', title: '已卖出' },
-];
-
 class MyGoods extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
+    this.routeType = navigation.getParam('title') === '我的商品' ? 'Goods' : 'Warehouse';
+    const routes = this.routeType === 'Goods' ? [
+      { key: 'onSale', title: '销售中' },
+      { key: 'selled', title: '已卖出' },
+    ] : [
+      { key: 'intoWarehouse', title: '库房' },
+      { key: 'uncomplete', title: '未完成' },
+      { key: 'sendOut', title: '已出库' },
+    ];
+    this.state = {
+      routes,
+      index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
+    };
     navigation.setParams({
       headerRight: (
         <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
@@ -25,10 +33,6 @@ class MyGoods extends PureComponent {
         </TouchableOpacity>
       ),
     });
-    this.state = {
-      index: 0,
-      routes: ROUTES,
-    };
   }
 
   onIndexChange = (index) => {
@@ -36,32 +40,37 @@ class MyGoods extends PureComponent {
   }
 
   add = () => {
-    const { navigation } = this.props;
-    navigation.navigate('OrderState', {
-      url: 'http://m.dropstore.cn/index.html#/help',
-      title: '我的库房',
-      type: 'intoWarehouse',
-    });
+    // const { navigation } = this.props;
+    // navigation.navigate('OrderState', {
+    //   url: 'http://m.dropstore.cn/index.html#/help',
+    //   title: '我的库房',
+    //   type: 'intoWarehouse',
+    // });
   }
 
-  renderScene = ({ route }) => <List type={route.key} />;
+  renderScene = ({ route }) => <List route={this.routeType} type={route.key} />;
 
   render() {
     const { routes, index } = this.state;
+    const isMyGoods = this.routeType === 'Goods';
     return (
       <View style={styles.tabView}>
         <View style={styles.header}>
           <TabBar
-            style={styles.tabBar}
+            style={{ ...styles.tabBar, width: isMyGoods ? 140 : 180 }}
             routes={routes}
             index={index}
             onIndexChange={this.onIndexChange}
           />
-          <View style={styles.textWrapper}>
-            <Text style={styles.text1}>{`${index === 0 ? '销售中: ' : '已卖出: '}`}</Text>
-            <Text style={[styles.text2, { color: index === 0 ? '#C81919' : '#37B6EB' }]}>5722</Text>
-            <Text style={styles.text1}> 双</Text>
-          </View>
+          {
+            isMyGoods && (
+            <View style={styles.textWrapper}>
+              <Text style={styles.text1}>{`${index === 0 ? '销售中: ' : '已卖出: '}`}</Text>
+              <Text style={[styles.text2, { color: index === 0 ? '#C81919' : '#37B6EB' }]}>5722</Text>
+              <Text style={styles.text1}> 双</Text>
+            </View>
+            )
+          }
         </View>
 
         <TabView
@@ -89,10 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   tabBar: {
-    height: 57,
+    height: 50,
     flexDirection: 'row',
-    paddingBottom: 9,
-    width: 140,
+    paddingBottom: 4,
     justifyContent: 'space-between',
     paddingHorizontal: 9,
   },
@@ -116,7 +124,6 @@ const styles = StyleSheet.create({
   textWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 9,
     marginRight: 8,
   },
 });

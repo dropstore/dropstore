@@ -19,7 +19,7 @@ const list1 = [
     title: '我的活动', icon: 'myActivity', route: 'OrderState', params: { title: '我的活动' },
   },
   {
-    title: '我的库房', icon: 'myWarehouse', route: 'OrderState', params: { title: '我的库房' },
+    title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
   },
   {
     title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
@@ -27,9 +27,6 @@ const list1 = [
   {
     title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
   },
-  // {
-  //   title: '帮助中心', icon: 'helper', route: 'Web', params: { title: '帮助中心', url: 'http://m.dropstore.cn/index.html#/help' },
-  // },
 ];
 
 const list2 = [
@@ -44,13 +41,7 @@ const list2 = [
 
 // const list3 = [
 //   {
-//     title: '个人设置', icon: 'setting', route: 'Setting', params: { title: '个人设置' },
-//   },
-//   {
 //     title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'http://m.dropstore.cn/index.html#/drawlots' },
-//   },
-//   {
-//     title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },
 //   },
 // ];
 

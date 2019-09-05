@@ -19,7 +19,8 @@ class TabBarItem extends PureComponent {
           fontSize: focused ? activeSize : inactiveSize,
           textAlign: 'center',
           fontFamily: YaHei,
-          paddingBottom: focused ? 0 : 2,
+          position: 'relative',
+          bottom: focused ? -2.5 : 0,
           fontWeight: focused ? 'bold' : 'normal',
           color: '#272727',
         }}
