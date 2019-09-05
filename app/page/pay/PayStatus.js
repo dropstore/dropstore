@@ -71,8 +71,7 @@ class PayStatus extends PureComponent {
 
   _getStartTime = () => {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
-    const data = shopDetailInfo.data;
+    const data = navigation.getParam('shopInfo');
     // 活动开始时间
     let start_time = data.activity.start_time;
     return checkTime(start_time);
@@ -89,9 +88,8 @@ class PayStatus extends PureComponent {
 
   render() {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
+    const data = navigation.getParam('shopInfo');
     const payStatus = navigation.getParam('payStatus');
-    const data = shopDetailInfo.data;
     return (
       <View style={_style.container}>
         <View style={_style.mainView}>

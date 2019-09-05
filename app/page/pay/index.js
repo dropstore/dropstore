@@ -16,8 +16,7 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
-import {getOrderInfo, getCommisionInfo,pay} from "../../redux/actions/pay";
-import {alipayModule} from "../../native/module";
+import {getCommisionInfo, getOrderInfo, getPayStatus} from "../../redux/actions/pay";
 import ShopConstant from "../../common/ShopConstant";
 
 class Pay extends PureComponent {
@@ -70,6 +69,7 @@ class Pay extends PureComponent {
     const {navigation} = this.props;
     const data = navigation.getParam('payData');
     const type = navigation.getParam('type');
+    const shopInfo = navigation.getParam('shopInfo');
     let payData = this.state.payData;
     let isChoosePayWay = false;
     let chooseWay = -1;
@@ -83,12 +83,20 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    if (type === ShopConstant.PAY_COMMISSION) {
-      getCommisionInfo(chooseWay,data.order_id);
-    } else if (type === ShopConstant.PAY_ORDER) {
-      getOrderInfo(chooseWay,data.order_id);
+    if (type === ShopConstant.PAY_COMMISSION) {// 佣金支付
+      // 获取支付信息并支付
+      let status = await getCommisionInfo(chooseWay, data.order_id);
+      // 同步返回支付完成通知
+      if (status === ShopConstant.FINISHPAY) {
+        // 获取支付状态
+        await getPayStatus(type, data.order_id, navigation, shopInfo);
+      }
+    } else if (type === ShopConstant.PAY_ORDER) {// 订单支付
+      let status = await getOrderInfo(chooseWay, data.order_id);
+      if (status === ShopConstant.FINISHPAY) {
+        await getPayStatus(type, data.order_id, navigation, shopInfo);
+      }
     }
-    // navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
   };
 
   render() {
