@@ -16,26 +16,28 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
+import {getOrderInfo, getCommisionInfo,pay} from "../../redux/actions/pay";
+import {alipayModule} from "../../native/module";
+import ShopConstant from "../../common/ShopConstant";
 
 class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      overPayStatusKey: -1,
       payData: [{
-        'type': 1,
+        'type': ShopConstant.ALIPAY,
         'subImage': Images.pay_zfb,
         'name': '支付宝',
         'isSelect': false,
         'bgColor': Colors.PAY_ZFB_BG
       }, {
-        'type': 2,
+        'type': ShopConstant.WECHATPAY,
         'subImage': Images.pay_wx,
         'name': '微信钱包',
         'isSelect': false,
         'bgColor': Colors.PAY_WX_BG
       }, {
-        'type': 3,
+        'type': ShopConstant.DROPPAY,
         'subImage': Images.pay_drop,
         'name': 'Drop账户',
         'isSelect': false,
@@ -64,25 +66,35 @@ class Pay extends PureComponent {
   /**
    * @private
    */
-  _pay = () => {
+  _pay = async () => {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
+    const data = navigation.getParam('payData');
+    const type = navigation.getParam('type');
     let payData = this.state.payData;
     let isChoosePayWay = false;
+    let chooseWay = -1;
     for (let i = 0; i < payData.length; i++) {
       isChoosePayWay = payData[i].isSelect;
       if (isChoosePayWay) {
+        chooseWay = payData[i].type;
         break;
       }
     }
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
+    if (type === ShopConstant.PAY_COMMISSION) {
+      getCommisionInfo(chooseWay,data.order_id);
+    } else if (type === ShopConstant.PAY_ORDER) {
+      getOrderInfo(chooseWay,data.order_id);
+    }
+    // navigation.push('payStatus', {'payStatus': true, 'shopDetailInfo': shopDetailInfo})
   };
 
   render() {
     const {payData} = this.state;
+    const {navigation} = this.props;
+    const data = navigation.getParam('payData');
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
@@ -106,7 +118,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>{this.props.navigation.getParam('totalPrice')}￥</Text>
+            <Text style={_styles.price}>{data.price}￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}

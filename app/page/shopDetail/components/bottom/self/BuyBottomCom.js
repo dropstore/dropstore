@@ -17,8 +17,9 @@ class BuyBottomCom extends PureComponent {
     super(props);
   }
 
-  _setBuyBottomText = (navigation,shopInfo, isOnPress) => {
-    let activityId= shopInfo.activity.id;
+  _setBuyBottomText = (isOnPress) => {
+    const {shopInfo, navigation} = this.props;
+    let activityId = shopInfo.activity.id;
     let is_join = shopInfo.is_join;
     if (is_join === ShopConstant.NOT_JOIN) {
       if (isOnPress) {
@@ -28,23 +29,18 @@ class BuyBottomCom extends PureComponent {
       }
     } else if (is_join === ShopConstant.LEADING) {
       if (isOnPress) {
-       doBuy(activityId).then((res)=>{
-         let data =res.data;
-         if(data){
-           navigation.push('panicStatus',{shopInfo: shopInfo})
-         }
-       })
+        doBuy(true, activityId, navigation, shopInfo);
       } else {
         return '立即抢购';
       }
     } else if (is_join === ShopConstant.MEMBER) {
       if (isOnPress) {
-       doHelpBuy(activityId).then((res)=>{
-         let data =res.data;
-         if(data){
-           navigation.push('panicStatus',{shopInfo: shopInfo})
-         }
-       })
+        doHelpBuy(activityId).then((res) => {
+          let data = res.data;
+          if (data) {
+            navigation.push('panicStatus', {shopInfo: shopInfo})
+          }
+        })
       } else {
         return '助攻抢购';
       }
@@ -52,12 +48,11 @@ class BuyBottomCom extends PureComponent {
   };
 
   render() {
-    const {shopInfo, navigation} = this.props;
     return (
       <View style={bottomStyle.bottomView}>
         <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
-                         onPress={() => this._setBuyBottomText(shopInfo, true)}>
-          <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(navigation,shopInfo, false)}</Text>
+                         onPress={() => this._setBuyBottomText(true)}>
+          <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(false)}</Text>
         </ImageBackground>
       </View>
     );
