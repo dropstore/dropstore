@@ -11,14 +11,13 @@ export default class OrderState extends Component {
     super(props);
     const { navigation } = this.props;
     const routes = navigation.getParam('title') === '购买记录' ? [
-      { key: 'uncomplete', title: '未完成' },
-      { key: 'daishouhuo', title: '待收货' },
-      { key: 'completed', title: '已完成' },
+      { key: 'uncomplete', title: '未完成', id: 0 },
+      { key: 'daishouhuo', title: '待收货', id: 2 },
+      { key: 'completed', title: '已完成', id: 3 },
     ] : [
-      { key: 'uncomplete', title: '未完成' },
-      { key: 'intoWarehouse', title: '已入库' },
-      { key: 'deliverted', title: '已发货' },
-      { key: 'completed', title: '已完成' },
+      { key: 'uncomplete', title: '未完成', id: 0 },
+      { key: 'intoWarehouse', title: '已入库', id: 0 },
+      { key: 'sendOut', title: '已出库', id: 0 },
     ];
     this.state = {
       routes,
@@ -30,7 +29,7 @@ export default class OrderState extends Component {
     this.setState({ index });
   }
 
-  renderScene = ({ route }) => <OrderList type={route.key} />;
+  renderScene = ({ route }) => <OrderList type={route.id} />;
 
   renderTabBar = () => {
     const { routes, index } = this.state;

@@ -1,33 +1,22 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import TabBarItem from './TabBarItem';
 
-export default class TabBar extends Component {
+export default class TabBar extends PureComponent {
   constructor(props) {
     super(props);
     const { routes } = this.props;
     this.inputRange = routes.map((v, i) => i);
   }
 
-  shouldComponentUpdate(nextProps: Object) {
-    const { routes, position } = this.props;
-    if (JSON.stringify(nextProps.routes) !== JSON.stringify(routes) | nextProps.position !== position) {
-      return true;
-    }
-    return false;
-  }
-
   renderItem = ({ item, index }: { item: Object, index: number }) => {
-    const {
-      onIndexChange, activeStyle, inactiveStyle, position,
-    } = this.props;
+    const { onIndexChange, position, index: activeIndex } = this.props;
     return (
       <TabBarItem
         item={item}
+        activeIndex={activeIndex}
         index={index}
         key={item.key}
-        activeStyle={activeStyle}
-        inactiveStyle={inactiveStyle}
         position={position}
         onPress={onIndexChange}
         inputRange={this.inputRange}

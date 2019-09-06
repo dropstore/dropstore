@@ -8,5 +8,10 @@ const getShareSuccess = createSelector(
   state => state.component.share.success,
   value => value,
 );
+const getModalbox = createSelector(
+  state => state.component.modalbox,
+  value => value,
+);
 
-export { getShare, getShareSuccess };
+
+export { getShare, getShareSuccess, getModalbox };

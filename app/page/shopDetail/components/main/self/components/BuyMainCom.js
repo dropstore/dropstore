@@ -1,6 +1,6 @@
 /**
- * @file 抢购成员组件
- * @date 2019/8/29 17:48
+ * @file 抢购成员详情组件
+ * @date 2019/8/22 17:29
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
@@ -15,21 +15,24 @@ import Images from '../../../../../../res/Images';
 import {YaHei, Mario} from '../../../../../../res/FontFamily';
 import {commonStyle} from '../../../../../../res/style/CommonStyle';
 
-export default class BuyMainCom extends PureComponent {
+export default class DrawMainCom extends PureComponent {
   constructor(props) {
     super(props);
   }
 
-  _renderLeading = (item,index,userActivity,joinUserLength) => {
+  _renderLeading = (item, index, userActivity, joinUserLength) => {
     return (
       <View style={_styles.listContainer}>
         <View style={[_styles.itemContainer, {backgroundColor: Colors.OTHER_BACK}]}>
-          <Text style={[_styles.index, {color: Colors.WHITE_COLOR}]}>{index}</Text>
-          <ImageBackground style={_styles.userImageBg} source={Images.tx} children={item.avatar}/>
+          <Text style={[_styles.index, {color: Colors.WHITE_COLOR}]}>{index + 1}</Text>
+          <ImageBackground style={_styles.userImageBg} source={Images.tx} children={
+            <Image style={_styles.userImage} source={item.avatar}/>
+          }/>
           <View style={{flex: 1, marginLeft: 12}}>
             <View style={commonStyle.row}>
               <Text style={[_styles.qhStatus, {color: Colors.WHITE_COLOR}]}>已取号</Text>
-              <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>{item.code}</Text>
+              {/*<Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>{item.code}</Text>*/}
+              <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>001122212</Text>
             </View>
             <View style={[commonStyle.row, {marginTop: 7}]}>
               <Image style={_styles.jt} source={Images.shape_1_ji3}/>
@@ -45,12 +48,14 @@ export default class BuyMainCom extends PureComponent {
       </View>
     )
   };
-  _renderMember = (item,index) => {
+  _renderMember = (item, index) => {
     return (
       <View style={_styles.listContainer}>
         <View style={[_styles.itemContainer, {backgroundColor: Colors.NORMAL_TEXT_F6}]}>
-          <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>{index}</Text>
-          <ImageBackground style={_styles.userImageBg} source={Images.tx} children={item.avatar}/>
+          <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>{index + 1}</Text>
+          <ImageBackground style={_styles.userImageBg} source={Images.tx} children={
+            <Image style={_styles.userImage} source={item.avatar}/>
+          }/>
           <View style={{flex: 1, marginLeft: 12}}>
             <View style={commonStyle.row}>
               <Text style={[_styles.qhStatus, {color: Colors.NORMAL_TEXT_1E}]}>已取号</Text>
@@ -71,25 +76,26 @@ export default class BuyMainCom extends PureComponent {
     const {shopInfo} = this.props;
     const joinUser = shopInfo.join_user;
     const userActivity = shopInfo.user_activity;
+    const number = userActivity.number;
     return (
       <View style={_styles.container}>
         <View style={_styles.acContainer}>
           <Text style={_styles.acNormalMes}>预期购买
-            <Text style={_styles.acImpMes}> {userActivity.number}</Text> 双
+            <Text style={_styles.acImpMes}> {number}</Text> 双
           </Text>
           <Text style={_styles.acNormalMes}>团队上限
-            <Text style={_styles.acImpMes}> {userActivity.number + 1}</Text> 人
+            <Text style={_styles.acImpMes}> {number === 1 ? number : number + 1}</Text> 人
           </Text>
           <Text style={_styles.acNormalMes}>参与人数
             <Text style={_styles.acImpMes}> {joinUser.length}</Text> 人
           </Text>
           <Text style={_styles.acNormalMes}>还差
-            <Text style={_styles.acImpMes}> {(userActivity.number + 1) - joinUser.length}</Text> 人满额
+            <Text style={_styles.acImpMes}> {number === 1 ? number - 1 : (number + 1 - joinUser.length)}</Text> 人满额
           </Text>
         </View>
         {
           joinUser && joinUser.map((item, index) => (
-            index === 0 ? this._renderLeading(item,index,userActivity,joinUser.length) : this._renderMember(item,index)
+            index === 0 ? this._renderLeading(item, index, userActivity, joinUser.length) : this._renderMember(item, index)
           ))
         }
       </View>
@@ -103,7 +109,6 @@ const _styles = {
   },
   acContainer: {
     width: SCREEN_WIDTH,
-    height: 20,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.NORMAL_TEXT_F6,
@@ -142,6 +147,10 @@ const _styles = {
     width: 54,
     height: 53,
     marginLeft: 7
+  },
+  userImage: {
+    width: 54,
+    height: 53,
   },
   qhStatus: {
     fontSize: 10,

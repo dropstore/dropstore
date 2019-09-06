@@ -1,5 +1,3 @@
-import {DeviceEventEmitter} from "react-native";
-
 /**
  * @file 商品业务模块常量类
  * @date 2019/8/19 15:18
@@ -25,6 +23,23 @@ const NOT_JOIN = 0;
 const LEADING = 1;
 // 已参加，团员
 const MEMBER = 2;
+// 支付佣金
+const PAY_COMMISSION = 1;
+// 支付订单
+const PAY_ORDER = 2;
+// 支付邮费
+const PAY_POSTAGE =3;
+
+// 支付方式
+// 支付宝
+const ALIPAY = 0;
+// 微信
+const WECHATPAY = 1;
+// Drop平台
+const DROPPAY = 2;
+
+// 支付完成
+const FINISHPAY = 'finish_pay';
 
 // DeviceEventEmitter.key
 const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
@@ -39,5 +54,12 @@ export default {
   NOT_JOIN,
   LEADING,
   MEMBER,
-  REFRESH_SHOP_DETAIL_INFO
-}
+  PAY_COMMISSION,
+  PAY_ORDER,
+  PAY_POSTAGE,
+  ALIPAY,
+  WECHATPAY,
+  DROPPAY,
+  REFRESH_SHOP_DETAIL_INFO,
+  FINISHPAY,
+};

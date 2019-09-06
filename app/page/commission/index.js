@@ -17,6 +17,7 @@ import {getShopDetailInfo} from "../../redux/reselect/shopDetailInfo";
 import {setCommission, getPayMes} from "../../redux/actions/shopDetailInfo";
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
+import ShopConstant from "../../common/ShopConstant";
 
 function mapStateToProps() {
   return state => ({
@@ -29,38 +30,48 @@ class Commission extends PureComponent {
     super(props);
     this.state = {
       totalPrice: 0,
-      number: 1,
-      commission: 30,
+      number: 0,
+      commission: 0,
     }
   }
 
   componentDidMount() {
-    const {shopDetailInfo, navigation} = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
-    // getPayMes(shopInfo.activity.id, shopInfo.user_activity.id).then(res => {
-    //   if(res){
-    //     this.setState({number: res.number, commission: res.commission})
-    //   }
-    // })
+    getPayMes(shopInfo.activity.id, shopInfo.user_activity.id).then(res => {
+      let data = res.data;
+      if (data) {
+        this.setState({number: data.number, commission: data.commission})
+      }
+    })
   }
 
   _toPay = () => {
     const {shopDetailInfo, navigation} = this.props;
     const shopInfo = shopDetailInfo.data;
-    let minPrice = this.state.number * this.state.commission;
-    if (this.state.totalPrice < minPrice) {
+    let minPrice = shopInfo.activity.min_price;
+    if (this.state.totalPrice < shopInfo.activity.min_price) {
       return showToast(`总价不得低于${minPrice}元`);
     }
     setCommission(shopInfo.activity.id, shopInfo.user_activity.id, this.state.totalPrice).then(res => {
-      // if (res) {
-      navigation.push('pay', {shopDetailInfo: shopDetailInfo, title: '选择支付账户', totalPrice: this.state.totalPrice});
-      // }
+      if (res) {
+        let payData = {
+          'order_id': shopInfo.user_activity.id,
+          'price': this.state.totalPrice
+        };
+        navigation.navigate('pay', {
+          title: '选择支付账户',
+          type: ShopConstant.PAY_COMMISSION,
+          payData: payData,
+          shopInfo: shopInfo
+        });
+      }
     })
   };
 
   onChange = (event) => {
     const singlePrice = event.nativeEvent.text;
-    this.setState({totalPrice: singlePrice * this.state.number})
+    this.setState({commission: singlePrice, totalPrice: singlePrice * this.state.number})
   };
 
   render() {

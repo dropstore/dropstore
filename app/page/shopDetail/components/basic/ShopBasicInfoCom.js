@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, DeviceEventEmitter} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import Image from '../../../../components/Image';
@@ -49,9 +49,9 @@ class ShopBasicInfoCom extends PureComponent {
     if (sTimeStamp > 0) {
       this.setState({startDownTime: countDown(sTimeStamp)})
     } else if (eTimeStamp > 0) {
-      this.setState({endDownTime: countDown(eTimeStamp)})
+      this.setState({endDownTime: countDown(eTimeStamp)});
     } else {
-      // this._timer && clearInterval(this._timer);
+      this._timer && clearInterval(this._timer);
     }
   };
 
@@ -112,7 +112,7 @@ class ShopBasicInfoCom extends PureComponent {
             {shopInfo.goods.goods_name}
             `
           </Text>
-          <Text style={_styles.price}>{`${shopInfo.activity.price}￥`}</Text>
+          <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
         </View>
       </View>
     );

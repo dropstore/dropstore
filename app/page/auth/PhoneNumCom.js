@@ -4,11 +4,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Toast } from 'teaset';
+import TextInputMask from 'react-native-text-input-mask';
 import ImageBackground from '../../components/ImageBackground';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { debounce } from '../../utils/commonUtils';
+import { showToast } from '../../utils/MutualUtil';
 import { sendMessage } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 
@@ -27,7 +28,6 @@ function mapDispatchToProps(dispatch) {
 class PhoneNumCom extends PureComponent {
   constructor(props) {
     super(props);
-    this.mobile = '';
     this.code = '';
     this.state = {
       mobile: '',
@@ -39,34 +39,15 @@ class PhoneNumCom extends PureComponent {
     this.clearInterval();
   }
 
-  onChange = (event) => {
-    const mobile = event.nativeEvent.text;
-    let str = '';
-    if (mobile.length === 4 && this.mobile.length < mobile.length) {
-      str = `${mobile.substring(0, 3)} ${mobile.substring(3, 7)}`;
-    } else if (mobile.length === 8 && this.mobile.length < mobile.length) {
-      str = `${mobile.substring(0, 8)} ${mobile.substring(8, 12)}`;
-    } else {
-      str = mobile;
-    }
-    this.mobile = str;
-    if (this.valueInput) {
-      this.valueInput.setNativeProps({ text: str });
-    }
-    if (mobile.length === 0) {
-      this.setState({ mobile });
-    } else {
-      this.setState({ mobile });
-      if (/^(0|86|17951)?1[0-9]{10}$/.test(mobile.replace(/\s/g, ''))) {
-        this.toSendCode();
-      }
-    }
+  onChange = (formatted, mobile) => {
+    this.setState({ mobile });
   }
 
   onChangeText = (code) => {
     const { finished, unfinished } = this.props;
+    const { mobile } = this.state;
     if (code.length === 6) {
-      finished(this.mobile.replace(/\s/g, ''), code);
+      finished(mobile.replace(/\s/g, ''), code);
     } else if (this.code.length === 6 && code.length === 5) {
       unfinished();
     }
@@ -75,16 +56,13 @@ class PhoneNumCom extends PureComponent {
 
   toSendCode =() => {
     const { userInfo, sendMessage } = this.props;
-    const mobile = this.mobile.replace(/\s/g, '');
-    if (!/^(0|86|17951)?1[0-9]{10}$/.test(mobile)) {
-      Toast.show({ text: '手机号格式错误，请重新输入' });
-      return;
-    }
+    const { mobile } = this.state;
     if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
       sendMessage(mobile, Date.now()).then(() => {
-        Toast.show({ text: `验证码已发送至${mobile}` });
+        showToast(`验证码已发送至${mobile}`);
         this.startTimer();
-      });
+        this.codeInput.focus();
+      }).catch(() => this.clearInterval());
     }
   }
 
@@ -114,20 +92,19 @@ class PhoneNumCom extends PureComponent {
 
   render() {
     const { mobile, timer } = this.state;
-    const sendDisabled = mobile.length !== 13 || !!timer;
+    const sendDisabled = mobile.length !== 11 || !!timer;
     return (
       <View>
         <ImageBackground source={Images.framePhoneInput} style={styles.framePhoneInput}>
-          <TextInput
-            maxLength={13}
-            keyboardType="number-pad"
+          <TextInputMask
+            style={styles.phoneInput}
             placeholder="手机号码_"
+            clearButtonMode="while-editing"
+            onChangeText={this.onChange}
+            mask="[000] [0000] [0000]"
+            keyboardType="number-pad"
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
-            style={styles.phoneInput}
-            clearButtonMode="while-editing"
-            ref={(v) => { this.valueInput = v; }}
-            onChange={this.onChange}
           />
         </ImageBackground>
         <View style={styles.verifiCodeWrapper}>
@@ -139,6 +116,7 @@ class PhoneNumCom extends PureComponent {
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
               style={styles.phoneInput}
+              ref={(v) => { this.codeInput = v; }}
               clearButtonMode="while-editing"
               onChangeText={this.onChangeText}
             />

@@ -10,7 +10,6 @@ const IMAGES = {
   personal: require('./image/personal.png'),
   identify: require('./image/identify.png'),
   freeTrade: require('./image/freeTrade.png'),
-  dropInactive: require('./image/drop-inactive.png'),
   messageInactive: require('./image/message-inactive.png'),
   personalInactive: require('./image/personal-inactive.png'),
   identifyInactive: require('./image/identify-inactive.png'),
@@ -120,6 +119,8 @@ const IMAGES = {
   address: require('./image/address.png'),
   illustration: require('./image/illustration.png'),
   safesetting: require('./image/safesetting.png'),
+  littleBoy: require('./image/little-boy.png'),
+  littleGirl: require('./image/little-girl.png'),
   // 个人设置
   frameAvatar: require('./image/frameAvatar.png'),
   iconRight: require('./image/icon-arrow-right.png'),
@@ -139,9 +140,11 @@ const IMAGES = {
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
-
+  cha: require('./image/cha.png'),
+  wenhao: require('./image/wenhao.png'),
   // 鉴定
   identifyPlaceholder: require('./image/identify-placeholder.png'),
+  price: require('./image/price.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),

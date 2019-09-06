@@ -16,26 +16,27 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
+import {getCommisionInfo, getOrderInfo, getPayStatus} from "../../redux/actions/pay";
+import ShopConstant from "../../common/ShopConstant";
 
 class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      overPayStatusKey: -1,
       payData: [{
-        'type': 1,
+        'type': ShopConstant.ALIPAY,
         'subImage': Images.pay_zfb,
         'name': '支付宝',
         'isSelect': false,
         'bgColor': Colors.PAY_ZFB_BG
       }, {
-        'type': 2,
+        'type': ShopConstant.WECHATPAY,
         'subImage': Images.pay_wx,
         'name': '微信钱包',
         'isSelect': false,
         'bgColor': Colors.PAY_WX_BG
       }, {
-        'type': 3,
+        'type': ShopConstant.DROPPAY,
         'subImage': Images.pay_drop,
         'name': 'Drop账户',
         'isSelect': false,
@@ -64,26 +65,44 @@ class Pay extends PureComponent {
   /**
    * @private
    */
-  _pay = () => {
+  _pay = async () => {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
+    const data = navigation.getParam('payData');
+    const type = navigation.getParam('type');
+    const shopInfo = navigation.getParam('shopInfo');
     let payData = this.state.payData;
     let isChoosePayWay = false;
+    let chooseWay = -1;
     for (let i = 0; i < payData.length; i++) {
       isChoosePayWay = payData[i].isSelect;
       if (isChoosePayWay) {
+        chooseWay = payData[i].type;
         break;
       }
     }
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    navigation.push('payStatus',{'payStatus':false,'shopDetailInfo':shopDetailInfo})
+    if (type === ShopConstant.PAY_COMMISSION) {// 佣金支付
+      // 获取支付信息并支付
+      let status = await getCommisionInfo(chooseWay, data.order_id);
+      // 同步返回支付完成通知
+      if (status === ShopConstant.FINISHPAY) {
+        // 获取支付状态
+        await getPayStatus(type, data.order_id, navigation, shopInfo);
+      }
+    } else if (type === ShopConstant.PAY_ORDER) {// 订单支付
+      let status = await getOrderInfo(chooseWay, data.order_id);
+      if (status === ShopConstant.FINISHPAY) {
+        await getPayStatus(type, data.order_id, navigation, shopInfo);
+      }
+    }
   };
 
   render() {
     const {payData} = this.state;
-   
+    const {navigation} = this.props;
+    const data = navigation.getParam('payData');
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
@@ -107,7 +126,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>{this.props.navigation.getParam('totalPrice')}￥</Text>
+            <Text style={_styles.price}>{data.price}￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}

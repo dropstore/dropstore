@@ -7,6 +7,7 @@ import { Router, store } from './app/router/Router';
 import Theme from './app/res/Theme';
 import { wxPayModule, wxAppId } from './app/native/module';
 import ShareCom from './app/components/ShareCom';
+import Modalbox from './app/components/Modalbox';
 
 Theme.setTeasetTheme();
 
@@ -68,6 +69,7 @@ export default class App extends Component {
           <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
           <Router />
           <ShareCom />
+          <Modalbox />
         </View>
       </Provider>
     );

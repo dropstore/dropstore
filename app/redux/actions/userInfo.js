@@ -69,12 +69,13 @@ function weChatBind(i) {
 
 // 发送验证码
 function sendMessage(mobile, sendTime = 0) {
-  return dispatch => new Promise((resolve) => {
+  return dispatch => new Promise((resolve, reject) => {
     request('/user/send_message', { params: { mobile } }).then(() => {
       dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
       resolve();
     }).catch(() => {
       dispatch(setMessageSendFlag({ sendTime: 0, sendPhone: '' }));
+      reject();
     });
   });
 }
@@ -113,9 +114,9 @@ function updateUser(params) {
 }
 
 // 获取用户信息
-function getUser(token) {
+function getUser() {
   return (dispatch) => {
-    request('/user/userinfo', { params: { uid: token } }).then((res) => {
+    request('/user/userinfo', { params: { uid: -1 } }).then((res) => {
       dispatch(receiveUser(res.data));
     });
   };

@@ -3,19 +3,19 @@
  * @date 2019/8/18 14:52
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import React, { PureComponent } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import TopCom from '../components/TopCom';
 import ShopListCom from '../components/ShopListCom';
 import Images from '../../../res/Images';
-import {getActivityInfo} from "../../../redux/reselect/activityList";
-import {getActivityList} from "../../../redux/actions/activityList";
-import ShopConstant from "../../../common/ShopConstant";
+import { getActivityInfo } from '../../../redux/reselect/activityList';
+import { getActivityList } from '../../../redux/actions/activityList';
+import ShopConstant from '../../../common/ShopConstant';
 
 function mapStateToProps() {
   return state => ({
-    activityInfo: getActivityInfo(state),
+    activityInfo: getActivityInfo(state, ShopConstant.ORIGIN_CONST),
   });
 }
 
@@ -28,32 +28,32 @@ function mapDispatchToProps(dispatch) {
 class OriginalCost extends PureComponent {
   constructor(props) {
     super(props);
-    const {getActivityList} = this.props;
+    const { getActivityList } = this.props;
     getActivityList(ShopConstant.ORIGIN_CONST);
     this.state = {};
   }
 
   onRefresh = () => {
-    const {getActivityList} = this.props;
+    const { getActivityList } = this.props;
     getActivityList(ShopConstant.ORIGIN_CONST);
   };
 
   loadMore = () => {
-    const {getActivityList} = this.props;
-    getActivityList(ShopConstant.ORIGIN_CONST, {fetchNextPage: true});
+    const { getActivityList } = this.props;
+    getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
   };
 
   render() {
-    const {activityInfo} = this.props;
+    const { activityInfo } = this.props;
     return (
       <ShopListCom
-        shopList={activityInfo[ShopConstant.ORIGIN_CONST]}
+        shopList={activityInfo}
         loadMore={this.loadMore}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom imageSource={Images.instructions}/>}
+        ListHeaderComponent={<TopCom bannerId={1} imageSource={Images.instructions} />}
       />
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OriginalCost)
+export default connect(mapStateToProps, mapDispatchToProps)(OriginalCost);

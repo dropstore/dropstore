@@ -5,30 +5,24 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import Image from '../../components/Image';
-import KeyboardDismiss from '../../components/KeyboardDismiss';
+import { Image, KeyboardDismiss, ImageBackground } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import ImageBackground from '../../components/ImageBackground';
 import { PADDING_TAB } from '../../common/Constant';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 
-import { showShare } from '../../redux/actions/component';
-import { getShareSuccess } from '../../redux/reselect/component';
-
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
-    shareSuccess: getShareSuccess(state),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, showShare,
+    updateUser,
   }, dispatch);
 }
 
@@ -40,13 +34,6 @@ class GenderSize extends PureComponent {
       size: 42.5,
       gender: userInfo.sex,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { shareSuccess } = this.props;
-    if (!shareSuccess && nextProps.shareSuccess) {
-      console.log('分享成功');
-    }
   }
 
   goBack = () => {
@@ -87,13 +74,6 @@ class GenderSize extends PureComponent {
   }
 
   chooseGender = (gender) => {
-    const { showShare } = this.props;
-    showShare({
-      text: '分享的正文',
-      img: 'https://www.baidu.com/img/bd_logo1.png',
-      url: 'https://www.baidu.com/',
-      title: '分享的标题',
-    });
     this.setState({ gender });
   }
 

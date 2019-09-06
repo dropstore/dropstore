@@ -1,31 +1,20 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import Image from '../../../components/Image';
-import ScaleView from '../../../components/ScaleView';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Image, ScaleView, CountdownCom } from '../../../components';
 import Images from '../../../res/Images';
+import { removeOrderStateListItem } from '../../../redux/actions/orderState';
 import { YaHei, Mario } from '../../../res/FontFamily';
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    removeOrderStateListItem,
+  }, dispatch);
+}
+
 class OrderListItem extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { item } = this.props;
-    this.state = {
-      date: item.date - Date.now(),
-    };
-  }
-
-  componentDidMount() {
-    const { item } = this.props;
-    this.timeInterval = setInterval(() => {
-      this.setState({ date: item.date - Date.now() });
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    this.timeInterval && clearInterval(this.timeInterval);
-  }
-
   toVendorPage = () => {
     const { navigation } = this.props;
     navigation.push('vendorDetail', {
@@ -33,27 +22,23 @@ class OrderListItem extends PureComponent {
     });
   }
 
+  finish = () => {
+    const { item, removeOrderStateListItem, type } = this.props;
+    removeOrderStateListItem(item.id, type);
+  }
+
   render() {
     const { item } = this.props;
-    const { date } = this.state;
-    const time = `${parseInt(date / 3600000).toString().padStart(2, 0)}:${
-      parseInt((date % 3600000) / 60000).toString().padStart(2, 0)}:${
-      parseInt((date % 60000) / 1000).toString().padStart(2, 0)}`;
     const creat = new Date(item.creat);
     return (
       <ScaleView style={styles.container}>
-        <View style={[styles.header, { backgroundColor: item.type === 0 ? '#c20000' : '#999' }]}>
+        <View style={styles.header}>
           <View style={styles.headerLeft}>
-            {
-              item.type === 0 ? <Image style={{ width: 10, height: 13 }} source={Images.salou} />
-                : <Image style={{ width: 9, height: 8 }} source={Images.sanjiaotanhao} />
-            }
-            <Text style={styles.dateText}>{`${item.type === 0 ? '待付款 ' : '待公布 '}`}</Text>
-            <Text style={styles.date}>{time}</Text>
+            <Image style={{ width: 10, height: 13 }} source={Images.salou} />
+            <Text style={styles.dateText}>待付款 </Text>
+            <CountdownCom finish={this.finish} time={item.date} style={styles.date} />
           </View>
-          {
-            item.hint && <Text style={styles.hint}>{item.hint}</Text>
-          }
+          <Text style={styles.hint}>请在规定内时间完成支付，错过将失去中奖资格。</Text>
         </View>
         <View style={styles.middle}>
           <Text style={styles.creat}>
@@ -85,6 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    backgroundColor: '#c20000',
   },
   headerLeft: {
     flexDirection: 'row',
@@ -125,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(OrderListItem);
+export default connect(null, mapDispatchToProps)(withNavigation(OrderListItem));

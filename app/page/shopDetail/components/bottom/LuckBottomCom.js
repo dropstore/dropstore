@@ -7,14 +7,10 @@ import React, {PureComponent} from 'react';
 import {StyleSheet, TouchableOpacity, View,Text} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {withNavigation} from 'react-navigation';
-import {Overlay} from "teaset";
+import { withNavigation } from 'react-navigation';
 import Image from '../../../../components/Image';
-import ShareCom from '../overlay/ShareCom';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
-import {hideOlView} from '../../../../utils/ViewUtils';
-
 import { showShare } from '../../../../redux/actions/component';
 import { getShareSuccess } from '../../../../redux/reselect/component';
 
@@ -33,10 +29,8 @@ function mapDispatchToProps(dispatch) {
 class LuckBottomCom extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      shareOlKey: -1,
-    }
   }
+
   componentWillReceiveProps(nextProps) {
     const { shareSuccess } = this.props;
     if (!shareSuccess && nextProps.shareSuccess) {

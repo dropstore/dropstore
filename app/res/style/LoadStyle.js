@@ -8,13 +8,13 @@ export const loadStyle = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     height: px2Dp(40),
-    borderTopColor: Colors.NORMAL_TEXT_E5,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    // borderTopColor: Colors.NORMAL_TEXT_E5,
+    // borderTopWidth: StyleSheet.hairlineWidth,
   },
   loadingText: {
     fontSize: 12,
     color: Colors.NORMAL_TEXT_6,
-    marginTop: 10
+    marginTop: 20
   },
   loadingGif: {
     width: px2Dp(23),

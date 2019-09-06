@@ -140,6 +140,7 @@ android {
         versionCode _versionCode
         versionName _versionName
         ndk {
+            // abiFilters "armeabi-v7a"
             abiFilters "armeabi-v7a", "x86"
         }
         vectorDrawables.useSupportLibrary = true
@@ -186,6 +187,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-text-input-mask')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-clear-cache')
     implementation project(':react-native-webview')
