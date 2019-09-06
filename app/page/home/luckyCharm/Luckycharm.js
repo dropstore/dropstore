@@ -4,7 +4,8 @@
  *@author YDD
  */
 import React, { PureComponent } from 'react';
-import { View, Alert, StyleSheet } from 'react-native';
+import {StyleSheet } from 'react-native';
+import { connect } from 'react-redux'
 import { SCREEN_WIDTH } from '../../../common/Constant';
 import Images from '../../../res/Images';
 import Colors from '../../../res/Colors';
@@ -13,162 +14,30 @@ import ShopList from '../components/ShopListCom';
 import { px2Dp } from '../../../utils/ScreenUtil';
 import { YaHei } from '../../../res/FontFamily';
 
-class MyTopImage extends React.PureComponent {
-  _onPress = () => {
 
-  };
+function mapStateToProps(){
+  return state =>({
 
-  render() {
-    return (
-        <TopCom  imageSource={Images.instructions} />
-    );
-  }
+  })
 }
 
-export default class LuckyCharmList extends PureComponent {
+class LuckyCharmList extends PureComponent {
   state = {
     selected: true,
-    shopList: [{
-      leftImage: Images.xh,
-      statusImage: Images.qe,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版 CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: ' "BLACK INFREAD" EDC 黑红 "BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 0,
-    }, {
-      leftImage: Images.xh,
-      statusImage: Images.qr,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 0,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      perCount: 999,
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status:3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: 'CLOT x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }, {
-      leftImage: Images.xh,
-      shoe: Images.shoe,
-      shopTitle: '1111 x AIR JORDAN 13 2018版',
-      shopSubTitle: '"BLACK INFREAD" EDC 黑红',
-      price: 1999,
-      time: '2019/01/06 21:00',
-      endTime: '10:56:27',
-      status: 3,
-    }],
   };
-
-    _keyExtractor = (item, index) => item.id;
-
-    _onPressItem = (id) => {
-      Alert(`被惦记的id是${id}`);
-    };
-
-  _renderItem = ({ item, index }) => (index == 0 ? (<MyTopImage />) : (
-    <MyListItem
-      id={item.id}
-      onPressItem={this._onPressItem}
-      selected
-      title={item.title}
-    />
-  ));
-
-  _renderHeader = () => (<MyTopImage />)
 
   render() {
     return (
           <ShopList
             shopList={this.state.shopList}
-            firstCom={<MyTopImage style={styles.imageBox} />}
-
+            loadMore={this.loadMore}
+            onRefresh={this.onRefresh}
+            ListHeaderComponent={<TopCom imageSource={Images.instructions}/>}
           />
     );
   }
 }
+export default connect(mapStateToProps,mapDispatchToProps)(LuckyCharmList)
 const styles = StyleSheet.create({
   customerNotes: {
     width: 717,
