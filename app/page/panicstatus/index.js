@@ -85,12 +85,17 @@ class PanicBuy extends PureComponent {
   };
   _diffClick = () => {
     const {navigation} = this.props;
-    const data = navigation.getParam('shopInfo');
+    const shopInfo = navigation.getParam('shopInfo');
     const panicStatus = navigation.getParam('panicStatus');
     const payData = navigation.getParam('payData');
-    let is_join = data.is_join;
+    let is_join = shopInfo.is_join;
     if (panicStatus && is_join === ShopConstant.NOT_JOIN) {
-      navigation.navigate('pay', {title: '选择支付账户', type: ShopConstant.PAY_ORDER, payData: payData})
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: ShopConstant.PAY_ORDER,
+        payData: payData,
+        shopInfo: shopInfo
+      });
     } else {
       navigation.goBack();
     }
