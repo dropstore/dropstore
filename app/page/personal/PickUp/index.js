@@ -14,6 +14,7 @@ import { wPx2P } from '../../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../../common/Constant';
 import TitleWithTag from '../component/TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
+import { request } from '../../../http/Axios';
 
 function mapStateToProps() {
   return state => ({
@@ -32,6 +33,10 @@ class PickUp extends PureComponent {
     super(props);
     const { navigation } = this.props;
     this.item = navigation.getParam('item');
+  }
+
+  componentDidMount() {
+    request('');
   }
 
   finish = () => {

@@ -35,7 +35,7 @@ class ChooseAddress extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
-
+      // isDefault:
     });
   }
 
