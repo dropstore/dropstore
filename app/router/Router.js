@@ -39,6 +39,8 @@ import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
 import UpdateUser from '../page/personal/UpdateUser';
 import MyGoods from '../page/personal/MyGoods';
+import PickUp from '../page/personal/PickUp';
+import ChooseAddress from '../page/personal/Address/ChooseAddress';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -96,6 +98,8 @@ const routesWithHeader = {
   Password,
   UpdateUser,
   MyGoods,
+  PickUp,
+  ChooseAddress,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {

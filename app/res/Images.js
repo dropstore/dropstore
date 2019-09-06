@@ -145,6 +145,8 @@ const IMAGES = {
   // 鉴定
   identifyPlaceholder: require('./image/identify-placeholder.png'),
   price: require('./image/price.png'),
+  choose: require('./image/choose.png'),
+  unchoose: require('./image/unchoose.png'),
 
   // 测试图片
   shoe: require('./image/shoe.png'),

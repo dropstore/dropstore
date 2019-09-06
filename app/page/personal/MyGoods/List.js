@@ -31,8 +31,8 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchOrderStateList, type } = this.props;
-    // fetchOrderStateList(type, fetchMore);
+    const { fetchOrderStateList, id } = this.props;
+    // fetchOrderStateList(id, fetchMore);
   }
 
   renderItem = ({ item }) => {
@@ -49,29 +49,39 @@ class List extends PureComponent {
         type: 1,
         price: '3231500',
         subTitle: '已入库',
+        add_time: parseInt(Date.now() / 1000),
         id: '4208 3456789',
+        size: 43,
       }, {
         title: 'OFF-WHITH x NIKE 联名AIRFORCE 1 LOW 2018版',
         type: 0,
         price: '2222200',
         subTitle: '到货时间 2019-03-06',
         id: '4208 3456789',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 0,
         price: '6596600',
         subTitle: '到货时间 2019-03-06',
         id: '4208 3456789',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 1,
         price: '32500',
         subTitle: '已入库',
+        size: 43,
+        add_time: parseInt(Date.now() / 1000),
         id: '4208 3456789',
       }] : type === 'intoWarehouse' ? [{
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 0,
         price: '3231500',
+        size: 43,
+        add_time: parseInt(Date.now() / 1000),
         subTitle: '到货时间 2019-03-06',
         id: '4208 3456789',
       }, {
@@ -79,6 +89,8 @@ class List extends PureComponent {
         type: 1,
         price: '2222200',
         subTitle: '已入库',
+        size: 43,
+        add_time: parseInt(Date.now() / 1000),
         id: '4208 3456789',
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
@@ -86,34 +98,46 @@ class List extends PureComponent {
         price: '6596600',
         subTitle: '创建时间 2019-03-06',
         id: '4208 3456789',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 3,
         price: '3231500',
         subTitle: '已入库',
         id: '4208 3456789',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 4,
         price: '3231500',
         subTitle: '已入库',
         id: '4208 3456789',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
       }] : type === 'uncomplete' ? [{
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 4,
         price: '6596600',
+        size: 43,
+        add_time: parseInt(Date.now() / 1000),
         time: parseInt(Date.now() / 1000),
         id: '4208 3456789',
       }, {
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 4,
         price: '3231500',
+        size: 43,
         time: parseInt(Date.now() / 1000 - 162),
+        add_time: parseInt(Date.now() / 1000),
         id: '4208 3456789',
       }] : [{
         title: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
         type: 4,
         price: '6596600',
+        add_time: parseInt(Date.now() / 1000),
+        size: 43,
         subTitle: '创建时间 2019-03-06',
         yundanhao: 1351652365912,
         id: '4208 3456789',

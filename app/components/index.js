@@ -15,10 +15,11 @@ import ScaleView from './ScaleView';
 import ShareCom from './ShareCom';
 import CountdownCom from './CountdownCom';
 import Price from './Price';
+import ModalNormal from './ModalNormal';
 
 export {
   Image, ImageBackground, KeyboardDismiss, Modalbox, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
-  CountdownCom, Price,
+  CountdownCom, Price, ModalNormal,
 };

@@ -34,6 +34,7 @@ export default class App extends Component {
       StatusBar.setBackgroundColor('transparent');
       StatusBar.setBarStyle('dark-content');
     }
+    // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
     wxPayModule.registerApp(wxAppId); // 向微信注册
     if (!__DEV__) {
       // 全局控制log语句

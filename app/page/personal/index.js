@@ -16,7 +16,7 @@ const HEADER_HEIGHT = 44;
 
 const list1 = [
   {
-    title: '我的活动', icon: 'myActivity', route: 'OrderState', params: { title: '我的活动' },
+    title: '我的活动', icon: 'myActivity', route: 'fashounotice',
   },
   {
     title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
@@ -30,7 +30,7 @@ const list1 = [
 ];
 
 const list2 = [
-  { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
+  // { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
   {
     title: '系统消息', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
   },

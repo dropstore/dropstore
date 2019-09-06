@@ -6,14 +6,20 @@ import { YaHei } from '../../../res/FontFamily';
 import Images from '../../../res/Images';
 import { Image, KeyboardDismiss } from '../../../components';
 import Colors from '../../../res/Colors';
+import { showToast } from '../../../utils/MutualUtil';
 
 export default class Modal extends PureComponent {
   constructor(props) {
     super(props);
     const { type } = this.props;
     this.state = {
-      step: type === 'edit' ? 0 : 2,
+      step: {
+        edit: 0,
+        cancel: 2,
+        express: 4,
+      }[type],
     };
+    this.text = '';
   }
 
   toHelp = () => {
@@ -23,14 +29,18 @@ export default class Modal extends PureComponent {
   }
 
   sure = () => {
-    const { editCallback, cancelCallback } = this.props;
+    const { successCallback, cancelCallback } = this.props;
     const { step } = this.state;
     if (step === 0) {
-      editCallback().then(() => {
-        this.setState({
-          step: 1,
+      if (this.text.length < 1) {
+        showToast('请输入金额');
+      } else {
+        successCallback().then(() => {
+          this.setState({
+            step: 1,
+          });
         });
-      });
+      }
     } else if ([1, 3].includes(step)) {
       this.close();
     } else if (step === 2) {
@@ -39,6 +49,14 @@ export default class Modal extends PureComponent {
           step: 3,
         });
       });
+    } else if (step === 4) {
+      if (this.text.length < 1) {
+        showToast('请输入运单号');
+      } else {
+        successCallback().then(() => {
+          this.close();
+        });
+      }
     }
   }
 
@@ -48,7 +66,7 @@ export default class Modal extends PureComponent {
   }
 
   onChangeText = (text) => {
-    this.price = parseInt(text);
+    this.text = text;
   }
 
   toKufang = () => {
@@ -64,7 +82,7 @@ export default class Modal extends PureComponent {
   render() {
     const { step } = this.state;
     return (
-      <KeyboardDismiss style={[styles.container, { height: step === 0 ? 287 : 197 }]}>
+      <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 287 : 197 }]}>
         {
           step === 0 ? (
             <View style={{ paddingTop: 12, flex: 1 }}>
@@ -79,7 +97,6 @@ export default class Modal extends PureComponent {
               <Text style={styles.new}>预期价格：</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
-                  maxLength={3}
                   keyboardType="number-pad"
                   placeholderTextColor="#d3d3d3"
                   underlineColorAndroid="transparent"
@@ -103,26 +120,46 @@ export default class Modal extends PureComponent {
               <Text style={styles.hint}>友情提示</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
                 {
-                step === 2 ? (
-                  <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
-                    {'取消售卖，货品会回到您的'}
-                    <Text style={styles.kufang} onPress={this.toKufang}>库房</Text>
-                    {'中，你可以在库房中直接售卖！'}
-                  </Text>
-                ) : (
-                  <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
-                    {'商品已取消售卖，可以到'}
-                    <Text style={styles.kufang} onPress={this.toKufang}>我的库房</Text>
-                    {'中查看，管理商品！'}
-                  </Text>
-                )
-              }
+                  step === 2 ? (
+                    <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
+                      {'取消售卖，货品会回到您的'}
+                      <Text style={styles.kufang} onPress={this.toKufang}>库房</Text>
+                      {'中，你可以在库房中直接售卖！'}
+                    </Text>
+                  ) : (
+                    <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
+                      {'商品已取消售卖，可以到'}
+                      <Text style={styles.kufang} onPress={this.toKufang}>我的库房</Text>
+                      {'中查看，管理商品！'}
+                    </Text>
+                  )
+                }
               </View>
+            </View>
+          ) : step === 4 ? (
+            <View style={{ paddingHorizontal: 27 }}>
+              <Text style={styles.hint}>物流信息</Text>
+              <Text style={{ fontFamily: YaHei }}>
+                {'物流公司：'}
+                <Text style={{ color: '#8F8F8F', fontFamily: YaHei }}>顺丰快递</Text>
+              </Text>
+              <Text style={[styles.new, { marginHorizontal: 0 }]}>填写订单号 :</Text>
+              <View style={[styles.inputWrapper, { marginHorizontal: 0 }]}>
+                <TextInput
+                  keyboardType="number-pad"
+                  placeholderTextColor="#d3d3d3"
+                  underlineColorAndroid="transparent"
+                  style={[styles.input, { marginHorizontal: 0 }]}
+                  clearButtonMode="while-editing"
+                  onChangeText={this.onChangeText}
+                />
+              </View>
+              <Text style={styles.shouxufei}>物流信息填写后无法修改</Text>
             </View>
           ) : null
         }
         <TouchableOpacity onPress={this.sure} style={styles.sure}>
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.close} style={styles.cha}>
           <Image source={Images.cha} style={{ width: 24, height: 24 }} />
@@ -169,7 +206,7 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 10,
     marginHorizontal: 32,
   },
   input: {
@@ -198,13 +235,14 @@ const styles = StyleSheet.create({
     color: '#8F8F8F',
     fontFamily: YaHei,
     marginRight: 2,
+    marginVertical: 8,
+    textAlign: 'right',
   },
   yuanWrapper: {
     marginRight: 32,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    paddingTop: 8,
   },
   sure: {
     height: 46,
@@ -232,7 +270,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
     marginTop: 13,
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 27,
   },
   kufang: {
     fontSize: 14,

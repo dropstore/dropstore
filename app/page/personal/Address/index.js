@@ -70,7 +70,9 @@ class Address extends PureComponent {
 
   add = () => {
     const { navigation } = this.props;
-    navigation.navigate('AddressEdit');
+    navigation.navigate('AddressEdit', {
+      title: '添加收货地址',
+    });
   }
 
   edit = (address) => {

@@ -7,6 +7,7 @@ import component from './component';
 import orderState from './orderState';
 import message from './message';
 import banner from './banner';
+import address from './address';
 
 export default combineReducers({
   test,
@@ -17,4 +18,5 @@ export default combineReducers({
   orderState,
   message,
   banner,
+  address,
 });

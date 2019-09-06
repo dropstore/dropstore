@@ -13,6 +13,7 @@ import Colors from '../../../res/Colors';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Modal from './Modal';
+import TitleWithTag from '../component/TitleWithTag';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -57,28 +58,36 @@ class ListItem extends PureComponent {
     }
   }
 
-  onPress = (type) => {
+  onPress = (type, item) => {
     const { showModalbox, navigation, closeModalbox } = this.props;
-    showModalbox({
-      element: (<Modal
-        navigation={navigation}
-        closeModalbox={closeModalbox}
-        type={type}
-        editCallback={this.editCallback}
-        cancelCallback={this.cancelCallback}
-      />),
-      options: {
-        style: {
-          height: type === 'edit' ? 287 : 197,
-          backgroundColor: 'transparent',
-          alignItems: 'center',
-          justifyContent: 'center',
+    if (['express', 'edit', 'cancel'].includes(type)) {
+      showModalbox({
+        element: (<Modal
+          navigation={navigation}
+          closeModalbox={closeModalbox}
+          type={type}
+          successCallback={this.successCallback}
+          cancelCallback={this.cancelCallback}
+        />),
+        options: {
+          style: {
+            height: 287,
+            backgroundColor: 'transparent',
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
         },
-      },
-    });
+      });
+    } else if (type === 'pickUp') {
+      const { navigation } = this.props;
+      navigation.navigate('PickUp', {
+        title: '支付运费',
+        item,
+      });
+    }
   }
 
-  editCallback = () => new Promise((resolve, reject) => {
+  successCallback = () => new Promise((resolve, reject) => {
     resolve();
   })
 
@@ -104,17 +113,12 @@ class ListItem extends PureComponent {
           <Image source={Images.shoe} style={styles.shoe} />
           <Text style={styles.id}>{`编号: ${item.id}`}</Text>
         </View>
-        <View style={{ flex: 1 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <View style={[styles.tag, item.type === 0 ? styles.qihuo : [2, 3, 4].includes(item.type) ? styles.fabu : styles.xianhuo]} />
-            <Text style={styles.shopTitle}>
-              <Text style={styles.tagText}>{item.type === 0 ? '期货 ' : [2, 3, 4].includes(item.type) ? '发布 ' : '现货 '}</Text>
-              {item.title}
-            </Text>
-          </View>
-          <View style={styles.middle}>
-            <Price price={item.price} />
-            {
+        <View style={{ flex: 1, justifyContent: 'space-between' }}>
+          <View>
+            <TitleWithTag item={item} />
+            <View style={styles.middle}>
+              <Price price={item.price} />
+              {
               type === 'uncomplete' ? (
                 <View style={styles.timeWrapper}>
                   <Text style={styles.time}>待付款</Text>
@@ -127,6 +131,7 @@ class ListItem extends PureComponent {
 
               ) : <Text style={{ fontSize: 11 }}>{item.subTitle}</Text>
             }
+            </View>
           </View>
           { type === 'uncomplete' && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
           { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.yundanhao}`}</Text>}
@@ -135,7 +140,7 @@ class ListItem extends PureComponent {
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
               {
               this.btns.map(v => (
-                <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
+                <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key, item)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
                   <Text style={styles.text}>{v.title}</Text>
                 </TouchableOpacity>
               ))
@@ -165,34 +170,6 @@ const styles = StyleSheet.create({
   id: {
     fontSize: 12,
     marginTop: 15,
-  },
-  tagText: {
-    color: '#fff',
-    fontSize: 10.5,
-  },
-  qihuo: {
-    backgroundColor: '#B4DE2A',
-  },
-  xianhuo: {
-    backgroundColor: '#FFA700',
-  },
-  fabu: {
-    backgroundColor: '#EF4444',
-  },
-  shopTitle: {
-    fontSize: 12,
-    color: 'rgba(0,0,0,1)',
-    fontFamily: YaHei,
-    textAlign: 'justify',
-  },
-  tag: {
-    height: 13,
-    width: 23.5,
-    overflow: 'hidden',
-    borderRadius: 2,
-    top: 2.5,
-    left: -1.25,
-    position: 'absolute',
   },
   middle: {
     flexDirection: 'row',
