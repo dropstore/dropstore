@@ -82,7 +82,7 @@ class PersonalCenterPage extends PureComponent {
                 <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
               </View>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('Setting', { title: '个人设置' })} style={styles.editWrapper}>
+            <TouchableOpacity onPress={() => navigation.navigate('Setting', { title: '个人资料' })} style={styles.editWrapper}>
               <Text style={styles.edit}>编辑资料</Text>
             </TouchableOpacity>
           </View>
