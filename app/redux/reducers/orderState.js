@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
 import {
   receiveOrderStateList, resetOrderStateList, requestOrderStateList, removeOrderStateListItem,
-} from '../actions/component';
+} from '../actions/orderState';
 
 const initialState = {
 
@@ -17,12 +17,16 @@ export default handleActions({
   }),
   [receiveOrderStateList]: (state, action) => ({
     ...state,
-    [action.meta.type]: action.payload,
+    [action.meta.type]: {
+      totalPages: action.payload.number,
+      list: action.payload.order,
+      currentPage: action.payload.currentPage,
+    },
   }),
   [resetOrderStateList]: (state, action) => ({
     ...state,
     [action.payload]: {
-      list: [],
+      ...state[action.payload],
       isFetching: false,
       totalPages: -1,
       currentPage: 1,

@@ -46,14 +46,26 @@ class AddressEdit extends PureComponent {
     }
     const { navigation, addAddress, editAddress } = this.props;
     const { isDefault } = this.state;
-    const address = navigation.getParam('address');
-    if (address) {
+    const address = navigation.getParam('address') || {};
+    if (address.link_name) {
       editAddress(this.address, this.link_name, this.mobile, isDefault, address.id).then(() => {
         navigation.pop();
       });
     } else {
-      addAddress(this.address, this.link_name, this.mobile).then(() => {
-        navigation.pop();
+      const needTurn = navigation.getParam('needTurn');
+      addAddress(this.address, this.link_name, this.mobile, needTurn || isDefault === '1' ? '1' : '0').then(() => {
+        if (needTurn) {
+          navigation.navigate('PickUp', {
+            title: '支付运费',
+            address: {
+              link_name: this.link_name,
+              address: this.address,
+              mobile: this.mobile,
+            },
+          });
+        } else {
+          navigation.pop();
+        }
       });
     }
   }

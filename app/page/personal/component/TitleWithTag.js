@@ -2,20 +2,21 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { YaHei } from '../../../res/FontFamily';
 
-export default class Address extends PureComponent {
+export default class TitleWithTag extends PureComponent {
   render() {
-    const { item } = this.props;
+    const { text, type } = this.props;
+    // 1期货 2现货（已鉴定或从平台购买的） 2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
     return (
       <View style={{ flexDirection: 'row' }}>
         <Text style={[styles.tagText, {
-          backgroundColor: item.type === 0 ? '#B4DE2A' : [2, 3, 4].includes(item.type) ? '#EF4444' : '#FFA700',
+          backgroundColor: type === 1 ? '#B4DE2A' : [3, 4, 5].includes(type) ? '#EF4444' : '#FFA700',
         }]}
         >
-          {item.type === 0 ? '期货 ' : [2, 3, 4].includes(item.type) ? '发布 ' : '现货 '}
+          {type === 1 ? '期货 ' : [3, 4, 5].includes(type) ? '发布 ' : '现货 '}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&emsp;
-          {item.title}
+          {text}
         </Text>
       </View>
     );

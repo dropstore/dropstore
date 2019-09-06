@@ -18,9 +18,15 @@ class MyGoods extends PureComponent {
       { key: 'onSale', title: '销售中' },
       { key: 'selled', title: '已卖出' },
     ] : [
-      { key: 'intoWarehouse', title: '库房', id: 0 },
-      { key: 'uncomplete', title: '未完成', id: 2 },
-      { key: 'sendOut', title: '已出库', id: 3 },
+      {
+        key: 'intoWarehouse', title: '库房', api: '/order/order_goods_list', params: { goods_status: 1 },
+      },
+      {
+        key: 'uncomplete', title: '未完成', api: '/order/order_list', params: { status: 0 },
+      },
+      {
+        key: 'sendOut', title: '已出库', api: '/order/order_goods_list', params: { goods_status: 2 },
+      },
     ];
     this.state = {
       routes,
@@ -48,7 +54,7 @@ class MyGoods extends PureComponent {
     // });
   }
 
-  renderScene = ({ route }) => <List id={route.id} route={this.routeType} type={route.key} />;
+  renderScene = ({ route }) => <List api={route.api} params={route.params} route={this.routeType} type={route.key} />;
 
   render() {
     const { routes, index } = this.state;

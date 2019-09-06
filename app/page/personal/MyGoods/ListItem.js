@@ -25,7 +25,7 @@ class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
-    // 0期货 1现货（已鉴定或从平台购买的）2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
+    // 2期货 1现货（已鉴定或从平台购买的）2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
     this.btns = [];
     if (type === 'onSale') {
       this.btns = [
@@ -33,11 +33,11 @@ class ListItem extends PureComponent {
         { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
       ];
     } else if (type === 'intoWarehouse') {
-      if (item.type === 0) {
+      if (item.is_stock === '2') {
         this.btns = [
           { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
         ];
-      } else if (item.type === 1) {
+      } else if (item.is_stock === '1') {
         this.btns = [
           { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
           { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
@@ -58,8 +58,10 @@ class ListItem extends PureComponent {
     }
   }
 
-  onPress = (type, item) => {
-    const { showModalbox, navigation, closeModalbox } = this.props;
+  onPress = (type) => {
+    const {
+      showModalbox, navigation, closeModalbox, item,
+    } = this.props;
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
@@ -84,6 +86,15 @@ class ListItem extends PureComponent {
         title: '支付运费',
         item,
       });
+    } else if (type === 'pay') {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: 'pay_order',
+        payData: {
+          order_id: item.order_id,
+          price: item.order_price / 100,
+        },
+      });
     }
   }
 
@@ -107,30 +118,32 @@ class ListItem extends PureComponent {
 
   render() {
     const { item, type } = this.props;
+    const subTitle = type === 'uncomplete' ? '' : '已入库';
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
+          {/* <Image source={{ uri: item.goods.image }} style={styles.shoe} /> */}
           <Image source={Images.shoe} style={styles.shoe} />
-          <Text style={styles.id}>{`编号: ${item.id}`}</Text>
+          <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTag item={item} />
+            <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              <Price price={item.price} />
+              <Price price={item.order_price} />
               {
-              type === 'uncomplete' ? (
-                <View style={styles.timeWrapper}>
-                  <Text style={styles.time}>待付款</Text>
-                  <CountdownCom
-                    finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
-                    time={item.time + 15 * 60}
-                  />
-                </View>
+                type === 'uncomplete' ? (
+                  <View style={styles.timeWrapper}>
+                    <Text style={styles.time}>待付款</Text>
+                    <CountdownCom
+                      finish={this.finish}
+                      style={{ ...styles.time, width: 50 }}
+                      time={item.time + 15 * 60}
+                    />
+                  </View>
 
-              ) : <Text style={{ fontSize: 11 }}>{item.subTitle}</Text>
-            }
+                ) : <Text style={{ fontSize: 11 }}>{subTitle}</Text>
+              }
             </View>
           </View>
           { type === 'uncomplete' && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
@@ -140,7 +153,7 @@ class ListItem extends PureComponent {
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
               {
               this.btns.map(v => (
-                <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key, item)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
+                <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
                   <Text style={styles.text}>{v.title}</Text>
                 </TouchableOpacity>
               ))
@@ -168,7 +181,7 @@ const styles = StyleSheet.create({
     height: wPx2P(65),
   },
   id: {
-    fontSize: 12,
+    fontSize: 8,
     marginTop: 15,
   },
   middle: {
