@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import {
-  SectionList, View, Text, StyleSheet,
-} from 'react-native';
+import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ListItem from './ListItem';
-import Images from '../../res/Images';
-import NavigationBarCom from '../../components/NavigationBarCom';
+import { NavigationBarCom, PullToRefresh } from '../../components';
 import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
 import { fetchNotice } from '../../redux/actions/notice';
 import { getActivity } from '../../redux/reselect/notice';
 
 function mapStateToProps() {
   return state => ({
-    activity: getActivity(state),
+    activity: getActivity(state) || {},
   });
 }
 
@@ -32,7 +29,7 @@ class Activity extends Component {
 
   fetchData = (fetchMore) => {
     const { fetchNotice } = this.props;
-    fetchNotice('/notice/notice_list', 'activity', fetchMore);
+    fetchNotice('/notice/notice_list', 1, fetchMore);
   }
 
   loadMore = () => {
@@ -41,24 +38,49 @@ class Activity extends Component {
 
   renderItem = ({ item }) => <ListItem item={item} />
 
-  renderSectionHeader = ({ section }) => <Text style={styles.header}>{section.title}</Text>
-
   render() {
+    const { activity } = this.props;
+    const list = [{
+      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
+      type: '1',
+      end_time: Date.now() / 1000 + 60 * 5 + 5,
+      time: Date.now() / 1000 + 5,
+      size: '42.5',
+    }, {
+      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
+      type: '2',
+      end_time: Date.now() / 1000 + 60 * 5 + 60,
+      time: Date.now() / 1000 + 60,
+      size: '42.5',
+    }, {
+      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
+      type: '3',
+      end_time: Date.now() / 1000 + 60 * 5,
+      time: Date.now() / 1000,
+      size: '42.5',
+    }, {
+      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
+      type: '6',
+      end_time: Date.now() / 1000 + 60 * 5,
+      time: Date.now() / 1000,
+      size: '42.5',
+    }];
     return (
       <View style={{ flex: 1 }}>
-        <NavigationBarCom headerTitle="系统通知" isShowLeftView={false} />
+        <NavigationBarCom title="活动通知" />
+        <PullToRefresh
+          Wrapper={FlatList}
+          totalPages={activity.totalPages}
+          currentPage={activity.currentPage}
+          refresh={this.fetchData}
+          style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
+          data={list}
+          renderItem={this.renderItem}
+          onEndReached={this.loadMore}
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  header: {
-    textAlign: 'center',
-    fontSize: 12,
-    marginTop: 22,
-    marginBottom: 6,
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity);

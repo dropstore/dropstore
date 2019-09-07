@@ -16,6 +16,7 @@ function fetchNotice(api, type, fetchMore = false) {
     }
     const page = fetchMore ? notice.currentPage + 1 : 1;
     const params = {
+      type,
       limit: 10,
       pn: page,
     };

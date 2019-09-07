@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 const getActivity = createSelector(
-  state => state.notice.activity,
+  state => state.notice['1'],
   value => value,
 );
 const getMessage = createSelector(

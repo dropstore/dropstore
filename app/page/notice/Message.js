@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ListItem from './ListItem';
 import Images from '../../res/Images';
-import NavigationBarCom from '../../components/NavigationBarCom';
-import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
 import { fetchNotice } from '../../redux/actions/notice';
 import { getMessage } from '../../redux/reselect/notice';
 
@@ -76,12 +74,10 @@ class MessageCenterPage extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <NavigationBarCom headerTitle="系统通知" isShowLeftView={false} />
         <SectionList
           showsVerticalScrollIndicator={false}
           maxToRenderPerBatch={5}
           initialNumToRender={3}
-          style={{ flex: 1, marginTop: STATUSBAR_AND_NAV_HEIGHT }}
         // ListHeaderComponent={this.renderHeader}
         // ListFooterComponent={this.renderFooter}
           renderSectionHeader={this.renderSectionHeader}

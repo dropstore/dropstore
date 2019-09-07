@@ -1,119 +1,118 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, Text, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
-import Image from '../../components/Image';
-import ScaleViewWithFrame from '../../components/ScaleViewWithFrame';
-import { YaHei, Mario } from '../../res/FontFamily';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Image, CountdownCom } from '../../components';
+import Images from '../../res/Images';
+import { showModalbox, closeModalbox } from '../../redux/actions/component';
+import { YaHei } from '../../res/FontFamily';
+import Colors from '../../res/Colors';
+import { wPx2P } from '../../utils/ScreenUtil';
+import TitleWithTag from './TitleWithTag';
+import { formatDate } from '../../utils/commonUtils';
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    showModalbox, closeModalbox,
+  }, dispatch);
+}
 
 class ListItem extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { item } = this.props;
-    this.state = {
-      date: item.date - Date.now(),
-    };
+  finish = () => {
+
   }
 
-  componentDidMount() {
-    const { item } = this.props;
-    this.timeInterval = setInterval(() => {
-      this.setState({ date: item.date - Date.now() });
-    }, 1000);
-  }
+  toPay = () => {
 
-  componentWillUnmount() {
-    this.timeInterval && clearInterval(this.timeInterval);
-  }
-
-  toVendorPage = () => {
-    const { navigation } = this.props;
-    navigation.push('vendorDetail', {
-      title: '详情页',
-    });
   }
 
   render() {
     const { item } = this.props;
-    const creat = new Date(item.creat);
     return (
-      <ScaleViewWithFrame style={styles.container} containerStyle={styles.containerStyle}>
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Text style={styles.dateText}>{`${item.type === 0 ? '即将发售' : ''}`}</Text>
+      <View>
+        <Text style={styles.date}>{formatDate(item.time, '/')}</Text>
+        <View style={styles.container}>
+          <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
+            {/* <Image source={{ uri: item.image }} style={styles.shoe} /> */}
+            <Image source={Images.shoe} style={styles.shoe} />
+            {/* <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> */}
           </View>
-          {
-            item.hint && <Text style={styles.hint}>{item.hint}</Text>
+          <View style={{ flex: 1, justifyContent: 'space-between' }}>
+            <TitleWithTag text={item.activity_name} type={item.type} />
+            {
+            item.type !== '6' && (
+            <View style={styles.timeWrapper}>
+              <Text style={styles.time}>待付款</Text>
+              <CountdownCom
+                finish={this.finish}
+                style={{ ...styles.time, width: 50 }}
+                time={item.end_time}
+              />
+            </View>
+            )
           }
-        </View>
-        <View style={styles.middle}>
-          <Text style={styles.creat}>
-            {`创建日期: ${creat.getFullYear()}-${creat.getMonth().toString().padStart(2, 0)}-${creat.getDate().toString().padStart(2, 0)}`}
-          </Text>
-          <Text style={styles.creat}>{`订单编号: ${item.id}`}</Text>
-        </View>
-        <View style={styles.middle}>
-          <View style={{ flex: 1 }}>
-            <Text>{item.title}</Text>
-            <Text style={styles.price}>{`${item.price}￥`}</Text>
+            {
+            item.type !== '6'
+            && (
+            <TouchableOpacity onPress={this.toPay} style={styles.btn}>
+              <Text style={styles.fukuan}>付款</Text>
+            </TouchableOpacity>
+            )
+          }
           </View>
-          <Image resizeMode="contain" style={{ width: 92, height: 50 }} source={item.image} />
         </View>
-      </ScaleViewWithFrame>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 13,
-  },
-  containerStyle: {
     backgroundColor: '#fff',
-    paddingBottom: 8,
-    paddingHorizontal: 13,
-  },
-  header: {
-    height: 22,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    marginHorizontal: 9,
     flexDirection: 'row',
-  },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    borderBottomColor: '#ddd',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  dateText: {
-    fontFamily: YaHei,
-    lineHeight: 17.5,
-    fontSize: 12,
   },
   date: {
-    color: '#fff',
-    fontFamily: Mario,
-    lineHeight: 17.5,
-    fontSize: 12,
-  },
-  hint: {
+    color: '#B6B6B6',
     fontSize: 10,
-    color: '#fff',
+    textAlign: 'center',
+    marginTop: 8,
+    marginBottom: 2,
   },
-  creat: {
-    fontSize: 10,
+  shoe: {
+    width: wPx2P(113),
+    height: wPx2P(65),
   },
-  middle: {
-    flexDirection: 'row',
+  btn: {
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 5,
+    justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
+    marginLeft: 9,
+    backgroundColor: '#EF4444',
+    width: 115,
+    height: 25,
+    alignSelf: 'flex-end',
   },
-  price: {
+  fukuan: {
+    fontSize: 10,
+    color: '#fff',
     fontFamily: YaHei,
-    fontSize: 15,
-    marginTop: 20,
+  },
+  time: {
+    fontSize: 11,
+    color: Colors.OTHER_BACK,
+  },
+  timeWrapper: {
+    flexDirection: 'row',
+    marginTop: 6,
+    marginBottom: 6,
   },
 });
 
-export default withNavigation(ListItem);
+export default connect(null, mapDispatchToProps)(withNavigation(ListItem));

@@ -32,7 +32,7 @@ class ListItem extends PureComponent {
         { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
         { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
       ];
-    } else if (type === 'intoWarehouse') {
+    } else if (type === 'warehouse') {
       if (item.is_stock === '2') {
         this.btns = [
           { title: '发布', backgroundColor: '#FFA700', key: 'publish' },

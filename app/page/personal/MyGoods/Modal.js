@@ -75,7 +75,7 @@ export default class Modal extends PureComponent {
     navigation.navigate('MyGoods', {
       // url: 'http://m.dropstore.cn/index.html#/help',
       title: '我的库房',
-      type: 'intoWarehouse',
+      type: 'warehouse',
     });
   }
 

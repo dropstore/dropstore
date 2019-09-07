@@ -30,7 +30,6 @@ import drawStatus from '../page/drawstatus';
 
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
-import Address from '../page/personal/Address';
 import AddressEdit from '../page/personal/Address/AddressEdit';
 import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
@@ -84,7 +83,6 @@ const routesWithHeader = {
   Setting,
   vendorDetail,
   Safesetting,
-  Address,
   shopDetail,
   pay,
   commission,

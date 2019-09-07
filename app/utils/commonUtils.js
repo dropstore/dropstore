@@ -18,11 +18,11 @@ function debounceDelay(fun, delay = 350) {
   };
 }
 
-function formatDate(time) {
+function formatDate(time, separation = '-') {
   const fullTime = new Date(time * 1000);
   let str = '';
-  str += `${fullTime.getFullYear()}-`;
-  str += (`${fullTime.getMonth() + 1}-`).padStart(3, 0);
+  str += `${fullTime.getFullYear()}${separation}`;
+  str += (`${fullTime.getMonth() + 1}${separation}`).padStart(3, 0);
   str += (`${fullTime.getDay()} `).padStart(3, 0);
   str += (`${fullTime.getHours()}:`).padStart(3, 0);
   str += (`${fullTime.getMinutes()}:`).padStart(3, 0);

@@ -9,7 +9,7 @@ export default class Identify extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <NavigationBarCom headerTitle="鉴定" isShowLeftView={false} />
+        <NavigationBarCom title="鉴定" />
         <Image style={{ width: wPx2P(480 / 2), height: wPx2P(190 / 2) }} source={Images.identifyPlaceholder} />
       </View>
     );

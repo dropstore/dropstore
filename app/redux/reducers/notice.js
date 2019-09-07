@@ -1,21 +1,21 @@
 import { handleActions } from 'redux-actions';
 import {
   receiveNotice, requestNotice, resetNotice,
-} from '../actions/component';
+} from '../actions/notice';
 
 const initialState = {
-  message: {
-    list: [],
-    isFetching: false,
-    totalPages: -1,
-    currentPage: 1,
-  },
-  activity: {
-    list: [],
-    isFetching: false,
-    totalPages: -1,
-    currentPage: 1,
-  },
+  // message: {
+  //   list: [],
+  //   isFetching: false,
+  //   totalPages: -1,
+  //   currentPage: 1,
+  // },
+  // activity: {
+  //   list: [],
+  //   isFetching: false,
+  //   totalPages: -1,
+  //   currentPage: 1,
+  // },
 };
 
 export default handleActions({
@@ -28,7 +28,12 @@ export default handleActions({
   }),
   [receiveNotice]: (state, action) => ({
     ...state,
-    [action.meta.type]: action.payload,
+    [action.meta.type]: {
+      list: [],
+      isFetching: false,
+      totalPages: action.payload.number,
+      currentPage: action.payload.currentPage,
+    },
   }),
   [resetNotice]: (state, action) => ({
     ...state,

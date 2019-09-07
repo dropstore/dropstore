@@ -19,7 +19,7 @@ class MyGoods extends PureComponent {
       { key: 'selled', title: '已卖出' },
     ] : [
       {
-        key: 'intoWarehouse', title: '库房', api: '/order/order_goods_list', params: { goods_status: 1 },
+        key: 'warehouse', title: '库房', api: '/order/order_goods_list', params: { goods_status: 1 },
       },
       {
         key: 'uncomplete', title: '未完成', api: '/order/order_list', params: { status: 0 },
@@ -50,7 +50,7 @@ class MyGoods extends PureComponent {
     // navigation.navigate('OrderState', {
     //   url: 'http://m.dropstore.cn/index.html#/help',
     //   title: '我的库房',
-    //   type: 'intoWarehouse',
+    //   type: 'warehouse',
     // });
   }
 

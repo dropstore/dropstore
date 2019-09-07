@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { YaHei } from '../../../res/FontFamily';
+import { YaHei } from '../../res/FontFamily';
 
 export default class TitleWithTag extends PureComponent {
   render() {
@@ -9,15 +9,25 @@ export default class TitleWithTag extends PureComponent {
     return (
       <View style={{ flexDirection: 'row' }}>
         <Text style={[styles.tagText, {
-          backgroundColor: type === 1 ? '#B4DE2A' : [3, 4, 5].includes(type) ? '#EF4444' : '#FFA700',
+          backgroundColor: type === '6' ? '#bbb' : '#FFA700',
+          width: type === '6' ? 33 : 39,
         }]}
         >
-          {type === 1 ? '期货 ' : [3, 4, 5].includes(type) ? '发布 ' : '现货 '}
+          {type === '6' ? '未中签 ' : 'Drop 购 '}
         </Text>
-        <Text style={styles.shopTitle}>
-&emsp;&emsp;&nbsp;
-          {text}
-        </Text>
+        {
+          type === '6' ? (
+            <Text style={styles.shopTitle}>
+&emsp;&emsp;&emsp;&nbsp;
+              {text}
+            </Text>
+          ) : (
+            <Text style={styles.shopTitle}>
+&emsp;&emsp;&emsp;&emsp;&nbsp;
+              {text}
+            </Text>
+          )
+        }
       </View>
     );
   }
@@ -28,7 +38,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10.5,
     height: 13,
-    width: 23.5,
     overflow: 'hidden',
     borderRadius: 2,
     top: 2,

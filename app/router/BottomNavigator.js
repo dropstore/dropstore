@@ -22,7 +22,7 @@ const TAB_HEIGHT = 52;
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
-  { screen: HomePage, key: 'drop', title: '' },
+  { screen: HomePage, key: 'drop' },
   { screen: Activity, key: 'message', title: '消息' },
   { screen: Personal, key: 'personal', title: '我的' },
 ];
@@ -32,7 +32,7 @@ export default class BottomNavigator extends PureComponent {
     super(props);
     this.state = {
       routes: ROUTES,
-      index: 2,
+      index: 3,
     };
     this.opacity = [
       new Animated.Value(1),
