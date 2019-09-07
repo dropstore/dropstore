@@ -66,7 +66,7 @@ class Setting extends PureComponent {
   }
 
   onPress = (item) => {
-    const { navigation, showModalbox, closeModalbox } = this.props;
+    const { showModalbox, closeModalbox } = this.props;
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name !== 'sex') {
@@ -133,30 +133,63 @@ class Setting extends PureComponent {
     }
   }
 
+  changeSex = (sex) => {
+    const { list } = this.state;
+    this.setState({
+      list: list.map((v) => {
+        if (v.name === 'sex') {
+          return ({ ...v, value: sex });
+        }
+        return v;
+      }),
+    });
+  }
+
   render() {
     const { list } = this.state;
     return (
       <View style={styles.container}>
         {
-          list.map(v => (
-            <TouchableOpacity onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
-              <Text style={styles.text}>{v.title}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                {
-                    v.name === 'avatar'
-                      ? (
-                        <View style={styles.imageWrapper}>
-                          <Image
-                            source={v.value ? { uri: v.value } : v.sex === '女' ? Images.iconGirl : Images.iconBoy}
-                            style={{ ...styles.image, height: v.value ? wPx2P(40) : wPx2P(34), width: v.value ? wPx2P(40) : wPx2P(34) }}
-                          />
-                        </View>
-                      ) : <Text style={styles.text}>{v.value}</Text>
-                  }
-                <Image source={Images.iconRight} style={styles.right} />
-              </View>
-            </TouchableOpacity>
-          ))
+          list.map((v) => {
+            const Wrapper = v.name === 'sex' ? View : TouchableOpacity;
+            return (
+              <Wrapper onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
+                <Text style={styles.text}>{v.title}</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  {
+                      v.name === 'avatar'
+                        ? (
+                          <View style={styles.imageWrapper}>
+                            <Image
+                              source={v.value ? { uri: v.value } : list[2].value === '女' ? Images.iconGirl : Images.iconBoy}
+                              style={{ ...styles.image, height: v.value ? wPx2P(40) : wPx2P(34), width: v.value ? wPx2P(40) : wPx2P(34) }}
+                            />
+                          </View>
+                        )
+                        : v.name === 'sex'
+                          ? (
+                            <View style={styles.sexBtnWrapper}>
+                              <TouchableOpacity
+                                onPress={() => this.changeSex('男')}
+                                style={[styles.sexBtn, { backgroundColor: v.value === '男' ? '#74B8EB' : '#F2F2F2' }]}
+                              >
+                                <Image source={Images.iconRight} style={styles.right} />
+                              </TouchableOpacity>
+                              <TouchableOpacity
+                                onPress={() => this.changeSex('女')}
+                                style={[styles.sexBtn, { backgroundColor: v.value === '女' ? '#FF61D3' : '#F2F2F2' }]}
+                              >
+                                <Image source={Images.iconRight} style={styles.right} />
+                              </TouchableOpacity>
+                            </View>
+                          )
+                          : <Text style={styles.text}>{v.value}</Text>
+                    }
+                  <Image source={Images.iconRight} style={styles.right} />
+                </View>
+              </Wrapper>
+            );
+          })
         }
         <TouchableOpacity style={styles.btn} onPress={this.submit}>
           <Text style={{ color: '#fff', fontSize: 16 }}>确认修改</Text>
@@ -173,6 +206,18 @@ class Setting extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  sexBtnWrapper: {
+    flexDirection: 'row',
+    width: 55,
+    height: 23,
+    overflow: 'hidden',
+    borderRadius: 2,
+  },
+  sexBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   btn: {
     height: 46,
     width: wPx2P(265),
