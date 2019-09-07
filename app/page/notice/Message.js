@@ -8,8 +8,8 @@ import ListItem from './ListItem';
 import Images from '../../res/Images';
 import NavigationBarCom from '../../components/NavigationBarCom';
 import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
-import { fetchMessage } from '../../redux/actions/message';
-import { getMessage } from '../../redux/reselect/message';
+import { fetchNotice } from '../../redux/actions/notice';
+import { getMessage } from '../../redux/reselect/notice';
 
 const LIST = [
   {
@@ -45,14 +45,14 @@ const LIST = [
 
 function mapStateToProps() {
   return state => ({
-    message: getMessage(state),
+    notice: getMessage(state),
   });
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchMessage,
+    fetchNotice,
   }, dispatch);
 }
 
@@ -60,13 +60,13 @@ class MessageCenterPage extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    const { fetchMessage } = this.props;
-    fetchMessage('message');
+    const { fetchNotice } = this.props;
+    fetchNotice('message');
   }
 
   loadMore = () => {
-    const { fetchMessage } = this.props;
-    fetchMessage('message', true);
+    const { fetchNotice } = this.props;
+    fetchNotice('message', true);
   }
 
   renderItem = ({ item }) => <ListItem item={item} />

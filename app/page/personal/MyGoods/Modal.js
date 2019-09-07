@@ -72,8 +72,8 @@ export default class Modal extends PureComponent {
   toKufang = () => {
     const { navigation } = this.props;
     this.close();
-    navigation.navigate('OrderState', {
-      url: 'http://m.dropstore.cn/index.html#/help',
+    navigation.navigate('MyGoods', {
+      // url: 'http://m.dropstore.cn/index.html#/help',
       title: '我的库房',
       type: 'intoWarehouse',
     });

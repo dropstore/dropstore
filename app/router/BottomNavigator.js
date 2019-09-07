@@ -13,7 +13,7 @@ import Personal from '../page/personal';
 import Identify from '../page/identify';
 import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
-import Message from '../page/message';
+import Activity from '../page/notice/Activity';
 
 const HOME_ICON_WIDTH = wPx2P(97);
 const PADDING_HORIZONTAL = wPx2P(22);
@@ -23,7 +23,7 @@ const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
   { screen: HomePage, key: 'drop', title: '' },
-  { screen: Message, key: 'message', title: '消息' },
+  { screen: Activity, key: 'message', title: '消息' },
   { screen: Personal, key: 'personal', title: '我的' },
 ];
 

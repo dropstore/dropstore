@@ -28,12 +28,11 @@ import commission from '../page/commission';
 import panicStatus from '../page/panicstatus';
 import drawStatus from '../page/drawstatus';
 
-import OrderState from '../page/personal/OrderState';
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
 import Address from '../page/personal/Address';
 import AddressEdit from '../page/personal/Address/AddressEdit';
-import Notice from '../page/personal/Notice';
+import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
 import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
@@ -84,13 +83,12 @@ const AuthStack = createStackNavigator({
 const routesWithHeader = {
   Setting,
   vendorDetail,
-  OrderState,
   Safesetting,
   Address,
   shopDetail,
   pay,
   commission,
-  Notice,
+  Message,
   AddressEdit,
   Web,
   Extract,

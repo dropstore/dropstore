@@ -32,7 +32,7 @@ const list1 = [
 const list2 = [
   // { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
   {
-    title: '系统消息', icon: 'systemnotice', route: 'Notice', params: { title: '系统通知', type: 'systemnotice' },
+    title: '系统消息', icon: 'systemnotice', route: 'Message', params: { title: '系统通知', type: 'systemnotice' },
   },
   {
     title: '系统设置', icon: 'safesetting', route: 'Safesetting', params: { title: '系统设置' },
