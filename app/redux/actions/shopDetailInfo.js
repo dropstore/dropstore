@@ -145,14 +145,18 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
  * @param activity_id
  * @param size_id
  */
-const doBuyNow = async (activity_id, size_id) => {
+const doBuyNow = async (activity_id, size_id,navigation, shopInfo) => {
   const params = {
     activity_id: activity_id,
     size_id: size_id
   };
   try {
-    return await request('/order/do_buy_now', {params, isShowLoading: true});
+   let data =  await request('/order/do_buy_now', {params, isShowLoading: true});
+   if(data){
+     navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+   }
   } catch (e) {
+    navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
   }
 };
 export {

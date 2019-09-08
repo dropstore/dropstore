@@ -5,9 +5,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {
-  StyleSheet, Text, TouchableOpacity, View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -53,7 +51,9 @@ class SelfBottomCom extends PureComponent {
   }
 
   _setMainDOM = (shopInfo) => {
-    const {navigation} = this.props;
+    const {
+      showModalbox, navigation,
+    } = this.props;
     // 活动子类型:1、抽签；2、抢购
     const b_type = shopInfo.activity.b_type;
     // 活动开始时间
@@ -65,7 +65,11 @@ class SelfBottomCom extends PureComponent {
     if (b_type === ShopConstant.DRAW) {
       return this._normalDOM(shopInfo);
     }
-    return <BuyBottomCom navigation={navigation} shopInfo={shopInfo}/>;
+    return <BuyBottomCom
+      navigation={navigation}
+      shopInfo={shopInfo}
+      showModalbox={showModalbox}
+      closeModalbox={closeModalbox}/>;
   };
 
   _normalDOM = shopInfo => (

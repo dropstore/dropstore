@@ -10,7 +10,7 @@
  * @returns {number}
  */
 export const checkTime = (time) => {
-  return time - (Date.parse(new Date()) / 1000);
+  return time - (Date.now() / 1000);
 };
 
 /**
