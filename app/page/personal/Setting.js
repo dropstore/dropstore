@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import {
-  Image, ModalNormal, ActionSheet, ChangeSize,
+  Image, ModalNormal, ActionSheet, ChangeSize, ImageBackground,
 } from '../../components';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -170,20 +170,10 @@ class Setting extends PureComponent {
                         )
                         : v.name === 'sex'
                           ? (
-                            <View style={styles.sexBtnWrapper}>
-                              <TouchableOpacity
-                                onPress={() => this.changeSex('男')}
-                                style={[styles.sexBtn, { backgroundColor: v.value === '男' ? '#74B8EB' : '#F2F2F2' }]}
-                              >
-                                <Image source={Images.iconRight} style={styles.right} />
-                              </TouchableOpacity>
-                              <TouchableOpacity
-                                onPress={() => this.changeSex('女')}
-                                style={[styles.sexBtn, { backgroundColor: v.value === '女' ? '#FF61D3' : '#F2F2F2' }]}
-                              >
-                                <Image source={Images.iconRight} style={styles.right} />
-                              </TouchableOpacity>
-                            </View>
+                            <ImageBackground source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy} style={styles.sexBtnWrapper}>
+                              <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
+                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} />
+                            </ImageBackground>
                           )
                           : <Text style={styles.text}>{v.value}</Text>
                     }

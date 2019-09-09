@@ -1,43 +1,23 @@
 import React, { Component } from 'react';
 import {
-  SectionList, View, Text, StyleSheet,
+  FlatList, View, Text, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ListItem from './ListItem';
-import Images from '../../res/Images';
+import { PullToRefresh } from '../../components';
 import { fetchNotice } from '../../redux/actions/notice';
 import { getMessage } from '../../redux/reselect/notice';
+import Colors from '../../res/Colors';
+import { formatDate } from '../../utils/commonUtils';
 
 const LIST = [
   {
-    title: '2019/05/16  21:00',
-    data: [
-      {
-        title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
-        image: Images.shoe,
-        price: 1999,
-        type: 0,
-        hint: '请在规定内时间完成支付，错过将失去中奖资格。',
-        id: 'D537639998765663425',
-        date: Date.now() + 1000 * 60 * 12,
-        creat: Date.now() - 1000 * 60 * 12,
-      },
-    ],
+    add_time: Date.now() / 1000,
+    text: '亲爱的用户，JFGH SQIOFH FHISA OHDIOS DSIA FHIHF OIAS，SIOAS FDOIAH FAO ISFAS HIO AHFA OIS WOIDFJWEF HOIEWFHIOEWFHIOWEFI！',
   },
   {
-    title: '2019/02/16  21:00',
-    data: [
-      {
-        title: 'AIR JORDAN 1 HIGH OG 2018版 “ORIGIN STORY”蜘蛛侠',
-        image: Images.shoe,
-        price: 1999,
-        type: 0,
-        id: 'D537639998765663425',
-        date: Date.now() + 1000 * 60 * 60 * 5,
-        creat: Date.now() - 1000 * 60 * 12,
-      },
-    ],
+    add_time: Date.now() / 1000,
+    text: '亲爱的用户，JFGH SQIOFH FHISA OHDIOS DSIA FHIHF OIAS，SIOAS FDOIAH FAO ISFAS HIO AHFA OIS WOIDFJWEF HOIEWFHIOEWFHIOWEFI！',
   },
 ];
 
@@ -54,40 +34,40 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class MessageCenterPage extends Component {
+class Message extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    const { fetchNotice } = this.props;
-    fetchNotice('message');
+    this.fetchData();
+  }
+
+
+  fetchData = (fetchMore) => {
+    // const { fetchNotice } = this.props;
+    // fetchNotice('/notice/notice_list', 1, fetchMore);
   }
 
   loadMore = () => {
-    const { fetchNotice } = this.props;
-    fetchNotice('message', true);
+    this.fetchData(true);
   }
 
-  renderItem = ({ item }) => <ListItem item={item} />
-
-  renderSectionHeader = ({ section }) => <Text style={styles.header}>{section.title}</Text>
+  renderItem = ({ item }) => (
+    <View>
+      <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
+      <Text style={styles.text}>{item.text}</Text>
+    </View>
+  )
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <SectionList
-          showsVerticalScrollIndicator={false}
-          maxToRenderPerBatch={5}
-          initialNumToRender={3}
-        // ListHeaderComponent={this.renderHeader}
-        // ListFooterComponent={this.renderFooter}
-          renderSectionHeader={this.renderSectionHeader}
-          sections={LIST}
+      <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
+        <PullToRefresh
+          Wrapper={FlatList}
+          totalPages={1}
+          currentPage={1}
+          refresh={this.fetchData}
+          data={LIST}
           renderItem={this.renderItem}
-          keyExtractor={(item, index) => `${item.source_id}-${index}`}
           onEndReached={this.loadMore}
-          removeClippedSubviews={false}
-          onEndReachedThreshold={0.5}
-          stickySectionHeadersEnabled={false}
         />
       </View>
     );
@@ -95,12 +75,23 @@ class MessageCenterPage extends Component {
 }
 
 const styles = StyleSheet.create({
-  header: {
+  date: {
+    color: '#B6B6B6',
+    fontSize: 10,
     textAlign: 'center',
+    marginTop: 8,
+    marginBottom: 2,
+  },
+  text: {
+    backgroundColor: '#fff',
+    marginHorizontal: 9,
+    paddingHorizontal: 10,
+    textAlign: 'justify',
+    borderRadius: 2,
+    overflow: 'hidden',
     fontSize: 12,
-    marginTop: 22,
-    marginBottom: 6,
+    paddingVertical: 6,
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageCenterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(Message);

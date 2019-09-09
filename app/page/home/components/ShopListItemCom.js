@@ -17,6 +17,7 @@ import Colors from '../../../res/Colors';
 import Images from '../../../res/Images';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL } from '../../../common/Constant';
+import TitleWithTag from './TitleWithTag';
 
 class ShopListItemCom extends PureComponent {
   toShopDetailPage = () => {
@@ -39,13 +40,7 @@ class ShopListItemCom extends PureComponent {
       <ScaleView style={styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
         <Image resizeMode="contain" style={styles.imageShoe} source={Images.shoe} />
         <View style={styles.right}>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={[styles.tag, item.b_type === 2 ? styles.qiang : styles.qian]} />
-            <Text style={styles.shopTitle}>
-              <Text style={styles.tagText}>{item.b_type === 2 ? '抢 ' : '签 '}</Text>
-              {item.activity_name}
-            </Text>
-          </View>
+          <TitleWithTag text={item.activity_name} type={item.b_type} />
           <View style={styles.rightBottom}>
             <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
@@ -74,29 +69,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
   },
-  tag: {
-    height: 13,
-    width: 13,
-    overflow: 'hidden',
-    borderRadius: 2,
-    top: 2.5,
-    left: -1.25,
-    position: 'absolute',
-  },
   time: {
     fontFamily: Aldrich,
     fontSize: 14,
     textAlign: 'right',
-  },
-  tagText: {
-    color: '#fff',
-    fontSize: 10.5,
-  },
-  qian: {
-    backgroundColor: '#FFA700',
-  },
-  qiang: {
-    backgroundColor: '#EF4444',
   },
   right: {
     flex: 1,
