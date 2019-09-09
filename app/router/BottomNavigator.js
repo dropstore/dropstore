@@ -32,7 +32,7 @@ export default class BottomNavigator extends PureComponent {
     super(props);
     this.state = {
       routes: ROUTES,
-      index: 3,
+      index: 2,
     };
     this.opacity = [
       new Animated.Value(1),
@@ -45,7 +45,7 @@ export default class BottomNavigator extends PureComponent {
 
   onIndexChange = (index) => {
     this.setState({ index });
-    if (index === 0) {
+    if ([0, 1, 3].includes(index)) {
       StatusBar.setBarStyle('light-content', true);
     } else {
       StatusBar.setBarStyle('dark-content', true);

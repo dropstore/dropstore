@@ -40,31 +40,6 @@ class Activity extends Component {
 
   render() {
     const { activity } = this.props;
-    const list = [{
-      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
-      type: '1',
-      end_time: Date.now() / 1000 + 60 * 5 + 5,
-      time: Date.now() / 1000 + 5,
-      size: '42.5',
-    }, {
-      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
-      type: '2',
-      end_time: Date.now() / 1000 + 60 * 5 + 60,
-      time: Date.now() / 1000 + 60,
-      size: '42.5',
-    }, {
-      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
-      type: '3',
-      end_time: Date.now() / 1000 + 60 * 5,
-      time: Date.now() / 1000,
-      size: '42.5',
-    }, {
-      activity_name: 'AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠 ',
-      type: '6',
-      end_time: Date.now() / 1000 + 60 * 5,
-      time: Date.now() / 1000,
-      size: '42.5',
-    }];
     return (
       <View style={{ flex: 1 }}>
         <NavigationBarCom title="活动通知" />
@@ -74,7 +49,7 @@ class Activity extends Component {
           currentPage={activity.currentPage}
           refresh={this.fetchData}
           style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
-          data={list}
+          data={activity.list}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
         />

@@ -103,7 +103,7 @@ class PickUp extends PureComponent {
       title: '添加收货地址',
       needTurn: true,
       address: {
-        is_default: '1',
+        is_default: true,
       },
     });
   }

@@ -21,9 +21,9 @@ const list1 = [
   {
     title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
   },
-  {
-    title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
-  },
+  // {
+  //   title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
+  // },
   {
     title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
   },
@@ -89,12 +89,12 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.hengtiao} />
           <View style={styles.walletWrapper}>
             <View style={styles.walletLeft}>
-              <Text style={styles.moeny}>0.00</Text>
+              <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
               <Text style={styles.moenyText}>账户总余额(￥)</Text>
             </View>
             <View style={styles.shutiao} />
             <View style={styles.walletLeft}>
-              <Text style={styles.moeny}>1.00</Text>
+              <Text style={styles.moeny}>{(userInfo.zqrate * 1).toFixed(2)}</Text>
               <Text style={styles.moenyText}>我的中签率</Text>
             </View>
           </View>

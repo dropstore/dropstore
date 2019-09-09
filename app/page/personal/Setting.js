@@ -55,6 +55,7 @@ class Setting extends PureComponent {
       sex: { 男: 1, 女: 2 }[list[2].value],
       age: list[3].value,
       user_name: list[1].value,
+      avatar: list[0].value,
     }).then(() => {
       showToast('资料修改成功');
       navigation.pop();
@@ -88,15 +89,7 @@ class Setting extends PureComponent {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
-            const { list } = this.state;
-            this.setState({
-              list: list.map((v) => {
-                if (v.name === item.name) {
-                  return ({ ...v, value: this[v.name] });
-                }
-                return v;
-              }),
-            });
+            this.changeValue(item.name, this[item.name]);
             closeModalbox();
           }}
           closeModalbox={closeModalbox}
@@ -128,21 +121,30 @@ class Setting extends PureComponent {
         cropperCancelText: '取消',
         loadingLabelText: '加载中...',
       }).then((image) => {
-        console.log(image);
+        const formdata = new FormData();
+        formdata.append('avatar', image.sourceURL);
+        request('/user/up_avatar', { params: { formdata }, header: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
+          console.log(res);
+          // this.changeValue('avatar', res.avatar);
+        });
       });
     }
   }
 
-  changeSex = (sex) => {
+  changeValue = (key, value) => {
     const { list } = this.state;
     this.setState({
       list: list.map((v) => {
-        if (v.name === 'sex') {
-          return ({ ...v, value: sex });
+        if (v.name === key) {
+          return ({ ...v, value });
         }
         return v;
       }),
     });
+  }
+
+  changeSex = (sex) => {
+    this.changeValue('sex', sex);
   }
 
   render() {

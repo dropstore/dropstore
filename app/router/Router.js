@@ -35,10 +35,10 @@ import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
 import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
-import UpdateUser from '../page/personal/UpdateUser';
 import MyGoods from '../page/personal/MyGoods';
 import PickUp from '../page/personal/PickUp';
 import ChooseAddress from '../page/personal/Address/ChooseAddress';
+import RestPay from '../page/notice/RestPay';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -48,7 +48,7 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerTitleContainerStyle: { left: 56, right: 56 },
   headerLeft: (
     <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
-      <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.zjt} />
+      <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.back} />
     </TouchableOpacity>
   ),
   headerRight: navigation.getParam('headerRight'),
@@ -92,10 +92,10 @@ const routesWithHeader = {
   Extract,
   Detaile,
   Password,
-  UpdateUser,
   MyGoods,
   PickUp,
   ChooseAddress,
+  RestPay,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {

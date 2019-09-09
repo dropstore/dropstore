@@ -36,7 +36,7 @@ class ChooseAddress extends PureComponent {
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
       address: {
-        is_default: address.length === 0 ? '1' : '0',
+        is_default: address.length === 0,
       },
     });
   }
@@ -96,8 +96,8 @@ class ChooseAddress extends PureComponent {
               <Text style={styles.address}>{v.address}</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <TouchableOpacity onPress={() => this.setDefault(v)} style={styles.defaultBtn}>
-                  <View style={[styles.yuandian, { borderColor: v.is_default === '1' ? Colors.OTHER_BACK : '#666' }]}>
-                    {v.is_default === '1' && <View style={styles.yuandian1} />}
+                  <View style={[styles.yuandian, { borderColor: v.is_default ? Colors.OTHER_BACK : '#666' }]}>
+                    {v.is_default && <View style={styles.yuandian1} />}
                   </View>
                   <Text style={{ fontSize: 12, color: '#333' }}>默认地址</Text>
                 </TouchableOpacity>

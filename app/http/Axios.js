@@ -14,7 +14,8 @@ import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
-const headers = () => ({
+const headers = header => ({
+  ...header,
   Authorization: store.getState().userInfo.user_s_id,
 });
 /**
@@ -54,7 +55,12 @@ axiosInstance.interceptors.response.use(
  */
 
 const request = async (url, {
-  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout, type = 'form',
+  isShowLoading = false,
+  loadingText = '加载中...',
+  method = 'post',
+  params = {},
+  timeout = timeout,
+  type = 'form', header,
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -67,7 +73,12 @@ const request = async (url, {
   try {
     const data = { ...params, timestamp: Date.now() };
     response = await axiosInstance({
-      url, method, timeout, headers: headers(), [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) }, baseURL,
+      url,
+      method,
+      timeout,
+      headers: headers(header),
+      [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
+      baseURL,
     });
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {

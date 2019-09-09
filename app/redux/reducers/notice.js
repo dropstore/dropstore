@@ -29,7 +29,7 @@ export default handleActions({
   [receiveNotice]: (state, action) => ({
     ...state,
     [action.meta.type]: {
-      list: [],
+      list: action.payload.info,
       isFetching: false,
       totalPages: action.payload.number,
       currentPage: action.payload.currentPage,
