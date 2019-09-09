@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Platform, TextInput,
+  View, Text, StyleSheet, TouchableOpacity, Platform, TextInput, StatusBar,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -153,6 +153,7 @@ class Setting extends PureComponent {
     const { list } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         {
           list.map((v) => {
             const Wrapper = v.name === 'sex' ? View : TouchableOpacity;

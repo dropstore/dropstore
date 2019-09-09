@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  FlatList, View, Text, StyleSheet,
+  FlatList, View, Text, StyleSheet, StatusBar,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -60,6 +60,7 @@ class Message extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <PullToRefresh
           Wrapper={FlatList}
           totalPages={1}

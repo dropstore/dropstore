@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import {
+  StyleSheet, Platform, View, StatusBar,
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { withNavigation } from 'react-navigation';
 
@@ -44,21 +46,24 @@ class Web extends Component {
   render() {
     const { navigation } = this.props;
     return (
-      <WebView
-        style={styles.webView}
-        source={{ uri: navigation.getParam('url') }}
-        ref={(v) => { this.webview = v; }}
-        startInLoadingState
-        onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
-        mixedContentMode="always"
-        injectedJavaScript={injectedJavaScript}
-        onMessage={({ nativeEvent: state }) => {
-          if (state.data === 'navigationStateChange') {
-            this.canGoBack = state.canGoBack;
+      <View style={{ flex: 1 }}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+        <WebView
+          style={styles.webView}
+          source={{ uri: navigation.getParam('url') }}
+          ref={(v) => { this.webview = v; }}
+          startInLoadingState
+          onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest}
+          mixedContentMode="always"
+          injectedJavaScript={injectedJavaScript}
+          onMessage={({ nativeEvent: state }) => {
+            if (state.data === 'navigationStateChange') {
+              this.canGoBack = state.canGoBack;
+            }
           }
         }
-        }
-      />
+        />
+      </View>
     );
   }
 }

@@ -70,7 +70,7 @@ class PickUp extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
+    this.didBlurSubscription && this.didBlurSubscription.remove();
   }
 
   changeAddress = () => {

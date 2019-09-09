@@ -52,6 +52,29 @@ class BottomNavigator extends PureComponent {
     ];
   }
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.didBlurSubscription = navigation.addListener(
+      'willFocus',
+      () => {
+        const { index } = this.state;
+        this.changeStatusBar(index);
+      },
+    );
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription && this.didBlurSubscription.remove();
+  }
+
+  changeStatusBar = (i) => {
+    if ([0, 1, 3].includes(i)) {
+      StatusBar.setBarStyle('light-content', true);
+    } else {
+      StatusBar.setBarStyle('dark-content', true);
+    }
+  }
+
   onIndexChange = (index) => {
     const { userInfo, navigation } = this.props;
     if (index === 4 && !userInfo.user_s_id) {
@@ -59,11 +82,7 @@ class BottomNavigator extends PureComponent {
       return;
     }
     this.setState({ index });
-    if ([0, 1, 3].includes(index)) {
-      StatusBar.setBarStyle('light-content', true);
-    } else {
-      StatusBar.setBarStyle('dark-content', true);
-    }
+    this.changeStatusBar(index);
   }
 
   onPressIn = (i) => {
