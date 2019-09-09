@@ -16,7 +16,7 @@ export default class CountdownCom extends PureComponent<Props> {
     const { time } = this.props;
     const timer = time - Date.now() / 1000;
     this.state = {
-      text: timer > maxTime ? '即将开始' : timer < 1 ? '已结束' : this.formatTime(timer),
+      text: timer > maxTime ? '即将开始' : timer < 1   ? '已结束' : this.formatTime(timer),
     };
   }
 

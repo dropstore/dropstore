@@ -18,6 +18,9 @@ import {bindActionCreators} from "redux";
 import {showToast} from "../../utils/MutualUtil";
 import {showShare} from '../../redux/actions/component';
 import {getShareSuccess} from '../../redux/reselect/component';
+import ShopConstant from "../../common/ShopConstant";
+import {debounce} from "../../utils/commonUtils";
+import {store} from "../../router/Router";
 
 function mapStateToProps() {
   return state => ({
@@ -77,13 +80,32 @@ class PayStatus extends PureComponent {
     return checkTime(start_time);
   };
   _showShare = () => {
-    const {showShare} = this.props;
+    const {showShare, navigation} = this.props;
+    const shopInfo = navigation.getParam('shopInfo');
+    const aId = shopInfo.activity.id;
+    const uAId = shopInfo.user_activity.id;
+    const uId = shopInfo.join_user[0].id;
+    const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
     showShare({
-      text: '分享的正文',
+      text: '参与活动',
       img: 'https://www.baidu.com/img/bd_logo1.png',
-      url: 'https://www.baidu.com/',
-      title: '分享的标题',
+      url: url,
+      title: '参与活动',
     });
+  };
+  _setConfirmOnclick = () => {
+    const {navigation} = this.props;
+    const type = navigation.getParam('type');
+    const payStatus = navigation.getParam('payStatus');
+    // 支付佣金无论成功失败都回详情界面
+    if (type === ShopConstant.PAY_COMMISSION) {
+      navigation.navigate('shopDetail')
+    } else {
+      let type = payStatus ? "payStatus" : "uncomplete";
+      navigation.navigate('MyGoods', {
+        type: type,
+      });
+    }
   };
 
   render() {
@@ -106,21 +128,19 @@ class PayStatus extends PureComponent {
         </View>
         {
           payStatus ?
-            <View style={bottomStyle.bottomView}>
-              <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
-                               onPress={() => {
-                                 this._showShare();
-                               }}>
+            <View style={[bottomStyle.bottomView, commonStyle.row]}>
+              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                               onPress={debounce(this._setConfirmOnclick)}>
+                <Text style={bottomStyle.buttonText}>确定</Text>
+              </ImageBackground>
+              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
+                               onPress={debounce(this._showShare)}>
                 <Text style={bottomStyle.buttonText}>分享</Text>
               </ImageBackground>
             </View> : <View style={[bottomStyle.bottomView, commonStyle.row]}>
-              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
-                               onPress={() => alert('查看订单')}>
-                <Text style={bottomStyle.buttonText}>查看订单</Text>
-              </ImageBackground>
-              <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                               onPress={() => navigation.navigate('shopDetail')}>
-                <Text style={bottomStyle.buttonText}>确认</Text>
+              <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
+                               onPress={debounce(this._setConfirmOnclick)}>
+                <Text style={bottomStyle.buttonText}>确定</Text>
               </ImageBackground>
             </View>
         }

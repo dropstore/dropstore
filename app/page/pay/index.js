@@ -16,7 +16,7 @@ import {commonStyle} from '../../res/style/CommonStyle';
 import {debounce} from '../../utils/commonUtils';
 import {bottomStyle} from "../../res/style/BottomStyle";
 import {showToast} from "../../utils/MutualUtil";
-import {getCommisionInfo, getOrderInfo, getPayStatus} from "../../redux/actions/pay";
+import {getOrderInfo, getPayStatus} from "../../redux/actions/pay";
 import ShopConstant from "../../common/ShopConstant";
 
 class Pay extends PureComponent {
@@ -83,19 +83,11 @@ class Pay extends PureComponent {
     if (!isChoosePayWay) {
       return showToast('请选择付款方式');
     }
-    if (type === ShopConstant.PAY_COMMISSION) {// 佣金支付
-      // 获取支付信息并支付
-      let status = await getCommisionInfo(chooseWay, data.order_id);
-      // 同步返回支付完成通知
-      if (status === ShopConstant.FINISHPAY) {
-        // 获取支付状态
-        await getPayStatus(type, data.order_id, navigation, shopInfo);
-      }
-    } else if (type === ShopConstant.PAY_ORDER) {// 订单支付
-      let status = await getOrderInfo(chooseWay, data.order_id);
-      if (status === ShopConstant.FINISHPAY) {
-        await getPayStatus(type, data.order_id, navigation, shopInfo);
-      }
+    let status = await getOrderInfo(type, chooseWay, data.order_id);
+    // 同步返回支付完成通知
+    if (status === ShopConstant.FINISHPAY) {
+      // 获取服务器返回的支付状态
+      await getPayStatus(type, data.order_id, navigation, shopInfo);
     }
   };
 
