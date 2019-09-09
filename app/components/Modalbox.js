@@ -47,7 +47,7 @@ class Modal extends PureComponent {
       return null;
     }
     return (
-      <Modalbox onClosed={this.onClosed} backButtonClose {...options} ref={(v) => { this.modalbox = v; }}>
+      <Modalbox swipeToClose={false} onClosed={this.onClosed} backButtonClose {...options} ref={(v) => { this.modalbox = v; }}>
         {element}
       </Modalbox>
     );

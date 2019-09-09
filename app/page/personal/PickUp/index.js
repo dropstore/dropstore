@@ -33,10 +33,44 @@ class PickUp extends PureComponent {
     super(props);
     const { navigation } = this.props;
     this.item = navigation.getParam('item');
+    this.state = {
+      isChoose: false,
+      link_name: null,
+      mobile: null,
+      address: null,
+    };
   }
 
   componentDidMount() {
-    request('');
+    const { navigation } = this.props;
+    this.didBlurSubscription = navigation.addListener(
+      'willFocus',
+      (payload) => {
+        const { address } = payload.state.params;
+        if (address) {
+          this.setState({
+            link_name: address.link_name,
+            mobile: address.mobile,
+            address: address.address,
+            isChoose: true,
+          });
+        }
+      },
+    );
+    request('/order/pay_postage', { params: { id: this.item.id } }).then((res) => {
+      const { postage, user_address } = res.data;
+      const { link_name, mobile, address } = user_address;
+      this.setState({
+        postage,
+        link_name,
+        mobile,
+        address,
+      });
+    });
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription.remove();
   }
 
   finish = () => {
@@ -51,26 +85,42 @@ class PickUp extends PureComponent {
   }
 
   toPay =() => {
+    const { postage } = this.state;
     const { navigation } = this.props;
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: 'pay_order',
       payData: {
-        order_id: this.item.id,
-        price: 50,
+        order_id: this.item.order_id,
+        price: postage,
+      },
+    });
+  }
+
+  toAdd = () => {
+    const { navigation } = this.props;
+    navigation.navigate('AddressEdit', {
+      title: '添加收货地址',
+      needTurn: true,
+      address: {
+        is_default: true,
       },
     });
   }
 
   render() {
     const item = this.item;
+    const {
+      postage, link_name, mobile, address, isChoose,
+    } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
+          {/* <Image source={{ uri: item.goods.image }} style={styles.shoe} /> */}
           <Image source={Images.shoe} style={styles.shoe} />
           <View style={{ flex: 1 }}>
             <View style={{ justifyContent: 'space-between', flex: 1 }}>
-              <TitleWithTag item={item} />
+              <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                 {/* <View style={{ flexDirection: 'row' }}>
                   <Text style={styles.time}>待付款</Text>
@@ -80,30 +130,42 @@ class PickUp extends PureComponent {
                     time={Date.now() / 1000 + 15 * 60}
                   />
                 </View> */}
-                <Text style={{ color: '#212121', fontSize: 11, fontFamily: YaHei }}>{`SIZE:${item.size}`}</Text>
+                <Text style={{ color: '#212121', fontSize: 11, fontFamily: YaHei }}>{`SIZE：${item.size}`}</Text>
               </View>
             </View>
             {/* <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text> */}
           </View>
         </View>
-        <View style={styles.shouhuorenWrapper}>
-          <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-            <Text style={styles.shouhuoren}>{`收货人：${123}`}</Text>
-            <Text style={styles.shouhuoren}>17554265585</Text>
-          </View>
-          <Text style={styles.address}>北京市朝阳区佳汇国际中心A座509</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={styles.yuandian}>
-              <View style={styles.yuandian1} />
+        {
+          link_name ? (
+            <View style={styles.shouhuorenWrapper}>
+              <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                <Text style={styles.shouhuoren}>{`收货人：${link_name}`}</Text>
+                <Text style={styles.shouhuoren}>{mobile}</Text>
+              </View>
+              <Text style={styles.address}>{address}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={styles.yuandian}>
+                  <View style={styles.yuandian1} />
+                </View>
+                <Text style={{ fontSize: 13, fontFamily: YaHei, color: '#333' }}>{`${isChoose ? '已选' : '默认地址'}`}</Text>
+              </View>
             </View>
-            <Text style={{ fontSize: 13, fontFamily: YaHei, color: '#333' }}>已选</Text>
-          </View>
-        </View>
+          ) : (
+            <TouchableOpacity style={styles.addWrapper} onPress={this.toAdd}>
+              <View style={styles.addIcon}>
+                <Text style={styles.plus}>+</Text>
+              </View>
+              <Text style={styles.add}>添加收货地址</Text>
+            </TouchableOpacity>
+          )
+        }
+
         <TouchableOpacity onPress={this.changeAddress} style={styles.change}>
           <Text style={styles.changeText}>更改物流信息</Text>
         </TouchableOpacity>
         <View style={styles.shouhuorenWrapper}>
-          <Text style={styles.dingdan}>{`订单编号：${item.id}`}</Text>
+          <Text style={styles.dingdan}>{`订单编号：${item.order_id}`}</Text>
           <Text style={styles.dingdan}>{`创建日期：${formatDate(item.add_time)}`}</Text>
         </View>
         <Text style={styles.hint}>友情提示：</Text>
@@ -114,10 +176,10 @@ class PickUp extends PureComponent {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{50}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{postage}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
-          <TouchableOpacity style={[styles.zhifu, { backgroundColor: true ? Colors.OTHER_BACK : '#e2e2e2' }]} onPress={this.toPay}>
+          <TouchableOpacity disabled={!link_name} style={[styles.zhifu, { backgroundColor: link_name ? Colors.OTHER_BACK : '#e2e2e2' }]} onPress={this.toPay}>
             <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
           </TouchableOpacity>
         </View>
@@ -262,6 +324,35 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontFamily: YaHei,
+  },
+  addWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 85,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    marginTop: 7,
+    flexDirection: 'row',
+    marginHorizontal: 8,
+  },
+  add: {
+    color: '#8E8D8D',
+  },
+  addIcon: {
+    backgroundColor: '#BCBCBC',
+    width: 13,
+    height: 13,
+    borderRadius: 6.5,
+    overflow: 'hidden',
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  plus: {
+    fontSize: 12,
+    color: '#fff',
+    lineHeight: 13.5,
+    fontWeight: 'bold',
   },
 });
 

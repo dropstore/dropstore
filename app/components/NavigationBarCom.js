@@ -4,58 +4,38 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { NavigationBar } from 'teaset';
-import { hitSlop } from '../common/Constant';
+import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, SCREEN_WIDTH } from '../common/Constant';
 import Colors from '../res/Colors';
-import Images from '../res/Images';
-import Image from './Image';
+import { YaHei } from '../res/FontFamily';
 
 class NavigationBarCom extends PureComponent {
   render() {
-    const {
-      isShowLeftView, navigation, headerTitle, bgColor, rightView,
-    } = this.props;
+    const { title } = this.props;
     return (
-      <NavigationBar
-        type="ios"
-        statusBarStyle="dark-content"
-        style={[styles.container, { backgroundColor: (bgColor || Colors.MAIN_BACK) }]}
-        tintColor={Colors.WHITE_COLOR}
-        title={headerTitle}
-        titleStyle={[styles.title, { color: (bgColor ? Colors.WHITE_COLOR : Colors.NORMAL_TEXT_6) }]}
-        leftView={isShowLeftView
-          ? (
-            <TouchableOpacity hitSlop={hitSlop} onPress={() => navigation.goBack()}>
-              <Image source={Images.zjt} style={styles.leftImage} resizeMode="contain" />
-            </TouchableOpacity>
-          )
-          : <View />}
-        rightView={rightView || <View />}
-      />
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  titleWrapper: {
-    flex: 1,
-    paddingLeft: 4,
-    paddingRight: 4,
+  container: {
+    height: STATUSBAR_AND_NAV_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT,
+    backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: SCREEN_WIDTH,
+    top: 0,
+    position: 'absolute',
   },
   title: {
-    fontSize: 18,
-  },
-  container: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#aaa',
-  },
-  leftImage: {
-    width: 12,
-    height: 12,
-    marginLeft: 10,
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: YaHei,
   },
 });
 

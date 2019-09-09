@@ -14,7 +14,7 @@ const IMAGES = {
   personalInactive: require('./image/personal-inactive.png'),
   identifyInactive: require('./image/identify-inactive.png'),
   freeTradeInactive: require('./image/freeTrade-inactive.png'),
-  zjt: require('./image/zjt.png'),
+  back: require('./image/back.png'),
   ic_back_gray: require('./image/ic-back-gray.png'),
   instructions: require('./image/instructions.png'),
   loading: require('./image/loading.gif'),
@@ -124,6 +124,8 @@ const IMAGES = {
   // 个人设置
   frameAvatar: require('./image/frameAvatar.png'),
   iconRight: require('./image/icon-arrow-right.png'),
+  chooseBoy: require('./image/choose-boy.png'),
+  chooseGirl: require('./image/choose-girl.png'),
   // 地址
   xiaoJiaHao: require('./image/xiaojiah.png'),
   chooseCircle: require('./image/chooseCircle.png'),

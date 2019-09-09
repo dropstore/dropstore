@@ -4,9 +4,10 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ImageBackground from '../../components/ImageBackground';
 import Images from '../../res/Images';
-import Image from '../../components/Image';
+import {
+  Image, ModalNormal, ImageBackground, KeyboardDismiss,
+} from '../../components';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
@@ -14,7 +15,9 @@ import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import {
   PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
 } from '../../common/Constant';
-import KeyboardDismiss from '../../components/KeyboardDismiss';
+import { request } from '../../http/Axios';
+import { showModalbox, closeModalbox } from '../../redux/actions/component';
+import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -24,7 +27,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser,
+    updateUser, showModalbox, closeModalbox,
   }, dispatch);
 }
 
@@ -42,7 +45,52 @@ class Extract extends PureComponent {
   }
 
   submit = () => {
-    alert('提交申请');
+    if (!this.name) {
+      showToast('请输入收款人姓名');
+      return;
+    } if (!this.account) {
+      showToast('请输入收款人账户');
+      return;
+    } if (!this.price) {
+      showToast('请输入提现金额');
+      return;
+    }
+    const { showModalbox, closeModalbox } = this.props;
+    showModalbox({
+      element: (<ModalNormal
+        sure={() => {
+          request('/user/user_cash', {
+            params: {
+              price: this.price,
+              name: this.name,
+              account: this.account,
+            },
+          }).then(() => {
+            showToast('提现申请成功');
+            closeModalbox();
+          });
+        }}
+        closeModalbox={closeModalbox}
+        customText={
+          (
+            <View>
+              <Text>{`收款人姓名：${this.name}`}</Text>
+              <Text>{`收款人账户：${this.account}`}</Text>
+              <Text>{`提现金额：${this.price}`}</Text>
+            </View>
+          )
+        }
+        title="确认提现账户及金额"
+      />),
+      options: {
+        style: {
+          height: 197,
+          width: 265,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      },
+    });
   }
 
   instructions = () => {
@@ -82,7 +130,7 @@ class Extract extends PureComponent {
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
               clearButtonMode="while-editing"
-              onChangeText={(text) => { this.name = text; }}
+              onChangeText={(text) => { this.account = text; }}
             />
           </ImageBackground>
           <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
@@ -94,7 +142,7 @@ class Extract extends PureComponent {
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
               clearButtonMode="while-editing"
-              onChangeText={(text) => { this.name = text; }}
+              onChangeText={(text) => { this.price = text; }}
             />
           </ImageBackground>
           <TouchableOpacity style={styles.btn} onPress={this.instructions}>

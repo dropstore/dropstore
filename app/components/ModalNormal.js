@@ -19,16 +19,21 @@ export default class Modal extends PureComponent {
   }
 
   render() {
-    const { title, text } = this.props;
+    const { title, text, customText } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{`${title || '友情提示'}`}</Text>
         <View style={styles.wrapper}>
-          <Text style={styles.text}>{text}</Text>
+          {customText || <Text style={styles.text}>{text}</Text>}
         </View>
-        <TouchableOpacity onPress={this.sure} style={styles.sure}>
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
-        </TouchableOpacity>
+        <View style={styles.btn}>
+          <TouchableOpacity onPress={this.sure} style={styles.sure}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.cancel} style={styles.cancel}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>取消</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity onPress={this.cancel} style={styles.cha}>
           <Image source={Images.cha} style={{ width: 24, height: 24 }} />
         </TouchableOpacity>
@@ -65,14 +70,24 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  sure: {
-    height: 46,
+  btn: {
+    height: 45,
     width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+  },
+  sure: {
     backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
+    flex: 1,
+  },
+  cancel: {
+    flex: 1,
+    backgroundColor: '#A4A4A4',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cha: {
     backgroundColor: Colors.OTHER_BACK,

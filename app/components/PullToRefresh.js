@@ -23,7 +23,7 @@ export default class PullToRefresh extends PureComponent {
 
   renderFooter = () => {
     const { totalPages, currentPage } = this.props;
-    if (totalPages === currentPage && totalPages > 0) {
+    if (totalPages === currentPage || totalPages === 0) {
       return (
         <View style={styles.loadingFooter}>
           <Text style={styles.loadingText}>没有更多了</Text>

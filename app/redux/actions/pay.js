@@ -10,35 +10,18 @@ import Strings from "../../res/Strings";
 // const resetActivityList = createAction('RESET_ACTIVITY_LIST');
 // const notReceiveActivityList = createAction('NOT_RECEIVE_ACTIVITY_LIST');
 
-/**
- * 获取支付佣金信息并调用支付
- * @param chooseWay - 支付方式
- * @param u_a_id
- * @returns {Promise<*>}
- */
-const getCommisionInfo = async (chooseWay, u_a_id) => {
-  const params = {
-    u_a_id: u_a_id,
-  };
-  try {
-    let res = await request('/pay/getAlipayActivity', {params, isShowLoading: true});
-    let data = res.data;
-    if (data) {
-      return await pay(chooseWay, data);
-    }
-  } catch (e) {
-  }
-};
 
 /**
  * 获取订单信息并调用支付
- * @param chooseWay
- * @param order_id
+ * @param type 支付类型 1订单 2佣金 3邮费
+ * @param chooseWay 支付方式 1 支付宝 2 微信 3 drop平台
+ * @param order_id 订单支付时传值(order_id) 佣金支付时传值(u_a_id) 邮费支付时传值(o_g_id)
  * @returns {Promise<*>}
  */
-const getOrderInfo = async (chooseWay, order_id) => {
+const getOrderInfo = async (type, chooseWay, order_id) => {
   const params = {
     order_id: order_id,
+    type: type
   };
   try {
     let res = await request('/pay/getAlipayOrder', {params, isShowLoading: true});
@@ -123,7 +106,7 @@ const getPayStatus = async (type, uAid, navigation, shopInfo) => {
     let res = await request('/pay/get_pay_status', {params, isShowLoading: true});
     if (res.data == 1) {
       showToast('支付成功');
-      navigation.push('payStatus', {'payStatus': true, 'shopInfo': shopInfo})
+      navigation.push('payStatus', {'payStatus': true, 'shopInfo': shopInfo, 'type': type})
     } else {
       showToast('支付失败，请重新支付');
     }
@@ -131,7 +114,6 @@ const getPayStatus = async (type, uAid, navigation, shopInfo) => {
   }
 };
 export {
-  getCommisionInfo,
   getOrderInfo,
   pay,
   getPayStatus

@@ -2,73 +2,70 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, FlatList,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
-import { updateUser } from '../../redux/actions/userInfo';
-import { getUserInfo } from '../../redux/reselect/userInfo';
+import { PullToRefresh } from '../../components';
+import { request } from '../../http/Axios';
+import { formatDate } from '../../utils/commonUtils';
 
-function mapStateToProps() {
-  return state => ({
-    userInfo: getUserInfo(state),
-  });
-}
+export default class Detaile extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      totalPages: -1,
+      currentPage: 1,
+      list: [],
+      isFetching: false,
+    };
+    this.fetchData();
+  }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    updateUser,
-  }, dispatch);
-}
+  fetchData = (fetchMore) => {
+    const { currentPage, isFetching, totalPages } = this.state;
+    if (isFetching || (currentPage >= totalPages && fetchMore)) {
+      return;
+    }
+    const page = fetchMore ? currentPage + 1 : 1;
+    request('/user/user_balance', {
+      params: {
+        pn: page,
+        limit: 10,
+      },
+    }, fetchMore).then((res) => {
+      this.setState({
+        list: res.data.list,
+        totalPages: res.data.number,
+        currentPage: page,
+      });
+    });
+  }
 
-class Detaile extends PureComponent {
-  renderItem = () => (
+  loadMore = () => {
+    this.fetchData(true);
+  }
+
+  renderItem = ({ item }) => (
     <TouchableOpacity style={styles.item}>
       <View>
-        <Text style={{ fontFamily: YaHei }}>提现</Text>
-        <Text style={{ fontSize: 13, color: '#666' }}>2019-08-28 16:25:06</Text>
+        <Text style={{ fontFamily: YaHei }}>{item.reason}</Text>
+        <Text style={{ fontSize: 13, color: '#666' }}>{formatDate(item.add_time)}</Text>
       </View>
       <View>
-        <Text style={{ fontSize: 17, fontFamily: YaHei }}>+ 2600</Text>
+        <Text style={{ fontSize: 17, fontFamily: YaHei }}>{`${item.type === '1' ? '- ' : '+ '}${item.price / 100}`}</Text>
       </View>
     </TouchableOpacity>
   )
 
-  renderFooter = () => {
-    // const { vendors } = this.props;
-    // if (vendors.totalPages === vendors.currentPage && vendors.totalPages > 0) {
-    //   return (
-    //     <View style={styles.loadingFooter}>
-    //       <Text style={styles.loadingText}>没有更多了</Text>
-    //     </View>
-    //   );
-    // }
-    // return (
-    //   <View style={styles.loadingFooter}>
-    //     <Text style={styles.loadingText}>加载中</Text>
-    //     <Image source={Images.loading} style={styles.loadingGif} />
-    //   </View>
-    // );
-  }
-
-  loadMore = () => {
-
-  }
-
   render() {
+    const { totalPages, currentPage, list } = this.state;
     return (
-      <FlatList
-        showsVerticalScrollIndicator={false}
-        maxToRenderPerBatch={5}
-        initialNumToRender={3}
-        style={{ flex: 1 }}
-        // ListFooterComponent={this.renderFooter}
-        data={Array(50).fill('')}
+      <PullToRefresh
+        totalPages={totalPages}
+        currentPage={currentPage}
+        Wrapper={FlatList}
+        data={list}
+        refresh={this.fetchData}
         renderItem={this.renderItem}
-        keyExtractor={(item, index) => `${item.source_id}-${index}`}
         onEndReached={this.loadMore}
-        removeClippedSubviews={false}
-        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -84,5 +81,3 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(Detaile);

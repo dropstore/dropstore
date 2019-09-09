@@ -8,7 +8,7 @@ export default class FreeTrade extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <NavigationBarCom headerTitle="自由贸易" isShowLeftView={false} />
+        <NavigationBarCom title="自由贸易" />
         <Image style={{ width: wPx2P(479 / 2), height: wPx2P(190 / 2) }} source={Images.freeTradePlaceholder} />
       </View>
     );
