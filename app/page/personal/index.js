@@ -14,37 +14,6 @@ import Colors from '../../res/Colors';
 
 const HEADER_HEIGHT = 44;
 
-const list1 = [
-  {
-    title: '我的活动', icon: 'myActivity', route: 'fashounotice',
-  },
-  {
-    title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
-  },
-  // {
-  //   title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
-  // },
-  {
-    title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
-  },
-];
-
-const list2 = [
-  // { title: '发售通知', icon: 'fashounotice', route: 'fashounotice' },
-  {
-    title: '系统消息', icon: 'systemnotice', route: 'Message', params: { title: '系统通知', type: 'systemnotice' },
-  },
-  {
-    title: '系统设置', icon: 'safesetting', route: 'Safesetting', params: { title: '系统设置' },
-  },
-];
-
-// const list3 = [
-//   {
-//     title: '中签率说明', icon: 'illustration', route: 'Web', params: { title: '中签率说明', url: 'http://m.dropstore.cn/index.html#/drawlots' },
-//   },
-// ];
-
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
@@ -52,6 +21,33 @@ function mapStateToProps() {
 }
 
 class PersonalCenterPage extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { onIndexChange } = this.props;
+    this.list1 = [
+      {
+        title: '我的活动', icon: 'myActivity', route: 'fashounotice',
+      },
+      {
+        title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
+      },
+      // {
+      //   title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
+      // },
+      {
+        title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
+      },
+    ];
+    this.list2 = [
+      {
+        title: '系统消息', icon: 'systemnotice', route: 'Message', params: { title: '系统通知', type: 'systemnotice' },
+      },
+      {
+        title: '系统设置', icon: 'safesetting', route: 'Safesetting', params: { title: '系统设置', onIndexChange },
+      },
+    ];
+  }
+
   onPress = (v) => {
     const { navigation, onIndexChange } = this.props;
     if (v.route === 'fashounotice') {
@@ -88,21 +84,27 @@ class PersonalCenterPage extends PureComponent {
           </View>
           <View style={styles.hengtiao} />
           <View style={styles.walletWrapper}>
-            <View style={styles.walletLeft}>
+            <TouchableOpacity
+              style={styles.walletLeft}
+              onPress={() => navigation.navigate('Detaile', { title: '明细' })}
+            >
               <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
               <Text style={styles.moenyText}>账户总余额(￥)</Text>
-            </View>
+            </TouchableOpacity>
             <View style={styles.shutiao} />
-            <View style={styles.walletLeft}>
+            <TouchableOpacity
+              style={styles.walletLeft}
+              onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
+            >
               <Text style={styles.moeny}>{(userInfo.zqrate * 1).toFixed(2)}</Text>
               <Text style={styles.moenyText}>我的中签率</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK, paddingTop: 7 }}>
           <View style={styles.list1}>
             {
-              list1.map((v, i) => (
+              this.list1.map((v, i) => (
                 <TouchableOpacity
                   key={v.title}
                   onPress={() => this.onPress(v)}
@@ -119,7 +121,7 @@ class PersonalCenterPage extends PureComponent {
           </View>
           <View style={styles.list2}>
             {
-              list2.map((v, i) => (
+              this.list2.map((v, i) => (
                 <TouchableOpacity
                   onPress={() => this.onPress(v)}
                   key={v.title}
@@ -128,7 +130,7 @@ class PersonalCenterPage extends PureComponent {
                   <Image style={{ ...styles.itemIcon, marginRight: wPx2P(21) }} source={Images[v.icon]} />
                   <View
                     style={[styles.list2ItemRight, {
-                      borderBottomWidth: i === list2.length - 1 ? 0 : StyleSheet.hairlineWidth,
+                      borderBottomWidth: i === this.list2.length - 1 ? 0 : StyleSheet.hairlineWidth,
                     }]}
                   >
                     <Text style={[styles.itemTitle, { marginLeft: 5 }]}>{v.title}</Text>

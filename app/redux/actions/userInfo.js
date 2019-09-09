@@ -66,11 +66,20 @@ function weChatBind(i) {
   });
 }
 
+// 手机号绑定
+function mobileBind(mobile, codes) {
+  return () => new Promise((resolve) => {
+    console.log(mobile, codes);
+    request('/user/up_mobile', { params: { mobile, codes } }).then(() => {
+      resolve();
+    });
+  });
+}
 
 // 发送验证码
-function sendMessage(mobile, sendTime = 0) {
+function sendMessage(api, mobile, sendTime = 0) {
   return dispatch => new Promise((resolve, reject) => {
-    request('/user/send_message', { params: { mobile } }).then(() => {
+    request(api, { params: { mobile } }).then(() => {
       dispatch(setMessageSendFlag({ sendTime, sendPhone: mobile }));
       resolve();
     }).catch(() => {
@@ -162,5 +171,5 @@ function updatePassword(password, new_password) {
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
   receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
-  setPassword, updatePassword,
+  setPassword, updatePassword, mobileBind,
 };

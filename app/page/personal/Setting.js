@@ -123,7 +123,7 @@ class Setting extends PureComponent {
       }).then((image) => {
         upload('/user/up_avatar', {
           type: 1,
-          avatar: image.sourceURL,
+          avatar: image.path,
         }).then((res) => {
           this.changeValue('avatar', res.data);
         });

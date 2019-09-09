@@ -7,12 +7,12 @@ import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import PhoneNumCom from './PhoneNumCom';
-import { messageAuth } from '../../redux/actions/userInfo';
+import { mobileBind } from '../../redux/actions/userInfo';
 import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    messageAuth,
+    mobileBind,
   }, dispatch);
 }
 
@@ -23,11 +23,11 @@ class PhoneNum extends PureComponent {
   }
 
   goNext = () => {
-    const { navigation, messageAuth } = this.props;
+    const { navigation, mobileBind } = this.props;
     if (this.disabled) {
       showToast('请输入验证码');
     } else {
-      messageAuth(this.mobile, this.code).then(() => {
+      mobileBind(this.mobile, this.code).then(() => {
         navigation.navigate('NameAge');
       });
     }
@@ -47,7 +47,7 @@ class PhoneNum extends PureComponent {
     return (
       <KeyboardDismiss style={styles.container}>
         <Image style={styles.phoneNum} source={Images.phoneNum} />
-        <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
+        <PhoneNumCom bindPhone finished={this.finished} unfinished={this.unfinished} />
         <View style={styles.bottom}>
           <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
             <Text style={styles.nextText}>上一步</Text>

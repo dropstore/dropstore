@@ -55,10 +55,10 @@ class PhoneNumCom extends PureComponent {
   }
 
   toSendCode =() => {
-    const { userInfo, sendMessage } = this.props;
+    const { userInfo, sendMessage, bindPhone } = this.props;
     const { mobile } = this.state;
     if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
-      sendMessage(mobile, Date.now()).then(() => {
+      sendMessage(bindPhone ? '/user/send_change_message' : '/user/send_message', mobile, Date.now()).then(() => {
         showToast(`验证码已发送至${mobile}`);
         this.startTimer();
         this.codeInput.focus();
