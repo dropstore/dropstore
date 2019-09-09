@@ -129,11 +129,11 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
     activity_id: activity_id,
   };
   try {
-    let data = await request(url, {params, isShowLoading: true});
-    if (data) {
-      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: true})
+    let res = await request(url, {params, isShowLoading: true});
+    if (res) {
+      navigation.push('panicStatus', {shopInfo: shopInfo, panicStatus: true})
     } else {
-      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+      navigation.push('panicStatus', {shopInfo: shopInfo, panicStatus: false})
     }
   } catch (e) {
     navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
@@ -144,17 +144,20 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
  * 直接参加
  * @param activity_id
  * @param size_id
+ * @param navigation
+ * @param shopInfo
  */
-const doBuyNow = async (activity_id, size_id,navigation, shopInfo) => {
+const doBuyNow = async (activity_id, size_id, navigation, shopInfo) => {
   const params = {
     activity_id: activity_id,
     size_id: size_id
   };
   try {
-   let data =  await request('/order/do_buy_now', {params, isShowLoading: true});
-   if(data){
-     navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
-   }
+    let res = await request('/order/do_buy_now', {params, isShowLoading: true});
+    let data = res.data;
+    if (data) {
+      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: true})
+    }
   } catch (e) {
     navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
   }
