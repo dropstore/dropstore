@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import {
   View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
@@ -14,6 +15,14 @@ import Identify from '../page/identify';
 import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Activity from '../page/notice/Activity';
+import { getUserInfo } from '../redux/reselect/userInfo';
+
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
 
 const HOME_ICON_WIDTH = wPx2P(97);
 const PADDING_HORIZONTAL = wPx2P(22);
@@ -27,12 +36,12 @@ const ROUTES = [
   { screen: Personal, key: 'personal', title: '我的' },
 ];
 
-export default class BottomNavigator extends PureComponent {
+class BottomNavigator extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       routes: ROUTES,
-      index: 3,
+      index: 2,
     };
     this.opacity = [
       new Animated.Value(1),
@@ -43,13 +52,37 @@ export default class BottomNavigator extends PureComponent {
     ];
   }
 
-  onIndexChange = (index) => {
-    this.setState({ index });
-    if (index === 0) {
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.didBlurSubscription = navigation.addListener(
+      'willFocus',
+      () => {
+        const { index } = this.state;
+        this.changeStatusBar(index);
+      },
+    );
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription && this.didBlurSubscription.remove();
+  }
+
+  changeStatusBar = (i) => {
+    if ([0, 1, 3].includes(i)) {
       StatusBar.setBarStyle('light-content', true);
     } else {
       StatusBar.setBarStyle('dark-content', true);
     }
+  }
+
+  onIndexChange = (index) => {
+    const { userInfo, navigation } = this.props;
+    if (index === 4 && !userInfo.user_s_id) {
+      navigation.navigate('Auth');
+      return;
+    }
+    this.setState({ index });
+    this.changeStatusBar(index);
   }
 
   onPressIn = (i) => {
@@ -187,3 +220,5 @@ const styles = StyleSheet.create({
     top: -15,
   },
 });
+
+export default connect(mapStateToProps)(BottomNavigator);

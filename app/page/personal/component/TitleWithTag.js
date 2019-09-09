@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View, Text, StyleSheet, Platform,
+} from 'react-native';
 import { YaHei } from '../../../res/FontFamily';
 
 export default class TitleWithTag extends PureComponent {
@@ -12,7 +14,7 @@ export default class TitleWithTag extends PureComponent {
           backgroundColor: type === 1 ? '#B4DE2A' : [3, 4, 5].includes(type) ? '#EF4444' : '#FFA700',
         }]}
         >
-          {type === 1 ? '期货 ' : [3, 4, 5].includes(type) ? '发布 ' : '现货 '}
+          {type === 1 ? '期货 ' : [3, 4, 5].includes(type) ? '发布' : '现货'}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&emsp;&nbsp;
@@ -26,15 +28,16 @@ export default class TitleWithTag extends PureComponent {
 const styles = StyleSheet.create({
   tagText: {
     color: '#fff',
-    fontSize: 10.5,
+    fontSize: 10,
     height: 13,
     width: 23.5,
     overflow: 'hidden',
     borderRadius: 2,
-    top: 2,
     position: 'absolute',
     textAlign: 'center',
-    lineHeight: 13.5,
+    lineHeight: 13,
+    top: Platform.OS === 'ios' ? 2 : 0.5,
+    paddingTop: Platform.OS === 'ios' ? 0 : 0.5,
   },
   shopTitle: {
     fontSize: 12,

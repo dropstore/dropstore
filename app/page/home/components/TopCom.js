@@ -9,8 +9,8 @@ import Carousel from 'react-native-snap-carousel';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Image from '../../../components/Image';
-import { px2Dp } from '../../../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../../../common/Constant';
+import { wPx2P } from '../../../utils/ScreenUtil';
+import { SCREEN_WIDTH, MARGIN_HORIZONTAL } from '../../../common/Constant';
 import { getBanner } from '../../../redux/reselect/banner';
 import { fetchBanner } from '../../../redux/actions/banner';
 
@@ -60,8 +60,8 @@ class TopCom extends PureComponent {
 
 const _styles = StyleSheet.create({
   topImage: {
-    width: px2Dp(717),
-    height: px2Dp(301),
+    width: wPx2P(375 - MARGIN_HORIZONTAL * 2),
+    height: wPx2P(150),
     borderRadius: 2,
     alignSelf: 'center',
   },

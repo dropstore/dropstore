@@ -26,14 +26,14 @@ react-native run-android
 ## ios
 
 ```js
-./pack.rb appstore 
+./pack.rb ios 
 ```
 `安装包输出地址: dropstore/ios/build`
 
 ## android
 
 ```js
-./pack.rb dropstore
+./pack.rb android
 ```
 `安装包输出地址: dropstore/android/app/build/outputs/apk`
 
@@ -43,14 +43,14 @@ react-native run-android
 
 ```js
 rvm use system
-./pack.rb appstore pnu 
+./pack.rb ios pnu 
 ```
 `安装包下载地址: https://www.pgyer.com/oq1O`
 
 ## android
 
 ```js
-./pack.rb dropstore pnu
+./pack.rb android pnu
 ```
 `安装包下载地址: https://www.pgyer.com/pbFd`
 

@@ -28,6 +28,7 @@ export default class CountdownCom extends PureComponent<Props> {
         if (timer < 1) {
           const {finish} = this.props;
           finish();
+          this.timeInterval && clearInterval(this.timeInterval);
           return;
         }
         const text = this.formatTime(timer);

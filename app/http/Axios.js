@@ -14,7 +14,8 @@ import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
 const timeout = 10000;
-const headers = () => ({
+const headers = header => ({
+  ...header,
   Authorization: store.getState().userInfo.user_s_id,
 });
 /**
@@ -54,7 +55,12 @@ axiosInstance.interceptors.response.use(
  */
 
 const request = async (url, {
-  isShowLoading = false, loadingText = '加载中...', method = 'post', params = Object, timeout = timeout, type = 'form',
+  isShowLoading = false,
+  loadingText = '加载中...',
+  method = 'post',
+  params = {},
+  timeout = timeout,
+  type = 'form',
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -67,7 +73,12 @@ const request = async (url, {
   try {
     const data = { ...params, timestamp: Date.now() };
     response = await axiosInstance({
-      url, method, timeout, headers: headers(), [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) }, baseURL,
+      url,
+      method,
+      timeout,
+      headers: headers(),
+      [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
+      baseURL,
     });
     console.log(response);
     if (response.status >= 200 && response.status < 400) {
@@ -97,4 +108,33 @@ const request = async (url, {
   }
 };
 
-export { axiosInstance, timeout, request };
+const upload = (url, data) => {
+  const formdata = new FormData();
+  data.timestamp = Date.now();
+  for (const i in data) {
+    if (i === 'avatar') {
+      formdata.append('avatar', { uri: data[i], name: 'avatar.png', type: 'multipart/form-data' });
+      delete data[i];
+    } else {
+      formdata.append(i, data[i]);
+    }
+  }
+  formdata.append('token', md5(encodeURIComponent(sortObj(data))));
+  return new Promise((resolve, reject) => {
+    Axios.post(`${baseURL}${url}`, formdata, { headers: headers() }).then((res) => {
+      if (res.data.callbackCode === 1) {
+        resolve(res.data);
+        return;
+      }
+      console.log(res.data);
+      showToast(res.data.callbackMsg);
+      throw new Error(res.data.callbackMsg);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+};
+
+export {
+  axiosInstance, timeout, request, upload,
+};

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, StatusBar,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
@@ -32,13 +32,13 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
-          <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
-        </TouchableOpacity>
-      ),
-    });
+    // navigation.setParams({
+    //   headerRight: (
+    //     <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
+    //       <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
+    //     </TouchableOpacity>
+    //   ),
+    // });
   }
 
   onIndexChange = (index) => {
@@ -61,6 +61,7 @@ class MyGoods extends PureComponent {
     const isMyGoods = this.routeType === 'Goods';
     return (
       <View style={styles.tabView}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View style={styles.header}>
           <TabBar
             style={{ ...styles.tabBar, width: isMyGoods ? 140 : 180 }}

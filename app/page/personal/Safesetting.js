@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity, Alert, StatusBar,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -12,7 +12,6 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser, weChatBind, logout } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { showModal } from '../../utils/MutualUtil';
 
 const bottomList = [
   // { title: '切换账号', type: 'changeAccount' },
@@ -69,10 +68,21 @@ class Safesetting extends PureComponent {
         });
       });
     } else if (type === 'logout') {
-      showModal('确认退出登录吗？', () => {
-        logout();
-        navigation.goBack();
-      }, { title: '' });
+      Alert.alert(
+        '',
+        '确认退出登录吗？',
+        [
+          { text: '取消', onPress: () => {} },
+          {
+            text: '确定',
+            onPress: () => {
+              logout();
+              navigation.getParam('onIndexChange')(2);
+              navigation.goBack();
+            },
+          },
+        ],
+      );
     } else if (type === 'password') {
       navigation.navigate('Password', { title: '交易密码' });
     } else if (type === 'wx') {
@@ -90,6 +100,7 @@ class Safesetting extends PureComponent {
     const { list, cache, unit } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View>
           {
             list.map((group, i) => (
