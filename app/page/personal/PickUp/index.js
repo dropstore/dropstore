@@ -156,8 +156,9 @@ class PickUp extends PureComponent {
         </View>
         <Text style={styles.hint}>友情提示：</Text>
         <Text style={styles.hint1}>本站默认顺丰物流发货，若需其他物流方式请直接联系客服 :</Text>
-        <Text style={styles.hint1}>QQ：123456789</Text>
-        <Text style={styles.hint1}>微信：drop</Text>
+        {/* <Text style={styles.hint1}>QQ：123456789</Text> */}
+        <Text style={styles.hint1}>微信：dropservice</Text>
+        {/* <Text style={styles.hint1}>电话：123456789</Text> */}
         <Text style={styles.hint2}>物流价格由第三方物流公司提供</Text>
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>

@@ -14,7 +14,6 @@ import {
 import { debounce } from '../../../utils/commonUtils';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import Colors from '../../../res/Colors';
-import Images from '../../../res/Images';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
