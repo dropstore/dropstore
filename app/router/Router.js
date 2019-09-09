@@ -48,7 +48,7 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerTitleContainerStyle: { left: 56, right: 56 },
   headerLeft: (
     <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
-      <Image resizeMode="contain" style={{ height: 12, width: 12 }} source={Images.back} />
+      <Image resizeMode="contain" style={{ height: 18, width: 10 }} source={Images.back} />
     </TouchableOpacity>
   ),
   headerRight: navigation.getParam('headerRight'),
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   btnWrapper: {
     height: NAV_HEIGHT,
     justifyContent: 'center',
-    paddingLeft: 10,
+    paddingLeft: 20,
     paddingRight: 40,
   },
   headerStyle: {

@@ -17,8 +17,7 @@ export default class RestPayItem extends PureComponent {
       <ScaleView style={styles.container} onPress={this.changeChoosed}>
         <View style={styles.left}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-            {/* <Image source={{ uri: item.image }} style={styles.shoe} /> */}
-            <Image source={Images.shoe} style={styles.shoe} />
+            <Image source={{ uri: item.image }} style={styles.shoe} />
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Image source={{ uri: item.avatar }} style={styles.avatar} />
               <Text numberOfLines={1} style={{ fontSize: 13, flex: 1, marginBottom: 2 }}>{item.name}</Text>
@@ -27,7 +26,7 @@ export default class RestPayItem extends PureComponent {
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <Text style={styles.title}>{item.activity_name}</Text>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-              <Price price={item.price} />
+              <Price price={item.order_price} />
               <Text style={styles.size}>{`SIZE：${item.size}`}</Text>
             </View>
           </View>
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: 2,
     overflow: 'hidden',
-    marginTop: 7,
+    marginBottom: 7,
   },
   left: {
     paddingLeft: 10,
