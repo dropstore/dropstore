@@ -38,6 +38,8 @@ class LuckyCharmList extends PureComponent {
   }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(LuckyCharmList)
+
+
 const styles = StyleSheet.create({
   customerNotes: {
     width: 717,

@@ -27,7 +27,16 @@ const initActivity = {
     currentPage: 1,
     totalPages: -1,
     limit: 10,
-    list: [],
+    list: [
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+      {id:15,img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567772811988&di=5fec9a47f21eb9f31d0fce9017f921d3&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cef70d70409845d688d53f20f7.jpg'},
+    ],
   },
   [ShopConstant.RESERVE]: {
     isFetching: false,
