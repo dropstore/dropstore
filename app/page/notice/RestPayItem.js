@@ -20,7 +20,7 @@ export default class RestPayItem extends PureComponent {
             <Image source={{ uri: item.image }} style={styles.shoe} />
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Image source={{ uri: item.avatar }} style={styles.avatar} />
-              <Text numberOfLines={1} style={{ fontSize: 13, flex: 1, marginBottom: 2 }}>{item.name}</Text>
+              <Text numberOfLines={1} style={{ fontSize: 13, flex: 1, marginBottom: 2 }}>{item.user_name}</Text>
             </View>
           </View>
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
