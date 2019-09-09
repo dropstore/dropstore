@@ -73,10 +73,6 @@ class PickUp extends PureComponent {
     this.didBlurSubscription.remove();
   }
 
-  finish = () => {
-
-  }
-
   changeAddress = () => {
     const { navigation } = this.props;
     navigation.navigate('ChooseAddress', {
@@ -116,24 +112,14 @@ class PickUp extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          {/* <Image source={{ uri: item.goods.image }} style={styles.shoe} /> */}
-          <Image source={Images.shoe} style={styles.shoe} />
+          <Image source={{ uri: item.goods.image }} style={styles.shoe} />
           <View style={{ flex: 1 }}>
             <View style={{ justifyContent: 'space-between', flex: 1 }}>
               <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                {/* <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.time}>待付款</Text>
-                  <CountdownCom
-                    finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
-                    time={Date.now() / 1000 + 15 * 60}
-                  />
-                </View> */}
                 <Text style={{ color: '#212121', fontSize: 11, fontFamily: YaHei }}>{`SIZE：${item.size}`}</Text>
               </View>
             </View>
-            {/* <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text> */}
           </View>
         </View>
         {

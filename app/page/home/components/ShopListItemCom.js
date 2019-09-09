@@ -38,7 +38,7 @@ class ShopListItemCom extends PureComponent {
     const { item } = this.props;
     return (
       <ScaleView style={styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
-        <Image resizeMode="contain" style={styles.imageShoe} source={Images.shoe} />
+        <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} type={item.b_type} />
           <View style={styles.rightBottom}>

@@ -16,7 +16,7 @@ import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { showToast } from '../../utils/MutualUtil';
 import { closeModalbox, showModalbox } from '../../redux/actions/component';
-import { request } from '../../http/Axios';
+import { upload } from '../../http/Axios';
 
 function mapStateToProps() {
   return state => ({
@@ -121,12 +121,12 @@ class Setting extends PureComponent {
         cropperCancelText: '取消',
         loadingLabelText: '加载中...',
       }).then((image) => {
-        const formdata = new FormData();
-        formdata.append('avatar', image.sourceURL);
-        // request('/user/up_avatar', { params: { formdata }, header: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
-        //   console.log(res);
-        //   // this.changeValue('avatar', res.avatar);
-        // });
+        upload('/user/up_avatar', {
+          type: 1,
+          avatar: image.sourceURL,
+        }).then((res) => {
+          this.changeValue('avatar', res.data);
+        });
       });
     }
   }
@@ -143,7 +143,9 @@ class Setting extends PureComponent {
     });
   }
 
-  changeSex = (sex) => {
+  changeSex = () => {
+    const { list } = this.state;
+    const sex = list[2].value === '女' ? '男' : '女';
     this.changeValue('sex', sex);
   }
 
@@ -170,9 +172,13 @@ class Setting extends PureComponent {
                         )
                         : v.name === 'sex'
                           ? (
-                            <ImageBackground source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy} style={styles.sexBtnWrapper}>
-                              <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
-                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} />
+                            <ImageBackground
+                              source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy}
+                              style={styles.sexBtnWrapper}
+                              onPress={this.changeSex}
+                            >
+                              {/* <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
+                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} /> */}
                             </ImageBackground>
                           )
                           : <Text style={styles.text}>{v.value}</Text>

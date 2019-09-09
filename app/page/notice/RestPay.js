@@ -51,7 +51,7 @@ class RestPay extends Component {
     });
   }
 
-  onPress = (payItems) => {
+  onPress = (payItems, totalPrice) => {
     const { showModalbox, closeModalbox } = this.props;
     const { list } = this.state;
     if (payItems.length !== list.length) {
@@ -59,7 +59,7 @@ class RestPay extends Component {
         element: (<ModalNormal
           sure={() => {
             closeModalbox();
-            this.toPay();
+            this.toPay(payItems, totalPrice);
           }}
           closeModalbox={closeModalbox}
           customText={
@@ -83,19 +83,19 @@ class RestPay extends Component {
         },
       });
     } else {
-      this.toPay();
+      this.toPay(payItems, totalPrice);
     }
   }
 
-  toPay =() => {
+  toPay = (payItems, totalPrice) => {
     const { navigation } = this.props;
-    const { order_price, order_id } = navigation.getParam('order');
+    const { order_id } = navigation.getParam('order');
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: 'pay_order',
       payData: {
         order_id,
-        price: order_price / 100,
+        price: totalPrice,
       },
     });
   }
@@ -152,7 +152,7 @@ class RestPay extends Component {
           <TouchableOpacity
             disabled={payItems.length === 0}
             style={[styles.zhifu, { backgroundColor: payItems.length > 0 ? Colors.OTHER_BACK : '#e2e2e2' }]}
-            onPress={() => this.onPress(payItems)}
+            onPress={() => this.onPress(payItems, totalPrice)}
           >
             <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
           </TouchableOpacity>

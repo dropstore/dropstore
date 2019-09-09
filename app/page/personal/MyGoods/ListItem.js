@@ -56,6 +56,9 @@ class ListItem extends PureComponent {
         { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
       ];
     }
+    this.state = {
+      text: item.end_time <= Date.now() / 1000 && type === 'uncomplete' ? '付款已超时' : null,
+    };
   }
 
   onPress = (type) => {
@@ -107,7 +110,7 @@ class ListItem extends PureComponent {
   })
 
   finish = () => {
-
+    this.setState({ text: '付款已超时' });
   }
 
   copy = () => {
@@ -118,12 +121,12 @@ class ListItem extends PureComponent {
 
   render() {
     const { item, type } = this.props;
+    const { text } = this.state;
     const subTitle = type === 'uncomplete' ? '' : '已入库';
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          {/* <Image source={{ uri: item.goods.image }} style={styles.shoe} /> */}
-          <Image source={Images.shoe} style={styles.shoe} />
+          <Image source={{ uri: item.goods.image }} style={styles.shoe} />
           <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -132,13 +135,13 @@ class ListItem extends PureComponent {
             <View style={styles.middle}>
               <Price price={item.order_price} />
               {
-                type === 'uncomplete' ? (
+                type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
                     <Text style={styles.time}>待付款</Text>
                     <CountdownCom
                       finish={this.finish}
                       style={{ ...styles.time, width: 50 }}
-                      time={item.time + 15 * 60}
+                      time={item.end_time}
                     />
                   </View>
 
@@ -146,10 +149,11 @@ class ListItem extends PureComponent {
               }
             </View>
           </View>
-          { type === 'uncomplete' && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
-          { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.yundanhao}`}</Text>}
+          { type === 'uncomplete' && !text && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
+          { text && <Text style={{ color: Colors.OTHER_BACK, textAlign: 'right', fontSize: 13 }}>{text}</Text>}
+          { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id}`}</Text>}
           {
-            this.btns.length > 0 && (
+            this.btns.length > 0 && !text && (
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
               {
               this.btns.map(v => (
