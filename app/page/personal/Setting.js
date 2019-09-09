@@ -123,10 +123,10 @@ class Setting extends PureComponent {
       }).then((image) => {
         const formdata = new FormData();
         formdata.append('avatar', image.sourceURL);
-        request('/user/up_avatar', { params: { formdata }, header: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
-          console.log(res);
-          // this.changeValue('avatar', res.avatar);
-        });
+        // request('/user/up_avatar', { params: { formdata }, header: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
+        //   console.log(res);
+        //   // this.changeValue('avatar', res.avatar);
+        // });
       });
     }
   }

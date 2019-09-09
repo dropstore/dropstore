@@ -39,7 +39,7 @@ class ListItem extends PureComponent {
         ];
       } else if (item.is_stock === '1') {
         this.btns = [
-          { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
+          // { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
           { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
         ];
       } else if (item.type === 2) {

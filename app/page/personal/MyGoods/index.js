@@ -32,13 +32,13 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
-          <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
-        </TouchableOpacity>
-      ),
-    });
+    // navigation.setParams({
+    //   headerRight: (
+    //     <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
+    //       <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
+    //     </TouchableOpacity>
+    //   ),
+    // });
   }
 
   onIndexChange = (index) => {
