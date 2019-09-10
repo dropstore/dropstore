@@ -14,7 +14,7 @@ class ShopBasicInfoCom extends PureComponent {
     const { shopInfo: { goods_image } } = this.props;
     return (
       <View style={styles.detailView}>
-        <Image style={{ height: 240, width: SCREEN_WIDTH }} source={require('../../../../res/image/gonggao.png')} />
+        <Image style={{ height: 240, width: SCREEN_WIDTH }} source={require('../../../../res/image/gonggao.jpg')} />
         {
           goods_image.map(v => (
             <ImageNetUnkoneSize
@@ -24,7 +24,7 @@ class ShopBasicInfoCom extends PureComponent {
             />
           ))
         }
-        <Image style={{ height: 437, width: SCREEN_WIDTH }} source={require('../../../../res/image/rule.png')} />
+        <Image style={{ height: 437, width: SCREEN_WIDTH }} source={require('../../../../res/image/rule.jpg')} />
       </View>
     );
   }
