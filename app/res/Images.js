@@ -4,7 +4,6 @@
  * @author ZWW
  */
 const IMAGES = {
-  advert: require('./image/advert.png'),
   drop: require('./image/drop.png'),
   message: require('./image/message.png'),
   personal: require('./image/personal.png'),
@@ -151,7 +150,6 @@ const IMAGES = {
   unchoose: require('./image/unchoose.png'),
 
   // 测试图片
-  shoe: require('./image/shoe.png'),
   test1: require('./image/test1.png'),
   test2: require('./image/test2.png'),
 };
