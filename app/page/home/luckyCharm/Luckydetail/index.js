@@ -44,7 +44,6 @@ class LuckyDetail extends PureComponent {
 
   componentDidMount() {
     const { getShopDetail, navigation } = this.props;
-    debugger
     const shopId = navigation.getParam('shopId');
     this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
       if (res) {
@@ -68,11 +67,11 @@ class LuckyDetail extends PureComponent {
   _setContentOrBottomUI = (isBottom, shopInfo) => {
     const type = shopInfo.activity.type;
     return this._showLuck(isBottom);
-
   };
+
   _showLuck = (isBottom) => {
     if (isBottom) {
-      return <LuckBottomCom  />;
+      return <LuckBottomCom />;
     }
     return (
       <View>

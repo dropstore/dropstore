@@ -3,37 +3,38 @@
  * @date 2019/8/18 17:39
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {StyleSheet, View} from 'react-native';
-import Image from '../../../../components/Image';
-import Images from '../../../../res/Images';
+import React, { PureComponent } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Image, ImageNetUnkoneSize } from '../../../../components';
 import Colors from '../../../../res/Colors';
+import { SCREEN_WIDTH } from '../../../../common/Constant';
 
 class ShopBasicInfoCom extends PureComponent {
   render() {
-    const {item} = this.props;
+    const { shopInfo: { goods_image } } = this.props;
     return (
-      <View style={_styles.detailView}>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test1}/>
-        <Image resizeMode="cover" style={_styles.detailImage} source={Images.test2}/>
+      <View style={styles.detailView}>
+        <Image style={{ height: 240, width: SCREEN_WIDTH }} source={require('../../../../res/image/gonggao.png')} />
+        {
+          goods_image.map(v => (
+            <ImageNetUnkoneSize
+              key={v.url}
+              style={{ width: SCREEN_WIDTH }}
+              source={{ uri: v.url }}
+            />
+          ))
+        }
+        <Image style={{ height: 437, width: SCREEN_WIDTH }} source={require('../../../../res/image/rule.png')} />
       </View>
     );
   }
 }
 
-const _styles = StyleSheet.create({
+const styles = StyleSheet.create({
   detailView: {
     flex: 1,
     marginTop: 16,
     backgroundColor: Colors.WHITE_COLOR,
-  },
-  detailImage: {
-    width: '100%',
-    height: 300
   },
 });
 

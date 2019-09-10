@@ -27,7 +27,7 @@ class ShopListItemCom extends PureComponent {
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
     this.state = {
-      showText: (isStart && now < parseInt(item.end_time)) || now - parseInt(item.start_time) < MAX_TIME,
+      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
       time,
       isStart,
     };
@@ -49,7 +49,7 @@ class ShopListItemCom extends PureComponent {
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
     this.setState({
-      showText: (isStart && now < parseInt(item.end_time)) || (now - parseInt(item.start_time) < MAX_TIME && !isStart),
+      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
       time,
       isStart,
     });
