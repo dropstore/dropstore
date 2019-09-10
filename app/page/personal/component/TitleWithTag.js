@@ -14,7 +14,7 @@ export default class TitleWithTag extends PureComponent {
           backgroundColor: type === 1 ? '#B4DE2A' : [3, 4, 5].includes(type) ? '#EF4444' : '#FFA700',
         }]}
         >
-          {type === 1 ? '期货 ' : [3, 4, 5].includes(type) ? '发布' : '现货'}
+          {type === 1 ? '期货' : [3, 4, 5].includes(type) ? '发布' : '现货'}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&emsp;&nbsp;

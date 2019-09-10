@@ -23,7 +23,7 @@ export default class TitleWithTag extends PureComponent {
           left: 14.5,
         }]}
         >
-          {sType === '2' ? '期货 ' : '现货'}
+          {sType === '2' ? '期货' : '现货'}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&nbsp;&emsp;&emsp;&nbsp;
