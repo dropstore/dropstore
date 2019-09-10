@@ -80,6 +80,7 @@ const request = async (url, {
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
+    console.log(response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
         return response.data;

@@ -68,8 +68,7 @@ class PanicBuy extends PureComponent {
 
   _getEndTime = () => {
     const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
-    const data = shopDetailInfo.data;
+    const data = navigation.getParam('shopInfo');
     // 活动开始时间
     let end_time = data.activity.end_time;
     return checkTime(end_time);

@@ -118,7 +118,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>{data.price}￥</Text>
+            <Text style={_styles.price}>{data.price / 100}￥</Text>
             <Text style={_styles.yj}>(已减300)</Text>
           </View>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}

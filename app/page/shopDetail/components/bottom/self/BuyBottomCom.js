@@ -12,7 +12,7 @@ import ImageBackground from '../../../../../components/ImageBackground';
 import Images from '../../../../../res/Images';
 import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from "../../../../../common/ShopConstant";
-import {doBuy, getShopDetail, getShoesList} from "../../../../../redux/actions/shopDetailInfo";
+import {doBuy, getShoesList, getShopDetail} from "../../../../../redux/actions/shopDetailInfo";
 import {getReShoesList, getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
 import {closeModalbox, showModalbox} from "../../../../../redux/actions/component";
 import SelectShoeSizeByUnJoinsCom from "../../other/SelectShoeSizeByUnJoinsCom";
@@ -66,9 +66,9 @@ class BuyBottomCom extends PureComponent {
 
   _showOver = () => {
     const {
-      shopDetailInfo, getShoesList, showModalbox, navigation,
+      shopInfo, getShoesList, showModalbox, navigation,
     } = this.props;
-    const shopId = shopDetailInfo.data.activity.id;
+    const shopId = shopInfo.activity.id;
     getShoesList(shopId).then((isSuccess) => {
       if (isSuccess) {
         const {shoesInfo} = this.props;
@@ -78,6 +78,7 @@ class BuyBottomCom extends PureComponent {
             element: (<SelectShoeSizeByUnJoinsCom
               shopId={shopId}
               navigation={navigation}
+              shopInfo={shopInfo}
               shoesList={myShoesList}
               closeBox={this.closeBox}
             />),
