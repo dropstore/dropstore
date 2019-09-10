@@ -115,6 +115,8 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginLeft: 16,
     color: '#666',
+    padding: 0,
+    includeFontPadding: false,
   },
   nicknameBack: {
     width: wPx2P(238),

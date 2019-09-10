@@ -245,6 +245,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 12,
+    padding: 0,
+    includeFontPadding: false,
   },
   image: {
     overflow: 'hidden',

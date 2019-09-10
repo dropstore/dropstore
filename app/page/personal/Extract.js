@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     color: '#666',
     height: '100%',
     textAlign: 'right',
+    includeFontPadding: false,
   },
   btn: {
     flexDirection: 'row',

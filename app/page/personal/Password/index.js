@@ -168,10 +168,11 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    padding: 0,
     marginRight: wPx2P(15),
     color: '#555',
     height: '100%',
+    padding: 0,
+    includeFontPadding: false,
   },
 });
 

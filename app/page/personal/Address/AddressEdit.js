@@ -193,6 +193,7 @@ const styles = StyleSheet.create({
     marginRight: wPx2P(5),
     color: '#333',
     fontSize: 12,
+    includeFontPadding: false,
   },
   choose: {
     width: 19,

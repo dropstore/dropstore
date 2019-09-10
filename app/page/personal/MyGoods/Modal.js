@@ -216,6 +216,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     flex: 1,
     height: 26,
+    padding: 0,
+    includeFontPadding: false,
     paddingHorizontal: 5,
   },
   edit: {
