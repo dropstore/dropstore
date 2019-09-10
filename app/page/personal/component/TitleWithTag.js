@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10,
     height: 13,
-    width: 23.5,
+    width: 21,
     overflow: 'hidden',
     borderRadius: 2,
     position: 'absolute',

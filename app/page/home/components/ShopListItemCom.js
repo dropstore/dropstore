@@ -15,10 +15,24 @@ import { debounce } from '../../../utils/commonUtils';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
-import { MARGIN_HORIZONTAL } from '../../../common/Constant';
+import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 
+
 class ShopListItemCom extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { item } = this.props;
+    const now = Date.now() / 1000;
+    const isStart = parseInt(item.start_time) < now;
+    const time = isStart ? item.end_time : item.start_time;
+    this.state = {
+      showText: (isStart && now < parseInt(item.end_time)) || now - parseInt(item.start_time) < MAX_TIME,
+      time,
+      isStart,
+    };
+  }
+
   toShopDetailPage = () => {
     const { navigation, item } = this.props;
     navigation.navigate('shopDetail', {
@@ -30,21 +44,37 @@ class ShopListItemCom extends PureComponent {
   };
 
   finish = () => {
-
+    const { item } = this.props;
+    const now = Date.now() / 1000 + 1;
+    const isStart = parseInt(item.start_time) < now;
+    const time = isStart ? item.end_time : item.start_time;
+    this.setState({
+      showText: (isStart && now < parseInt(item.end_time)) || (now - parseInt(item.start_time) < MAX_TIME && !isStart),
+      time,
+      isStart,
+    });
   }
 
   render() {
     const { item } = this.props;
+    const { time, showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
         <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
         <View style={styles.right}>
-          <TitleWithTag text={item.activity_name} type={item.b_type} />
+          <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
           <View style={styles.rightBottom}>
             <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
-            <CountdownCom finish={this.finish} style={styles.time} time={item.end_time !== '0' ? item.end_time : item.start_time} />
+            <CountdownCom isStart={isStart} finish={this.finish} style={styles.time} time={time} />
           </View>
+          {
+            showText && (
+              <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                {`${isStart ? '距活动结束' : '距活动开始'}`}
+              </Text>
+            )
+          }
         </View>
       </ScaleView>
     );
@@ -71,7 +101,6 @@ const styles = StyleSheet.create({
   time: {
     fontFamily: Aldrich,
     fontSize: 14,
-    textAlign: 'right',
   },
   right: {
     flex: 1,
