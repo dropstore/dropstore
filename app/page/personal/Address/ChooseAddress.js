@@ -87,7 +87,7 @@ class ChooseAddress extends PureComponent {
     return (
       <ScrollView contentContainerStyle={{ paddingBottom: PADDING_TAB + 50 }} style={styles.container} showsVerticalScrollIndicator={false}>
         {
-          address.map(v => (
+          address.sort((a, b) => b.is_default - a.is_default).map(v => (
             <TouchableOpacity onPress={() => this.choose(v)} key={v.id} style={styles.item}>
               <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                 <Text style={styles.shouhuoren}>{`收货人：${v.link_name}`}</Text>
