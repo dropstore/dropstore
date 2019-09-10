@@ -86,7 +86,6 @@ export default class DrawMainCom extends PureComponent {
     const joinUser = shopInfo.join_user;
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
-    console.log(joinUser);
     return (
       <View style={_styles.container}>
         <View style={_styles.acContainer}>

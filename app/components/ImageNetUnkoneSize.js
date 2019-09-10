@@ -14,7 +14,7 @@ type State = {
 
 export default class ImageNetUnkoneSize extends PureComponent<Props, State> {
   static defaultProps = {
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   }
 
   constructor(props: Props) {
@@ -24,7 +24,7 @@ export default class ImageNetUnkoneSize extends PureComponent<Props, State> {
 
   componentDidMount() {
     const { source, style } = this.props;
-    Image.getSize(source.uri, (height, width) => {
+    Image.getSize(source.uri, (width, height) => {
       this.setState({
         height: style.width / width * height,
       });
