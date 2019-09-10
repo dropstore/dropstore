@@ -20,14 +20,14 @@ export default class AdvertPage extends Component {
     const { navigation } = this.props;
     return (
       <View>
-        <Image
+        {/* <Image
           style={styles.advert}
           resizeMode="cover"
           source={Images.advert}
         />
         <View style={{ position: 'absolute', right: 20, top: 20 }}>
           <Button title="跳过" onPress={() => navigation.navigate('homePage')} />
-        </View>
+        </View> */}
       </View>
     );
   }

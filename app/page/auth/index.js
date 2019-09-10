@@ -13,6 +13,13 @@ import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant'
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
+import { getUserInfo } from '../../redux/reselect/userInfo';
+
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -48,7 +55,6 @@ class AuthLoading extends PureComponent {
           this.setState({ showTreaty: true });
         }
       }).catch(() => {
-        navigation.navigate('Main');
         SplashScreen.hide();
       });
     } else {
@@ -69,10 +75,12 @@ class AuthLoading extends PureComponent {
   }
 
   auth = (i) => {
-    const { navigation, weChatAuth } = this.props;
+    const { navigation, weChatAuth, userInfo } = this.props;
     weChatAuth(i).then((isLogin) => {
       if (isLogin) {
         navigation.navigate('Main');
+      } else if (userInfo.mobile) {
+        navigation.navigate('NameAge');
       } else {
         navigation.navigate('PhoneNum');
       }
@@ -175,4 +183,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(AuthLoading);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLoading);

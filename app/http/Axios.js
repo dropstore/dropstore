@@ -60,7 +60,7 @@ const request = async (url, {
   method = 'post',
   params = {},
   timeout = timeout,
-  type = 'form', header,
+  type = 'form',
 } = {}) => {
   if (!await isConnected()) {
     showToast(Strings.netError);
@@ -76,7 +76,7 @@ const request = async (url, {
       url,
       method,
       timeout,
-      headers: headers(header),
+      headers: headers(),
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
@@ -107,4 +107,33 @@ const request = async (url, {
   }
 };
 
-export { axiosInstance, timeout, request };
+const upload = (url, data) => {
+  const formdata = new FormData();
+  data.timestamp = Date.now();
+  for (const i in data) {
+    if (i === 'avatar') {
+      formdata.append('avatar', { uri: data[i], name: 'avatar.png', type: 'multipart/form-data' });
+      delete data[i];
+    } else {
+      formdata.append(i, data[i]);
+    }
+  }
+  formdata.append('token', md5(encodeURIComponent(sortObj(data))));
+  return new Promise((resolve, reject) => {
+    Axios.post(`${baseURL}${url}`, formdata, { headers: headers() }).then((res) => {
+      if (res.data.callbackCode === 1) {
+        resolve(res.data);
+        return;
+      }
+      console.log(res.data);
+      showToast(res.data.callbackMsg);
+      throw new Error(res.data.callbackMsg);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
+};
+
+export {
+  axiosInstance, timeout, request, upload,
+};

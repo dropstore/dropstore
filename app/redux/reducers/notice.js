@@ -38,7 +38,7 @@ export default handleActions({
   [resetNotice]: (state, action) => ({
     ...state,
     [action.payload]: {
-      list: [],
+      ...state[action.payload],
       isFetching: false,
       totalPages: -1,
       currentPage: 1,

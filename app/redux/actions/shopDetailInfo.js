@@ -1,9 +1,8 @@
-import {DeviceEventEmitter} from 'react-native';
-import {request} from '../../http/Axios';
-import {createAction} from 'redux-actions';
-
-import {showToast} from "../../utils/MutualUtil";
-import ShopConstant from "../../common/ShopConstant";
+import { DeviceEventEmitter } from 'react-native';
+import { createAction } from 'redux-actions';
+import { request } from '../../http/Axios';
+import { showToast } from '../../utils/MutualUtil';
+import ShopConstant from '../../common/ShopConstant';
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
 const receiveShopDetailInfo = createAction('RECEIVE_SHOP_DETAIL_INFO');
@@ -16,7 +15,7 @@ const receiveShoesList = createAction('RECEIVE_SHOP_SHOE_LIST');
  * @param isDispatchStart
  * @returns {Function}
  */
-function getShopDetail(shopId, {isDispatchStart = true} = {}) {
+function getShopDetail(shopId, { isDispatchStart = true } = {}) {
   return (dispatch) => {
     const params = {
       id: shopId,
@@ -24,11 +23,11 @@ function getShopDetail(shopId, {isDispatchStart = true} = {}) {
     if (isDispatchStart) {
       dispatch(requestShopDetailInfo());
     }
-    request('/activity/activity_info', {params, isShowLoading: true}).then((res) => {
-      dispatch(receiveShopDetailInfo(res.data))
+    request('/activity/activity_info', { params, isShowLoading: true }).then((res) => {
+      dispatch(receiveShopDetailInfo(res.data));
     }).catch(() => {
       dispatch(notReceiveShopDetailInfo());
-    })
+    });
   };
 }
 
@@ -38,20 +37,20 @@ function getShopDetail(shopId, {isDispatchStart = true} = {}) {
  * @returns {Function}
  */
 function getShoesList(shopId) {
-  return (dispatch) => new Promise((resolve, reject) => {
+  return dispatch => new Promise((resolve, reject) => {
     const params = {
       id: shopId,
     };
-    request('/activity/activity_size', {params, isShowLoading: true}).then((res) => {
-      let data = res.data;
+    request('/activity/activity_size', { params, isShowLoading: true }).then((res) => {
+      const data = res.data;
       if (!(data && data.length)) {
         return showToast('暂无数据');
       }
       dispatch(receiveShoesList(data));
-      resolve(true)
+      resolve(data);
     }).catch((err) => {
       reject(err);
-    })
+    });
   });
 }
 
@@ -61,25 +60,25 @@ function getShoesList(shopId) {
  * @param size_list
  */
 const startGroup = (activity_id, size_list) => {
-  let toServerSizeList = [];
+  const toServerSizeList = [];
   for (let i = 0; i < size_list.length; i++) {
-    let sizeData = size_list[i];
+    const sizeData = size_list[i];
     if (sizeData.num !== 0) {
       toServerSizeList.push({
-        "id": sizeData.id,
-        "num": sizeData.num,
-      })
+        id: sizeData.id,
+        num: sizeData.num,
+      });
     }
   }
   const params = {
-    activity_id: activity_id,
-    size_list: JSON.stringify(toServerSizeList)
+    activity_id,
+    size_list: JSON.stringify(toServerSizeList),
   };
-  request('/activity/do_add_user_activity', {params, isShowLoading: true}).then(() => {
+  request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
     // 开团成功后刷新活动详情
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
   }).catch((err) => {
-  })
+  });
 };
 
 /**
@@ -89,11 +88,11 @@ const startGroup = (activity_id, size_list) => {
  */
 const getPayMes = async (activity_id, u_a_id) => {
   const params = {
-    activity_id: activity_id,
-    u_a_id: u_a_id,
+    activity_id,
+    u_a_id,
   };
   try {
-    return await request('/activity/pay_activity', {params, isShowLoading: true});
+    return await request('/activity/pay_activity', { params, isShowLoading: true });
   } catch (e) {
   }
 };
@@ -106,12 +105,12 @@ const getPayMes = async (activity_id, u_a_id) => {
  */
 const setCommission = async (activity_id, u_a_id, commission) => {
   const params = {
-    activity_id: activity_id,
-    u_a_id: u_a_id,
-    commission: commission
+    activity_id,
+    u_a_id,
+    commission,
   };
   try {
-    return await request('/activity/set_commission', {params, isShowLoading: true});
+    return await request('/activity/set_commission', { params, isShowLoading: true });
   } catch (e) {
   }
 };
@@ -124,19 +123,19 @@ const setCommission = async (activity_id, u_a_id, commission) => {
  * @param {Object} shopInfo - 活动详情
  */
 const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
-  let url = isLeading ? "/order/do_buy" : "/order/do_help_buy";
+  const url = isLeading ? '/order/do_buy' : '/order/do_help_buy';
   const params = {
-    activity_id: activity_id,
+    activity_id,
   };
   try {
-    let data = await request(url, {params, isShowLoading: true});
-    if (data) {
-      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: true})
+    const res = await request(url, { params, isShowLoading: true });
+    if (res) {
+      navigation.push('panicStatus', { shopInfo, panicStatus: true });
     } else {
-      navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+      navigation.push('panicStatus', { shopInfo, panicStatus: false });
     }
   } catch (e) {
-    navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+    navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: false });
   }
 };
 
@@ -144,19 +143,22 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
  * 直接参加
  * @param activity_id
  * @param size_id
+ * @param navigation
+ * @param shopInfo
  */
-const doBuyNow = async (activity_id, size_id,navigation, shopInfo) => {
+const doBuyNow = async (activity_id, size_id, navigation, shopInfo) => {
   const params = {
-    activity_id: activity_id,
-    size_id: size_id
+    activity_id,
+    size_id,
   };
   try {
-   let data =  await request('/order/do_buy_now', {params, isShowLoading: true});
-   if(data){
-     navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
-   }
+    const res = await request('/order/do_buy_now', { params, isShowLoading: true });
+    const data = res.data;
+    if (data) {
+      navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: true });
+    }
   } catch (e) {
-    navigation.push('panicStatus', {shopInfo: shopInfo, payData: data, panicStatus: false})
+    navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: false });
   }
 };
 export {
@@ -171,4 +173,4 @@ export {
   setCommission,
   doBuy,
   doBuyNow,
-}
+};

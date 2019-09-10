@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, FlatList,
+  View, Text, StyleSheet, TouchableOpacity, FlatList, StatusBar,
 } from 'react-native';
 import { YaHei } from '../../res/FontFamily';
 import { PullToRefresh } from '../../components';
@@ -58,15 +58,18 @@ export default class Detaile extends PureComponent {
   render() {
     const { totalPages, currentPage, list } = this.state;
     return (
-      <PullToRefresh
-        totalPages={totalPages}
-        currentPage={currentPage}
-        Wrapper={FlatList}
-        data={list}
-        refresh={this.fetchData}
-        renderItem={this.renderItem}
-        onEndReached={this.loadMore}
-      />
+      <View style={{ flex: 1 }}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
+        <PullToRefresh
+          totalPages={totalPages}
+          currentPage={currentPage}
+          Wrapper={FlatList}
+          data={list}
+          refresh={this.fetchData}
+          renderItem={this.renderItem}
+          onEndReached={this.loadMore}
+        />
+      </View>
     );
   }
 }

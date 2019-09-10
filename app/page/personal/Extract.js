@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, TextInput,
+  View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -104,6 +104,7 @@ class Extract extends PureComponent {
   render() {
     return (
       <KeyboardDismiss style={styles.container}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View>
           <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
             <Text style={{ color: '#000', fontSize: 14 }}>可提现余额: </Text>

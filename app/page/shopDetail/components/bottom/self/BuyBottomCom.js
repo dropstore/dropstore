@@ -3,20 +3,20 @@
  * @date 2019/8/22 15:17
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {Text, View} from 'react-native';
-import {withNavigation} from 'react-navigation';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { PureComponent } from 'react';
+import { Text, View } from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ImageBackground from '../../../../../components/ImageBackground';
 import Images from '../../../../../res/Images';
-import {bottomStyle} from '../../../../../res/style/BottomStyle';
-import ShopConstant from "../../../../../common/ShopConstant";
-import {doBuy, getShopDetail, getShoesList} from "../../../../../redux/actions/shopDetailInfo";
-import {getReShoesList, getShopDetailInfo} from "../../../../../redux/reselect/shopDetailInfo";
-import {closeModalbox, showModalbox} from "../../../../../redux/actions/component";
-import SelectShoeSizeByUnJoinsCom from "../../other/SelectShoeSizeByUnJoinsCom";
-import {debounce} from "../../../../../utils/commonUtils";
+import { bottomStyle } from '../../../../../res/style/BottomStyle';
+import ShopConstant from '../../../../../common/ShopConstant';
+import { doBuy, getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
+import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
+import { closeModalbox, showModalbox } from '../../../../../redux/actions/component';
+import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
+import { debounce } from '../../../../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -35,14 +35,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 class BuyBottomCom extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   _setBuyBottomText = (isOnPress = true) => {
-    const {shopInfo, navigation} = this.props;
-    let activityId = shopInfo.activity.id;
-    let is_join = shopInfo.is_join;
+    const { shopInfo, navigation } = this.props;
+    const activityId = shopInfo.activity.id;
+    const is_join = shopInfo.is_join;
     if (is_join === ShopConstant.NOT_JOIN) {
       if (isOnPress) {
         this._showOver();
@@ -66,19 +62,18 @@ class BuyBottomCom extends PureComponent {
 
   _showOver = () => {
     const {
-      shopDetailInfo, getShoesList, showModalbox, navigation,
+      shopInfo, getShoesList, showModalbox, navigation,
     } = this.props;
-    const shopId = shopDetailInfo.data.activity.id;
-    getShoesList(shopId).then((isSuccess) => {
-      if (isSuccess) {
-        const {shoesInfo} = this.props;
-        const myShoesList = shoesInfo.shoesList;
-        if (myShoesList && myShoesList.length !== 0) {
+    const shopId = shopInfo.activity.id;
+    getShoesList(shopId).then((shoesList) => {
+      if (shoesList) {
+        if (shoesList && shoesList.length !== 0) {
           showModalbox({
             element: (<SelectShoeSizeByUnJoinsCom
               shopId={shopId}
               navigation={navigation}
-              shoesList={myShoesList}
+              shopInfo={shopInfo}
+              shoesList={shoesList}
               closeBox={this.closeBox}
             />),
             options: {
@@ -94,15 +89,18 @@ class BuyBottomCom extends PureComponent {
   };
 
   closeBox = () => {
-    const {closeModalbox} = this.props;
+    const { closeModalbox } = this.props;
     closeModalbox();
   };
 
   render() {
     return (
       <View style={bottomStyle.bottomView}>
-        <ImageBackground style={bottomStyle.buttonOnlyOneChildView} source={Images.bg_right}
-                         onPress={debounce(this._setBuyBottomText)}>
+        <ImageBackground
+          style={bottomStyle.buttonOnlyOneChildView}
+          source={Images.bg_right}
+          onPress={debounce(this._setBuyBottomText)}
+        >
           <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(false)}</Text>
         </ImageBackground>
       </View>

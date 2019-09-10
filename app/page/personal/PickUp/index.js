@@ -70,11 +70,7 @@ class PickUp extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.didBlurSubscription.remove();
-  }
-
-  finish = () => {
-
+    this.didBlurSubscription && this.didBlurSubscription.remove();
   }
 
   changeAddress = () => {
@@ -116,24 +112,14 @@ class PickUp extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          {/* <Image source={{ uri: item.goods.image }} style={styles.shoe} /> */}
-          <Image source={Images.shoe} style={styles.shoe} />
+          <Image source={{ uri: item.goods.image }} style={styles.shoe} />
           <View style={{ flex: 1 }}>
             <View style={{ justifyContent: 'space-between', flex: 1 }}>
               <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                {/* <View style={{ flexDirection: 'row' }}>
-                  <Text style={styles.time}>待付款</Text>
-                  <CountdownCom
-                    finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
-                    time={Date.now() / 1000 + 15 * 60}
-                  />
-                </View> */}
                 <Text style={{ color: '#212121', fontSize: 11, fontFamily: YaHei }}>{`SIZE：${item.size}`}</Text>
               </View>
             </View>
-            {/* <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text> */}
           </View>
         </View>
         {
@@ -170,8 +156,9 @@ class PickUp extends PureComponent {
         </View>
         <Text style={styles.hint}>友情提示：</Text>
         <Text style={styles.hint1}>本站默认顺丰物流发货，若需其他物流方式请直接联系客服 :</Text>
-        <Text style={styles.hint1}>QQ：123456789</Text>
-        <Text style={styles.hint1}>微信：drop</Text>
+        {/* <Text style={styles.hint1}>QQ：123456789</Text> */}
+        <Text style={styles.hint1}>微信：dropservice</Text>
+        {/* <Text style={styles.hint1}>电话：123456789</Text> */}
         <Text style={styles.hint2}>物流价格由第三方物流公司提供</Text>
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>

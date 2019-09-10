@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Platform, TextInput,
+  View, Text, StyleSheet, TouchableOpacity, Platform, TextInput, StatusBar,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import {
-  Image, ModalNormal, ActionSheet, ChangeSize,
+  Image, ModalNormal, ActionSheet, ChangeSize, ImageBackground,
 } from '../../components';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -16,7 +16,7 @@ import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { showToast } from '../../utils/MutualUtil';
 import { closeModalbox, showModalbox } from '../../redux/actions/component';
-import { request } from '../../http/Axios';
+import { upload } from '../../http/Axios';
 
 function mapStateToProps() {
   return state => ({
@@ -121,11 +121,11 @@ class Setting extends PureComponent {
         cropperCancelText: '取消',
         loadingLabelText: '加载中...',
       }).then((image) => {
-        const formdata = new FormData();
-        formdata.append('avatar', image.sourceURL);
-        request('/user/up_avatar', { params: { formdata }, header: { 'Content-Type': 'multipart/form-data' } }).then((res) => {
-          console.log(res);
-          // this.changeValue('avatar', res.avatar);
+        upload('/user/up_avatar', {
+          type: 1,
+          avatar: image.path,
+        }).then((res) => {
+          this.changeValue('avatar', res.data);
         });
       });
     }
@@ -143,7 +143,9 @@ class Setting extends PureComponent {
     });
   }
 
-  changeSex = (sex) => {
+  changeSex = () => {
+    const { list } = this.state;
+    const sex = list[2].value === '女' ? '男' : '女';
     this.changeValue('sex', sex);
   }
 
@@ -151,6 +153,7 @@ class Setting extends PureComponent {
     const { list } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         {
           list.map((v) => {
             const Wrapper = v.name === 'sex' ? View : TouchableOpacity;
@@ -170,20 +173,14 @@ class Setting extends PureComponent {
                         )
                         : v.name === 'sex'
                           ? (
-                            <View style={styles.sexBtnWrapper}>
-                              <TouchableOpacity
-                                onPress={() => this.changeSex('男')}
-                                style={[styles.sexBtn, { backgroundColor: v.value === '男' ? '#74B8EB' : '#F2F2F2' }]}
-                              >
-                                <Image source={Images.iconRight} style={styles.right} />
-                              </TouchableOpacity>
-                              <TouchableOpacity
-                                onPress={() => this.changeSex('女')}
-                                style={[styles.sexBtn, { backgroundColor: v.value === '女' ? '#FF61D3' : '#F2F2F2' }]}
-                              >
-                                <Image source={Images.iconRight} style={styles.right} />
-                              </TouchableOpacity>
-                            </View>
+                            <ImageBackground
+                              source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy}
+                              style={styles.sexBtnWrapper}
+                              onPress={this.changeSex}
+                            >
+                              {/* <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
+                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} /> */}
+                            </ImageBackground>
                           )
                           : <Text style={styles.text}>{v.value}</Text>
                     }

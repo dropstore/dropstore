@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, Platform,
 } from 'react-native';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei } from '../../../res/FontFamily';
 
 export default class TitleWithTag extends PureComponent {
   render() {
@@ -10,26 +10,13 @@ export default class TitleWithTag extends PureComponent {
     // 1期货 2现货（已鉴定或从平台购买的） 2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
     return (
       <View style={{ flexDirection: 'row' }}>
-        <Text style={[styles.tagText, {
-          backgroundColor: type === '6' ? '#bbb' : '#FFA700',
-          width: type === '6' ? 31 : 39,
-        }]}
-        >
-          {type === '6' ? '未中签' : 'Drop 购'}
+        <Text style={[styles.tagText, { backgroundColor: type === '2' ? '#EF4444' : '#FFA700' }]}>
+          {type === '2' ? '抢' : '签'}
         </Text>
-        {
-          type === '6' ? (
-            <Text style={styles.shopTitle}>
-&emsp;&emsp;&emsp;&nbsp;
-              {text}
-            </Text>
-          ) : (
-            <Text style={styles.shopTitle}>
-&emsp;&emsp;&emsp;&emsp;&nbsp;
-              {text}
-            </Text>
-          )
-        }
+        <Text style={styles.shopTitle}>
+&emsp;&nbsp;
+          {text}
+        </Text>
       </View>
     );
   }
@@ -45,6 +32,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     textAlign: 'center',
     lineHeight: 13,
+    width: 12,
     top: Platform.OS === 'ios' ? 2 : 0.5,
     paddingTop: Platform.OS === 'ios' ? 0 : 0.5,
   },

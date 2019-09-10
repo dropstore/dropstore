@@ -129,13 +129,13 @@ end
 
 if action == 'pack'
   case channel
-  when "appstore" then export_appstore()
-  else export_android(channel)
+  when "ios" then export_appstore()
+  when "android" then export_android('dropstore')
   end
 elsif action == 'pnu'
   case channel
-  when "appstore" then export_appstore() && upload(File.absolute_path('./ios/build/dropstore.ipa'))
-  when "dropstore" then export_android('dropstore') && upload(File.absolute_path('./android/app/build/outputs/apk/dropstore.apk'))
+  when "ios" then export_appstore() && upload(File.absolute_path('./ios/build/dropstore.ipa'))
+  when "android" then export_android('dropstore') && upload(File.absolute_path('./android/app/build/outputs/apk/dropstore.apk'))
   end
 elsif action == 'version'
   case channel
