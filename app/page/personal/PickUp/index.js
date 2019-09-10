@@ -162,7 +162,7 @@ class PickUp extends PureComponent {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{postage}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{postage / 100}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity disabled={!link_name} style={[styles.zhifu, { backgroundColor: link_name ? Colors.OTHER_BACK : '#e2e2e2' }]} onPress={this.toPay}>
