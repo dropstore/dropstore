@@ -1,10 +1,10 @@
-package com.dropstore.share;
+package com.dropstore.wxapi;
 
 import android.content.Intent;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
-public class WXShareEntryActivity extends WXCallbackActivity {
+public class WXEntryActivity extends WXCallbackActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

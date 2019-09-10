@@ -74,7 +74,7 @@
 
         <!-- 微信 -->
         <activity
-            android:name=".share.WXShareEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

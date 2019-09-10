@@ -19,6 +19,7 @@ function weChatAuth(i) {
         女: 2,
         1: 1,
         2: 2,
+        0: -1,
       }[wxRes.gender];
       const params = {
         unionid: wxRes.unionid,

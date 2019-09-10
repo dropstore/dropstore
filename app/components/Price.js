@@ -7,13 +7,14 @@ import { BlackItalic } from '../res/FontFamily';
 export default class Price extends PureComponent {
   render() {
     const { price, offsetBottom } = this.props;
+    const text = `${price / 100}`;
     return (
       <View style={{
         flexDirection: 'row', alignItems: 'flex-end', position: 'relative', bottom: offsetBottom || 2,
       }}
       >
-        <Text style={styles.bigPrice}>{`${price[0]}`}</Text>
-        <Text style={styles.price}>{`${price.slice(1) / 100}`}</Text>
+        <Text style={styles.bigPrice}>{text[0]}</Text>
+        <Text style={styles.price}>{text.slice(1)}</Text>
         <Image resizeMode="contain" style={styles.priceImage} source={Images.price} />
       </View>
     );

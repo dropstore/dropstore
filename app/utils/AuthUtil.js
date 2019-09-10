@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 const { NativeModules } = require('react-native');
 
 /**
@@ -5,7 +7,10 @@ const { NativeModules } = require('react-native');
  */
 const Auth = platform => new Promise((resolve, reject) => {
   NativeModules.UMShareModule.auth(platform, (code, result, message) => {
-    if (code === 200) {
+    if (Platform.OS === 'ios' && code === 200) {
+      resolve(result);
+    }
+    if (code === 0 && Platform.OS === 'android') {
       resolve(result);
     }
     reject(message);
