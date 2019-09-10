@@ -17,7 +17,7 @@ function addAddress(address, link_name, mobile, is_default = false) {
       address,
       link_name,
       mobile,
-      is_default,
+      is_default: is_default ? '1' : '0',
     };
     request('/user/add_address', { params }).then(() => {
       dispatch(fetchAddress());
@@ -35,13 +35,13 @@ function delAddress(id) {
   });
 }
 
-function editAddress(address, link_name, mobile, is_default, id) {
+function editAddress(address, link_name, mobile, is_default = false, id) {
   return dispatch => new Promise((resolve) => {
     const params = {
       address,
       link_name,
       mobile,
-      is_default,
+      is_default: is_default ? '1' : '0',
       id,
     };
     request('/user/edit_address', { params }).then(() => {

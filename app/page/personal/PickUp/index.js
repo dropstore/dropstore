@@ -96,7 +96,7 @@ class PickUp extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
-      needTurn: true,
+      needReturn: true,
       address: {
         is_default: true,
       },

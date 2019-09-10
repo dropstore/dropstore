@@ -52,9 +52,9 @@ class AddressEdit extends PureComponent {
         navigation.pop();
       });
     } else {
-      const needTurn = navigation.getParam('needTurn');
-      addAddress(this.address, this.link_name, this.mobile, needTurn || isDefault === '1' ? '1' : '0').then(() => {
-        if (needTurn) {
+      const needReturn = navigation.getParam('needReturn');
+      addAddress(this.address, this.link_name, this.mobile, needReturn || isDefault).then(() => {
+        if (needReturn) {
           navigation.navigate('PickUp', {
             title: '支付运费',
             address: {
@@ -112,9 +112,9 @@ class AddressEdit extends PureComponent {
               onChangeText={(text) => { this.address = text; }}
             />
           </View>
-          <TouchableOpacity onPress={() => this.setState({ isDefault: { 0: '1', 1: '0' }[isDefault] })} style={styles.switchWrapper}>
+          <TouchableOpacity onPress={() => this.setState({ isDefault: !isDefault })} style={styles.switchWrapper}>
             <Text style={{ fontSize: 12 }}>设为默认地址</Text>
-            <Image source={isDefault === '1' ? Images.choose : Images.unchoose} style={styles.choose} />
+            <Image source={isDefault ? Images.choose : Images.unchoose} style={styles.choose} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={this.submit} style={styles.bg_right}>
