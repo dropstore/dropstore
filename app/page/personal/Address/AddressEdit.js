@@ -102,7 +102,7 @@ class AddressEdit extends PureComponent {
           </View>
           <View style={styles.frameAddres}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { lineHeight: 20, textAlignVertical: 'top' }]}
               multiline
               placeholder="输入详细地址"
               defaultValue={address.address}
