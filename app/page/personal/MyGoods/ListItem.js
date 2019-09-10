@@ -133,7 +133,7 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              <Price price={item.order_price} />
+              {type !== 'warehouse' && <Price price={item.order_price} />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
