@@ -22,7 +22,7 @@ export default class RuleCom extends PureComponent {
    * @private
    */
   _setMainDOM = (shopInfo) => {
-    // 活动子类型:1、抽签；2、抢购
+    // 活动子类型:1、抽签；2、抢购;3 锦鲤
     let b_type = shopInfo.activity.b_type;
     // 参加状态
     let is_join = shopInfo.is_join;
@@ -230,6 +230,7 @@ export default class RuleCom extends PureComponent {
 
   render() {
     const {shopInfo} = this.props;
+    debugger
     return this._setMainDOM(shopInfo)
   }
 }

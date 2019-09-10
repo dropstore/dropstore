@@ -13,7 +13,7 @@ const ROUTES = [
   // { key: 'home', title: '首页' },
   { key: 'originalCost', title: '原价发售' },
   { key: 'selfSupport', title: 'Drop自营' },
-  // { key: 'luckyCharm', title: '球鞋锦鲤' },
+  { key: 'luckyCharm', title: '球鞋锦鲤' },
   // { key: 'reserve', title: '球鞋预定' },
 ];
 

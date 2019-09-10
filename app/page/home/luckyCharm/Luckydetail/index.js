@@ -12,17 +12,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getShopDetail } from '../../../../redux/actions/shopDetailInfo';
 import { getShopDetailInfo } from '../../../../redux/reselect/shopDetailInfo';
-import ShopDetailHeaderRight from './../../components/basic/ShopDetailHeaderRight';
+import ShopDetailHeaderRight from '../../../shopDetail/components/basic/ShopDetailHeaderRight';
 import EmptyViewCom from '../../../../components/EmptyViewCom';
-import ShopBasicInfoCom from './../components/basic/ShopBasicInfoCom';
-import SelfCom from './../components/main/self';
-import SelfBottomCom from './../components/bottom/self';
-import Colors from '../../../res/Colors';
-import ShopConstant from '../../../common/ShopConstant';
-import LuckBottomCom from './../components/bottom/LuckBottomCom';
-import LuckCom from './../components/main/lucky';
-import AgainLoadCom from '../../components/../AgainLoadCom';
-import NoDataCom from '../../components/../NoDataCom';
+import ShopBasicInfoCom from '../../../shopDetail/components/basic/ShopBasicInfoCom';
+import SelfCom from '../selCom';
+import SelfBottomCom from '../../../shopDetail/components/bottom/self';
+import Colors from '../../../../res/Colors';
+import ShopConstant from '../../../../common/ShopConstant';
+import LuckBottomCom from '../../../shopDetail/components/bottom/LuckBottomCom';
+import LuckCom from '../../../shopDetail/components/main/lucky';
+import AgainLoadCom from '../../../../components/AgainLoadCom';
+import NoDataCom from '../../../../components/NoDataCom';
 
 function mapStateToProps() {
   return state => ({
@@ -36,14 +36,15 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class ShopDetail extends PureComponent {
+class LuckyDetail extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', '商品详情'),
+    title: navigation.getParam('title', '锦鲤详情'),
     headerRight: <ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')} />,
   });
 
   componentDidMount() {
     const { getShopDetail, navigation } = this.props;
+    debugger
     const shopId = navigation.getParam('shopId');
     this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
       if (res) {
@@ -65,43 +66,13 @@ class ShopDetail extends PureComponent {
    */
 
   _setContentOrBottomUI = (isBottom, shopInfo) => {
-
     const type = shopInfo.activity.type;
-    // let type = 3;
-    // 发售、自营
-    if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
-      return this._showSelf(isBottom);
-    } if (type === ShopConstant.LUCKY_CHARM) {
-      return this._showLuck(isBottom);
-    }
-  };
+    return this._showLuck(isBottom);
 
-  /**
-   * 设置发售和自营布局
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
-  _showSelf = (isBottom) => {
-    if (isBottom) {
-      return <SelfBottomCom />;
-    }
-    return (
-      <View>
-        <SelfCom />
-      </View>
-    );
   };
-
-  /**
-   * 锦鲤详情
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
   _showLuck = (isBottom) => {
     if (isBottom) {
-      return <LuckBottomCom />;
+      return <LuckBottomCom  />;
     }
     return (
       <View>
@@ -175,4 +146,4 @@ const _styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(LuckyDetail));
