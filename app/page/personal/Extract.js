@@ -114,7 +114,6 @@ class Extract extends PureComponent {
             <Text>姓名: </Text>
             <TextInput
               style={styles.input}
-              placeholder="_姓名"
               keyboardType="number-pad"
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
@@ -126,7 +125,6 @@ class Extract extends PureComponent {
             <Text>支付宝账号: </Text>
             <TextInput
               style={styles.input}
-              placeholder="_账号"
               keyboardType="number-pad"
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
@@ -138,7 +136,6 @@ class Extract extends PureComponent {
             <Text>提现金额: </Text>
             <TextInput
               style={styles.input}
-              placeholder="_金额"
               keyboardType="number-pad"
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
