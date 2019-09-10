@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import { View, StatusBar, Platform } from 'react-native';
 import { Provider } from 'react-redux';
-import SplashScreen from 'react-native-splash-screen';
 import { Router, store } from './app/router/Router';
 import Theme from './app/res/Theme';
 import { wxPayModule, wxAppId } from './app/native/module';
@@ -28,7 +27,6 @@ const jsErrorHandler = (error, isFatal) => {
 export default class App extends Component {
   componentDidMount() {
     console.disableYellowBox = true;
-    SplashScreen.hide();
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);
       StatusBar.setBackgroundColor('transparent');

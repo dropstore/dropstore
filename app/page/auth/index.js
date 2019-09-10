@@ -47,9 +47,7 @@ class AuthLoading extends PureComponent {
         if (res[0][1]) {
           getUser(res[0][1]);
           navigation.navigate('Main');
-          setTimeout(() => {
-            SplashScreen.hide();
-          });
+          SplashScreen.hide();
         } else {
           SplashScreen.hide();
         }
@@ -57,9 +55,7 @@ class AuthLoading extends PureComponent {
           this.setState({ showTreaty: true });
         }
       }).catch(() => {
-        setTimeout(() => {
-          SplashScreen.hide();
-        });
+        SplashScreen.hide();
       });
     } else {
       navigation.navigate('Main');
