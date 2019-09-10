@@ -11,8 +11,8 @@ import { withNavigation } from 'react-navigation';
 import {
   ScaleView, Image, CountdownCom, Price,
 } from '../../../components';
-import { debounce } from '../../../utils/commonUtils';
 import { wPx2P } from '../../../utils/ScreenUtil';
+import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
@@ -26,6 +26,9 @@ class ShopListItemCom extends PureComponent {
     const now = Date.now() / 1000;
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
+    if (now > parseInt(item.end_time)) {
+      this.end = true;
+    }
     this.state = {
       showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
       time,
@@ -34,6 +37,10 @@ class ShopListItemCom extends PureComponent {
   }
 
   toShopDetailPage = () => {
+    if (this.end) {
+      showToast('活动已结束');
+      return;
+    }
     const { navigation, item } = this.props;
     navigation.navigate('shopDetail', {
       title: '商品详情',
@@ -48,6 +55,9 @@ class ShopListItemCom extends PureComponent {
     const now = Date.now() / 1000 + 1;
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
+    if (now > parseInt(item.end_time)) {
+      this.end = true;
+    }
     this.setState({
       showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
       time,
@@ -59,7 +69,7 @@ class ShopListItemCom extends PureComponent {
     const { item } = this.props;
     const { time, showText, isStart } = this.state;
     return (
-      <ScaleView style={styles.scaleView} onPress={debounce(this.toShopDetailPage)}>
+      <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
         <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
