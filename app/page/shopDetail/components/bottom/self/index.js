@@ -4,27 +4,28 @@
  * @date 2019/8/22 15:14
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
-import {withNavigation} from 'react-navigation';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { PureComponent } from 'react';
+import {
+  StyleSheet, Text, TouchableOpacity, View,
+} from 'react-native';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Image from '../../../../../components/Image';
 import ImageBackground from '../../../../../components/ImageBackground';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import Images from '../../../../../res/Images';
 import Colors from '../../../../../res/Colors';
-import {bottomStyle} from '../../../../../res/style/BottomStyle';
+import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import {getReShoesList, getShopDetailInfo} from '../../../../../redux/reselect/shopDetailInfo';
-import {getShoesList, getShopDetail} from '../../../../../redux/actions/shopDetailInfo';
-import {checkTime} from '../../../../../utils/TimeUtils';
-import commission from '../../../../commission';
-import {shopDetail1} from '../../../../TempData';
-import {debounce} from '../../../../../utils/commonUtils';
-import {SCREEN_WIDTH} from '../../../../../common/Constant';
-import {closeModalbox, showModalbox} from '../../../../../redux/actions/component';
+import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
+import { getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
+import { checkTime } from '../../../../../utils/TimeUtils';
+import { shopDetail1 } from '../../../../TempData';
+import { debounce } from '../../../../../utils/commonUtils';
+import { SCREEN_WIDTH } from '../../../../../common/Constant';
+import { closeModalbox, showModalbox } from '../../../../../redux/actions/component';
 
 function mapStateToProps() {
   return state => ({
@@ -43,12 +44,56 @@ function mapDispatchToProps(dispatch) {
 }
 
 class SelfBottomCom extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      myShoesList: [],
-    };
+  getShopDetail() {
+    const { getShopDetail } = this.props;
+    getShopDetail(shopDetail1);
   }
+
+  _toCommissionPage = () => {
+    const { shopDetailInfo, navigation } = this.props;
+    const shopInfo = shopDetailInfo.data;
+    const number = shopInfo.user_activity.number;
+    // 只选择了一双鞋(团长自己的)或者邀请人数已达上限，需要重新选择鞋码
+    if (number === 1 || number === shopInfo.join_user.length - 1) {
+      this.showOver();
+    } else {
+      navigation.push('commission', { title: '助攻佣金设定' });
+    }
+  };
+
+  /**
+   * 显示选鞋浮层
+   */
+  showOver = () => {
+    const {
+      shopDetailInfo, getShoesList, showModalbox, navigation,
+    } = this.props;
+    const shopId = shopDetailInfo.data.activity.id;
+    getShoesList(shopId).then((shoesList) => {
+      if (shoesList && shoesList.length > 0) {
+        showModalbox({
+          element: (<SelectShoeSizeCom
+            shopId={shopId}
+            navigation={navigation}
+            shopInfo={shopDetailInfo.data}
+            shoesList={shoesList}
+            closeBox={this.closeBox}
+          />),
+          options: {
+            style: {
+              height: 400,
+            },
+            position: 'bottom',
+          },
+        });
+      }
+    });
+  };
+
+  closeBox = () => {
+    const { closeModalbox } = this.props;
+    closeModalbox();
+  };
 
   _setMainDOM = (shopInfo) => {
     const {
@@ -65,17 +110,20 @@ class SelfBottomCom extends PureComponent {
     if (b_type === ShopConstant.DRAW) {
       return this._normalDOM(shopInfo);
     }
-    return <BuyBottomCom
-      navigation={navigation}
-      shopInfo={shopInfo}
-      showModalbox={showModalbox}
-      closeModalbox={closeModalbox}/>;
+    return (
+      <BuyBottomCom
+        navigation={navigation}
+        shopInfo={shopInfo}
+        showModalbox={showModalbox}
+        closeModalbox={closeModalbox}
+      />
+    );
   };
 
   _normalDOM = shopInfo => (
     <View style={bottomStyle.bottomView}>
       <TouchableOpacity onPress={() => alert('通知我')}>
-        <Image style={bottomStyle.buttonNormalView} source={Images.tzw}/>
+        <Image style={bottomStyle.buttonNormalView} source={Images.tzw} />
       </TouchableOpacity>
       {
         this._setRightDOM(shopInfo)
@@ -108,63 +156,8 @@ class SelfBottomCom extends PureComponent {
     );
   };
 
-  _toCommissionPage = () => {
-    const {shopDetailInfo, navigation} = this.props;
-    const shopInfo = shopDetailInfo.data;
-    const number = shopInfo.user_activity.number;
-    // 只选择了一双鞋(团长自己的)或者邀请人数已达上限，需要重新选择鞋码
-    if (number === 1 || number === shopInfo.join_user.length - 1) {
-      this.showOver();
-    } else {
-      navigation.push('commission', {title: '助攻佣金设定'});
-    }
-  };
-
-  /**
-   * 显示选鞋浮层
-   */
-  showOver = () => {
-    const {
-      shopDetailInfo, getShoesList, showModalbox, navigation,
-    } = this.props;
-    const shopId = shopDetailInfo.data.activity.id;
-    getShoesList(shopId).then((isSuccess) => {
-      if (isSuccess) {
-        const {shoesInfo} = this.props;
-        const myShoesList = shoesInfo.shoesList;
-        if (myShoesList && myShoesList.length !== 0) {
-          showModalbox({
-            element: (<SelectShoeSizeCom
-              shopId={shopId}
-              navigation={navigation}
-              shopInfo={shopDetailInfo.data}
-              shoesList={myShoesList}
-              closeBox={this.closeBox}
-            />),
-            options: {
-              style: {
-                height: 400,
-              },
-              position: 'bottom',
-            },
-          });
-        }
-      }
-    });
-  };
-
-  closeBox = () => {
-    const {closeModalbox} = this.props;
-    closeModalbox();
-  };
-
-  getShopDetail() {
-    const {getShopDetail} = this.props;
-    getShopDetail(shopDetail1);
-  }
-
   render() {
-    const {shopDetailInfo} = this.props;
+    const { shopDetailInfo } = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
       <View>
