@@ -39,7 +39,11 @@ function mapDispatchToProps(dispatch) {
 class ShopDetail extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam('title', '商品详情'),
-    headerRight: <ShopDetailHeaderRight navigation={navigation} rate={navigation.getParam('rate')} />,
+    headerRight: <ShopDetailHeaderRight
+      onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
+      navigation={navigation}
+      rate={navigation.getParam('rate')}
+    />,
   });
 
   componentDidMount() {
@@ -65,7 +69,6 @@ class ShopDetail extends PureComponent {
    */
 
   _setContentOrBottomUI = (isBottom, shopInfo) => {
-
     const type = shopInfo.activity.type;
     // let type = 3;
     // 发售、自营

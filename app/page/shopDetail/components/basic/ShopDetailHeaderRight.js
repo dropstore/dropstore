@@ -5,21 +5,22 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  Image, StyleSheet, Text, View,
+  Image, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import Images from '../../../../res/Images';
 import { YaHei } from '../../../../res/FontFamily';
 
 export default class ShopDetailHeaderRight extends PureComponent {
   render() {
-    const { rate } = this.props;
+    const { rate, onPress } = this.props;
     if (rate) {
+      const Wrapper = onPress ? TouchableOpacity : View;
       return (
-        <View style={_styles.mainView}>
+        <Wrapper onPress={onPress} style={_styles.mainView}>
           <Text style={_styles.rateTitle}>中签率</Text>
           <Image resizeMode="contain" style={_styles.imageShoe} source={Images.lot_win_rate} />
           <Text style={_styles.rateText}>{rate}</Text>
-        </View>
+        </Wrapper>
       );
     }
     return <View />;
