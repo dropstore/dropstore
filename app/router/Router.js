@@ -22,6 +22,7 @@ import PhoneNum from '../page/auth/PhoneNum';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
+import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
 import payStatus from '../page/pay/PayStatus';
 import commission from '../page/commission';
@@ -84,6 +85,7 @@ const routesWithHeader = {
   vendorDetail,
   Safesetting,
   shopDetail,
+  luckDetail,
   pay,
   commission,
   Message,

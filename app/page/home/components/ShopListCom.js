@@ -10,10 +10,6 @@ import { AgainLoadCom, PullToRefresh } from '../../../components';
 
 class ShopListCom extends PureComponent {
   _renderItemView = ({ item, index }) => {
-    const { firstCom } = this.props;
-    if (firstCom && index === 0) {
-      return firstCom;
-    }
     return <ShopListItemCom item={item} />;
   };
 
