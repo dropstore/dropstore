@@ -24,12 +24,13 @@ export default handleActions({
     [action.payload]: {
       ...state[action.payload],
       isFetching: true,
+      list: [],
     },
   }),
   [receiveNotice]: (state, action) => ({
     ...state,
     [action.meta.type]: {
-      list: action.payload.info,
+      list: [...(state[action.meta.type].list || []), ...action.payload.info],
       isFetching: false,
       totalPages: action.payload.number,
       currentPage: action.payload.currentPage,
