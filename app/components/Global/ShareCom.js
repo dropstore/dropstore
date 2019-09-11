@@ -1,65 +1,39 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Modalbox from 'react-native-modalbox';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { closeShare, shareCallback } from '../redux/actions/component';
-import { getShare } from '../redux/reselect/component';
-import { wPx2P } from '../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../common/Constant';
-import Image from './Image';
-import Images from '../res/Images';
-import ImageBackground from './ImageBackground';
-import Share from '../utils/ShareUtil';
-import { showToast } from '../utils/MutualUtil';
+import { wPx2P } from '../../utils/ScreenUtil';
+import { SCREEN_WIDTH } from '../../common/Constant';
+import Image from '../Image';
+import Images from '../../res/Images';
+import ImageBackground from '../ImageBackground';
+import Share from '../../utils/ShareUtil';
+import { showToast } from '../../utils/MutualUtil';
 
 const schemes = [
   { icon: 'wx', scheme: 2 },
   { icon: 'pyq', scheme: 3 },
 ];
 
-function mapStateToProps() {
-  return state => ({
-    share: getShare(state),
-  });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    closeShare, shareCallback,
-  }, dispatch);
-}
-
-class ShareCom extends PureComponent {
-  componentWillReceiveProps(nextProps) {
-    const { share } = this.props;
-    if (!share.show && nextProps.share.show) {
-      setTimeout(() => {
-        this.modalbox.open();
-      });
-    } else if (share.show && !nextProps.share.show) {
-      this.modalbox.close();
-    }
+export default class ShareCom extends PureComponent {
+  componentDidMount() {
+    this.modalbox && this.modalbox.open();
   }
 
   share = (scheme) => {
-    const { share, shareCallback } = this.props;
+    const { share, successCallback, failCallback } = this.props;
     const {
       text, img, url, title,
     } = share;
     Share(text, img, url, title, scheme).then(() => {
-      shareCallback(true);
-    }).catch((err) => {
+      successCallback();
+    }).catch(() => {
       showToast('分享失败，请稍后重试');
-      console.log(err);
+      failCallback();
     });
   }
 
   render() {
-    const { closeShare, share } = this.props;
-    if (!share.show) {
-      return null;
-    }
+    const { closeShare } = this.props;
     return (
       <Modalbox
         position="bottom"
@@ -100,5 +74,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShareCom);

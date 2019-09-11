@@ -4,12 +4,40 @@
  * @author ZWW
  */
 import React from 'react';
-import { Text, Alert, ActivityIndicator } from 'react-native';
+import {
+  Text, Alert, ActivityIndicator, DeviceEventEmitter,
+} from 'react-native';
 import { ModalIndicator, Toast } from 'teaset';
 import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';
 import Colors from '../res/Colors';
 
 let customKey = null;
+
+function triggerEvent(type, params) {
+  DeviceEventEmitter.emit('dropstoreGlobal', {
+    dropstoreEventType: type,
+    params,
+  });
+}
+
+function addCallbackListener(type, resolve, reject) {
+  const listener = DeviceEventEmitter.addListener('dropstoreCallback', (e) => {
+    if (e.dropstoreEventType === type) {
+      listener.remove();
+      if (e.type === 'success') {
+        resolve(e.data);
+      } else {
+        reject(e.data);
+      }
+    }
+  });
+}
+
+// 分享弹窗
+export const showShare = (params: { text: String, img:String, url: String, title: String }) => new Promise((resolve, reject) => {
+  triggerEvent('share', params);
+  addCallbackListener('share', resolve, reject);
+});
 
 /**
  * 吐司

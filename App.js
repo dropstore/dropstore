@@ -3,12 +3,8 @@ import NetInfo from '@react-native-community/netinfo';
 import { View, StatusBar, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
-import Theme from './app/res/Theme';
 import { wxPayModule, wxAppId } from './app/native/module';
-import ShareCom from './app/components/ShareCom';
-import Modalbox from './app/components/Modalbox';
-
-Theme.setTeasetTheme();
+import { ShareCom, Modalbox, Global } from './app/components';
 
 /**
  * Js程序异常处理
@@ -67,8 +63,9 @@ export default class App extends Component {
         <View style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
           <Router />
-          <ShareCom />
+          {/* <ShareCom /> */}
           <Modalbox />
+          <Global />
         </View>
       </Provider>
     );
