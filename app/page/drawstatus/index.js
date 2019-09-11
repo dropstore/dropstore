@@ -13,22 +13,15 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Mario, YaHei} from "../../res/FontFamily";
 import {checkTime, countDown} from "../../utils/TimeUtils";
+import {showShare} from "../../utils/MutualUtil";
+import ShopConstant from "../../common/ShopConstant";
+import {getShopDetailInfo} from "../../redux/reselect/shopDetailInfo";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {showToast} from "../../utils/MutualUtil";
-import {showShare} from '../../redux/actions/component';
-import {getShareSuccess} from '../../redux/reselect/component';
 
 function mapStateToProps() {
   return state => ({
-    shareSuccess: getShareSuccess(state),
+    shopDetailInfo: getShopDetailInfo(state),
   });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    showShare,
-  }, dispatch);
 }
 
 class DrawStatus extends PureComponent {
@@ -36,51 +29,20 @@ class DrawStatus extends PureComponent {
     super(props);
   }
 
-  componentDidMount() {
-    const {navigation} = this.props;
-    const payStatus = navigation.getParam('payStatus');
-    if (payStatus) {
-      this._setTime();
-      this._timer = setInterval(() => {
-        this._setTime();
-      }, 1000)
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const {shareSuccess} = this.props;
-    if (!shareSuccess && nextProps.shareSuccess) {
-      showToast('分享成功');
-      navigation.navigate('shopDetail');
-    }
-  }
-
-  componentWillUnmount() {
-    this._timer && clearInterval(this._timer);
-  }
-
-  _setTime = () => {
-    let sTimeStamp = this._getStartTime();
-    if (sTimeStamp > 0) {
-      this.setState({startDownTime: countDown(sTimeStamp)})
-    }
-  };
-
-  _getStartTime = () => {
-    const {navigation} = this.props;
-    const shopDetailInfo = navigation.getParam('shopDetailInfo');
-    const data = shopDetailInfo.data;
-    // 活动开始时间
-    let start_time = data.activity.start_time;
-    return checkTime(start_time);
-  };
   _showShare = () => {
-    const {showShare} = this.props;
+    const {shopDetailInfo} = this.props;
+    const shopInfo = shopDetailInfo.data;
+    const aId = shopInfo.activity.id;
+    const uAId = shopInfo.user_activity.id;
+    const uId = shopInfo.user_activity.user_id;
+    const title = shopInfo.goods.goods_name;
+    const image = shopInfo.goods.image;
+    const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
     showShare({
-      text: '分享的正文',
-      img: 'https://www.baidu.com/img/bd_logo1.png',
-      url: 'https://www.baidu.com/',
-      title: '分享的标题',
+      text: ShopConstant.SHARE_TEXT,
+      img: image,
+      url: url,
+      title: title,
     });
   };
 
@@ -102,7 +64,7 @@ class DrawStatus extends PureComponent {
             <Text style={bottomStyle.buttonText}>分享邀请</Text>
           </ImageBackground>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                           onPress={() => alert('确认')}>
+                           onPress={() => navigation.goBack()}>
             <Text style={bottomStyle.buttonText}>确认</Text>
           </ImageBackground>
         </View>
@@ -135,7 +97,7 @@ const _style = StyleSheet.create({
   },
   shopName: {
     justifyContent: 'center',
-    fontSize: 19,
+    fontSize: 17,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     fontWeight: '400',
@@ -147,4 +109,4 @@ const _style = StyleSheet.create({
     height: 155
   }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(DrawStatus);
+export default connect(mapStateToProps) (DrawStatus);
