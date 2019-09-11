@@ -3,26 +3,26 @@
  * @date 2019/8/17 19:38
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import {
   ScaleView, Image, CountdownCom, Price,
 } from '../../../components';
-import { wPx2P } from '../../../utils/ScreenUtil';
-import { showToast } from '../../../utils/MutualUtil';
+import {wPx2P} from '../../../utils/ScreenUtil';
+import {showToast} from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
-import { Aldrich, YaHei } from '../../../res/FontFamily';
-import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
+import {Aldrich, YaHei} from '../../../res/FontFamily';
+import {MARGIN_HORIZONTAL, MAX_TIME} from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 
 
 class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
-    const { item } = this.props;
+    const {item} = this.props;
     const now = Date.now() / 1000;
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
@@ -41,7 +41,7 @@ class ShopListItemCom extends PureComponent {
       showToast('活动已结束');
       return;
     }
-    const { navigation, item } = this.props;
+    const {navigation, item} = this.props;
     navigation.navigate('shopDetail', {
       title: '商品详情',
       rate: '+25',
@@ -51,7 +51,7 @@ class ShopListItemCom extends PureComponent {
   };
 
   finish = () => {
-    const { item } = this.props;
+    const {item} = this.props;
     const now = Date.now() / 1000 + 1;
     const isStart = parseInt(item.start_time) < now;
     const time = isStart ? item.end_time : item.start_time;
@@ -66,21 +66,21 @@ class ShopListItemCom extends PureComponent {
   }
 
   render() {
-    const { item } = this.props;
-    const { time, showText, isStart } = this.state;
+    const {item} = this.props;
+    const {time, showText, isStart} = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
+        <Image resizeMode="contain" style={styles.imageShoe} source={{uri: item.image}}/>
         <View style={styles.right}>
-          <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
+          <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock}/>
           <View style={styles.rightBottom}>
-            <Price price={item.price} offsetBottom={3} />
+            <Price price={item.price / 100} offsetBottom={3}/>
             <Text style={styles.xiegang}>/</Text>
-            <CountdownCom isStart={isStart} finish={this.finish} style={styles.time} time={time} />
+            <CountdownCom isStart={isStart} finish={this.finish} style={styles.time} time={time}/>
           </View>
           {
             showText && (
-              <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+              <Text style={{color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right'}}>
                 {`${isStart ? '距活动结束' : '距活动开始'}`}
               </Text>
             )

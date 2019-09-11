@@ -61,12 +61,14 @@ class PayStatus extends PureComponent {
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
     const uId = shopInfo.user_activity.user_id;
+    const title = shopInfo.goods.goods_name;
+    const image = shopInfo.goods.image;
     const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
     showShare({
-      text: '参与活动',
-      img: 'https://www.baidu.com/img/bd_logo1.png',
+      text: ShopConstant.SHARE_TEXT,
+      img: image,
       url: url,
-      title: '参与活动',
+      title: title,
     });
   };
   _setConfirmOnclick = () => {
@@ -150,7 +152,7 @@ const _style = StyleSheet.create({
   },
   shopName: {
     justifyContent: 'center',
-    fontSize: 19,
+    fontSize: 17,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     fontWeight: '400',

@@ -5,6 +5,8 @@
  */
 // 分享BaseURL
 const SHARE_BASE_URL="http://m.dropstore.cn/index.html#/panicbuyingWithFriend" ;
+// 分享内容
+const SHARE_TEXT="Drop让球鞋更简单！";
 // 首页
 const HOME = 'all';
 // 原价发售
@@ -48,6 +50,7 @@ const FINISHPAY = 'finish_pay';
 const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
 export default {
   SHARE_BASE_URL,
+  SHARE_TEXT,
   HOME,
   ORIGIN_CONST,
   SELF_SUPPORT,

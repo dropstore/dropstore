@@ -3,22 +3,22 @@
  * @date 2019/8/21 20:07
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import {withNavigation} from 'react-navigation';
 import Image from '../../components/Image';
 import ImageBackground from '../../components/ImageBackground';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import {SCREEN_WIDTH, PADDING_TAB} from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { Normal, YaHei } from '../../res/FontFamily';
-import { commonStyle } from '../../res/style/CommonStyle';
-import { debounce } from '../../utils/commonUtils';
-import { bottomStyle } from '../../res/style/BottomStyle';
-import { showToast } from '../../utils/MutualUtil';
-import { getOrderInfo, getPayStatus } from '../../redux/actions/pay';
+import {Normal, YaHei} from '../../res/FontFamily';
+import {commonStyle} from '../../res/style/CommonStyle';
+import {debounce} from '../../utils/commonUtils';
+import {bottomStyle} from '../../res/style/BottomStyle';
+import {showToast} from '../../utils/MutualUtil';
+import {getOrderInfo, getPayStatus} from '../../redux/actions/pay';
 import ShopConstant from '../../common/ShopConstant';
 
 class Pay extends PureComponent {
@@ -62,14 +62,14 @@ class Pay extends PureComponent {
         payData[i].isSelect = false;
       }
     }
-    this.setState({ payData });
+    this.setState({payData});
   };
 
   /**
    * @private
    */
   _pay = async () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const data = navigation.getParam('payData');
     const type = navigation.getParam('type');
     const shopInfo = navigation.getParam('shopInfo');
@@ -95,25 +95,25 @@ class Pay extends PureComponent {
   };
 
   render() {
-    const { payData } = this.state;
-    const { navigation } = this.props;
+    const {payData} = this.state;
+    const {navigation} = this.props;
     const data = navigation.getParam('payData');
     return (
       <View style={_styles.container}>
         <Text style={_styles.alSel}>请选择付款方式:</Text>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           {
             payData.map((item, index) => (
               <TouchableOpacity onPress={() => this._changePayStatus(index)} key={index}>
                 <View
-                  style={[_styles.mainView, { marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor }]}
+                  style={[_styles.mainView, {marginTop: index === 0 ? 17 : 27, backgroundColor: item.bgColor}]}
                 >
-                  <View style={[commonStyle.row, { flex: 1 }]}>
-                    <Image style={_styles.payImage} source={item.subImage} />
+                  <View style={[commonStyle.row, {flex: 1}]}>
+                    <Image style={_styles.payImage} source={item.subImage}/>
                     <Text style={_styles.payTitle}>{item.name}</Text>
                   </View>
-                  <View style={{ alignItems: 'flex-end' }}>
-                    <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel} />
+                  <View style={{alignItems: 'flex-end'}}>
+                    <Image style={_styles.paySel} source={item.isSelect ? Images.sel : Images.unSel}/>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -122,10 +122,7 @@ class Pay extends PureComponent {
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>
-            <Text style={_styles.price}>
-              {data.price}
-￥
-            </Text>
+            <Text style={_styles.price}>{data.price / 100}￥</Text>
           </View>
           <ImageBackground
             style={bottomStyle.buttonNormalView}
