@@ -9,8 +9,8 @@ import { PADDING_TAB } from '../../../common/Constant';
 import { YaHei } from '../../../res/FontFamily';
 import { fetchAddress, delAddress, editAddress } from '../../../redux/actions/address';
 import { ModalNormal } from '../../../components';
-import { showModalbox, closeModalbox } from '../../../redux/actions/component';
 import { getAddress } from '../../../redux/reselect/address';
+import { showModalbox, closeModalbox } from '../../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -20,7 +20,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchAddress, showModalbox, closeModalbox, delAddress, editAddress,
+    fetchAddress, delAddress, editAddress,
   }, dispatch);
 }
 
@@ -55,7 +55,7 @@ class ChooseAddress extends PureComponent {
   }
 
   toDel = (address) => {
-    const { showModalbox, closeModalbox, delAddress } = this.props;
+    const { delAddress } = this.props;
     showModalbox({
       element: (<ModalNormal
         sure={() => {

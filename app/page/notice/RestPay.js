@@ -11,14 +11,13 @@ import { YaHei } from '../../res/FontFamily';
 import { PADDING_TAB } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { ModalNormal, CountdownCom } from '../../components';
-import { showModalbox, closeModalbox } from '../../redux/actions/component';
 import { request } from '../../http/Axios';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice, showModalbox, closeModalbox,
+    fetchNotice,
   }, dispatch);
 }
 
@@ -54,7 +53,6 @@ class RestPay extends Component {
   }
 
   onPress = (payItems, totalPrice) => {
-    const { showModalbox, closeModalbox } = this.props;
     const { list } = this.state;
     if (payItems.length !== list.length) {
       showModalbox({

@@ -16,8 +16,7 @@ import {
   PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
 } from '../../common/Constant';
 import { request } from '../../http/Axios';
-import { showModalbox, closeModalbox } from '../../redux/actions/component';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -27,7 +26,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, showModalbox, closeModalbox,
+    updateUser,
   }, dispatch);
 }
 
@@ -55,7 +54,6 @@ class Extract extends PureComponent {
       showToast('请输入提现金额');
       return;
     }
-    const { showModalbox, closeModalbox } = this.props;
     showModalbox({
       element: (<ModalNormal
         sure={() => {

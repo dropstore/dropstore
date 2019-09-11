@@ -3,23 +3,12 @@ import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import { Image, Price, CountdownCom } from '../../../components';
-import Images from '../../../res/Images';
-import { showModalbox, closeModalbox } from '../../../redux/actions/component';
-import { YaHei } from '../../../res/FontFamily';
 import Colors from '../../../res/Colors';
 import { wPx2P } from '../../../utils/ScreenUtil';
-import { showToast } from '../../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../../utils/MutualUtil';
 import Modal from './Modal';
 import TitleWithTag from '../component/TitleWithTag';
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    showModalbox, closeModalbox,
-  }, dispatch);
-}
 
 class ListItem extends PureComponent {
   constructor(props) {
@@ -62,9 +51,7 @@ class ListItem extends PureComponent {
   }
 
   onPress = (type) => {
-    const {
-      showModalbox, navigation, closeModalbox, item,
-    } = this.props;
+    const { navigation, item } = this.props;
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
@@ -101,11 +88,11 @@ class ListItem extends PureComponent {
     }
   }
 
-  successCallback = () => new Promise((resolve, reject) => {
+  successCallback = () => new Promise((resolve) => {
     resolve();
   })
 
-  cancelCallback = () => new Promise((resolve, reject) => {
+  cancelCallback = () => new Promise((resolve) => {
     resolve();
   })
 
@@ -233,4 +220,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(withNavigation(ListItem));
+export default withNavigation(ListItem);
