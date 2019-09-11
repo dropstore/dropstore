@@ -11,7 +11,6 @@ import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
@@ -49,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNCWebViewPackage(),
                     new AsyncStoragePackage(),
                     new NetInfoPackage(),
-                    new VectorIconsPackage(),
                     new SplashScreenReactPackage(),
                     new LinearGradientPackage(),
                     new FastImageViewPackage(),
