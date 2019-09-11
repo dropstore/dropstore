@@ -20,22 +20,30 @@ function triggerEvent(type, params) {
   });
 }
 
+function addCallbackListener(type, resolve, reject) {
+  const listener = DeviceEventEmitter.addListener('dropstoreCallback', (e) => {
+    if (e.dropstoreEventType === type) {
+      listener.remove();
+      if (e.type === 'success') {
+        resolve(e.data);
+      } else {
+        reject(e.data);
+      }
+    }
+  });
+}
+
 // 分享弹窗
-export const showShare = (params: { text: String, img:String, url: String, title: String }) => {
+export const showShare = (params: { text: String, img:String, url: String, title: String }) => new Promise((resolve, reject) => {
   triggerEvent('share', params);
-};
+  addCallbackListener('share', resolve, reject);
+});
 
 /**
  * 吐司
  * @param {String} message
  */
 export const showToast = (message) => {
-  showShare({
-    text: '分享的正文',
-    img: 'https://www.baidu.com/img/bd_logo1.png',
-    url: 'https://www.baidu.com/',
-    title: '分享的标题',
-  });
   Toast.message(message, TOAST_DURATION, TOAST_POSITON);
 };
 

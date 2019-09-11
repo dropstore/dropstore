@@ -1,13 +1,28 @@
 import React, { PureComponent } from 'react';
-import {
-  DeviceEventEmitter, KeyboardAvoidingView, StyleSheet, Platform, View,
-} from 'react-native';
-import ShareCom from '../ShareCom';
+import { DeviceEventEmitter } from 'react-native';
+import ShareCom from './ShareCom';
+
+const callback = (dropstoreEventType, type, data) => {
+  DeviceEventEmitter.emit('dropstoreCallback', {
+    dropstoreEventType,
+    type,
+    data,
+  });
+};
+
+const successCallback = (dropstoreEventType, data) => {
+  callback(dropstoreEventType, 'success', data);
+};
+
+const failCallback = (dropstoreEventType, data) => {
+  callback(dropstoreEventType, 'failed', data);
+};
 
 export default class Global extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      type: null,
       share: {},
     };
   }
@@ -18,6 +33,7 @@ export default class Global extends PureComponent {
         console.log(e.params);
       } else if (e.dropstoreEventType === 'share') {
         this.setState({
+          type: 'share',
           share: {
             ...e.params,
             show: true,
@@ -31,27 +47,20 @@ export default class Global extends PureComponent {
     this.listener.remove();
   }
 
-  render() {
-    const { share } = this.state;
-    return (
-      <KeyboardAvoidingView style={styles.wrapper} behavior={Platform.OS === 'android' ? null : 'position'}>
-        <View>
-          <ShareCom share={share} />
-        </View>
+  close = () => {
+    this.setState({ type: null });
+  }
 
-      </KeyboardAvoidingView>
-    );
+  render() {
+    const { share, type } = this.state;
+    if (!type) { return null; }
+    return ({
+      share: <ShareCom
+        closeShare={this.close}
+        share={share}
+        successCallback={data => successCallback('share', data)}
+        failCallback={data => failCallback('share', data)}
+      />,
+    }[type]);
   }
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    bottom: 0,
-    alignSelf: 'center',
-    zIndex: 100,
-    height: 'auto',
-    width: 'auto',
-  },
-});

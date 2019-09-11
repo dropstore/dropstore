@@ -16,6 +16,7 @@ import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Activity from '../page/notice/Activity';
 import { getUserInfo } from '../redux/reselect/userInfo';
+// import { showShare } from '../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -76,6 +77,12 @@ class BottomNavigator extends PureComponent {
   }
 
   onIndexChange = (index) => {
+    // showShare({
+    //   text: '参与活动',
+    //   img: 'https://www.baidu.com/img/bd_logo1.png',
+    //   url: 'https://www.baidu.com/img/bd_logo1.png',
+    //   title: '参与活动',
+    // }).then(() => console.log(123));
     const { userInfo, navigation } = this.props;
     if (index === 4 && !userInfo.user_s_id) {
       navigation.navigate('Auth');
