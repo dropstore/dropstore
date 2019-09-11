@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { DeviceEventEmitter, View, StyleSheet } from 'react-native';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ShareCom from './ShareCom';
 import Modalbox from './Modalbox';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import ToastLoading from './ToastLoading';
+import Toast from './Toast';
 
 const callback = (dropstoreEventType, type, data) => {
   DeviceEventEmitter.emit('dropstoreCallback', {
@@ -24,14 +26,10 @@ export default class Global extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      share: {
-        show: false,
-        data: {},
-      },
-      modalbox: {
-        show: false,
-        data: {},
-      },
+      share: { show: false, data: {} },
+      modalbox: { show: false, data: {} },
+      toastLoading: { show: false, data: {} },
+      toast: { show: false, data: {} },
     };
   }
 
@@ -55,8 +53,44 @@ export default class Global extends PureComponent {
         } else {
           this.modalbox.close();
         }
-      } else if (e.dropstoreEventType === 'showToastLoading') {
-        console.log(e.params);
+      } else if (e.dropstoreEventType === 'toastLoading') {
+        if (e.params) {
+          const { toastLoading } = this.state;
+          const show = () => {
+            this.setState({
+              toastLoading: {
+                show: true,
+                data: e.params,
+              },
+            });
+          };
+          if (toastLoading.show) {
+            this.setState({ toastLoading: { show: false } }, () => {
+              show();
+            });
+          } else {
+            show();
+          }
+        } else {
+          this.setState({ toastLoading: { show: false } });
+        }
+      } else if (e.dropstoreEventType === 'toast') {
+        const show = () => {
+          this.setState({
+            toast: {
+              show: true,
+              data: e.params,
+            },
+          });
+        };
+        const { toast } = this.state;
+        if (toast.show) {
+          this.setState({ toast: { show: false } }, () => {
+            show();
+          });
+        } else {
+          show();
+        }
       }
     });
   }
@@ -66,15 +100,13 @@ export default class Global extends PureComponent {
   }
 
   close = (type) => {
-    this.setState({
-      [type]: {
-        show: false,
-      },
-    });
+    this.setState({ [type]: { show: false } });
   }
 
   render() {
-    const { share, modalbox } = this.state;
+    const {
+      share, modalbox, toastLoading, toast,
+    } = this.state;
     return (
       <View style={styles.wrapper}>
         {
@@ -98,6 +130,20 @@ export default class Global extends PureComponent {
                 onClosed={() => this.close('modalbox')}
               />
             </View>
+          )
+        }
+        {
+          toastLoading.show && (
+            <ToastLoading data={toastLoading.data} close={() => this.close('toastLoading')} />
+          )
+        }
+        {
+          toast.show && (
+            <Toast
+              data={toast.data}
+              ref={(v) => { this.toast = v; }}
+              onClosed={() => this.close('toast')}
+            />
           )
         }
       </View>
