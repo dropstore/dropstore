@@ -39,6 +39,8 @@ export const showShare = (params: { text: String, img:String, url: String, title
   addCallbackListener('share', resolve, reject);
 });
 
+// modal弹窗
+
 /**
  * 吐司
  * @param {String} message
