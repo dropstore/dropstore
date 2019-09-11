@@ -154,7 +154,10 @@ class BottomNavigator extends PureComponent {
                   {
                       v
                         ? (
-                          <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center', paddingTop: 5 }}>
+                          <Animated.View style={{
+                            opacity: this.opacity[index], alignItems: 'center', paddingTop: 5, paddingBottom: 6, justifyContent: 'space-between',
+                          }}
+                          >
                             {
                               v.key === 'home'
                                 ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
@@ -171,7 +174,7 @@ class BottomNavigator extends PureComponent {
                             }
                             {v.key !== 'home' ? (
                               <Text
-                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}
+                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10 }}
                               >
                                 {v.title}
                               </Text>
