@@ -37,7 +37,8 @@
     "import/prefer-default-export": 0,
     "prefer-const": 1,
     "react/prop-types": 0,
-    "no-unused-expressions": 0
+    "no-unused-expressions": 0,
+    "eqeqeq": 0
   },
   "globals": {
     "__DEV__": true,

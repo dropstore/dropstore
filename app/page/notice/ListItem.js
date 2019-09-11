@@ -15,7 +15,7 @@ class ListItem extends PureComponent {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.end_time <= Date.now() / 1000 ? '超时' : item.pay_status === '1' ? '已完成' : null,
+      text: item.pay_status == '1' ? '已完成' : item.end_time <= Date.now() / 1000 ? '超时' : null,
     };
   }
 
