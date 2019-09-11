@@ -48,7 +48,13 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerBackTitle: null,
   headerTitleContainerStyle: { left: 56, right: 56 },
   headerLeft: (
-    <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
+    <TouchableOpacity
+      style={styles.btnWrapper}
+      onPress={() => {
+        const customBack = navigation.getParam('customBack');
+        customBack ? customBack() : navigation.pop();
+      }}
+    >
       <Image resizeMode="contain" style={{ height: 18, width: 10 }} source={Images.back} />
     </TouchableOpacity>
   ),

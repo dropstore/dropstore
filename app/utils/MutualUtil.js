@@ -40,14 +40,17 @@ export const showShare = (params: { text: String, img:String, url: String, title
 });
 
 /**
- * 吐司
+ * 弹窗
  * @param {element} element - react-native Dom元素/组件
  * @param {Object} options - react-native-modalbox的props
  */
-export const showModalbox = (element, options) => new Promise((resolve, reject) => {
-  // triggerEvent('share', params);
-  // addCallbackListener('share', resolve, reject);
-});
+export const showModalbox = ({ element, options }) => {
+  triggerEvent('modalbox', { element, options });
+};
+
+export const closeModalbox = () => {
+  triggerEvent('modalbox');
+};
 
 /**
  * 吐司

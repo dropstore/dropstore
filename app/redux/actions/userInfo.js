@@ -70,7 +70,6 @@ function weChatBind(i) {
 // 手机号绑定
 function mobileBind(mobile, codes) {
   return () => new Promise((resolve) => {
-    console.log(mobile, codes);
     request('/user/up_mobile', { params: { mobile, codes } }).then(() => {
       resolve();
     });
@@ -110,11 +109,18 @@ function messageAuth(mobile, codes) {
 function updateUser(params) {
   return (dispatch, getState) => new Promise((resolve) => {
     const {
-      sex, age, size, user_name, avatar,
+      sex: sexState, age, size, user_name, avatar,
     } = getState().userInfo;
+    const sex = {
+      男: 1,
+      女: 2,
+      1: 1,
+      2: 2,
+      0: -1,
+    }[sexState];
     request('/user/n_register', {
       params: {
-        sex: { 男: 1, 女: 2 }[sex], age, size, user_name, avatar, ...params,
+        sex, age, size, user_name, avatar, ...params,
       },
     }).then((res) => {
       dispatch(receiveUser(res.data));

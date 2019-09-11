@@ -15,12 +15,12 @@ class ListItem extends PureComponent {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.end_time <= Date.now() / 1000 ? '付款已超时' : null,
+      text: item.pay_status == '1' ? '已完成' : item.end_time <= Date.now() / 1000 ? '超时' : null,
     };
   }
 
   finish = () => {
-    this.setState({ text: '付款已超时' });
+    this.setState({ text: '超时' });
   }
 
   toPay = () => {
@@ -64,7 +64,7 @@ class ListItem extends PureComponent {
                   <Text style={styles.time}>待付款</Text>
                   <CountdownCom
                     finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
+                    style={{ ...styles.time, width: 55 }}
                     time={item.end_time}
                   />
                 </View>
@@ -80,7 +80,7 @@ class ListItem extends PureComponent {
             { ['1', '2'].includes(item.type) && !!text && <Text style={styles.yongjin}>{text}</Text> }
             {
               item.type === '3' && (
-                <Text style={styles.yongjin}>帮抢成功，佣金已入账</Text>
+                <Text style={styles.yongjin}>佣金已入账</Text>
               )
             }
           </View>
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 6,
     marginBottom: 6,
+    alignItems: 'center',
   },
   size: {
     fontSize: 12,

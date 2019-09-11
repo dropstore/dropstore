@@ -11,23 +11,24 @@ import { YaHei } from '../../res/FontFamily';
 import { PADDING_TAB } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { ModalNormal, CountdownCom } from '../../components';
-import { showModalbox, closeModalbox } from '../../redux/actions/component';
 import { request } from '../../http/Axios';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice, showModalbox, closeModalbox,
+    fetchNotice,
   }, dispatch);
 }
 
 class RestPay extends Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    const { end_time } = navigation.getParam('order');
     this.state = {
       list: [],
-      end_time: 0,
+      end_time,
     };
   }
 
@@ -35,7 +36,7 @@ class RestPay extends Component {
     const { navigation } = this.props;
     const { id } = navigation.getParam('order');
     request('/notice/notice_info', { params: { id } }).then((res) => {
-      this.setState({ list: res.data.info.map(v => ({ ...v, choosed: true })), end_time: res.data.end_time });
+      this.setState({ list: res.data.info.map(v => ({ ...v, choosed: true })) });
     });
   }
 
@@ -52,7 +53,6 @@ class RestPay extends Component {
   }
 
   onPress = (payItems, totalPrice) => {
-    const { showModalbox, closeModalbox } = this.props;
     const { list } = this.state;
     if (payItems.length !== list.length) {
       showModalbox({
@@ -132,7 +132,7 @@ class RestPay extends Component {
           <Text style={styles.time}>待付款</Text>
           <CountdownCom
             finish={this.finish}
-            style={{ ...styles.time, width: 50 }}
+            style={{ ...styles.time, width: 55 }}
             time={end_time}
           />
         </View>
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     alignSelf: 'flex-end',
     marginRight: 9,
+    alignItems: 'center',
   },
   hintModal: {
     fontFamily: YaHei,

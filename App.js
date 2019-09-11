@@ -63,7 +63,7 @@ export default class App extends Component {
         <View style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
           <Router />
-          {/* <ShareCom /> */}
+          <ShareCom />
           <Modalbox />
           <Global />
         </View>
