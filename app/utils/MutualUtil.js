@@ -4,10 +4,8 @@
  * @author ZWW
  */
 import React from 'react';
-import {
-  Text, Alert, ActivityIndicator, DeviceEventEmitter,
-} from 'react-native';
-import { ModalIndicator, Toast } from 'teaset';
+import { Text, ActivityIndicator, DeviceEventEmitter } from 'react-native';
+import { Toast } from 'teaset';
 import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';
 import Colors from '../res/Colors';
 
@@ -40,73 +38,30 @@ export const showShare = (params: { text: String, img:String, url: String, title
 });
 
 /**
- * 弹窗
+ * 弹窗react-native-modalbox
  * @param {element} element - react-native Dom元素/组件
  * @param {Object} options - react-native-modalbox的props
  */
 export const showModalbox = ({ element, options }) => {
   triggerEvent('modalbox', { element, options });
 };
-
 export const closeModalbox = () => {
   triggerEvent('modalbox');
 };
 
+// Toast加载框
+// export const showToastLoading = (options = { duration: 5000, text: '加载中' }) => {
+//   triggerEvent('showToastLoading', options);
+// };
+// setTimeout(() => {
+//   showToastLoading();
+// }, 2000);
 /**
  * 吐司
  * @param {String} message
  */
 export const showToast = (message) => {
   Toast.message(message, TOAST_DURATION, TOAST_POSITON);
-};
-
-/**
- * 提示框
- * 可结合实际业务，修改可选参数
- * @param {String} content - 内容
- * @param rightCallBack
- * @param {String} title - 标题
- * @param {String} leftText - 左边文字
- * @param {String} rightText - 右边边文字
- * @param {Boolean} cancelable - 是否可点击外部或Android返回键关闭
- * @param leftCallBack
- */
-export const showModal = (content, rightCallBack, {
-  title = '提示', leftText = '取消', rightText = '确定', cancelable = false, leftCallBack = Function,
-} = {}) => {
-  Alert.alert(
-    title,
-    content,
-    [
-      {
-        text: leftText,
-        onPress: () => leftCallBack(),
-      },
-      {
-        text: rightText,
-        onPress: () => rightCallBack(),
-      },
-    ], {
-      cancelable,
-    },
-  );
-};
-
-/**
- * 全屏加载框
- * @param {String} text
- * @param {Boolean} isModal - 是否是modal
- */
-export const showModalLoading = ({ text = '加载中...', isModal = false } = {}) => {
-  ModalIndicator.IndicatorView.defaultProps.modal = isModal;
-  ModalIndicator.show(text);
-};
-
-/**
- * 关闭全屏加载框
- */
-export const hideModalLoading = () => {
-  ModalIndicator.hide();
 };
 
 /**
