@@ -72,7 +72,7 @@ class PersonalCenterPage extends PureComponent {
               </View>
               <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.name}>{userInfo.user_name}</Text>
+                  <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
                   <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={userInfo.sex === '女' ? Images.littleGirl : Images.littleBoy} />
                 </View>
                 <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
