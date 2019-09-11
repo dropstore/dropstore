@@ -92,7 +92,7 @@ class RestPay extends Component {
     const { order_id } = navigation.getParam('order');
     navigation.navigate('pay', {
       title: '选择支付账户',
-      type: 'pay_order',
+      type: '1',
       payData: {
         order_id,
         price: totalPrice,
@@ -125,7 +125,7 @@ class RestPay extends Component {
   render() {
     const { list, end_time } = this.state;
     const payItems = list.filter(v => v.choosed);
-    const totalPrice = payItems.reduce((sum, v) => sum + v.order_price / 100, 0);
+    const totalPrice = payItems.reduce((sum, v) => sum + v.order_price * 1, 0);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
         <View style={styles.timeWrapper}>
@@ -146,7 +146,7 @@ class RestPay extends Component {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{totalPrice}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{`${totalPrice / 100}`}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity

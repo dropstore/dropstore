@@ -29,10 +29,10 @@ class ListItem extends PureComponent {
     if (item.type === '1') {
       navigation.navigate('pay', {
         title: '选择支付账户',
-        type: 'pay_order',
+        type: '1',
         payData: {
           order_id: item.order_id,
-          price: item.order_price / 100,
+          price: item.order_price,
         },
       });
     } else {

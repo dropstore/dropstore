@@ -95,7 +95,7 @@ class ListItem extends PureComponent {
         type: '1',
         payData: {
           order_id: item.order_id,
-          price: item.order_price / 100,
+          price: item.order_price,
         },
       });
     }
@@ -223,6 +223,7 @@ const styles = StyleSheet.create({
   },
   timeWrapper: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   yundanhao: {
     color: '#0A8CCF',
