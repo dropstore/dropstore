@@ -16,7 +16,7 @@ import HomePage from '../page/home';
 import FreeTrade from '../page/freeTrade';
 import Activity from '../page/notice/Activity';
 import { getUserInfo } from '../redux/reselect/userInfo';
-// import { showShare } from '../utils/MutualUtil';
+import { showShare } from '../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({

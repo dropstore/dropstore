@@ -20,10 +20,10 @@ export default class ShareCom extends PureComponent {
   }
 
   share = (scheme) => {
-    const { share, successCallback, failCallback } = this.props;
+    const { data, successCallback, failCallback } = this.props;
     const {
       text, img, url, title,
-    } = share;
+    } = data;
     Share(text, img, url, title, scheme).then(() => {
       successCallback();
     }).catch(() => {
