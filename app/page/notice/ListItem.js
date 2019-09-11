@@ -53,7 +53,7 @@ class ListItem extends PureComponent {
             <ImageBackground source={{ uri: item.image }} style={styles.shoe}>
               { item.type === '2' && <Image source={require('../../res/image/zhongqian.png')} style={styles.zhongqian} /> }
             </ImageBackground>
-            { item.size && <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> }
+            { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }
           </View>
           <View style={{ flex: 1, justifyContent: item.type !== '6' ? 'space-between' : 'center' }}>
             <TitleWithTag text={item.activity_name} type={item.type} />
@@ -77,7 +77,7 @@ class ListItem extends PureComponent {
                 </TouchableOpacity>
               )
             }
-            { ['1', '2'].includes(item.type) && text && <Text style={styles.yongjin}>{text}</Text> }
+            { ['1', '2'].includes(item.type) && !!text && <Text style={styles.yongjin}>{text}</Text> }
             {
               item.type === '3' && (
                 <Text style={styles.yongjin}>帮抢成功，佣金已入账</Text>
