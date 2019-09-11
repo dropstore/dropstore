@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Image, CountdownCom, ImageBackground } from '../../components';
-import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
