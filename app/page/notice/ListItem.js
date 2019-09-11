@@ -64,7 +64,7 @@ class ListItem extends PureComponent {
                   <Text style={styles.time}>待付款</Text>
                   <CountdownCom
                     finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
+                    style={{ ...styles.time, width: 55 }}
                     time={item.end_time}
                   />
                 </View>
