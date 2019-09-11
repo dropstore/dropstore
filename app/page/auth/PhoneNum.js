@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import PhoneNumCom from './PhoneNumCom';
 import { mobileBind } from '../../redux/actions/userInfo';
@@ -63,9 +63,10 @@ class PhoneNum extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT,
     alignItems: 'center',
-    paddingTop: hPx2P(125),
+    paddingTop: hPx2P(175),
   },
   phoneNum: {
     width: wPx2P(307),

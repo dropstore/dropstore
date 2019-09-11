@@ -5,10 +5,12 @@
  */
 const IMAGES = {
   drop: require('./image/drop.png'),
+  home: require('./image/home.png'),
   message: require('./image/message.png'),
   personal: require('./image/personal.png'),
   identify: require('./image/identify.png'),
   freeTrade: require('./image/freeTrade.png'),
+  homeInactive: require('./image/home-inactive.png'),
   messageInactive: require('./image/message-inactive.png'),
   personalInactive: require('./image/personal-inactive.png'),
   identifyInactive: require('./image/identify-inactive.png'),

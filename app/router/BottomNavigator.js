@@ -31,7 +31,7 @@ const TAB_HEIGHT = 52;
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
-  { screen: HomePage, key: 'drop' },
+  { screen: HomePage, key: 'home' },
   { screen: Activity, key: 'message', title: '消息' },
   { screen: Personal, key: 'personal', title: '我的' },
 ];
@@ -149,8 +149,8 @@ class BottomNavigator extends PureComponent {
                         ? (
                           <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center', paddingTop: 5 }}>
                             {
-                              v.key === 'drop'
-                                ? <Image style={styles.drop} source={Images.drop} />
+                              v.key === 'home'
+                                ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
                                 : (
                                   <Image
                                     resizeMode="contain"
@@ -162,7 +162,7 @@ class BottomNavigator extends PureComponent {
                                   />
                                 )
                             }
-                            {v.key !== 'drop' ? (
+                            {v.key !== 'home' ? (
                               <Text
                                 style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}
                               >

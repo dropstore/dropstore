@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import { receiveUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
@@ -101,9 +101,10 @@ class NameAge extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: SCREEN_HEIGHT,
+    width: SCREEN_WIDTH,
     alignItems: 'center',
-    paddingTop: hPx2P(125),
+    paddingTop: hPx2P(175),
   },
   nameAge: {
     width: wPx2P(307),
