@@ -84,7 +84,7 @@ class PickUp extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('pay', {
       title: '选择支付账户',
-      type: 'pay_order',
+      type: '3',
       payData: {
         order_id: this.item.pay_orderId,
         price: postage,

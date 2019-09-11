@@ -92,7 +92,7 @@ class ListItem extends PureComponent {
     } else if (type === 'pay') {
       navigation.navigate('pay', {
         title: '选择支付账户',
-        type: 'pay_order',
+        type: '1',
         payData: {
           order_id: item.order_id,
           price: item.order_price / 100,
