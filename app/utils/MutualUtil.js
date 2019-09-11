@@ -4,18 +4,38 @@
  * @author ZWW
  */
 import React from 'react';
-import { Text, Alert, ActivityIndicator } from 'react-native';
+import {
+  Text, Alert, ActivityIndicator, DeviceEventEmitter,
+} from 'react-native';
 import { ModalIndicator, Toast } from 'teaset';
 import { TOAST_DURATION, TOAST_POSITON } from '../common/Constant';
 import Colors from '../res/Colors';
 
 let customKey = null;
 
+function triggerEvent(type, params) {
+  DeviceEventEmitter.emit('dropstoreGlobal', {
+    dropstoreEventType: type,
+    params,
+  });
+}
+
+// 分享弹窗
+export const showShare = (params: { text: String, img:String, url: String, title: String }) => {
+  triggerEvent('share', params);
+};
+
 /**
  * 吐司
  * @param {String} message
  */
 export const showToast = (message) => {
+  showShare({
+    text: '分享的正文',
+    img: 'https://www.baidu.com/img/bd_logo1.png',
+    url: 'https://www.baidu.com/',
+    title: '分享的标题',
+  });
   Toast.message(message, TOAST_DURATION, TOAST_POSITON);
 };
 

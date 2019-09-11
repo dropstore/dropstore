@@ -1,26 +1,26 @@
-import React, {PureComponent} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import React, { PureComponent } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Modalbox from 'react-native-modalbox';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {closeShare, shareCallback} from '../redux/actions/component';
-import {getShare} from '../redux/reselect/component';
-import {wPx2P} from '../utils/ScreenUtil';
-import {SCREEN_WIDTH} from '../common/Constant';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { closeShare, shareCallback } from '../redux/actions/component';
+import { getShare } from '../redux/reselect/component';
+import { wPx2P } from '../utils/ScreenUtil';
+import { SCREEN_WIDTH } from '../common/Constant';
 import Image from './Image';
 import Images from '../res/Images';
 import ImageBackground from './ImageBackground';
 import Share from '../utils/ShareUtil';
-import {showToast} from '../utils/MutualUtil';
+import { showToast } from '../utils/MutualUtil';
 
 const schemes = [
-  {icon: 'wx', scheme: 2},
-  {icon: 'pyq', scheme: 3},
+  { icon: 'wx', scheme: 2 },
+  { icon: 'pyq', scheme: 3 },
 ];
 
 function mapStateToProps() {
   return state => ({
-    share: getShare(state),
+    // share: getShare(state),
   });
 }
 
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch) {
 
 class ShareCom extends PureComponent {
   componentWillReceiveProps(nextProps) {
-    const {share} = this.props;
+    const { share } = this.props;
     if (!share.show && nextProps.share.show) {
       setTimeout(() => {
         this.modalbox.open();
@@ -43,7 +43,7 @@ class ShareCom extends PureComponent {
   }
 
   share = (scheme) => {
-    const {share, shareCallback} = this.props;
+    const { share, shareCallback } = this.props;
     const {
       text, img, url, title,
     } = share;
@@ -56,25 +56,25 @@ class ShareCom extends PureComponent {
   }
 
   render() {
-    const {closeShare, share} = this.props;
+    const { closeShare, share } = this.props;
     if (!share.show) {
       return null;
     }
     return (
       <Modalbox
         position="bottom"
-        backButtonClose={true}
+        backButtonClose
         onClosed={closeShare}
         style={styles.modalbox}
         ref={(v) => {
           this.modalbox = v;
         }}
       >
-        <ImageBackground source={Images.fxt} style={{...styles.modalbox, ...styles.fxt}}>
+        <ImageBackground source={Images.fxt} style={{ ...styles.modalbox, ...styles.fxt }}>
           {
             schemes.map(v => (
               <TouchableOpacity key={v.icon} onPress={() => this.share(v.scheme)}>
-                <Image style={styles.shareIcon} source={Images[v.icon]}/>
+                <Image style={styles.shareIcon} source={Images[v.icon]} />
               </TouchableOpacity>
             ))
           }
