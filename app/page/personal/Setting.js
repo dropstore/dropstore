@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
   itemWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
+    paddingVertical: wPx2P(19),
     backgroundColor: '#fff',
     paddingHorizontal: 18,
     alignItems: 'center',
