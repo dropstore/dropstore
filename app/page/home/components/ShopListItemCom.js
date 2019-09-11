@@ -68,7 +68,7 @@ class ShopListItemCom extends PureComponent {
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
           <View style={styles.rightBottom}>
-            <Price price={item.price / 100} offsetBottom={3} />
+            <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
             <CountdownCom startTime={item.start_time} endTime={item.end_time} isStart={isStart} finish={this.finish} style={styles.time} time={time} />
           </View>
