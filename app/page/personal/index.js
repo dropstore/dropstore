@@ -29,7 +29,7 @@ class PersonalCenterPage extends PureComponent {
         title: '我的活动', icon: 'myActivity', route: 'fashounotice',
       },
       {
-        title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
+        title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房', onIndexChange },
       },
       // {
       //   title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
