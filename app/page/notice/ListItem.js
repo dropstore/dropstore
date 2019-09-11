@@ -15,12 +15,12 @@ class ListItem extends PureComponent {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.end_time <= Date.now() / 1000 ? '付款已超时' : null,
+      text: item.end_time <= Date.now() / 1000 ? '超时' : item.pay_status === '1' ? '已完成' : null,
     };
   }
 
   finish = () => {
-    this.setState({ text: '付款已超时' });
+    this.setState({ text: '超时' });
   }
 
   toPay = () => {
@@ -80,7 +80,7 @@ class ListItem extends PureComponent {
             { ['1', '2'].includes(item.type) && !!text && <Text style={styles.yongjin}>{text}</Text> }
             {
               item.type === '3' && (
-                <Text style={styles.yongjin}>帮抢成功，佣金已入账</Text>
+                <Text style={styles.yongjin}>佣金已入账</Text>
               )
             }
           </View>
