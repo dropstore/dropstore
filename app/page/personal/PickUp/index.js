@@ -86,7 +86,7 @@ class PickUp extends PureComponent {
       title: '选择支付账户',
       type: '3',
       payData: {
-        order_id: this.item.pay_orderId,
+        order_id: this.item.id,
         price: postage,
       },
     });
