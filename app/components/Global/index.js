@@ -55,6 +55,8 @@ export default class Global extends PureComponent {
         } else {
           this.modalbox.close();
         }
+      } else if (e.dropstoreEventType === 'showToastLoading') {
+        console.log(e.params);
       }
     });
   }

@@ -42,22 +42,22 @@
 				<string>dropstore</string>
 			</array>
 		</dict>
-		<dict>
+		<!-- <dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>alipay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ap2019090466881829</string>
+				<string>2019090466881829</string>
 			</array>
-		</dict>
+		</dict> -->
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>alipay</string>
+		<!-- <string>alipay</string> -->
 		<string>wechat</string>
 		<string>weixin</string>
 		<string>sinaweibohd</string>
