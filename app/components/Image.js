@@ -19,9 +19,8 @@ export default class ImageOrFastImage extends PureComponent<Props, State> {
   }
 
   render() {
-    const { source } = this.props;
+    const { source, style, resizeMode } = this.props;
     if (!source) { return null; }
-    const { style, resizeMode } = this.props;
     const Wrapper = Platform.OS === 'ios' && source.constructor !== Object ? FastImage : Image;
     return (
       <Wrapper

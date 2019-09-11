@@ -53,7 +53,7 @@ export default class Global extends PureComponent {
             },
           });
         } else {
-          this.close();
+          this.modalbox.close();
         }
       }
     });
@@ -92,6 +92,7 @@ export default class Global extends PureComponent {
             <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
               <Modalbox
                 data={modalbox.data}
+                ref={(v) => { this.modalbox = v; }}
                 onClosed={() => this.close('modalbox')}
               />
             </View>

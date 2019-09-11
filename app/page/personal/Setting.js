@@ -14,8 +14,7 @@ import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { showToast } from '../../utils/MutualUtil';
-import { closeModalbox, showModalbox } from '../../redux/actions/component';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { upload } from '../../http/Axios';
 
 function mapStateToProps() {
@@ -26,7 +25,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, closeModalbox, showModalbox,
+    updateUser,
   }, dispatch);
 }
 
@@ -45,6 +44,10 @@ class Setting extends PureComponent {
         { title: '鞋码', name: 'size', value: userInfo.size },
       ],
     };
+    this.name = userInfo.user_name;
+    this.sex = userInfo.sex;
+    this.age = userInfo.age;
+    this.size = userInfo.size;
   }
 
   submit = () => {
@@ -67,7 +70,6 @@ class Setting extends PureComponent {
   }
 
   onPress = (item) => {
-    const { showModalbox, closeModalbox } = this.props;
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name !== 'sex') {
@@ -177,10 +179,7 @@ class Setting extends PureComponent {
                               source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy}
                               style={styles.sexBtnWrapper}
                               onPress={this.changeSex}
-                            >
-                              {/* <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
-                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} /> */}
-                            </ImageBackground>
+                            />
                           )
                           : <Text style={styles.text}>{v.value}</Text>
                     }

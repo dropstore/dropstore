@@ -44,7 +44,7 @@ export const showShare = (params: { text: String, img:String, url: String, title
  * @param {element} element - react-native Dom元素/组件
  * @param {Object} options - react-native-modalbox的props
  */
-export const showModalbox = (element, options) => {
+export const showModalbox = ({ element, options }) => {
   triggerEvent('modalbox', { element, options });
 };
 

@@ -6,6 +6,10 @@ export default class Modal extends PureComponent {
     this.modalbox && this.modalbox.open();
   }
 
+  close = () => {
+    this.modalbox.close();
+  }
+
   render() {
     const { data: { element, options }, onClosed } = this.props;
     return (
