@@ -1,76 +1,130 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, StatusBar, Platform, TouchableWithoutFeedback,
+  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
+import Images from '../res/Images';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
-import { px2Dp } from '../utils/ScreenUtil';
+import Colors from '../res/Colors';
+import { wPx2P } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
-import Search from '../page/search';
+import Identify from '../page/identify';
 import HomePage from '../page/home';
-import Wallet from '../page/wallet';
-import Message from '../page/message';
+import FreeTrade from '../page/freeTrade';
+import Activity from '../page/notice/Activity';
+import { getUserInfo } from '../redux/reselect/userInfo';
+// import { showShare } from '../utils/MutualUtil';
 
-const HOME_ICON_WIDTH = px2Dp(239);
+function mapStateToProps() {
+  return state => ({
+    userInfo: getUserInfo(state),
+  });
+}
+
+
+const HOME_ICON_WIDTH = wPx2P(97);
+const PADDING_HORIZONTAL = wPx2P(22);
+const TAB_HEIGHT = 52;
+
 const ROUTES = [
-  {
-    screen: <Personal />,
-    key: 'Personal',
-    icon: <Image style={{ width: px2Dp(69), height: px2Dp(53) }} source={require('../res/image/personal.png')} />,
-  },
-  {
-    screen: <Search />,
-    key: 'Search',
-    icon: <Image style={{ width: px2Dp(66), height: px2Dp(54) }} source={require('../res/image/search.png')} />,
-  },
-  {
-    screen: <HomePage />,
-    key: 'HomePage',
-    icon: <Image style={{ width: HOME_ICON_WIDTH, height: px2Dp(130), marginBottom: 27.5 }} source={require('../res/image/drop.png')} />,
-  },
-  {
-    screen: <Wallet />,
-    key: 'Wallet',
-    icon: <Image style={{ width: px2Dp(65), height: px2Dp(46) }} source={require('../res/image/wallet.png')} />,
-  },
-  {
-    screen: <Message />,
-    key: 'Message',
-    icon: <Image style={{ width: px2Dp(69), height: px2Dp(52) }} source={require('../res/image/message.png')} />,
-  },
+  { screen: FreeTrade, key: 'freeTrade', title: '交易' },
+  { screen: Identify, key: 'identify', title: '鉴定' },
+  { screen: HomePage, key: 'drop' },
+  { screen: Activity, key: 'message', title: '消息' },
+  { screen: Personal, key: 'personal', title: '我的' },
 ];
 
-export default class BottomNavigator extends PureComponent {
+class BottomNavigator extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       routes: ROUTES,
       index: 2,
     };
+    this.opacity = [
+      new Animated.Value(1),
+      new Animated.Value(1),
+      new Animated.Value(1),
+      new Animated.Value(1),
+      new Animated.Value(1),
+    ];
   }
 
   componentDidMount() {
-    if (Platform.OS === 'android') {
-      StatusBar.setTranslucent(true);
-      StatusBar.setBackgroundColor('transparent');
-      StatusBar.setBarStyle('dark-content');
+    const { navigation } = this.props;
+    this.didBlurSubscription = navigation.addListener(
+      'willFocus',
+      () => {
+        const { index } = this.state;
+        this.changeStatusBar(index);
+      },
+    );
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription && this.didBlurSubscription.remove();
+  }
+
+  changeStatusBar = (i) => {
+    if ([0, 1, 3].includes(i)) {
+      StatusBar.setBarStyle('light-content', true);
+    } else {
+      StatusBar.setBarStyle('dark-content', true);
     }
   }
 
   onIndexChange = (index) => {
+    // showShare({
+    //   text: '参与活动',
+    //   img: 'https://www.baidu.com/img/bd_logo1.png',
+    //   url: 'https://www.baidu.com/img/bd_logo1.png',
+    //   title: '参与活动',
+    // }).then(() => console.log(123));
+    const { userInfo, navigation } = this.props;
+    if (index === 4 && !userInfo.user_s_id) {
+      navigation.navigate('Auth');
+      return;
+    }
     this.setState({ index });
+    this.changeStatusBar(index);
   }
 
-  renderScene = ({ route }) => route.screen;
+  onPressIn = (i) => {
+    Animated.timing(
+      this.opacity[i],
+      {
+        toValue: 0.2,
+        duration: 150,
+        useNativeDriver: true,
+      },
+    ).start();
+  }
+
+  onPressOut = (i) => {
+    Animated.timing(
+      this.opacity[i],
+      {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: true,
+      },
+    ).start();
+  }
+
+  renderScene = ({ route }) => {
+    const Screen = route.screen;
+    return <Screen onIndexChange={this.onIndexChange} />;
+  };
 
   renderTabBar = () => null;
 
   render() {
-    const { routes, index } = this.state;
+    const { routes, index: indexState } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
         <TabView
           style={{ flex: 1 }}
           navigationState={this.state}
@@ -83,23 +137,61 @@ export default class BottomNavigator extends PureComponent {
         />
         <View style={styles.tabBar}>
           {
-            routes.map((v, i) => (
-              <TouchableWithoutFeedback
-                hitSlop={{
-                  top: 15, left: 20, bottom: 25, right: 20,
-                }}
-                onPress={() => this.onIndexChange(i)}
-              >
-                <View>
-                  {v.icon}
-                </View>
-              </TouchableWithoutFeedback>
-            ))
+            routes.reduce((arr, v) => [...arr, false, false, v], []).slice(2).map((v, i, arr) => {
+              const index = (i + 1) / 3 | 0;
+              return (
+                <TouchableWithoutFeedback
+                  key={`v.key${i}`}
+                  hitSlop={{
+                    bottom: PADDING_TAB,
+                    left: i === 0 ? PADDING_HORIZONTAL : 0,
+                    right: i === arr.length - 1 ? PADDING_HORIZONTAL : 0,
+                  }}
+                  onPressIn={() => this.onPressIn(index)}
+                  onPressOut={() => this.onPressOut(index)}
+                  onPress={() => this.onIndexChange(index)}
+                >
+                  {
+                      v
+                        ? (
+                          <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center', paddingTop: 5 }}>
+                            {
+                              v.key === 'drop'
+                                ? <Image style={styles.drop} source={Images.drop} />
+                                : (
+                                  <Image
+                                    resizeMode="contain"
+                                    style={{
+                                      width: wPx2P(26),
+                                      height: wPx2P(26),
+                                    }}
+                                    source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
+                                  />
+                                )
+                            }
+                            {v.key !== 'drop' ? (
+                              <Text
+                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}
+                              >
+                                {v.title}
+                              </Text>
+                            ) : null}
+                          </Animated.View>
+                        )
+                        : <View style={{ flex: 1, height: '100%' }} />
+                    }
+                </TouchableWithoutFeedback>
+              );
+            })
           }
         </View>
-        <TouchableWithoutFeedback onPress={() => this.onIndexChange(2)}>
-          <View style={styles.placeholder} />
-        </TouchableWithoutFeedback>
+        {
+          Platform.OS === 'android' && (
+          <TouchableWithoutFeedback onPressIn={() => this.onPressIn(2)} onPressOut={() => this.onPressOut(2)} onPress={() => this.onIndexChange(2)}>
+            <View style={styles.placeholder} />
+          </TouchableWithoutFeedback>
+          )
+        }
       </View>
     );
   }
@@ -108,25 +200,32 @@ export default class BottomNavigator extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: Colors.MAIN_BACK,
   },
   tabBar: {
-    height: px2Dp(101 + PADDING_TAB),
-    paddingBottom: px2Dp(PADDING_TAB),
-    alignItems: 'center',
+    height: TAB_HEIGHT + PADDING_TAB,
+    paddingBottom: PADDING_TAB,
     width: SCREEN_WIDTH,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     backgroundColor: '#fff',
-    paddingHorizontal: px2Dp(36),
+    paddingHorizontal: PADDING_HORIZONTAL,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ddd',
   },
   placeholder: {
-    height: 20,
+    height: 10,
     width: HOME_ICON_WIDTH,
     position: 'absolute',
     alignSelf: 'center',
-    bottom: px2Dp(101 + PADDING_TAB),
+    bottom: TAB_HEIGHT + PADDING_TAB,
+  },
+  drop: {
+    width: HOME_ICON_WIDTH,
+    height: wPx2P(51),
+    // marginBottom: 27.5,
+    position: 'relative',
+    top: -15,
   },
 });
+
+export default connect(mapStateToProps)(BottomNavigator);

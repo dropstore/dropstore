@@ -8,6 +8,8 @@ import Image from '../../../components/Image';
 import { fetchVendors } from '../../../redux/actions/test';
 import { getVendors } from '../../../redux/reselect/test';
 import VendorListItem from './VendorListItem';
+import Images from '../../../res/Images';
+import Colors from '../../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -24,8 +26,8 @@ function mapDispatchToProps(dispatch) {
 class HomePage extends PureComponent {
   constructor(props) {
     super(props);
-    const { fetchVendors } = this.props;
-    fetchVendors();
+    // const { fetchVendors } = this.props;
+    // fetchVendors();
     this.state = {};
   }
 
@@ -51,7 +53,7 @@ class HomePage extends PureComponent {
     return (
       <View style={styles.loadingFooter}>
         <Text style={styles.loadingText}>加载中</Text>
-        <Image source={require('../../../res/image/loading.gif')} style={styles.loadingGif} />
+        <Image source={Images.loading} style={styles.loadingGif} />
       </View>
     );
   }
@@ -90,12 +92,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     height: 40,
-    borderTopColor: '#e5e5e5',
+    borderTopColor: Colors.NORMAL_TEXT_E5,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
   loadingText: {
     fontSize: 12,
-    color: '#666666',
+    color: Colors.NORMAL_TEXT_6,
   },
   loadingGif: {
     width: 23,

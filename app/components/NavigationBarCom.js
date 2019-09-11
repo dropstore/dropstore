@@ -1,45 +1,41 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-12 14:43:12
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 19:04:36
- * @Description: 导航栏组件
+/**
+ * @file 通用导航栏组件
+ * @date 2019/8/17 10:40
+ * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Label, NavigationBar } from 'teaset';
-import CommonColor from '../res/color/CommonColor';
+import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, SCREEN_WIDTH } from '../common/Constant';
+import Colors from '../res/Colors';
+import { YaHei } from '../res/FontFamily';
 
 class NavigationBarCom extends PureComponent {
   render() {
-    const { isShowLeftView, navigation, headerTitle } = this.props;
+    const { title } = this.props;
     return (
-      <NavigationBar
-        type="ios"
-        style={{ backgroundColor: CommonColor.HEADER_COLOR }}
-        tintColor={CommonColor.WHITE_COLOR}
-        title={(
-          <View style={styles.titleWrapper}>
-            <Label style={styles.title} text={headerTitle} />
-          </View>
-        )}
-        leftView={isShowLeftView ? <NavigationBar.BackButton title="Back" onPress={() => navigation.goBack()} /> : <View />}
-      />
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  titleWrapper: {
-    flex: 1,
-    paddingLeft: 4,
-    paddingRight: 4,
+  container: {
+    height: STATUSBAR_AND_NAV_HEIGHT,
+    paddingTop: STATUSBAR_HEIGHT,
+    backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: SCREEN_WIDTH,
+    top: 0,
+    position: 'absolute',
   },
   title: {
-    color: CommonColor.WHITE_COLOR,
-    fontSize: 20,
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: YaHei,
   },
 });
 

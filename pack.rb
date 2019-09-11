@@ -62,19 +62,27 @@ end
 def export_appstore
   puts "---------- packing ios ------------"
   edit_modules()
+  new_content = File.read("ios/dropstore/Info.plist")
+  new_content = new_content.gsub(/<key>CFBundleDevelopmentRegion<\/key>/,
+    "<key>method<\/key>\n  <string>ad-hoc<\/string>\n  <key>CFBundleDevelopmentRegion<\/key>")
+  File.write("ios/adhoc.plist", new_content)
   puts `cd ios &&
     rm -rf build/* &&
     xcodebuild clean -workspace dropstore.xcworkspace -scheme dropstore -configuration Release &&
     xcodebuild archive -workspace dropstore.xcworkspace -scheme dropstore -archivePath build/dropstore.xcarchive &&
+    rvm use system &&
     xcodebuild -exportArchive -archivePath build/dropstore.xcarchive -exportPath build -exportOptionsPlist adhoc.plist
   `
   puts "---------- finish packing ios ------------"
   return true
 end
 
-def edit_modules()
+def edit_modules
+  result1 = File.read('./edit_node_modules/react-native-clear-cache/build.gradle')
+  File.write('./node_modules/react-native-clear-cache/android/build.gradle', result1)
   result3 = File.read('./edit_node_modules/metro/DependencyGraph.js')
   File.write('./node_modules/metro/src/node-haste/DependencyGraph.js', result3)
+  puts "---------- finish install and edit node_modules ------------"
 end
 
 def bundleVersion(version)
@@ -121,13 +129,13 @@ end
 
 if action == 'pack'
   case channel
-  when "appstore" then export_appstore()
-  else export_android(channel)
+  when "ios" then export_appstore()
+  when "android" then export_android('dropstore')
   end
 elsif action == 'pnu'
   case channel
-  when "appstore" then export_appstore() && upload(File.absolute_path('./ios/build/dropstore.ipa'))
-  when "dropstore" then export_android('dropstore') && upload(File.absolute_path('./android/app/build/outputs/apk/dropstore.apk'))
+  when "ios" then export_appstore() && upload(File.absolute_path('./ios/build/dropstore.ipa'))
+  when "android" then export_android('dropstore') && upload(File.absolute_path('./android/app/build/outputs/apk/dropstore.apk'))
   end
 elsif action == 'version'
   case channel
@@ -144,5 +152,9 @@ elsif action == 'sourcemap'
 elsif action == 'bundleVersion'
   case channel
   when channel then bundleVersion(extras)
+  end
+elsif action == 'edit'
+  case channel
+  when channel then edit_modules()
   end
 end

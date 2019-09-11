@@ -1,89 +1,62 @@
-/*
- * @Author: Lsfern
- * @Date: 2019-08-11 00:20:56
- * @LastEditors: Lsfern
- * @LastEditTime: 2019-08-12 18:34:55
- * @Description: 路由管理
- */
 import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
-  Platform, StyleSheet, TouchableOpacity, Animated, Easing,
+  Platform, Animated, Easing, TouchableOpacity, StyleSheet,
 } from 'react-native';
 // eslint-disable-next-line import/no-unresolved
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import store from '../redux/configureStore';
-import Image from '../components/Image';
-import {
-  NAV_HEIGHT, IS_IPHONE_X, STATUSBAR_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
-} from '../common/Constant';
 import BottomNavigator from './BottomNavigator';
+import {
+  NAV_HEIGHT, STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, IS_IPHONE_X,
+} from '../common/Constant';
+import Image from '../components/Image';
+import Colors from '../res/Colors';
+import Images from '../res/Images';
+import Web from '../page/Web';
 
 import AuthLoading from '../page/auth';
-import vendorDetail from '../page/vendorDetail';
+import NameAge from '../page/auth/NameAge';
+import GenderSize from '../page/auth/GenderSize';
+import PhoneNum from '../page/auth/PhoneNum';
 
-const AuthStack = createStackNavigator({
-  AuthLoading,
+import vendorDetail from '../page/vendorDetail';
+import shopDetail from '../page/shopDetail';
+import luckDetail from '../page/home/luckyCharm/Luckydetail';
+import pay from '../page/pay';
+import payStatus from '../page/pay/PayStatus';
+import commission from '../page/commission';
+import panicStatus from '../page/panicstatus';
+import drawStatus from '../page/drawstatus';
+
+import Setting from '../page/personal/Setting';
+import Safesetting from '../page/personal/Safesetting';
+import AddressEdit from '../page/personal/Address/AddressEdit';
+import Message from '../page/notice/Message';
+import Extract from '../page/personal/Extract';
+import Detaile from '../page/personal/Detaile';
+import Password from '../page/personal/Password';
+import MyGoods from '../page/personal/MyGoods';
+import PickUp from '../page/personal/PickUp';
+import ChooseAddress from '../page/personal/Address/ChooseAddress';
+import RestPay from '../page/notice/RestPay';
+
+const defaultNavigationOptions = ({ navigation }) => ({
+  headerStyle: styles.headerStyle,
+  headerTintColor: Colors.WHITE_COLOR,
+  headerTitleStyle: styles.headerTitleStyle,
+  headerBackTitle: null,
+  headerTitleContainerStyle: { left: 56, right: 56 },
+  headerLeft: (
+    <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
+      <Image resizeMode="contain" style={{ height: 18, width: 10 }} source={Images.back} />
+    </TouchableOpacity>
+  ),
+  headerRight: navigation.getParam('headerRight'),
+  title: navigation.getParam('title'),
 });
 
-const InitNavigator = createStackNavigator({
-  main: {
-    screen: BottomNavigator,
-    navigationOptions: {
-      header: null,
-    },
-  },
-  vendorDetail,
-}, {
-  initialRouteName: 'main',
-  defaultNavigationOptions: ({ navigation }) => ({
-    ...Platform.select({
-      android: {
-        headerStyle: {
-          elevation: StyleSheet.hairlineWidth,
-          height: STATUSBAR_AND_NAV_HEIGHT,
-          borderBottomColor: 'rgb(210, 210, 210)',
-          paddingTop: STATUSBAR_HEIGHT,
-        },
-        headerTitleContainerStyle: {
-          left: 56,
-          right: 56,
-        },
-      },
-      ios: {
-        headerStyle: {
-          marginTop: IS_IPHONE_X ? -10 : 0,
-          backgroundColor: '#FFFFFF',
-          height: NAV_HEIGHT,
-          borderBottomWidth: StyleSheet.hairlineWidth,
-        },
-      },
-    }),
-    headerTintColor: '#333333',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      flex: 1,
-      textAlign: 'center',
-    },
-    headerBackTitle: null,
-    headerLeft: (
-      <TouchableOpacity
-        style={{ height: NAV_HEIGHT, justifyContent: 'center' }}
-        onPress={() => {
-        // eslint-disable-next-line no-unused-expressions
-          typeof navigation.getParam('customBack') === 'function' ? navigation.getParam('customBack')() : navigation.pop();
-        }}
-      >
-        <Image
-          style={{
-            marginLeft: 20, marginRight: 20, height: 21, width: 23,
-          }}
-          source={require('../res/image/ic-back-gray.png')}
-        />
-      </TouchableOpacity>
-    ),
-    title: navigation.getParam('title'),
-  }),
+const transition = {
   ...Platform.select({
     android: {
       transitionConfig: () => ({
@@ -96,12 +69,88 @@ const InitNavigator = createStackNavigator({
       }),
     },
   }),
+};
+
+const AuthStack = createStackNavigator({
+  AuthLoading: { screen: AuthLoading, navigationOptions: { header: null } },
+  NameAge: { screen: NameAge, navigationOptions: { header: null } },
+  GenderSize: { screen: GenderSize, navigationOptions: { header: null } },
+  PhoneNum: { screen: PhoneNum, navigationOptions: { header: null } },
+  Web,
+}, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
+
+// 需要导航头部的路由写在这里
+const routesWithHeader = {
+  Setting,
+  vendorDetail,
+  Safesetting,
+  shopDetail,
+  luckDetail,
+  pay,
+  commission,
+  Message,
+  AddressEdit,
+  Web,
+  Extract,
+  Detaile,
+  Password,
+  MyGoods,
+  PickUp,
+  ChooseAddress,
+  RestPay,
+};
+// 不需要导航头部的路由写在这里
+const routesWithoutHeader = {
+  BottomNavigator,
+  payStatus,
+  panicStatus,
+  drawStatus,
+};
+
+for (const i in routesWithoutHeader) {
+  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+}
+const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
+  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
 });
+
 const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
-  Main: InitNavigator,
+  Main: MainStack,
 }, {
-  initialRouteName: 'Main',
+  initialRouteName: 'Auth',
+  ...transition,
 }));
+
+const styles = StyleSheet.create({
+  btnWrapper: {
+    height: NAV_HEIGHT,
+    justifyContent: 'center',
+    paddingLeft: 20,
+    paddingRight: 40,
+  },
+  headerStyle: {
+    ...Platform.select({
+      android: {
+        height: STATUSBAR_AND_NAV_HEIGHT,
+        borderBottomWidth: 0,
+        paddingTop: STATUSBAR_HEIGHT,
+        backgroundColor: Colors.OTHER_BACK,
+        elevation: 0,
+      },
+      ios: {
+        marginTop: IS_IPHONE_X ? -10 : 0,
+        backgroundColor: Colors.OTHER_BACK,
+        height: NAV_HEIGHT,
+        borderBottomWidth: 0,
+      },
+    }),
+  },
+  headerTitleStyle: {
+    fontWeight: 'bold',
+    flex: 1,
+    textAlign: 'center',
+  },
+});
 
 export { Router, store };
