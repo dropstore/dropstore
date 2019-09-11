@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {DeviceEventEmitter, StyleSheet, Text, View} from 'react-native';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
 import {commonStyle} from '../../res/style/CommonStyle';
@@ -13,26 +13,9 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Mario, YaHei} from "../../res/FontFamily";
 import {checkTime, countDown} from "../../utils/TimeUtils";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {showToast} from "../../utils/MutualUtil";
-import {showShare} from '../../redux/actions/component';
-import {getShareSuccess} from '../../redux/reselect/component';
 import ShopConstant from "../../common/ShopConstant";
 import {debounce} from "../../utils/commonUtils";
-import {store} from "../../router/Router";
-
-function mapStateToProps() {
-  return state => ({
-    shareSuccess: getShareSuccess(state),
-  });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    showShare,
-  }, dispatch);
-}
+import {showShare} from "../../utils/MutualUtil";
 
 class PayStatus extends PureComponent {
   constructor(props) {
@@ -53,13 +36,6 @@ class PayStatus extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {shareSuccess} = this.props;
-    if (!shareSuccess && nextProps.shareSuccess) {
-      showToast('分享成功');
-      navigation.navigate('shopDetail');
-    }
-  }
 
   componentWillUnmount() {
     this._timer && clearInterval(this._timer);
@@ -80,11 +56,11 @@ class PayStatus extends PureComponent {
     return checkTime(start_time);
   };
   _showShare = () => {
-    const {showShare, navigation} = this.props;
+    const {navigation} = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
-    const uId = shopInfo.join_user[0].id;
+    const uId = shopInfo.user_activity.user_id;
     const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
     showShare({
       text: '参与活动',
@@ -99,6 +75,7 @@ class PayStatus extends PureComponent {
     const payStatus = navigation.getParam('payStatus');
     // 支付佣金无论成功失败都回详情界面
     if (type === ShopConstant.PAY_COMMISSION) {
+      DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
       navigation.navigate('shopDetail')
     } else {
       let type = payStatus ? "payStatus" : "uncomplete";
@@ -185,4 +162,4 @@ const _style = StyleSheet.create({
     height: 155
   }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PayStatus);
+export default PayStatus;
