@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 6,
     marginBottom: 6,
+    alignItems: 'center',
   },
   size: {
     fontSize: 12,

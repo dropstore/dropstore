@@ -133,7 +133,7 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {type !== 'warehouse' && <Price price={item.order_price} />}
+              {type === 'warehouse' ? <View /> : <Price price={item.order_price} />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
@@ -144,7 +144,6 @@ class ListItem extends PureComponent {
                       time={item.end_time}
                     />
                   </View>
-
                 ) : <Text style={{ fontSize: 11 }}>{subTitle}</Text>
               }
             </View>
