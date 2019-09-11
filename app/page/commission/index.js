@@ -49,15 +49,17 @@ class Commission extends PureComponent {
   _toPay = () => {
     const {shopDetailInfo, navigation} = this.props;
     const shopInfo = shopDetailInfo.data;
-    let minPrice = shopInfo.activity.min_price;
-    if (this.state.totalPrice < shopInfo.activity.min_price) {
-      return showToast(`总价不得低于${minPrice}元`);
+    // let minPrice = shopInfo.activity.min_price;
+    let commission = this.state.commission;
+    if (commission < 1) {
+      // return showToast(`单人佣金不能低于1元`);
     }
-    setCommission(shopInfo.activity.id, shopInfo.user_activity.id, this.state.totalPrice).then(res => {
+    let acId = shopInfo.user_activity.id;
+    setCommission(shopInfo.activity.id, acId, commission).then(res => {
       if (res) {
         let payData = {
-          'order_id': shopInfo.user_activity.id,
-          'price': this.state.totalPrice
+          'order_id': acId,
+          'price': res.data / 100
         };
         navigation.navigate('pay', {
           title: '选择支付账户',

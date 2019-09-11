@@ -13,24 +13,9 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import {Mario, YaHei} from "../../res/FontFamily";
 import {checkTime, countDown} from "../../utils/TimeUtils";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {showToast} from "../../utils/MutualUtil";
-import {showShare} from '../../redux/actions/component';
-import {getShareSuccess} from '../../redux/reselect/component';
+import {showShare, showToast} from "../../utils/MutualUtil";
 import ShopConstant from "../../common/ShopConstant";
-
-function mapStateToProps() {
-  return state => ({
-    shareSuccess: getShareSuccess(state),
-  });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    showShare,
-  }, dispatch);
-}
+import {debounce} from "../../utils/commonUtils";
 
 class PanicBuy extends PureComponent {
   constructor(props) {
@@ -74,21 +59,27 @@ class PanicBuy extends PureComponent {
     return checkTime(end_time);
   };
   _showShare = () => {
-    const {showShare} = this.props;
+    const {navigation} = this.props;
+    const shopInfo = navigation.getParam('shopInfo');
+    const aId = shopInfo.activity.id;
+    const uAId = shopInfo.user_activity.id;
+    const uId = shopInfo.user_activity.user_id;
+    const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
     showShare({
-      text: '分享的正文',
+      text: '参与活动',
       img: 'https://www.baidu.com/img/bd_logo1.png',
-      url: 'https://www.baidu.com/',
-      title: '分享的标题',
+      url: url,
+      title: '参与活动',
     });
   };
+
   _diffClick = () => {
     const {navigation} = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const panicStatus = navigation.getParam('panicStatus');
     const payData = navigation.getParam('payData');
     let is_join = shopInfo.is_join;
-    if (panicStatus && is_join === ShopConstant.NOT_JOIN) {
+    if (panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING)) {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: ShopConstant.PAY_ORDER,
@@ -121,13 +112,13 @@ class PanicBuy extends PureComponent {
         </View>
         <View style={[bottomStyle.bottomView, commonStyle.row]}>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_left}
-                           onPress={() => this._showShare()}>
+                           onPress={debounce(this._showShare)}>
             <Text style={bottomStyle.buttonText}>分享邀请</Text>
           </ImageBackground>
           <ImageBackground style={bottomStyle.buttonNormalView} source={Images.bg_right}
-                           onPress={() => this._diffClick()}>
+                           onPress={debounce(this._diffClick)}>
             <Text
-              style={bottomStyle.buttonText}>{panicStatus && is_join === ShopConstant.NOT_JOIN ? "去付款" : "确认"}</Text>
+              style={bottomStyle.buttonText}>{panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? "去付款" : "确认"}</Text>
           </ImageBackground>
         </View>
       </View>
@@ -159,7 +150,7 @@ const _style = StyleSheet.create({
   },
   shopName: {
     justifyContent: 'center',
-    fontSize: 19,
+    fontSize: 17,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     fontWeight: '400',
@@ -171,4 +162,4 @@ const _style = StyleSheet.create({
     height: 155
   }
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PanicBuy);
+export default PanicBuy;

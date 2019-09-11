@@ -4,28 +4,29 @@
  * @date 2019/8/22 15:14
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Image from '../../../../../components/Image';
 import ImageBackground from '../../../../../components/ImageBackground';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import Images from '../../../../../res/Images';
 import Colors from '../../../../../res/Colors';
-import { bottomStyle } from '../../../../../res/style/BottomStyle';
+import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
-import { getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
-import { checkTime } from '../../../../../utils/TimeUtils';
-import { shopDetail1 } from '../../../../TempData';
-import { debounce } from '../../../../../utils/commonUtils';
-import { SCREEN_WIDTH } from '../../../../../common/Constant';
-import { closeModalbox, showModalbox } from '../../../../../redux/actions/component';
+import {getReShoesList, getShopDetailInfo} from '../../../../../redux/reselect/shopDetailInfo';
+import {getShoesList, getShopDetail} from '../../../../../redux/actions/shopDetailInfo';
+import {checkTime} from '../../../../../utils/TimeUtils';
+import {shopDetail1} from '../../../../TempData';
+import {debounce} from '../../../../../utils/commonUtils';
+import {SCREEN_WIDTH} from '../../../../../common/Constant';
+import {closeModalbox, showModalbox} from '../../../../../redux/actions/component';
+import {showShare} from '../../../../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -45,26 +46,19 @@ function mapDispatchToProps(dispatch) {
 
 class SelfBottomCom extends PureComponent {
   getShopDetail() {
-    const { getShopDetail } = this.props;
+    const {getShopDetail} = this.props;
     getShopDetail(shopDetail1);
   }
 
   _toCommissionPage = () => {
-    const { shopDetailInfo, navigation } = this.props;
-    const shopInfo = shopDetailInfo.data;
-    const number = shopInfo.user_activity.number;
-    // 只选择了一双鞋(团长自己的)或者邀请人数已达上限，需要重新选择鞋码
-    if (number === 1 || number === shopInfo.join_user.length - 1) {
-      this.showOver();
-    } else {
-      navigation.push('commission', { title: '助攻佣金设定' });
-    }
+    const {navigation} = this.props;
+    navigation.push('commission', {title: '助攻佣金设定'});
   };
 
   /**
    * 显示选鞋浮层
    */
-  showOver = () => {
+  _showOver = () => {
     const {
       shopDetailInfo, getShoesList, showModalbox, navigation,
     } = this.props;
@@ -91,7 +85,7 @@ class SelfBottomCom extends PureComponent {
   };
 
   closeBox = () => {
-    const { closeModalbox } = this.props;
+    const {closeModalbox} = this.props;
     closeModalbox();
   };
 
@@ -120,28 +114,61 @@ class SelfBottomCom extends PureComponent {
     );
   };
 
-  _normalDOM = shopInfo => (
-    <View style={bottomStyle.bottomView}>
-      <TouchableOpacity onPress={() => alert('通知我')}>
-        <Image style={bottomStyle.buttonNormalView} source={Images.tzw} />
-      </TouchableOpacity>
-      {
-        this._setRightDOM(shopInfo)
-      }
-    </View>
-  );
+  _normalDOM = (shopInfo) => {
+    const joinUser = shopInfo.join_user;
+    if (joinUser.length !== 0) {
+      return (
+        <View style={bottomStyle.bottomView}>
+          <ImageBackground
+            style={bottomStyle.buttonNormalView}
+            source={Images.bg_left}
+            onPress={debounce(this._showShare)}
+          >
+            <Text style={bottomStyle.buttonText}>分享</Text>
+          </ImageBackground>
+          {
+            this._setRightDOM(shopInfo)
+          }
+        </View>
+      );
+    }
+    return (
+      <View style={bottomStyle.bottomView}>
+        <TouchableOpacity onPress={() => alert('通知我')}>
+          <Image style={bottomStyle.buttonNormalView} source={Images.tzw}/>
+        </TouchableOpacity>
+        {
+          this._setRightDOM(shopInfo)
+        }
+      </View>
+    )
+  };
 
   _setRightDOM = (shopInfo) => {
     const is_join = shopInfo.is_join;
+    // 是否存在未支付的佣金
+    const isPay = shopInfo.user_activity.pay_status;
+    const number = shopInfo.user_activity.number;
     // 未参加活动
     if (is_join === ShopConstant.NOT_JOIN) {
       return (
         <ImageBackground
           style={bottomStyle.buttonNormalView}
           source={Images.bg_right}
-          onPress={debounce(this.showOver)}
+          onPress={debounce(this._showOver)}
         >
           <Text style={bottomStyle.buttonText}>选择尺码</Text>
+        </ImageBackground>
+      );
+    }
+    if (isPay == 0 && number !== 1) {
+      return (
+        <ImageBackground
+          style={bottomStyle.buttonNormalView}
+          source={Images.bg_right}
+          onPress={debounce(this._toCommissionPage)}
+        >
+          <Text style={bottomStyle.buttonText}>支付佣金</Text>
         </ImageBackground>
       );
     }
@@ -149,15 +176,30 @@ class SelfBottomCom extends PureComponent {
       <ImageBackground
         style={bottomStyle.buttonNormalView}
         source={Images.bg_right}
-        onPress={debounce(this._toCommissionPage)}
+        onPress={debounce(this._showOver)}
       >
         <Text style={bottomStyle.buttonText}>邀请助攻</Text>
       </ImageBackground>
     );
   };
 
+  _showShare = () => {
+    const {shopDetailInfo} = this.props;
+    const shopInfo = shopDetailInfo.data;
+    const aId = shopInfo.activity.id;
+    const uAId = shopInfo.user_activity.id;
+    const uId = shopInfo.user_activity.user_id;
+    const url = ShopConstant.SHARE_BASE_URL + '?id=' + aId + '&u_a_id=' + uAId + '&activity_id=' + aId + '&inviter=' + uId;
+    showShare({
+      text: '参与活动',
+      img: 'https://www.baidu.com/img/bd_logo1.png',
+      url: url,
+      title: '参与活动',
+    });
+  };
+
   render() {
-    const { shopDetailInfo } = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
       <View>
@@ -168,13 +210,5 @@ class SelfBottomCom extends PureComponent {
     );
   }
 }
-
-const _styles = StyleSheet.create({
-  container: {
-    width: SCREEN_WIDTH,
-    backgroundColor: Colors.WHITE_COLOR,
-    height: 400,
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom));
