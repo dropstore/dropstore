@@ -86,6 +86,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
     justifyContent: 'center',
+    borderLeftColor: '#890000',
+    borderLeftWidth: StyleSheet.hairlineWidth,
   },
   cha: {
     position: 'absolute',
