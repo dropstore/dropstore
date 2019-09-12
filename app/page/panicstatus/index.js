@@ -14,8 +14,10 @@ import Colors from '../../res/Colors';
 import {Mario, YaHei} from '../../res/FontFamily';
 import {checkTime, countDown} from '../../utils/TimeUtils';
 import {showShare} from '../../utils/MutualUtil';
+import {wPx2P} from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import {debounce} from '../../utils/commonUtils';
+import {STATUSBAR_HEIGHT} from '../../common/Constant';
 
 class PanicBuy extends PureComponent {
   constructor(props) {
@@ -102,43 +104,41 @@ class PanicBuy extends PureComponent {
     const is_join = data.is_join;
     return (
       <View style={_style.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={_style.mainView}>
-            <Image source={panicStatus ? Images.gm_cg : Images.qx_sb}/>
-            <Image source={Images.got_em}/>
-            <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
-            {
-              this._getEndTime() > 0 ? (
-                <View style={[commonStyle.row, {marginTop: 26}]}>
-                  <Text style={_style.waitLeft}>距结束：</Text>
-                  <Text style={_style.time}>{this.state.endDownTime}</Text>
-                </View>
-              ) : <View/>
-            }
-            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
-          </View>
-          <View style={bottomStyle.bottomView}>
-            <ImageBackground
-              style={bottomStyle.buttonNormalView}
-              source={Images.bg_left}
-              onPress={debounce(this._showShare)}
+        <View style={_style.mainView}>
+          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={panicStatus ? Images.gm_cg : Images.qx_sb}/>
+          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
+          <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
+          {
+            this._getEndTime() > 0 ? (
+              <View style={[commonStyle.row, {marginTop: 26}]}>
+                <Text style={_style.waitLeft}>距结束：</Text>
+                <Text style={_style.time}>{this.state.endDownTime}</Text>
+              </View>
+            ) : <View/>
+          }
+          <Text style={_style.shopName}>{data.goods.goods_name}</Text>
+        </View>
+        <View style={[bottomStyle.bottomView, commonStyle.row]}>
+          <ImageBackground
+            style={bottomStyle.buttonNormalView}
+            source={Images.bg_left}
+            onPress={debounce(this._showShare)}
+          >
+            <Text style={bottomStyle.buttonText}>分享邀请</Text>
+          </ImageBackground>
+          <ImageBackground
+            style={bottomStyle.buttonNormalView}
+            source={Images.bg_right}
+            onPress={debounce(this._diffClick)}
+          >
+            <Text
+              style={bottomStyle.buttonText}
             >
-              <Text style={bottomStyle.buttonText}>分享邀请</Text>
-            </ImageBackground>
-            <ImageBackground
-              style={bottomStyle.buttonNormalView}
-              source={Images.bg_right}
-              onPress={debounce(this._diffClick)}
-            >
-              <Text
-                style={bottomStyle.buttonText}
-              >
-                {panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认'}
-
-              </Text>
-            </ImageBackground>
-          </View>
-        </ScrollView>
+              {panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认'}
+            </Text>
+          </ImageBackground>
+        </View>
+        >>>>>>> 45c87a802934d0a755a1f1dae69b4bb1821b400a
       </View>
     );
   }
@@ -152,8 +152,9 @@ const _style = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 27,
-    backgroundColor: Colors.NORMAL_TEXT_F2,
+    paddingTop: 27 + STATUSBAR_HEIGHT,
+    paddingBottom: 20,
+    justifyContent: 'space-around',
   },
   waitLeft: {
     fontSize: 16,

@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
-import {SCREEN_WIDTH, PADDING_TAB} from '../../common/Constant';
-import Colors from "../Colors";
+import { StyleSheet } from 'react-native';
+import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import Colors from '../Colors';
 
 export const bottomStyle = StyleSheet.create({
   bottomView: {
@@ -19,7 +19,7 @@ export const bottomStyle = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 5
+    marginHorizontal: 5,
   },
   buttonOnlyOneChildView: {
     width: 178,
