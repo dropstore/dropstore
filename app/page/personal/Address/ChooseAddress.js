@@ -72,6 +72,7 @@ class ChooseAddress extends PureComponent {
           width: 265,
           alignItems: 'center',
           justifyContent: 'center',
+          backgroundColor: 'transparent',
         },
       },
     });

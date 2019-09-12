@@ -62,13 +62,11 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   container: {
-    backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    borderColor: '#000',
-    borderWidth: 3,
     width: '100%',
     height: '100%',
+    backgroundColor: '#fff',
   },
   btn: {
     height: 45,

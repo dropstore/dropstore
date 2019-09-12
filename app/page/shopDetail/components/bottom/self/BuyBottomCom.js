@@ -75,6 +75,7 @@ class BuyBottomCom extends PureComponent {
             options: {
               style: {
                 height: 400,
+                backgroundColor: 'transparent',
               },
               position: 'bottom',
             },

@@ -1,7 +1,6 @@
 import Image from './Image';
 import ImageBackground from './ImageBackground';
 import KeyboardDismiss from './KeyboardDismiss';
-import Modalbox from './Modalbox';
 import ActionSheet from './ActionSheet';
 import TabBar from './TabBar';
 import AgainLoadCom from './AgainLoadCom';
@@ -22,7 +21,7 @@ import Global from './Global';
 import Keyboard from './Global/Keyboard';
 
 export {
-  Image, ImageBackground, KeyboardDismiss, Modalbox, TabBar,
+  Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
