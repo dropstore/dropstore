@@ -5,6 +5,7 @@
  * @author ZWW
  */
 import Axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 import { isConnected } from '../utils/NetUtil';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';

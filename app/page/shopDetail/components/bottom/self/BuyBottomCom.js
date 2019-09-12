@@ -14,9 +14,9 @@ import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
 import { doBuy, getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
 import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
-import { closeModalbox, showModalbox } from '../../../../../redux/actions/component';
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
+import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -29,8 +29,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getShopDetail,
     getShoesList,
-    showModalbox,
-    closeModalbox,
   }, dispatch);
 }
 
@@ -61,9 +59,7 @@ class BuyBottomCom extends PureComponent {
   };
 
   _showOver = () => {
-    const {
-      shopInfo, getShoesList, showModalbox, navigation,
-    } = this.props;
+    const { shopInfo, getShoesList, navigation } = this.props;
     const shopId = shopInfo.activity.id;
     getShoesList(shopId).then((shoesList) => {
       if (shoesList) {
@@ -89,7 +85,6 @@ class BuyBottomCom extends PureComponent {
   };
 
   closeBox = () => {
-    const { closeModalbox } = this.props;
     closeModalbox();
   };
 
