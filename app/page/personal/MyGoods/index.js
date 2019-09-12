@@ -46,8 +46,7 @@ class MyGoods extends PureComponent {
 
   customBack = () => {
     const { navigation } = this.props;
-    navigation.getParam('onIndexChange')(4);
-    navigation.navigate('BottomNavigator');
+    navigation.navigate('BottomNavigator', { index: 4 });
   }
 
   onIndexChange = (index) => {

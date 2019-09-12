@@ -35,7 +35,7 @@ export default class Modal extends PureComponent {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={this.cancel} style={styles.cha}>
-          <Image source={Images.cha} style={{ width: 24, height: 24 }} />
+          <Image source={Images.chaNew} style={{ width: 9, height: 9 }} />
         </TouchableOpacity>
       </View>
     );
@@ -83,12 +83,11 @@ const styles = StyleSheet.create({
   },
   cancel: {
     flex: 1,
-    backgroundColor: '#A4A4A4',
+    backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cha: {
-    backgroundColor: Colors.OTHER_BACK,
     position: 'absolute',
     right: 0,
     height: 35,
