@@ -27,12 +27,11 @@ export default class DrawMainCom extends PureComponent {
         />
         <View style={{flex: 1, marginLeft: 12}}>
           <View style={commonStyle.row}>
-            <Text style={_styles.qhStatus}>已取号</Text>
-            <Text style={_styles.code}>{item.code}</Text>
+            <Text style={[_styles.qhStatus, {color: Colors.WHITE_COLOR}]}>已取号</Text>
+            <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>{item.code}</Text>
           </View>
           <View style={[commonStyle.row, {marginTop: 7}]}>
-            <Text style={_styles.userName}>{item.user_name}</Text>
-            <Image style={_styles.sexImage} source={Images.xt_xn}/>
+            <Text style={[_styles.userName, {color: Colors.WHITE_COLOR}]}>{item.user_name}</Text>
           </View>
         </View>
         <View style={{justifyContent: 'center', alignItems: 'flex-start', marginRight: 17}}>
@@ -64,13 +63,12 @@ export default class DrawMainCom extends PureComponent {
         />
         <View style={{flex: 1, marginLeft: 12}}>
           <View style={commonStyle.row}>
-            <Text style={_styles.qhStatus}>已取号</Text>
-            <Text style={_styles.code}>{item.code}</Text>
+            <Text style={[_styles.qhStatus, {color: Colors.NORMAL_TEXT_1E}]}>已取号</Text>
+            <Text style={[_styles.code, {color: Colors.NORMAL_TEXT_1E}]}>{item.code}</Text>
           </View>
-        </View>
-        <View style={[commonStyle.row, {marginRight: 17}]}>
-          <Text style={[_styles.userName, {marginLeft: 11}]}>{item.user_name}</Text>
-          <Image style={_styles.sexImage} source={Images.xt_xn}/>
+          <View style={[commonStyle.row, {marginTop: 7}]}>
+            <Text style={[_styles.userName, {color: Colors.NORMAL_TEXT_1E}]}>{item.user_name}</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -184,12 +182,10 @@ const _styles = {
     fontSize: 10,
     fontFamily: YaHei,
     fontWeight: '400',
-    color: Colors.WHITE_COLOR
   },
   code: {
     fontSize: 11,
     marginLeft: 12,
-    color: Colors.WHITE_COLOR
   },
   zg: {
     fontSize: 12,
@@ -203,7 +199,6 @@ const _styles = {
   },
   userName: {
     fontSize: 11,
-    color: Colors.WHITE_COLOR
   },
   sexImage: {
     width: 12,

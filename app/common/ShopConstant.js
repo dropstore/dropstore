@@ -3,8 +3,10 @@
  * @date 2019/8/19 15:18
  * @author ZWW
  */
-// 分享BaseURL
+// 分享参团BaseURL
 const SHARE_BASE_URL = 'http://m.dropstore.cn/index.html#/panicbuyingWithFriend';
+// 无团者抢到宝贝分享
+const SHARE_BASE_URL_BUYED = 'http://m.dropstore.cn/index.html#/buysuccess';
 // 分享内容
 const SHARE_TEXT = 'Drop让球鞋更简单！';
 // 首页
@@ -50,6 +52,7 @@ const FINISHPAY = 'finish_pay';
 const REFRESH_SHOP_DETAIL_INFO = 'REFRESH_SHOP_DETAIL_INFO';
 export default {
   SHARE_BASE_URL,
+  SHARE_BASE_URL_BUYED,
   SHARE_TEXT,
   HOME,
   ORIGIN_CONST,
