@@ -138,7 +138,6 @@ class PanicBuy extends PureComponent {
             </Text>
           </ImageBackground>
         </View>
-        >>>>>>> 45c87a802934d0a755a1f1dae69b4bb1821b400a
       </View>
     );
   }
