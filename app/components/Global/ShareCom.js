@@ -33,12 +33,12 @@ export default class ShareCom extends PureComponent {
   }
 
   render() {
-    const { closeShare } = this.props;
+    const { onClosed } = this.props;
     return (
       <Modalbox
         position="bottom"
         backButtonClose
-        onClosed={closeShare}
+        onClosed={onClosed}
         style={styles.modalbox}
         ref={(v) => {
           this.modalbox = v;

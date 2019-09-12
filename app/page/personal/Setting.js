@@ -91,6 +91,10 @@ class Setting extends PureComponent {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
+            if (this.name.length < 1) {
+              showToast('请输入昵称');
+              return;
+            }
             this.changeValue(item.name, this[item.name]);
             closeModalbox();
           }}

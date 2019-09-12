@@ -1,21 +1,65 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, ActivityIndicator,
+  View, Text, StyleSheet, ActivityIndicator, Animated,
 } from 'react-native';
 import { SCREEN_HEIGHT } from '../../common/Constant';
 
 const height = 80;
 
 export default class ToastLoading extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.opacity = new Animated.Value(0);
+  }
+
   componentDidMount() {
-    const { data, close } = this.props;
-    this.timeout = setTimeout(() => {
-      close();
-    }, data.duration);
+    const { onClosed, data } = this.props;
+    Animated.sequence([
+      Animated.timing(
+        this.opacity,
+        {
+          toValue: 0.98,
+          duration: 250,
+          useNativeDriver: true,
+        },
+      ),
+      Animated.timing(
+        this.opacity,
+        {
+          toValue: 0.95,
+          duration: data.duration - 500,
+          useNativeDriver: true,
+        },
+      ),
+      Animated.timing(
+        this.opacity,
+        {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: true,
+        },
+      ),
+    ]).start(() => {
+      onClosed();
+    });
   }
 
   componentWillUnmount() {
     this.timeout && clearTimeout(this.timeout);
+  }
+
+  close = () => {
+    Animated.timing(
+      this.opacity,
+      {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      },
+    ).start(() => {
+      const { onClosed } = this.props;
+      onClosed();
+    });
   }
 
   render() {

@@ -40,6 +40,20 @@ export default class Toast extends PureComponent {
     });
   }
 
+  close = () => {
+    Animated.timing(
+      this.opacity,
+      {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      },
+    ).start(() => {
+      const { onClosed } = this.props;
+      onClosed();
+    });
+  }
+
   render() {
     const { data } = this.props;
     return (

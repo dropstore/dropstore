@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  DeviceEventEmitter, View, StyleSheet, KeyboardAvoidingView, Platform,
+  DeviceEventEmitter, View, StyleSheet,
 } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ShareCom from './ShareCom';
 import Modalbox from './Modalbox';
-import ToastLoading from './ToastLoading';
-import Toast from './Toast';
 
 const callback = (dropstoreEventType, type, data) => {
   DeviceEventEmitter.emit('dropstoreCallback', {
@@ -30,93 +28,32 @@ export default class Global extends PureComponent {
     this.state = {
       share: { show: false, data: {} },
       modalbox: { show: false, data: {} },
-      toastLoading: { show: false, data: {} },
-      toast: { show: false, data: {} },
     };
   }
 
-  componentDidMount() {
-    this.listener = DeviceEventEmitter.addListener('dropstoreGlobal', (e) => {
-      if (e.dropstoreEventType === 'share') {
-        this.setState({
-          share: {
-            show: true,
-            data: e.params,
-          },
-        });
-      } else if (e.dropstoreEventType === 'modalbox') {
-        if (e.params) {
-          this.setState({
-            modalbox: {
-              show: true,
-              data: e.params,
-            },
-          });
-        } else {
-          this.modalbox.close();
-        }
-      } else if (e.dropstoreEventType === 'toastLoading') {
-        if (e.params) {
-          const { toastLoading } = this.state;
-          const show = () => {
-            this.setState({
-              toastLoading: {
-                show: true,
-                data: e.params,
-              },
-            });
-          };
-          if (toastLoading.show) {
-            this.setState({ toastLoading: { show: false } }, () => {
-              show();
-            });
-          } else {
-            show();
-          }
-        } else {
-          this.setState({ toastLoading: { show: false } });
-        }
-      } else if (e.dropstoreEventType === 'toast') {
-        const show = () => {
-          this.setState({
-            toast: {
-              show: true,
-              data: e.params,
-            },
-          });
-        };
-        const { toast } = this.state;
-        if (toast.show) {
-          this.setState({ toast: { show: false } }, () => {
-            show();
-          });
-        } else {
-          show();
-        }
-      }
-    });
+  show = (type, data) => {
+    this.setState({ [type]: { show: true, data } });
   }
 
-  componentWillUnmount() {
-    this.listener.remove();
+  hide = (type) => {
+    this[type].close();
   }
 
-  close = (type) => {
+  onClosed = (type) => {
     this.setState({ [type]: { show: false } });
   }
 
   render() {
-    const {
-      share, modalbox, toastLoading, toast,
-    } = this.state;
+    const { share, modalbox } = this.state;
     return (
-      <KeyboardAvoidingView style={styles.wrapper} behavior={Platform.OS === 'android' ? null : 'position'}>
+      <View style={styles.wrapper}>
         {
           share.show && (
             <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
               <ShareCom
-                closeShare={() => this.close('share')}
+                onClosed={() => this.onClosed('share')}
                 data={share.data}
+                ref={(v) => { this.share = v; }}
                 successCallback={data => successCallback('share', data)}
                 failCallback={data => failCallback('share', data)}
               />
@@ -129,26 +66,12 @@ export default class Global extends PureComponent {
               <Modalbox
                 data={modalbox.data}
                 ref={(v) => { this.modalbox = v; }}
-                onClosed={() => this.close('modalbox')}
+                onClosed={() => this.onClosed('modalbox')}
               />
             </View>
           )
         }
-        {
-          toastLoading.show && (
-            <ToastLoading data={toastLoading.data} close={() => this.close('toastLoading')} />
-          )
-        }
-        {
-          toast.show && (
-            <Toast
-              data={toast.data}
-              ref={(v) => { this.toast = v; }}
-              onClosed={() => this.close('toast')}
-            />
-          )
-        }
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }

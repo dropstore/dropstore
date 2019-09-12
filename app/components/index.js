@@ -19,11 +19,12 @@ import ModalNormal from './ModalNormal';
 import ChangeSize from './ChangeSize';
 import ImageNetUnkoneSize from './ImageNetUnkoneSize';
 import Global from './Global';
+import Keyboard from './Global/Keyboard';
 
 export {
   Image, ImageBackground, KeyboardDismiss, Modalbox, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
-  Global,
+  Global, Keyboard,
 };

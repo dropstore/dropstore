@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
-import { View, StatusBar, Platform } from 'react-native';
+import {
+  View, StatusBar, Platform, DeviceEventEmitter,
+} from 'react-native';
 import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
-import { ShareCom, Modalbox, Global } from './app/components';
+import { Global, Keyboard } from './app/components';
 import { removeNetListener } from './app/http/Axios';
 
-/**
- * Js程序异常处理
- * @param {Object} error - 错误信息
- * @param {boolean} isFatal - 是否一定是致命错误：程序崩溃
- */
-const jsErrorHandler = (error, isFatal) => {
-  if (isFatal) {
-    // TODO 记录错误日志到本地文件中，
-    // 每次启动创建session成功后判断本地是否有错误日志，上传到服务器，上传成功后删除这个错误日志
-  } else {
-    // TODO 建议和致命错误一样上传到服务器
-  }
-};
+const GlobalWithKeyboard = ['toastLoading', 'toast'];
+const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
   componentDidMount() {
@@ -30,21 +21,27 @@ export default class App extends Component {
     }
     // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
     wxPayModule.registerApp(wxAppId); // 向微信注册
-    if (!__DEV__) {
-      // 全局控制log语句
-      global.console = {
-        info: () => {},
-        log: () => {},
-        warn: () => {},
-        error: () => {},
-      };
-      // 全局控制异常
-      global.ErrorUtils.setGlobalHandler(jsErrorHandler);
-    }
+
+    this.listener = DeviceEventEmitter.addListener('dropstoreGlobal', (e) => {
+      if (GlobalWithKeyboard.includes(e.dropstoreEventType)) {
+        if (e.params) {
+          this.keyboardCom.show(e.dropstoreEventType, e.params);
+        } else {
+          this.keyboardCom.hide(e.dropstoreEventType);
+        }
+      } else if (GlobalWithoutKeyboard.includes(e.dropstoreEventType)) {
+        if (e.params) {
+          this.globalCom.show(e.dropstoreEventType, e.params);
+        } else {
+          this.globalCom.hide(e.dropstoreEventType);
+        }
+      }
+    });
   }
 
   componentWillUnmount() {
     removeNetListener();
+    this.listener.remove();
   }
 
   render() {
@@ -53,9 +50,8 @@ export default class App extends Component {
         <View style={{ flex: 1 }}>
           <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
           <Router />
-          <ShareCom />
-          <Modalbox />
-          <Global />
+          <Global ref={(v) => { this.globalCom = v; }} />
+          <Keyboard ref={(v) => { this.keyboardCom = v; }} />
         </View>
       </Provider>
     );
