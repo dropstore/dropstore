@@ -22,15 +22,6 @@ const _getNetType = async () => {
 };
 
 /**
- * 网络是否可以正常使用
- * @returns {Promise<false | true>}
- */
-export const isConnected = async () => {
-  const state = await NetInfo.fetch();
-  return state.isConnected;
-};
-
-/**
  * 是否是移动网络
  * @returns {Promise<boolean>}
  */

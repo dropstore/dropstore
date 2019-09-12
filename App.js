@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { ShareCom, Modalbox, Global } from './app/components';
+import { removeNetListener } from './app/http/Axios';
 
 /**
  * Js程序异常处理
@@ -40,6 +41,10 @@ export default class App extends Component {
       // 全局控制异常
       global.ErrorUtils.setGlobalHandler(jsErrorHandler);
     }
+  }
+
+  componentWillUnmount() {
+    removeNetListener();
   }
 
   render() {
