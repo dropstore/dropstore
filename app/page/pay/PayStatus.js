@@ -3,22 +3,23 @@
  * @date 2019/8/21 22:30
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
+import React, {PureComponent} from 'react';
 import {
-  DeviceEventEmitter, StyleSheet, Text, View,
+  DeviceEventEmitter, ScrollView, StyleSheet, Text, View,
 } from 'react-native';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
-import { commonStyle } from '../../res/style/CommonStyle';
-import { bottomStyle } from '../../res/style/BottomStyle';
+import {commonStyle} from '../../res/style/CommonStyle';
+import {bottomStyle} from '../../res/style/BottomStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { Mario, YaHei } from '../../res/FontFamily';
-import { checkTime, countDown } from '../../utils/TimeUtils';
+import {Mario, YaHei} from '../../res/FontFamily';
+import {checkTime, countDown} from '../../utils/TimeUtils';
 import ShopConstant from '../../common/ShopConstant';
-import { debounce } from '../../utils/commonUtils';
-import { showShare } from '../../utils/MutualUtil';
-import {wPx2P} from "../../utils/ScreenUtil";
+import {debounce} from '../../utils/commonUtils';
+import {showShare} from '../../utils/MutualUtil';
+import {hPx2P, wPx2P} from "../../utils/ScreenUtil";
+import {STATUSBAR_HEIGHT} from "../../common/Constant";
 
 class PayStatus extends PureComponent {
   constructor(props) {
@@ -29,7 +30,7 @@ class PayStatus extends PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const payStatus = navigation.getParam('payStatus');
     if (payStatus) {
       this._setTime();
@@ -47,12 +48,12 @@ class PayStatus extends PureComponent {
   _setTime = () => {
     const sTimeStamp = this._getStartTime();
     if (sTimeStamp > 0) {
-      this.setState({ startDownTime: countDown(sTimeStamp) });
+      this.setState({startDownTime: countDown(sTimeStamp)});
     }
   };
 
   _getStartTime = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const data = navigation.getParam('shopInfo');
     // 活动开始时间
     const start_time = data.activity.start_time;
@@ -60,7 +61,7 @@ class PayStatus extends PureComponent {
   };
 
   _showShare = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -79,7 +80,7 @@ class PayStatus extends PureComponent {
   };
 
   _setConfirmOnclick = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const type = navigation.getParam('type');
     const payStatus = navigation.getParam('payStatus');
     // 支付佣金无论成功失败都回详情界面
@@ -95,25 +96,27 @@ class PayStatus extends PureComponent {
   };
 
   render() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const data = navigation.getParam('shopInfo');
     const payStatus = navigation.getParam('payStatus');
     return (
       <View style={_style.container}>
-        <View style={_style.mainView}>
-          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={payStatus ? Images.zf_cg : Images.zf_sb} />
-          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em} />
-          <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
-          {
-            payStatus && this._getStartTime() > 0 ? (
-              <View style={[commonStyle.row, { marginTop: 26 }]}>
-                <Text style={_style.waitLeft}>等待发布：</Text>
-                <Text style={_style.time}>{this.state.startDownTime}</Text>
-              </View>
-            ) : <View />
-          }
-          <Text style={_style.shopName}>{data.goods.goods_name}</Text>
-        </View>
+        <ScrollView contentContainerStyle={{flex: 1}} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+          <View style={_style.mainView}>
+            <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={payStatus ? Images.zf_cg : Images.zf_sb}/>
+            <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
+            <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
+            {
+              payStatus && this._getStartTime() > 0 ? (
+                <View style={[commonStyle.row, {marginTop: 26}]}>
+                  <Text style={_style.waitLeft}>等待发布：</Text>
+                  <Text style={_style.time}>{this.state.startDownTime}</Text>
+                </View>
+              ) : <View/>
+            }
+            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
+          </View>
+        </ScrollView>
         {
           payStatus
             ? (
@@ -158,8 +161,9 @@ const _style = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 27,
-    backgroundColor: Colors.NORMAL_TEXT_F2,
+    paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
+    paddingBottom: hPx2P(20),
+    justifyContent: 'space-between',
   },
   waitLeft: {
     fontSize: 16,

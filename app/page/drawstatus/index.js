@@ -4,7 +4,7 @@
  * @author ZWW
  */
 import React, {PureComponent} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
@@ -16,7 +16,8 @@ import {Mario, YaHei} from '../../res/FontFamily';
 import {showShare} from '../../utils/MutualUtil';
 import ShopConstant from '../../common/ShopConstant';
 import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
-import {wPx2P} from "../../utils/ScreenUtil";
+import {hPx2P, wPx2P} from "../../utils/ScreenUtil";
+import {STATUSBAR_HEIGHT} from "../../common/Constant";
 
 function mapStateToProps() {
   return state => ({
@@ -50,12 +51,14 @@ class DrawStatus extends PureComponent {
     const data = shopDetailInfo.data;
     return (
       <View style={_style.container}>
-        <View style={_style.mainView}>
-          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={Images.gx_zq}/>
-          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
-          <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
-          <Text style={_style.shopName}>{data.goods.goods_name}</Text>
-        </View>
+        <ScrollView contentContainerStyle={{flex: 1}} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+          <View style={_style.mainView}>
+            <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={Images.gx_zq}/>
+            <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
+            <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
+            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
+          </View>
+        </ScrollView>
         <View style={[bottomStyle.bottomView, commonStyle.row]}>
           <ImageBackground
             style={bottomStyle.buttonNormalView}
@@ -85,8 +88,9 @@ const _style = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 27,
-    backgroundColor: Colors.NORMAL_TEXT_F2,
+    paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
+    paddingBottom: hPx2P(20),
+    justifyContent: 'space-between',
   },
   waitLeft: {
     fontSize: 16,
