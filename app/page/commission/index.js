@@ -59,7 +59,7 @@ class Commission extends PureComponent {
       if (res) {
         let payData = {
           'order_id': acId,
-          'price': res.data / 100
+          'price': res.data
         };
         navigation.navigate('pay', {
           title: '选择支付账户',
