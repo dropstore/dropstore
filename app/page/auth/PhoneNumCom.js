@@ -40,6 +40,15 @@ class PhoneNumCom extends PureComponent {
   }
 
   onChange = (formatted, mobile) => {
+    if (mobile.length === 11) {
+      const { userInfo: { sendPhone, sendTime } } = this.props;
+      if (sendPhone !== mobile || Date.now() - sendTime > 60000) {
+        this.clearInterval();
+        this.setState({ timer: null });
+      } else {
+        this.startTimer();
+      }
+    }
     this.setState({ mobile });
   }
 

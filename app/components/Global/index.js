@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { DeviceEventEmitter, View, StyleSheet } from 'react-native';
+import {
+  DeviceEventEmitter, View, StyleSheet, KeyboardAvoidingView, Platform,
+} from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import ShareCom from './ShareCom';
 import Modalbox from './Modalbox';
@@ -108,7 +110,7 @@ export default class Global extends PureComponent {
       share, modalbox, toastLoading, toast,
     } = this.state;
     return (
-      <View style={styles.wrapper}>
+      <KeyboardAvoidingView style={styles.wrapper} behavior={Platform.OS === 'android' ? null : 'position'}>
         {
           share.show && (
             <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
@@ -146,7 +148,7 @@ export default class Global extends PureComponent {
             />
           )
         }
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
