@@ -4,23 +4,23 @@
  * @date 2019/8/22 15:14
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, {PureComponent} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Image from '../../../../../components/Image';
 import ImageBackground from '../../../../../components/ImageBackground';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import Images from '../../../../../res/Images';
-import { bottomStyle } from '../../../../../res/style/BottomStyle';
+import {bottomStyle} from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
-import { getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
-import { checkTime } from '../../../../../utils/TimeUtils';
-import { shopDetail1 } from '../../../../TempData';
-import { debounce } from '../../../../../utils/commonUtils';
+import {getReShoesList, getShopDetailInfo} from '../../../../../redux/reselect/shopDetailInfo';
+import {getShoesList, getShopDetail} from '../../../../../redux/actions/shopDetailInfo';
+import {checkTime} from '../../../../../utils/TimeUtils';
+import {shopDetail1} from '../../../../TempData';
+import {debounce} from '../../../../../utils/commonUtils';
 import {
   showShare, showToast, closeModalbox, showModalbox,
 } from '../../../../../utils/MutualUtil';
@@ -41,20 +41,20 @@ function mapDispatchToProps(dispatch) {
 
 class SelfBottomCom extends PureComponent {
   getShopDetail() {
-    const { getShopDetail } = this.props;
+    const {getShopDetail} = this.props;
     getShopDetail(shopDetail1);
   }
 
   _toCommissionPage = () => {
-    const { navigation } = this.props;
-    navigation.push('commission', { title: '助攻佣金设定' });
+    const {navigation} = this.props;
+    navigation.push('commission', {title: '助攻佣金设定'});
   };
 
   /**
    * 显示选鞋浮层
    */
   _showOver = () => {
-    const { shopDetailInfo, getShoesList, navigation } = this.props;
+    const {shopDetailInfo, getShoesList, navigation} = this.props;
     const shopId = shopDetailInfo.data.activity.id;
     getShoesList(shopId).then((shoesList) => {
       if (shoesList && shoesList.length > 0) {
@@ -82,7 +82,7 @@ class SelfBottomCom extends PureComponent {
   };
 
   _setMainDOM = (shopInfo) => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     // 活动子类型:1、抽签；2、抢购
     const b_type = shopInfo.activity.b_type;
     // 活动开始时间
@@ -125,9 +125,9 @@ class SelfBottomCom extends PureComponent {
     return (
       <View style={bottomStyle.bottomView}>
         <TouchableOpacity onPress={() => showToast('已添加到通知')}>
-          <Image style={bottomStyle.buttonNormalView} source={Images.tzw} />
+          <Image style={bottomStyle.buttonNormalView} source={Images.tzw}/>
         </TouchableOpacity>
-        { this._setRightDOM(shopInfo) }
+        {this._setRightDOM(shopInfo)}
       </View>
     );
   };
@@ -160,19 +160,20 @@ class SelfBottomCom extends PureComponent {
         </ImageBackground>
       );
     }
+    const commission = shopInfo.user_activity.commission;
     return (
       <ImageBackground
         style={bottomStyle.buttonNormalView}
         source={Images.bg_right}
         onPress={debounce(this._showOver)}
       >
-        <Text style={bottomStyle.buttonText}>邀请助攻</Text>
+        <Text style={bottomStyle.buttonText}>{commission != 0 ? '扩充团队' : '邀请助攻'}</Text>
       </ImageBackground>
     );
   };
 
   _showShare = () => {
-    const { shopDetailInfo } = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -191,11 +192,11 @@ class SelfBottomCom extends PureComponent {
   };
 
   render() {
-    const { shopDetailInfo } = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
       <View>
-        { this._setMainDOM(shopInfo) }
+        {this._setMainDOM(shopInfo)}
       </View>
     );
   }

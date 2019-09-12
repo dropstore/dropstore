@@ -18,6 +18,7 @@ import { checkTime, countDown } from '../../utils/TimeUtils';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
 import { showShare } from '../../utils/MutualUtil';
+import {wPx2P} from "../../utils/ScreenUtil";
 
 class PayStatus extends PureComponent {
   constructor(props) {
@@ -100,8 +101,8 @@ class PayStatus extends PureComponent {
     return (
       <View style={_style.container}>
         <View style={_style.mainView}>
-          <Image source={payStatus ? Images.zf_cg : Images.zf_sb} />
-          <Image source={Images.got_em} />
+          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={payStatus ? Images.zf_cg : Images.zf_sb} />
+          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em} />
           <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
           {
             payStatus && this._getStartTime() > 0 ? (

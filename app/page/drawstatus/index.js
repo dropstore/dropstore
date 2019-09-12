@@ -3,19 +3,20 @@
  * @date 2019/8/31 11:26
  * @author ZWW
  */
-import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+import React, {PureComponent} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {connect} from 'react-redux';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
-import { commonStyle } from '../../res/style/CommonStyle';
-import { bottomStyle } from '../../res/style/BottomStyle';
+import {commonStyle} from '../../res/style/CommonStyle';
+import {bottomStyle} from '../../res/style/BottomStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { Mario, YaHei } from '../../res/FontFamily';
-import { showShare } from '../../utils/MutualUtil';
+import {Mario, YaHei} from '../../res/FontFamily';
+import {showShare} from '../../utils/MutualUtil';
 import ShopConstant from '../../common/ShopConstant';
-import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
+import {wPx2P} from "../../utils/ScreenUtil";
 
 function mapStateToProps() {
   return state => ({
@@ -25,7 +26,7 @@ function mapStateToProps() {
 
 class DrawStatus extends PureComponent {
   _showShare = () => {
-    const { shopDetailInfo } = this.props;
+    const {shopDetailInfo} = this.props;
     const shopInfo = shopDetailInfo.data;
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -44,15 +45,15 @@ class DrawStatus extends PureComponent {
   };
 
   render() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const shopDetailInfo = navigation.getParam('shopDetailInfo');
     const data = shopDetailInfo.data;
     return (
       <View style={_style.container}>
         <View style={_style.mainView}>
-          <Image source={Images.gx_zq} />
-          <Image source={Images.got_em} />
-          <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
+          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={Images.gx_zq}/>
+          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
+          <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
           <Text style={_style.shopName}>{data.goods.goods_name}</Text>
         </View>
         <View style={[bottomStyle.bottomView, commonStyle.row]}>
