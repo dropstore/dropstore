@@ -80,7 +80,7 @@ export default class SelectShoeSizeByUnJoinsCom extends Component {
             <View style={_style.centerView}>
               {
                 showShoesLit.map(item => (
-                  <TouchableOpacity key={item.size} onPress={() => this.changeChooseStatus(item)}>
+                  <TouchableOpacity key={item.id} onPress={() => this.changeChooseStatus(item)}>
                     <View style={_style.itemView}>
                       <View style={{
                         width: '90%',
