@@ -4,6 +4,7 @@ import {
 } from '../actions/userInfo';
 
 const initialState = {
+  avatar: -1,
 };
 
 export default handleActions({
