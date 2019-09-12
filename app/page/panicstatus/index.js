@@ -3,21 +3,23 @@
  * @date 2019/8/31 11:09
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import React, { PureComponent } from 'react';
+import {
+  ScrollView, StyleSheet, Text, View,
+} from 'react-native';
 import ImageBackground from '../../components/ImageBackground';
 import Image from '../../components/Image';
-import {commonStyle} from '../../res/style/CommonStyle';
-import {bottomStyle} from '../../res/style/BottomStyle';
+import { commonStyle } from '../../res/style/CommonStyle';
+import { bottomStyle } from '../../res/style/BottomStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import {Mario, YaHei} from '../../res/FontFamily';
-import {checkTime, countDown} from '../../utils/TimeUtils';
-import {showShare} from '../../utils/MutualUtil';
-import {wPx2P} from '../../utils/ScreenUtil';
+import { Mario, YaHei } from '../../res/FontFamily';
+import { checkTime, countDown } from '../../utils/TimeUtils';
+import { showShare } from '../../utils/MutualUtil';
+import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
-import {debounce} from '../../utils/commonUtils';
-import {STATUSBAR_HEIGHT} from '../../common/Constant';
+import { debounce } from '../../utils/commonUtils';
+import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
 class PanicBuy extends PureComponent {
   constructor(props) {
@@ -41,12 +43,12 @@ class PanicBuy extends PureComponent {
   _setTime = () => {
     const eTimeStamp = this._getEndTime();
     if (eTimeStamp > 0) {
-      this.setState({endDownTime: countDown(eTimeStamp)});
+      this.setState({ endDownTime: countDown(eTimeStamp) });
     }
   };
 
   _getEndTime = () => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     const data = navigation.getParam('shopInfo');
     // 活动开始时间
     const end_time = data.activity.end_time;
@@ -54,7 +56,7 @@ class PanicBuy extends PureComponent {
   };
 
   _showShare = () => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -73,7 +75,7 @@ class PanicBuy extends PureComponent {
   };
 
   _diffClick = () => {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const panicStatus = navigation.getParam('panicStatus');
     const payData = navigation.getParam('payData');
@@ -98,26 +100,28 @@ class PanicBuy extends PureComponent {
   };
 
   render() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     const data = navigation.getParam('shopInfo');
     const panicStatus = navigation.getParam('panicStatus');
     const is_join = data.is_join;
     return (
       <View style={_style.container}>
-        <View style={_style.mainView}>
-          <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={panicStatus ? Images.gm_cg : Images.qx_sb}/>
-          <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
-          <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
-          {
-            this._getEndTime() > 0 ? (
-              <View style={[commonStyle.row, {marginTop: 26}]}>
-                <Text style={_style.waitLeft}>距结束：</Text>
-                <Text style={_style.time}>{this.state.endDownTime}</Text>
-              </View>
-            ) : <View/>
-          }
-          <Text style={_style.shopName}>{data.goods.goods_name}</Text>
-        </View>
+        <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+          <View style={_style.mainView}>
+            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={panicStatus ? Images.gm_cg : Images.qx_sb} />
+            <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
+            <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
+            {
+              this._getEndTime() > 0 ? (
+                <View style={[commonStyle.row, { marginTop: 26 }]}>
+                  <Text style={_style.waitLeft}>距结束：</Text>
+                  <Text style={_style.time}>{this.state.endDownTime}</Text>
+                </View>
+              ) : <View />
+            }
+            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
+          </View>
+        </ScrollView>
         <View style={[bottomStyle.bottomView, commonStyle.row]}>
           <ImageBackground
             style={bottomStyle.buttonNormalView}
@@ -151,9 +155,9 @@ const _style = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 27 + STATUSBAR_HEIGHT,
-    paddingBottom: 20,
-    justifyContent: 'space-around',
+    paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
+    paddingBottom: hPx2P(20),
+    justifyContent: 'space-between',
   },
   waitLeft: {
     fontSize: 16,

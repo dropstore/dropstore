@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import ImageBackground from '../../components/ImageBackground';
+import { ImageBackground, KeyboardDismiss } from '../../components';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -83,7 +83,7 @@ class Commission extends PureComponent {
   render() {
     const { commission } = this.state;
     return (
-      <View style={_styles.container}>
+      <KeyboardDismiss style={_styles.container}>
         <View style={_styles.mainView}>
           <Text style={_styles.countTitle}>
 合计数量
@@ -130,7 +130,7 @@ class Commission extends PureComponent {
             <Text style={bottomStyle.buttonText}>确认</Text>
           </ImageBackground>
         </View>
-      </View>
+      </KeyboardDismiss>
     );
   }
 }
