@@ -185,6 +185,8 @@ class SelfBottomCom extends PureComponent {
       img: image,
       url,
       title,
+    }).then(() => {
+      // 分享成功回调
     });
   };
 
