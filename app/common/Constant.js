@@ -6,14 +6,16 @@
 import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
+const { width: width1, height: height1 } = Dimensions.get('window');
+const { width: width2, height: height2 } = Dimensions.get('screen');
+
 const IS_IPHONE_X = isIphoneX();
-const { width, height } = Dimensions.get('window');
+const SCREEN_WIDTH = Math.max(width1, width2);
+const SCREEN_HEIGHT = Math.max(height1, height2);
 const TOAST_DURATION = 2000;
 const TOAST_POSITON = 'center';// top center bottom
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';
-const SCREEN_WIDTH = width;
-const SCREEN_HEIGHT = height;
 const NAV_HEIGHT = 44;
 const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : 25;
 const PADDING_TAB = IS_IPHONE_X ? 20 : 0;
