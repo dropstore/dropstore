@@ -14,8 +14,10 @@ import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { checkTime, countDown } from '../../utils/TimeUtils';
 import { showShare } from '../../utils/MutualUtil';
+import { wPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
+import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
 class PanicBuy extends PureComponent {
   constructor(props) {
@@ -96,8 +98,8 @@ class PanicBuy extends PureComponent {
     return (
       <View style={_style.container}>
         <View style={_style.mainView}>
-          <Image source={panicStatus ? Images.gm_cg : Images.qx_sb} />
-          <Image source={Images.got_em} />
+          <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={panicStatus ? Images.gm_cg : Images.qx_sb} />
+          <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
           <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
           {
             this._getEndTime() > 0 ? (
@@ -126,7 +128,6 @@ class PanicBuy extends PureComponent {
               style={bottomStyle.buttonText}
             >
               {panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认'}
-
             </Text>
           </ImageBackground>
         </View>
@@ -143,8 +144,9 @@ const _style = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 27,
-    backgroundColor: Colors.NORMAL_TEXT_F2,
+    paddingTop: 27 + STATUSBAR_HEIGHT,
+    paddingBottom: 20,
+    justifyContent: 'space-around',
   },
   waitLeft: {
     fontSize: 16,
