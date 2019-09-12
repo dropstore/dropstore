@@ -5,7 +5,7 @@
  * @author ZWW
  */
 import Axios from 'axios';
-import { isConnected } from '../utils/NetUtil';
+import NetInfo from '@react-native-community/netinfo';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
@@ -13,11 +13,23 @@ import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
+let networkIsConnected = true;
 const timeout = 10000;
 const headers = header => ({
   ...header,
   Authorization: store.getState().userInfo.user_s_id,
 });
+
+// 监听网络变化
+const netListener = NetInfo.addEventListener((state) => {
+  networkIsConnected = state.isConnected;
+});
+
+// 移除网络监听
+const removeNetListener = () => {
+  netListener();
+};
+
 /**
  * 自定义Axios实例默认值
  * @type {AxiosInstance}
@@ -62,9 +74,12 @@ const request = async (url, {
   timeout = timeout,
   type = 'form',
 } = {}) => {
-  if (!await isConnected()) {
-    showToast(Strings.netError);
-    throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+  if (!networkIsConnected) {
+    const netState = await NetInfo.fetch();
+    if (!netState.isConnected) {
+      showToast(Strings.netError);
+      throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+    }
   }
   if (isShowLoading) {
     showToastLoading({ text: loadingText, duration: timeout });
@@ -80,6 +95,7 @@ const request = async (url, {
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
+    console.log(response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
         return response.data;
@@ -135,5 +151,5 @@ const upload = (url, data) => {
 };
 
 export {
-  axiosInstance, timeout, request, upload,
+  axiosInstance, timeout, request, upload, removeNetListener,
 };

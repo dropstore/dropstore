@@ -31,7 +31,8 @@ class Commission extends PureComponent {
     this.state = {
       totalPrice: 0,
       number: 0,
-      commission: 0,
+      commission: 0,// 服务器返回的已设置的单双佣金
+      inputCommission: 0,// 输入的单双佣金
     }
   }
 
@@ -41,7 +42,9 @@ class Commission extends PureComponent {
     getPayMes(shopInfo.activity.id, shopInfo.user_activity.id).then(res => {
       let data = res.data;
       if (data) {
-        this.setState({number: data.number, commission: data.commission})
+        const number = data.number;
+        const commission = data.commission / 100;
+        this.setState({number: number, commission: commission, totalPrice: number * commission})
       }
     })
   }
@@ -50,7 +53,7 @@ class Commission extends PureComponent {
     const {shopDetailInfo, navigation} = this.props;
     const shopInfo = shopDetailInfo.data;
     // let minPrice = shopInfo.activity.min_price;
-    let commission = this.state.commission;
+    let commission = this.state.inputCommission;
     if (commission < 1) {
       // return showToast(`单人佣金不能低于1元`);
     }
@@ -73,10 +76,11 @@ class Commission extends PureComponent {
 
   onChange = (event) => {
     const singlePrice = event.nativeEvent.text;
-    this.setState({commission: singlePrice, totalPrice: singlePrice * this.state.number})
+    this.setState({inputCommission: singlePrice, totalPrice: singlePrice * this.state.number})
   };
 
   render() {
+    const {commission} = this.state;
     return (
       <View style={_styles.container}>
         <View style={_styles.mainView}>
@@ -86,12 +90,14 @@ class Commission extends PureComponent {
           <ImageBackground source={Images.framePhoneInput} style={_styles.inputBg}>
             <TextInput
               maxLength={13}
-              keyboardType="number-pad"
-              placeholder="填写佣金..."
+              editable={commission == 0}
+              keyboardType="numeric"
+              placeholder={commission != 0 ? commission.toString() : '填写佣金...'}
               placeholderTextColor="rgba(162,162,162,1)"
               underlineColorAndroid="transparent"
               style={_styles.pricePh}
               clearButtonMode="while-editing"
+              returnKeyType={'next'}
               onSubmitEditing={debounce(this._toPay)}
               ref={(v) => {
                 this.valueInput = v;
@@ -99,7 +105,7 @@ class Commission extends PureComponent {
               onChange={this.onChange}
             />
           </ImageBackground>
-          <Text style={_styles.tip}>请填写单双佣金</Text>
+          <Text style={_styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
         </View>
         <View style={_styles.bottomView}>
           <View style={_styles.bottomLeftView}>

@@ -19,7 +19,7 @@ export default handleActions({
     ...state,
     [action.meta.type]: {
       totalPages: action.payload.number,
-      list: action.payload.order,
+      list: action.payload.currentPage === 1 ? action.payload.order : [...(state[action.meta.type].list || []), ...action.payload.order],
       currentPage: action.payload.currentPage,
     },
   }),

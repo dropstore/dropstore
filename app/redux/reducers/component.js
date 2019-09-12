@@ -1,15 +1,9 @@
 import { handleActions } from 'redux-actions';
-import {
-  closeShare, setShowShare, shareCallback, closeModalbox, openModalbox,
-} from '../actions/component';
+import { closeShare, setShowShare, shareCallback } from '../actions/component';
 
 const initialState = {
   share: {
     show: false,
-  },
-  modalbox: {
-    element: null,
-    options: {},
   },
 };
 
@@ -39,16 +33,5 @@ export default handleActions({
       ...state.share,
       success: action.payload,
     },
-  }),
-  [closeModalbox]: state => ({
-    ...state,
-    modalbox: {
-      element: null,
-      options: {},
-    },
-  }),
-  [openModalbox]: (state, action) => ({
-    ...state,
-    modalbox: action.payload,
   }),
 }, initialState);

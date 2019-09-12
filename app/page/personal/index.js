@@ -5,7 +5,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
-import Image from '../../components/Image';
+import { Image, FadeImage } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -65,7 +65,7 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <View style={styles.imageWrapper}>
-                <Image
+                <FadeImage
                   source={userInfo.avatar ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
                   style={{ ...styles.image, height: userInfo.avatar ? wPx2P(47) : wPx2P(36), width: userInfo.avatar ? wPx2P(47) : wPx2P(36) }}
                 />
