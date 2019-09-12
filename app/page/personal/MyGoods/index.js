@@ -79,11 +79,11 @@ class MyGoods extends PureComponent {
           />
           {
             isMyGoods && (
-            <View style={styles.textWrapper}>
-              <Text style={styles.text1}>{`${index === 0 ? '销售中: ' : '已卖出: '}`}</Text>
-              <Text style={[styles.text2, { color: index === 0 ? '#C81919' : '#37B6EB' }]}>5722</Text>
-              <Text style={styles.text1}> 双</Text>
-            </View>
+              <View style={styles.textWrapper}>
+                <Text style={styles.text1}>{`${index === 0 ? '销售中: ' : '已卖出: '}`}</Text>
+                <Text style={[styles.text2, { color: index === 0 ? '#C81919' : '#37B6EB' }]}>5722</Text>
+                <Text style={styles.text1}> 双</Text>
+              </View>
             )
           }
         </View>
