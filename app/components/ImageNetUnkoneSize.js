@@ -1,6 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Image } from 'react-native';
+import FadeImage from './FadeImage';
 
 type Props = {
   style: Object,
@@ -38,7 +39,7 @@ export default class ImageNetUnkoneSize extends PureComponent<Props, State> {
       return null;
     }
     return (
-      <Image
+      <FadeImage
         resizeMode={resizeMode}
         style={{
           ...style,
