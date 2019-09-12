@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Image, Price, CountdownCom } from '../../../components';
+import { FadeImage, Price, CountdownCom } from '../../../components';
 import Colors from '../../../res/Colors';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast, showModalbox, closeModalbox } from '../../../utils/MutualUtil';
@@ -113,7 +113,7 @@ class ListItem extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <Image source={{ uri: item.goods.image }} style={styles.shoe} />
+          <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
           <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>

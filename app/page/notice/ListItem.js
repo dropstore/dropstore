@@ -50,7 +50,7 @@ class ListItem extends PureComponent {
         <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
         <View style={styles.container}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-            <ImageBackground source={{ uri: item.image }} style={styles.shoe}>
+            <ImageBackground useFadeImage source={{ uri: item.image }} style={styles.shoe}>
               { item.type === '2' && <Image source={require('../../res/image/zhongqian.png')} style={styles.zhongqian} /> }
             </ImageBackground>
             { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }

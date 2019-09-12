@@ -3,7 +3,7 @@ import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { ScaleView, Image, Price } from '../../../components';
+import { ScaleView, FadeImage, Price } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
@@ -64,7 +64,7 @@ class ShopListItemCom extends PureComponent {
     const { time, showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
+        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
           <View style={styles.rightBottom}>

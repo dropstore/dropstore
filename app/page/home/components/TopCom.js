@@ -9,10 +9,9 @@ import Carousel from 'react-native-snap-carousel';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../../components/Image';
+import { FadeImage } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { SCREEN_WIDTH, MARGIN_HORIZONTAL } from '../../../common/Constant';
-import { ScaleView } from '../../../components';
 import { getBanner } from '../../../redux/reselect/banner';
 import { fetchBanner } from '../../../redux/actions/banner';
 
@@ -44,11 +43,7 @@ class TopCom extends PureComponent {
     });
   };
 
-  renderItem = ({ item }) => (
-    <View style={_styles.topImage} onPress={() => this.toShopDetailPage(item)}>
-      <Image style={_styles.topImage} source={{ uri: item.image }} />
-    </View>
-  )
+  renderItem = ({ item }) => <FadeImage style={_styles.topImage} source={{ uri: item.image }} />
 
   render() {
     const { banner } = this.props;

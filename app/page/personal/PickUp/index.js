@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Colors from '../../../res/Colors';
 import { YaHei } from '../../../res/FontFamily';
-import { Image } from '../../../components';
+import { FadeImage } from '../../../components';
 import { updateUser } from '../../../redux/actions/userInfo';
 import { getUserInfo } from '../../../redux/reselect/userInfo';
 import { wPx2P } from '../../../utils/ScreenUtil';
@@ -111,7 +111,7 @@ class PickUp extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image source={{ uri: item.goods.image }} style={styles.shoe} />
+          <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
           <View style={{ flex: 1 }}>
             <View style={{ justifyContent: 'space-between', flex: 1 }}>
               <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
