@@ -48,5 +48,5 @@ export const hideToastLoading = () => {
 
 // Toast提示
 export const showToast = (text: String) => {
-  triggerEvent('toast', text);
+  text && triggerEvent('toast', text);
 };
