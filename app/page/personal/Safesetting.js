@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
   itemWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 10,
     backgroundColor: '#fff',
     paddingHorizontal: 18,
     alignItems: 'center',
+    height: 55,
   },
   text: {
     color: '#333',

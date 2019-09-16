@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   moeny: {
-    fontSize: wPx2P(15),
+    fontSize: wPx2P(18),
     marginBottom: wPx2P(8),
     fontFamily: YaHei,
   },
@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: wPx2P(20),
+    height: 55,
     flexDirection: 'row',
   },
   right: {

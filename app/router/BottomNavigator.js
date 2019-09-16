@@ -23,11 +23,9 @@ function mapStateToProps() {
   });
 }
 
-
-const HOME_ICON_WIDTH = wPx2P(97);
+const HOME_ICON_WIDTH = wPx2P(97.5);
 const PADDING_HORIZONTAL = wPx2P(22);
 const TAB_HEIGHT = 52;
-
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
@@ -219,8 +217,7 @@ const styles = StyleSheet.create({
   },
   drop: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(51),
-    // marginBottom: 27.5,
+    height: wPx2P(54),
     position: 'relative',
     top: -15,
   },

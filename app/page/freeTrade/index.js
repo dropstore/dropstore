@@ -1,24 +1,65 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { NavigationBarCom, Image } from '../../components';
-import Images from '../../res/Images';
-import { wPx2P } from '../../utils/ScreenUtil';
+import { FlatList, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { PullToRefresh, NavigationBarCom } from '../../components';
+import { getOrderStateList } from '../../redux/reselect/orderState';
+import { fetchOrderStateList } from '../../redux/actions/orderState';
+import ListItem from './ListItem';
+import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
 
-export default class FreeTrade extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    orderStateList: getOrderStateList(state, 'uncomplete') || {},
+  });
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchOrderStateList,
+  }, dispatch);
+}
+
+class List extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.fetchData();
+  }
+
+  loadMore = () => {
+    this.fetchData(true);
+  }
+
+  fetchData = (fetchMore) => {
+    const { fetchOrderStateList } = this.props;
+    fetchOrderStateList('/order/order_list', { status: 0 }, 'uncomplete', fetchMore);
+  }
+
+  renderItem = ({ item }) => <ListItem item={item} />
+
   render() {
+    const { orderStateList } = this.props;
     return (
-      <View style={styles.container}>
-        <NavigationBarCom title="自由贸易" />
-        <Image style={{ width: wPx2P(479 / 2), height: wPx2P(190 / 2) }} source={Images.freeTradePlaceholder} />
+      <View style={{ flex: 1 }}>
+        <NavigationBarCom title="自由交易" />
+        <View style={{ height: 46 }}>
+          {/* < */}
+        </View>
+        <PullToRefresh
+          totalPages={orderStateList.totalPages}
+          currentPage={orderStateList.currentPage}
+          Wrapper={FlatList}
+          data={orderStateList.list}
+          refresh={this.fetchData}
+          style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, paddingLeft: 9, flex: 1 }}
+          renderItem={this.renderItem}
+          numColumns={2}
+          onEndReached={this.loadMore}
+        />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-  },
-});
+export default connect(mapStateToProps, mapDispatchToProps)(List);
