@@ -14,7 +14,7 @@ import { store } from '../router/Router';
 
 const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
-const timeout = 10000;
+const timeout = 5000;
 const headers = header => ({
   ...header,
   Authorization: store.getState().userInfo.user_s_id,
@@ -30,28 +30,9 @@ const removeNetListener = () => {
   netListener();
 };
 
-/**
- * 自定义Axios实例默认值
- * @type {AxiosInstance}
- */
 const axiosInstance = Axios.create({
   timeout,
 });
-
-// 允许携带请求头
-axiosInstance.defaults.withCredentials = true;
-// 网络请求前处理
-axiosInstance.interceptors.request.use(
-  config => config,
-  error => Promise.reject(error),
-);
-
-// 网络返回处理
-axiosInstance.interceptors.response.use(
-  res => res,
-  // 在拦截器里处理超时错误会有问题，reject给使用者
-  error => Promise.reject(error),
-);
 
 /**
  * 发送请求
@@ -104,15 +85,16 @@ const request = async (url, {
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
-    // 获取到响应拦截器里返回的的error
-    if (error.response) {
-      showToast(error.response.data.callbackMsg);
-      return error.response.data;
-    }
-    // 请求超时
+    console.log(error.response.data);
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
-      throw new Error(`CONNECT TIMEOUT------URL:${url}------ERROR:${error}`);
+    } else if (error.response) {
+      if (error.response.status === 500) {
+        showToast('服务器开了小差，请稍后再试');
+      } else if (error.response.data.callbackMsg) {
+        showToast(error.response.data.callbackMsg);
+        return error.response.data;
+      }
     }
     throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
   } finally {
@@ -150,5 +132,5 @@ const upload = (url, data) => {
 };
 
 export {
-  axiosInstance, timeout, request, upload, removeNetListener,
+  timeout, request, upload, removeNetListener,
 };
