@@ -146,6 +146,7 @@ const IMAGES = {
   cha: require('./image/cha.png'),
   chaNew: require('./image/chaNew.png'),
   wenhao: require('./image/wenhao.png'),
+  search: require('./image/search.png'),
   // 鉴定
   identifyPlaceholder: require('./image/identify-placeholder.png'),
   price: require('./image/price.png'),
