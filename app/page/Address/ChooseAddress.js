@@ -4,13 +4,13 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Colors from '../../../res/Colors';
-import { PADDING_TAB } from '../../../common/Constant';
-import { YaHei } from '../../../res/FontFamily';
-import { fetchAddress, delAddress, editAddress } from '../../../redux/actions/address';
-import { ModalNormal } from '../../../components';
-import { getAddress } from '../../../redux/reselect/address';
-import { showModalbox, closeModalbox } from '../../../utils/MutualUtil';
+import Colors from '../../res/Colors';
+import { PADDING_TAB } from '../../common/Constant';
+import { YaHei } from '../../res/FontFamily';
+import { fetchAddress, delAddress, editAddress } from '../../redux/actions/address';
+import { ModalNormal } from '../../components';
+import { getAddress } from '../../redux/reselect/address';
+import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({

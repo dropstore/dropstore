@@ -31,14 +31,14 @@ import drawStatus from '../page/drawstatus';
 
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
-import AddressEdit from '../page/personal/Address/AddressEdit';
+import AddressEdit from '../page/Address/AddressEdit';
 import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
 import Detaile from '../page/personal/Detaile';
-import Password from '../page/personal/Password';
+import Password from '../page/Password';
 import MyGoods from '../page/MyGoods';
 import PickUp from '../page/PickUp';
-import ChooseAddress from '../page/personal/Address/ChooseAddress';
+import ChooseAddress from '../page/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
 
 const defaultNavigationOptions = ({ navigation }) => ({

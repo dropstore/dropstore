@@ -4,13 +4,13 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Images from '../../../res/Images';
-import Colors from '../../../res/Colors';
-import { wPx2P, hPx2P } from '../../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../../common/Constant';
-import { addAddress, editAddress } from '../../../redux/actions/address';
-import { showToast } from '../../../utils/MutualUtil';
-import { KeyboardDismiss, Image } from '../../../components';
+import Images from '../../res/Images';
+import Colors from '../../res/Colors';
+import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
+import { PADDING_TAB } from '../../common/Constant';
+import { addAddress, editAddress } from '../../redux/actions/address';
+import { showToast } from '../../utils/MutualUtil';
+import { KeyboardDismiss, Image } from '../../components';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({

@@ -4,15 +4,15 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Colors from '../../../res/Colors';
-import { updateUser, setPassword, updatePassword } from '../../../redux/actions/userInfo';
-import ImageBackground from '../../../components/ImageBackground';
-import Images from '../../../res/Images';
-import { wPx2P, hPx2P } from '../../../utils/ScreenUtil';
-import { getUserInfo } from '../../../redux/reselect/userInfo';
-import { showToast } from '../../../utils/MutualUtil';
-import { PADDING_TAB } from '../../../common/Constant';
-import KeyboardDismiss from '../../../components/KeyboardDismiss';
+import Colors from '../../res/Colors';
+import { updateUser, setPassword, updatePassword } from '../../redux/actions/userInfo';
+import ImageBackground from '../../components/ImageBackground';
+import Images from '../../res/Images';
+import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
+import { getUserInfo } from '../../redux/reselect/userInfo';
+import { showToast } from '../../utils/MutualUtil';
+import { PADDING_TAB } from '../../common/Constant';
+import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapStateToProps() {
   return state => ({
