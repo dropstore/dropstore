@@ -13,9 +13,6 @@ class MyGoods extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    navigation.setParams({
-      customBack: this.customBack,
-    });
     this.routeType = navigation.getParam('title') === '我的商品' ? 'Goods' : 'Warehouse';
     const routes = this.routeType === 'Goods' ? [
       { key: 'onSale', title: '销售中' },
@@ -42,11 +39,6 @@ class MyGoods extends PureComponent {
     //     </TouchableOpacity>
     //   ),
     // });
-  }
-
-  customBack = () => {
-    const { navigation } = this.props;
-    navigation.navigate('BottomNavigator', { index: 4 });
   }
 
   onIndexChange = (index) => {
