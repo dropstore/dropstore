@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, Platform,
 } from 'react-native';
-import { YaHei } from '../../../res/FontFamily';
+import { YaHei } from '../res/FontFamily';
 
 export default class TitleWithTag extends PureComponent {
   render() {

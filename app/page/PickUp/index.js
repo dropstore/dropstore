@@ -4,16 +4,16 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Colors from '../../../res/Colors';
-import { YaHei } from '../../../res/FontFamily';
-import { FadeImage } from '../../../components';
-import { updateUser } from '../../../redux/actions/userInfo';
-import { getUserInfo } from '../../../redux/reselect/userInfo';
-import { wPx2P } from '../../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../../common/Constant';
-import TitleWithTag from '../component/TitleWithTag';
-import { formatDate } from '../../../utils/commonUtils';
-import { request } from '../../../http/Axios';
+import Colors from '../../res/Colors';
+import { YaHei } from '../../res/FontFamily';
+import { FadeImage } from '../../components';
+import { updateUser } from '../../redux/actions/userInfo';
+import { getUserInfo } from '../../redux/reselect/userInfo';
+import { wPx2P } from '../../utils/ScreenUtil';
+import { PADDING_TAB } from '../../common/Constant';
+import TitleWithTag from '../../components/TitleWithTagTwo';
+import { formatDate } from '../../utils/commonUtils';
+import { request } from '../../http/Axios';
 
 function mapStateToProps() {
   return state => ({

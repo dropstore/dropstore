@@ -4,10 +4,10 @@ import {
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
-import TabBar from '../../../components/TabBar';
-import { SCREEN_WIDTH } from '../../../common/Constant';
-import Colors from '../../../res/Colors';
-import { YaHei } from '../../../res/FontFamily';
+import TabBar from '../../components/TabBar';
+import { SCREEN_WIDTH } from '../../common/Constant';
+import Colors from '../../res/Colors';
+import { YaHei } from '../../res/FontFamily';
 
 class MyGoods extends PureComponent {
   constructor(props) {

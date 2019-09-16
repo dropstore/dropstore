@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { PullToRefresh } from '../../../components';
-import { getOrderStateList } from '../../../redux/reselect/orderState';
-import { fetchOrderStateList } from '../../../redux/actions/orderState';
+import { PullToRefresh } from '../../components';
+import { getOrderStateList } from '../../redux/reselect/orderState';
+import { fetchOrderStateList } from '../../redux/actions/orderState';
 import ListItem from './ListItem';
 
 function mapStateToProps() {

@@ -3,12 +3,12 @@ import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { FadeImage, Price, CountdownCom } from '../../../components';
-import Colors from '../../../res/Colors';
-import { wPx2P } from '../../../utils/ScreenUtil';
-import { showToast, showModalbox, closeModalbox } from '../../../utils/MutualUtil';
+import { FadeImage, Price, CountdownCom } from '../../components';
+import Colors from '../../res/Colors';
+import { wPx2P } from '../../utils/ScreenUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
-import TitleWithTag from '../component/TitleWithTag';
+import TitleWithTag from '../../components/TitleWithTagTwo';
 
 class ListItem extends PureComponent {
   constructor(props) {

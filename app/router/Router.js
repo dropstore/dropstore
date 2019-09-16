@@ -36,8 +36,8 @@ import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
 import Detaile from '../page/personal/Detaile';
 import Password from '../page/personal/Password';
-import MyGoods from '../page/personal/MyGoods';
-import PickUp from '../page/personal/PickUp';
+import MyGoods from '../page/MyGoods';
+import PickUp from '../page/PickUp';
 import ChooseAddress from '../page/personal/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
 

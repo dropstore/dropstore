@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
-import { YaHei } from '../../../res/FontFamily';
-import Images from '../../../res/Images';
-import { Image, KeyboardDismiss } from '../../../components';
-import Colors from '../../../res/Colors';
-import { showToast } from '../../../utils/MutualUtil';
+import { YaHei } from '../../res/FontFamily';
+import Images from '../../res/Images';
+import { Image, KeyboardDismiss } from '../../components';
+import Colors from '../../res/Colors';
+import { showToast } from '../../utils/MutualUtil';
 
 export default class Modal extends PureComponent {
   constructor(props) {
