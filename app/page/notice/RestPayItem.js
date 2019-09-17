@@ -4,6 +4,7 @@ import { Image, Price, ScaleView } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
+import Colors from '../../res/Colors';
 
 export default class RestPayItem extends PureComponent {
   changeChoosed = () => {
@@ -13,8 +14,9 @@ export default class RestPayItem extends PureComponent {
 
   render() {
     const { item } = this.props;
+    const Wrapper = item.pay_status == 1 ? View : ScaleView;
     return (
-      <ScaleView style={styles.container} onPress={this.changeChoosed}>
+      <Wrapper style={styles.container} onPress={this.changeChoosed}>
         <View style={styles.left}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
             <Image source={{ uri: item.image }} style={styles.shoe} />
@@ -25,16 +27,23 @@ export default class RestPayItem extends PureComponent {
           </View>
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
             <Text style={styles.title}>{item.activity_name}</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-              <Price price={item.order_price} />
-              <Text style={styles.size}>{`SIZE：${item.size}`}</Text>
+            <View>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <Price price={item.order_price} />
+                <Text style={styles.size}>{`SIZE：${item.size}`}</Text>
+              </View>
+              <Text style={styles.order}>{`订单编号：${item.order_id}`}</Text>
             </View>
           </View>
         </View>
         <View style={styles.btn}>
-          <Image source={item.choosed ? Images.choose : Images.unchoose} style={{ width: 19, height: 19 }} />
+          {
+            item.pay_status == 1
+              ? <Text style={styles.yizhifu}>已支付</Text>
+              : <Image source={item.choosed ? Images.choose : Images.unchoose} style={{ width: 19, height: 19 }} />
+          }
         </View>
-      </ScaleView>
+      </Wrapper>
     );
   }
 }
@@ -84,5 +93,14 @@ const styles = StyleSheet.create({
   size: {
     fontSize: 12,
     fontFamily: YaHei,
+  },
+  yizhifu: {
+    color: Colors.OTHER_BACK,
+    fontSize: 11,
+  },
+  order: {
+    color: '#585858',
+    fontSize: 9,
+    marginTop: 5,
   },
 });

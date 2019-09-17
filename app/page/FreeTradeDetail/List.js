@@ -53,6 +53,9 @@ class List extends PureComponent {
   ListHeaderComponent = () => {
     const { type } = this.props;
     if (type === 'price') {
+      const options = [
+        { key: '36.5', title: '36.5' },
+      ];
       return (
         <View style={styles.headerWrapper}>
           <View style={styles.header}>
@@ -61,7 +64,7 @@ class List extends PureComponent {
               <Text style={{ fontSize: 12, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
               {' 人出价'}
             </Text>
-            <Dropdown defaultValue={{ title: '全部尺码' }} />
+            <Dropdown options={options} defaultValue={{ title: '全部尺码' }} />
           </View>
           <View style={styles.bottom}>
             <View style={{ flexDirection: 'row' }}>

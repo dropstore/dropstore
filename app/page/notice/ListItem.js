@@ -78,11 +78,7 @@ class ListItem extends PureComponent {
               )
             }
             { ['1', '2'].includes(item.type) && !!text && <Text style={styles.yongjin}>{text}</Text> }
-            {
-              item.type === '3' && (
-                <Text style={styles.yongjin}>佣金已入账</Text>
-              )
-            }
+            { item.type === '3' && <Text style={styles.yongjin}>佣金已入账</Text> }
           </View>
         </View>
       </View>
