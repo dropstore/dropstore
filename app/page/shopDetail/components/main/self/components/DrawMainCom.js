@@ -3,44 +3,44 @@
  * @date 2019/8/22 17:29
  * @author ZWW
  */
-import React, {PureComponent} from 'react';
-import {Text, View,} from 'react-native';
-import {SCREEN_WIDTH} from '../../../../../../common/Constant';
+import React, { PureComponent } from 'react';
+import { Text, View  } from 'react-native';
+import { SCREEN_WIDTH } from '../../../../../../common/Constant';
 import ImageBackground from '../../../../../../components/ImageBackground';
 import Image from '../../../../../../components/Image';
 import Colors from '../../../../../../res/Colors';
 import Images from '../../../../../../res/Images';
-import {Mario, YaHei} from '../../../../../../res/FontFamily';
-import {commonStyle} from '../../../../../../res/style/CommonStyle';
+import { Mario, YaHei } from '../../../../../../res/FontFamily';
+import { commonStyle } from '../../../../../../res/style/CommonStyle';
 
 export default class DrawMainCom extends PureComponent {
   _renderLeading = (item, index, userActivity, joinUserLength) => (
     <View key={`leading-${index}`} style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, {backgroundColor: Colors.OTHER_BACK}]}>
-        <Text style={[_styles.index, {color: Colors.WHITE_COLOR}]}>{index + 1}</Text>
+      <View style={[_styles.itemContainer, { backgroundColor: Colors.OTHER_BACK }]}>
+        <Text style={[_styles.index, { color: Colors.WHITE_COLOR }]}>{index + 1}</Text>
         <ImageBackground
           style={_styles.userImageBg}
           source={Images.tx}
           children={
-            <Image style={_styles.userImage} source={item.avatar}/>
+            <Image style={_styles.userImage} source={item.avatar} />
           }
         />
-        <View style={{flex: 1, marginLeft: 12}}>
+        <View style={{ flex: 1, marginLeft: 12 }}>
           <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, {color: Colors.WHITE_COLOR}]}>已取号</Text>
-            <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>{item.code}</Text>
+            <Text style={[_styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text>
+            <Text style={[_styles.code, { color: Colors.WHITE_COLOR }]}>{item.code}</Text>
           </View>
-          <View style={[commonStyle.row, {marginTop: 7}]}>
-            <Text style={[_styles.userName, {color: Colors.WHITE_COLOR}]}>{item.user_name}</Text>
+          <View style={[commonStyle.row, { marginTop: 7 }]}>
+            <Text style={[_styles.userName, { color: Colors.WHITE_COLOR }]}>{item.user_name}</Text>
           </View>
         </View>
-        <View style={{justifyContent: 'center', alignItems: 'flex-start', marginRight: 17}}>
-          <Text style={[_styles.zg, {marginBottom: 5}]}>
+        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
+          <Text style={[_styles.zg, { marginBottom: 5 }]}>
             我的团队：
             {joinUserLength}
             人
           </Text>
-          <Text style={[_styles.zg, {marginTop: 5}]}>
+          <Text style={[_styles.zg, { marginTop: 5 }]}>
             助攻佣金：
             {userActivity.pay_price / 100}
             ￥
@@ -51,23 +51,23 @@ export default class DrawMainCom extends PureComponent {
   );
 
   _renderMember = (item, index) => (
-    <View style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, {backgroundColor: Colors.NORMAL_TEXT_F6}]}>
-        <Text style={[_styles.index, {color: Colors.NORMAL_TEXT_1E}]}>{index + 1}</Text>
+    <View key={`member-${index}`} style={_styles.listContainer}>
+      <View style={[_styles.itemContainer, { backgroundColor: Colors.NORMAL_TEXT_F6 }]}>
+        <Text style={[_styles.index, { color: Colors.NORMAL_TEXT_1E }]}>{index + 1}</Text>
         <ImageBackground
           style={_styles.userImageBg}
           source={Images.tx}
           children={
-            <Image style={_styles.userImage} source={item.avatar}/>
+            <Image style={_styles.userImage} source={item.avatar} />
           }
         />
-        <View style={{flex: 1, marginLeft: 12}}>
+        <View style={{ flex: 1, marginLeft: 12 }}>
           <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, {color: Colors.NORMAL_TEXT_1E}]}>已取号</Text>
-            <Text style={[_styles.code, {color: Colors.NORMAL_TEXT_1E}]}>{item.code}</Text>
+            <Text style={[_styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
+            <Text style={[_styles.code, { color: Colors.NORMAL_TEXT_1E }]}>{item.code}</Text>
           </View>
-          <View style={[commonStyle.row, {marginTop: 7}]}>
-            <Text style={[_styles.userName, {color: Colors.NORMAL_TEXT_1E}]}>{item.user_name}</Text>
+          <View style={[commonStyle.row, { marginTop: 7 }]}>
+            <Text style={[_styles.userName, { color: Colors.NORMAL_TEXT_1E }]}>{item.user_name}</Text>
           </View>
         </View>
       </View>
@@ -75,7 +75,7 @@ export default class DrawMainCom extends PureComponent {
   );
 
   render() {
-    const {shopInfo} = this.props;
+    const { shopInfo } = this.props;
     const joinUser = shopInfo.join_user;
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;

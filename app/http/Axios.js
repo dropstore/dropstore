@@ -98,9 +98,7 @@ const request = async (url, {
     }
     throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
   } finally {
-    if (isShowLoading) {
-      hideToastLoading();
-    }
+    hideToastLoading();
   }
 };
 
