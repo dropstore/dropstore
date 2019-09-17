@@ -86,7 +86,7 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.walletWrapper}>
             <TouchableOpacity
               style={styles.walletLeft}
-              onPress={() => navigation.navigate('Detaile', { title: '明细' })}
+              onPress={() => navigation.navigate('Detail', { title: '明细' })}
             >
               <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
               <Text style={styles.moenyText}>账户总余额(￥)</Text>

@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { FadeImage, Price, ScaleView } from '../../components';
+import {
+  FadeImage, Price, ScaleView,
+} from '../../components';
 import { SCREEN_WIDTH } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 class ListItem extends PureComponent {
   onPress = () => {
-    const { navigation, item } = this.props;
+    const { navigation } = this.props;
+    console.log(123);
     navigation.navigate('FreeTradeDetail', {
       title: '商品详情',
-      item,
     });
   }
 

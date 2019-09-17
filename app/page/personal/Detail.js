@@ -7,7 +7,7 @@ import { PullToRefresh } from '../../components';
 import { request } from '../../http/Axios';
 import { formatDate } from '../../utils/commonUtils';
 
-export default class Detaile extends PureComponent {
+export default class Detail extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
