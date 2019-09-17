@@ -24,7 +24,6 @@ export default handleActions({
     [action.payload]: {
       ...state[action.payload],
       isFetching: true,
-      list: [],
     },
   }),
   [receiveNotice]: (state, action) => ({
