@@ -90,11 +90,13 @@ class PanicBuy extends PureComponent {
           payData,
           shopInfo,
         });
-      } else {
+      } else if(is_join === ShopConstant.LEADING) {
         const type = 'uncomplete';
         navigation.navigate('MyGoods', {
           type,
         });
+      }else{
+        navigation.goBack();
       }
     } else {
       navigation.goBack();
