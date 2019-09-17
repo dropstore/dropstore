@@ -4,12 +4,10 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { Text, View  } from 'react-native';
+import { Text, View } from 'react-native';
 import { SCREEN_WIDTH } from '../../../../../../common/Constant';
-import ImageBackground from '../../../../../../components/ImageBackground';
 import Image from '../../../../../../components/Image';
 import Colors from '../../../../../../res/Colors';
-import Images from '../../../../../../res/Images';
 import { Mario, YaHei } from '../../../../../../res/FontFamily';
 import { commonStyle } from '../../../../../../res/style/CommonStyle';
 
@@ -18,13 +16,7 @@ export default class DrawMainCom extends PureComponent {
     <View key={`leading-${index}`} style={_styles.listContainer}>
       <View style={[_styles.itemContainer, { backgroundColor: Colors.OTHER_BACK }]}>
         <Text style={[_styles.index, { color: Colors.WHITE_COLOR }]}>{index + 1}</Text>
-        <ImageBackground
-          style={_styles.userImageBg}
-          source={Images.tx}
-          children={
-            <Image style={_styles.userImage} source={item.avatar} />
-          }
-        />
+        <Image style={_styles.userImage} source={{ uri: item.avatar }} />
         <View style={{ flex: 1, marginLeft: 12 }}>
           <View style={commonStyle.row}>
             <Text style={[_styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text>
@@ -54,13 +46,7 @@ export default class DrawMainCom extends PureComponent {
     <View key={`member-${index}`} style={_styles.listContainer}>
       <View style={[_styles.itemContainer, { backgroundColor: Colors.NORMAL_TEXT_F6 }]}>
         <Text style={[_styles.index, { color: Colors.NORMAL_TEXT_1E }]}>{index + 1}</Text>
-        <ImageBackground
-          style={_styles.userImageBg}
-          source={Images.tx}
-          children={
-            <Image style={_styles.userImage} source={item.avatar} />
-          }
-        />
+        <Image style={_styles.userImage} source={{ uri: item.avatar }} />
         <View style={{ flex: 1, marginLeft: 12 }}>
           <View style={commonStyle.row}>
             <Text style={[_styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
@@ -176,7 +162,10 @@ const _styles = {
   },
   userImage: {
     width: 54,
-    height: 53,
+    height: 54,
+    borderRadius: 27,
+    overflow: 'hidden',
+    marginLeft: 5,
   },
   qhStatus: {
     fontSize: 10,

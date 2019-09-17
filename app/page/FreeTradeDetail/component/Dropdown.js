@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  TouchableOpacity, Text, StyleSheet, View, Animated,
+  TouchableOpacity, Text, StyleSheet,
 } from 'react-native';
 import {
   Menu, MenuOptions, MenuOption, MenuTrigger,
@@ -26,7 +26,7 @@ export default class Dropdown extends PureComponent {
     const { text } = this.state;
     const { options } = this.props;
     return (
-      <Menu style={{ width: 50 }}>
+      <Menu>
         <MenuTrigger customStyles={{ TriggerTouchableComponent: TouchableOpacity }} style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.outPrice}>{text}</Text>
           <Image source={Images.arrowDownRed} style={styles.arrowDownRed} />

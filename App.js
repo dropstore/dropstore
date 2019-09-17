@@ -48,7 +48,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <MenuProvider>
+        <MenuProvider backHandler>
           <View style={{ flex: 1 }}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <Router />
