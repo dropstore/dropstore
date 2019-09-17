@@ -23,8 +23,10 @@ export default class Dropdown extends PureComponent {
   }
 
   onSelect = (e) => {
+    const { filter } = this.props;
     this.setState({ text: e.title });
     this.menu.close();
+    filter(e);
   }
 
   render() {
