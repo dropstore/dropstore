@@ -53,8 +53,23 @@ class List extends PureComponent {
   ListHeaderComponent = () => {
     const { type } = this.props;
     if (type === 'price') {
-      const options = [
+      const sizeOptions = [
+        { title: '全部尺码', key: 'all' },
+        { key: '36', title: '36' },
         { key: '36.5', title: '36.5' },
+        { key: '37', title: '37' },
+        { key: '37.5', title: '37.5' },
+        { key: '38', title: '38' },
+        { key: '38.5', title: '38.5' },
+        { key: '39', title: '39' },
+        { key: '39.5', title: '39.5' },
+        { key: '40', title: '40' },
+        { key: '40.5', title: '40.5' },
+      ];
+      const typeOptions = [
+        { key: 'all', title: '全部' },
+        { key: 'futures', title: '现货' },
+        { key: 'inStock', title: '期货' },
       ];
       return (
         <View style={styles.headerWrapper}>
@@ -64,7 +79,7 @@ class List extends PureComponent {
               <Text style={{ fontSize: 12, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
               {' 人出价'}
             </Text>
-            <Dropdown options={options} defaultValue={{ title: '全部尺码' }} />
+            <Dropdown options={sizeOptions} defaultValue={sizeOptions[0]} width={80} />
           </View>
           <View style={styles.bottom}>
             <View style={{ flexDirection: 'row' }}>
@@ -75,10 +90,7 @@ class List extends PureComponent {
                 <Text>价格</Text>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={styles.outPrice}>期货</Text>
-              <Image source={Images.arrowDownRed} style={styles.arrowDownRed} />
-            </View>
+            <Dropdown options={typeOptions} defaultValue={typeOptions[0]} width={60} />
           </View>
         </View>
       );

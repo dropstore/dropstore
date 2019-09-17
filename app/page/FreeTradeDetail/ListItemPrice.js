@@ -6,7 +6,6 @@ import { withNavigation } from 'react-navigation';
 import {
   FadeImage, Price, Image, TitleWithTagTwo,
 } from '../../components';
-import { SCREEN_WIDTH } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Images from '../../res/Images';
 
