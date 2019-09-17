@@ -93,7 +93,8 @@ class SelfBottomCom extends PureComponent {
       return this._normalDOM(shopInfo, false);
     }
     if (b_type === ShopConstant.DRAW) {
-      return this._normalDOM(shopInfo, true);
+      return <View/>
+      // return this._normalDOM(shopInfo, true);
     }
     return (
       <BuyBottomCom
