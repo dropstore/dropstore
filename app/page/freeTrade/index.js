@@ -8,16 +8,17 @@ import { PullToRefresh, NavigationBarCom, Image } from '../../components';
 import { getOrderStateList } from '../../redux/reselect/orderState';
 import { fetchOrderStateList } from '../../redux/actions/orderState';
 import ListItem from './ListItem';
-import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
+import { STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH } from '../../common/Constant';
 import { debounceDelay } from '../../utils/commonUtils';
 import Images from '../../res/Images';
+
+const HeaderHeight = 46;
 
 function mapStateToProps() {
   return state => ({
     orderStateList: getOrderStateList(state, 'uncomplete') || {},
   });
 }
-
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -50,9 +51,20 @@ class List extends PureComponent {
     const { orderStateList } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <NavigationBarCom title="自由交易" />
         <View style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, flex: 1 }}>
-          <View style={{ height: 46, backgroundColor: '#fff' }}>
+          <PullToRefresh
+            totalPages={orderStateList.totalPages}
+            currentPage={orderStateList.currentPage}
+            Wrapper={FlatList}
+            data={orderStateList.list}
+            refresh={this.fetchData}
+            keyboardDismissMode="on-drag"
+            style={styles.list}
+            renderItem={this.renderItem}
+            numColumns={2}
+            onEndReached={this.loadMore}
+          />
+          <View style={styles.header}>
             <View style={styles.searchWrapper}>
               <Image source={Images.search} style={styles.search} />
               <TextInput
@@ -62,30 +74,31 @@ class List extends PureComponent {
                 placeholder="搜索"
                 placeholderTextColor="#9F9F9F"
                 style={styles.searchTextInput}
-                onSubmitEditing={this.onChangeText}
+                onSubmitEditing={e => this.onChangeText(e.nativeEvent.text)}
                 clearButtonMode="while-editing"
               />
             </View>
           </View>
-          <PullToRefresh
-            totalPages={orderStateList.totalPages}
-            currentPage={orderStateList.currentPage}
-            Wrapper={FlatList}
-            data={orderStateList.list}
-            refresh={this.fetchData}
-            keyboardDismissMode="on-drag"
-            style={{ paddingLeft: 9, flex: 1 }}
-            renderItem={this.renderItem}
-            numColumns={2}
-            onEndReached={this.loadMore}
-          />
         </View>
+        <NavigationBarCom title="自由交易" />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  list: {
+    paddingLeft: 9,
+    flex: 1,
+    paddingTop: HeaderHeight,
+    paddingRight: 1,
+  },
+  header: {
+    height: HeaderHeight,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    width: SCREEN_WIDTH,
+  },
   searchWrapper: {
     flex: 1,
     marginVertical: 6,

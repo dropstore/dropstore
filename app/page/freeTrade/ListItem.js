@@ -1,15 +1,17 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import {
-  FadeImage, Price, ScaleView,
-} from '../../components';
+import { FadeImage, Price, ScaleView } from '../../components';
 import { SCREEN_WIDTH } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 class ListItem extends PureComponent {
   onPress = () => {
-
+    const { navigation, item } = this.props;
+    navigation.navigate('FreeTradeDetail', {
+      title: '商品详情',
+      item,
+    });
   }
 
   render() {
@@ -33,8 +35,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingVertical: 7,
-    marginRight: 9,
-    marginTop: 9,
+    marginRight: 8,
+    marginTop: 7,
     width: (SCREEN_WIDTH - 27) / 2,
     borderRadius: 2,
     overflow: 'hidden',

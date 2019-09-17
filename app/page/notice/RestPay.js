@@ -89,7 +89,7 @@ class RestPay extends Component {
 
   toPay = (payItems, totalPrice) => {
     const { navigation } = this.props;
-    const { order_id } = navigation.getParam('order');
+    const order_id = payItems.map(v => v.order_id).join(',');
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
@@ -102,12 +102,11 @@ class RestPay extends Component {
 
   listFooterComponent = () => {
     const { navigation } = this.props;
-    const { order_id, add_time } = navigation.getParam('order');
+    const { add_time } = navigation.getParam('order');
     return (
       <View>
         <Text style={styles.hint}>付款后的商品寄存在我的库房，如需发货，请到“我的”&gt;&gt;“我的库房”中选择发货地址</Text>
         <View style={styles.orderWrapper}>
-          <Text style={styles.order}>{`订单编号：${order_id}`}</Text>
           <Text style={styles.order}>{`创建日期：${formatDate(add_time)}`}</Text>
         </View>
       </View>
@@ -124,7 +123,7 @@ class RestPay extends Component {
 
   render() {
     const { list, end_time } = this.state;
-    const payItems = list.filter(v => v.choosed);
+    const payItems = list.filter(v => v.choosed && v.pay_status != 1);
     const totalPrice = payItems.reduce((sum, v) => sum + v.order_price * 1, 0);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>

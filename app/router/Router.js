@@ -34,12 +34,14 @@ import Safesetting from '../page/personal/Safesetting';
 import AddressEdit from '../page/Address/AddressEdit';
 import Message from '../page/notice/Message';
 import Extract from '../page/personal/Extract';
-import Detaile from '../page/personal/Detaile';
+import Detail from '../page/personal/Detail';
 import Password from '../page/Password';
 import MyGoods from '../page/MyGoods';
 import PickUp from '../page/PickUp';
 import ChooseAddress from '../page/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
+
+import FreeTradeDetail from '../page/FreeTradeDetail';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -98,12 +100,13 @@ const routesWithHeader = {
   AddressEdit,
   Web,
   Extract,
-  Detaile,
+  Detail,
   Password,
   MyGoods,
   PickUp,
   ChooseAddress,
   RestPay,
+  FreeTradeDetail,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
         elevation: 0,
       },
       ios: {
-        marginTop: IS_IPHONE_X ? -10 : 0,
+        marginTop: IS_IPHONE_X ? -4 : 0,
         backgroundColor: Colors.OTHER_BACK,
         height: NAV_HEIGHT,
         borderBottomWidth: 0,

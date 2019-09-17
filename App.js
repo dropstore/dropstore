@@ -3,6 +3,7 @@ import {
   View, StatusBar, Platform, DeviceEventEmitter,
 } from 'react-native';
 import { Provider } from 'react-redux';
+import { MenuProvider } from 'react-native-popup-menu';
 import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { Global, Keyboard } from './app/components';
@@ -47,12 +48,14 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-          <Router />
-          <Global ref={(v) => { this.globalCom = v; }} />
-          <Keyboard ref={(v) => { this.keyboardCom = v; }} />
-        </View>
+        <MenuProvider backHandler>
+          <View style={{ flex: 1 }}>
+            <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+            <Router />
+            <Global ref={(v) => { this.globalCom = v; }} />
+            <Keyboard ref={(v) => { this.keyboardCom = v; }} />
+          </View>
+        </MenuProvider>
       </Provider>
     );
   }

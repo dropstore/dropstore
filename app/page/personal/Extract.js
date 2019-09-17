@@ -36,7 +36,7 @@ class Extract extends PureComponent {
     const { navigation } = this.props;
     navigation.setParams({
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('Detaile', { title: '明细' })} style={styles.rightWrapper}>
+        <TouchableOpacity onPress={() => navigation.navigate('Detail', { title: '明细' })} style={styles.rightWrapper}>
           <Text style={{ color: '#fff', fontSize: 14 }}>明细</Text>
         </TouchableOpacity>
       ),

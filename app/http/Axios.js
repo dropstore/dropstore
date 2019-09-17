@@ -80,7 +80,6 @@ const request = async (url, {
       if (response.data.callbackCode === 1) {
         return response.data;
       }
-      console.log(response.data);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }
@@ -98,9 +97,7 @@ const request = async (url, {
     }
     throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
   } finally {
-    if (isShowLoading) {
-      hideToastLoading();
-    }
+    hideToastLoading();
   }
 };
 
