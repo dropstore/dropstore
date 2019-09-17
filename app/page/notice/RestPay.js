@@ -89,7 +89,7 @@ class RestPay extends Component {
 
   toPay = (payItems, totalPrice) => {
     const { navigation } = this.props;
-    const { order_id } = navigation.getParam('order');
+    const order_id = payItems.map(v => v.order_id).join(',');
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
