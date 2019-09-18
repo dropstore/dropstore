@@ -61,7 +61,7 @@ end
 
 def export_appstore
   puts "---------- packing ios ------------"
-  edit_modules()
+  puts `yarn i`
   new_content = File.read("ios/dropstore/Info.plist")
   new_content = new_content.gsub(/<key>CFBundleDevelopmentRegion<\/key>/,
     "<key>method<\/key>\n  <string>ad-hoc<\/string>\n  <key>CFBundleDevelopmentRegion<\/key>")
@@ -94,7 +94,7 @@ def bundleVersion(version)
 end
 
 def export_android(channel)
-  edit_modules()
+  puts `yarn i`
   puts "---------- packing android: #{channel} ------------"
   puts `cd android &&
     rm -f app/build/outputs/apk/release/app-release.apk &&

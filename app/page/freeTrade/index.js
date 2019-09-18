@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  FlatList, View, TextInput, StyleSheet,
+  FlatList, View, TextInput, StyleSheet, Animated,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,7 @@ import { STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH } from '../../common/Constant';
 import { debounceDelay } from '../../utils/commonUtils';
 import Images from '../../res/Images';
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const HeaderHeight = 46;
 
 function mapStateToProps() {
@@ -30,6 +31,7 @@ class List extends PureComponent {
   constructor(props) {
     super(props);
     this.fetchData();
+    this.translateY = new Animated.Value(0);
   }
 
   loadMore = () => {
@@ -45,6 +47,40 @@ class List extends PureComponent {
     console.log(text);
   }
 
+  onScroll = (e) => {
+    const y = e.nativeEvent.contentOffset.y;
+    if (y < 0) { return; }
+    this.lastTriggerAnimatedY = this.lastTriggerAnimatedY || y;
+    this.diff = this.lastTriggerAnimatedY - y;
+    if (this.diff < -36) {
+      this.lastTriggerAnimatedY = y;
+      if (this.drogDirection !== 'up') {
+        this.drogDirection = 'up';
+        Animated.timing(
+          this.translateY,
+          {
+            toValue: -HeaderHeight,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ).start();
+      }
+    } else if (this.diff > 36) {
+      this.lastTriggerAnimatedY = y;
+      if (this.drogDirection !== 'down') {
+        this.drogDirection = 'down';
+        Animated.timing(
+          this.translateY,
+          {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          },
+        ).start();
+      }
+    }
+  }
+
   renderItem = ({ item }) => <ListItem item={item} />
 
   render() {
@@ -55,16 +91,18 @@ class List extends PureComponent {
           <PullToRefresh
             totalPages={orderStateList.totalPages}
             currentPage={orderStateList.currentPage}
-            Wrapper={FlatList}
+            Wrapper={AnimatedFlatList}
+            onScroll={this.onScroll}
             data={orderStateList.list}
             refresh={this.fetchData}
             keyboardDismissMode="on-drag"
             style={styles.list}
             renderItem={this.renderItem}
             numColumns={2}
+            scrollEventThrottle={1}
             onEndReached={this.loadMore}
           />
-          <View style={styles.header}>
+          <Animated.View style={[styles.header, { transform: [{ translateY: this.translateY }] }]}>
             <View style={styles.searchWrapper}>
               <Image source={Images.search} style={styles.search} />
               <TextInput
@@ -78,7 +116,7 @@ class List extends PureComponent {
                 clearButtonMode="while-editing"
               />
             </View>
-          </View>
+          </Animated.View>
         </View>
         <NavigationBarCom title="自由交易" />
       </View>
