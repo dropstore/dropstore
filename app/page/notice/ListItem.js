@@ -36,6 +36,13 @@ class ListItem extends PureComponent {
           price: item.order_price,
         },
       });
+    } else if (['8', '9'].includes(item.type)) {
+      navigation.navigate('shopDetail', {
+        title: '商品详情',
+        rate: '+25',
+        shopId: item.activity_id,
+        type: item.b_type,
+      });
     } else {
       navigation.navigate('RestPay', {
         title: '尾款支付',
@@ -61,7 +68,7 @@ class ListItem extends PureComponent {
             <TitleWithTag text={item.activity_name} type={item.type} />
             {
 
-              ['1', '2', '8'].includes(item.type) && !text && (
+              ['1', '2'].includes(item.type) && !text && (
                 <View style={styles.timeWrapper}>
                   <Text style={styles.time}>待付款</Text>
                   <CountdownCom
@@ -73,7 +80,7 @@ class ListItem extends PureComponent {
               )
             }
             {
-              ['1', '2', '8'].includes(item.type) && !text && (
+              ['1', '2', '8', '9'].includes(item.type) && !text && (
                 <TouchableOpacity onPress={this.toPay} style={styles.btn}>
                   <Text style={styles.fukuan}>
                     {['1', '2'].includes(item.type) ? '付款' : '查看详情'}
