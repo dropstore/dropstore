@@ -4,16 +4,20 @@ import {
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import {
-  FadeImage, Price, Image, TitleWithTagTwo,
+  FadeImage, Price, Image, TitleWithTagTwo, ScaleView,
 } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Images from '../../res/Images';
 
 class ListItem extends PureComponent {
+  onPress = () => {
+
+  }
+
   render() {
     const { item } = this.props;
     return (
-      <View style={styles.container}>
+      <ScaleView style={styles.container} onPress={this.onPress}>
         <View style={styles.imageWrapper}>
           <FadeImage source={{ uri: item.goods.image }} style={styles.avatar} />
         </View>
@@ -28,7 +32,7 @@ class ListItem extends PureComponent {
           <TitleWithTagTwo text="" type={item.is_stock} />
           <Price price={item.order_price} />
         </View>
-      </View>
+      </ScaleView>
     );
   }
 }
