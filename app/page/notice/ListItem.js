@@ -88,7 +88,7 @@ class ListItem extends PureComponent {
               )
             }
             {
-              ['1', '2', '8', '9', '7'].includes(item.type) && !text && (
+              true && (
                 <TouchableOpacity onPress={this.toPay} style={styles.btn}>
                   <Text style={styles.fukuan}>
                     {['1', '2', '7'].includes(item.type) ? '付款' : '查看详情'}

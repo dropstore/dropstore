@@ -1,35 +1,14 @@
-/**
- * @file 自营抽签和抢购成员模块
- * @date 2019/8/22 17:10
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
-import { View } from 'react-native';
-import { connect } from 'react-redux';
 import { withNavigation } from 'react-navigation';
 import BuyMainCom from './components/BuyMainCom';
 import DrawMainCom from './components/DrawMainCom';
 import ShopMainBodyCom from '../ShopMainBodyCom';
 import ShopConstant from '../../../../../common/ShopConstant';
-import RuleCom from '../RuleCom';
-import { getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
 import { checkTime } from '../../../../../utils/TimeUtils';
 
-
-function mapStateToProps() {
-  return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
-  });
-}
-
 class SelfCom extends PureComponent {
-  /**
-   * 设置主View
-   * @param shopInfo 商品详情
-   * @returns {*}
-   * @private
-   */
-  _setMainDOM = (shopInfo) => {
+  render() {
+    const { shopInfo } = this.props;
     const b_type = shopInfo.activity.b_type;
     // 参加状态
     const is_join = shopInfo.is_join;
@@ -53,20 +32,7 @@ class SelfCom extends PureComponent {
       // 团长可以查看当前抢鞋状态
       return <BuyMainCom shopInfo={shopInfo} />;
     }
-  };
-
-  render() {
-    const { shopDetailInfo } = this.props;
-    const shopInfo = shopDetailInfo.data;
-    return (
-      <View>
-        <RuleCom shopInfo={shopInfo} />
-        {
-          this._setMainDOM(shopInfo)
-        }
-      </View>
-    );
   }
 }
 
-export default connect(mapStateToProps)(withNavigation(SelfCom));
+export default withNavigation(SelfCom);

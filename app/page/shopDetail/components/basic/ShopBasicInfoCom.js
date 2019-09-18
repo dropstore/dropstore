@@ -5,23 +5,15 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity, DeviceEventEmitter,
+  StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
 import Image from '../../../../components/Image';
 import FadeImage from '../../../../components/FadeImage';
 import Images from '../../../../res/Images';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
-import { getShopDetailInfo } from '../../../../redux/reselect/shopDetailInfo';
 import { checkTime, countDown } from '../../../../utils/TimeUtils';
-
-function mapStateToProps() {
-  return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
-  });
-}
 
 class ShopBasicInfoCom extends PureComponent {
   constructor(props) {
@@ -61,11 +53,12 @@ class ShopBasicInfoCom extends PureComponent {
     const startText = this._getTimeStamp(shopInfo).startText;
     const sTimeStamp = this._getTimeStamp(shopInfo).sTimeStamp;
     const eTimeStamp = this._getTimeStamp(shopInfo).eTimeStamp;
+    const { startDownTime, endDownTime } = this.state;
     if (sTimeStamp > 0) {
       return (
         <View style={_styles.overView}>
           <Text style={_styles.overTitle}>{startText}</Text>
-          <Text style={_styles.overTime}>{this.state.startDownTime}</Text>
+          <Text style={_styles.overTime}>{startDownTime}</Text>
         </View>
       );
     }
@@ -73,7 +66,7 @@ class ShopBasicInfoCom extends PureComponent {
       return (
         <View style={_styles.overView}>
           <Text style={_styles.overTitle}>距结束时间:</Text>
-          <Text style={_styles.overTime}>{this.state.endDownTime}</Text>
+          <Text style={_styles.overTime}>{endDownTime}</Text>
         </View>
       );
     }
@@ -112,14 +105,8 @@ class ShopBasicInfoCom extends PureComponent {
 
         <View style={_styles.mainView}>
           <FadeImage resizeMode="contain" style={_styles.imageShoe} source={{ uri: shopInfo.activity.image }} />
-          {
-            this._setTimeDOM(shopInfo)
-          }
-          <Text style={_styles.shopTitle}>
-            `
-            {shopInfo.goods.goods_name}
-            `
-          </Text>
+          { this._setTimeDOM(shopInfo) }
+          <Text style={_styles.shopTitle}>{shopInfo.goods.goods_name}</Text>
           <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
         </View>
       </View>
@@ -186,4 +173,4 @@ const _styles = StyleSheet.create({
     // textDecorationColor: 'rgba(0,0,0,1)',
   },
 });
-export default connect(mapStateToProps())(withNavigation(ShopBasicInfoCom));
+export default withNavigation(ShopBasicInfoCom);

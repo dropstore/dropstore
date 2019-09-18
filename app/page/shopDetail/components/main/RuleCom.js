@@ -159,32 +159,32 @@ export default class RuleCom extends PureComponent {
 
   _joinBuyDOM = () => (
     <View style={_styles.mainView}>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex1} />
-          <Text style={_styles.textView}>选择商品</Text>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex2} />
-          <View>
-            <Text style={_styles.textView}>发起助攻</Text>
-            <Text style={_styles.textView}>设定奖金</Text>
-          </View>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex3} />
-          <View>
-            <Text style={_styles.textView}>等待好友</Text>
-            <Text style={_styles.textView}>助攻支付</Text>
-          </View>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex4} />
-          <View>
-            <Text style={_styles.textView}>达到人数</Text>
-            <Text style={_styles.textView}>查看结果</Text>
-          </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex1} />
+        <Text style={_styles.textView}>选择商品</Text>
+      </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex2} />
+        <View>
+          <Text style={_styles.textView}>发起助攻</Text>
+          <Text style={_styles.textView}>设定奖金</Text>
         </View>
       </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex3} />
+        <View>
+          <Text style={_styles.textView}>等待好友</Text>
+          <Text style={_styles.textView}>助攻支付</Text>
+        </View>
+      </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex4} />
+        <View>
+          <Text style={_styles.textView}>达到人数</Text>
+          <Text style={_styles.textView}>查看结果</Text>
+        </View>
+      </View>
+    </View>
   );
 
   /**
@@ -194,35 +194,35 @@ export default class RuleCom extends PureComponent {
    */
   _drawLuckRulesCom = () => (
     <View style={_styles.mainView}>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex1} />
-          <View>
-            <Text style={_styles.textView}>首次分享</Text>
-            <Text style={_styles.textView}>(签号*1)</Text>
-          </View>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex2} />
-          <View>
-            <Text style={_styles.textView}>好友注册</Text>
-            <Text style={_styles.textView}>登录app</Text>
-          </View>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex3} />
-          <View>
-            <Text style={_styles.textView}>好友激活</Text>
-            <Text style={_styles.textView}>(签号*5)</Text>
-          </View>
-        </View>
-        <View style={_styles.itemMainView}>
-          <Image style={_styles.imageView} source={Images.ex4} />
-          <View>
-            <Text style={_styles.textView}>查看结果</Text>
-            <Text style={_styles.textView}>免费领取</Text>
-          </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex1} />
+        <View>
+          <Text style={_styles.textView}>首次分享</Text>
+          <Text style={_styles.textView}>(签号*1)</Text>
         </View>
       </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex2} />
+        <View>
+          <Text style={_styles.textView}>好友注册</Text>
+          <Text style={_styles.textView}>登录app</Text>
+        </View>
+      </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex3} />
+        <View>
+          <Text style={_styles.textView}>好友激活</Text>
+          <Text style={_styles.textView}>(签号*5)</Text>
+        </View>
+      </View>
+      <View style={_styles.itemMainView}>
+        <Image style={_styles.imageView} source={Images.ex4} />
+        <View>
+          <Text style={_styles.textView}>查看结果</Text>
+          <Text style={_styles.textView}>免费领取</Text>
+        </View>
+      </View>
+    </View>
   )
 
   render() {

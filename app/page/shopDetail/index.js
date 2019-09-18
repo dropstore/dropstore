@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  DeviceEventEmitter, RefreshControl, ScrollView, StyleSheet, View,
+  DeviceEventEmitter, RefreshControl, StyleSheet, View, FlatList,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { getShopDetail } from '../../redux/actions/shopDetailInfo';
 import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
 import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
-import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import SelfCom from './components/main/self';
 import SelfBottomCom from './components/bottom/self';
@@ -23,6 +22,7 @@ import LuckBottomCom from './components/bottom/LuckBottomCom';
 import LuckCom from './components/main/lucky';
 import AgainLoadCom from '../../components/AgainLoadCom';
 import NoDataCom from '../../components/NoDataCom';
+import RuleCom from './components/main/RuleCom';
 
 function mapStateToProps() {
   return state => ({
@@ -125,6 +125,14 @@ class ShopDetail extends PureComponent {
     getShopDetail(shopId, { isDispatchStart: true });
   };
 
+  renderItem = ({ item }) => {
+    const { shopDetailInfo: { data } } = this.props;
+    if (item === 'RuleCom') {
+      return <RuleCom shopInfo={data} />;
+    }
+    return <SelfCom shopInfo={data} />;
+  }
+
   _mainDOM = () => {
     const { shopDetailInfo } = this.props;
     const data = shopDetailInfo.data;
@@ -135,9 +143,15 @@ class ShopDetail extends PureComponent {
     if (isNormalObject) {
       return (
         <View style={_styles.container}>
-          <ScrollView
+          <FlatList
             showsVerticalScrollIndicator={false}
+            ListHeaderComponent={<ShopBasicInfoCom shopDetailInfo={shopDetailInfo} />}
             style={{ flex: 1 }}
+            data={['RuleCom', 'SelfCom']}
+            renderItem={this.renderItem}
+            keyExtractor={(item, index) => `${item}-${index}`}
+            maxToRenderPerBatch={3}
+            initialNumToRender={1}
             refreshControl={(
               <RefreshControl
                 progressViewOffset={20}
@@ -146,16 +160,8 @@ class ShopDetail extends PureComponent {
                 refreshing={false}
               />
             )}
-          >
-            <ShopBasicInfoCom />
-            <EmptyViewCom />
-            {
-              this._setContentOrBottomUI(false, data)
-            }
-          </ScrollView>
-          {
-            this._setContentOrBottomUI(true, data)
-          }
+          />
+          { this._setContentOrBottomUI(true, data) }
         </View>
       );
     }
