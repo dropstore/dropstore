@@ -15,7 +15,7 @@ class ListItem extends PureComponent {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.type === '3' ? '佣金已入账'
+      text: ['3'].includes(item.type) ? '佣金已入账'
         : item.pay_status == '1' ? '已完成'
           : item.end_time <= Date.now() / 1000 ? '超时' : null,
     };
@@ -27,7 +27,7 @@ class ListItem extends PureComponent {
 
   toPay = () => {
     const { item, navigation } = this.props;
-    if (item.type === '1') {
+    if (item.type === '7') {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',
@@ -35,6 +35,21 @@ class ListItem extends PureComponent {
           order_id: item.order_id,
           price: item.order_price,
         },
+        shopInfo: {
+          goods: {
+            image: item.goods_image,
+            goods_name: item.goods_name,
+          },
+          order_id: item.order_id,
+        },
+        buySuccess: 'true',
+      });
+    } else if (['8', '9'].includes(item.type)) {
+      navigation.navigate('shopDetail', {
+        title: '商品详情',
+        rate: '+25',
+        shopId: item.activity_id,
+        type: item.b_type,
       });
     } else {
       navigation.navigate('RestPay', {
@@ -61,7 +76,7 @@ class ListItem extends PureComponent {
             <TitleWithTag text={item.activity_name} type={item.type} />
             {
 
-              ['1', '2', '8'].includes(item.type) && !text && (
+              ['1', '2'].includes(item.type) && !text && (
                 <View style={styles.timeWrapper}>
                   <Text style={styles.time}>待付款</Text>
                   <CountdownCom
@@ -73,10 +88,10 @@ class ListItem extends PureComponent {
               )
             }
             {
-              ['1', '2', '8'].includes(item.type) && !text && (
+              ['1', '2', '8', '9', '7'].includes(item.type) && !text && (
                 <TouchableOpacity onPress={this.toPay} style={styles.btn}>
                   <Text style={styles.fukuan}>
-                    {['1', '2'].includes(item.type) ? '付款' : '查看详情'}
+                    {['1', '2', '7'].includes(item.type) ? '付款' : '查看详情'}
                   </Text>
                 </TouchableOpacity>
               )

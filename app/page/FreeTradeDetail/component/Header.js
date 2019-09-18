@@ -55,7 +55,7 @@ export default class Header extends PureComponent {
           <Text style={styles.outPrice}>
             {'共 : '}
             <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
-            {' 人出价'}
+            {' 人出售'}
           </Text>
           <Dropdown filter={filter} options={options1} defaultValue={options1[0]} width={80} />
         </View>

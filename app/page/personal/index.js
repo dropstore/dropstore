@@ -60,7 +60,7 @@ class PersonalCenterPage extends PureComponent {
   render() {
     const { navigation, userInfo } = this.props;
     return (
-      <ScrollView bounces={false} contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -150,8 +150,6 @@ class PersonalCenterPage extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),
   },
   image: {
     overflow: 'hidden',
@@ -191,7 +189,9 @@ const styles = StyleSheet.create({
     }),
   },
   header: {
+    paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   headerTitle: {
     paddingTop: STATUSBAR_HEIGHT,
