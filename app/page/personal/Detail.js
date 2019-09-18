@@ -2,41 +2,36 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, FlatList, StatusBar,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { YaHei } from '../../res/FontFamily';
 import { PullToRefresh } from '../../components';
-import { request } from '../../http/Axios';
 import { formatDate } from '../../utils/commonUtils';
+import { fetchMoneyStream } from '../../redux/actions/moneyStream';
+import { getMoneyStream } from '../../redux/reselect/moneyStream';
 
-export default class Detail extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    moneyStream: getMoneyStream(state) || {},
+  });
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchMoneyStream,
+  }, dispatch);
+}
+
+class Detail extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      totalPages: -1,
-      currentPage: 1,
-      list: [],
-      isFetching: false,
-    };
     this.fetchData();
   }
 
   fetchData = (fetchMore) => {
-    const { currentPage, isFetching, totalPages } = this.state;
-    if (isFetching || (currentPage >= totalPages && fetchMore)) {
-      return;
-    }
-    const page = fetchMore ? currentPage + 1 : 1;
-    request('/user/user_balance', {
-      params: {
-        pn: page,
-        limit: 10,
-      },
-    }, fetchMore).then((res) => {
-      this.setState({
-        list: res.data.list,
-        totalPages: res.data.number,
-        currentPage: page,
-      });
-    });
+    const { fetchMoneyStream } = this.props;
+    fetchMoneyStream(fetchMore);
   }
 
   loadMore = () => {
@@ -56,15 +51,15 @@ export default class Detail extends PureComponent {
   )
 
   render() {
-    const { totalPages, currentPage, list } = this.state;
+    const { moneyStream } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <PullToRefresh
-          totalPages={totalPages}
-          currentPage={currentPage}
+          totalPages={moneyStream.totalPages}
+          currentPage={moneyStream.currentPage}
           Wrapper={FlatList}
-          data={list}
+          data={moneyStream.list}
           refresh={this.fetchData}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
@@ -84,3 +79,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);
