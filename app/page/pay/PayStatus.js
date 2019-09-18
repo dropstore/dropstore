@@ -54,9 +54,9 @@ class PayStatus extends PureComponent {
 
   _getStartTime = () => {
     const { navigation } = this.props;
-    const data = navigation.getParam('shopInfo');
+    const shopInfo = navigation.getParam('shopInfo');
     // 活动开始时间
-    const start_time = data.activity.start_time;
+    const start_time = shopInfo.activity.start_time;
     return checkTime(start_time);
   };
 
@@ -90,10 +90,6 @@ class PayStatus extends PureComponent {
       DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
       navigation.navigate('shopDetail');
     } else {
-      // const type = payStatus ? 'payStatus' : 'uncomplete';
-      // navigation.navigate('MyGoods', {
-      //   type,
-      // });
       const type = payStatus ? 'payStatus' : 'uncomplete';
       navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
       navigation.navigate({ routeName: 'MyGoods', params: { type } });
@@ -102,7 +98,7 @@ class PayStatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    const data = navigation.getParam('shopInfo');
+    const shopInfo = navigation.getParam('shopInfo');
     const payStatus = navigation.getParam('payStatus');
     return (
       <View style={_style.container}>
@@ -110,7 +106,7 @@ class PayStatus extends PureComponent {
           <View style={_style.mainView}>
             <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={payStatus ? Images.zf_cg : Images.zf_sb} />
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
-            <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
+            <Image style={_style.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
               payStatus && this._getStartTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
@@ -119,7 +115,7 @@ class PayStatus extends PureComponent {
                 </View>
               ) : <View />
             }
-            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
+            <Text style={_style.shopName}>{shopInfo.goods.goods_name}</Text>
           </View>
         </ScrollView>
         {
