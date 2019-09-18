@@ -34,6 +34,7 @@ class MyGoods extends PureComponent {
           style={styles.tabBar}
           routes={routes}
           index={index}
+          itemMargin={20}
           onIndexChange={this.onIndexChange}
         />
         <TabView
@@ -59,10 +60,8 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     height: 50,
-    width: 180,
     flexDirection: 'row',
-    paddingBottom: 4,
-    justifyContent: 'space-between',
+    paddingBottom: 6,
     paddingHorizontal: 9,
   },
 });
