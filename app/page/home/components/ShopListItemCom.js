@@ -63,24 +63,26 @@ class ShopListItemCom extends PureComponent {
     const { item } = this.props;
     const { time, showText, isStart } = this.state;
     return (
-      <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
-        <View style={styles.right}>
-          <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
-          <View style={styles.rightBottom}>
-            <Price price={item.price} offsetBottom={3} />
-            <Text style={styles.xiegang}>/</Text>
-            <CountdownCom startTime={item.start_time} endTime={item.end_time} isStart={isStart} finish={this.finish} style={styles.time} time={time} />
-          </View>
-          {
+      <View style={{ height: 100, width: 375, overflow: 'hidden' }}>
+        <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
+          <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
+          <View style={styles.right}>
+            <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
+            <View style={styles.rightBottom}>
+              <Price price={item.price} offsetBottom={3} />
+              <Text style={styles.xiegang}>/</Text>
+              <CountdownCom startTime={item.start_time} endTime={item.end_time} isStart={isStart} finish={this.finish} style={styles.time} time={time} />
+            </View>
+            {
             showText && (
               <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
                 {`${isStart ? '距活动结束' : '距活动开始'}`}
               </Text>
             )
           }
-        </View>
-      </ScaleView>
+          </View>
+        </ScaleView>
+      </View>
     );
   }
 }

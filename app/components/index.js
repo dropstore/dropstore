@@ -20,11 +20,12 @@ import ImageNetUnkoneSize from './ImageNetUnkoneSize';
 import Global from './Global';
 import Keyboard from './Global/Keyboard';
 import TitleWithTagTwo from './TitleWithTagTwo';
+import LargeList from './LargeList';
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
-  Global, Keyboard, TitleWithTagTwo,
+  Global, Keyboard, TitleWithTagTwo, LargeList,
 };

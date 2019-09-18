@@ -7,11 +7,12 @@ import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TopCom from '../components/TopCom';
-import ShopListCom from '../components/ShopListCom';
 import Images from '../../../res/Images';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
+import LargeList from '../../../components/LargeList';
+import ShopListItemCom from '../components/ShopListItemCom';
 
 function mapStateToProps() {
   return state => ({
@@ -46,11 +47,13 @@ class SelfSupport extends PureComponent {
   render() {
     const { activityInfo } = this.props;
     return (
-      <ShopListCom
-        shopList={activityInfo}
-        loadMore={this.loadMore}
+      <LargeList
+        ListItem={ShopListItemCom}
+        listData={activityInfo}
+        onLoading={this.loadMore}
+        heightForIndexPath={() => 100}
         onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom bannerId={2} imageSource={Images.instructions} />}
+        renderHeader={() => <TopCom bannerId={2} imageSource={Images.instructions} />}
       />
     );
   }
