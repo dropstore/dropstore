@@ -116,18 +116,19 @@ class SelfBottomCom extends PureComponent {
     const joinUser = shopInfo.join_user;
     // 活动未开始且是参团人员
     if (isJoin === ShopConstant.MEMBER && !isStart) {
-      // return (
-      //   <View style={bottomStyle.bottomView}>
-      //     <ImageBackground
-      //       style={bottomStyle.buttonOnlyOneChildView}
-      //       source={Images.bg_right}
-      //       onPress={() => showToast('活动未开始')}
-      //     >
-      //       <Text style={bottomStyle.buttonText}>助攻抢购</Text>
-      //     </ImageBackground>
-      //   </View>
-      return <View/>
-
+      if(shopInfo.activity.b_type === ShopConstant.DRAW){
+        return <View/>
+      }
+      return (
+        <View style={bottomStyle.bottomView}>
+          <ImageBackground
+            style={bottomStyle.buttonOnlyOneChildView}
+            source={Images.bg_right}
+            onPress={() => showToast('活动未开始')}
+          >
+            <Text style={bottomStyle.buttonText}>助攻抢购</Text>
+          </ImageBackground>
+        </View>
     }
     if (joinUser.length !== 0) {
       return (
