@@ -84,7 +84,7 @@ const request = async (url, {
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error);
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
     } else if (error.response) {
