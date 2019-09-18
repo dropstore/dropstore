@@ -18,12 +18,15 @@ export default class CountdownCom extends PureComponent<Props> {
     this.state = {
       text: timer > MAX_TIME ? '即将开始' : timer < 1 ? '已结束' : this.formatTime(timer),
     };
+    if (timer < MAX_TIME && timer > 1) {
+      this.needTimer = true;
+    }
     this.timeInterval = null;
   }
 
   componentDidMount() {
     const { time } = this.props;
-    this.start(time);
+    this.needTimer && this.start(time);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,10 +50,12 @@ export default class CountdownCom extends PureComponent<Props> {
       this.timeInterval = setInterval(() => {
         const timer = time - Date.now() / 1000;
         if (timer < 1) {
-          const { finish, isStart } = this.props;
+          const {
+            finish, isStart, startTime, endTime,
+          } = this.props;
           finish();
           this.clear();
-          if (isStart) {
+          if (isStart || endTime === startTime) {
             this.setState({ text: '已结束' });
             return;
           }

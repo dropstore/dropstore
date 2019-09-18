@@ -75,6 +75,7 @@ class Pay extends PureComponent {
     const data = navigation.getParam('payData');
     const type = navigation.getParam('type');
     const shopInfo = navigation.getParam('shopInfo');
+    const buySuccess = navigation.getParam('buySuccess');
     const payData = this.state.payData;
     let isChoosePayWay = false;
     let chooseWay = -1;
@@ -92,7 +93,7 @@ class Pay extends PureComponent {
     // 同步返回支付完成通知
     if (status === ShopConstant.FINISHPAY) {
       // 获取服务器返回的支付状态
-      await getPayStatus(type, data.order_id, navigation, shopInfo);
+      await getPayStatus(type, data.order_id, navigation, shopInfo, buySuccess);
     }
   };
 

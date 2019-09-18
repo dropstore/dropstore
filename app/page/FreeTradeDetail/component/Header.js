@@ -24,42 +24,46 @@ export default class Header extends PureComponent {
   render() {
     const { type, filter } = this.props;
     const { filterType } = this.state;
-    if (type === 'price') {
-      const sizeOptions = [
-        { title: '全部尺码', key: 'all' },
-        { key: '36', title: '36' },
-        { key: '36.5', title: '36.5' },
-        { key: '37', title: '37' },
-        { key: '37.5', title: '37.5' },
-        { key: '38', title: '38' },
-        { key: '38.5', title: '38.5' },
-        { key: '39', title: '39' },
-        { key: '39.5', title: '39.5' },
-        { key: '40', title: '40' },
-        { key: '40.5', title: '40.5' },
-      ];
-      const typeOptions = [
-        { key: 'all', title: '全部' },
-        { key: 'futures', title: '现货' },
-        { key: 'inStock', title: '期货' },
-      ];
-      const btns = [
-        { key: 'all', title: '综合' },
-        { key: 'price', title: '价格' },
-      ];
-      return (
-        <View style={styles.headerWrapper}>
-          <View style={styles.header}>
-            <Text style={styles.outPrice}>
-              {'共 : '}
-              <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
-              {' 人出价'}
-            </Text>
-            <Dropdown filter={filter} options={sizeOptions} defaultValue={sizeOptions[0]} width={80} />
-          </View>
-          <View style={styles.bottom}>
-            <View style={{ flexDirection: 'row' }}>
-              {
+    const options1 = type === 'price' ? [
+      { key: 'all', title: '全部尺码' },
+      { key: '36', title: '36' },
+      { key: '36.5', title: '36.5' },
+      { key: '37', title: '37' },
+      { key: '37.5', title: '37.5' },
+      { key: '38', title: '38' },
+      { key: '38.5', title: '38.5' },
+      { key: '39', title: '39' },
+      { key: '39.5', title: '39.5' },
+      { key: '40', title: '40' },
+      { key: '40.5', title: '40.5' },
+    ] : [
+      { key: 'all', title: '近期交易' },
+      { key: '36', title: '一个月前' },
+    ];
+    const options2 = [
+      { key: 'all', title: '全部' },
+      { key: 'futures', title: '现货' },
+      { key: 'inStock', title: '期货' },
+    ];
+    const btns = [
+      { key: 'all', title: '综合' },
+      { key: 'price', title: '价格' },
+    ];
+    return (
+      <View style={styles.headerWrapper}>
+        <View style={styles.header}>
+          <Text style={styles.outPrice}>
+            {'共 : '}
+            <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
+            {' 人出售'}
+          </Text>
+          <Dropdown filter={filter} options={options1} defaultValue={options1[0]} width={80} />
+        </View>
+        {
+            type === 'price' && (
+              <View style={styles.bottom}>
+                <View style={{ flexDirection: 'row' }}>
+                  {
                 btns.map((v, i) => (
                   <TouchableOpacity
                     onPress={() => this.filterOnPress(v)}
@@ -78,15 +82,11 @@ export default class Header extends PureComponent {
                   </TouchableOpacity>
                 ))
               }
-            </View>
-            <Dropdown filter={filter} options={typeOptions} defaultValue={typeOptions[0]} width={60} />
-          </View>
-        </View>
-      );
-    }
-    return (
-      <View>
-        <Text>456</Text>
+                </View>
+                <Dropdown filter={filter} options={options2} defaultValue={options2[0]} width={60} />
+              </View>
+            )
+          }
       </View>
     );
   }

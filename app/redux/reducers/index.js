@@ -8,6 +8,7 @@ import orderState from './orderState';
 import notice from './notice';
 import banner from './banner';
 import address from './address';
+import moneyStream from './moneyStream';
 
 export default combineReducers({
   test,
@@ -19,4 +20,5 @@ export default combineReducers({
   notice,
   banner,
   address,
+  moneyStream,
 });

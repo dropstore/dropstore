@@ -46,11 +46,13 @@ const styles = StyleSheet.create({
     lineHeight: 13,
     top: Platform.OS === 'ios' ? 2 : 0.5,
     paddingTop: Platform.OS === 'ios' ? 0 : 0.5,
+    includeFontPadding: false,
   },
   shopTitle: {
     fontSize: 12,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     textAlign: 'justify',
+    includeFontPadding: false,
   },
 });

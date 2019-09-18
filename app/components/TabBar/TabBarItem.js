@@ -8,9 +8,10 @@ const inactiveSize = 12;
 class TabBarItem extends PureComponent {
   render() {
     const {
-      item, index, onPress, activeIndex,
+      item, index, onPress, activeIndex, itemMargin, isLastItem,
     } = this.props;
     const focused = activeIndex === index;
+    const margin = (itemMargin || 0) / 2;
     return (
       <TouchableOpacity style={styles.wrapper} onPress={() => onPress(index)}>
         <Text style={{
@@ -23,6 +24,8 @@ class TabBarItem extends PureComponent {
           bottom: focused ? -2.5 : 0,
           fontWeight: focused ? 'bold' : 'normal',
           color: '#272727',
+          marginRight: isLastItem ? 0 : margin,
+          marginLeft: index === 0 ? 0 : margin,
         }}
         >
           {item.title}

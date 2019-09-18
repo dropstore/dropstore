@@ -54,7 +54,7 @@ class RestPay extends Component {
 
   onPress = (payItems, totalPrice) => {
     const { list } = this.state;
-    if (payItems.length !== list.length) {
+    if (payItems.length !== list.filter(v => v.pay_status != 1).length) {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
@@ -96,6 +96,13 @@ class RestPay extends Component {
       payData: {
         order_id,
         price: totalPrice,
+      },
+      shopInfo: {
+        goods: {
+          goods_name: payItems[0].activity_name,
+          image: payItems[0].image,
+        },
+        order_id: payItems[0].order_id,
       },
     });
   }
@@ -181,6 +188,8 @@ const styles = StyleSheet.create({
   hintModal: {
     fontFamily: YaHei,
     textAlign: 'center',
+    flex: 1,
+    marginTop: 20,
   },
   orderWrapper: {
     marginHorizontal: 9,
