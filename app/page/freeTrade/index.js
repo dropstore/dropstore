@@ -89,6 +89,7 @@ class List extends PureComponent {
       <View style={{ flex: 1 }}>
         <View style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, flex: 1 }}>
           <PullToRefresh
+            style={{ flex: 1 }}
             totalPages={orderStateList.totalPages}
             currentPage={orderStateList.currentPage}
             Wrapper={AnimatedFlatList}
@@ -96,7 +97,7 @@ class List extends PureComponent {
             data={orderStateList.list}
             refresh={this.fetchData}
             keyboardDismissMode="on-drag"
-            style={styles.list}
+            contentContainerStyle={styles.list}
             renderItem={this.renderItem}
             numColumns={2}
             scrollEventThrottle={1}
@@ -127,7 +128,6 @@ class List extends PureComponent {
 const styles = StyleSheet.create({
   list: {
     paddingLeft: 9,
-    flex: 1,
     paddingTop: HeaderHeight,
     paddingRight: 1,
   },
