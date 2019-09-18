@@ -37,11 +37,12 @@ class ListItem extends PureComponent {
         },
         shopInfo: {
           goods: {
-            goods_image: item.goods_image,
+            image: item.goods_image,
             goods_name: item.goods_name,
           },
           order_id: item.order_id,
         },
+        buySuccess: 'true',
       });
     } else if (['8', '9'].includes(item.type)) {
       navigation.navigate('shopDetail', {

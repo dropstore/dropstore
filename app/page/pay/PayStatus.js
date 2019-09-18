@@ -64,7 +64,7 @@ class PayStatus extends PureComponent {
     const buySuccess = navigation.getParam('buySuccess');
     const shopInfo = navigation.getParam('shopInfo');
     const is_join = shopInfo.is_join;
-    const aId = shopInfo.activity.id;
+    const aId = shopInfo.activity?.id;
     const uAId = shopInfo.user_activity?.id;
     const uId = shopInfo.user_activity?.user_id;
     const title = shopInfo.goods.goods_name;
@@ -109,7 +109,7 @@ class PayStatus extends PureComponent {
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={_style.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
-              payStatus && this._getStartTime() > 0 ? (
+              payStatus && !navigation.getParam('buySuccess') && this._getStartTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
                   <Text style={_style.waitLeft}>等待发布：</Text>
                   <Text style={_style.time}>{this.state.startDownTime}</Text>
