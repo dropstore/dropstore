@@ -129,6 +129,7 @@ class SelfBottomCom extends PureComponent {
             <Text style={bottomStyle.buttonText}>助攻抢购</Text>
           </ImageBackground>
         </View>
+      )
     }
     if (joinUser.length !== 0) {
       return (
