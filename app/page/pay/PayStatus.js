@@ -32,7 +32,7 @@ class PayStatus extends PureComponent {
   componentDidMount() {
     const { navigation } = this.props;
     const payStatus = navigation.getParam('payStatus');
-    if (payStatus) {
+    if (payStatus && !navigation.getParam('buySuccess')) {
       this._setTime();
       this._timer = setInterval(() => {
         this._setTime();

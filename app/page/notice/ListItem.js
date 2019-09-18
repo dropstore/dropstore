@@ -27,7 +27,7 @@ class ListItem extends PureComponent {
 
   toPay = () => {
     const { item, navigation } = this.props;
-    if (item.type === '1') {
+    if (item.type === '7') {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',
@@ -36,7 +36,10 @@ class ListItem extends PureComponent {
           price: item.order_price,
         },
         shopInfo: {
-          goods: item.goods,
+          goods: {
+            goods_image: item.goods_image,
+            goods_name: item.goods_name,
+          },
           order_id: item.order_id,
         },
       });
