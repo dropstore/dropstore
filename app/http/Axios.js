@@ -80,11 +80,11 @@ const request = async (url, {
       if (response.data.callbackCode === 1) {
         return response.data;
       }
+      console.log(response.data);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
-    console.log(error);
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
     } else if (error.response) {

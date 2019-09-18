@@ -15,7 +15,7 @@ class ListItem extends PureComponent {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.type === '3' ? '佣金已入账'
+      text: ['3'].includes(item.type) ? '佣金已入账'
         : item.pay_status == '1' ? '已完成'
           : item.end_time <= Date.now() / 1000 ? '超时' : null,
     };
@@ -84,10 +84,10 @@ class ListItem extends PureComponent {
               )
             }
             {
-              ['1', '2', '8', '9'].includes(item.type) && !text && (
+              ['1', '2', '8', '9', '7'].includes(item.type) && !text && (
                 <TouchableOpacity onPress={this.toPay} style={styles.btn}>
                   <Text style={styles.fukuan}>
-                    {['1', '2'].includes(item.type) ? '付款' : '查看详情'}
+                    {['1', '2', '7'].includes(item.type) ? '付款' : '查看详情'}
                   </Text>
                 </TouchableOpacity>
               )
