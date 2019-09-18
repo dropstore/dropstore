@@ -35,6 +35,10 @@ class ListItem extends PureComponent {
           order_id: item.order_id,
           price: item.order_price,
         },
+        shopInfo: {
+          goods: item.goods,
+          order_id: item.order_id,
+        },
       });
     } else if (['8', '9'].includes(item.type)) {
       navigation.navigate('shopDetail', {

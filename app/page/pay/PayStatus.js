@@ -40,7 +40,6 @@ class PayStatus extends PureComponent {
     }
   }
 
-
   componentWillUnmount() {
     this._timer && clearInterval(this._timer);
   }
@@ -62,15 +61,17 @@ class PayStatus extends PureComponent {
 
   _showShare = () => {
     const { navigation } = this.props;
+    const buySuccess = navigation.getParam('buySuccess');
     const shopInfo = navigation.getParam('shopInfo');
     const is_join = shopInfo.is_join;
     const aId = shopInfo.activity.id;
-    const uAId = shopInfo.user_activity.id;
-    const uId = shopInfo.user_activity.user_id;
+    const uAId = shopInfo.user_activity?.id;
+    const uId = shopInfo.user_activity?.user_id;
     const title = shopInfo.goods.goods_name;
     const image = shopInfo.goods.image;
-    const baseUrl = is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
-    const url = `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
+    const baseUrl = buySuccess ? ShopConstant.SHARE_BYU_SUCCESS_URL
+      : is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
+    const url = buySuccess ? `${baseUrl}?id=${shopInfo.order_id}` : `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
     showShare({
       text: ShopConstant.SHARE_TEXT,
       img: image,

@@ -97,6 +97,13 @@ class RestPay extends Component {
         order_id,
         price: totalPrice,
       },
+      shopInfo: {
+        goods: {
+          goods_name: payItems[0].activity_name,
+          image: payItems[0].image,
+        },
+        order_id: payItems[0].order_id,
+      },
     });
   }
 

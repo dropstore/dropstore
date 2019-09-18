@@ -7,6 +7,8 @@
 const SHARE_BASE_URL = 'http://m.dropstore.cn/index.html#/panicbuyingWithFriend';
 // 无团者抢到宝贝分享
 const SHARE_BASE_URL_BUYED = 'http://m.dropstore.cn/index.html#/buysuccess';
+// 购买成功分享
+const SHARE_BYU_SUCCESS_URL = 'http://m.dropstore.cn/index.html#/buysuccess';
 // 分享内容
 const SHARE_TEXT = 'Drop让球鞋更简单！';
 // 首页
@@ -72,4 +74,5 @@ export default {
   DROPPAY,
   REFRESH_SHOP_DETAIL_INFO,
   FINISHPAY,
+  SHARE_BYU_SUCCESS_URL,
 };
