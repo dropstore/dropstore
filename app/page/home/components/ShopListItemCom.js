@@ -3,15 +3,15 @@ import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { ScaleView, FadeImage, Price } from '../../../components';
+import {
+  ScaleView, FadeImage, Price, CountdownCom,
+} from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
-import CountdownCom from './CountdownCom';
-
 
 class ShopListItemCom extends PureComponent {
   constructor(props) {
