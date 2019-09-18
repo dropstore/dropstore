@@ -93,7 +93,8 @@ class SelfBottomCom extends PureComponent {
       return this._normalDOM(shopInfo, false);
     }
     if (b_type === ShopConstant.DRAW) {
-      return this._normalDOM(shopInfo, true);
+      return <View/>
+      // return this._normalDOM(shopInfo, true);
     }
     return (
       <BuyBottomCom
@@ -115,17 +116,18 @@ class SelfBottomCom extends PureComponent {
     const joinUser = shopInfo.join_user;
     // 活动未开始且是参团人员
     if (isJoin === ShopConstant.MEMBER && !isStart) {
-      return (
-        <View style={bottomStyle.bottomView}>
-          <ImageBackground
-            style={bottomStyle.buttonOnlyOneChildView}
-            source={Images.bg_right}
-            onPress={() => showToast('活动未开始')}
-          >
-            <Text style={bottomStyle.buttonText}>助攻抢购</Text>
-          </ImageBackground>
-        </View>
-      )
+      // return (
+      //   <View style={bottomStyle.bottomView}>
+      //     <ImageBackground
+      //       style={bottomStyle.buttonOnlyOneChildView}
+      //       source={Images.bg_right}
+      //       onPress={() => showToast('活动未开始')}
+      //     >
+      //       <Text style={bottomStyle.buttonText}>助攻抢购</Text>
+      //     </ImageBackground>
+      //   </View>
+      return <View/>
+
     }
     if (joinUser.length !== 0) {
       return (
