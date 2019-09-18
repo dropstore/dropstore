@@ -5,16 +5,36 @@ import { ChineseWithLastDateHeader } from 'react-native-spring-scrollview/Custom
 import Image from './Image';
 import Colors from '../res/Colors';
 import Images from '../res/Images';
+import { SCREEN_HEIGHT } from '../common/Constant';
 
-export default class PullToRefresh extends PureComponent {
+export default class CustomLargeList extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.loadedHeight = 0;
+  }
+
   componentWillReceiveProps(nextProps) {
     const { listData } = this.props;
     if (listData.totalPages === -1 && nextProps.listData.totalPages > -1) {
       this.largeList.endRefresh();
+      this.loadedHeight = 0;
     }
-    // else if (listData.totalPages === -1 && nextProps.listData.totalPages > -1) {
-    //   this.largeList.endLoading();
-    // }
+  }
+
+  onScroll = ({ nativeEvent: { contentOffset: { y } } }) => {
+    if (this.scrollViewHeight - y - this.containerHeight < SCREEN_HEIGHT * 0.3 && this.scrollViewHeight > this.loadedHeight) {
+      this.loadedHeight = this.scrollViewHeight;
+      const { loadMore } = this.props;
+      loadMore();
+    }
+  }
+
+  onContentSizeChange = ({ height }) => {
+    this.scrollViewHeight = height;
+  }
+
+  onSizeChange = ({ height }) => {
+    this.containerHeight = height;
   }
 
   renderFooter = () => {
@@ -44,6 +64,9 @@ export default class PullToRefresh extends PureComponent {
         showsVerticalScrollIndicator={false}
         refreshHeader={ChineseWithLastDateHeader}
         loadingFooter={this.renderFooter}
+        onSizeChange={this.onSizeChange}
+        onContentSizeChange={this.onContentSizeChange}
+        onScroll={this.onScroll}
         {...this.props}
       />
     );

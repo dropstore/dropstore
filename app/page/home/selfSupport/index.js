@@ -50,7 +50,7 @@ class SelfSupport extends PureComponent {
       <LargeList
         ListItem={ShopListItemCom}
         listData={activityInfo}
-        onLoading={this.loadMore}
+        loadMore={this.loadMore}
         heightForIndexPath={() => 100}
         onRefresh={this.onRefresh}
         renderHeader={() => <TopCom bannerId={2} imageSource={Images.instructions} />}
