@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 46,
-    paddingBottom: 10,
+    marginBottom: 45,
   },
   text: {
     fontSize: 14,

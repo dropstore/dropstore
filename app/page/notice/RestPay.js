@@ -54,7 +54,7 @@ class RestPay extends Component {
 
   onPress = (payItems, totalPrice) => {
     const { list } = this.state;
-    if (payItems.length !== list.length) {
+    if (payItems.length !== list.filter(v => v.pay_status != 1).length) {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
@@ -181,6 +181,8 @@ const styles = StyleSheet.create({
   hintModal: {
     fontFamily: YaHei,
     textAlign: 'center',
+    flex: 1,
+    marginTop: 20,
   },
   orderWrapper: {
     marginHorizontal: 9,
