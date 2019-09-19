@@ -50,7 +50,10 @@ class List extends PureComponent {
 
   onScroll = (e) => {
     const y = e.nativeEvent.contentOffset.y;
-    if (y < 0) { return; }
+    if (y < 0) {
+      this.translateY.setValue(y);
+      return;
+    }
     this.lastTriggerAnimatedY = this.lastTriggerAnimatedY || y;
     this.diff = this.lastTriggerAnimatedY - y;
     if (this.diff < -36) {
