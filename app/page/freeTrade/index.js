@@ -5,25 +5,26 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh, NavigationBarCom, Image } from '../../components';
-import { getOrderStateList } from '../../redux/reselect/orderState';
-import { fetchOrderStateList } from '../../redux/actions/orderState';
+import { getList } from '../../redux/reselect/list';
+import { fetchList } from '../../redux/actions/list';
 import ListItem from './ListItem';
 import { STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH } from '../../common/Constant';
 import { debounceDelay } from '../../utils/commonUtils';
 import Images from '../../res/Images';
 
+const TYPE = 'freeTradeIndex';
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const HeaderHeight = 46;
 
 function mapStateToProps() {
   return state => ({
-    orderStateList: getOrderStateList(state, 'uncomplete') || {},
+    list: getList(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchOrderStateList,
+    fetchList,
   }, dispatch);
 }
 
@@ -39,8 +40,8 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchOrderStateList } = this.props;
-    fetchOrderStateList('/order/order_list', { status: 0 }, 'uncomplete', fetchMore);
+    const { fetchList } = this.props;
+    fetchList(TYPE, { type: 1 }, fetchMore);
   }
 
   onChangeText = (text) => {
@@ -84,17 +85,17 @@ class List extends PureComponent {
   renderItem = ({ item }) => <ListItem item={item} />
 
   render() {
-    const { orderStateList } = this.props;
+    const { list } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <View style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, flex: 1 }}>
           <PullToRefresh
             style={{ flex: 1 }}
-            totalPages={orderStateList.totalPages}
-            currentPage={orderStateList.currentPage}
+            totalPages={list.totalPages}
+            currentPage={list.currentPage}
             Wrapper={AnimatedFlatList}
             onScroll={this.onScroll}
-            data={orderStateList.list}
+            data={list.list}
             refresh={this.fetchData}
             keyboardDismissMode="on-drag"
             contentContainerStyle={styles.list}

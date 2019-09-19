@@ -18,12 +18,12 @@ class ListItem extends PureComponent {
     const { item } = this.props;
     return (
       <ScaleView onPress={this.onPress} style={styles.container}>
-        <Text numberOfLines={3} style={{ fontSize: 12 }}>{item.goods.goods_name}</Text>
-        <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
+        <Text numberOfLines={3} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
+        <FadeImage source={{ uri: item.image }} style={styles.shoe} />
         {/* <TitleWithTagTwo numberOfLines={3} text={item.goods.goods_name} type={item.is_stock} /> */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-          <Price price={item.order_price} />
-          <Text style={{ fontSize: 11 }}>{`${123}已入库`}</Text>
+          <Price price={item.price} />
+          <Text style={{ fontSize: 11 }}>{`${item.buy_num} 库存`}</Text>
         </View>
       </ScaleView>
     );
