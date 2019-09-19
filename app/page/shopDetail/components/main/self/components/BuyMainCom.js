@@ -96,7 +96,6 @@ export default class DrawMainCom extends PureComponent {
 }
 const _styles = {
   container: {
-    marginTop: 13,
     marginBottom: 13,
   },
   acContainer: {

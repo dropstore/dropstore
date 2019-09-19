@@ -14,14 +14,15 @@ import { getShopDetail } from '../../redux/actions/shopDetailInfo';
 import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
 import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
-import SelfCom from './components/main/self';
 import SelfBottomCom from './components/bottom/self';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import LuckBottomCom from './components/bottom/LuckBottomCom';
 import AgainLoadCom from '../../components/AgainLoadCom';
 import NoDataCom from '../../components/NoDataCom';
 import RuleCom from './components/main/RuleCom';
+import BuyMainCom from './components/main/self/components/BuyMainCom';
+import DrawMainCom from './components/main/self/components/DrawMainCom';
+import DetailImage from './components/DetailImage';
 
 function mapStateToProps() {
   return state => ({
@@ -64,8 +65,6 @@ class ShopDetail extends PureComponent {
     const type = shopInfo.activity.type;
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
       return <SelfBottomCom />;
-    } if (type === ShopConstant.LUCKY_CHARM) {
-      return <LuckBottomCom />;
     }
     return null;
   };
@@ -86,26 +85,45 @@ class ShopDetail extends PureComponent {
     const { shopDetailInfo: { data } } = this.props;
     if (item === 'RuleCom') {
       return <RuleCom shopInfo={data} />;
+    } if (item === 'DrawMainCom') {
+      return <DrawMainCom shopInfo={data} />;
+    } if (item === 'BuyMainCom') {
+      return <BuyMainCom shopInfo={data} />;
     }
-    return <SelfCom shopInfo={data} />;
+    return <DetailImage item={item} />;
   }
 
   render() {
     const { shopDetailInfo } = this.props;
-    const data = shopDetailInfo.data;
+    const { data } = shopDetailInfo;
     const isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
-    if (shopDetailInfo.isFetching) {
-      return <View />;
-    } if (isNormalObject) {
+    if (shopDetailInfo.isFetching) { return <View />; }
+    if (isNormalObject) {
+      const {
+        activity: { b_type, start_time }, is_join, goods_image,
+      } = data;
+      let list = ['RuleCom'];
+      if (is_join === ShopConstant.NOT_JOIN) {
+        list = [
+          ...list,
+          { height: 240, source: require('../../res/image/gonggao.jpg') },
+          ...goods_image,
+          { height: 437, source: require('../../res/image/rule.jpg') },
+        ];
+      } else if (b_type === ShopConstant.DRAW) {
+        list = [...list, 'DrawMainCom'];
+      } else {
+        list = [...list, 'BuyMainCom'];
+      }
       return (
         <View style={_styles.container}>
           <FlatList
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<ShopBasicInfoCom shopDetailInfo={shopDetailInfo} />}
             style={{ flex: 1 }}
-            data={['RuleCom', 'SelfCom']}
+            data={list}
             renderItem={this.renderItem}
-            keyExtractor={(item, index) => `${item}-${index}`}
+            keyExtractor={(item, index) => `detail-${item}-${index}`}
             maxToRenderPerBatch={3}
             initialNumToRender={1}
             refreshControl={(

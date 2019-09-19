@@ -9,6 +9,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Image from '../../../../components/Image';
 import { YaHei } from '../../../../res/FontFamily';
 import Images from '../../../../res/Images';
+import Colors from '../../../../res/Colors';
 import ShopConstant from '../../../../common/ShopConstant';
 import { checkTime } from '../../../../utils/TimeUtils';
 
@@ -233,12 +234,13 @@ export default class RuleCom extends PureComponent {
 
 const _styles = StyleSheet.create({
   mainView: {
-    flex: 1,
-    marginHorizontal: 20,
-    marginTop: 16,
+    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingVertical: 10,
+    borderTopColor: Colors.MAIN_BACK,
+    borderTopWidth: 18,
   },
   itemMainView: {
     flexDirection: 'row',
@@ -249,10 +251,10 @@ const _styles = StyleSheet.create({
     height: 20,
   },
   textView: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: YaHei,
     fontWeight: '400',
-    color: 'rgba(0,0,0,1)',
+    color: '#222',
     marginLeft: 3,
   },
 });

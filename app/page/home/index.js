@@ -3,8 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
 import { SCREEN_WIDTH, STATUSBAR_HEIGHT } from '../../common/Constant';
-import Home from './home';
-import LuckyCharm from './luckyCharm';
+// import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
 import Reserve from './reserve';
 import SelfSupport from './selfSupport';
@@ -31,10 +30,9 @@ class HomePage extends PureComponent {
   }
 
   renderScene = ({ route }) => ({
-    home: <Home />,
     originalCost: <OriginalCost />,
     selfSupport: <SelfSupport />,
-    luckyCharm: <LuckyCharm />,
+    // luckyCharm: <LuckyCharm />,
     reserve: <Reserve />,
   }[route.key]);
 
