@@ -15,11 +15,12 @@ const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
   componentDidMount() {
-    fundebug.init({
-      apikey: 'fd759507ed752cf8057174abf891536d5d71809de6c85bd05c519382e62f18bc',
-      appVersion: require('./app.json').versionName,
-      silent: !__DEV__,
-    });
+    if (!__DEV__) {
+      fundebug.init({
+        apikey: 'fd759507ed752cf8057174abf891536d5d71809de6c85bd05c519382e62f18bc',
+        appVersion: require('./app.json').versionName,
+      });
+    }
     console.disableYellowBox = true;
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);

@@ -55,8 +55,8 @@ export default class PullToRefresh extends PureComponent {
         removeClippedSubviews={false}
         onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
+        initialNumToRender={8}
         maxToRenderPerBatch={5}
-        initialNumToRender={10}
         windowSize={11}
         {...this.props}
       />

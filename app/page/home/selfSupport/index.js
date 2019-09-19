@@ -6,12 +6,14 @@
 import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { FlatList } from 'react-native';
 import TopCom from '../components/TopCom';
-import ShopListCom from '../components/ShopListCom';
 import Images from '../../../res/Images';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
+import { PullToRefresh } from '../../../components';
+import ShopListItemCom from '../components/ShopListItemCom';
 
 function mapStateToProps() {
   return state => ({
@@ -43,14 +45,21 @@ class SelfSupport extends PureComponent {
     getActivityList(ShopConstant.SELF_SUPPORT, { fetchNextPage: true });
   };
 
+  renderItem = ({ item }) => <ShopListItemCom item={item} />
+
   render() {
-    const { activityInfo } = this.props;
+    const { activityInfo: shopList } = this.props;
     return (
-      <ShopListCom
-        shopList={activityInfo}
-        loadMore={this.loadMore}
-        onRefresh={this.onRefresh}
+      <PullToRefresh
+        totalPages={shopList.totalPages}
+        currentPage={shopList.currentPage}
+        Wrapper={FlatList}
+        style={{ paddingTop: 5 }}
         ListHeaderComponent={<TopCom bannerId={2} imageSource={Images.instructions} />}
+        data={shopList.list}
+        refresh={this.onRefresh}
+        renderItem={this.renderItem}
+        onEndReached={this.loadMore}
       />
     );
   }
