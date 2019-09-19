@@ -97,7 +97,7 @@ def export_android(channel)
   puts `yarn i`
   puts "---------- packing android: #{channel} ------------"
   result1 = File.read('./android/app/build.gradle')
-  File.write('./android/app/build.gradle', File.read('./node_modules/android/build.gradle'))
+  File.write('./android/app/build.gradle', File.read('./edit_node_modules/android/build.gradle'))
   puts "---------- finish install and edit node_modules ------------"
   puts `cd android &&
     rm -f app/build/outputs/apk/release/app-release.apk &&
