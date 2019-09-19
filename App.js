@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { MenuProvider } from 'react-native-popup-menu';
-import fundebug from 'fundebug-reactnative';
+// import fundebug from 'fundebug-reactnative';
 import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { Global, Keyboard } from './app/components';
@@ -15,12 +15,12 @@ const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
   componentDidMount() {
-    if (!__DEV__) {
-      fundebug.init({
-        apikey: 'fd759507ed752cf8057174abf891536d5d71809de6c85bd05c519382e62f18bc',
-        appVersion: require('./app.json').versionName,
-      });
-    }
+    // if (!__DEV__) {
+    //   fundebug.init({
+    //     apikey: 'fd759507ed752cf8057174abf891536d5d71809de6c85bd05c519382e62f18bc',
+    //     appVersion: require('./app.json').versionName,
+    //   });
+    // }
     console.disableYellowBox = true;
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);

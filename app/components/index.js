@@ -11,7 +11,6 @@ import NoDataCom from './NoDataCom';
 import NavigationBarCom from './NavigationBarCom';
 import PullToRefresh from './PullToRefresh';
 import ScaleView from './ScaleView';
-import ShareCom from './ShareCom';
 import CountdownCom from './CountdownCom';
 import Price from './Price';
 import ModalNormal from './ModalNormal';
@@ -24,7 +23,7 @@ import TitleWithTagTwo from './TitleWithTagTwo';
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
-  NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
+  NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
   Global, Keyboard, TitleWithTagTwo,
 };
