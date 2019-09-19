@@ -1,11 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  TouchableOpacity, Text, StyleSheet, ScrollView, View,
+  TouchableOpacity, Text, StyleSheet, ScrollView,
 } from 'react-native';
-import {
-  Menu, MenuOptions, MenuOption, MenuTrigger,
-} from 'react-native-popup-menu';
+import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { Image } from '../../../components';
 import Images from '../../../res/Images';
 
@@ -22,11 +20,12 @@ export default class Dropdown extends PureComponent {
     this.menu.open();
   }
 
-  onSelect = (e) => {
-    const { filter } = this.props;
-    this.setState({ text: e.title });
+  onSelect = (v) => {
+    const { filter, index } = this.props;
+    this.setState({ text: v.title });
     this.menu.close();
-    filter(e);
+    console.log(index);
+    filter({ [index]: v.key });
   }
 
   render() {

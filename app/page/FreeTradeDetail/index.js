@@ -9,22 +9,24 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_AND_NAV_HEIGHT } from '../../com
 class MyGoods extends PureComponent {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
     const routes = [
-      { key: 'price', title: '询价' },
-      { key: 'detail', title: '概述' },
+      { key: 'freeTradeGoodsPrice', title: '询价' },
+      { key: 'freeTradeGoodsDetail', title: '概述' },
       { key: 'history', title: '交易历史' },
     ];
     this.state = {
       routes,
       index: 0,
     };
+    this.goods = navigation.getParam('item');
   }
 
   onIndexChange = (index) => {
     this.setState({ index });
   }
 
-  renderScene = ({ route }) => <List type={route.key} /> ;
+  renderScene = ({ route }) => <List type={route.key} goods={this.goods} /> ;
 
   render() {
     const { routes, index } = this.state;

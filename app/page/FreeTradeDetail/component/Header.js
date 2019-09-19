@@ -18,13 +18,13 @@ export default class Header extends PureComponent {
   filterOnPress = (v) => {
     const { filter } = this.props;
     this.setState({ filterType: v.key });
-    filter(v);
+    filter({ order_by: v.key });
   }
 
   render() {
     const { type, filter } = this.props;
     const { filterType } = this.state;
-    const options1 = type === 'price' ? [
+    const options1 = type === 'freeTradeGoodsPrice' ? [
       { key: 'all', title: '全部尺码' },
       { key: '36', title: '36' },
       { key: '36.5', title: '36.5' },
@@ -42,12 +42,12 @@ export default class Header extends PureComponent {
     ];
     const options2 = [
       { key: 'all', title: '全部' },
-      { key: 'futures', title: '现货' },
-      { key: 'inStock', title: '期货' },
+      { key: '1', title: '现货' },
+      { key: '2', title: '期货' },
     ];
     const btns = [
       { key: 'all', title: '综合' },
-      { key: 'price', title: '价格' },
+      { key: 'price_asc', title: '价格' },
     ];
     return (
       <View style={styles.headerWrapper}>
@@ -57,33 +57,33 @@ export default class Header extends PureComponent {
             <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
             {' 人出售'}
           </Text>
-          <Dropdown filter={filter} options={options1} defaultValue={options1[0]} width={80} />
+          <Dropdown filter={filter} index="size_id" options={options1} defaultValue={options1[0]} width={80} />
         </View>
         {
-            type === 'price' && (
+            type === 'freeTradeGoodsPrice' && (
               <View style={styles.bottom}>
                 <View style={{ flexDirection: 'row' }}>
                   {
-                btns.map((v, i) => (
-                  <TouchableOpacity
-                    onPress={() => this.filterOnPress(v)}
-                    key={`btns-${i}`}
-                    style={{
-                      width: 50,
-                      alignItems: i === btns.length - 1 ? 'flex-end' : 'flex-start',
-                      borderRightColor: '#E3E3E3',
-                      borderRightWidth: i === btns.length - 1 ? 0 : StyleSheet.hairlineWidth,
-                    }}
-                  >
-                    <View style={{ alignItems: 'center' }}>
-                      <Text>{v.title}</Text>
-                      <View style={[styles.zhishiqi, { backgroundColor: v.key === filterType ? Colors.OTHER_BACK : null }]} />
-                    </View>
-                  </TouchableOpacity>
-                ))
-              }
+                    btns.map((v, i) => (
+                      <TouchableOpacity
+                        onPress={() => this.filterOnPress(v)}
+                        key={`btns-${i}`}
+                        style={{
+                          width: 50,
+                          alignItems: i === btns.length - 1 ? 'flex-end' : 'flex-start',
+                          borderRightColor: '#E3E3E3',
+                          borderRightWidth: i === btns.length - 1 ? 0 : StyleSheet.hairlineWidth,
+                        }}
+                      >
+                        <View style={{ alignItems: 'center' }}>
+                          <Text>{v.title}</Text>
+                          <View style={[styles.zhishiqi, { backgroundColor: v.key === filterType ? Colors.OTHER_BACK : null }]} />
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
                 </View>
-                <Dropdown filter={filter} options={options2} defaultValue={options2[0]} width={60} />
+                <Dropdown filter={filter} index="is_stock" options={options2} defaultValue={options2[0]} width={60} />
               </View>
             )
           }
