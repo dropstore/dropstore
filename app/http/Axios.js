@@ -86,7 +86,7 @@ const request = async (url, {
       if (response.data.callbackCode === 1) {
         return response.data;
       }
-      console.log(response.data, data);
+      console.log(response.data, data, url);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }

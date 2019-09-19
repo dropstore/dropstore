@@ -10,9 +10,10 @@ import Images from '../../../res/Images';
 export default class Dropdown extends PureComponent {
   constructor(props) {
     super(props);
-    const { defaultValue } = this.props;
+    const { defaultValue, index } = this.props;
+    this.title = index === 'size_id' ? 'size' : 'title';
     this.state = {
-      text: defaultValue.title,
+      text: defaultValue?.[this.title],
     };
   }
 
@@ -22,10 +23,9 @@ export default class Dropdown extends PureComponent {
 
   onSelect = (v) => {
     const { filter, index } = this.props;
-    this.setState({ text: v.title });
+    this.setState({ text: v[this.title] });
     this.menu.close();
-    console.log(index);
-    filter({ [index]: v.key });
+    filter({ [index]: v.id });
   }
 
   render() {
@@ -33,12 +33,7 @@ export default class Dropdown extends PureComponent {
     const { options, width } = this.props;
     return (
       <Menu ref={(v) => { this.menu = v; }} style={{ alignItems: 'flex-end' }}>
-        <TouchableOpacity
-          onPress={this.open}
-          style={{
-            flexDirection: 'row', alignItems: 'center', width: 120, justifyContent: 'flex-end',
-          }}
-        >
+        <TouchableOpacity onPress={this.open} style={styles.touch}>
           <Text style={styles.outPrice}>{text}</Text>
           <Image source={Images.arrowDownRed} style={styles.arrowDownRed} />
         </TouchableOpacity>
@@ -53,7 +48,7 @@ export default class Dropdown extends PureComponent {
                     onPress={() => this.onSelect(v)}
                     style={[styles.title, { borderBottomWidth: i === options.length - 1 ? 0 : StyleSheet.hairlineWidth }]}
                   >
-                    <Text style={{ fontSize: 13, color: '#333' }}>{v.title}</Text>
+                    <Text style={{ fontSize: 13, color: '#333' }}>{v[this.title]}</Text>
                   </TouchableOpacity>
                 ))
               }
@@ -81,5 +76,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderBottomColor: '#E3E3E3',
     justifyContent: 'center',
+  },
+  touch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 120,
+    justifyContent: 'flex-end',
   },
 });

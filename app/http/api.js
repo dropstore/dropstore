@@ -29,4 +29,11 @@ export default {
       limit: 10,
     },
   },
+  // 自由交易商品鞋码
+  freeTradeGoodsSizes: {
+    url: '/free/goods_size',
+    initParams: {
+      limit: 10,
+    },
+  },
 };

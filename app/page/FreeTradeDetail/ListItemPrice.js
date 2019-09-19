@@ -19,18 +19,18 @@ class ListItem extends PureComponent {
     return (
       <ScaleView style={styles.container} onPress={this.onPress}>
         <View style={styles.imageWrapper}>
-          <FadeImage source={{ uri: item.goods.image }} style={styles.avatar} />
+          <FadeImage source={{ uri: item.avatar }} style={styles.avatar} />
         </View>
         <View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
-            <Text style={styles.name}>茶小音</Text>
-            <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={true ? Images.littleGirl : Images.littleBoy} />
+            <Text style={styles.name}>{item.user_name}</Text>
+            <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={item.sex === '2' ? Images.littleGirl : Images.littleBoy} />
           </View>
-          <Text style={styles.size}>SIZE: 43</Text>
+          <Text style={styles.size}>{`SIZE: ${item.size}`}</Text>
         </View>
         <View style={styles.right}>
-          <TitleWithTagTwo text="" type={item.is_stock} />
-          <Price price={item.order_price} />
+          <TitleWithTagTwo text="" type={parseInt(item.is_stock)} />
+          <Price price={item.price} />
         </View>
       </ScaleView>
     );

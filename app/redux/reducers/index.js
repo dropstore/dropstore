@@ -7,6 +7,7 @@ import banner from './banner';
 import address from './address';
 import moneyStream from './moneyStream';
 import listData from './listData';
+import simpleData from './simpleData';
 
 export default combineReducers({
   userInfo,
@@ -17,4 +18,5 @@ export default combineReducers({
   address,
   moneyStream,
   listData,
+  simpleData,
 });

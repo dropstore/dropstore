@@ -3,51 +3,62 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { YaHei } from '../../../res/FontFamily';
 import Dropdown from './Dropdown';
 import Colors from '../../../res/Colors';
+import { getSimpleData } from '../../../redux/reselect/simpleData';
+import { fetchSimpleData } from '../../../redux/actions/simpleData';
 
-export default class Header extends PureComponent {
+const TYPE = 'freeTradeGoodsSizes';
+
+function mapStateToProps() {
+  return state => ({
+    sizes: getSimpleData(state, TYPE),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchSimpleData,
+  }, dispatch);
+}
+
+
+class Header extends PureComponent {
   constructor(props) {
     super(props);
+    const { type, id, fetchSimpleData } = this.props;
     this.state = {
       filterType: 'all',
     };
+    if (type === 'freeTradeGoodsPrice') {
+      fetchSimpleData(TYPE, { id });
+    }
   }
 
   filterOnPress = (v) => {
     const { filter } = this.props;
-    this.setState({ filterType: v.key });
-    filter({ order_by: v.key });
+    this.setState({ filterType: v.id });
+    filter({ order_by: v.id });
   }
 
   render() {
-    const { type, filter } = this.props;
+    const { type, filter, sizes } = this.props;
     const { filterType } = this.state;
-    const options1 = type === 'freeTradeGoodsPrice' ? [
-      { key: 'all', title: '全部尺码' },
-      { key: '36', title: '36' },
-      { key: '36.5', title: '36.5' },
-      { key: '37', title: '37' },
-      { key: '37.5', title: '37.5' },
-      { key: '38', title: '38' },
-      { key: '38.5', title: '38.5' },
-      { key: '39', title: '39' },
-      { key: '39.5', title: '39.5' },
-      { key: '40', title: '40' },
-      { key: '40.5', title: '40.5' },
-    ] : [
-      { key: 'all', title: '近期交易' },
-      { key: '36', title: '一个月前' },
+    const options1 = type === 'freeTradeGoodsPrice' ? [{ size: '全部尺码', id: 'all' }, ...(sizes.data || [])] : [
+      { id: 'all', title: '近期交易' },
+      { id: '36', title: '一个月前' },
     ];
     const options2 = [
-      { key: 'all', title: '全部' },
-      { key: '1', title: '现货' },
-      { key: '2', title: '期货' },
+      { id: 'all', title: '全部' },
+      { id: '1', title: '现货' },
+      { id: '2', title: '期货' },
     ];
     const btns = [
-      { key: 'all', title: '综合' },
-      { key: 'price_asc', title: '价格' },
+      { id: 'all', title: '综合' },
+      { id: 'price_asc', title: '价格' },
     ];
     return (
       <View style={styles.headerWrapper}>
@@ -77,7 +88,7 @@ export default class Header extends PureComponent {
                       >
                         <View style={{ alignItems: 'center' }}>
                           <Text>{v.title}</Text>
-                          <View style={[styles.zhishiqi, { backgroundColor: v.key === filterType ? Colors.OTHER_BACK : null }]} />
+                          <View style={[styles.zhishiqi, { backgroundColor: v.id === filterType ? Colors.OTHER_BACK : null }]} />
                         </View>
                       </TouchableOpacity>
                     ))
@@ -125,3 +136,5 @@ const styles = StyleSheet.create({
     borderRadius: 0.5,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

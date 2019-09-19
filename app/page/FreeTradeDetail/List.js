@@ -12,7 +12,7 @@ import Header from './component/Header';
 
 function mapStateToProps() {
   return (state, props) => ({
-    listData: getListData(state, props.type) || {},
+    listData: getListData(state, props.type),
   });
 }
 
@@ -49,7 +49,7 @@ class List extends PureComponent {
       }
     }
     console.log(this.filterParams);
-    // this.fetchData();
+    this.fetchData();
   }
 
   renderItem = ({ item }) => {
@@ -61,13 +61,13 @@ class List extends PureComponent {
   }
 
   render() {
-    const { listData, type } = this.props;
+    const { listData, type, goods: { id } } = this.props;
     if (type === 'freeTradeGoodsDetail') {
       return <ListItemDetail />;
     }
     return (
       <View style={{ flex: 1 }}>
-        <Header type={type} filter={this.filter} />
+        <Header id={id} type={type} filter={this.filter} />
         <PullToRefresh
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
