@@ -19,6 +19,7 @@ function fetchNotice(api, type, fetchMore = false) {
       type,
       limit: 10,
       pn: page,
+      image_size_times: 0.35,
     };
     dispatch(requestNotice(type));
     request(api, { params }).then((res) => {

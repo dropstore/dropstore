@@ -20,6 +20,7 @@ function fetchOrderStateList(api, query, type, fetchMore = false) {
       ...query,
       limit: 10,
       pn: page,
+      image_size_times: 0.35,
     };
     dispatch(requestOrderStateList(type));
     request(api, { params }).then((res) => {

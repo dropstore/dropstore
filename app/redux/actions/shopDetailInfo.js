@@ -1,7 +1,7 @@
-import {DeviceEventEmitter} from 'react-native';
-import {createAction} from 'redux-actions';
-import {request} from '../../http/Axios';
-import {showToast} from '../../utils/MutualUtil';
+import { DeviceEventEmitter } from 'react-native';
+import { createAction } from 'redux-actions';
+import { request } from '../../http/Axios';
+import { showToast } from '../../utils/MutualUtil';
 import ShopConstant from '../../common/ShopConstant';
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
@@ -15,7 +15,7 @@ const receiveShoesList = createAction('RECEIVE_SHOP_SHOE_LIST');
  * @param isDispatchStart
  * @returns {Function}
  */
-function getShopDetail(shopId, {isDispatchStart = true} = {}) {
+function getShopDetail(shopId, { isDispatchStart = true } = {}) {
   return (dispatch) => {
     const params = {
       id: shopId,
@@ -23,7 +23,7 @@ function getShopDetail(shopId, {isDispatchStart = true} = {}) {
     if (isDispatchStart) {
       dispatch(requestShopDetailInfo());
     }
-    request('/activity/activity_info', {params, isShowLoading: true}).then((res) => {
+    request('/activity/activity_info', { params, isShowLoading: true }).then((res) => {
       dispatch(receiveShopDetailInfo(res.data));
     }).catch(() => {
       dispatch(notReceiveShopDetailInfo());
@@ -41,7 +41,7 @@ function getShoesList(shopId) {
     const params = {
       id: shopId,
     };
-    request('/activity/activity_size', {params, isShowLoading: true}).then((res) => {
+    request('/activity/activity_size', { params, isShowLoading: true, image_size_times: 1 }).then((res) => {
       const data = res.data;
       if (!(data && data.length)) {
         return showToast('暂无数据');
@@ -74,7 +74,7 @@ const startGroup = (activity_id, size_list) => {
     activity_id,
     size_list: JSON.stringify(toServerSizeList),
   };
-  request('/activity/do_add_user_activity', {params, isShowLoading: true}).then(() => {
+  request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
     // 开团成功后刷新活动详情
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
   }).catch((err) => {
@@ -92,7 +92,7 @@ const getPayMes = async (activity_id, u_a_id) => {
     u_a_id,
   };
   try {
-    return await request('/activity/pay_activity', {params, isShowLoading: true});
+    return await request('/activity/pay_activity', { params, isShowLoading: true });
   } catch (e) {
   }
 };
@@ -110,7 +110,7 @@ const setCommission = async (activity_id, u_a_id, commission) => {
     commission,
   };
   try {
-    return await request('/activity/set_commission', {params, isShowLoading: true});
+    return await request('/activity/set_commission', { params, isShowLoading: true });
   } catch (e) {
   }
 };
@@ -128,14 +128,14 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
     activity_id,
   };
   try {
-    const res = await request(url, {params, isShowLoading: true});
+    const res = await request(url, { params, isShowLoading: true });
     if (res) {
-      navigation.push('panicStatus', {shopInfo, panicStatus: true});
+      navigation.push('panicStatus', { shopInfo, panicStatus: true });
     } else {
-      navigation.push('panicStatus', {shopInfo, panicStatus: false});
+      navigation.push('panicStatus', { shopInfo, panicStatus: false });
     }
   } catch (e) {
-    navigation.push('panicStatus', {shopInfo, panicStatus: false});
+    navigation.push('panicStatus', { shopInfo, panicStatus: false });
   }
 };
 
@@ -152,13 +152,13 @@ const doBuyNow = async (activity_id, size_id, navigation, shopInfo) => {
     size_id,
   };
   try {
-    const res = await request('/order/do_buy_now', {params, isShowLoading: true});
+    const res = await request('/order/do_buy_now', { params, isShowLoading: true });
     const data = res.data;
     if (data) {
-      navigation.push('panicStatus', {shopInfo, payData: data, panicStatus: true});
+      navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: true });
     }
   } catch (e) {
-    navigation.push('panicStatus', {shopInfo, payData: data, panicStatus: false});
+    navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: false });
   }
 };
 export {

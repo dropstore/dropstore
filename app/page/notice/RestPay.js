@@ -35,7 +35,7 @@ class RestPay extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const { id } = navigation.getParam('order');
-    request('/notice/notice_info', { params: { id } }).then((res) => {
+    request('/notice/notice_info', { params: { id, image_size_times: 0.35 } }).then((res) => {
       this.setState({ list: res.data.info.map(v => ({ ...v, choosed: true })) });
     });
   }

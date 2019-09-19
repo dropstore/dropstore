@@ -68,7 +68,18 @@ const request = async (url, {
   }
   let response;
   try {
-    const data = { ...params, timestamp: Date.now(), device_width: SCREEN_WIDTH };
+    const data = {
+      ...params,
+      timestamp: Date.now(),
+      device_width: SCREEN_WIDTH,
+      image_size_times: params.image_size_times || -1,
+    };
+    console.log({
+      ...params,
+      timestamp: Date.now(),
+      device_width: SCREEN_WIDTH,
+      image_size_times: params.image_size_times || -1,
+    });
     response = await axiosInstance({
       url,
       method,
