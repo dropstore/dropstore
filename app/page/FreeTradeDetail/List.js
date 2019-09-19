@@ -3,8 +3,8 @@ import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
-import { getList } from '../../redux/reselect/list';
-import { fetchList } from '../../redux/actions/list';
+import { getListData } from '../../redux/reselect/listData';
+import { fetchListData } from '../../redux/actions/listData';
 import ListItemDetail from './ListItemDetail';
 import ListItemHistory from './ListItemHistory';
 import ListItemPrice from './ListItemPrice';
@@ -12,13 +12,13 @@ import Header from './component/Header';
 
 function mapStateToProps() {
   return (state, props) => ({
-    list: getList(state, props.type) || {},
+    listData: getListData(state, props.type) || {},
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchList,
+    fetchListData,
   }, dispatch);
 }
 
@@ -34,8 +34,8 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchList, type, goods: { goods_id } } = this.props;
-    fetchList(type, {
+    const { fetchListData, type, goods: { goods_id } } = this.props;
+    fetchListData(type, {
       goods_id,
       ...this.filterParams,
     }, fetchMore);
@@ -61,7 +61,7 @@ class List extends PureComponent {
   }
 
   render() {
-    const { list, type } = this.props;
+    const { listData, type } = this.props;
     if (type === 'freeTradeGoodsDetail') {
       return <ListItemDetail />;
     }
@@ -69,10 +69,10 @@ class List extends PureComponent {
       <View style={{ flex: 1 }}>
         <Header type={type} filter={this.filter} />
         <PullToRefresh
-          totalPages={list.totalPages}
-          currentPage={list.currentPage}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
           Wrapper={FlatList}
-          data={list.list}
+          data={listData.list}
           refresh={this.fetchData}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}

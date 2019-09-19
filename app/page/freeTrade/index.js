@@ -5,8 +5,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh, NavigationBarCom, Image } from '../../components';
-import { getList } from '../../redux/reselect/list';
-import { fetchList } from '../../redux/actions/list';
+import { getListData } from '../../redux/reselect/listData';
+import { fetchListData } from '../../redux/actions/listData';
 import ListItem from './ListItem';
 import { STATUSBAR_AND_NAV_HEIGHT, SCREEN_WIDTH } from '../../common/Constant';
 import { debounceDelay } from '../../utils/commonUtils';
@@ -18,13 +18,13 @@ const HeaderHeight = 46;
 
 function mapStateToProps() {
   return state => ({
-    list: getList(state, TYPE),
+    listData: getListData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchList,
+    fetchListData,
   }, dispatch);
 }
 
@@ -40,8 +40,8 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchList } = this.props;
-    fetchList(TYPE, { type: 1 }, fetchMore);
+    const { fetchListData } = this.props;
+    fetchListData(TYPE, { type: 1 }, fetchMore);
   }
 
   onChangeText = (text) => {
@@ -88,7 +88,7 @@ class List extends PureComponent {
   renderItem = ({ item }) => <ListItem item={item} />
 
   render() {
-    const { list } = this.props;
+    const { listData } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <View style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, flex: 1 }}>
@@ -96,11 +96,11 @@ class List extends PureComponent {
             style={{ flex: 1 }}
             iosOffsetY={HeaderHeight / 2}
             progressViewOffset={HeaderHeight}
-            totalPages={list.totalPages}
-            currentPage={list.currentPage}
+            totalPages={listData.totalPages}
+            currentPage={listData.currentPage}
             Wrapper={AnimatedFlatList}
             onScroll={this.onScroll}
-            data={list.list}
+            data={listData.list}
             refresh={this.fetchData}
             keyboardDismissMode="on-drag"
             contentContainerStyle={styles.list}

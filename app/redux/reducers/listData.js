@@ -1,15 +1,15 @@
 import { handleActions } from 'redux-actions';
-import { receiveList, requestList, resetList } from '../actions/list';
+import { receiveListData, requestListData, resetListData } from '../actions/listData';
 
 export default handleActions({
-  [requestList]: (state, action) => ({
+  [requestListData]: (state, action) => ({
     ...state,
     [action.payload]: {
       ...state[action.payload],
       isFetching: true,
     },
   }),
-  [receiveList]: (state, action) => ({
+  [receiveListData]: (state, action) => ({
     ...state,
     [action.meta.type]: {
       list: action.payload.currentPage === 1 ? action.payload.list : [...(state[action.meta.type].list || []), ...action.payload.list],
@@ -18,7 +18,7 @@ export default handleActions({
       currentPage: action.payload.currentPage,
     },
   }),
-  [resetList]: (state, action) => ({
+  [resetListData]: (state, action) => ({
     ...state,
     [action.payload]: {
       ...state[action.payload],

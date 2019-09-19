@@ -5,8 +5,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
-import { fetchList } from '../../redux/actions/list';
-import { getList } from '../../redux/reselect/list';
+import { fetchListData } from '../../redux/actions/listData';
+import { getListData } from '../../redux/reselect/listData';
 import Colors from '../../res/Colors';
 import { formatDate } from '../../utils/commonUtils';
 
@@ -23,14 +23,14 @@ const LIST = [
 
 function mapStateToProps() {
   return state => ({
-    list: getList(state),
+    listData: getListData(state),
   });
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchList,
+    fetchListData,
   }, dispatch);
 }
 
@@ -41,8 +41,8 @@ class Message extends Component {
   }
 
   fetchData = (fetchMore) => {
-    // const { fetchList } = this.props;
-    // fetchList(TYPE, { type: 1 }, fetchMore);
+    // const { fetchListData } = this.props;
+    // fetchListData(TYPE, { type: 1 }, fetchMore);
   }
 
   loadMore = () => {

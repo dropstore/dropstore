@@ -6,7 +6,7 @@ import orderState from './orderState';
 import banner from './banner';
 import address from './address';
 import moneyStream from './moneyStream';
-import list from './list';
+import listData from './listData';
 
 export default combineReducers({
   userInfo,
@@ -16,5 +16,5 @@ export default combineReducers({
   banner,
   address,
   moneyStream,
-  list,
+  listData,
 });
