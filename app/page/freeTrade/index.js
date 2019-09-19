@@ -91,6 +91,8 @@ class List extends PureComponent {
         <View style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT, flex: 1 }}>
           <PullToRefresh
             style={{ flex: 1 }}
+            iosOffsetY={HeaderHeight / 2}
+            progressViewOffset={HeaderHeight}
             totalPages={list.totalPages}
             currentPage={list.currentPage}
             Wrapper={AnimatedFlatList}

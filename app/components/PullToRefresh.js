@@ -45,12 +45,22 @@ export default class PullToRefresh extends PureComponent {
   }
 
   render() {
-    const { renderFooter, Wrapper } = this.props;
+    const {
+      renderFooter, Wrapper, iosOffsetY, progressViewOffset,
+    } = this.props;
     const { refreshing } = this.state;
     return (
       <Wrapper
         ListFooterComponent={renderFooter || this.renderFooter}
-        refreshControl={<RefreshControl tintColor="#c20000" refreshing={refreshing} onRefresh={this.onRefresh} />}
+        refreshControl={(
+          <RefreshControl
+            progressViewOffset={progressViewOffset}
+            iosOffsetY={iosOffsetY}
+            tintColor="#c20000"
+            refreshing={refreshing}
+            onRefresh={this.onRefresh}
+          />
+        )}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         removeClippedSubviews={false}
         onEndReachedThreshold={0.5}

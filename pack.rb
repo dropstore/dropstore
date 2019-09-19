@@ -82,6 +82,13 @@ def edit_modules
   File.write('./node_modules/react-native-clear-cache/android/build.gradle', result1)
   result3 = File.read('./edit_node_modules/metro/DependencyGraph.js')
   File.write('./node_modules/metro/src/node-haste/DependencyGraph.js', result3)
+
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControl.h')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControl.h', result3)
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControl.m')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControl.m', result3)
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControlManager.m')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControlManager.m', result3)
   puts "---------- finish install and edit node_modules ------------"
 end
 
