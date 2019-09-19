@@ -11,6 +11,7 @@ import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
+import { SCREEN_WIDTH } from '../common/Constant';
 
 const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
@@ -67,7 +68,7 @@ const request = async (url, {
   }
   let response;
   try {
-    const data = { ...params, timestamp: Date.now() };
+    const data = { ...params, timestamp: Date.now(), device_width: SCREEN_WIDTH };
     response = await axiosInstance({
       url,
       method,

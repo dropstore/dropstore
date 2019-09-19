@@ -57,7 +57,6 @@ export default class PullToRefresh extends PureComponent {
         showsVerticalScrollIndicator={false}
         initialNumToRender={8}
         maxToRenderPerBatch={6}
-        windowSize={11}
         {...this.props}
       />
     );

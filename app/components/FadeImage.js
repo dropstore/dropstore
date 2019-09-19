@@ -52,7 +52,6 @@ export default class FadeImage extends PureComponent<Props, State> {
           <Wrapper
             onLoad={this.changeOpacity}
             resizeMode={resizeMode}
-            onError={this.onError}
             style={{
               width: style.width,
               height: style.height,
