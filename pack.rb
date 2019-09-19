@@ -96,11 +96,15 @@ end
 def export_android(channel)
   puts `yarn i`
   puts "---------- packing android: #{channel} ------------"
+  result1 = File.read('./android/app/build.gradle')
+  File.write('./android/app/build.gradle', File.read('./node_modules/android/build.gradle'))
+  puts "---------- finish install and edit node_modules ------------"
   puts `cd android &&
     rm -f app/build/outputs/apk/release/app-release.apk &&
     ./gradlew assembleRelease &&
     mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/#{channel}.apk
   `
+  File.write('./android/app/build.gradle', result1)
   puts "---------- finish packing android: #{channel} ------------"
   return true
 end
