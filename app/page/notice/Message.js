@@ -5,8 +5,8 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
-import { fetchNotice } from '../../redux/actions/notice';
-import { getMessage } from '../../redux/reselect/notice';
+import { fetchList } from '../../redux/actions/list';
+import { getList } from '../../redux/reselect/list';
 import Colors from '../../res/Colors';
 import { formatDate } from '../../utils/commonUtils';
 
@@ -23,14 +23,14 @@ const LIST = [
 
 function mapStateToProps() {
   return state => ({
-    notice: getMessage(state),
+    list: getList(state),
   });
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice,
+    fetchList,
   }, dispatch);
 }
 
@@ -40,10 +40,9 @@ class Message extends Component {
     this.fetchData();
   }
 
-
   fetchData = (fetchMore) => {
-    // const { fetchNotice } = this.props;
-    // fetchNotice('/notice/notice_list', 1, fetchMore);
+    // const { fetchList } = this.props;
+    // fetchList(TYPE, { type: 1 }, fetchMore);
   }
 
   loadMore = () => {

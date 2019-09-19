@@ -3,9 +3,7 @@ import {
   FlatList, View, StyleSheet, TouchableOpacity, Text,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import RestPayItem from './RestPayItem';
-import { fetchNotice } from '../../redux/actions/notice';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { PADDING_TAB } from '../../common/Constant';
@@ -14,12 +12,6 @@ import { formatDate } from '../../utils/commonUtils';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { ModalNormal, CountdownCom } from '../../components';
 import { request } from '../../http/Axios';
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    fetchNotice,
-  }, dispatch);
-}
 
 class RestPay extends Component {
   constructor(props) {
@@ -244,4 +236,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(RestPay);
+export default RestPay;

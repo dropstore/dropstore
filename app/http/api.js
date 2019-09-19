@@ -9,7 +9,7 @@ export default {
   },
   // 活动通知列表
   activityNotice: {
-    url: '/activity/activity_list',
+    url: '/notice/notice_list',
     initParams: {
       limit: 10,
       image_size_times: 0.35,
