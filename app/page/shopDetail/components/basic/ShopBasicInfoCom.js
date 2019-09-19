@@ -4,15 +4,12 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet, Text, View, TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import Image from '../../../../components/Image';
 import FadeImage from '../../../../components/FadeImage';
-import Images from '../../../../res/Images';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
+import { wPx2P } from '../../../../utils/ScreenUtil';
 import { checkTime, countDown } from '../../../../utils/TimeUtils';
 
 class ShopBasicInfoCom extends PureComponent {
@@ -87,28 +84,14 @@ class ShopBasicInfoCom extends PureComponent {
   };
 
   render() {
-    const { shopDetailInfo, navigation } = this.props;
+    const { shopDetailInfo } = this.props;
     const shopInfo = shopDetailInfo.data;
     return (
-      <View style={{ marginBottom: 10 }}>
-        <TouchableOpacity
-          hitSlop={{
-            top: 50, bottom: 50, left: 50, right: 50,
-          }}
-          onPress={() => navigation.navigate('Web', { title: '活动说明', url: 'http://m.dropstore.cn/index.html#/autarkyRule' })}
-        >
-          <View style={_styles.explainView}>
-            <Image resizeMode="contain" style={_styles.explainImage} source={Images.jth} />
-            <Text style={_styles.explainText}>查看活动说明</Text>
-          </View>
-        </TouchableOpacity>
-
-        <View style={_styles.mainView}>
-          <FadeImage resizeMode="contain" style={_styles.imageShoe} source={{ uri: shopInfo.activity.image }} />
-          { this._setTimeDOM(shopInfo) }
-          <Text style={_styles.shopTitle}>{shopInfo.goods.goods_name}</Text>
-          <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
-        </View>
+      <View style={_styles.mainView}>
+        <FadeImage resizeMode="contain" style={_styles.imageShoe} source={{ uri: shopInfo.activity.image }} />
+        { this._setTimeDOM(shopInfo) }
+        <Text style={_styles.shopTitle}>{shopInfo.goods.goods_name}</Text>
+        <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
       </View>
     );
   }
@@ -132,13 +115,13 @@ const _styles = StyleSheet.create({
     marginLeft: 3,
   },
   mainView: {
-    marginTop: 19,
+    paddingTop: 19,
+    paddingBottom: 10,
     alignItems: 'center',
   },
   imageShoe: {
-    width: 251,
-    height: 135,
-    right: 20,
+    width: wPx2P(251),
+    height: wPx2P(135),
   },
   shopTitle: {
     fontSize: 12,

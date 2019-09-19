@@ -23,7 +23,7 @@ function getShopDetail(shopId, { isDispatchStart = true } = {}) {
     if (isDispatchStart) {
       dispatch(requestShopDetailInfo());
     }
-    request('/activity/activity_info', { params, isShowLoading: true }).then((res) => {
+    request('/activity/activity_info', { params, isShowLoading: true, image_size_times: 1 }).then((res) => {
       dispatch(receiveShopDetailInfo(res.data));
     }).catch(() => {
       dispatch(notReceiveShopDetailInfo());
@@ -41,7 +41,7 @@ function getShoesList(shopId) {
     const params = {
       id: shopId,
     };
-    request('/activity/activity_size', { params, isShowLoading: true, image_size_times: 1 }).then((res) => {
+    request('/activity/activity_size', { params, isShowLoading: true }).then((res) => {
       const data = res.data;
       if (!(data && data.length)) {
         return showToast('暂无数据');

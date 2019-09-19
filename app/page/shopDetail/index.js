@@ -129,7 +129,7 @@ class ShopDetail extends PureComponent {
             refreshControl={(
               <RefreshControl
                 progressViewOffset={20}
-                tintColor={Colors.HEADER_COLOR}
+                tintColor={Colors.OTHER_BACK}
                 onRefresh={this.onRefresh}
                 refreshing={false}
               />
