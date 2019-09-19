@@ -1,32 +1,15 @@
 import { handleActions } from 'redux-actions';
-import {
-  receiveNotice, requestNotice, resetNotice,
-} from '../actions/notice';
-
-const initialState = {
-  // message: {
-  //   list: [],
-  //   isFetching: false,
-  //   totalPages: -1,
-  //   currentPage: 1,
-  // },
-  // activity: {
-  //   list: [],
-  //   isFetching: false,
-  //   totalPages: -1,
-  //   currentPage: 1,
-  // },
-};
+import { receiveList, requestList, resetList } from '../actions/list';
 
 export default handleActions({
-  [requestNotice]: (state, action) => ({
+  [requestList]: (state, action) => ({
     ...state,
     [action.payload]: {
       ...state[action.payload],
       isFetching: true,
     },
   }),
-  [receiveNotice]: (state, action) => ({
+  [receiveList]: (state, action) => ({
     ...state,
     [action.meta.type]: {
       list: action.payload.currentPage === 1 ? action.payload.list : [...(state[action.meta.type].list || []), ...action.payload.list],
@@ -35,7 +18,7 @@ export default handleActions({
       currentPage: action.payload.currentPage,
     },
   }),
-  [resetNotice]: (state, action) => ({
+  [resetList]: (state, action) => ({
     ...state,
     [action.payload]: {
       ...state[action.payload],
@@ -44,4 +27,4 @@ export default handleActions({
       currentPage: 1,
     },
   }),
-}, initialState);
+}, {});

@@ -5,19 +5,20 @@ import { bindActionCreators } from 'redux';
 import ListItem from './ListItem';
 import { NavigationBarCom, PullToRefresh } from '../../components';
 import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
-import { fetchNotice } from '../../redux/actions/notice';
-import { getActivity } from '../../redux/reselect/notice';
+import { fetchList } from '../../redux/actions/list';
+import { getList } from '../../redux/reselect/list';
+
+const TYPE = 'activityNotice';
 
 function mapStateToProps() {
   return state => ({
-    activity: getActivity(state) || {},
+    list: getList(state, TYPE),
   });
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice,
+    fetchList,
   }, dispatch);
 }
 
@@ -28,8 +29,8 @@ class Activity extends Component {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchNotice } = this.props;
-    fetchNotice('/notice/notice_list', 1, fetchMore);
+    const { fetchList } = this.props;
+    fetchList(TYPE, { type: 1 }, fetchMore);
   }
 
   loadMore = () => {
@@ -39,17 +40,17 @@ class Activity extends Component {
   renderItem = ({ item }) => <ListItem item={item} />
 
   render() {
-    const { activity } = this.props;
+    const { list } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <NavigationBarCom title="活动通知" />
         <PullToRefresh
           Wrapper={FlatList}
-          totalPages={activity.totalPages}
-          currentPage={activity.currentPage}
+          totalPages={list.totalPages}
+          currentPage={list.currentPage}
           refresh={this.fetchData}
           style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
-          data={activity.list}
+          data={list.list}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
         />

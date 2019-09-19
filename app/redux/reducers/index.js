@@ -7,6 +7,7 @@ import notice from './notice';
 import banner from './banner';
 import address from './address';
 import moneyStream from './moneyStream';
+import list from './list';
 
 export default combineReducers({
   userInfo,
@@ -17,4 +18,5 @@ export default combineReducers({
   banner,
   address,
   moneyStream,
+  list,
 });
