@@ -19,7 +19,6 @@ import SelfBottomCom from './components/bottom/self';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
 import LuckBottomCom from './components/bottom/LuckBottomCom';
-import LuckCom from './components/main/lucky';
 import AgainLoadCom from '../../components/AgainLoadCom';
 import NoDataCom from '../../components/NoDataCom';
 import RuleCom from './components/main/RuleCom';
@@ -61,56 +60,14 @@ class ShopDetail extends PureComponent {
     this.refreshShopInfo.remove();
   }
 
-  /**
-   * 设置主体内容和底部UI
-   * @param {boolean} isBottom 是否是底部UI调用
-   * @param shopInfo
-   * @returns {*}
-   */
-
-  _setContentOrBottomUI = (isBottom, shopInfo) => {
+  setContentOrBottomUI = (shopInfo) => {
     const type = shopInfo.activity.type;
-    // let type = 3;
-    // 发售、自营
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
-      return this._showSelf(isBottom);
-    } if (type === ShopConstant.LUCKY_CHARM) {
-      return this._showLuck(isBottom);
-    }
-  };
-
-  /**
-   * 设置发售和自营布局
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
-  _showSelf = (isBottom) => {
-    if (isBottom) {
       return <SelfBottomCom />;
-    }
-    return (
-      <View>
-        <SelfCom />
-      </View>
-    );
-  };
-
-  /**
-   * 锦鲤详情
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
-  _showLuck = (isBottom) => {
-    if (isBottom) {
+    } if (type === ShopConstant.LUCKY_CHARM) {
       return <LuckBottomCom />;
     }
-    return (
-      <View>
-        <LuckCom />
-      </View>
-    );
+    return null;
   };
 
   onRefresh = () => {
@@ -133,14 +90,13 @@ class ShopDetail extends PureComponent {
     return <SelfCom shopInfo={data} />;
   }
 
-  _mainDOM = () => {
+  render() {
     const { shopDetailInfo } = this.props;
     const data = shopDetailInfo.data;
     const isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
     if (shopDetailInfo.isFetching) {
       return <View />;
-    }
-    if (isNormalObject) {
+    } if (isNormalObject) {
       return (
         <View style={_styles.container}>
           <FlatList
@@ -161,20 +117,13 @@ class ShopDetail extends PureComponent {
               />
             )}
           />
-          { this._setContentOrBottomUI(true, data) }
+          { this.setContentOrBottomUI(data) }
         </View>
       );
-    }
-    if (!shopDetailInfo.error) {
+    } if (!shopDetailInfo.error) {
       return <AgainLoadCom againLoad={this.againLoad} />;
     }
     return <NoDataCom />;
-  };
-
-  render() {
-    return (
-      this._mainDOM()
-    );
   }
 }
 

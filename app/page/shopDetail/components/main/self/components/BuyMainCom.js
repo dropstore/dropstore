@@ -28,14 +28,10 @@ export default class DrawMainCom extends PureComponent {
         </View>
         <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
           <Text style={[_styles.zg, { marginBottom: 5 }]}>
-            我的团队：
-            {joinUserLength}
-            人
+            {`我的团队：${joinUserLength}人`}
           </Text>
           <Text style={[_styles.zg, { marginTop: 5 }]}>
-            助攻佣金：
-            {userActivity.pay_price / 100}
-            ￥
+            {`助攻佣金：${userActivity.pay_price / 100}￥`}
           </Text>
         </View>
       </View>
@@ -69,40 +65,24 @@ export default class DrawMainCom extends PureComponent {
       <View style={_styles.container}>
         <View style={_styles.acContainer}>
           <Text style={_styles.acNormalMes}>
-            预期购买
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number}
-            </Text>
-            {' '}
-            双
+            {'预期购买'}
+            <Text style={_styles.acImpMes}>{number}</Text>
+            {'双'}
           </Text>
           <Text style={_styles.acNormalMes}>
-            团队上限
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number}
-            </Text>
-            {' '}
-            人
+            {'团队上限'}
+            <Text style={_styles.acImpMes}>{number}</Text>
+            {'人'}
           </Text>
           <Text style={_styles.acNormalMes}>
-            参与人数
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {joinUser.length}
-            </Text>
-            {' '}
-            人
+            {'参与人数'}
+            <Text style={_styles.acImpMes}>{joinUser.length}</Text>
+            {'人'}
           </Text>
           <Text style={_styles.acNormalMes}>
-            还差
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number - joinUser.length}
-            </Text>
-            {' '}
-            人满额
+            {'还差'}
+            <Text style={_styles.acImpMes}>{number - joinUser.length}</Text>
+            {'人满额'}
           </Text>
         </View>
         {
