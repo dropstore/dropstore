@@ -53,7 +53,7 @@ export default class PullToRefresh extends PureComponent {
         refreshControl={<RefreshControl tintColor="#c20000" refreshing={refreshing} onRefresh={this.onRefresh} />}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         removeClippedSubviews={false}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
         maxToRenderPerBatch={5}
         initialNumToRender={10}
