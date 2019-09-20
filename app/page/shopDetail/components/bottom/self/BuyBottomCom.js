@@ -4,9 +4,7 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import {
-  Text, View, TouchableOpacity, StyleSheet, Platform,
-} from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
@@ -16,9 +14,6 @@ import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../../../../common/Constant';
-import { wPx2P } from '../../../../../utils/ScreenUtil';
-import Colors from '../../../../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -93,49 +88,14 @@ class BuyBottomCom extends PureComponent {
 
   render() {
     return (
-      <View style={styles.wrapper}>
-        <TouchableOpacity style={styles.item} onPress={debounce(this.onPress)}>
+      <View style={bottomStyle.bottomView}>
+        <View />
+        <TouchableOpacity style={[bottomStyle.buttonNormalView]} onPress={debounce(this.onPress)}>
           <Text style={bottomStyle.buttonText}>{this.buyBottomText()}</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    position: 'absolute',
-    bottom: 0,
-    height: 69 + PADDING_TAB,
-    paddingBottom: PADDING_TAB,
-    width: SCREEN_WIDTH,
-    backgroundColor: '#fff',
-    paddingHorizontal: wPx2P(10),
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    paddingTop: 9,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(188, 188, 188)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 50,
-        position: 'relative',
-      },
-    }),
-  },
-  item: {
-    width: wPx2P(168),
-    height: 46,
-    backgroundColor: Colors.OTHER_BACK,
-    overflow: 'hidden',
-    borderRadius: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuyBottomCom);
