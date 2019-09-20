@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { FadeImage, Price, ScaleView } from '../../components';
+import FadeImage from '../FadeImage';
+import ScaleView from '../ScaleView';
+import Price from '../Price';
 import { SCREEN_WIDTH } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 
@@ -20,10 +22,11 @@ class ListItem extends PureComponent {
       <ScaleView onPress={this.onPress} style={styles.container}>
         <Text numberOfLines={3} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
         <FadeImage source={{ uri: item.image }} style={styles.shoe} />
-        {/* <TitleWithTagTwo numberOfLines={3} text={item.goods.goods_name} type={item.is_stock} /> */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-          <Price price={item.price} />
-          <Text style={{ fontSize: 11 }}>{`${item.buy_num} 库存`}</Text>
+          {
+            item.price > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
+          }
+          <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
         </View>
       </ScaleView>
     );
@@ -46,6 +49,7 @@ const styles = StyleSheet.create({
     width: wPx2P(113),
     height: wPx2P(65),
     alignSelf: 'center',
+    marginVertical: 10,
   },
 });
 

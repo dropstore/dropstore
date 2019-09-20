@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, StatusBar,
+  View, Text, StyleSheet, StatusBar, TouchableOpacity,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
@@ -32,13 +32,15 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    // navigation.setParams({
-    //   headerRight: (
-    //     <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
-    //       <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
-    //     </TouchableOpacity>
-    //   ),
-    // });
+    if (this.routeType === 'Warehouse') {
+      navigation.setParams({
+        headerRight: (
+          <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
+            <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
+          </TouchableOpacity>
+        ),
+      });
+    }
   }
 
   onIndexChange = (index) => {
@@ -46,12 +48,11 @@ class MyGoods extends PureComponent {
   }
 
   add = () => {
-    // const { navigation } = this.props;
-    // navigation.navigate('OrderState', {
-    //   url: 'http://m.dropstore.cn/index.html#/help',
-    //   title: '我的库房',
-    //   type: 'warehouse',
-    // });
+    const { navigation } = this.props;
+    navigation.navigate('OrderState', {
+      title: '我的库房',
+      type: 'warehouse',
+    });
   }
 
   renderScene = ({ route }) => <List api={route.api} params={route.params} route={this.routeType} type={route.key} />;
