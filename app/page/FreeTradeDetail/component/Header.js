@@ -45,7 +45,9 @@ class Header extends PureComponent {
   }
 
   render() {
-    const { type, filter, sizes } = this.props;
+    const {
+      type, filter, sizes, count,
+    } = this.props;
     const { filterType } = this.state;
     const options1 = type === 'freeTradeGoodsPrice' ? [{ size: '全部尺码', id: 'all' }, ...(sizes.data || [])] : [
       { id: 'all', title: '近期交易' },
@@ -65,7 +67,7 @@ class Header extends PureComponent {
         <View style={styles.header}>
           <Text style={styles.outPrice}>
             {'共 : '}
-            <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>15721</Text>
+            <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>{count}</Text>
             {' 人出售'}
           </Text>
           <Dropdown filter={filter} index="size_id" options={options1} defaultValue={options1[0]} width={80} />
