@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import {
-  PullToRefresh, FadeImage, Price, Image,
+  PullToRefresh, FadeImage, Price, Image, BottomPay,
 } from '../../components';
 import ListItem from '../../components/FreeTradeList/ListItem';
 import { getListData } from '../../redux/reselect/listData';
@@ -14,10 +14,11 @@ import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
+
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyChooseSize';
@@ -70,6 +71,18 @@ class FreeTradeBuy extends PureComponent {
     this.fetchData();
   }
 
+  toPay = (price) => {
+    const { navigation } = this.props;
+    navigation.navigate('pay', {
+      title: '选择支付账户',
+      type: '1',
+      payData: {
+        order_id: this.item.id,
+        price,
+      },
+    });
+  }
+
   listHeaderComponent = () => {
     const { vendorInfo: { data } } = this.props;
     const { cuurentItem } = this.state;
@@ -107,6 +120,7 @@ class FreeTradeBuy extends PureComponent {
             </View>
           ) : <View style={styles.vendor} />
         }
+        <Text style={{ fontSize: 12, color: '#272727', marginTop: 20 }}>卖家还在卖</Text>
       </View>
     );
   }
@@ -115,20 +129,24 @@ class FreeTradeBuy extends PureComponent {
 
   render() {
     const { listData } = this.props;
+    const { cuurentItem } = this.state;
     return (
-      <PullToRefresh
-        style={{
-          flex: 1, backgroundColor: Colors.MAIN_BACK, paddingLeft: 9, paddingRight: 1,
-        }}
-        ListHeaderComponent={this.listHeaderComponent}
-        totalPages={listData.totalPages}
-        currentPage={listData.currentPage}
-        Wrapper={FlatList}
-        data={listData.list}
-        renderItem={this.renderItem}
-        numColumns={2}
-        onEndReached={this.loadMore}
-      />
+      <View style={{ flex: 1 }}>
+        <PullToRefresh
+          style={{
+            flex: 1, backgroundColor: Colors.MAIN_BACK, paddingLeft: 9, paddingRight: 1, marginBottom: 66 + PADDING_TAB,
+          }}
+          ListHeaderComponent={this.listHeaderComponent}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
+          Wrapper={FlatList}
+          data={listData.list}
+          renderItem={this.renderItem}
+          numColumns={2}
+          onEndReached={this.loadMore}
+        />
+        <BottomPay price={cuurentItem.price} onPress={this.toPay} />
+      </View>
     );
   }
 }
