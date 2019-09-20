@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
-import ListItemDetail from './ListItemDetail';
 import ListItemHistory from './ListItemHistory';
 import ListItemPrice from './ListItemPrice';
 import Header from './component/Header';
@@ -48,7 +47,6 @@ class List extends PureComponent {
         delete this.filterParams[i];
       }
     }
-    console.log(this.filterParams);
     this.fetchData();
   }
 
@@ -62,9 +60,7 @@ class List extends PureComponent {
 
   render() {
     const { listData, type, goods: { id } } = this.props;
-    if (type === 'freeTradeGoodsDetail') {
-      return <ListItemDetail />;
-    }
+    console.log(listData);
     return (
       <View style={{ flex: 1 }}>
         <Header id={id} type={type} filter={this.filter} />

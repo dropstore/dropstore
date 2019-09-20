@@ -12,7 +12,7 @@ class ListItem extends PureComponent {
     const { item } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.imageWrapper}>
+        {/* <View style={styles.imageWrapper}>
           <FadeImage source={{ uri: item.goods.image }} style={styles.avatar} />
         </View>
         <View>
@@ -27,7 +27,7 @@ class ListItem extends PureComponent {
         </View>
         <View style={styles.right}>
           <Price price={item.order_price} />
-        </View>
+        </View> */}
       </View>
     );
   }

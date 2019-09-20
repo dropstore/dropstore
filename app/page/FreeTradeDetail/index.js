@@ -4,6 +4,7 @@ import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
 import List from './List';
 import Colors from '../../res/Colors';
+import ListItemDetail from './ListItemDetail';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
 
 class MyGoods extends PureComponent {
@@ -13,7 +14,7 @@ class MyGoods extends PureComponent {
     const routes = [
       { key: 'freeTradeGoodsPrice', title: '询价' },
       { key: 'freeTradeGoodsDetail', title: '概述' },
-      { key: 'history', title: '交易历史' },
+      { key: 'freeTradeHistory', title: '交易历史' },
     ];
     this.state = {
       routes,
@@ -26,7 +27,12 @@ class MyGoods extends PureComponent {
     this.setState({ index });
   }
 
-  renderScene = ({ route }) => <List type={route.key} goods={this.goods} /> ;
+  renderScene = ({ route }) => {
+    if (route.key === 'freeTradeGoodsDetail') {
+      return <ListItemDetail id={this.goods.id} />;
+    }
+    return <List type={route.key} goods={this.goods} />;
+  }
 
   render() {
     const { routes, index } = this.state;

@@ -5,7 +5,6 @@ export default handleActions({
   [requestSimpleData]: (state, action) => ({
     ...state,
     [action.payload]: {
-      ...state[action.payload],
       isFetching: true,
     },
   }),

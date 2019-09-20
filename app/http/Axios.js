@@ -67,13 +67,13 @@ const request = async (url, {
     showToastLoading({ text: loadingText, duration: timeout });
   }
   let response;
+  const data = {
+    ...params,
+    timestamp: Date.now(),
+    device_width: SCREEN_WIDTH,
+    image_size_times: params.image_size_times || -1,
+  };
   try {
-    const data = {
-      ...params,
-      timestamp: Date.now(),
-      device_width: SCREEN_WIDTH,
-      image_size_times: params.image_size_times || -1,
-    };
     response = await axiosInstance({
       url,
       method,
@@ -91,6 +91,7 @@ const request = async (url, {
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
+    console.log(error.message, data, url);
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
     } else if (error.response) {
