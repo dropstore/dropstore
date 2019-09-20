@@ -4,11 +4,11 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import {
+  Text, View, TouchableOpacity, StyleSheet, Platform,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ImageBackground from '../../../../../components/ImageBackground';
-import Images from '../../../../../res/Images';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
 import { doBuy, getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
@@ -16,6 +16,9 @@ import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
+import { SCREEN_WIDTH, PADDING_TAB } from '../../../../../common/Constant';
+import { wPx2P } from '../../../../../utils/ScreenUtil';
+import Colors from '../../../../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -32,32 +35,32 @@ function mapDispatchToProps(dispatch) {
 }
 
 class BuyBottomCom extends PureComponent {
-  _setBuyBottomText = (isOnPress = true) => {
+  onPress = () => {
     const { shopInfo, navigation } = this.props;
     const activityId = shopInfo.activity.id;
     const is_join = shopInfo.is_join;
     if (is_join === ShopConstant.NOT_JOIN) {
-      if (isOnPress) {
-        this._showOver();
-      } else {
-        return '选择尺码';
-      }
+      this.showOver();
     } else if (is_join === ShopConstant.LEADING) {
-      if (isOnPress) {
-        doBuy(true, activityId, navigation, shopInfo);
-      } else {
-        return '立即抢购';
-      }
+      doBuy(true, activityId, navigation, shopInfo);
     } else if (is_join === ShopConstant.MEMBER) {
-      if (isOnPress) {
-        doBuy(false, activityId, navigation, shopInfo);
-      } else {
-        return '助攻抢购';
-      }
+      doBuy(false, activityId, navigation, shopInfo);
+    }
+  }
+
+  buyBottomText = () => {
+    const { shopInfo } = this.props;
+    const is_join = shopInfo.is_join;
+    if (is_join === ShopConstant.NOT_JOIN) {
+      return '选择尺码';
+    } if (is_join === ShopConstant.LEADING) {
+      return '立即抢购';
+    } if (is_join === ShopConstant.MEMBER) {
+      return '助攻抢购';
     }
   };
 
-  _showOver = () => {
+  showOver = () => {
     const { shopInfo, getShoesList, navigation } = this.props;
     const shopId = shopInfo.activity.id;
     getShoesList(shopId).then((shoesList) => {
@@ -90,18 +93,49 @@ class BuyBottomCom extends PureComponent {
 
   render() {
     return (
-      <View style={bottomStyle.bottomView}>
-        <ImageBackground
-          style={bottomStyle.buttonOnlyOneChildView}
-          source={Images.bg_right}
-          onPress={debounce(this._setBuyBottomText)}
-        >
-          <Text style={bottomStyle.buttonText}>{this._setBuyBottomText(false)}</Text>
-        </ImageBackground>
+      <View style={styles.wrapper}>
+        <TouchableOpacity style={styles.item} onPress={debounce(this.onPress)}>
+          <Text style={bottomStyle.buttonText}>{this.buyBottomText()}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    bottom: 0,
+    height: 69 + PADDING_TAB,
+    paddingBottom: PADDING_TAB,
+    width: SCREEN_WIDTH,
+    backgroundColor: '#fff',
+    paddingHorizontal: wPx2P(10),
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingTop: 9,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgb(188, 188, 188)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 50,
+        position: 'relative',
+      },
+    }),
+  },
+  item: {
+    width: wPx2P(168),
+    height: 46,
+    backgroundColor: Colors.OTHER_BACK,
+    overflow: 'hidden',
+    borderRadius: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuyBottomCom);
