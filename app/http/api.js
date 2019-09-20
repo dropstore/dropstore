@@ -33,7 +33,7 @@ export default {
       image_size_times: 1,
     },
   },
-  // 自由交易某商品详情图
+  // 自由交易某商品交易历史
   freeTradeHistory: {
     url: '/free/free_historic',
   },

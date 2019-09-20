@@ -67,10 +67,12 @@ class Header extends PureComponent {
         <View style={styles.header}>
           <Text style={styles.outPrice}>
             {'共 : '}
-            <Text style={{ fontSize: 13, color: '#37B6EB', fontFamily: YaHei }}>{count}</Text>
-            {' 人出售'}
+            <Text style={{ fontSize: 12, color: '#37B6EB', fontFamily: YaHei }}>{count}</Text>
+            {` 人${type === 'freeTradeGoodsPrice' ? '出售' : '购买'}`}
           </Text>
-          <Dropdown filter={filter} index="size_id" options={options1} defaultValue={options1[0]} width={80} />
+          {
+            type === 'freeTradeGoodsPrice' && <Dropdown filter={filter} index="size_id" options={options1} defaultValue={options1[0]} width={80} />
+          }
         </View>
         {
             type === 'freeTradeGoodsPrice' && (
