@@ -54,7 +54,10 @@ class MyGoods extends PureComponent {
     });
   }
 
-  renderScene = ({ route }) => <List api={route.api} params={route.params} route={this.routeType} type={route.key} />;
+  renderScene = ({ route }) => {
+    const { navigation } = this.props;
+    return <List navigation={navigation} api={route.api} params={route.params} route={this.routeType} type={route.key} />;
+  }
 
   render() {
     const { routes, index } = this.state;

@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import Image from '../../components/Image';
 import ImageBackground from '../../components/ImageBackground';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
@@ -21,7 +20,7 @@ import { showToast } from '../../utils/MutualUtil';
 import { getOrderInfo, getPayStatus } from '../../redux/actions/pay';
 import ShopConstant from '../../common/ShopConstant';
 
-class Pay extends PureComponent {
+export default class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -223,5 +222,3 @@ const _styles = StyleSheet.create({
     color: 'rgba(255,255,255,1)',
   },
 });
-
-export default withNavigation(Pay);

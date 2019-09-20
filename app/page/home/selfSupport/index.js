@@ -45,7 +45,10 @@ class SelfSupport extends PureComponent {
     getActivityList(ShopConstant.SELF_SUPPORT, { fetchNextPage: true });
   };
 
-  renderItem = ({ item }) => <ShopListItemCom item={item} />
+  renderItem = ({ item }) => {
+    const { navigation } = this.props;
+    return <ShopListItemCom navigation={navigation} item={item} />;
+  }
 
   render() {
     const { activityInfo: shopList } = this.props;

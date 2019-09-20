@@ -5,14 +5,13 @@
  */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import FadeImage from '../../../../components/FadeImage';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
 import { wPx2P } from '../../../../utils/ScreenUtil';
 import { checkTime, countDown } from '../../../../utils/TimeUtils';
 
-class ShopBasicInfoCom extends PureComponent {
+export default class ShopBasicInfoCom extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -156,4 +155,3 @@ const _styles = StyleSheet.create({
     // textDecorationColor: 'rgba(0,0,0,1)',
   },
 });
-export default withNavigation(ShopBasicInfoCom);

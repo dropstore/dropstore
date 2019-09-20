@@ -2,14 +2,13 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import {
   FadeImage, Price, Image, TitleWithTagTwo, ScaleView,
 } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Images from '../../res/Images';
 
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   onPress = () => {
     const { navigation, item, goods } = this.props;
     navigation.navigate('FreeTradeBuy', {
@@ -92,5 +91,3 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 });
-
-export default withNavigation(ListItem);

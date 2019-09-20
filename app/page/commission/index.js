@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { ImageBackground, KeyboardDismiss } from '../../components';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
@@ -222,4 +221,4 @@ const _styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(withNavigation(Commission));
+export default connect(mapStateToProps)(Commission);

@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { Image, CountdownCom, ImageBackground } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
@@ -10,7 +9,7 @@ import { wPx2P } from '../../utils/ScreenUtil';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../utils/commonUtils';
 
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
@@ -166,5 +165,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default withNavigation(ListItem);

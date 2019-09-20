@@ -6,7 +6,6 @@
  */
 import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Image from '../../../../../components/Image';
@@ -228,4 +227,4 @@ class SelfBottomCom extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom));
+export default connect(mapStateToProps, mapDispatchToProps)(SelfBottomCom);

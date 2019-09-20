@@ -5,7 +5,6 @@
  */
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ImageBackground from '../../../../../components/ImageBackground';
@@ -105,4 +104,4 @@ class BuyBottomCom extends PureComponent {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(BuyBottomCom));
+export default connect(mapStateToProps, mapDispatchToProps)(BuyBottomCom);

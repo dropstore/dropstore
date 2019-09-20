@@ -2,14 +2,12 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { FadeImage, Price, Image } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Images from '../../res/Images';
 import { formatTimeAgo } from '../../utils/commonUtils';
 
-
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   render() {
     const { item } = this.props;
     return (
@@ -85,5 +83,3 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
 });
-
-export default withNavigation(ListItem);

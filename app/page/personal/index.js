@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
 import { Image, FadeImage } from '../../components';
@@ -328,4 +327,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(connect(mapStateToProps)(PersonalCenterPage));
+export default connect(mapStateToProps)(PersonalCenterPage);
