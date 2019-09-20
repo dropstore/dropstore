@@ -51,19 +51,18 @@ class List extends PureComponent {
   }
 
   renderItem = ({ item }) => {
-    const { type } = this.props;
+    const { type, goods } = this.props;
     if (type === 'freeTradeGoodsPrice') {
-      return <ListItemPrice item={item} />;
+      return <ListItemPrice goods={goods} item={item} />;
     }
     return <ListItemHistory item={item} />;
   }
 
   render() {
     const { listData, type, goods: { id } } = this.props;
-    console.log(listData);
     return (
       <View style={{ flex: 1 }}>
-        <Header id={id} type={type} filter={this.filter} />
+        <Header count={listData.count || 0} id={id} type={type} filter={this.filter} />
         <PullToRefresh
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}

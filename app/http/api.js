@@ -33,7 +33,7 @@ export default {
       image_size_times: 1,
     },
   },
-  // 自由交易某商品详情图
+  // 自由交易某商品交易历史
   freeTradeHistory: {
     url: '/free/free_historic',
   },
@@ -42,6 +42,20 @@ export default {
     url: '/goods/goods_list',
     initParams: {
       limit: 10,
+      image_size_times: 0.5,
+    },
+  },
+  // 自由交易商品购买详情
+  freeTradeBuyChooseSize: {
+    url: '/free/free_trade_info',
+    initParams: {
+      image_size_times: 0.5,
+    },
+  },
+  // 自由交易卖家还在卖列表
+  freeTradeUserRecommend: {
+    url: '/free/get_user_goods',
+    initParams: {
       image_size_times: 0.5,
     },
   },

@@ -20,11 +20,12 @@ import Global from './Global';
 import Keyboard from './Global/Keyboard';
 import TitleWithTagTwo from './TitleWithTagTwo';
 import FreeTradeList from './FreeTradeList';
+import BottomPay from './BottomPay';
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
-  Global, Keyboard, TitleWithTagTwo, FreeTradeList,
+  Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
 };

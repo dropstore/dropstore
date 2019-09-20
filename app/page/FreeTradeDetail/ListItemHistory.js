@@ -6,28 +6,30 @@ import { withNavigation } from 'react-navigation';
 import { FadeImage, Price, Image } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Images from '../../res/Images';
+import { formatTimeAgo } from '../../utils/commonUtils';
+
 
 class ListItem extends PureComponent {
   render() {
     const { item } = this.props;
     return (
       <View style={styles.container}>
-        {/* <View style={styles.imageWrapper}>
-          <FadeImage source={{ uri: item.goods.image }} style={styles.avatar} />
+        <View style={styles.imageWrapper}>
+          <FadeImage source={{ uri: item.avatar }} style={styles.avatar} />
         </View>
         <View>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
-            <Text style={styles.name}>茶小音</Text>
-            <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={true ? Images.littleGirl : Images.littleBoy} />
+            <Text style={styles.name}>{item.user_name}</Text>
+            <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={item.sex === '2' ? Images.littleGirl : Images.littleBoy} />
           </View>
           <Text style={styles.time}>
             {'交易时间：'}
-            <Text style={{ color: '#696969', fontSize: 11 }}>五分钟前</Text>
+            <Text style={{ color: '#696969', fontSize: 11 }}>{formatTimeAgo(item.add_time)}</Text>
           </Text>
         </View>
         <View style={styles.right}>
           <Price price={item.order_price} />
-        </View> */}
+        </View>
       </View>
     );
   }

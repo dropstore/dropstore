@@ -13,7 +13,7 @@ export default class ListItem extends PureComponent {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, notShowCount } = this.props;
     return (
       <ScaleView onPress={this.onPress} style={styles.container}>
         <Text numberOfLines={3} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
@@ -22,7 +22,9 @@ export default class ListItem extends PureComponent {
           {
             item.price > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
           }
-          <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
+          {
+            !notShowCount && <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
+          }
         </View>
       </ScaleView>
     );

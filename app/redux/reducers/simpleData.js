@@ -12,7 +12,8 @@ export default handleActions({
     ...state,
     [action.meta.type]: {
       isFetching: false,
-      data: action.payload,
+      data: action.payload.data,
+      fetchedParams: action.payload.fetchedParams,
     },
   }),
 }, {});

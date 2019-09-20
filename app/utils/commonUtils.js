@@ -30,4 +30,19 @@ function formatDate(time, separation = '-') {
   return str;
 }
 
-export { debounce, debounceDelay, formatDate };
+function formatTimeAgo(time) {
+  const now = Date.now() / 1000;
+  const diff = now - time;
+  if (diff < 60) {
+    return '刚刚';
+  } if (diff < 3600) {
+    return `${parseInt(diff / 60)}分钟前`;
+  } if (diff < 3600 * 24) {
+    return `${parseInt(diff / 3600)}小时前`;
+  }
+  return formatDate(time);
+}
+
+export {
+  debounce, debounceDelay, formatDate, formatTimeAgo,
+};
