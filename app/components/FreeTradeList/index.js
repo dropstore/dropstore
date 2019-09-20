@@ -85,7 +85,10 @@ class List extends PureComponent {
     }
   }
 
-  renderItem = ({ item }) => <ListItem item={item} />
+  renderItem = ({ item }) => {
+    const { itemOnPress } = this.props;
+    return <ListItem onPress={itemOnPress} item={item} />;
+  }
 
   render() {
     const { listData, style } = this.props;

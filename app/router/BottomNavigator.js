@@ -108,8 +108,9 @@ class BottomNavigator extends PureComponent {
   }
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props;
     const Screen = route.screen;
-    return <Screen onIndexChange={this.onIndexChange} />;
+    return <Screen navigation={navigation} onIndexChange={this.onIndexChange} />;
   };
 
   renderTabBar = () => null;

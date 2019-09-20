@@ -49,9 +49,8 @@ class MyGoods extends PureComponent {
 
   add = () => {
     const { navigation } = this.props;
-    navigation.navigate('OrderState', {
-      title: '我的库房',
-      type: 'warehouse',
+    navigation.navigate('FreeTradePublish', {
+      title: '选择',
     });
   }
 

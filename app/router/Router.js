@@ -42,6 +42,8 @@ import ChooseAddress from '../page/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
 
 import FreeTradeDetail from '../page/FreeTradeDetail';
+import FreeTradePublish from '../page/FreeTradePublish';
+import ChooseSize from '../page/FreeTradePublish/ChooseSize';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -107,6 +109,8 @@ const routesWithHeader = {
   ChooseAddress,
   RestPay,
   FreeTradeDetail,
+  FreeTradePublish,
+  ChooseSize,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
