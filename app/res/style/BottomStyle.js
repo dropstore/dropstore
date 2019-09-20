@@ -7,7 +7,7 @@ export const bottomStyle = StyleSheet.create({
   bottomView: {
     position: 'absolute',
     bottom: 0,
-    height: 69 + PADDING_TAB,
+    height: 66 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
     width: SCREEN_WIDTH,
     backgroundColor: '#fff',
