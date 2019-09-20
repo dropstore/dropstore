@@ -43,21 +43,20 @@ class AuthLoading extends PureComponent {
 
   componentDidMount() {
     const { navigation, getUser } = this.props;
-    SplashScreen.hide();
-    // AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
-    //   if (res[0][1]) {
-    //     getUser(res[0][1]);
-    //     navigation.navigate('Main');
-    //     SplashScreen.hide();
-    //   } else {
-    //     SplashScreen.hide();
-    //   }
-    //   if (!res[1][1]) {
-    //     this.setState({ showTreaty: true });
-    //   }
-    // }).catch(() => {
-    //   SplashScreen.hide();
-    // });
+    AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
+      if (res[0][1]) {
+        getUser(res[0][1]);
+        navigation.navigate('Main');
+        SplashScreen.hide();
+      } else {
+        SplashScreen.hide();
+      }
+      if (!res[1][1]) {
+        this.setState({ showTreaty: true });
+      }
+    }).catch(() => {
+      SplashScreen.hide();
+    });
   }
 
   toLogin = () => {
