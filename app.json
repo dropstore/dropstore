@@ -2,6 +2,5 @@
   "name": "dropstore",
   "displayName": "dropstore",
   "versionCode": 1,
-  "versionName": "1.0.0",
-  "needLogin": true
+  "versionName": "1.0.0"
 }
