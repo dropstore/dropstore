@@ -45,4 +45,18 @@ export default {
       image_size_times: 0.5,
     },
   },
+  // 自由交易商品购买详情
+  freeTradeBuyChooseSize: {
+    url: '/free/free_trade_info',
+    initParams: {
+      image_size_times: 0.5,
+    },
+  },
+  // 自由交易卖家还在卖列表
+  freeTradeUserRecommend: {
+    url: '/free/get_user_goods',
+    initParams: {
+      image_size_times: 0.5,
+    },
+  },
 };

@@ -51,9 +51,9 @@ class List extends PureComponent {
   }
 
   renderItem = ({ item }) => {
-    const { type } = this.props;
+    const { type, goods } = this.props;
     if (type === 'freeTradeGoodsPrice') {
-      return <ListItemPrice item={item} />;
+      return <ListItemPrice goods={goods} item={item} />;
     }
     return <ListItemHistory item={item} />;
   }

@@ -11,7 +11,12 @@ import Images from '../../res/Images';
 
 class ListItem extends PureComponent {
   onPress = () => {
-
+    const { navigation, item, goods } = this.props;
+    navigation.navigate('FreeTradeBuy', {
+      title: '购买',
+      item,
+      goods,
+    });
   }
 
   render() {
