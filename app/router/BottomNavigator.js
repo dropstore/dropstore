@@ -13,7 +13,7 @@ import { wPx2P } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
 import Identify from '../page/identify';
 import HomePage from '../page/home';
-import FreeTrade from '../page/freeTrade';
+import FreeTrade from '../page/FreeTrade';
 import Activity from '../page/notice/Activity';
 import { getUserInfo } from '../redux/reselect/userInfo';
 
