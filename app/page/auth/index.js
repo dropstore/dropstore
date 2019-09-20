@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Text, View, StyleSheet, ActivityIndicator,
+  Text, View, StyleSheet, ActivityIndicator, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,6 +14,7 @@ import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -42,20 +43,21 @@ class AuthLoading extends PureComponent {
 
   componentDidMount() {
     const { navigation, getUser } = this.props;
-    AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
-      if (res[0][1]) {
-        getUser(res[0][1]);
-        navigation.navigate('Main');
-        SplashScreen.hide();
-      } else {
-        SplashScreen.hide();
-      }
-      if (!res[1][1]) {
-        this.setState({ showTreaty: true });
-      }
-    }).catch(() => {
-      SplashScreen.hide();
-    });
+    SplashScreen.hide();
+    // AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
+    //   if (res[0][1]) {
+    //     getUser(res[0][1]);
+    //     navigation.navigate('Main');
+    //     SplashScreen.hide();
+    //   } else {
+    //     SplashScreen.hide();
+    //   }
+    //   if (!res[1][1]) {
+    //     this.setState({ showTreaty: true });
+    //   }
+    // }).catch(() => {
+    //   SplashScreen.hide();
+    // });
   }
 
   toLogin = () => {
@@ -105,14 +107,13 @@ class AuthLoading extends PureComponent {
         <View style={{ alignItems: 'center' }}>
           <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
           <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
-          <ImageBackground
+          <TouchableOpacity
             onPress={this.toLogin}
-            source={disabled ? Images.frameInLogin : Images.frameLogin}
-            style={styles.frameLogin}
+            style={[styles.frameLogin, { backgroundColor: disabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
             disabled={disabled}
           >
             <Text style={styles.login}>登陆</Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.thirdWrapper}>
@@ -146,11 +147,13 @@ const styles = StyleSheet.create({
     width: wPx2P(191),
   },
   frameLogin: {
-    height: wPx2P(51),
-    width: wPx2P(229),
+    height: wPx2P(48),
+    width: wPx2P(244),
     alignItems: 'center',
-    marginTop: hPx2P(51),
+    marginTop: hPx2P(46),
     justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   login: {
     color: '#fff',
