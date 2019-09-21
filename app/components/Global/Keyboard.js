@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import ToastLoading from './ToastLoading';
 import Toast from './Toast';
+import { PADDING_TAB } from '../../common/Constant';
 
 export default class Global extends PureComponent {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class Global extends PureComponent {
   render() {
     const { toastLoading, toast } = this.state;
     return (
-      <KeyboardAvoidingView style={styles.wrapper} behavior={Platform.OS === 'android' ? null : 'position'}>
+      <KeyboardAvoidingView style={[styles.wrapper, { bottom: toast.show ? 100 + PADDING_TAB : 0 }]} behavior={Platform.OS === 'android' ? null : 'position'}>
         {
           toastLoading.show && (
             <ToastLoading
@@ -57,7 +58,6 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    bottom: 0,
     alignSelf: 'center',
     zIndex: 100,
   },
