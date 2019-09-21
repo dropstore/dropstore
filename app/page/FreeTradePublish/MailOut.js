@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
-  Text, ScrollView, View, StyleSheet,TextInput
+  Text, ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Platform
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { PADDING_TAB } from '../../common/Constant';
 import { BottomPay,Image } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
+import { wPx2P } from '../../utils/ScreenUtil';
 
 
 function mapStateToProps() {
@@ -33,6 +34,7 @@ class MailOut extends PureComponent {
         // goods_name,
         // price,
       },
+      disable:false,
     };
   }
 
@@ -43,7 +45,9 @@ class MailOut extends PureComponent {
   exit = () => {
 
   }
+  onPress = ()=>{
 
+  }
   render() {
     const { currentItem } = this.state;
     return (
@@ -100,7 +104,24 @@ class MailOut extends PureComponent {
           </View>
 
         </ScrollView>
-
+        <View style={styles.bottom}>
+          <View style={styles.priceWrapper}>
+            <Image style={{width:26,height:26}} source={{uri:'../../res/image/selectIcon.png'}}></Image>
+            <Text style={styles.price}>我已阅读</Text>
+            <TouchableOpacity
+              onPress={this.onPress}
+            >
+              <Text >卖家须知></Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            disabled={this.state.disable}
+            style={[styles.zhifu, { backgroundColor: this.state.disable ? '#e2e2e2' : Colors.OTHER_BACK }]}
+            onPress={this.onPress}
+          >
+            <Text style={styles.queren}>上架</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
     );
@@ -196,7 +217,53 @@ const styles = StyleSheet.create({
   },
   inputPriceTextare:{
     flex:8,
-
-  }
+  },
+  zhifu: {
+    width: wPx2P(198),
+    height: 44,
+    borderRadius: 2,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottom: {
+    height: 66 + PADDING_TAB,
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    backgroundColor: '#fff',
+    paddingBottom: PADDING_TAB,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgb(188, 188, 188)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 50,
+        position: 'relative',
+      },
+    }),
+  },
+  priceWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  price: {
+    fontSize: 16,
+    fontFamily: YaHei,
+  },
+  queren: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: YaHei,
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MailOut);
