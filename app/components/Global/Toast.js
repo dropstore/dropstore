@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Animated, StyleSheet, Text } from 'react-native';
-import { PADDING_TAB } from '../../common/Constant';
 
 export default class Toast extends PureComponent {
   constructor(props) {
@@ -74,6 +73,5 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100 + PADDING_TAB,
   },
 });

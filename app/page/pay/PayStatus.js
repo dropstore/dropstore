@@ -1,16 +1,10 @@
-/**
- * @file 支付状态组件
- * @date 2019/8/21 22:30
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
 import {
   DeviceEventEmitter, ScrollView, StyleSheet, Text, View,
 } from 'react-native';
-import ImageBackground from '../../components/ImageBackground';
+import { BottomBtnGroup } from '../../components';
 import Image from '../../components/Image';
 import { commonStyle } from '../../res/style/CommonStyle';
-import { bottomStyle } from '../../res/style/BottomStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
@@ -120,35 +114,15 @@ class PayStatus extends PureComponent {
           </View>
         </ScrollView>
         {
+
           payStatus
             ? (
-              <View style={[bottomStyle.bottomView, commonStyle.row]}>
-                <ImageBackground
-                  style={bottomStyle.buttonNormalView}
-                  source={Images.bg_right}
-                  onPress={debounce(this._setConfirmOnclick)}
-                >
-                  <Text style={bottomStyle.buttonText}>确定</Text>
-                </ImageBackground>
-                <ImageBackground
-                  style={bottomStyle.buttonNormalView}
-                  source={Images.bg_right}
-                  onPress={debounce(this._showShare)}
-                >
-                  <Text style={bottomStyle.buttonText}>分享</Text>
-                </ImageBackground>
-              </View>
-            ) : (
-              <View style={[bottomStyle.bottomView, commonStyle.row]}>
-                <ImageBackground
-                  style={bottomStyle.buttonOnlyOneChildView}
-                  source={Images.bg_right}
-                  onPress={debounce(this._setConfirmOnclick)}
-                >
-                  <Text style={bottomStyle.buttonText}>确定</Text>
-                </ImageBackground>
-              </View>
-            )
+              <BottomBtnGroup btns={[
+                { text: '分享', onPress: debounce(this._showShare) },
+                { text: '确定', onPress: debounce(this._setConfirmOnclick) },
+              ]}
+              />
+            ) : <BottomBtnGroup btns={[{ text: '确定', onPress: debounce(this._setConfirmOnclick) }]} />
         }
       </View>
     );

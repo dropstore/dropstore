@@ -153,6 +153,8 @@ const IMAGES = {
   price: require('./image/price.png'),
   choose: require('./image/choose.png'),
   unchoose: require('./image/unchoose.png'),
+  weitongguo: require('./image/weitongguo.png'),
+  jiandingzhong: require('./image/jiandingzhong.png'),
 
   // 测试图片
   test1: require('./image/test1.png'),

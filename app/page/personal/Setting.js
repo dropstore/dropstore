@@ -44,10 +44,6 @@ class Setting extends PureComponent {
         { title: '鞋码', name: 'size', value: userInfo.size },
       ],
     };
-    this.name = userInfo.user_name;
-    this.sex = userInfo.sex;
-    this.age = userInfo.age;
-    this.size = userInfo.size;
   }
 
   submit = () => {
@@ -70,6 +66,11 @@ class Setting extends PureComponent {
   }
 
   onPress = (item) => {
+    const { userInfo } = this.props;
+    this.name = userInfo.user_name;
+    this.sex = userInfo.sex;
+    this.age = userInfo.age;
+    this.size = userInfo.size;
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name !== 'sex') {

@@ -24,6 +24,8 @@ import BottomPay from './BottomPay';
 import ScrollBackgroundPlaceholder from './ScrollBackgroundPlaceholder';
 import AvatarWithShadow from './AvatarWithShadow';
 import NameAndGender from './NameAndGender';
+import BottomBtnGroup from './BottomBtnGroup';
+
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
@@ -32,4 +34,5 @@ export {
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
   Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
   ScrollBackgroundPlaceholder, AvatarWithShadow, NameAndGender,
+  BottomBtnGroup,
 };

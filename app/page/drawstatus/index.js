@@ -1,23 +1,19 @@
-/**
- * @file 抽签结果界面
- * @date 2019/8/31 11:26
- * @author ZWW
- */
-import React, {PureComponent} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {connect} from 'react-redux';
-import ImageBackground from '../../components/ImageBackground';
+import React, { PureComponent } from 'react';
+import {
+  ScrollView, StyleSheet, Text, View,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { BottomBtnGroup } from '../../components';
 import Image from '../../components/Image';
-import {commonStyle} from '../../res/style/CommonStyle';
-import {bottomStyle} from '../../res/style/BottomStyle';
+import { debounce } from '../../utils/commonUtils';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import {Mario, YaHei} from '../../res/FontFamily';
-import {showShare} from '../../utils/MutualUtil';
+import { Mario, YaHei } from '../../res/FontFamily';
+import { showShare } from '../../utils/MutualUtil';
 import ShopConstant from '../../common/ShopConstant';
-import {getShopDetailInfo} from '../../redux/reselect/shopDetailInfo';
-import {hPx2P, wPx2P} from "../../utils/ScreenUtil";
-import {STATUSBAR_HEIGHT} from "../../common/Constant";
+import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
+import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
 function mapStateToProps() {
   return state => ({
@@ -27,7 +23,7 @@ function mapStateToProps() {
 
 class DrawStatus extends PureComponent {
   _showShare = () => {
-    const {shopDetailInfo} = this.props;
+    const { shopDetailInfo } = this.props;
     const shopInfo = shopDetailInfo.data;
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -46,35 +42,24 @@ class DrawStatus extends PureComponent {
   };
 
   render() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     const shopDetailInfo = navigation.getParam('shopDetailInfo');
     const data = shopDetailInfo.data;
     return (
       <View style={_style.container}>
-        <ScrollView contentContainerStyle={{flex: 1}} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+        <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
           <View style={_style.mainView}>
-            <Image style={{width: wPx2P(250), height: wPx2P(100)}} source={Images.gx_zq}/>
-            <Image style={{width: wPx2P(200), height: wPx2P(200)}} source={Images.got_em}/>
-            <Image style={_style.goodImage} source={{uri: data.goods.image}}/>
+            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Images.gx_zq} />
+            <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
+            <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
             <Text style={_style.shopName}>{data.goods.goods_name}</Text>
           </View>
         </ScrollView>
-        <View style={[bottomStyle.bottomView, commonStyle.row]}>
-          <ImageBackground
-            style={bottomStyle.buttonNormalView}
-            source={Images.bg_left}
-            onPress={() => this._showShare()}
-          >
-            <Text style={bottomStyle.buttonText}>分享邀请</Text>
-          </ImageBackground>
-          <ImageBackground
-            style={bottomStyle.buttonNormalView}
-            source={Images.bg_right}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={bottomStyle.buttonText}>确认</Text>
-          </ImageBackground>
-        </View>
+        <BottomBtnGroup btns={[
+          { text: '分享邀请', onPress: debounce(this._showShare) },
+          { text: '确认', onPress: () => navigation.goBack() },
+        ]}
+        />
       </View>
     );
   }

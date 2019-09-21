@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   orderInfo: {
-    padding: 14,
+    padding: 12,
     backgroundColor: '#fff',
     marginTop: 9,
     borderRadius: 2,

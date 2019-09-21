@@ -2,18 +2,22 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
-import { FadeImage, Price, CountdownCom } from '../../components';
+import {
+  FadeImage, Price, CountdownCom, Image,
+} from '../../components';
 import Colors from '../../res/Colors';
+import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
 import TitleWithTag from '../../components/TitleWithTagTwo';
+import Images from '../../res/Images';
 
 export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
-    // 2期货 1现货（已鉴定或从平台购买的）2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
+    // 商品状态 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
     this.btns = [];
     if (type === 'onSale') {
       this.btns = [
@@ -21,20 +25,23 @@ export default class ListItem extends PureComponent {
         { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
       ];
     } else if (type === 'warehouse') {
-      if (item.is_stock === '2') {
+      if (item.goods_status === '1') {
+        this.btns = [];
+      } if (item.goods_status === '5') {
+        this.btns = [
+          { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
+          { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+        ];
+      } else if (item.goods_status === '4') {
         this.btns = [
           { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
-        ];
-      } else if (item.is_stock === '1') {
-        this.btns = [
-          // { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
           { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
         ];
-      } else if (item.type === 2) {
+      } else if (item.goods_status === '0') {
         this.btns = [
           { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
         ];
-      } else if ([3, 4].includes(item.type)) {
+      } else if (['2', '3'].includes(item.goods_status)) {
         this.btns = [
           { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
         ];
@@ -69,13 +76,26 @@ export default class ListItem extends PureComponent {
           },
         },
       });
-    } else if (type === 'pickUp') {
+    } else if (['pickUp', 'sendBack'].includes(type)) {
       const { navigation } = this.props;
       navigation.navigate('PickUp', {
         title: '支付运费',
         item,
       });
     } else if (type === 'pay') {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: '1',
+        payData: {
+          order_id: item.order_id,
+          price: item.order_price,
+        },
+        shopInfo: {
+          goods: item.goods,
+          order_id: item.order_id,
+        },
+      });
+    } else if (type === 'publish') {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',
@@ -117,6 +137,16 @@ export default class ListItem extends PureComponent {
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
           <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
+          {
+            item.goods_status === '2'
+              ? <Image source={Images.jiandingzhong} style={styles.tag} />
+              : item.goods_status === '3'
+                ? <Image source={Images.weitongguo} style={styles.tag} />
+                : item.goods_status === '1'
+                  ? <Text style={styles.zhaungtai}>运输中</Text>
+                  : item.goods_status === '5'
+                    ? <Text style={styles.zhaungtai}>销售中</Text> : null
+          }
           <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -168,6 +198,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     marginTop: 7,
     flexDirection: 'row',
+  },
+  zhaungtai: {
+    fontSize: 20,
+    fontFamily: YaHei,
+    position: 'absolute',
+    left: wPx2P(15),
+    color: Colors.OTHER_BACK,
+  },
+  tag: {
+    width: wPx2P(74),
+    height: wPx2P(74),
+    position: 'absolute',
+    left: wPx2P(15),
   },
   shoe: {
     width: wPx2P(113),

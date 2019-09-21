@@ -1,3 +1,4 @@
+/* @flow */
 import React, { PureComponent } from 'react';
 import {
   TouchableOpacity, Text, StyleSheet, View, Platform,
@@ -7,14 +8,25 @@ import { YaHei } from '../res/FontFamily';
 import { PADDING_TAB } from '../common/Constant';
 import { wPx2P } from '../utils/ScreenUtil';
 
-export default class BottomPay extends PureComponent {
+type Props = {
+  onPress: Function,
+  price: number,
+  disabled: Boolean,
+  text?: String
+};
+
+export default class BottomPay extends PureComponent<Props> {
+  static defaultProps = {
+    text: '确认支付',
+  }
+
   onPress = () => {
     const { onPress, price } = this.props;
     onPress(price);
   }
 
   render() {
-    const { price, disabled } = this.props;
+    const { price, disabled, text } = this.props;
     return (
       <View style={styles.bottom}>
         <View style={styles.priceWrapper}>
@@ -27,7 +39,7 @@ export default class BottomPay extends PureComponent {
           style={[styles.zhifu, { backgroundColor: disabled ? '#e2e2e2' : Colors.OTHER_BACK }]}
           onPress={this.onPress}
         >
-          <Text style={styles.queren}>确认支付</Text>
+          <Text style={styles.queren}>{text}</Text>
         </TouchableOpacity>
       </View>
     );
