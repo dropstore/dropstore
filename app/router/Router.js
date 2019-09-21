@@ -114,7 +114,7 @@ const routesWithHeader = {
   FreeTradePublish,
   ChooseSize,
   FreeTradeBuy,
-  PublishComission
+  PublishComission,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
