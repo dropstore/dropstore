@@ -121,7 +121,8 @@ export default class ListItem extends PureComponent {
         resolve();
       });
     } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.order_id } }).then(() => {
+      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
+        console.log(res);
         refresh();
         resolve();
       });

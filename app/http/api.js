@@ -59,4 +59,11 @@ export default {
       image_size_times: 0.5,
     },
   },
+  // 用户消息列表
+  noticeMessage: {
+    url: '/message/message_list',
+    initParams: {
+      limit: 10,
+    },
+  },
 };
