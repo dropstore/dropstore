@@ -28,10 +28,11 @@ class MyGoods extends PureComponent {
   }
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props;
     if (route.key === 'freeTradeGoodsDetail') {
-      return <ListItemDetail id={this.goods.id} />;
+      return <ListItemDetail navigation={navigation} id={this.goods.id} />;
     }
-    return <List type={route.key} goods={this.goods} />;
+    return <List navigation={navigation} type={route.key} goods={this.goods} />;
   }
 
   render() {

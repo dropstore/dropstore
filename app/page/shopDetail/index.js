@@ -7,7 +7,6 @@ import React, { PureComponent } from 'react';
 import {
   DeviceEventEmitter, RefreshControl, StyleSheet, View, FlatList,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getShopDetail } from '../../redux/actions/shopDetailInfo';
@@ -62,9 +61,10 @@ class ShopDetail extends PureComponent {
   }
 
   setContentOrBottomUI = (shopInfo) => {
+    const { navigation } = this.props;
     const type = shopInfo.activity.type;
     if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
-      return <SelfBottomCom />;
+      return <SelfBottomCom navigation={navigation} />;
     }
     return null;
   };
@@ -151,4 +151,4 @@ const _styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(ShopDetail);

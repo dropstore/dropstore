@@ -6,7 +6,6 @@
  */
 import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Image from '../../../../../components/Image';
@@ -21,6 +20,7 @@ import { getShoesList, getShopDetail } from '../../../../../redux/actions/shopDe
 import { checkTime } from '../../../../../utils/TimeUtils';
 import { shopDetail1 } from '../../../../TempData';
 import { debounce } from '../../../../../utils/commonUtils';
+import { wPx2P } from '../../../../../utils/ScreenUtil';
 import {
   showShare, showToast, closeModalbox, showModalbox,
 } from '../../../../../utils/MutualUtil';
@@ -122,38 +122,29 @@ class SelfBottomCom extends PureComponent {
       }
       return (
         <View style={bottomStyle.bottomView}>
-          <ImageBackground
-            style={bottomStyle.buttonOnlyOneChildView}
-            source={Images.bg_right}
-            onPress={() => showToast('活动未开始')}
-          >
+          <View />
+          <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={() => showToast('活动未开始')}>
             <Text style={bottomStyle.buttonText}>助攻抢购</Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
       );
     }
     if (joinUser.length !== 0) {
       return (
         <View style={bottomStyle.bottomView}>
-          <ImageBackground
-            style={bottomStyle.buttonNormalView}
-            source={Images.bg_left}
-            onPress={debounce(this._showShare)}
-          >
+          <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={debounce(this._showShare)}>
             <Text style={bottomStyle.buttonText}>分享</Text>
-          </ImageBackground>
-          {
-            this._setRightDOM(shopInfo)
-          }
+          </TouchableOpacity>
+          { this._setRightDOM(shopInfo) }
         </View>
       );
     }
     return (
       <View style={bottomStyle.bottomView}>
-        <TouchableOpacity onPress={() => showToast('已添加到通知')}>
-          <Image style={bottomStyle.buttonNormalView} source={Images.tzw} />
+        <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={() => showToast('已添加到通知')}>
+          <Text style={bottomStyle.buttonText}>通知我</Text>
         </TouchableOpacity>
-        {this._setRightDOM(shopInfo)}
+        { this._setRightDOM(shopInfo) }
       </View>
     );
   };
@@ -164,37 +155,15 @@ class SelfBottomCom extends PureComponent {
     const isPay = shopInfo.user_activity.pay_status;
     const number = shopInfo.user_activity.number;
     // 未参加活动
-    if (is_join === ShopConstant.NOT_JOIN) {
-      return (
-        <ImageBackground
-          style={bottomStyle.buttonNormalView}
-          source={Images.bg_right}
-          onPress={debounce(this._showOver)}
-        >
-          <Text style={bottomStyle.buttonText}>选择尺码</Text>
-        </ImageBackground>
-      );
-    }
-    if (isPay == 0 && number !== 1) {
-      return (
-        <ImageBackground
-          style={bottomStyle.buttonNormalView}
-          source={Images.bg_right}
-          onPress={debounce(this._toCommissionPage)}
-        >
-          <Text style={bottomStyle.buttonText}>支付佣金</Text>
-        </ImageBackground>
-      );
-    }
-    const commission = shopInfo.user_activity.commission;
+    const text = is_join === ShopConstant.NOT_JOIN ? '选择尺码'
+      : isPay == 0 && number !== 1 ? '支付佣金'
+        : shopInfo.user_activity.commission != 0 ? '扩充团队'
+          : '邀请助攻';
+    const action = text === '支付佣金' ? this._toCommissionPage : this._showOver;
     return (
-      <ImageBackground
-        style={bottomStyle.buttonNormalView}
-        source={Images.bg_right}
-        onPress={debounce(this._showOver)}
-      >
-        <Text style={bottomStyle.buttonText}>{commission != 0 ? '扩充团队' : '邀请助攻'}</Text>
-      </ImageBackground>
+      <TouchableOpacity style={bottomStyle.buttonNormalView} onPress={debounce(action)}>
+        <Text style={bottomStyle.buttonText}>{text}</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -228,4 +197,4 @@ class SelfBottomCom extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(SelfBottomCom));
+export default connect(mapStateToProps, mapDispatchToProps)(SelfBottomCom);

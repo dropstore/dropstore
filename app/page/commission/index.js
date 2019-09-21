@@ -7,14 +7,12 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { ImageBackground, KeyboardDismiss } from '../../components';
+import { ImageBackground, KeyboardDismiss, BottomPay } from '../../components';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Normal, YaHei } from '../../res/FontFamily';
-import { debounce } from '../../utils/commonUtils';
 import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
 import { setCommission, getPayMes } from '../../redux/actions/shopDetailInfo';
 import { bottomStyle } from '../../res/style/BottomStyle';
@@ -81,7 +79,7 @@ class Commission extends PureComponent {
   };
 
   render() {
-    const { commission } = this.state;
+    const { commission, totalPrice } = this.state;
     return (
       <KeyboardDismiss style={_styles.container}>
         <View style={_styles.mainView}>
@@ -105,7 +103,7 @@ class Commission extends PureComponent {
               style={_styles.pricePh}
               clearButtonMode="while-editing"
               returnKeyType="next"
-              onSubmitEditing={debounce(this._toPay)}
+              onSubmitEditing={this._toPay}
               ref={(v) => {
                 this.valueInput = v;
               }}
@@ -114,22 +112,7 @@ class Commission extends PureComponent {
           </ImageBackground>
           <Text style={_styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
         </View>
-        <View style={_styles.bottomView}>
-          <View style={_styles.bottomLeftView}>
-            <Text style={_styles.payTitle}>合计金额:</Text>
-            <Text style={_styles.price}>
-              {this.state.totalPrice}
-￥
-            </Text>
-          </View>
-          <ImageBackground
-            style={_styles.buttonOnlyOneChildView}
-            source={Images.bg_right}
-            onPress={debounce(this._toPay)}
-          >
-            <Text style={bottomStyle.buttonText}>确认</Text>
-          </ImageBackground>
-        </View>
+        <BottomPay disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
       </KeyboardDismiss>
     );
   }
@@ -222,4 +205,4 @@ const _styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(withNavigation(Commission));
+export default connect(mapStateToProps)(Commission);

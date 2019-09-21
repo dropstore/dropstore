@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  TouchableOpacity, Text, StyleSheet, View,
+  TouchableOpacity, Text, StyleSheet, View, Platform,
 } from 'react-native';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
@@ -54,6 +54,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 8,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgb(188, 188, 188)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 50,
+        position: 'relative',
+      },
+    }),
   },
   priceWrapper: {
     flex: 1,

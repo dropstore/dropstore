@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FadeImage } from '../../../components';
@@ -32,16 +31,6 @@ class TopCom extends PureComponent {
     const { fetchBanner, bannerId } = this.props;
     fetchBanner(bannerId);
   }
-
-  toShopDetailPage = (item) => {
-    const { navigation } = this.props;
-    navigation.navigate('shopDetail', {
-      title: '商品详情',
-      rate: '+25',
-      shopId: item.id,
-      type: item.type,
-    });
-  };
 
   renderItem = ({ item }) => <FadeImage style={_styles.topImage} source={{ uri: item.image }} />
 
@@ -80,4 +69,4 @@ const _styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(TopCom));
+export default connect(mapStateToProps, mapDispatchToProps)(TopCom);

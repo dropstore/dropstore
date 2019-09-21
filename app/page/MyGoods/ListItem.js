@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { FadeImage, Price, CountdownCom } from '../../components';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -10,7 +9,7 @@ import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
 import TitleWithTag from '../../components/TitleWithTagTwo';
 
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
@@ -223,5 +222,3 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 });
-
-export default withNavigation(ListItem);

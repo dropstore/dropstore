@@ -38,8 +38,8 @@ class List extends PureComponent {
   }
 
   renderItem = ({ item }) => {
-    const { type } = this.props;
-    return <ListItem type={type} item={item} />;
+    const { type, navigation } = this.props;
+    return <ListItem type={type} navigation={navigation} item={item} />;
   }
 
   render() {

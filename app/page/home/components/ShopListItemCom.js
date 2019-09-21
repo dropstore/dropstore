@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import {
   ScaleView, FadeImage, Price, CountdownCom,
 } from '../../../components';
@@ -13,7 +12,7 @@ import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 
-class ShopListItemCom extends PureComponent {
+export default class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
@@ -127,5 +126,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default withNavigation(ShopListItemCom);

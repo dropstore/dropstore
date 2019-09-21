@@ -37,7 +37,10 @@ class Activity extends Component {
     this.fetchData(true);
   }
 
-  renderItem = ({ item }) => <ListItem item={item} />
+  renderItem = ({ item }) => {
+    const { navigation } = this.props;
+    return <ListItem navigation={navigation} item={item} />;
+  }
 
   render() {
     const { listData } = this.props;
