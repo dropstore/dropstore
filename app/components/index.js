@@ -21,6 +21,9 @@ import Keyboard from './Global/Keyboard';
 import TitleWithTagTwo from './TitleWithTagTwo';
 import FreeTradeList from './FreeTradeList';
 import BottomPay from './BottomPay';
+import ScrollBackgroundPlaceholder from './ScrollBackgroundPlaceholder';
+import AvatarWithShadow from './AvatarWithShadow';
+import NameAndGender from './NameAndGender';
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
@@ -28,4 +31,5 @@ export {
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
   Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
+  ScrollBackgroundPlaceholder, AvatarWithShadow, NameAndGender,
 };

@@ -117,6 +117,7 @@ const _styles = StyleSheet.create({
     paddingTop: 19,
     paddingBottom: 10,
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   imageShoe: {
     width: wPx2P(251),

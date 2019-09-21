@@ -97,14 +97,16 @@ export default class DrawMainCom extends PureComponent {
 const _styles = {
   container: {
     marginBottom: 13,
+    flex: 1,
+    backgroundColor: Colors.MAIN_BACK,
   },
   acContainer: {
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.NORMAL_TEXT_F6,
     paddingVertical: 5,
-    paddingRight: 80,
+    paddingRight: 17,
+    justifyContent: 'space-between',
   },
   acNormalMes: {
     fontSize: 11,
@@ -123,6 +125,7 @@ const _styles = {
     marginHorizontal: 10,
     marginTop: 7,
     width: SCREEN_WIDTH - 20,
+
   },
   itemContainer: {
     flexDirection: 'row',

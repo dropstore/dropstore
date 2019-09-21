@@ -4,49 +4,37 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { SCREEN_WIDTH } from '../../../../../../common/Constant';
-import Image from '../../../../../../components/Image';
 import Colors from '../../../../../../res/Colors';
 import { Mario, YaHei } from '../../../../../../res/FontFamily';
 import { commonStyle } from '../../../../../../res/style/CommonStyle';
+import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
 
 export default class DrawMainCom extends PureComponent {
   _renderLeading = (item, index, userActivity, joinUserLength) => (
-    <View key={`leading-${index}`} style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, { backgroundColor: Colors.OTHER_BACK }]}>
-        <Text style={[_styles.index, { color: Colors.WHITE_COLOR }]}>{index + 1}</Text>
-        <Image style={_styles.userImage} source={{ uri: item.avatar }} />
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text>
-            <Text style={[_styles.code, { color: Colors.WHITE_COLOR }]}>{item.code}</Text>
-          </View>
-          <View style={[commonStyle.row, { marginTop: 7 }]}>
-            <Text style={[_styles.userName, { color: Colors.WHITE_COLOR }]}>{item.user_name}</Text>
-          </View>
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
-          <Text style={[_styles.zg, { marginBottom: 5 }]}>{`我的团队：${joinUserLength}人`}</Text>
-          <Text style={[_styles.zg, { marginTop: 5 }]}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
-        </View>
+    <View key={`leading-${index}`} style={styles.listContainer}>
+      <AvatarWithShadow source={{ uri: item.avatar }} size={55} />
+      <View style={{ flex: 1, marginLeft: 12 }}>
+        <NameAndGender name={item.user_name} sex={item.sex} />
+        { !!item.code && <Text style={[styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text> }
+      </View>
+      <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
+        <Text style={[styles.zg, { marginBottom: 5 }]}>{`我的团队：${joinUserLength}人`}</Text>
+        <Text style={[styles.zg, { marginTop: 5 }]}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
       </View>
     </View>
   );
 
   _renderMember = (item, index) => (
-    <View key={`member-${index}`} style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, { backgroundColor: Colors.NORMAL_TEXT_F6 }]}>
-        <Text style={[_styles.index, { color: Colors.NORMAL_TEXT_1E }]}>{index + 1}</Text>
-        <Image style={_styles.userImage} source={{ uri: item.avatar }} />
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
-            <Text style={[_styles.code, { color: Colors.NORMAL_TEXT_1E }]}>{item.code}</Text>
-          </View>
-          <View style={[commonStyle.row, { marginTop: 7 }]}>
-            <Text style={[_styles.userName, { color: Colors.NORMAL_TEXT_1E }]}>{item.user_name}</Text>
-          </View>
+    <View key={`member-${index}`} style={styles.listContainer}>
+      <View style={{ flex: 1, marginLeft: 12 }}>
+        <View style={commonStyle.row}>
+          <Text style={[styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
+          <Text style={[styles.code, { color: Colors.NORMAL_TEXT_1E }]}>{item.code}</Text>
+        </View>
+        <View style={[commonStyle.row, { marginTop: 7 }]}>
+          <Text style={[styles.userName, { color: Colors.NORMAL_TEXT_1E }]}>{item.user_name}</Text>
         </View>
       </View>
     </View>
@@ -55,29 +43,31 @@ export default class DrawMainCom extends PureComponent {
   render() {
     const { shopInfo } = this.props;
     const joinUser = shopInfo.join_user;
+    console.log(joinUser);
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
     return (
-      <View style={_styles.container}>
-        <View style={_styles.acContainer}>
-          <Text style={_styles.acNormalMes}>
+      <View style={styles.container}>
+        <View style={styles.fengexian} />
+        <View style={styles.acContainer}>
+          <Text style={styles.acNormalMes}>
             {'预期购买'}
-            <Text style={_styles.acImpMes}>{number}</Text>
+            <Text style={styles.acImpMes}>{number}</Text>
             {'双'}
           </Text>
-          <Text style={_styles.acNormalMes}>
+          <Text style={styles.acNormalMes}>
             {'团队上限'}
-            <Text style={_styles.acImpMes}>{number}</Text>
+            <Text style={styles.acImpMes}>{number}</Text>
             {'人'}
           </Text>
-          <Text style={_styles.acNormalMes}>
+          <Text style={styles.acNormalMes}>
             {'参与人数'}
-            <Text style={_styles.acImpMes}>{joinUser.length}</Text>
+            <Text style={styles.acImpMes}>{joinUser.length}</Text>
             {'人'}
           </Text>
-          <Text style={_styles.acNormalMes}>
+          <Text style={styles.acNormalMes}>
             {'还差'}
-            <Text style={_styles.acImpMes}>{number - joinUser.length}</Text>
+            <Text style={styles.acImpMes}>{number - joinUser.length}</Text>
             {'人满额'}
           </Text>
         </View>
@@ -90,22 +80,30 @@ export default class DrawMainCom extends PureComponent {
     );
   }
 }
-const _styles = {
+const styles = StyleSheet.create({
   container: {
-    marginTop: 13,
-    marginBottom: 13,
+    backgroundColor: Colors.MAIN_BACK,
+    flex: 1,
+  },
+  fengexian: {
+    backgroundColor: '#ddd',
+    width: SCREEN_WIDTH - 34,
+    height: StyleSheet.hairlineWidth,
+    marginHorizontal: 17,
   },
   acContainer: {
     width: SCREEN_WIDTH,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.NORMAL_TEXT_F6,
     paddingVertical: 5,
-    paddingRight: 80,
+    paddingRight: 17,
+    height: 30,
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
   },
   acNormalMes: {
     fontSize: 11,
-    color: Colors.NORMAL_TEXT_5E,
+    color: '#333',
     fontFamily: YaHei,
     fontWeight: '400',
     marginLeft: 17,
@@ -119,7 +117,13 @@ const _styles = {
   listContainer: {
     marginHorizontal: 10,
     marginTop: 7,
-    width: SCREEN_WIDTH - 20,
+    height: 68,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    paddingHorizontal: 7,
+    paddingVertical: 6,
   },
   itemContainer: {
     flexDirection: 'row',
@@ -170,4 +174,4 @@ const _styles = {
     height: 11,
     marginLeft: 5,
   },
-};
+});

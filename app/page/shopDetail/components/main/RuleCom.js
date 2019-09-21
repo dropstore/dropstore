@@ -121,13 +121,14 @@ export default class RuleCom extends PureComponent {
 
 const styles = StyleSheet.create({
   mainView: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 17,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 10,
     borderTopColor: Colors.MAIN_BACK,
-    borderTopWidth: 18,
+    borderTopWidth: 8,
+    backgroundColor: '#fff',
   },
   numberWrapper: {
     height: 21,
