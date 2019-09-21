@@ -17,6 +17,7 @@ class ChooseSize extends PureComponent {
   }
   changeChooseStatus = (item)=>{
      let {shoesList,chooseId } =this.state;
+     const { navigation } =this.props;
     for (let i = 0; i < shoesList.length; i++) {
       const _shoeData = shoesList[i];
       if (_shoeData.id === item.id) {
@@ -27,6 +28,9 @@ class ChooseSize extends PureComponent {
       }
     }
     this.setState({ shoesList, chooseId });
+    navigation.navigate('PublishComission', {
+      title: '手续费',
+    });
   }
   componentDidMount() {
     const sises =[{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},{size:10,id:Math.random(10)},]
