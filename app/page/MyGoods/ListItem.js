@@ -151,10 +151,14 @@ export default class ListItem extends PureComponent {
     const { item, type } = this.props;
     const { text } = this.state;
     const subTitle = type === 'uncomplete' ? '' : '已入库';
+    const image = (item.goods || item).image;
+    const goods_name = (item.goods || item).goods_name;
+    console.log(item);
+    const showNumber = !!item.order_id;
     return (
       <View style={styles.container}>
-        <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
+        <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
+          <FadeImage source={{ uri: image }} style={styles.shoe} />
           {
             item.goods_status === '2'
               ? <Image source={Images.jiandingzhong} style={styles.tag} />
@@ -165,13 +169,13 @@ export default class ListItem extends PureComponent {
                   : item.goods_status === '5'
                     ? <Text style={styles.zhaungtai}>销售中</Text> : null
           }
-          <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
+          { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
+            <TitleWithTag text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {type === 'warehouse' ? <View /> : <Price price={item.order_price} />}
+              {type === 'warehouse' ? <View /> : <Price price={item.order_price || item.price} />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>

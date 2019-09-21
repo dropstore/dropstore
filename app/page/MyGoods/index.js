@@ -16,10 +16,10 @@ class MyGoods extends PureComponent {
     this.routeType = navigation.getParam('title') === '我的商品' ? 'Goods' : 'Warehouse';
     const routes = this.routeType === 'Goods' ? [
       {
-        key: 'onSale', title: '销售中', apiType: 'goods', params: { stauts: 0 },
+        key: 'onSale', title: '销售中', apiType: 'goods', params: { status: 0 },
       },
       {
-        key: 'selled', title: '已卖出', apiType: 'goods', params: { stauts: 1 },
+        key: 'selled', title: '已卖出', apiType: 'goods', params: { status: 1 },
       },
     ] : [
       {

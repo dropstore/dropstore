@@ -87,7 +87,7 @@ export default class Modal extends PureComponent {
               <View style={{ flexDirection: 'row', marginHorizontal: 32 }}>
                 <Text style={{ fontSize: 14, fontFamily: YaHei }}>当前价格：</Text>
                 <View style={styles.priceOld}>
-                  <Text style={styles.oldText}>{item.order_price}</Text>
+                  <Text style={styles.oldText}>{(item.order_price || item.price) / 100}</Text>
                 </View>
                 <Text style={styles.yuan}>元</Text>
               </View>
