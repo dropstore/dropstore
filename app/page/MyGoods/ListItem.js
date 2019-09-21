@@ -59,7 +59,6 @@ export default class ListItem extends PureComponent {
 
   onPress = (type) => {
     const { navigation, item } = this.props;
-    console.log(item);
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
@@ -98,19 +97,24 @@ export default class ListItem extends PureComponent {
         },
       });
     } else if (type === 'publish') {
-      navigation.navigate('pay', {
-        title: '选择支付账户',
-        type: '1',
-        payData: {
-          order_id: item.order_id,
-          price: item.order_price,
-        },
-        shopInfo: {
-          goods: item.goods,
-          order_id: item.order_id,
-        },
-      });
+      this.toPublish();
     }
+  }
+
+  toPublish = () => {
+    const { navigation, item } = this.props;
+    navigation.navigate('pay', {
+      title: '选择支付账户',
+      type: '1',
+      payData: {
+        order_id: item.order_id,
+        price: item.order_price,
+      },
+      shopInfo: {
+        goods: item.goods,
+        order_id: item.order_id,
+      },
+    });
   }
 
   successCallback = (value, type) => new Promise((resolve) => {
@@ -121,13 +125,12 @@ export default class ListItem extends PureComponent {
         resolve();
       });
     } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
-        console.log(res);
-        refresh();
+      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+        this.toPublish();
         resolve();
       });
     } else if (type === 'cancel') {
-      request('/free/edit_price', { params: { price: value, id: item.order_id } }).then(() => {
+      request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
         refresh();
         resolve();
       });
@@ -148,10 +151,14 @@ export default class ListItem extends PureComponent {
     const { item, type } = this.props;
     const { text } = this.state;
     const subTitle = type === 'uncomplete' ? '' : '已入库';
+    const image = (item.goods || item).image;
+    const goods_name = (item.goods || item).goods_name;
+    console.log(item);
+    const showNumber = !!item.order_id;
     return (
       <View style={styles.container}>
-        <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
+        <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
+          <FadeImage source={{ uri: image }} style={styles.shoe} />
           {
             item.goods_status === '2'
               ? <Image source={Images.jiandingzhong} style={styles.tag} />
@@ -162,13 +169,13 @@ export default class ListItem extends PureComponent {
                   : item.goods_status === '5'
                     ? <Text style={styles.zhaungtai}>销售中</Text> : null
           }
-          <Text style={styles.id}>{`编号: ${item.order_id}`}</Text>
+          { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
+            <TitleWithTag text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {type === 'warehouse' ? <View /> : <Price price={item.order_price} />}
+              {type === 'warehouse' ? <View /> : <Price price={item.order_price || item.price} />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>

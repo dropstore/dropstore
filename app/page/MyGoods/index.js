@@ -15,17 +15,21 @@ class MyGoods extends PureComponent {
     const { navigation } = this.props;
     this.routeType = navigation.getParam('title') === '我的商品' ? 'Goods' : 'Warehouse';
     const routes = this.routeType === 'Goods' ? [
-      { key: 'onSale', title: '销售中' },
-      { key: 'selled', title: '已卖出' },
+      {
+        key: 'onSale', title: '销售中', apiType: 'goods', params: { status: 0 },
+      },
+      {
+        key: 'selled', title: '已卖出', apiType: 'goods', params: { status: 1 },
+      },
     ] : [
       {
-        key: 'warehouse', title: '库房', api: '/order/order_goods_list', params: { goods_status: 1 },
+        key: 'warehouse', title: '库房', apiType: 'warehouse', params: { goods_status: 1 },
       },
       {
-        key: 'uncomplete', title: '未完成', api: '/order/order_list', params: { status: 0 },
+        key: 'uncomplete', title: '未完成', apiType: 'uncomplete', params: { status: 0 },
       },
       {
-        key: 'sendOut', title: '已出库', api: '/order/order_goods_list', params: { goods_status: 2 },
+        key: 'sendOut', title: '已出库', apiType: 'warehouse', params: { goods_status: 2 },
       },
     ];
     this.state = {
@@ -56,7 +60,7 @@ class MyGoods extends PureComponent {
 
   renderScene = ({ route }) => {
     const { navigation } = this.props;
-    return <List navigation={navigation} api={route.api} params={route.params} route={this.routeType} type={route.key} />;
+    return <List navigation={navigation} apiType={route.apiType} params={route.params} route={this.routeType} type={route.key} />;
   }
 
   render() {

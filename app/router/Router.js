@@ -116,7 +116,7 @@ const routesWithHeader = {
   ChooseSize,
   FreeTradeBuy,
   PublishComission,
-  MailOut
+  MailOut,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
@@ -130,7 +130,7 @@ for (const i in routesWithoutHeader) {
   routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
-  initialRouteName: 'MailOut', defaultNavigationOptions, ...transition,
+  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
 });
 
 const Router = createAppContainer(createSwitchNavigator({
