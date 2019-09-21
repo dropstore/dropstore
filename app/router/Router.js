@@ -130,7 +130,7 @@ for (const i in routesWithoutHeader) {
   routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
-  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
+  initialRouteName: 'MailOut', defaultNavigationOptions, ...transition,
 });
 
 const Router = createAppContainer(createSwitchNavigator({
