@@ -66,4 +66,28 @@ export default {
       limit: 10,
     },
   },
+  // 我的库房列表
+  warehouse: {
+    url: '/order/order_goods_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+    },
+  },
+  // 未完成列表
+  uncomplete: {
+    url: '/order/order_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+    },
+  },
+  // 我的商品列表
+  goods: {
+    url: '/free/goods_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+    },
+  },
 };
