@@ -1,49 +1,34 @@
-/**
- * @file 抽签成员详情组件
- * @date 2019/8/22 17:29
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { SCREEN_WIDTH } from '../../../../../../common/Constant';
 import Colors from '../../../../../../res/Colors';
-import { Mario, YaHei } from '../../../../../../res/FontFamily';
-import { commonStyle } from '../../../../../../res/style/CommonStyle';
+import { YaHei } from '../../../../../../res/FontFamily';
 import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
 
 export default class DrawMainCom extends PureComponent {
-  _renderLeading = (item, index, userActivity, joinUserLength) => (
+  renderItem = (item, index, userActivity, joinUserLength, isLeader) => (
     <View key={`leading-${index}`} style={styles.listContainer}>
       <AvatarWithShadow source={{ uri: item.avatar }} size={55} />
-      <View style={{ flex: 1, marginLeft: 12 }}>
+      <View style={{ flex: 1, marginLeft: 12, paddingTop: 4 }}>
         <NameAndGender name={item.user_name} sex={item.sex} />
-        { !!item.code && <Text style={[styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text> }
+        <Text style={{ color: '#111', fontSize: 11, marginTop: 2 }}>已取号</Text>
       </View>
-      <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
-        <Text style={[styles.zg, { marginBottom: 5 }]}>{`我的团队：${joinUserLength}人`}</Text>
-        <Text style={[styles.zg, { marginTop: 5 }]}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
-      </View>
-    </View>
-  );
-
-  _renderMember = (item, index) => (
-    <View key={`member-${index}`} style={styles.listContainer}>
-      <View style={{ flex: 1, marginLeft: 12 }}>
-        <View style={commonStyle.row}>
-          <Text style={[styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
-          <Text style={[styles.code, { color: Colors.NORMAL_TEXT_1E }]}>{item.code}</Text>
-        </View>
-        <View style={[commonStyle.row, { marginTop: 7 }]}>
-          <Text style={[styles.userName, { color: Colors.NORMAL_TEXT_1E }]}>{item.user_name}</Text>
-        </View>
-      </View>
+      {
+        isLeader && (
+          <View style={{ flex: 1, alignItems: 'flex-end', paddingTop: 5 }}>
+            <View>
+              <Text style={{ color: '#696969', fontSize: 11 }}>{`我的团队：${joinUserLength}人`}</Text>
+              <Text style={{ color: '#696969', fontSize: 11 }}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
+            </View>
+          </View>
+        )
+      }
     </View>
   );
 
   render() {
     const { shopInfo } = this.props;
     const joinUser = shopInfo.join_user;
-    console.log(joinUser);
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
     return (
@@ -71,11 +56,7 @@ export default class DrawMainCom extends PureComponent {
             {'人满额'}
           </Text>
         </View>
-        {
-          joinUser && joinUser.map((item, index) => (
-            index === 0 ? this._renderLeading(item, index, userActivity, joinUser.length) : this._renderMember(item, index)
-          ))
-        }
+        { joinUser && joinUser.map((item, index) => this.renderItem(item, index, userActivity, joinUser.length, index === 0)) }
       </View>
     );
   }
@@ -83,7 +64,7 @@ export default class DrawMainCom extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.MAIN_BACK,
-    flex: 1,
+    height: '100%',
   },
   fengexian: {
     backgroundColor: '#ddd',
@@ -124,54 +105,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 7,
     paddingVertical: 6,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 67,
-  },
-  index: {
-    fontSize: 12,
-    fontFamily: Mario,
-    marginLeft: 8,
-  },
-  userImageBg: {
-    width: 54,
-    height: 53,
-    marginLeft: 7,
-  },
-  userImage: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    overflow: 'hidden',
-    marginLeft: 5,
-  },
-  qhStatus: {
-    fontSize: 10,
-    fontFamily: YaHei,
-    fontWeight: '400',
-  },
-  code: {
-    fontSize: 11,
-    marginLeft: 12,
-  },
-  zg: {
-    fontSize: 12,
-    fontFamily: YaHei,
-    fontWeight: '400',
-    color: Colors.WHITE_COLOR,
-  },
-  jt: {
-    width: 8,
-    height: 9,
-  },
-  userName: {
-    fontSize: 11,
-  },
-  sexImage: {
-    width: 12,
-    height: 11,
-    marginLeft: 5,
   },
 });

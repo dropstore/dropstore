@@ -145,6 +145,7 @@ const _styles = StyleSheet.create({
     fontFamily: Mario,
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
+    width: 80,
   },
   price: {
     fontSize: 23,

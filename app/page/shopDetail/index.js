@@ -19,7 +19,6 @@ import ShopConstant from '../../common/ShopConstant';
 import { AgainLoadCom, ScrollBackgroundPlaceholder } from '../../components';
 import NoDataCom from '../../components/NoDataCom';
 import RuleCom from './components/main/RuleCom';
-import BuyMainCom from './components/main/self/components/BuyMainCom';
 import DrawMainCom from './components/main/self/components/DrawMainCom';
 import DetailImage from './components/DetailImage';
 
@@ -91,8 +90,6 @@ class ShopDetail extends PureComponent {
       return <RuleCom shopInfo={data} />;
     } if (item === 'DrawMainCom') {
       return <DrawMainCom shopInfo={data} />;
-    } if (item === 'BuyMainCom') {
-      return <BuyMainCom shopInfo={data} />;
     }
     return <DetailImage item={item} />;
   }
@@ -114,10 +111,8 @@ class ShopDetail extends PureComponent {
           ...goods_image,
           { height: 437, source: require('../../res/image/rule.jpg') },
         ];
-      } else if (b_type === ShopConstant.DRAW) {
-        list = [...list, 'DrawMainCom'];
       } else {
-        list = [...list, 'BuyMainCom'];
+        list = [...list, 'DrawMainCom'];
       }
       return (
         <View style={{ flex: 1 }}>
@@ -125,7 +120,7 @@ class ShopDetail extends PureComponent {
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<ShopBasicInfoCom shopDetailInfo={shopDetailInfo} />}
             data={list}
-            style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
+            style={{ flex: 1, backgroundColor: '#fff' }}
             onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollY } } }], { useNativeDriver: true })}
             renderItem={this.renderItem}
             scrollEventThrottle={1}
@@ -141,8 +136,8 @@ class ShopDetail extends PureComponent {
               />
             )}
           />
+          <ScrollBackgroundPlaceholder y={this.scrollY} backgroundColor={Colors.MAIN_BACK} />
           { this.setContentOrBottomUI(data) }
-          <ScrollBackgroundPlaceholder y={this.scrollY} />
         </View>
       );
     } if (!shopDetailInfo.error) {

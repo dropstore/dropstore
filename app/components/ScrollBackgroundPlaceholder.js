@@ -12,7 +12,7 @@ export default class ScrollBackgroundPlaceholder extends PureComponent<Props> {
   render() {
     const { backgroundColor, y } = this.props;
     const translateY = y.interpolate({
-      inputRange: [-SCREEN_HEIGHT, 0],
+      inputRange: [0, SCREEN_HEIGHT],
       outputRange: [0, -SCREEN_HEIGHT],
       extrapolate: 'clamp',
     });
@@ -20,7 +20,6 @@ export default class ScrollBackgroundPlaceholder extends PureComponent<Props> {
       <Animated.View style={[styles.style, {
         transform: [{ translateY }],
         backgroundColor: backgroundColor || '#fff',
-        top: 0,
       }]}
       />
     );
@@ -32,5 +31,6 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
     position: 'absolute',
+    bottom: -SCREEN_HEIGHT,
   },
 });

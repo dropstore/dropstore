@@ -78,7 +78,7 @@ export default class CountdownCom extends PureComponent<Props> {
 
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ ...style, width: null }}>{`${prefix}`}</Text>
+        {prefix && <Text style={{ ...style, width: null }}>{`${prefix}`}</Text>}
         <Text style={{
           color: noTimer ? '#666' : '#000',
           width: noTimer ? 'auto' : 70,
