@@ -1,20 +1,14 @@
-/**
- * @file 选择鞋码组件
- * @date 2019/8/19 9:26
- * @author ZWW
- */
 import React, { Component } from 'react';
 import {
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
 import Image from '../../../../components/Image';
 import { hitSlop } from '../../../../common/Constant';
-import ImageBackground from '../../../../components/ImageBackground';
+import { BottomBtnGroup } from '../../../../components';
 import { commonStyle } from '../../../../res/style/CommonStyle';
 import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
-import { bottomStyle } from '../../../../res/style/BottomStyle';
 import { debounce } from '../../../../utils/commonUtils';
 import { startGroup } from '../../../../redux/actions/shopDetailInfo';
 import { showToast } from '../../../../utils/MutualUtil';
@@ -125,17 +119,12 @@ export default class SelectShoeSizeCom extends Component {
             </ScrollView>
           </View>
         </View>
-        <View style={bottomStyle.bottomView}>
-          <ImageBackground
-            hitSlop={hitSlop}
-            style={bottomStyle.buttonOnlyOneChildView}
-            source={Images.bg_right}
-            disabled={this.state.totalCount === 0}
-            onPress={debounce(this._confirmChoose)}
-          >
-            <Text style={bottomStyle.buttonText}>确认</Text>
-          </ImageBackground>
-        </View>
+        <BottomBtnGroup btns={[{
+          text: '确认',
+          onPress: debounce(this._confirmChoose),
+          disabled: this.state.totalCount === 0,
+        }]}
+        />
       </View>
     );
   }

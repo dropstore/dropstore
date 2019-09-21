@@ -6,11 +6,12 @@ import {
 } from 'react-native';
 import { PADDING_TAB, SCREEN_WIDTH } from '../common/Constant';
 import { wPx2P } from '../utils/ScreenUtil';
+import Colors from '../res/Colors';
 
 type Props = {
   btns: Array<{
     onPress: Function,
-    backgroundColor: String,
+    backgroundColor?: String,
     disabled: Boolean,
     text: String
   }>,
@@ -26,7 +27,7 @@ export default class AvatarWithShadow extends PureComponent<Props> {
             <TouchableOpacity
               key={v.text + i}
               disabled={v.disabled}
-              style={[styles.item, { backgroundColor: v.backgroundColor }]}
+              style={[styles.item, { backgroundColor: v.backgroundColor || (i === 0 ? '#FFA700' : Colors.OTHER_BACK) }]}
               onPress={v.onPress}
             >
               <Text style={styles.text}>{v.text}</Text>

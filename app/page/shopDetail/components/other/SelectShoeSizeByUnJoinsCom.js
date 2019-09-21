@@ -1,28 +1,21 @@
-/**
-       * @file 未参团抢购鞋组件
-       * @date 2019/9/8 11:40
-       * @author ZWW
-       */
-      import React, { Component } from 'react';
-    import {
-      ScrollView, StyleSheet, Text, TouchableOpacity, View,
-    } from 'react-native';
-    import Image from '../../../../components/Image';
-    import { hitSlop, SCREEN_WIDTH } from '../../../../common/Constant';
-    import ImageBackground from '../../../../components/ImageBackground';
-    import { commonStyle } from '../../../../res/style/CommonStyle';
-    import Images from '../../../../res/Images';
-    import Colors from '../../../../res/Colors';
-    import { YaHei } from '../../../../res/FontFamily';
-    import { bottomStyle } from '../../../../res/style/BottomStyle';
-    import { debounce } from '../../../../utils/commonUtils';
-    import { doBuyNow } from '../../../../redux/actions/shopDetailInfo';
+import React, { Component } from 'react';
+import {
+  ScrollView, StyleSheet, Text, TouchableOpacity, View,
+} from 'react-native';
+import Image from '../../../../components/Image';
+import { hitSlop, SCREEN_WIDTH } from '../../../../common/Constant';
+import { BottomBtnGroup } from '../../../../components';
+import { commonStyle } from '../../../../res/style/CommonStyle';
+import Images from '../../../../res/Images';
+import Colors from '../../../../res/Colors';
+import { YaHei } from '../../../../res/FontFamily';
+import { debounce } from '../../../../utils/commonUtils';
+import { doBuyNow } from '../../../../redux/actions/shopDetailInfo';
 
-
-    export default class SelectShoeSizeByUnJoinsCom extends Component {
-      constructor(props) {
-        super(props);
-        this.state = {
+export default class SelectShoeSizeByUnJoinsCom extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       chooseId: '-1',
       shoesList: [],
     };
@@ -102,17 +95,12 @@
             </View>
           </ScrollView>
         </View>
-        <View style={bottomStyle.bottomView}>
-          <ImageBackground
-            hitSlop={hitSlop}
-            style={bottomStyle.buttonOnlyOneChildView}
-            source={Images.bg_right}
-            disabled={chooseId === '-1'}
-            onPress={debounce(this._confirmChoose)}
-          >
-            <Text style={bottomStyle.buttonText}>确认</Text>
-          </ImageBackground>
-        </View>
+        <BottomBtnGroup btns={[{
+          text: '确认',
+          onPress: debounce(this._confirmChoose),
+          disabled: chooseId === '-1',
+        }]}
+        />
       </View>
     );
   }
