@@ -39,7 +39,7 @@ class List extends PureComponent {
 
   renderItem = ({ item }) => {
     const { type, navigation } = this.props;
-    return <ListItem type={type} navigation={navigation} item={item} />;
+    return <ListItem refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }
 
   render() {
