@@ -1,22 +1,16 @@
-/**
- * @file 佣金设定界面
- * @date 2019/8/22 22:26
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, TextInput, View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { ImageBackground, KeyboardDismiss, BottomPay } from '../../components';
+import { KeyboardDismiss, BottomPay } from '../../components';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
-import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Normal, YaHei } from '../../res/FontFamily';
 import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
 import { setCommission, getPayMes } from '../../redux/actions/shopDetailInfo';
-import { bottomStyle } from '../../res/style/BottomStyle';
 import ShopConstant from '../../common/ShopConstant';
+import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -49,15 +43,15 @@ class Commission extends PureComponent {
   }
 
   _toPay = () => {
+    const { inputCommission } = this.state;
     const { shopDetailInfo, navigation } = this.props;
     const shopInfo = shopDetailInfo.data;
     // let minPrice = shopInfo.activity.min_price;
-    const commission = this.state.inputCommission;
-    if (commission < 1) {
+    if (inputCommission < 1) {
       // return showToast(`单人佣金不能低于1元`);
     }
     const acId = shopInfo.user_activity.id;
-    setCommission(shopInfo.activity.id, acId, commission).then((res) => {
+    setCommission(shopInfo.activity.id, acId, inputCommission).then((res) => {
       if (res) {
         const payData = {
           order_id: acId,
@@ -74,43 +68,36 @@ class Commission extends PureComponent {
   };
 
   onChange = (event) => {
+    const { number } = this.state;
     const singlePrice = event.nativeEvent.text;
-    this.setState({ inputCommission: singlePrice, totalPrice: singlePrice * this.state.number });
+    this.setState({ inputCommission: singlePrice, totalPrice: singlePrice * number });
   };
 
   render() {
-    const { commission, totalPrice } = this.state;
+    const { commission, totalPrice, number } = this.state;
     return (
-      <KeyboardDismiss style={_styles.container}>
-        <View style={_styles.mainView}>
-          <Text style={_styles.countTitle}>
-合计数量
-            <Text style={_styles.count}>
-              {' '}
-              {this.state.number}
-            </Text>
-            {' '}
-双
+      <KeyboardDismiss style={styles.container}>
+        <View style={styles.mainView}>
+          <Text style={styles.countTitle}>
+            {'合计数量 '}
+            <Text style={styles.count}>{number}</Text>
+            {' 双'}
           </Text>
-          <ImageBackground source={Images.framePhoneInput} style={_styles.inputBg}>
-            <TextInput
-              maxLength={13}
-              editable={commission == 0}
-              keyboardType="numeric"
-              placeholder={commission != 0 ? commission.toString() : '填写佣金...'}
-              placeholderTextColor="rgba(162,162,162,1)"
-              underlineColorAndroid="transparent"
-              style={_styles.pricePh}
-              clearButtonMode="while-editing"
-              returnKeyType="next"
-              onSubmitEditing={this._toPay}
-              ref={(v) => {
-                this.valueInput = v;
-              }}
-              onChange={this.onChange}
-            />
-          </ImageBackground>
-          <Text style={_styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
+          <TextInput
+            maxLength={13}
+            editable={commission == 0}
+            keyboardType="numeric"
+            placeholder={commission != 0 ? commission.toString() : '填写佣金...'}
+            placeholderTextColor="rgba(162,162,162,1)"
+            underlineColorAndroid="transparent"
+            style={styles.pricePh}
+            clearButtonMode="while-editing"
+            returnKeyType="next"
+            onSubmitEditing={this._toPay}
+            ref={(v) => { this.valueInput = v; }}
+            onChange={this.onChange}
+          />
+          <Text style={styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
         </View>
         <BottomPay disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
       </KeyboardDismiss>
@@ -118,27 +105,28 @@ class Commission extends PureComponent {
   }
 }
 
-const _styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
+    backgroundColor: Colors.MAIN_BACK,
   },
   mainView: {
     flex: 1,
-    marginTop: 177,
-    marginLeft: 74,
+    marginTop: hPx2P(160),
+    marginHorizontal: wPx2P(60),
+
   },
   countTitle: {
     fontSize: 13,
     fontFamily: YaHei,
     fontWeight: '400',
-    color: 'rgba(0,0,0,1)',
+    color: '#000',
   },
   count: {
-    fontSize: 18,
+    fontSize: 13,
     fontFamily: YaHei,
     fontWeight: 'bold',
-    color: 'rgba(0,0,0,1)',
+    color: '#37B6EB',
   },
   payTitle: {
     fontSize: 12,
@@ -150,16 +138,19 @@ const _styles = StyleSheet.create({
     height: 60,
   },
   pricePh: {
-    flex: 1,
+    height: 36,
+    backgroundColor: '#fff',
     fontSize: 14,
     color: 'rgba(162,162,162,1)',
-    marginLeft: 22,
+    borderRadius: 2,
+    overflow: 'hidden',
+    marginVertical: 10,
+    paddingHorizontal: 8,
   },
   tip: {
     fontSize: 12,
     color: 'rgba(0,0,0,1)',
-    alignItems: 'flex-end',
-    marginLeft: 165,
+    textAlign: 'right',
   },
   bottomView: {
     width: SCREEN_WIDTH,
