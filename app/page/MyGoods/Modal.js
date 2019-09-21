@@ -49,8 +49,11 @@ export default class Modal extends PureComponent {
           this.close();
         });
       }
+    } else if (step === 2) {
+      successCallback(this.text, type).then(() => {
+        this.setState({ step: 3 });
+      });
     }
-    console.log(step);
   }
 
   close = () => {

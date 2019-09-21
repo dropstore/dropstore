@@ -59,7 +59,6 @@ export default class ListItem extends PureComponent {
 
   onPress = (type) => {
     const { navigation, item } = this.props;
-    console.log(item);
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
@@ -131,11 +130,10 @@ export default class ListItem extends PureComponent {
         resolve();
       });
     } else if (type === 'cancel') {
-      // request('/free/off_shelf', { params: { id: item.free_id } }).then((res) => {
-      //   console.log(res);
-      //   refresh();
-      //   resolve();
-      // });
+      request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
+        refresh();
+        resolve();
+      });
     }
   })
 
