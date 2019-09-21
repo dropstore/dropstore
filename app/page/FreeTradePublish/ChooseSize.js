@@ -41,7 +41,7 @@ class ChooseSize extends PureComponent {
       }
     }
     this.setState({ shoesList, chooseId });
-    navigation.navigate('PublishComission', {
+    navigation.navigate('MailOut', {
       title: '手续费',
     });
   }
