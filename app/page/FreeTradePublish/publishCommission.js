@@ -1,12 +1,13 @@
-import React,{PureComponent} from 'react'
-import {connect} from 'react-redux'
-import { Text,ScrollView,View,StyleSheet,TouchableOpacity } from 'react-native';
-import { withNavigation} from 'react-navigation'
-import Colors from '../../res/Colors'
-import { PADDING_TAB } from '../../common/Constant';
-import { BottomPay } from '../../components'
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import {
+  Text, ScrollView, View, StyleSheet,
+} from 'react-native';
 import { bindActionCreators } from 'redux';
-import styles from 'react-native-webview/lib/WebView.styles';
+import { PADDING_TAB } from '../../common/Constant';
+import { BottomPay, CountdownCom } from '../../components';
+import { YaHei } from '../../res/FontFamily';
+import Colors from '../../res/Colors';
 
 
 function mapStateToProps() {
@@ -21,10 +22,10 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class PublishCommission extends  PureComponent{
-  constructor(props){
-    super(props)
-    const { navigation } = this.props
+class PublishCommission extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
     // const { price,goods_name,image} = navigation.getParam('goods')
     this.state = {
       currentItem: {
@@ -34,77 +35,97 @@ class PublishCommission extends  PureComponent{
       },
     };
   }
-  toPay = ()=>{
+
+  toPay = () => {
 
   }
-  render (){
-       const { currentItem } = this.state
-      return(
-        <View style={{flex:1}}>
-          <ScrollView
-          style={{flex:1,backgroundColor:'#efefef',paddingTop:9,paddingLeft:9,paddingRight:9,marginBottom:66 + PADDING_TAB}}
-          >
-          <View  style={Styles.moneyCount}>
-            <View style={Styles.moneyCountInfo}>
-              <Text >{`鞋款共计：${50000000}`}￥</Text>
-              <Text >需支付保证金：40%</Text>
+
+  exit = () => {
+
+  }
+
+  render() {
+    const { currentItem } = this.state;
+    return (
+      <View style={{ flex: 1 }}>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.moneyCount}>
+            <View style={styles.moneyCountInfo}>
+              <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${50000000}￥`}</Text>
+              <Text style={{ fontFamily: YaHei, fontSize: 12 }}>需支付保证金：40%</Text>
             </View>
             <View style={styles.totalMoney}>
-                <Text  style={styles.totalMoneyText}>{`支付金额：${500000}`}</Text>
+              <Text style={styles.totalMoneyText}>{`支付金额：${500000}￥`}</Text>
             </View>
           </View>
-            <View style={Styles.orderInfo}>
-              <View >
-                <Text>订单编号 : D53763998767894564</Text>
-              </View>
-              <View style={styles.creatTime}>
-                <Text style={{flex:1}}>创建日期 : 2019-03-06</Text>
-                <Text style={{flex:1}}>代付款：10:56:27</Text>
-              </View>
+          <View style={styles.orderInfo}>
+            <Text style={{ fontSize: 13 }}>订单编号 : D53763998767894564</Text>
+            <View style={styles.creatTime}>
+              <Text style={{ fontSize: 13 }}>创建日期 : 2019-03-06</Text>
+              <CountdownCom
+                prefix="待付款 "
+                finish={this.exit}
+                time={Date.now() / 1000 + 5000}
+                style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
+              />
             </View>
-          </ScrollView>
-          <BottomPay
-          price = {currentItem.price}
-          onPress = {this.toPay}
-          ></BottomPay>
-        </View>
+          </View>
+        </ScrollView>
+        <BottomPay
+          price={currentItem.price}
+          onPress={this.toPay}
+        />
+      </View>
 
-      )
+    );
   }
-
-
 }
-const Styles = StyleSheet.create({
-  moneyCount:{
-    padding:14,
-    backgroundColor:'#fff',
+const styles = StyleSheet.create({
+  moneyCount: {
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
-  moneyCountInfo:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    borderBottomWidth:1,
-    borderBottomColor:'#F2F2F2',
-    paddingBottom:12
+  scrollView: {
+    flex: 1,
+    backgroundColor: '#efefef',
+    paddingTop: 9,
+    paddingLeft: 9,
+    paddingRight: 9,
+    marginBottom: 66 + PADDING_TAB,
   },
-  totalMoney:{
-    paddingTop:12,
-    flexDirection:'row',
-    justifyContent:'flex-end',
-    alignItems:'center',
-  },
-  totalMoneyText:{
-      fontSize:18,
-  },
-  orderInfo:{
-    padding:14,
-    backgroundColor:'#fff',
-    marginTop:9,
-  },
-  creatTime:{
+  moneyCountInfo: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    height: 42,
+    paddingHorizontal: 12,
+    paddingBottom: 10,
+  },
+  totalMoney: {
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    height: 44,
+    marginHorizontal: 12,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: '#ddd',
+  },
+  totalMoneyText: {
+    fontSize: 18,
+    fontFamily: YaHei,
+  },
+  orderInfo: {
+    padding: 14,
+    backgroundColor: '#fff',
+    marginTop: 9,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  creatTime: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-  }
-})
+    marginTop: 4.5,
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(PublishCommission);
