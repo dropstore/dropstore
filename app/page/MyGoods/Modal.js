@@ -29,13 +29,13 @@ export default class Modal extends PureComponent {
   }
 
   sure = () => {
-    const { successCallback, cancelCallback } = this.props;
+    const { successCallback, type } = this.props;
     const { step } = this.state;
     if (step === 0) {
       if (this.text.length < 1) {
         showToast('请输入金额');
       } else {
-        successCallback().then(() => {
+        successCallback(this.text, type).then(() => {
           this.setState({
             step: 1,
           });
@@ -43,17 +43,11 @@ export default class Modal extends PureComponent {
       }
     } else if ([1, 3].includes(step)) {
       this.close();
-    } else if (step === 2) {
-      cancelCallback().then(() => {
-        this.setState({
-          step: 3,
-        });
-      });
     } else if (step === 4) {
       if (this.text.length < 1) {
         showToast('请输入运单号');
       } else {
-        successCallback().then(() => {
+        successCallback(this.text, type).then(() => {
           this.close();
         });
       }
@@ -81,6 +75,7 @@ export default class Modal extends PureComponent {
 
   render() {
     const { step } = this.state;
+    const { item } = this.props;
     return (
       <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 287 : 197 }]}>
         {
@@ -90,7 +85,7 @@ export default class Modal extends PureComponent {
               <View style={{ flexDirection: 'row', marginHorizontal: 32 }}>
                 <Text style={{ fontSize: 14, fontFamily: YaHei }}>当前价格：</Text>
                 <View style={styles.priceOld}>
-                  <Text style={styles.oldText}>9999</Text>
+                  <Text style={styles.oldText}>{item.order_price}</Text>
                 </View>
                 <Text style={styles.yuan}>元</Text>
               </View>
@@ -158,9 +153,14 @@ export default class Modal extends PureComponent {
             </View>
           ) : null
         }
-        <TouchableOpacity onPress={this.sure} style={styles.sure}>
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
-        </TouchableOpacity>
+        <View style={styles.btns}>
+          <TouchableOpacity onPress={this.sure} style={styles.btn}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.close} style={styles.btn}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>取消</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity onPress={this.close} style={styles.cha}>
           <Image source={Images.cha} style={{ width: 24, height: 24 }} />
         </TouchableOpacity>
@@ -176,6 +176,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 46,
   },
+  btns: {
+    height: 45,
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    flexDirection: 'row',
+  },
   yuan: {
     fontSize: 14,
     fontFamily: YaHei,
@@ -186,8 +193,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    borderColor: '#000',
-    borderWidth: 3,
   },
   oldText: {
     fontSize: 14,
@@ -246,14 +251,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  sure: {
-    height: 46,
-    width: '100%',
+  btn: {
+    flex: 1,
     backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'absolute',
-    bottom: 0,
   },
   cha: {
     backgroundColor: Colors.OTHER_BACK,

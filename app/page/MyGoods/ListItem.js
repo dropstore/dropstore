@@ -12,6 +12,7 @@ import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
 import TitleWithTag from '../../components/TitleWithTagTwo';
 import Images from '../../res/Images';
+import { request } from '../../http/Axios';
 
 export default class ListItem extends PureComponent {
   constructor(props) {
@@ -23,6 +24,10 @@ export default class ListItem extends PureComponent {
       this.btns = [
         { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
         { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+      ];
+    } else if (type === 'uncomplete') {
+      this.btns = [
+        { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
       ];
     } else if (type === 'warehouse') {
       if (item.goods_status === '1') {
@@ -46,10 +51,6 @@ export default class ListItem extends PureComponent {
           { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
         ];
       }
-    } else if (type === 'uncomplete') {
-      this.btns = [
-        { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
-      ];
     }
     this.state = {
       text: item.end_time <= Date.now() / 1000 && type === 'uncomplete' ? '付款已超时' : null,
@@ -58,14 +59,15 @@ export default class ListItem extends PureComponent {
 
   onPress = (type) => {
     const { navigation, item } = this.props;
+    console.log(item);
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
           navigation={navigation}
           closeModalbox={closeModalbox}
           type={type}
+          item={item}
           successCallback={this.successCallback}
-          cancelCallback={this.cancelCallback}
         />),
         options: {
           style: {
@@ -111,12 +113,24 @@ export default class ListItem extends PureComponent {
     }
   }
 
-  successCallback = () => new Promise((resolve) => {
-    resolve();
-  })
-
-  cancelCallback = () => new Promise((resolve) => {
-    resolve();
+  successCallback = (value, type) => new Promise((resolve) => {
+    const { item, refresh } = this.props;
+    if (type === 'express') {
+      request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
+        refresh();
+        resolve();
+      });
+    } else if (type === 'edit') {
+      request('/free/edit_price', { params: { price: value, id: item.order_id } }).then(() => {
+        refresh();
+        resolve();
+      });
+    } else if (type === 'cancel') {
+      request('/free/edit_price', { params: { price: value, id: item.order_id } }).then(() => {
+        refresh();
+        resolve();
+      });
+    }
   })
 
   finish = () => {
