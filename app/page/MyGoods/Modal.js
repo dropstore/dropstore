@@ -36,9 +36,7 @@ export default class Modal extends PureComponent {
         showToast('请输入金额');
       } else {
         successCallback(this.text, type).then(() => {
-          this.setState({
-            step: 1,
-          });
+          this.close();
         });
       }
     } else if ([1, 3].includes(step)) {
@@ -52,6 +50,7 @@ export default class Modal extends PureComponent {
         });
       }
     }
+    console.log(step);
   }
 
   close = () => {

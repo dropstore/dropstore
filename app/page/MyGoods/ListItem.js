@@ -98,19 +98,24 @@ export default class ListItem extends PureComponent {
         },
       });
     } else if (type === 'publish') {
-      navigation.navigate('pay', {
-        title: '选择支付账户',
-        type: '1',
-        payData: {
-          order_id: item.order_id,
-          price: item.order_price,
-        },
-        shopInfo: {
-          goods: item.goods,
-          order_id: item.order_id,
-        },
-      });
+      this.toPublish();
     }
+  }
+
+  toPublish = () => {
+    const { navigation, item } = this.props;
+    navigation.navigate('pay', {
+      title: '选择支付账户',
+      type: '1',
+      payData: {
+        order_id: item.order_id,
+        price: item.order_price,
+      },
+      shopInfo: {
+        goods: item.goods,
+        order_id: item.order_id,
+      },
+    });
   }
 
   successCallback = (value, type) => new Promise((resolve) => {
@@ -121,16 +126,16 @@ export default class ListItem extends PureComponent {
         resolve();
       });
     } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
-        console.log(res);
-        refresh();
+      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+        this.toPublish();
         resolve();
       });
     } else if (type === 'cancel') {
-      request('/free/edit_price', { params: { price: value, id: item.order_id } }).then(() => {
-        refresh();
-        resolve();
-      });
+      // request('/free/off_shelf', { params: { id: item.free_id } }).then((res) => {
+      //   console.log(res);
+      //   refresh();
+      //   resolve();
+      // });
     }
   })
 
