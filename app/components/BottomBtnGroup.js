@@ -27,7 +27,7 @@ export default class AvatarWithShadow extends PureComponent<Props> {
             <TouchableOpacity
               key={v.text + i}
               disabled={v.disabled}
-              style={[styles.item, { backgroundColor: v.backgroundColor || (i === 0 ? '#FFA700' : Colors.OTHER_BACK) }]}
+              style={[styles.item, { backgroundColor: v.disabled ? '#C7C7C7' : v.backgroundColor || (i === 0 ? '#FFA700' : Colors.OTHER_BACK) }]}
               onPress={v.onPress}
             >
               <Text style={styles.text}>{v.text}</Text>
