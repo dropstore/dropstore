@@ -51,7 +51,14 @@ class PutOnSale extends PureComponent {
       showToast('同意卖家须知后可继续上架');
       return;
     }
-    navigation;
+    navigation.navigate('PublishComission', {
+      title: '支付保证金',
+      goodsInfo: {
+        type: 'storeMoney',
+        shoeSize: this.item.size,
+        goodsId: this.item.goods_id,
+      },
+    });
   }
 
   toWeb = () => {
@@ -69,6 +76,7 @@ class PutOnSale extends PureComponent {
     const { price, agreed } = this.state;
     const deposit = price * info.data?.fee / 100;
     const disabled = price < info.data?.min_price / 100 || price > info.data?.max_price / 100 || !agreed;
+    console.log(this.item);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
