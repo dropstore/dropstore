@@ -42,14 +42,14 @@ class FreeTradeBuy extends PureComponent {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
     this.item = navigation.getParam('item');
-    const { price, goods_name, image } = navigation.getParam('goods');
+    const { goods_name, image } = navigation.getParam('goods');
     this.free_id = this.item.id;
     this.state = {
       cuurentItem: {
         image,
         goods_name,
         size: this.item.size,
-        price,
+        price: this.item.price,
       },
     };
     fetchSimpleData(VENDOR_TYPE, { id: this.item.id });
