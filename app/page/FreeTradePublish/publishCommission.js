@@ -42,7 +42,7 @@ class PublishCommission extends PureComponent {
       navigation.navigate('pay', {
         title: '选择支付方式',
         type: ShopConstant.PAY_ORDER,
-        payDate:this.props.MissionPrice.data || {}
+        payData:this.props.MissionPrice.data || {}
       });
     }
 
