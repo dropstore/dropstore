@@ -115,8 +115,4 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 15,
   },
-  lrImage: {
-    width: 6,
-    height: 8,
-  },
 });
