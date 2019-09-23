@@ -5,127 +5,137 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { PADDING_TAB } from '../../common/Constant';
-import { BottomPay, Image } from '../../components';
+import { Image } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
+import { getSimpleData } from '../../redux/reselect/simpleData';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
+import { showToast } from '../../utils/MutualUtil';
 
+const TYPE = 'warehousePutOnSale';
 
 function mapStateToProps() {
   return state => ({
-
+    info: getSimpleData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-
+    fetchSimpleData,
   }, dispatch);
 }
 
 class PutOnSale extends PureComponent {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    // const { price,goods_name,image} = navigation.getParam('goods')
+    const { navigation, fetchSimpleData } = this.props;
+    this.item = navigation.getParam('item');
+    fetchSimpleData(TYPE, { order_id: this.item.order_id });
     this.state = {
-      currentItem: {
-        // image,
-        // goods_name,
-        // price,
-      },
-      disable: false,
+      price: 0,
+      agreed: true,
     };
   }
 
   toPay = () => {
-
+    const { price, agreed } = this.state;
+    const { info, navigation } = this.props;
+    const min_price = info.data?.min_price / 100;
+    const max_price = info.data?.max_price / 100;
+    if (price < min_price / 100 || price > max_price) {
+      showToast(`请输入介于${min_price}-${max_price}之间的价格`);
+      return;
+    } if (!agreed) {
+      showToast('同意卖家须知后可继续上架');
+      return;
+    }
+    navigation.navigate('PublishComission', {
+      title: '支付保证金',
+      goodsInfo: {
+        type: 'storeMoney',
+        shoeSize: this.item.size,
+        goodsId: this.item.goods_id,
+      },
+    });
   }
 
-  exit = () => {
-
+  toWeb = () => {
+    const { navigation } = this.props;
+    navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/secret', title: '隐私协议' });
   }
 
-  onPress = () => {
-
+  change= () => {
+    const { agreed } = this.state;
+    this.setState({ agreed: !agreed });
   }
 
   render() {
-    const { currentItem } = this.state;
+    const { info } = this.props;
+    const { price, agreed } = this.state;
+    const deposit = price * info.data?.fee / 100;
+    const disabled = price < info.data?.min_price / 100 || price > info.data?.max_price / 100 || !agreed;
+    console.log(this.item);
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
           <View style={styles.shoesInfo}>
             <View style={styles.shoesInfoTop}>
-              <View style={styles.shoesInfoImage}>
-                <Image style={{ width: 166, height: 97 }} source={{ uri: '../../res/image/fxtszqldd.png' }} />
-              </View>
+              <Image style={{ width: wPx2P(166), height: wPx2P(97) }} source={{ uri: (this.item.goods || this.item).image }} />
               <View style={styles.shoesInfoNameBox}>
-                <View style={styles.shoesInfoName}>
-                  <Text style={{ flex: 1 }}>
-                    AIR JORDAN 1 HIGH OG 2018版“ORIGIN STORY”蜘蛛侠
-                  </Text>
-                </View>
-                <View style={styles.shoesInfoSize}>
-                  <Text>已选尺寸：42</Text>
-
-                </View>
+                <Text style={{ fontFamily: YaHei, fontSize: 15, textAlign: 'justify' }}>{(this.item.goods || this.item).goods_name}</Text>
+                <Text style={{ fontSize: 12, fontFamily: YaHei }}>{`SIZE : ${this.item.size}`}</Text>
               </View>
             </View>
             <View style={styles.shoeSalePrice}>
-              <Text>
-最高售价：
-<Text style={styles.TopPrice}>￥200000</Text>
+              <Text style={{ fontSize: 13 }}>
+                {'最高售价：'}
+                <Text style={styles.TopPrice}>{`￥${info.data?.max_price / 100}`}</Text>
               </Text>
-              <Text>
-最低售价：
-<Text style={styles.LowPrice}>￥200000</Text>
+              <Text style={{ fontSize: 13 }}>
+                {'最低售价：'}
+                <Text style={styles.LowPrice}>{`￥${info.data?.min_price / 100}`}</Text>
               </Text>
             </View>
           </View>
           <View style={styles.shoesCommission}>
-            <View style={styles.shoesCommissionInput}>
-              <View style={styles.inputPrice}>
-                <Text>￥</Text>
-                <TextInput
+            <View style={styles.inputPrice}>
+              <Text style={{ color: '#999' }}>￥</Text>
+              <TextInput
                 style={styles.inputPriceTextare}
-                placeholder="输入价位"
-                maxLength={9}
-                color="#BEBEBE"
-                autoFocus
-               />
-              </View>
-              <Text style={styles.servicePrice}>服务费：4000</Text>
+                keyboardType="number-pad"
+                placeholder="输入价格"
+                maxLength={`${info.data?.max_price / 100}`.length}
+                underlineColorAndroid="transparent"
+                clearButtonMode="while-editing"
+                onChangeText={(price) => { this.setState({ price }); }}
+              />
             </View>
             <View style={styles.shoesCommissionMoney}>
-              <Text style={styles.priceText}>平台手续费：</Text>
-              <Text style={styles.priceText}>-￥40.00</Text>
+              <Text style={styles.priceText}>{`保证金：${deposit}`}</Text>
             </View>
             <View style={styles.shoesCommissionIncome}>
-              <Text style={styles.priceText}>成交收入：</Text>
-              <Text style={styles.priceText}>￥40.00</Text>
+              <Text style={styles.priceText}>{`成交收入：${price - deposit}`}</Text>
             </View>
           </View>
-
         </ScrollView>
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
-            <TouchableOpacity
-              onPress={this.onPress}
-            >
-              <Image style={{ width: 20, height: 20 }} source={require('../../res/image/selectIcon.png')} />
+            <TouchableOpacity onPress={this.change}>
+              <Image
+                style={{ width: 20, height: 20 }}
+                source={agreed ? require('../../res/image/selectIcon.png') : require('../../res/image/unSelect.png')}
+              />
             </TouchableOpacity>
             <Text style={styles.ihavekonw}>我已阅读</Text>
-            <TouchableOpacity
-              onPress={this.onPress}
-            >
-              <Text style={styles.salerNeedKnow}>卖家须知></Text>
+            <TouchableOpacity onPress={this.toWeb}>
+              <Text style={styles.salerNeedKnow}>卖家须知&gt;</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            disabled={this.state.disable}
-            style={[styles.zhifu, { backgroundColor: this.state.disable ? '#e2e2e2' : Colors.OTHER_BACK }]}
-            onPress={this.onPress}
+            style={[styles.zhifu, { backgroundColor: disabled ? '#e2e2e2' : Colors.OTHER_BACK }]}
+            onPress={this.toPay}
           >
             <Text style={styles.queren}>上架</Text>
           </TouchableOpacity>
@@ -142,7 +152,6 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     paddingLeft: 9,
     paddingRight: 9,
-    marginBottom: 66 + PADDING_TAB,
   },
   shoesInfo: {
     padding: 14,
@@ -162,26 +171,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  shoesInfoImage: {
-
-  },
   shoesInfoNameBox: {
     flex: 1,
-  },
-  shoesInfoName: {
-    flex: 1,
+    justifyContent: 'space-between',
+    marginLeft: 10,
   },
   inputPrice: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    flex: 2,
-  },
-
-  servicePrice: {
-    flex: 1,
-    fontSize: 15,
-    color: '#BEBEBE',
+    borderRadius: 2,
+    overflow: 'hidden',
+    borderColor: '#999',
+    borderWidth: StyleSheet.hairlineWidth,
+    height: 33,
+    paddingLeft: 5,
   },
   shoesCommission: {
     padding: 10,
@@ -219,16 +222,20 @@ const styles = StyleSheet.create({
   },
   TopPrice: {
     color: '#37B6EB',
+    fontSize: 13,
   },
   LowPrice: {
     color: '#C20000',
+    fontSize: 13,
   },
   inputPriceTextare: {
-    flex: 8,
+    flex: 1,
+    marginLeft: 5,
   },
   zhifu: {
-    width: wPx2P(150),
+    flex: 1,
     height: 44,
+    marginLeft: 20,
     borderRadius: 2,
     overflow: 'hidden',
     justifyContent: 'center',
@@ -236,9 +243,6 @@ const styles = StyleSheet.create({
   },
   bottom: {
     height: 66 + PADDING_TAB,
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
     backgroundColor: '#fff',
     paddingBottom: PADDING_TAB,
     flexDirection: 'row',
@@ -259,18 +263,14 @@ const styles = StyleSheet.create({
     }),
   },
   priceWrapper: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
-  },
-  price: {
-    fontSize: 16,
-    fontFamily: YaHei,
+    marginLeft: 20,
   },
   ihavekonw: {
     marginLeft: 9,
-    fontSize: 14,
+    fontSize: 12,
+    color: '#555555',
   },
   queren: {
     color: '#fff',
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   salerNeedKnow: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#37B6EB',
   },
 
