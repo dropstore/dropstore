@@ -7,14 +7,6 @@ export default {
       image_size_times: 0.5,
     },
   },
-  // 活动通知列表
-  activityNotice: {
-    url: '/notice/notice_list',
-    initParams: {
-      limit: 10,
-      image_size_times: 0.35,
-    },
-  },
   // 自由交易某商品价格列表
   freeTradeGoodsPrice: {
     url: '/free/info',
@@ -59,6 +51,18 @@ export default {
       image_size_times: 0.5,
     },
   },
+  // 自由交易下单
+  freeTradeToOrder: { url: '/order/do_buy_free' },
+
+
+  // 活动通知列表
+  activityNotice: {
+    url: '/notice/notice_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+    },
+  },
   // 用户消息列表
   noticeMessage: {
     url: '/message/message_list',
@@ -66,6 +70,8 @@ export default {
       limit: 10,
     },
   },
+
+
   // 我的库房列表
   warehouse: {
     url: '/order/order_goods_list',
@@ -90,6 +96,8 @@ export default {
       image_size_times: 0.35,
     },
   },
+
+
   // 余额流水明细
   balanceDetail: {
     url: '/user/user_balance',

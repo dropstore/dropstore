@@ -12,6 +12,7 @@ import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
 import { SCREEN_WIDTH } from '../common/Constant';
+import api from './api';
 
 const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
@@ -135,6 +136,8 @@ const upload = (url, data) => {
   });
 };
 
+const requestApi = (type, params) => request(api[type].url, params);
+
 export {
-  timeout, request, upload, removeNetListener,
+  timeout, request, upload, removeNetListener, requestApi,
 };

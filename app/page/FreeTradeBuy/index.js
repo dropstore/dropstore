@@ -18,7 +18,7 @@ import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
-
+import { requestApi } from '../../http/Axios';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyChooseSize';
@@ -71,15 +71,14 @@ class FreeTradeBuy extends PureComponent {
     this.fetchData();
   }
 
-  toPay = (price) => {
+  toPay = () => {
     const { navigation } = this.props;
-    navigation.navigate('pay', {
-      title: '选择支付账户',
-      type: '1',
-      payData: {
-        order_id: this.item.id,
-        price,
-      },
+    requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: '1',
+        payData: res.data,
+      });
     });
   }
 
