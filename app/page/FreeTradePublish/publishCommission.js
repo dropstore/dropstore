@@ -10,12 +10,15 @@ import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
-import { formatDate } from '../../utils/commonUtils'
+import { formatDate } from '../../utils/commonUtils';
 import ShopConstant from '../../common/ShopConstant';
+import { showToast } from '../../utils/MutualUtil';
+
 const TYPE = 'getMissionPrice';
 function mapStateToProps() {
   return state => ({
-    MissionPrice:getSimpleData(state, TYPE),
+    missionPrice: getSimpleData(state, TYPE),
+    appOptions: getSimpleData(state, 'appOptions'),
   });
 }
 
@@ -28,105 +31,73 @@ function mapDispatchToProps(dispatch) {
 class PublishCommission extends PureComponent {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    const {shoeSize,goodsId,type} = navigation.getParam('goodsInfo')
-    this.props.fetchSimpleData(TYPE,{goods_id:goodsId,size_id:shoeSize})
+    const { navigation, fetchSimpleData } = this.props;
+    const { shoeSize, goodsId } = navigation.getParam('goodsInfo');
+    fetchSimpleData(TYPE, { goods_id: goodsId, size_id: shoeSize });
   }
 
   toPay = () => {
-    const { navigation } = this.props;
-    const {goodsImage,goodsName,type} = navigation.getParam('goodsInfo')
-    console.log('this.props.MissionPrice.data');
-    console.log(this.props.MissionPrice.data);
-    if(type === 'storeMoney'){
+    const { navigation, missionPrice, appOptions } = this.props;
+    const { goodsImage, goodsName, type } = navigation.getParam('goodsInfo');
+    if (type === 'storeMoney') {
       navigation.navigate('pay', {
         title: '选择支付方式',
         type: ShopConstant.PAY_ORDER,
-        payData:this.props.MissionPrice.data || {},
-        shopInfo:{
-          goods:{
-            image:goodsImage,
-            goods_name:goodsName,
-            start_time:0
-          }
+        payData: {
+          ...missionPrice.data,
+          price: appOptions?.data?.management,
         },
-        noTimer:'true',
-
+        shopInfo: {
+          goods: {
+            image: goodsImage,
+            goods_name: goodsName,
+            start_time: 0,
+          },
+        },
+        noTimer: true,
+        noShareBtn: true,
       });
     }
-
   }
 
   exit = () => {
-
+    const { navigation } = this.props;
+    showToast('订单支付超时，自动退出');
+    navigation.goback();
   }
 
   render() {
-    const { data={} } = this.props.MissionPrice;
-    // add_time: 1569225999
-    // order_id: "MD377322019092387111"
-    // pay_time: 1569228999
-    // price: 1
-    const { navigation } = this.props;
-    const {type} = navigation.getParam('goodsInfo')
-    // type  storeMoney 仓储费
+    const { missionPrice: { data = {} }, navigation, appOptions } = this.props;
+    const { type, shoePrice } = navigation.getParam('goodsInfo');
     return (
       <View style={{ flex: 1 }}>
-        <ScrollView style={styles.scrollView}>
+        <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
           {
-            type==='storeMoney'? (<View>
-              <View style={styles.moneyCount}>
-                {/*<View style={styles.moneyCountInfo}>*/}
-                {/*  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${50000000}￥`}</Text>*/}
-                {/*  <Text style={{ fontFamily: YaHei, fontSize: 12 }}>需支付保证金：40%</Text>*/}
-                {/*</View>*/}
-                <View style={styles.storeMoneyTotalMoney}>
-                  <Text style={styles.totalMoneyText}>{`仓储费用：${data.price/100}￥`}</Text>
-                </View>
-              </View>
-              <View style={styles.orderInfo}>
-                <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
-                <View style={styles.creatTime}>
-                  <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
-                  <CountdownCom
-                    prefix="待付款 "
-                    finish={this.exit}
-                    time={data.pay_time}
-                    style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
-                  />
-                </View>
-              </View>
-            </View>):(<View>
+            type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`仓储费用：${appOptions?.data?.management / 100}￥`}</Text> : (
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
-                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${50000000}￥`}</Text>
-                  <Text style={{ fontFamily: YaHei, fontSize: 12 }}>需支付保证金：40%</Text>
+                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${shoePrice}￥`}</Text>
+                  <Text style={{ fontFamily: YaHei, fontSize: 12 }}>{`需支付保证金：${appOptions?.data?.fee}%`}</Text>
                 </View>
-                <View style={styles.totalMoney}>
-                  <Text style={styles.totalMoneyText}>{`支付金额：${500000}￥`}</Text>
-                </View>
+                <Text style={styles.totalMoneyText}>{`支付金额：${shoePrice * appOptions?.data?.fee / 100}￥`}</Text>
               </View>
-              <View style={styles.orderInfo}>
-                <Text style={{ fontSize: 13 }}>订单编号 : D53763998767894564</Text>
-                <View style={styles.creatTime}>
-                  <Text style={{ fontSize: 13 }}>创建日期 : 2019-03-06</Text>
-                  <CountdownCom
-                    prefix="待付款 "
-                    finish={this.exit}
-                    time={Date.now() / 1000 + 5000}
-                    style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
-                  />
-                </View>
-              </View>
-            </View>)
+            )
           }
+          <View style={styles.orderInfo}>
+            <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
+            <View style={styles.creatTime}>
+              <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
+              <CountdownCom
+                prefix="待付款 "
+                finish={this.exit}
+                time={data.pay_time}
+                style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
+              />
+            </View>
+          </View>
         </ScrollView>
-        <BottomPay
-          price={data.price}
-          onPress={this.toPay}
-        />
+        <BottomPay price={data.price} onPress={this.toPay} />
       </View>
-
     );
   }
 }
@@ -135,6 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
+    height: 86,
+    paddingHorizontal: 12,
   },
   scrollView: {
     flex: 1,
@@ -147,10 +120,10 @@ const styles = StyleSheet.create({
   moneyCountInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    height: 42,
-    paddingHorizontal: 12,
-    paddingBottom: 10,
+    alignItems: 'center',
+    borderBottomColor: '#ddd',
+    flex: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   totalMoney: {
     justifyContent: 'center',
@@ -163,6 +136,18 @@ const styles = StyleSheet.create({
   totalMoneyText: {
     fontSize: 18,
     fontFamily: YaHei,
+    textAlign: 'right',
+    flex: 1,
+    lineHeight: 43,
+  },
+  cangchuPrice: {
+    fontSize: 18,
+    fontFamily: YaHei,
+    borderRadius: 2,
+    backgroundColor: '#fff',
+    overflow: 'hidden',
+    paddingLeft: 12,
+    paddingVertical: 13,
   },
   orderInfo: {
     padding: 12,
@@ -177,13 +162,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 4.5,
   },
-  storeMoneyTotalMoney:{
+  storeMoneyTotalMoney: {
     justifyContent: 'center',
     alignItems: 'flex-start',
     height: 44,
     marginHorizontal: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ddd',
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PublishCommission);

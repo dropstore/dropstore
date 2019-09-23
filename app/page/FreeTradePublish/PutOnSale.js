@@ -52,12 +52,11 @@ class PutOnSale extends PureComponent {
       showToast('同意卖家须知后可继续上架');
       return;
     }
-    navigation.navigate('PublishComission', {
+    navigation.navigate('PublishCommission', {
       title: '支付保证金',
       goodsInfo: {
-        type: 'storeMoney',
-        shoeSize: this.item.size,
-        goodsId: this.item.goods_id,
+        type: 'deposit',
+        shoePrice: price,
       },
     });
   }

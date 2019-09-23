@@ -45,7 +45,7 @@ import FreeTradeDetail from '../page/FreeTradeDetail';
 import FreeTradePublish from '../page/FreeTradePublish';
 import ChooseSize from '../page/FreeTradePublish/ChooseSize';
 import FreeTradeBuy from '../page/FreeTradeBuy';
-import PublishComission from '../page/FreeTradePublish/publishCommission';
+import PublishCommission from '../page/FreeTradePublish/PublishCommission';
 import PutOnSale from '../page/FreeTradePublish/PutOnSale';
 
 const defaultNavigationOptions = ({ navigation }) => ({
@@ -115,7 +115,7 @@ const routesWithHeader = {
   FreeTradePublish,
   ChooseSize,
   FreeTradeBuy,
-  PublishComission,
+  PublishCommission,
   PutOnSale,
 };
 // 不需要导航头部的路由写在这里

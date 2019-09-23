@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
   Text, ScrollView, View, StyleSheet, TouchableOpacity,
@@ -54,7 +55,7 @@ class ChooseSize extends PureComponent {
     // }
     // this.setState({ shoesList, chooseId });
     console.log(navigation.getParam('item'));
-    navigation.navigate('PublishComission', {
+    navigation.navigate('PublishCommission', {
       title: '仓储费用',
       goodsInfo: {
         type: 'storeMoney',
