@@ -88,8 +88,8 @@ class List extends PureComponent {
   }
 
   renderItem = ({ item }) => {
-    const { itemOnPress } = this.props;
-    return <ListItem onPress={itemOnPress} item={item} />;
+    const { itemOnPress, showPrice } = this.props;
+    return <ListItem showPrice={showPrice} onPress={itemOnPress} item={item} />;
   }
 
   render() {

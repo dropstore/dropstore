@@ -20,6 +20,7 @@ export default class FreeTrade extends PureComponent {
           style={{ flex: 1, marginTop: STATUSBAR_AND_NAV_HEIGHT }}
           type="freeTradeIndex"
           params={{ type: 1 }}
+          showPrice
         />
         <NavigationBarCom title="自由交易" />
       </View>
