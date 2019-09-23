@@ -38,11 +38,8 @@ export default {
     },
   },
   // 自由交易商品购买详情
-  freeTradeBuyChooseSize: {
+  freeTradeBuyInfo: {
     url: '/free/free_trade_info',
-    initParams: {
-      image_size_times: 0.5,
-    },
   },
   // 自由交易卖家还在卖列表
   freeTradeUserRecommend: {

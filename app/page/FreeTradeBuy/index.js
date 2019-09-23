@@ -21,7 +21,7 @@ import { formatDate } from '../../utils/commonUtils';
 import { requestApi } from '../../http/Axios';
 
 const TYPE = 'freeTradeUserRecommend';
-const VENDOR_TYPE = 'freeTradeBuyChooseSize';
+const VENDOR_TYPE = 'freeTradeBuyInfo';
 
 function mapStateToProps() {
   return state => ({
@@ -85,6 +85,7 @@ class FreeTradeBuy extends PureComponent {
   listHeaderComponent = () => {
     const { vendorInfo: { data } } = this.props;
     const { cuurentItem } = this.state;
+    console.log(this.item, data);
     return (
       <View>
         <View style={styles.header}>
