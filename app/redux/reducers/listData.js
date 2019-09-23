@@ -23,6 +23,7 @@ export default handleActions({
     ...state,
     [action.payload]: {
       ...state[action.payload],
+      list: action.meta.needClear ? [] : state[action.payload].list,
       isFetching: false,
       totalPages: -1,
       currentPage: 1,

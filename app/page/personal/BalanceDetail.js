@@ -18,26 +18,25 @@ function mapStateToProps() {
   });
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchListData,
   }, dispatch);
 }
 
-class Detail extends PureComponent {
+class BalanceDetail extends PureComponent {
   constructor(props) {
     super(props);
     this.fetchData();
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, {}, fetchMore);
+    fetchListData(TYPE, {}, fetchType);
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
   renderItem = ({ item }) => (
@@ -82,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(BalanceDetail);

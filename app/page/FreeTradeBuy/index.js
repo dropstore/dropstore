@@ -18,10 +18,10 @@ import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
-
+import { requestApi } from '../../http/Axios';
 
 const TYPE = 'freeTradeUserRecommend';
-const VENDOR_TYPE = 'freeTradeBuyChooseSize';
+const VENDOR_TYPE = 'freeTradeBuyInfo';
 
 function mapStateToProps() {
   return state => ({
@@ -57,29 +57,28 @@ class FreeTradeBuy extends PureComponent {
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { free_id: this.free_id, is_stock: '1', user_id: this.item.user_id }, fetchMore);
+    fetchListData(TYPE, { free_id: this.free_id, is_stock: '1', user_id: this.item.user_id }, fetchType);
   }
 
   onPress = (item) => {
     this.free_id = item.id;
     this.setState({ cuurentItem: item });
-    this.fetchData();
+    this.fetchData('refresh');
   }
 
-  toPay = (price) => {
+  toPay = () => {
     const { navigation } = this.props;
-    navigation.navigate('pay', {
-      title: '选择支付账户',
-      type: '1',
-      payData: {
-        order_id: this.item.id,
-        price,
-      },
+    requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: '1',
+        payData: res.data,
+      });
     });
   }
 

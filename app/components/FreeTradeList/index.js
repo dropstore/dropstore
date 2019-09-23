@@ -36,12 +36,12 @@ class List extends PureComponent {
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData, type } = this.props;
-    fetchListData(type, { type: 1 }, fetchMore);
+    fetchListData(type, { type: 1 }, fetchType);
   }
 
   onChangeText = (text) => {

@@ -30,13 +30,13 @@ class Message extends Component {
     this.fetchData();
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { type: 1 }, fetchMore);
+    fetchListData(TYPE, { type: 1 }, fetchType);
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
   renderItem = ({ item }) => (
