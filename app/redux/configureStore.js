@@ -9,8 +9,8 @@ import reducers from './reducers';
 function configureStore() {
   let middlewares;
   if (__DEV__) {
-    // middlewares = applyMiddleware(thunkMiddleware);
-    middlewares = applyMiddleware(thunkMiddleware, loggerMiddleware);
+    middlewares = applyMiddleware(thunkMiddleware);
+    // middlewares = applyMiddleware(thunkMiddleware, loggerMiddleware);
   } else {
     middlewares = applyMiddleware(thunkMiddleware);
   }

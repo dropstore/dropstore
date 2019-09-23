@@ -3,7 +3,8 @@ import {
   Text, ScrollView, View, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Image from '../../components/Image';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { SCREEN_WIDTH } from '../../common/Constant';
@@ -11,10 +12,9 @@ import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { getListData } from '../../redux/reselect/listData';
 import { getSimpleData } from '../../redux/reselect/simpleData';
-import { bindActionCreators } from 'redux';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 
-const TYPE ='getShoeSizeList'
+const TYPE = 'getShoeSizeList';
 
 function mapStateToProps() {
   return state => ({
@@ -35,13 +35,13 @@ class ChooseSize extends PureComponent {
     };
     // console.log('this.props.shoeSizeList');
     // console.log(this.props.);
-    const { navigation,shoeSizeList = [], chooseId } = this.props;
+    const { navigation, shoeSizeList = [], chooseId } = this.props;
     const item = navigation.getParam('item');
-    this.props.fetchSimpleData(TYPE,{goods_id:item.id})
+    this.props.fetchSimpleData(TYPE, { goods_id: item.id });
   }
 
   changeChooseStatus = (item) => {
-    let { shoesList, chooseId } = this.state;
+    const { shoesList, chooseId } = this.state;
     const { navigation } = this.props;
     // for (let i = 0; i < shoesList.length; i++) {
     //   const _shoeData = shoesList[i];
@@ -55,23 +55,23 @@ class ChooseSize extends PureComponent {
     // this.setState({ shoesList, chooseId });
     navigation.navigate('PublishComission', {
       title: '仓储费用',
-      goodsInfo:{
-        type:'storeMoney',
-        shoeSize:item.id,
-        goodsId:navigation.getParam('item').goods_id
-      }
+      goodsInfo: {
+        type: 'storeMoney',
+        shoeSize: item.id,
+        goodsId: navigation.getParam('item').goods_id,
+      },
     });
   }
 
 
   render() {
-    const { navigation,shoeSizeList, chooseId } = this.props;
-    const  _shoeSizeList= shoeSizeList.data || []
+    const { navigation, shoeSizeList, chooseId } = this.props;
+    const _shoeSizeList = shoeSizeList.data || [];
     const item = navigation.getParam('item');
     return (
       <ScrollView style={styles.choseSizeContainer}>
         <View style={styles.shoseName}>
-          <Image source={{ uri: item.image?item.image:'' }} style={styles.shoseImage} />
+          <Image source={{ uri: item.image ? item.image : '' }} style={styles.shoseImage} />
           <Text style={{ flex: 1 }} numberOfLines={4}>{item.goods_name}</Text>
         </View>
         <View style={styles.choseYourShoe}>
@@ -152,4 +152,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default connect(mapStateToProps,mapDispatchToProps)(ChooseSize);
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseSize);

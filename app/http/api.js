@@ -123,11 +123,8 @@ export default {
       limit: 10,
     },
   },
-  getShoeSizeList: {
-    url: '/free/get_all_size',
 
-},
-  getMissionPrice:{
-    url:'/order/do_add_free_trade'
-  }
+
+  getShoeSizeList: { url: '/free/get_all_size' },
+  getMissionPrice: { url: '/order/do_add_free_trade' },
 };
