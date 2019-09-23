@@ -90,4 +90,11 @@ export default {
       image_size_times: 0.35,
     },
   },
+  // 余额流水明细
+  balanceDetail: {
+    url: '/user/user_balance',
+    initParams: {
+      limit: 10,
+    },
+  },
 };

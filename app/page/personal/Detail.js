@@ -7,19 +7,21 @@ import { bindActionCreators } from 'redux';
 import { YaHei } from '../../res/FontFamily';
 import { PullToRefresh } from '../../components';
 import { formatDate } from '../../utils/commonUtils';
-import { fetchMoneyStream } from '../../redux/actions/moneyStream';
-import { getMoneyStream } from '../../redux/reselect/moneyStream';
+import { fetchListData } from '../../redux/actions/listData';
+import { getListData } from '../../redux/reselect/listData';
+
+const TYPE = 'balanceDetail';
 
 function mapStateToProps() {
   return state => ({
-    moneyStream: getMoneyStream(state) || {},
+    listData: getListData(state, TYPE),
   });
 }
 
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchMoneyStream,
+    fetchListData,
   }, dispatch);
 }
 
@@ -30,8 +32,8 @@ class Detail extends PureComponent {
   }
 
   fetchData = (fetchMore) => {
-    const { fetchMoneyStream } = this.props;
-    fetchMoneyStream(fetchMore);
+    const { fetchListData } = this.props;
+    fetchListData(TYPE, {}, fetchMore);
   }
 
   loadMore = () => {
@@ -51,15 +53,15 @@ class Detail extends PureComponent {
   )
 
   render() {
-    const { moneyStream } = this.props;
+    const { listData } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <PullToRefresh
-          totalPages={moneyStream.totalPages}
-          currentPage={moneyStream.currentPage}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
           Wrapper={FlatList}
-          data={moneyStream.list}
+          data={listData.list}
           refresh={this.fetchData}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
