@@ -12,7 +12,6 @@ import { YaHei } from '../../res/FontFamily';
 import { getListData } from '../../redux/reselect/listData';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { bindActionCreators } from 'redux';
-import { fetchListData } from '../../redux/actions/listData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 
 const TYPE ='getShoeSizeList'
@@ -38,32 +37,36 @@ class ChooseSize extends PureComponent {
     // console.log(this.props.);
     const { navigation,shoeSizeList = [], chooseId } = this.props;
     const item = navigation.getParam('item');
-     console.log('this.props.shoeSizeList');
-     console.log(item);
     this.props.fetchSimpleData(TYPE,{goods_id:item.id})
   }
 
   changeChooseStatus = (item) => {
     let { shoesList, chooseId } = this.state;
     const { navigation } = this.props;
-    for (let i = 0; i < shoesList.length; i++) {
-      const _shoeData = shoesList[i];
-      if (_shoeData.id === item.id) {
-        _shoeData.isSelect = !_shoeData.isSelect;
-        chooseId = _shoeData.isSelect ? item.id : '-1';
-      } else {
-        _shoeData.isSelect = false;
+    // for (let i = 0; i < shoesList.length; i++) {
+    //   const _shoeData = shoesList[i];
+    //   if (_shoeData.id === item.id) {
+    //     _shoeData.isSelect = !_shoeData.isSelect;
+    //     chooseId = _shoeData.isSelect ? item.id : '-1';
+    //   } else {
+    //     _shoeData.isSelect = false;
+    //   }
+    // }
+    // this.setState({ shoesList, chooseId });
+    navigation.navigate('PublishComission', {
+      title: '仓储费用',
+      goodsInfo:{
+        type:'storeMoney',
+        shoeSize:item.id,
+        goodsId:navigation.getParam('item').goods_id
       }
-    }
-    this.setState({ shoesList, chooseId });
-    navigation.navigate('MailOut', {
-      title: '手续费',
     });
   }
 
 
   render() {
-    const { navigation,shoeSizeList = [], chooseId } = this.props;
+    const { navigation,shoeSizeList, chooseId } = this.props;
+    const  _shoeSizeList= shoeSizeList.data || []
     const item = navigation.getParam('item');
     return (
       <ScrollView style={styles.choseSizeContainer}>
@@ -76,26 +79,26 @@ class ChooseSize extends PureComponent {
         </View>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {
-            shoeSizeList.map((item, index) => (
-                  <TouchableOpacity key={index} onPress={() => { this.changeChooseStatus(item); }}>
-                    <View style={styles.itemViwe}>
-                      <View
-                        style={{
-                          width: '90%',
-                          height: '90%',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor: Colors.WHITE_COLOR,
-                          borderColor: item.isSelect ? Colors.OTHER_BACK : '#fff',
-                          borderWidth: StyleSheet.hairlineWidth,
-                        }}
-                      >
-                        <Text style={[styles.sizeNumber, { color: item.isSelect ? Colors.OTHER_BACK : '#000' }]}>{item.size}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                ))
-              }
+            _shoeSizeList.map((item, index) => (
+              <TouchableOpacity key={index} onPress={() => { this.changeChooseStatus(item); }}>
+                <View style={styles.itemViwe}>
+                  <View
+                    style={{
+                      width: '90%',
+                      height: '90%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: Colors.WHITE_COLOR,
+                      borderColor: item.isSelect ? Colors.OTHER_BACK : '#fff',
+                      borderWidth: StyleSheet.hairlineWidth,
+                    }}
+                  >
+                    <Text style={[styles.sizeNumber, { color: item.isSelect ? Colors.OTHER_BACK : '#000' }]}>{item.size}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))
+          }
         </View>
       </ScrollView>
     );
