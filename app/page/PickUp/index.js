@@ -14,10 +14,12 @@ import { PADDING_TAB } from '../../common/Constant';
 import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import { formatDate } from '../../utils/commonUtils';
 import { request } from '../../http/Axios';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
+    simpleData: getSimpleData(state, 'appOptions'),
   });
 }
 
@@ -57,10 +59,9 @@ class PickUp extends PureComponent {
       },
     );
     request('/order/pay_postage', { params: { id: this.item.id } }).then((res) => {
-      const { postage, user_address } = res.data;
+      const { user_address } = res.data;
       const { link_name, mobile, address } = user_address;
       this.setState({
-        postage,
         link_name,
         mobile,
         address,
@@ -80,14 +81,13 @@ class PickUp extends PureComponent {
   }
 
   toPay =() => {
-    const { postage } = this.state;
-    const { navigation } = this.props;
+    const { navigation, simpleData } = this.props;
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '3',
       payData: {
         order_id: this.item.id,
-        price: postage,
+        price: simpleData?.data?.postage,
       },
     });
   }
@@ -105,8 +105,9 @@ class PickUp extends PureComponent {
 
   render() {
     const item = this.item;
+    const { simpleData } = this.props;
     const {
-      postage, link_name, mobile, address, isChoose,
+      link_name, mobile, address, isChoose,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -162,7 +163,7 @@ class PickUp extends PureComponent {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{postage / 100}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{simpleData?.data?.postage / 100}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity disabled={!link_name} style={[styles.zhifu, { backgroundColor: link_name ? Colors.OTHER_BACK : '#e2e2e2' }]} onPress={this.toPay}>

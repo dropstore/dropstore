@@ -26,7 +26,7 @@ class PayStatus extends PureComponent {
   componentDidMount() {
     const { navigation } = this.props;
     const payStatus = navigation.getParam('payStatus');
-    if (payStatus && !navigation.getParam('buySuccess')) {
+    if (payStatus && !navigation.getParam('noTimer')) {
       this._setTime();
       this._timer = setInterval(() => {
         this._setTime();
@@ -93,8 +93,14 @@ class PayStatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
+    const { startDownTime } = this.state;
     const shopInfo = navigation.getParam('shopInfo');
     const payStatus = navigation.getParam('payStatus');
+    const noShareBtn = navigation.getParam('noShareBtn');
+    const btns = [{ text: '确定', onPress: debounce(this._setConfirmOnclick) }];
+    if (!noShareBtn && payStatus) {
+      btns.unshift({ text: '分享', onPress: debounce(this._showShare) });
+    }
     return (
       <View style={_style.container}>
         <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
@@ -103,27 +109,17 @@ class PayStatus extends PureComponent {
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={_style.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
-              payStatus && !navigation.getParam('buySuccess') && this._getStartTime() > 0 ? (
+              payStatus && !navigation.getParam('noTimer') && this._getStartTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
                   <Text style={_style.waitLeft}>等待发布：</Text>
-                  <Text style={_style.time}>{this.state.startDownTime}</Text>
+                  <Text style={_style.time}>{startDownTime}</Text>
                 </View>
               ) : <View />
             }
             <Text style={_style.shopName}>{shopInfo.goods.goods_name}</Text>
           </View>
         </ScrollView>
-        {
-
-          payStatus
-            ? (
-              <BottomBtnGroup btns={[
-                { text: '分享', onPress: debounce(this._showShare) },
-                { text: '确定', onPress: debounce(this._setConfirmOnclick) },
-              ]}
-              />
-            ) : <BottomBtnGroup btns={[{ text: '确定', onPress: debounce(this._setConfirmOnclick) }]} />
-        }
+        <BottomBtnGroup btns={btns} />
       </View>
     );
   }

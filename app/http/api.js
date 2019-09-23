@@ -1,4 +1,9 @@
 export default {
+  // 配置参数
+  appOptions: {
+    url: '/user/get_constant',
+  },
+
   // 自由交易首页列表
   freeTradeIndex: {
     url: '/free/index',

@@ -18,6 +18,7 @@ const TYPE = 'warehousePutOnSale';
 function mapStateToProps() {
   return state => ({
     info: getSimpleData(state, TYPE),
+    simpleData: getSimpleData(state, 'appOptions'),
   });
 }
 
@@ -72,11 +73,10 @@ class PutOnSale extends PureComponent {
   }
 
   render() {
-    const { info } = this.props;
+    const { info, simpleData } = this.props;
     const { price, agreed } = this.state;
-    const deposit = price * info.data?.fee / 100;
+    const deposit = price * simpleData?.data?.fee / 100;
     const disabled = price < info.data?.min_price / 100 || price > info.data?.max_price / 100 || !agreed;
-    console.log(this.item);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   LowPrice: {
-    color: '#C20000',
+    color: Colors.OTHER_BACK,
     fontSize: 13,
   },
   inputPriceTextare: {
