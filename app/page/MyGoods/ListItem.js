@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
   id: {
     fontSize: 8,
     marginTop: 15,
+    letterSpacing: -0.1,
   },
   middle: {
     flexDirection: 'row',
@@ -268,7 +269,7 @@ const styles = StyleSheet.create({
     color: Colors.OTHER_BACK,
     fontSize: 10,
     marginTop: 2,
-    letterSpacing: -0.1,
+    letterSpacing: -0.2,
   },
   time: {
     fontSize: 11,
