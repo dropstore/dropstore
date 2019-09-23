@@ -76,8 +76,7 @@ class Modal extends PureComponent {
   toKufang = () => {
     const { navigation } = this.props;
     this.close();
-    navigation.navigate('MyGoods', {
-      // url: 'http://m.dropstore.cn/index.html#/help',
+    navigation.push('MyGoods', {
       title: '我的库房',
       type: 'warehouse',
     });
