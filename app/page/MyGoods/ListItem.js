@@ -103,17 +103,8 @@ export default class ListItem extends PureComponent {
 
   toPublish = () => {
     const { navigation, item } = this.props;
-    navigation.navigate('pay', {
-      title: '选择支付账户',
-      type: '1',
-      payData: {
-        order_id: item.order_id,
-        price: item.order_price,
-      },
-      shopInfo: {
-        goods: item.goods,
-        order_id: item.order_id,
-      },
+    navigation.navigate('PutOnSale', {
+      title: '发布商品',
     });
   }
 
