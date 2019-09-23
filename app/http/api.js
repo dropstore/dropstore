@@ -96,6 +96,8 @@ export default {
       status: 0,
     },
   },
+  // 库房商品上架
+  warehousePutOnSale: { url: '/free/release_goods' },
   // 我的商品销售中的列表
   goodsOnSale: {
     url: '/free/goods_list',

@@ -105,6 +105,7 @@ export default class ListItem extends PureComponent {
     const { navigation, item } = this.props;
     navigation.navigate('PutOnSale', {
       title: '发布商品',
+      item,
     });
   }
 
