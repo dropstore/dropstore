@@ -29,15 +29,15 @@ class List extends PureComponent {
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData, type, goods: { goods_id } } = this.props;
     fetchListData(type, {
       goods_id,
       ...this.filterParams,
-    }, fetchMore);
+    }, fetchType);
   }
 
   filter = (params) => {

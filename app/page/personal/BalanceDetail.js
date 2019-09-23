@@ -30,13 +30,13 @@ class BalanceDetail extends PureComponent {
     this.fetchData();
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, {}, fetchMore);
+    fetchListData(TYPE, {}, fetchType);
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
   renderItem = ({ item }) => (

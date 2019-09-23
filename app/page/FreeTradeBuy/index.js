@@ -57,18 +57,18 @@ class FreeTradeBuy extends PureComponent {
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { free_id: this.free_id, is_stock: '1', user_id: this.item.user_id }, fetchMore);
+    fetchListData(TYPE, { free_id: this.free_id, is_stock: '1', user_id: this.item.user_id }, fetchType);
   }
 
   onPress = (item) => {
     this.free_id = item.id;
     this.setState({ cuurentItem: item });
-    this.fetchData();
+    this.fetchData('refresh');
   }
 
   toPay = () => {
@@ -85,7 +85,6 @@ class FreeTradeBuy extends PureComponent {
   listHeaderComponent = () => {
     const { vendorInfo: { data } } = this.props;
     const { cuurentItem } = this.state;
-    console.log(this.item, data);
     return (
       <View>
         <View style={styles.header}>

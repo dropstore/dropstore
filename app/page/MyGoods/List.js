@@ -26,12 +26,12 @@ class List extends PureComponent {
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  fetchData = (fetchMore) => {
+  fetchData = (fetchType) => {
     const { fetchListData, params, apiType } = this.props;
-    fetchListData(apiType, params, fetchMore);
+    fetchListData(apiType, params, fetchType);
   }
 
   renderItem = ({ item }) => {
