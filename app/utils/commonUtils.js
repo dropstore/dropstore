@@ -19,6 +19,7 @@ function debounceDelay(fun, delay = 350) {
 }
 
 function formatDate(time, separation = '-') {
+  if (!time) { return ''; }
   const fullTime = new Date(time * 1000);
   let str = '';
   str += `${fullTime.getFullYear()}${separation}`;

@@ -52,7 +52,7 @@ class FreeTradeBuy extends PureComponent {
         price: this.item.price,
       },
     };
-    fetchSimpleData(VENDOR_TYPE, { id: this.item.id });
+    fetchSimpleData(VENDOR_TYPE, { id: this.item.free_id });
     this.fetchData();
   }
 
@@ -97,28 +97,24 @@ class FreeTradeBuy extends PureComponent {
             </View>
           </View>
         </View>
-        {
-          data ? (
-            <View style={styles.vendor}>
-              <View style={styles.imageWrapper}>
-                <FadeImage source={{ uri: data.avatar }} style={styles.avatar} />
+        <View style={styles.vendor}>
+          <View style={styles.imageWrapper}>
+            <FadeImage source={{ uri: this.item.avatar }} style={styles.avatar} />
+          </View>
+          <View style={styles.vendorRight}>
+            <View style={{ marginLeft: 10, marginTop: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ fontSize: 15 }}>{this.item.user_name}</Text>
+                <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={this.item.sex === '2' ? Images.littleGirl : Images.littleBoy} />
               </View>
-              <View style={styles.vendorRight}>
-                <View style={{ marginLeft: 10, marginTop: 12 }}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 15 }}>{data.user_name}</Text>
-                    <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={data.sex === '2' ? Images.littleGirl : Images.littleBoy} />
-                  </View>
-                  <Text style={{ fontSize: 11, color: '#696969' }}>
-                    {'累计成交订单：'}
-                    <Text style={{ fontSize: 11, color: '#37B6EB', fontFamily: YaHei }}>{data.goods_number}</Text>
-                  </Text>
-                </View>
-                <Text style={{ fontSize: 9, color: '#696969', marginTop: 15 }}>{`入驻平台时间：${formatDate(data.user_time)}`}</Text>
-              </View>
+              <Text style={{ fontSize: 11, color: '#696969' }}>
+                {'累计成交订单：'}
+                <Text style={{ fontSize: 11, color: '#37B6EB', fontFamily: YaHei }}>{(data || {}).goods_number}</Text>
+              </Text>
             </View>
-          ) : <View style={styles.vendor} />
-        }
+            <Text style={{ fontSize: 9, color: '#696969', marginTop: 15 }}>{`入驻平台时间：${formatDate((data || {}).user_time)}`}</Text>
+          </View>
+        </View>
         <Text style={{ fontSize: 12, color: '#272727', marginTop: 20 }}>卖家还在卖</Text>
       </View>
     );
