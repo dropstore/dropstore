@@ -31,6 +31,7 @@ function mapDispatchToProps(dispatch) {
 class List extends PureComponent {
   constructor(props) {
     super(props);
+    this.filterParams = {};
     this.fetchData();
     this.translateY = new Animated.Value(0);
   }
@@ -40,12 +41,13 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchType) => {
-    const { fetchListData, type } = this.props;
-    fetchListData(type, { type: 1 }, fetchType);
+    const { fetchListData, type, params } = this.props;
+    fetchListData(type, { ...this.filterParams, ...params }, fetchType);
   }
 
-  onChangeText = (text) => {
-    console.log(text);
+  onChangeText = (goods_name) => {
+    this.filterParams = { goods_name };
+    this.fetchData();
   }
 
   onScroll = (e) => {

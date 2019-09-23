@@ -15,7 +15,7 @@ export default class FreeTrade extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
-        <FreeTradeList itemOnPress={this.itemOnPress} style={{ flex: 1 }} type="freeTradeIndex" />
+        <FreeTradeList itemOnPress={this.itemOnPress} style={{ flex: 1 }} type="freeTradePublishList" />
       </View>
     );
   }
