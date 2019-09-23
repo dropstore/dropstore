@@ -106,9 +106,16 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess) => {
     const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
     if (res.data == 1) {
       showToast('支付成功');
-      navigation.push('payStatus', {
-        payStatus: true, shopInfo, type, buySuccess,
-      });
+      if (shopInfo) {
+        navigation.push('payStatus', {
+          payStatus: true, shopInfo, type, buySuccess,
+        });
+      } else {
+        navigation.push('MyGoods', {
+          title: '我的库房',
+          type: 'warehouse',
+        });
+      }
     } else {
       showToast('支付失败，请重新支付');
     }
