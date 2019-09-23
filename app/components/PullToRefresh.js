@@ -42,7 +42,7 @@ export default class PullToRefresh extends PureComponent {
   onRefresh = () => {
     const { refresh } = this.props;
     this.setState({ refreshing: true });
-    refresh();
+    refresh('refresh');
   }
 
   render() {
