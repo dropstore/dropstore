@@ -53,12 +53,13 @@ class ChooseSize extends PureComponent {
     //   }
     // }
     // this.setState({ shoesList, chooseId });
+    console.log(navigation.getParam('item'));
     navigation.navigate('PublishComission', {
       title: '仓储费用',
       goodsInfo: {
         type: 'storeMoney',
         shoeSize: item.id,
-        goodsId: navigation.getParam('item').goods_id,
+        goodsId: navigation.getParam('item').id,
       },
     });
   }
