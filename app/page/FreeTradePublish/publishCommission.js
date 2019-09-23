@@ -49,7 +49,7 @@ class PublishCommission extends PureComponent {
       <View style={{ flex: 1 }}>
         <ScrollView style={styles.scrollView}>
           {
-            type==='storeMoney'? <View>
+            type==='storeMoney'? (<View>
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
                   <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${50000000}￥`}</Text>
@@ -71,7 +71,7 @@ class PublishCommission extends PureComponent {
                   />
                 </View>
               </View>
-            </View>:<View>
+            </View>):(<View>
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
                   <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${50000000}￥`}</Text>
@@ -93,7 +93,7 @@ class PublishCommission extends PureComponent {
                   />
                 </View>
               </View>
-            </View>
+            </View>)
           }
         </ScrollView>
         <BottomPay

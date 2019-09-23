@@ -126,12 +126,8 @@ export default {
   getShoeSizeList: {
     url: '/free/get_all_size',
 
-<<<<<<< HEAD
 },
   getMissionPrice:{
     url:'/order/do_add_free_trade'
   }
-=======
-  },
->>>>>>> 6868ad3d90e6de998085531b4abfda5ed1257995
 };
