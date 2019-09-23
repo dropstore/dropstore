@@ -40,7 +40,7 @@ class ChooseSize extends PureComponent {
     const item = navigation.getParam('item');
      console.log('this.props.shoeSizeList');
      console.log(item);
-    this.props.fetchSimpleData(TYPE,{parmas:{id:item.id}})
+    this.props.fetchSimpleData(TYPE,{goods_id:item.id})
   }
 
   changeChooseStatus = (item) => {
