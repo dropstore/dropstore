@@ -33,7 +33,7 @@ import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
 import AddressEdit from '../page/Address/AddressEdit';
 import Message from '../page/notice/Message';
-import Extract from '../page/personal/Extract';
+import BalanceExtract from '../page/personal/BalanceExtract';
 import BalanceDetail from '../page/personal/BalanceDetail';
 import Password from '../page/Password';
 import MyGoods from '../page/MyGoods';
@@ -104,7 +104,7 @@ const routesWithHeader = {
   Message,
   AddressEdit,
   Web,
-  Extract,
+  BalanceExtract,
   BalanceDetail,
   Password,
   MyGoods,

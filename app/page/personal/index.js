@@ -34,7 +34,7 @@ class PersonalCenterPage extends PureComponent {
         title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
       },
       {
-        title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
+        title: '提现', icon: 'extract', route: 'BalanceExtract', params: { title: '提现' },
       },
     ];
     this.list2 = [
@@ -85,7 +85,7 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.walletWrapper}>
             <TouchableOpacity
               style={styles.walletLeft}
-              onPress={() => navigation.navigate('Detail', { title: '明细' })}
+              onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}
             >
               <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
               <Text style={styles.moenyText}>账户总余额(￥)</Text>

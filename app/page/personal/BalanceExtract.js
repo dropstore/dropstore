@@ -1,13 +1,11 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Images from '../../res/Images';
-import {
-  Image, ModalNormal, ImageBackground, KeyboardDismiss,
-} from '../../components';
+import { ModalNormal, KeyboardDismiss } from '../../components';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
@@ -30,13 +28,13 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class Extract extends PureComponent {
+class BalanceExtract extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
     navigation.setParams({
       headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('Detail', { title: '明细' })} style={styles.rightWrapper}>
+        <TouchableOpacity onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })} style={styles.rightWrapper}>
           <Text style={{ color: '#fff', fontSize: 14 }}>明细</Text>
         </TouchableOpacity>
       ),
@@ -101,58 +99,47 @@ class Extract extends PureComponent {
   }
 
   render() {
+    const { userInfo } = this.props;
+    const canExtract = Math.min(15300, userInfo.balance / 100);
+    const data = [
+      { title: canExtract > 15300 ? '当日可提现金额' : '可提现金额', onChangeText: (text) => { this.name = text; } },
+      { title: '姓名', onChangeText: (text) => { this.name = text; } },
+      { title: '支付宝账号', keyboardType: 'number-pad', onChangeText: (text) => { this.account = text; } },
+      { title: '提现金额', keyboardType: 'number-pad', onChangeText: (text) => { this.price = text; } },
+    ];
     return (
       <KeyboardDismiss style={styles.container}>
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View>
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text style={{ color: '#000', fontSize: 14 }}>可提现余额: </Text>
-            <Text style={{ color: '#666', fontSize: 14 }}>15300</Text>
-          </ImageBackground>
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text>姓名: </Text>
-            <TextInput
-              style={styles.input}
-              keyboardType="number-pad"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              clearButtonMode="while-editing"
-              onChangeText={(text) => { this.name = text; }}
-            />
-          </ImageBackground>
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text>支付宝账号: </Text>
-            <TextInput
-              style={styles.input}
-              keyboardType="number-pad"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              clearButtonMode="while-editing"
-              onChangeText={(text) => { this.account = text; }}
-            />
-          </ImageBackground>
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text>提现金额: </Text>
-            <TextInput
-              style={styles.input}
-              keyboardType="number-pad"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              clearButtonMode="while-editing"
-              onChangeText={(text) => { this.price = text; }}
-            />
-          </ImageBackground>
+          {
+            data.map((v, i) => (
+              <View style={styles.extractWhite} key={`${v.title}-${i}`}>
+                <Text style={{ fontSize: 12 }}>{`${v.title}: `}</Text>
+                {
+                  i === 0 ? <Text style={{ fontSize: 12 }}>{canExtract}</Text> : (
+                    <TextInput
+                      style={styles.input}
+                      keyboardType={v.keyboardType}
+                      placeholderTextColor="#d3d3d3"
+                      underlineColorAndroid="transparent"
+                      // clearButtonMode="while-editing"
+                      onChangeText={v.onChangeText}
+                    />
+                  )
+                }
+              </View>
+            ))
+          }
           <TouchableOpacity style={styles.btn} onPress={this.instructions}>
-            <Text style={{ color: '#000', fontSize: 14 }}>提现说明</Text>
-            <Image source={Images.arrowRed} style={{ width: 7, height: 10, marginLeft: 5 }} />
+            <Text style={{ fontSize: 12, color: '#37B6EB' }}>提现说明 &gt;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={{ marginBottom: hPx2P(35) + PADDING_TAB }}>
           <Text style={styles.date}>1-3个工作日到账</Text>
-          <ImageBackground onPress={this.submit} source={Images.extractRed} style={styles.extractRed}>
+          <TouchableOpacity onPress={this.submit} style={styles.extractRed}>
             <Text style={{ color: '#fff', fontSize: 18 }}>提交申请</Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
       </KeyboardDismiss>
     );
@@ -176,22 +163,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   extractRed: {
-    width: wPx2P(351),
-    height: wPx2P(38),
+    width: wPx2P(265),
+    height: wPx2P(46),
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.OTHER_BACK,
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   extractWhite: {
-    width: wPx2P(351),
-    height: wPx2P(38),
+    height: 40,
+    width: SCREEN_WIDTH - 48,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wPx2P(15),
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    overflow: 'hidden',
     marginBottom: 15,
     justifyContent: 'space-between',
   },
   date: {
-    color: '#CCCCCC',
+    color: '#aaa',
     fontSize: 14,
     marginBottom: hPx2P(27),
     marginTop: hPx2P(10),
@@ -200,6 +193,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     padding: 0,
+    fontSize: 12,
     color: '#666',
     height: '100%',
     textAlign: 'right',
@@ -212,4 +206,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Extract);
+export default connect(mapStateToProps, mapDispatchToProps)(BalanceExtract);
