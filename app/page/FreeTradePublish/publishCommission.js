@@ -32,8 +32,14 @@ class PublishCommission extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
-    const { shoeSize, goodsId } = navigation.getParam('goodsInfo');
-    fetchSimpleData(TYPE, { goods_id: goodsId, size_id: shoeSize });
+    const {
+      shoeSize, goodsId, type, order_id, price,
+    } = navigation.getParam('goodsInfo');
+    if (type === 'storeMoney') {
+      fetchSimpleData(TYPE, { goods_id: goodsId, size_id: shoeSize });
+    } else {
+      fetchSimpleData('freeTradeToRelease', { price, order_id });
+    }
   }
 
   toPay = () => {
@@ -67,8 +73,13 @@ class PublishCommission extends PureComponent {
   }
 
   render() {
-    const { missionPrice: { data = {} }, navigation, appOptions } = this.props;
-    const { type, shoePrice } = navigation.getParam('goodsInfo');
+    const { missionPrice, navigation, appOptions } = this.props;
+    const { type, price } = navigation.getParam('goodsInfo');
+    let data = {};
+    if (type === 'storeMoney') {
+      data = missionPrice.data;
+    }
+    console.log(missionPrice);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -76,10 +87,10 @@ class PublishCommission extends PureComponent {
             type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`仓储费用：${appOptions?.data?.management / 100}￥`}</Text> : (
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
-                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${shoePrice}￥`}</Text>
+                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${price}￥`}</Text>
                   <Text style={{ fontFamily: YaHei, fontSize: 12 }}>{`需支付保证金：${appOptions?.data?.fee}%`}</Text>
                 </View>
-                <Text style={styles.totalMoneyText}>{`支付金额：${shoePrice * appOptions?.data?.fee / 100}￥`}</Text>
+                <Text style={styles.totalMoneyText}>{`支付金额：${(price * appOptions?.data?.fee / 100).toFixed(2)}￥`}</Text>
               </View>
             )
           }

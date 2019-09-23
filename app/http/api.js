@@ -55,6 +55,8 @@ export default {
   },
   // 自由交易下单
   freeTradeToOrder: { url: '/order/do_buy_free' },
+  // 自由交易上架
+  freeTradeToRelease: { url: '/free/do_release' },
 
 
   // 活动通知列表

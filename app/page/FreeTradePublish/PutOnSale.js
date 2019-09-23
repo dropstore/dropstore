@@ -56,7 +56,8 @@ class PutOnSale extends PureComponent {
       title: '支付保证金',
       goodsInfo: {
         type: 'deposit',
-        shoePrice: price,
+        price,
+        order_id: this.item.order_id,
       },
     });
   }

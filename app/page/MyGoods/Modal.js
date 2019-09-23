@@ -2,24 +2,32 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { YaHei } from '../../res/FontFamily';
 import Images from '../../res/Images';
 import { Image, KeyboardDismiss } from '../../components';
 import Colors from '../../res/Colors';
 import { showToast } from '../../utils/MutualUtil';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 
-export default class Modal extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    appOptions: getSimpleData(state, 'appOptions'),
+  });
+}
+
+class Modal extends PureComponent {
   constructor(props) {
     super(props);
     const { type } = this.props;
     this.state = {
+      text: '',
       step: {
         edit: 0,
         cancel: 2,
         express: 4,
       }[type],
     };
-    this.text = '';
   }
 
   toHelp = () => {
@@ -30,27 +38,27 @@ export default class Modal extends PureComponent {
 
   sure = () => {
     const { successCallback, type } = this.props;
-    const { step } = this.state;
+    const { step, text } = this.state;
     if (step === 0) {
-      if (this.text.length < 1) {
+      if (text.length < 1) {
         showToast('请输入金额');
       } else {
-        successCallback(this.text, type).then(() => {
+        successCallback(text, type).then(() => {
           this.close();
         });
       }
     } else if ([1, 3].includes(step)) {
       this.close();
     } else if (step === 4) {
-      if (this.text.length < 1) {
+      if (text.length < 1) {
         showToast('请输入运单号');
       } else {
-        successCallback(this.text, type).then(() => {
+        successCallback(text, type).then(() => {
           this.close();
         });
       }
     } else if (step === 2) {
-      successCallback(this.text, type).then(() => {
+      successCallback(text, type).then(() => {
         this.setState({ step: 3 });
       });
     }
@@ -62,7 +70,7 @@ export default class Modal extends PureComponent {
   }
 
   onChangeText = (text) => {
-    this.text = text;
+    this.setState({ text });
   }
 
   toKufang = () => {
@@ -76,8 +84,8 @@ export default class Modal extends PureComponent {
   }
 
   render() {
-    const { step } = this.state;
-    const { item } = this.props;
+    const { step, text } = this.state;
+    const { item, appOptions } = this.props;
     return (
       <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 287 : 197 }]}>
         {
@@ -104,7 +112,7 @@ export default class Modal extends PureComponent {
                 <Text style={styles.yuan}>元</Text>
               </View>
               <TouchableOpacity onPress={this.toHelp} style={styles.yuanWrapper}>
-                <Text style={styles.shouxufei}>手续费：222元</Text>
+                <Text style={styles.shouxufei}>{`手续费：${(appOptions?.data?.fee / 100 * text).toFixed(2)}元`}</Text>
                 <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
               </TouchableOpacity>
             </View>
@@ -285,3 +293,5 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
+
+export default connect(mapStateToProps)(Modal);
