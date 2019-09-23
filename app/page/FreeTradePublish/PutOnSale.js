@@ -54,10 +54,13 @@ class PutOnSale extends PureComponent {
     }
     navigation.navigate('PublishCommission', {
       title: '支付保证金',
+      TYPE: 'freeTradeToRelease',
       goodsInfo: {
         type: 'deposit',
         price,
         order_id: this.item.order_id,
+        goodsImage: (this.item.goods || this.item).image,
+        goodsName: (this.item.goods || this.item).goods_name,
       },
     });
   }

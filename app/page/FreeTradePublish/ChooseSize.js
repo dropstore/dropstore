@@ -39,6 +39,7 @@ class ChooseSize extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('PublishCommission', {
       title: '仓储费用',
+      TYPE: 'getMissionPrice',
       goodsInfo: {
         type: 'storeMoney',
         shoeSize: item.id,

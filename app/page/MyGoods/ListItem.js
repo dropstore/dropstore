@@ -58,10 +58,11 @@ export default class ListItem extends PureComponent {
   }
 
   onPress = (type) => {
-    const { navigation, item } = this.props;
+    const { navigation, item, route } = this.props;
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
+          route={route}
           navigation={navigation}
           closeModalbox={closeModalbox}
           type={type}

@@ -74,12 +74,14 @@ class Modal extends PureComponent {
   }
 
   toKufang = () => {
-    const { navigation } = this.props;
+    const { navigation, route } = this.props;
     this.close();
-    navigation.push('MyGoods', {
-      title: '我的库房',
-      type: 'warehouse',
-    });
+    if (route === 'Goods') {
+      navigation.push('MyGoods', {
+        title: '我的库房',
+        type: 'warehouse',
+      });
+    }
   }
 
   render() {

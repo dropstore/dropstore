@@ -14,10 +14,9 @@ import { formatDate } from '../../utils/commonUtils';
 import ShopConstant from '../../common/ShopConstant';
 import { showToast } from '../../utils/MutualUtil';
 
-const TYPE = 'getMissionPrice';
 function mapStateToProps() {
-  return state => ({
-    missionPrice: getSimpleData(state, TYPE),
+  return (state, props) => ({
+    missionPrice: getSimpleData(state, props.navigation.getParam('TYPE')),
     appOptions: getSimpleData(state, 'appOptions'),
   });
 }
@@ -35,35 +34,31 @@ class PublishCommission extends PureComponent {
     const {
       shoeSize, goodsId, type, order_id, price,
     } = navigation.getParam('goodsInfo');
+    const TYPE = navigation.getParam('TYPE');
     if (type === 'storeMoney') {
       fetchSimpleData(TYPE, { goods_id: goodsId, size_id: shoeSize });
     } else {
-      fetchSimpleData('freeTradeToRelease', { price, order_id });
+      fetchSimpleData(TYPE, { price, order_id });
     }
   }
 
   toPay = () => {
-    const { navigation, missionPrice, appOptions } = this.props;
-    const { goodsImage, goodsName, type } = navigation.getParam('goodsInfo');
-    if (type === 'storeMoney') {
-      navigation.navigate('pay', {
-        title: '选择支付方式',
-        type: ShopConstant.PAY_ORDER,
-        payData: {
-          ...missionPrice.data,
-          price: appOptions?.data?.management,
+    const { navigation, missionPrice } = this.props;
+    const { goodsImage, goodsName } = navigation.getParam('goodsInfo');
+    navigation.navigate('pay', {
+      title: '选择支付方式',
+      type: ShopConstant.PAY_ORDER,
+      payData: missionPrice.data,
+      shopInfo: {
+        goods: {
+          image: goodsImage,
+          goods_name: goodsName,
+          start_time: 0,
         },
-        shopInfo: {
-          goods: {
-            image: goodsImage,
-            goods_name: goodsName,
-            start_time: 0,
-          },
-        },
-        noTimer: true,
-        noShareBtn: true,
-      });
-    }
+      },
+      noTimer: true,
+      noShareBtn: true,
+    });
   }
 
   exit = () => {
@@ -73,13 +68,8 @@ class PublishCommission extends PureComponent {
   }
 
   render() {
-    const { missionPrice, navigation, appOptions } = this.props;
+    const { missionPrice: { data = {} }, navigation, appOptions } = this.props;
     const { type, price } = navigation.getParam('goodsInfo');
-    let data = {};
-    if (type === 'storeMoney') {
-      data = missionPrice.data;
-    }
-    console.log(missionPrice);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -98,12 +88,16 @@ class PublishCommission extends PureComponent {
             <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
             <View style={styles.creatTime}>
               <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
-              <CountdownCom
-                prefix="待付款 "
-                finish={this.exit}
-                time={data.pay_time}
-                style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
-              />
+              {
+                type === 'storeMoney' && (
+                  <CountdownCom
+                    prefix="待付款 "
+                    finish={this.exit}
+                    time={data.pay_time}
+                    style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}
+                  />
+                )
+              }
             </View>
           </View>
         </ScrollView>
