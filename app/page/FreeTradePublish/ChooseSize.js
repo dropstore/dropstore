@@ -60,6 +60,8 @@ class ChooseSize extends PureComponent {
         type: 'storeMoney',
         shoeSize: item.id,
         goodsId: navigation.getParam('item').id,
+        goodsImage: navigation.getParam('item').image,
+        goodsName: navigation.getParam('item').goods_name,
       },
     });
   }

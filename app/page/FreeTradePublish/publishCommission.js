@@ -35,14 +35,23 @@ class PublishCommission extends PureComponent {
 
   toPay = () => {
     const { navigation } = this.props;
-    const {shoeSize,goodsId,type} = navigation.getParam('goodsInfo')
+    const {goodsImage,goodsName,type} = navigation.getParam('goodsInfo')
     console.log('this.props.MissionPrice.data');
     console.log(this.props.MissionPrice.data);
     if(type === 'storeMoney'){
       navigation.navigate('pay', {
         title: '选择支付方式',
         type: ShopConstant.PAY_ORDER,
-        payData:this.props.MissionPrice.data || {}
+        payData:this.props.MissionPrice.data || {},
+        shopInfo:{
+          goods:{
+            image:goodsImage,
+            goods_name:goodsName,
+            start_time:0
+          }
+        },
+        noTimer:'true',
+
       });
     }
 
