@@ -75,6 +75,16 @@ export default {
     initParams: {
       limit: 10,
       image_size_times: 0.35,
+      goods_status: 1,
+    },
+  },
+  // 已出库列表
+  sendOut: {
+    url: '/order/order_goods_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+      goods_status: 2,
     },
   },
   // 未完成列表
@@ -83,14 +93,25 @@ export default {
     initParams: {
       limit: 10,
       image_size_times: 0.35,
+      status: 0,
     },
   },
-  // 我的商品列表
-  goods: {
+  // 我的商品销售中的列表
+  goodsOnSale: {
     url: '/free/goods_list',
     initParams: {
       limit: 10,
       image_size_times: 0.35,
+      status: 0,
+    },
+  },
+  // 我的商品销售中的列表
+  goodsSelled: {
+    url: '/free/goods_list',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.35,
+      status: 1,
     },
   },
 
@@ -102,11 +123,15 @@ export default {
       limit: 10,
     },
   },
-  getShoeSizeList:{
-    url:'/free/get_all_size',
+  getShoeSizeList: {
+    url: '/free/get_all_size',
 
+<<<<<<< HEAD
 },
   getMissionPrice:{
     url:'/order/do_add_free_trade'
   }
+=======
+  },
+>>>>>>> 6868ad3d90e6de998085531b4abfda5ed1257995
 };

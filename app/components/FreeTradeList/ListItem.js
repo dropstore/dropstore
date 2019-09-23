@@ -13,19 +13,23 @@ export default class ListItem extends PureComponent {
   }
 
   render() {
-    const { item, notShowCount } = this.props;
+    const { item, notShowCount, showPrice } = this.props;
     return (
       <ScaleView onPress={this.onPress} style={styles.container}>
         <Text numberOfLines={3} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
         <FadeImage source={{ uri: item.image }} style={styles.shoe} />
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-          {
-            item.price > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
-          }
-          {
-            !notShowCount && <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
-          }
-        </View>
+        {
+          showPrice && (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+              {
+              item.price > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
+            }
+              {
+              !notShowCount && <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
+            }
+            </View>
+          )
+        }
       </ScaleView>
     );
   }

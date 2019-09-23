@@ -30,8 +30,8 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchType) => {
-    const { fetchListData, params, apiType } = this.props;
-    fetchListData(apiType, params, fetchType);
+    const { fetchListData, apiType } = this.props;
+    fetchListData(apiType, {}, fetchType);
   }
 
   renderItem = ({ item }) => {

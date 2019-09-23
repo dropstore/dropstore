@@ -33,7 +33,7 @@ export default class ListItem extends PureComponent {
           <Text style={styles.size}>{`SIZE: ${item.size}`}</Text>
         </View>
         <View style={styles.right}>
-          <TitleWithTagTwo text="" type={parseInt(item.is_stock)} />
+          <TitleWithTagTwo text="" type={item.is_stock} />
           <Price price={item.price} />
         </View>
       </ScaleView>
