@@ -106,12 +106,16 @@ class MailOut extends PureComponent {
         </ScrollView>
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
-            <Image style={{width:26,height:26}} source={{uri:'../../res/image/selectIcon.png'}}></Image>
-            <Text style={styles.price}>我已阅读</Text>
             <TouchableOpacity
               onPress={this.onPress}
             >
-              <Text >卖家须知></Text>
+              <Image style={{width:20,height:20}} source={require('../../res/image/selectIcon.png')}></Image>
+            </TouchableOpacity>
+            <Text style={styles.ihavekonw}>我已阅读</Text>
+            <TouchableOpacity
+              onPress={this.onPress}
+            >
+              <Text style={styles.salerNeedKnow}>卖家须知></Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -219,7 +223,7 @@ const styles = StyleSheet.create({
     flex:8,
   },
   zhifu: {
-    width: wPx2P(198),
+    width: wPx2P(150),
     height: 44,
     borderRadius: 2,
     overflow: 'hidden',
@@ -260,10 +264,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: YaHei,
   },
+  ihavekonw:{
+   marginLeft: 9,
+   fontSize:14
+  },
   queren: {
     color: '#fff',
     fontSize: 16,
     fontFamily: YaHei,
   },
+  salerNeedKnow:{
+    fontSize:14,
+    color:'#37B6EB'
+  },
+
 });
 export default connect(mapStateToProps, mapDispatchToProps)(MailOut);
