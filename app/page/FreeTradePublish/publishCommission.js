@@ -43,7 +43,8 @@ class PublishCommission extends PureComponent {
   }
 
   render() {
-    const { data } = this.props.MissionPrice;
+    const { data={} } = this.props.MissionPrice;
+    const { navigation } = this.props;
     const {type} = navigation.getParam('goodsInfo')
     return (
       <View style={{ flex: 1 }}>
@@ -97,7 +98,7 @@ class PublishCommission extends PureComponent {
           }
         </ScrollView>
         <BottomPay
-          price={currentItem.price}
+          price={data.price}
           onPress={this.toPay}
         />
       </View>
