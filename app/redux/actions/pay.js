@@ -97,7 +97,7 @@ const dropPay = async () => {
  * @param navigation
  * @param {Object} shopInfo - 商品详情
  */
-const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess) => {
+const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTimer, noShareBtn) => {
   const params = {
     u_a_id: uAid,
     type,
@@ -108,7 +108,7 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess) => {
       showToast('支付成功');
       if (shopInfo) {
         navigation.push('payStatus', {
-          payStatus: true, shopInfo, type, buySuccess,
+          shopInfo, type, buySuccess, noTimer, noShareBtn, payStatus: true,
         });
       } else {
         navigation.push('MyGoods', {
@@ -118,6 +118,9 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess) => {
       }
     } else {
       showToast('支付失败，请重新支付');
+      // navigation.push('payStatus', {
+      //   shopInfo, type, buySuccess, noTimer, noShareBtn, payStatus: false,
+      // });
     }
   } catch (e) {
   }

@@ -41,7 +41,8 @@ export default class ListItem extends PureComponent {
           },
           order_id: item.order_id,
         },
-        buySuccess: 'true',
+        buySuccess: true,
+        noTimer: true,
       });
     } else if (['8', '9'].includes(item.type)) {
       navigation.navigate('shopDetail', {
