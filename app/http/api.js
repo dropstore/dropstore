@@ -97,4 +97,8 @@ export default {
       limit: 10,
     },
   },
+  getShoeSizeList:{
+    url:'/free/get_all_size',
+
+}
 };

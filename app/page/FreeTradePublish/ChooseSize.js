@@ -3,29 +3,44 @@ import {
   Text, ScrollView, View, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux'
 import Image from '../../components/Image';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { SCREEN_WIDTH } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
-// app/page/shopDetail/components/other/SelectShoeSizeByUnJoinsCom.js
+import { getListData } from '../../redux/reselect/listData';
+import { getSimpleData } from '../../redux/reselect/simpleData';
+import { bindActionCreators } from 'redux';
+import { fetchListData } from '../../redux/actions/listData';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
+
+const TYPE ='getShoeSizeList'
+
+function mapStateToProps() {
+  return state => ({
+    shoeSizeList: getSimpleData(state, TYPE),
+  });
+}
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchSimpleData,
+  }, dispatch);
+}
+
 class ChooseSize extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       chooseId: '-1',
-      shoesList: [],
     };
-  }
-
-  componentDidMount() {
-    const sises = [{ size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }, { size: 10, id: Math.random(10) }];
-    // const _shoesList = JSON.parse(JSON.stringify(shoesList));
-    const _shoesList = sises;
-    for (let i = 0; i < _shoesList.length; i++) {
-      _shoesList[i].isSelect = false;
-    }
-    this.setState({ shoesList: _shoesList });
+    // console.log('this.props.shoeSizeList');
+    // console.log(this.props.);
+    const { navigation,shoeSizeList = [], chooseId } = this.props;
+    const item = navigation.getParam('item');
+     console.log('this.props.shoeSizeList');
+     console.log(item);
+    this.props.fetchSimpleData(TYPE,{parmas:{id:item.id}})
   }
 
   changeChooseStatus = (item) => {
@@ -48,13 +63,12 @@ class ChooseSize extends PureComponent {
 
 
   render() {
-    const { navigation } = this.props;
+    const { navigation,shoeSizeList = [], chooseId } = this.props;
     const item = navigation.getParam('item');
-    const { shoesList: _shoesList, chooseId } = this.state;
     return (
       <ScrollView style={styles.choseSizeContainer}>
         <View style={styles.shoseName}>
-          <Image source={{ uri: item.image }} style={styles.shoseImage} />
+          <Image source={{ uri: item.image?item.image:'' }} style={styles.shoseImage} />
           <Text style={{ flex: 1 }} numberOfLines={4}>{item.goods_name}</Text>
         </View>
         <View style={styles.choseYourShoe}>
@@ -62,7 +76,7 @@ class ChooseSize extends PureComponent {
         </View>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {
-                _shoesList.map((item, index) => (
+            shoeSizeList.map((item, index) => (
                   <TouchableOpacity key={index} onPress={() => { this.changeChooseStatus(item); }}>
                     <View style={styles.itemViwe}>
                       <View
@@ -135,4 +149,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default withNavigation(ChooseSize);
+export default connect(mapStateToProps,mapDispatchToProps)(ChooseSize);
