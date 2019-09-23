@@ -7,7 +7,7 @@ import List from './List';
 import TabBar from '../../components/TabBar';
 import { SCREEN_WIDTH } from '../../common/Constant';
 import Colors from '../../res/Colors';
-import { YaHei } from '../../res/FontFamily';
+import HeaderRight from './HeaderRight';
 
 class MyGoods extends PureComponent {
   constructor(props) {
@@ -65,24 +65,23 @@ class MyGoods extends PureComponent {
 
   render() {
     const { routes, index } = this.state;
-    const isMyGoods = this.routeType === 'Goods';
     return (
       <View style={styles.tabView}>
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View style={styles.header}>
           <TabBar
-            style={{ ...styles.tabBar, width: isMyGoods ? 140 : 180 }}
+            style={{ ...styles.tabBar, width: this.routeType === 'Goods' ? 140 : 180 }}
             routes={routes}
             index={index}
             onIndexChange={this.onIndexChange}
           />
           {
-            isMyGoods && (
-              <View style={styles.textWrapper}>
-                <Text style={styles.text1}>{`${index === 0 ? '销售中: ' : '已卖出: '}`}</Text>
-                <Text style={[styles.text2, { color: index === 0 ? '#C81919' : '#37B6EB' }]}>5722</Text>
-                <Text style={styles.text1}> 双</Text>
-              </View>
+            (this.routeType === 'Goods' || index === 0) && (
+              <HeaderRight
+                color={index === 0 ? '#C81919' : '#37B6EB'}
+                prefix={`${this.routeType === 'Goods' ? (index === 0 ? '销售中: ' : '已卖出: ') : '库存 '}`}
+                apiType={routes[index].apiType}
+              />
             )
           }
         </View>
@@ -124,21 +123,6 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  text1: {
-    color: '#272727',
-    fontSize: 12,
-    fontFamily: YaHei,
-    marginBottom: 3.5,
-  },
-  text2: {
-    fontSize: 20,
-    fontFamily: YaHei,
-  },
-  textWrapper: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginRight: 8,
   },
 });
 

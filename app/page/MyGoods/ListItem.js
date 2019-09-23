@@ -153,7 +153,6 @@ export default class ListItem extends PureComponent {
     const subTitle = type === 'uncomplete' ? '' : '已入库';
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
-    console.log(item);
     const showNumber = !!item.order_id;
     return (
       <View style={styles.container}>
