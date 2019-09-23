@@ -4,17 +4,16 @@ import {
 } from 'react-native';
 import { YaHei } from '../res/FontFamily';
 
-export default class TitleWithTag extends PureComponent {
+export default class TitleWithTagTwo extends PureComponent {
   render() {
     const { text, type } = this.props;
-    // 1期货 2现货（已鉴定或从平台购买的） 2发布（未填写物流）3发布（已填写物流及鉴定中） 4鉴定（未通过）
     return (
       <View style={{ flexDirection: 'row' }}>
         <Text style={[styles.tagText, {
-          backgroundColor: type === 1 ? '#B4DE2A' : [3, 4, 5].includes(type) ? '#EF4444' : '#FFA700',
+          backgroundColor: type === '1' ? '#FFA700' : ['3', '4', '5'].includes(type) ? '#EF4444' : '#B4DE2A',
         }]}
         >
-          {type === 1 ? '期货' : [3, 4, 5].includes(type) ? '发布' : '现货'}
+          {type === '1' ? '现货' : ['3', '4', '5'].includes(type) ? '发布' : '期货'}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&emsp;&nbsp;

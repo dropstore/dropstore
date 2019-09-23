@@ -10,7 +10,7 @@ import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
-import TitleWithTag from '../../components/TitleWithTagTwo';
+import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import Images from '../../res/Images';
 import { request } from '../../http/Axios';
 
@@ -172,7 +172,7 @@ export default class ListItem extends PureComponent {
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTag text={goods_name} type={item.is_stock} />
+            <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
               {type === 'warehouse' ? <View /> : <Price price={item.order_price || item.price} />}
               {

@@ -11,7 +11,7 @@ import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
-import TitleWithTag from '../../components/TitleWithTagTwo';
+import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import { formatDate } from '../../utils/commonUtils';
 import { request } from '../../http/Axios';
 
@@ -114,7 +114,7 @@ class PickUp extends PureComponent {
           <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
           <View style={{ flex: 1 }}>
             <View style={{ justifyContent: 'space-between', flex: 1 }}>
-              <TitleWithTag text={item.goods.goods_name} type={item.is_stock} />
+              <TitleWithTagTwo text={item.goods.goods_name} type={item.is_stock} />
               <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
                 <Text style={{ color: '#212121', fontSize: 11, fontFamily: YaHei }}>{`SIZE：${item.size}`}</Text>
               </View>
