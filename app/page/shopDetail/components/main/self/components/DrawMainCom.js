@@ -64,7 +64,7 @@ export default class DrawMainCom extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.MAIN_BACK,
-    height: '100%',
+    minHeight: '200%',
   },
   fengexian: {
     backgroundColor: '#ddd',

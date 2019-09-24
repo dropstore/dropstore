@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  DeviceEventEmitter, RefreshControl, View, FlatList, Animated,
+  DeviceEventEmitter, RefreshControl, View, FlatList,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -16,13 +16,11 @@ import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import SelfBottomCom from './components/bottom/self';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import { AgainLoadCom, ScrollBackgroundPlaceholder } from '../../components';
+import { AgainLoadCom } from '../../components';
 import NoDataCom from '../../components/NoDataCom';
 import RuleCom from './components/main/RuleCom';
 import DrawMainCom from './components/main/self/components/DrawMainCom';
 import DetailImage from './components/DetailImage';
-
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 function mapStateToProps() {
   return state => ({
@@ -45,8 +43,6 @@ class ShopDetail extends PureComponent {
       rate={navigation.getParam('rate')}
     />,
   });
-
-  scrollY = new Animated.Value(0)
 
   componentDidMount() {
     const { getShopDetail, navigation } = this.props;
@@ -114,14 +110,13 @@ class ShopDetail extends PureComponent {
       }
       return (
         <View style={{ flex: 1 }}>
-          <AnimatedFlatList
+          <FlatList
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<ShopBasicInfoCom shopDetailInfo={shopDetailInfo} />}
             data={list}
-            style={{ flex: 1, backgroundColor: '#fff' }}
-            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.scrollY } } }], { useNativeDriver: true })}
+            contentContainerStyle={{ paddingBottom: 7 }}
+            style={{ flex: 1 }}
             renderItem={this.renderItem}
-            scrollEventThrottle={1}
             keyExtractor={(item, index) => `detail-${item}-${index}`}
             maxToRenderPerBatch={3}
             initialNumToRender={1}
@@ -134,7 +129,6 @@ class ShopDetail extends PureComponent {
               />
             )}
           />
-          {/* <ScrollBackgroundPlaceholder y={this.scrollY} backgroundColor={Colors.MAIN_BACK} /> */}
           { this.setContentOrBottomUI(data) }
         </View>
       );
