@@ -81,7 +81,7 @@ export default class Pay extends PureComponent {
                 onPress={() => this.changePayStatus(index)}
                 key={item.name}
               >
-                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
+                <View style={{ alignItems: 'center', flexDirection: 'row', paddingVertical: 10 }}>
                   <Image style={styles.payImage} source={item.subImage} />
                   <Text style={styles.payTitle}>{item.name}</Text>
                 </View>
@@ -107,11 +107,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   payImage: {
-    width: 57,
-    height: 57,
+    width: 56,
+    height: 56,
     marginLeft: 15,
-    marginBottom: 15,
-    marginTop: 12,
+    borderRadius: 28,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
   },
   payTitle: {
     fontSize: 17,
