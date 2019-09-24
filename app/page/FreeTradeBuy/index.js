@@ -74,6 +74,7 @@ class FreeTradeBuy extends PureComponent {
   toPay = () => {
     const { navigation } = this.props;
     requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
+      console.log(res);
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',

@@ -77,7 +77,6 @@ const startGroup = (activity_id, size_list) => {
   request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
     // 开团成功后刷新活动详情
     DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
-  }).catch((err) => {
   });
 };
 
@@ -156,9 +155,11 @@ const doBuyNow = async (activity_id, size_id, navigation, shopInfo) => {
     const data = res.data;
     if (data) {
       navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: true });
+    } else {
+      showToast('支付失败，请稍后重新支付');
     }
   } catch (e) {
-    navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: false });
+    showToast('支付出错，请稍后重新支付');
   }
 };
 export {

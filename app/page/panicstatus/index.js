@@ -7,10 +7,9 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView, StyleSheet, Text, View,
 } from 'react-native';
-import { ImageBackground, BottomBtnGroup } from '../../components';
+import { BottomBtnGroup } from '../../components';
 import Image from '../../components/Image';
 import { commonStyle } from '../../res/style/CommonStyle';
-import { bottomStyle } from '../../res/style/BottomStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';

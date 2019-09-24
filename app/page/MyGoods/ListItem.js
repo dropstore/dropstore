@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
+import { connect } from 'react-redux';
 import {
   FadeImage, Price, CountdownCom, Image,
 } from '../../components';
@@ -13,8 +14,15 @@ import Modal from './Modal';
 import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import Images from '../../res/Images';
 import { request } from '../../http/Axios';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 
-export default class ListItem extends PureComponent {
+function mapStateToProps() {
+  return state => ({
+    appOptions: getSimpleData(state, 'appOptions'),
+  });
+}
+
+class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
@@ -58,7 +66,9 @@ export default class ListItem extends PureComponent {
   }
 
   onPress = (type) => {
-    const { navigation, item, route } = this.props;
+    const {
+      navigation, item, route, appOptions,
+    } = this.props;
     if (['express', 'edit', 'cancel'].includes(type)) {
       showModalbox({
         element: (<Modal
@@ -79,7 +89,6 @@ export default class ListItem extends PureComponent {
         },
       });
     } else if (['pickUp', 'sendBack'].includes(type)) {
-      const { navigation } = this.props;
       navigation.navigate('PickUp', {
         title: '支付运费',
         item,
@@ -91,6 +100,7 @@ export default class ListItem extends PureComponent {
         payData: {
           order_id: item.order_id,
           price: item.order_price,
+          management: appOptions?.data?.management,
         },
         shopInfo: {
           goods: item.goods,
@@ -292,3 +302,5 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 });
+
+export default connect(mapStateToProps)(ListItem);
