@@ -3,10 +3,18 @@ import React, { PureComponent } from 'react';
 import {
   TouchableOpacity, Text, StyleSheet, View, Platform,
 } from 'react-native';
+import { connect } from 'react-redux';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 import { PADDING_TAB } from '../common/Constant';
 import { wPx2P } from '../utils/ScreenUtil';
+import { getSimpleData } from '../redux/reselect/simpleData';
+
+function mapStateToProps() {
+  return state => ({
+    appOptions: getSimpleData(state, 'appOptions'),
+  });
+}
 
 type Props = {
   onPress: Function,
@@ -15,7 +23,8 @@ type Props = {
   text?: String
 };
 
-export default class BottomPay extends PureComponent<Props> {
+
+class BottomPay extends PureComponent<Props> {
   static defaultProps = {
     text: '确认支付',
   }
@@ -26,13 +35,18 @@ export default class BottomPay extends PureComponent<Props> {
   }
 
   render() {
-    const { price, disabled, text } = this.props;
+    const {
+      price, disabled, text, appOptions, notNeedManagement,
+    } = this.props;
     return (
       <View style={styles.bottom}>
         <View style={styles.priceWrapper}>
-          <Text style={styles.price}>合计：</Text>
-          <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100}</Text>
-          <Text style={styles.price}>￥</Text>
+          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+            <Text style={styles.price}>合计：</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100 + appOptions?.data?.management}</Text>
+            <Text style={styles.price}>￥</Text>
+          </View>
+          { !notNeedManagement && <Text style={{ fontSize: 11, color: '#333' }}>{`(含库管费${appOptions?.data?.management})`}</Text> }
         </View>
         <TouchableOpacity
           disabled={disabled}
@@ -82,8 +96,6 @@ const styles = StyleSheet.create({
   priceWrapper: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
   price: {
     fontSize: 16,
@@ -95,3 +107,5 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
 });
+
+export default connect(mapStateToProps)(BottomPay);

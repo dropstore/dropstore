@@ -43,7 +43,7 @@ class FreeTradeBuy extends PureComponent {
     const { navigation, fetchSimpleData } = this.props;
     this.item = navigation.getParam('item');
     const { goods_name, image } = navigation.getParam('goods');
-    this.free_id = this.item.id;
+    this.free_id = this.item.free_id;
     this.state = {
       cuurentItem: {
         image,
@@ -66,7 +66,7 @@ class FreeTradeBuy extends PureComponent {
   }
 
   onPress = (item) => {
-    this.free_id = item.id;
+    this.free_id = item.free_id;
     this.setState({ cuurentItem: item });
     this.fetchData('refresh');
   }
@@ -212,6 +212,5 @@ const styles = StyleSheet.create({
     height: 45,
   },
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(FreeTradeBuy);
