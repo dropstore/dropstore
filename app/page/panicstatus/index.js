@@ -18,7 +18,7 @@ import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
-import { STATUSBAR_HEIGHT } from '../../common/Constant';
+import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT } from '../../common/Constant';
 
 class Panicstatus extends PureComponent {
   constructor(props) {
@@ -108,31 +108,28 @@ class Panicstatus extends PureComponent {
     const data = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
     const is_join = data.is_join;
-    const btns = Panicstatus ? [
-      { text: '分享邀请', onPress: debounce(this._showShare) },
-    ] : [];
-    btns.push({
+    const btns = [{
       text: Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认',
       onPress: debounce(this._diffClick),
-    });
-
+    }];
+    if (Panicstatus) {
+      btns.unshift({ text: '分享邀请', onPress: debounce(this._showShare) });
+    }
     return (
-      <View style={_style.container}>
-        <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
-          <View style={_style.mainView}>
-            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
-            <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
-            <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
-            {
+      <View style={style.container}>
+        <ScrollView contentContainerStyle={style.mainView} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+          <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
+          <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
+          <Image style={style.goodImage} source={{ uri: data.goods.image }} />
+          {
               this._getEndTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
-                  <Text style={_style.waitLeft}>距结束：</Text>
-                  <Text style={_style.time}>{endDownTime}</Text>
+                  <Text style={style.waitLeft}>距结束：</Text>
+                  <Text style={style.time}>{endDownTime}</Text>
                 </View>
               ) : <View />
             }
-            <Text style={_style.shopName}>{data.goods.goods_name}</Text>
-          </View>
+          <Text style={style.shopName}>{data.goods.goods_name}</Text>
         </ScrollView>
         <BottomBtnGroup btns={btns} />
       </View>
@@ -140,7 +137,7 @@ class Panicstatus extends PureComponent {
   }
 }
 
-const _style = StyleSheet.create({
+const style = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
@@ -149,7 +146,7 @@ const _style = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
-    paddingBottom: hPx2P(20),
+    paddingBottom: hPx2P(20 + BOTTOM_BTN_HEIGHT),
     justifyContent: 'space-between',
   },
   waitLeft: {
@@ -171,6 +168,7 @@ const _style = StyleSheet.create({
     fontWeight: '400',
     marginTop: 17,
     marginHorizontal: 20,
+    textAlign: 'justify',
   },
   goodImage: {
     width: 294,

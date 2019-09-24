@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { Component } from 'react';
 import {
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
@@ -62,6 +63,7 @@ export default class SelectShoeSizeCom extends Component {
 
   render() {
     const { shoesList, closeBox } = this.props;
+    const { totalCount } = this.state;
     const _shoesList = this.state.shoesList;
     const showShoesLit = _shoesList.length !== 0 ? _shoesList : shoesList;
     return (
@@ -70,11 +72,7 @@ export default class SelectShoeSizeCom extends Component {
           <View style={commonStyle.row}>
             <View style={_style.mainView}>
               <Text style={_style.title}>鞋码选择</Text>
-              <Text style={_style.alreadyChoose}>
-已选数量
-                {' '}
-                {this.state.totalCount}
-              </Text>
+              <Text style={_style.alreadyChoose}>{`已选数量${totalCount}`}</Text>
             </View>
             <TouchableOpacity hitSlop={hitSlop} style={_style.close} onPress={() => closeBox()}>
               <Image style={_style.close} source={Images.close_shoe} />
