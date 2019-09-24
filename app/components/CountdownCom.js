@@ -73,20 +73,22 @@ export default class CountdownCom extends PureComponent<Props> {
     parseInt(timer % 60).toString().padStart(2, 0)}`
 
   render() {
-    const { style, prefix, prefixStyle } = this.props;
+    const {
+      style, prefix, prefixStyle, offset,
+    } = this.props;
     const { text } = this.state;
     const noTimer = ['已结束', '即将开始'].includes(text);
     const fontSize = style.fontSize || 14;
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
-        {prefix && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{`${prefix}`}</Text>}
+        {prefix && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{prefix}</Text>}
         <Text style={{
           color: noTimer ? '#666' : '#000',
           width: noTimer ? 'auto' : fontSize * 6.44,
           marginLeft: noTimer ? 8 : 0,
           textAlign: 'right',
           padding: 0,
-          top: (noTimer || style.fontFamily !== Mario || Platform.OS === 'android') ? 0 : fontSize * 0.09,
+          top: offset || (noTimer || style.fontFamily !== Mario) ? 0 : fontSize * 0.09,
           includeFontPadding: false,
           ...style,
           fontSize: noTimer ? fontSize * 0.86 : fontSize,

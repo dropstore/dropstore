@@ -70,6 +70,7 @@ export default class ShopListItemCom extends PureComponent {
             <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
             <CountdownCom
+              offset={Platform.OS === 'ios' ? null : -1.8}
               startTime={item.start_time}
               endTime={item.end_time}
               isStart={isStart}

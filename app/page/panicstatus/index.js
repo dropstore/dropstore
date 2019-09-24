@@ -89,7 +89,7 @@ class Panicstatus extends PureComponent {
           <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
           <Image style={styles.goodImage} source={{ uri: data.goods.image }} />
           <CountdownCom
-            prefix="距结束： "
+            prefix="距结束:"
             prefixStyle={{ fontSize: 16, fontFamily: YaHei, fontWeight: 'bold' }}
             time={data?.activity?.end_time}
             style={styles.time}
