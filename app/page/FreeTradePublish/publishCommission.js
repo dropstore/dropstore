@@ -75,7 +75,7 @@ class PublishCommission extends PureComponent {
       <View style={{ flex: 1 }}>
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
           {
-            type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`仓储费用：${appOptions?.data?.management / 100}￥`}</Text> : (
+            type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`库管费：${appOptions?.data?.management / 100}￥`}</Text> : (
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
                   <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${price}￥`}</Text>

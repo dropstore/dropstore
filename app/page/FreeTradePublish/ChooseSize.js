@@ -38,7 +38,7 @@ class ChooseSize extends PureComponent {
   changeChooseStatus = (item) => {
     const { navigation } = this.props;
     navigation.navigate('PublishCommission', {
-      title: '仓储费用',
+      title: '支付库管费',
       TYPE: 'getMissionPrice',
       goodsInfo: {
         type: 'storeMoney',

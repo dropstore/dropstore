@@ -121,7 +121,7 @@ export default class ListItem extends PureComponent {
       request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
         const { order_id } = res.data;
         navigation.navigate('PublishCommission', {
-          title: '支付保证金',
+          title: '支付服务费',
           TYPE: 'freeTradeToRelease',
           goodsInfo: {
             type: 'deposit',
