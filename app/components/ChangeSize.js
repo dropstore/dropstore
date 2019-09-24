@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import ImageBackground from './ImageBackground';
 import { wPx2P } from '../utils/ScreenUtil';
-import { Mario } from '../res/FontFamily';
-import Images from '../res/Images';
+import { Mario, YaHei } from '../res/FontFamily';
+import Colors from '../res/Colors';
 
 export default class ChangeSize extends PureComponent {
   constructor(props) {
@@ -19,7 +18,7 @@ export default class ChangeSize extends PureComponent {
   upSize = () => {
     const { size } = this.state;
     const { onChange } = this.props;
-    if (size * 1 === 46) {
+    if (size * 1 === 48) {
       return;
     }
     const value = (size * 1 + 0.5).toFixed(1);
@@ -30,7 +29,7 @@ export default class ChangeSize extends PureComponent {
   downSize = () => {
     const { size } = this.state;
     const { onChange } = this.props;
-    if (size * 1 === 36) {
+    if (size * 1 === 35.5) {
       return;
     }
     const value = (size * 1 - 0.5).toFixed(1);
@@ -45,21 +44,11 @@ export default class ChangeSize extends PureComponent {
     const { size } = this.state;
     return (
       <View style={{ alignItems: 'center' }}>
-        <ImageBackground
-          style={styles.iconUp}
-          source={Images.iconUp}
-          onPress={this.upSize}
-          hitSlop={hitSlop}
-        />
-        <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
+        <TouchableOpacity style={styles.arrowUp} onPress={this.upSize} hitSlop={hitSlop} />
+        <View style={styles.sizeWrapper}>
           <Text style={styles.sizeText}>{size}</Text>
-        </ImageBackground>
-        <ImageBackground
-          style={styles.iconUp}
-          source={Images.iconDown}
-          onPress={this.downSize}
-          hitSlop={hitSlop}
-        />
+        </View>
+        <TouchableOpacity style={styles.arrowDown} onPress={this.downSize} hitSlop={hitSlop} />
       </View>
     );
   }
@@ -67,21 +56,45 @@ export default class ChangeSize extends PureComponent {
 
 const styles = StyleSheet.create({
   sizeWrapper: {
-    width: wPx2P(115),
-    height: wPx2P(39),
+    height: wPx2P(40),
     marginVertical: wPx2P(15),
     alignItems: 'center',
     justifyContent: 'center',
   },
   sizeText: {
-    fontFamily: Mario,
+    fontFamily: YaHei,
     fontSize: 21,
     padding: 0,
-    marginBottom: 1,
     color: '#000',
   },
   iconUp: {
     height: wPx2P(15),
     width: wPx2P(26),
+  },
+  arrowUp: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 0,
+    borderBottomWidth: 16,
+    borderRightWidth: 15,
+    borderLeftWidth: 15,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderBottomColor: Colors.OTHER_BACK,
+    borderRightColor: 'transparent',
+  },
+  arrowDown: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 16,
+    borderBottomWidth: 0,
+    borderRightWidth: 15,
+    borderLeftWidth: 15,
+    borderTopColor: Colors.OTHER_BACK,
+    borderLeftColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
   },
 });
