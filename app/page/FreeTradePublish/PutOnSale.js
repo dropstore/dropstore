@@ -134,7 +134,7 @@ class PutOnSale extends PureComponent {
             </TouchableOpacity>
             <Text style={styles.ihavekonw}>我已阅读</Text>
             <TouchableOpacity onPress={this.toWeb}>
-              <Text style={styles.salerNeedKnow}>卖家须知&gt;</Text>
+              <Text style={styles.salerNeedKnow}>卖家须知</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
