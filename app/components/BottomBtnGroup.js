@@ -17,7 +17,7 @@ type Props = {
   }>,
 };
 
-export default class AvatarWithShadow extends PureComponent<Props> {
+export default class BottomBtnGroup extends PureComponent<Props> {
   render() {
     const { btns } = this.props;
     return (

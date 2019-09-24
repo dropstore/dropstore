@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingBottom: 7,
+    flex: 1,
   },
   item: {
     width: SIZE,
