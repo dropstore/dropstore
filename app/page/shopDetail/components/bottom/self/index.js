@@ -17,6 +17,7 @@ import { debounce } from '../../../../../utils/commonUtils';
 import {
   showShare, showToast, closeModalbox, showModalbox,
 } from '../../../../../utils/MutualUtil';
+import { BottomBtnGroup } from '../../../../../components';
 
 function mapStateToProps() {
   return state => ({
@@ -56,30 +57,6 @@ class SelfBottomCom extends PureComponent {
     closeModalbox();
   };
 
-  _setMainDOM = (shopInfo) => {
-    const { navigation } = this.props;
-    // 活动子类型:1、抽签；2、抢购
-    const b_type = shopInfo.activity.b_type;
-    // 活动开始时间
-    const start_time = shopInfo.activity.start_time;
-    // 活动未开始
-    if (checkTime(start_time) > 0) {
-      return this._normalDOM(shopInfo, false);
-    }
-    if (b_type === ShopConstant.DRAW) {
-      return <View />;
-      // return this._normalDOM(shopInfo, true);
-    }
-    return (
-      <BuyBottomCom
-        navigation={navigation}
-        shopInfo={shopInfo}
-        showModalbox={showModalbox}
-        closeModalbox={closeModalbox}
-      />
-    );
-  };
-
   /**
    * @param shopInfo 商品信息
    * @param isStart 活动是否开始
@@ -92,38 +69,21 @@ class SelfBottomCom extends PureComponent {
     // 活动未开始且是参团人员
     if (isJoin === ShopConstant.MEMBER && !isStart) {
       if (shopInfo.activity.b_type === ShopConstant.DRAW) {
-        return <View />;
+        return null;
       }
-      return (
-        <View style={bottomStyle.bottomView}>
-          <View />
-          <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={() => showToast('活动未开始')}>
-            <Text style={bottomStyle.buttonText}>助攻抢购</Text>
-          </TouchableOpacity>
-        </View>
-      );
+      return <BottomBtnGroup btns={[{ text: '助攻抢购', onPress: () => showToast('活动未开始') }]} />;
     }
+    const btns = [];
     if (joinUser.length !== 0) {
-      return (
-        <View style={bottomStyle.bottomView}>
-          <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={debounce(this._showShare)}>
-            <Text style={bottomStyle.buttonText}>分享</Text>
-          </TouchableOpacity>
-          { this._setRightDOM(shopInfo) }
-        </View>
-      );
+      btns.push({ text: '分享', onPress: debounce(this._showShare) });
+    } else {
+      btns.push({ text: '通知我', onPress: () => showToast('已添加到通知') });
     }
-    return (
-      <View style={bottomStyle.bottomView}>
-        <TouchableOpacity style={[bottomStyle.buttonNormalView, { backgroundColor: '#FFA700' }]} onPress={() => showToast('已添加到通知')}>
-          <Text style={bottomStyle.buttonText}>通知我</Text>
-        </TouchableOpacity>
-        { this._setRightDOM(shopInfo) }
-      </View>
-    );
+    btns.push(this.setRightDOM(shopInfo));
+    return <BottomBtnGroup btns={btns} />;
   };
 
-  _setRightDOM = (shopInfo) => {
+  setRightDOM = (shopInfo) => {
     const is_join = shopInfo.is_join;
     // 是否存在未支付的佣金
     const isPay = shopInfo.user_activity.pay_status;
@@ -134,11 +94,7 @@ class SelfBottomCom extends PureComponent {
         : shopInfo.user_activity.commission != 0 ? '扩充团队'
           : '邀请助攻';
     const action = text === '支付佣金' ? this._toCommissionPage : this.showOver;
-    return (
-      <TouchableOpacity style={bottomStyle.buttonNormalView} onPress={debounce(action)}>
-        <Text style={bottomStyle.buttonText}>{text}</Text>
-      </TouchableOpacity>
-    );
+    return ({ text, onPress: debounce(action) });
   };
 
   _showShare = () => {
@@ -161,12 +117,25 @@ class SelfBottomCom extends PureComponent {
   };
 
   render() {
-    const { shopDetailInfo } = this.props;
-    const shopInfo = shopDetailInfo.data;
+    const { shopDetailInfo: { data: shopInfo }, navigation } = this.props;
+    // 活动子类型:1、抽签；2、抢购
+    const b_type = shopInfo.activity.b_type;
+    // 活动开始时间
+    const start_time = shopInfo.activity.start_time;
+    // 活动未开始
+    if (checkTime(start_time) > 0) {
+      return this._normalDOM(shopInfo, false);
+    }
+    if (b_type === ShopConstant.DRAW) {
+      return null;
+    }
     return (
-      <View>
-        {this._setMainDOM(shopInfo)}
-      </View>
+      <BuyBottomCom
+        navigation={navigation}
+        shopInfo={shopInfo}
+        showModalbox={showModalbox}
+        closeModalbox={closeModalbox}
+      />
     );
   }
 }

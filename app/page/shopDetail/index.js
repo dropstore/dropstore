@@ -100,9 +100,7 @@ class ShopDetail extends PureComponent {
     const isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
     if (shopDetailInfo.isFetching) { return <View />; }
     if (isNormalObject) {
-      const {
-        activity: { b_type, start_time }, is_join, goods_image,
-      } = data;
+      const { is_join, goods_image } = data;
       let list = ['RuleCom'];
       if (is_join === ShopConstant.NOT_JOIN) {
         list = [
@@ -136,7 +134,7 @@ class ShopDetail extends PureComponent {
               />
             )}
           />
-          <ScrollBackgroundPlaceholder y={this.scrollY} backgroundColor={Colors.MAIN_BACK} />
+          {/* <ScrollBackgroundPlaceholder y={this.scrollY} backgroundColor={Colors.MAIN_BACK} /> */}
           { this.setContentOrBottomUI(data) }
         </View>
       );
