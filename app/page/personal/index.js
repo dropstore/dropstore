@@ -65,7 +65,7 @@ class PersonalCenterPage extends PureComponent {
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <View style={styles.imageWrapper}>
                 <FadeImage
-                  source={userInfo.avatar ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                  source={userInfo.avatar !== -1 ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
                   style={{ ...styles.image, height: userInfo.avatar ? wPx2P(47) : wPx2P(36), width: userInfo.avatar ? wPx2P(47) : wPx2P(36) }}
                 />
               </View>
