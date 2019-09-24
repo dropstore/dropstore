@@ -24,9 +24,9 @@ import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
 // import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
-import payStatus from '../page/pay/PayStatus';
+import PayStatus from '../page/pay/PayStatus';
 import commission from '../page/commission';
-import panicStatus from '../page/panicstatus';
+import Panicstatus from '../page/Panicstatus';
 import drawStatus from '../page/drawstatus';
 
 import Setting from '../page/personal/Setting';
@@ -121,8 +121,8 @@ const routesWithHeader = {
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator,
-  payStatus,
-  panicStatus,
+  PayStatus,
+  Panicstatus,
   drawStatus,
 };
 

@@ -129,12 +129,12 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
   try {
     const res = await request(url, { params, isShowLoading: true });
     if (res) {
-      navigation.push('panicStatus', { shopInfo, panicStatus: true });
+      navigation.push('Panicstatus', { shopInfo, Panicstatus: true });
     } else {
-      navigation.push('panicStatus', { shopInfo, panicStatus: false });
+      navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
     }
   } catch (e) {
-    navigation.push('panicStatus', { shopInfo, panicStatus: false });
+    navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
   }
 };
 
@@ -154,7 +154,7 @@ const doBuyNow = async (activity_id, size_id, navigation, shopInfo) => {
     const res = await request('/order/do_buy_now', { params, isShowLoading: true });
     const data = res.data;
     if (data) {
-      navigation.push('panicStatus', { shopInfo, payData: data, panicStatus: true });
+      navigation.push('Panicstatus', { shopInfo, payData: data, Panicstatus: true });
     } else {
       showToast('支付失败，请稍后重新支付');
     }

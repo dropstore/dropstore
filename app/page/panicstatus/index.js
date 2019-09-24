@@ -20,7 +20,7 @@ import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
-class PanicBuy extends PureComponent {
+class Panicstatus extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,10 +78,10 @@ class PanicBuy extends PureComponent {
   _diffClick = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
-    const panicStatus = navigation.getParam('panicStatus');
+    const Panicstatus = navigation.getParam('Panicstatus');
     const payData = navigation.getParam('payData');
     const is_join = shopInfo.is_join;
-    if (panicStatus) {
+    if (Panicstatus) {
       if (is_join === ShopConstant.NOT_JOIN) {
         navigation.navigate('pay', {
           title: '选择支付账户',
@@ -105,13 +105,13 @@ class PanicBuy extends PureComponent {
   render() {
     const { navigation } = this.props;
     const data = navigation.getParam('shopInfo');
-    const panicStatus = navigation.getParam('panicStatus');
+    const Panicstatus = navigation.getParam('Panicstatus');
     const is_join = data.is_join;
-    const btns = panicStatus ? [
+    const btns = Panicstatus ? [
       { text: '分享邀请', onPress: debounce(this._showShare) },
     ] : [];
     btns.push({
-      text: panicStatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认',
+      text: Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认',
       onPress: debounce(this._diffClick),
     });
 
@@ -119,7 +119,7 @@ class PanicBuy extends PureComponent {
       <View style={_style.container}>
         <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
           <View style={_style.mainView}>
-            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={panicStatus ? Images.gm_cg : Images.qx_sb} />
+            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
             {
@@ -176,4 +176,4 @@ const _style = StyleSheet.create({
     height: 155,
   },
 });
-export default PanicBuy;
+export default Panicstatus;

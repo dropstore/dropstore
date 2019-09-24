@@ -25,8 +25,8 @@ class PayStatus extends PureComponent {
 
   componentDidMount() {
     const { navigation } = this.props;
-    const payStatus = navigation.getParam('payStatus');
-    if (payStatus && !navigation.getParam('noTimer')) {
+    const PayStatus = navigation.getParam('PayStatus');
+    if (PayStatus && !navigation.getParam('noTimer')) {
       this._setTime();
       this._timer = setInterval(() => {
         this._setTime();
@@ -79,13 +79,13 @@ class PayStatus extends PureComponent {
   _setConfirmOnclick = () => {
     const { navigation } = this.props;
     const type = navigation.getParam('type');
-    const payStatus = navigation.getParam('payStatus');
+    const PayStatus = navigation.getParam('PayStatus');
     // 支付佣金无论成功失败都回详情界面
     if (type === ShopConstant.PAY_COMMISSION) {
       DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
       navigation.navigate('shopDetail');
     } else {
-      const type = payStatus ? 'payStatus' : 'uncomplete';
+      const type = PayStatus ? 'PayStatus' : 'uncomplete';
       navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
       navigation.navigate({ routeName: 'MyGoods', params: { type } });
     }
@@ -95,21 +95,21 @@ class PayStatus extends PureComponent {
     const { navigation } = this.props;
     const { startDownTime } = this.state;
     const shopInfo = navigation.getParam('shopInfo');
-    const payStatus = navigation.getParam('payStatus');
+    const PayStatus = navigation.getParam('PayStatus');
     const noShareBtn = navigation.getParam('noShareBtn');
     const btns = [{ text: '确定', onPress: debounce(this._setConfirmOnclick) }];
-    if (!noShareBtn && payStatus) {
+    if (!noShareBtn && PayStatus) {
       btns.unshift({ text: '分享', onPress: debounce(this._showShare) });
     }
     return (
       <View style={_style.container}>
         <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
           <View style={_style.mainView}>
-            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={payStatus ? Images.zf_cg : Images.zf_sb} />
+            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={PayStatus ? Images.zf_cg : Images.zf_sb} />
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={_style.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
-              payStatus && !navigation.getParam('noTimer') && this._getStartTime() > 0 ? (
+              PayStatus && !navigation.getParam('noTimer') && this._getStartTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
                   <Text style={_style.waitLeft}>等待发布：</Text>
                   <Text style={_style.time}>{startDownTime}</Text>

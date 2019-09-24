@@ -3,13 +3,6 @@ import { alipayModule, wxPayModule } from '../../native/module';
 import ShopConstant from '../../common/ShopConstant';
 import { showToast } from '../../utils/MutualUtil';
 import Strings from '../../res/Strings';
-// import {createAction} from 'redux-actions';
-//
-// const requestActivityList = createAction('REQUEST_ACTIVITY_LIST');
-// const receiveActivityList = createAction('RECEIVE_ACTIVITY_LIST');
-// const resetActivityList = createAction('RESET_ACTIVITY_LIST');
-// const notReceiveActivityList = createAction('NOT_RECEIVE_ACTIVITY_LIST');
-
 
 /**
  * 获取订单信息并调用支付
@@ -102,27 +95,21 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
     u_a_id: uAid,
     type,
   };
-  try {
-    const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
-    if (res.data == 1) {
-      showToast('支付成功');
-      if (shopInfo) {
-        navigation.push('payStatus', {
-          shopInfo, type, buySuccess, noTimer, noShareBtn, payStatus: true,
-        });
-      } else {
-        navigation.push('MyGoods', {
-          title: '我的库房',
-          type: 'warehouse',
-        });
-      }
+  const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
+  if (res.data == 1) {
+    showToast('支付成功');
+    if (shopInfo) {
+      navigation.push('PayStatus', {
+        shopInfo, type, buySuccess, noTimer, noShareBtn, PayStatus: true,
+      });
     } else {
-      showToast('支付失败，请重新支付');
-      // navigation.push('payStatus', {
-      //   shopInfo, type, buySuccess, noTimer, noShareBtn, payStatus: false,
-      // });
+      navigation.push('MyGoods', {
+        title: '我的库房',
+        type: 'warehouse',
+      });
     }
-  } catch (e) {
+  } else {
+    showToast('支付失败，请重新支付');
   }
 };
 export {
