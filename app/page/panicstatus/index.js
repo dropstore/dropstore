@@ -111,11 +111,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   time: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: Mario,
     color: '#000',
-    width: 116,
-    backgroundColor: 'red',
   },
   shopName: {
     justifyContent: 'center',

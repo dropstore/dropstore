@@ -135,7 +135,7 @@ const _styles = StyleSheet.create({
     marginTop: 21,
   },
   overTitle: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
     fontFamily: YaHei,
     color: 'rgba(194,0,0,1)',

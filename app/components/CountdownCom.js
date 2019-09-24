@@ -1,7 +1,7 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text, View } from 'react-native';
-import { Normal } from '../res/FontFamily';
+import { Text, View, Platform } from 'react-native';
+import { Normal, Mario } from '../res/FontFamily';
 import { MAX_TIME } from '../common/Constant';
 
 type Props = {
@@ -78,13 +78,16 @@ export default class CountdownCom extends PureComponent<Props> {
     const noTimer = ['已结束', '即将开始'].includes(text);
     const fontSize = style.fontSize || 14;
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {prefix && <Text style={prefixStyle || style}>{`${prefix}`}</Text>}
+      <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
+        {prefix && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{`${prefix}`}</Text>}
         <Text style={{
           color: noTimer ? '#666' : '#000',
           width: noTimer ? 'auto' : fontSize * 6.44,
           marginLeft: noTimer ? 8 : 0,
           textAlign: 'right',
+          padding: 0,
+          top: (noTimer || style.fontFamily !== Mario || Platform.OS === 'android') ? 0 : fontSize * 0.09,
+          includeFontPadding: false,
           ...style,
           fontSize: noTimer ? fontSize * 0.86 : fontSize,
           fontFamily: noTimer ? Normal : (style.fontFamily || Normal),

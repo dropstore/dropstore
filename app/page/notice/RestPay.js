@@ -130,7 +130,7 @@ class RestPay extends Component {
           <Text style={styles.time}>待付款</Text>
           <CountdownCom
             finish={this.finish}
-            style={{ ...styles.time, width: 55 }}
+            style={styles.time}
             time={end_time}
           />
         </View>
