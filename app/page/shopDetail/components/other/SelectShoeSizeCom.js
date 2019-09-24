@@ -91,7 +91,7 @@ class SelectShoeSizeCom extends Component {
                   <View style={commonStyle.row}>
                     <Text style={styles.price}>{`${item.price / 100}￥`}</Text>
                     <TouchableOpacity style={styles.arrowLeft} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item)} />
-                    <Text style={styles.sizeAndCount}>{item.num}</Text>
+                    <Text style={[styles.sizeAndCount, { width: 40 }]}>{item.num}</Text>
                     <TouchableOpacity style={styles.arrowRight} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item, true)} />
                   </View>
                 </View>
@@ -118,7 +118,6 @@ const styles = StyleSheet.create({
     borderLeftColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: Colors.OTHER_BACK,
-    marginRight: 15,
   },
   arrowRight: {
     width: 0,
@@ -132,7 +131,6 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.OTHER_BACK,
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
-    marginLeft: 15,
   },
   container: {
     backgroundColor: Colors.WHITE_COLOR,
@@ -167,10 +165,11 @@ const styles = StyleSheet.create({
     marginLeft: wPx2P(20),
   },
   sizeAndCount: {
-    color: 'rgba(0,0,0,1)',
+    color: '#000',
     fontFamily: YaHei,
     fontWeight: 'bold',
     fontSize: 18,
+    textAlign: 'center',
   },
   price: {
     color: 'rgba(0,0,0,1)',
