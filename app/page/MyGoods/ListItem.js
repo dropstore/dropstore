@@ -111,7 +111,7 @@ export default class ListItem extends PureComponent {
   }
 
   successCallback = (value, type) => new Promise((resolve) => {
-    const { item, refresh } = this.props;
+    const { item, refresh, navigation } = this.props;
     if (type === 'express') {
       request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
         refresh();
@@ -119,7 +119,18 @@ export default class ListItem extends PureComponent {
       });
     } else if (type === 'edit') {
       request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
-        this.toPublish();
+        navigation.navigate('PublishCommission', {
+          title: '支付保证金',
+          TYPE: 'freeTradeToRelease',
+          goodsInfo: {
+            type: 'deposit',
+            price: value,
+            // order_id: this.item.order_id,
+            goodsImage: item.image,
+            goodsName: item.goods_name,
+          },
+          needShareBtn: true,
+        });
         resolve();
       });
     } else if (type === 'cancel') {

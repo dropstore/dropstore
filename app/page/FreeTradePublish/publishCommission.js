@@ -45,6 +45,7 @@ class PublishCommission extends PureComponent {
   toPay = () => {
     const { navigation, missionPrice } = this.props;
     const { goodsImage, goodsName } = navigation.getParam('goodsInfo');
+    const needShareBtn = navigation.getParam('needShareBtn');
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: ShopConstant.PAY_ORDER,
@@ -57,7 +58,7 @@ class PublishCommission extends PureComponent {
         },
       },
       noTimer: true,
-      noShareBtn: true,
+      noShareBtn: !needShareBtn,
     });
   }
 
