@@ -2,18 +2,35 @@ import React, { Component } from 'react';
 import {
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { SCREEN_WIDTH } from '../../../../common/Constant';
 import { BottomBtnGroup } from '../../../../components';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
-import { doBuyNow } from '../../../../redux/actions/shopDetailInfo';
+import { doBuyNow, getShoesList } from '../../../../redux/actions/shopDetailInfo';
+import { getReShoesList } from '../../../../redux/reselect/shopDetailInfo';
 
 const SIZE = (SCREEN_WIDTH - 45) / 4;
 
-export default class SelectShoeSizeByUnJoinsCom extends Component {
+function mapStateToProps() {
+  return state => ({
+    shoesInfo: getReShoesList(state),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getShoesList,
+  }, dispatch);
+}
+
+class SelectShoeSizeByUnJoinsCom extends Component {
   constructor(props) {
     super(props);
+    const { shopId, getShoesList } = this.props;
+    getShoesList(shopId);
     this.state = {
       chooseId: '',
     };
@@ -34,7 +51,7 @@ export default class SelectShoeSizeByUnJoinsCom extends Component {
   };
 
   render() {
-    const { shoesList } = this.props;
+    const { shoesInfo: { shoesList = [] } } = this.props;
     const { chooseId } = this.state;
     return (
       <View style={styles.container}>
@@ -114,3 +131,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectShoeSizeByUnJoinsCom);

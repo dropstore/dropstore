@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { doBuy, getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
-import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
+import { doBuy, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
+import { getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
@@ -18,14 +18,12 @@ import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
 function mapStateToProps() {
   return state => ({
     shopDetailInfo: getShopDetailInfo(state),
-    shoesInfo: getReShoesList(state),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getShopDetail,
-    getShoesList,
   }, dispatch);
 }
 
@@ -56,29 +54,22 @@ class BuyBottomCom extends PureComponent {
   };
 
   showOver = () => {
-    const { shopInfo, getShoesList, navigation } = this.props;
+    const { shopInfo, navigation } = this.props;
     const shopId = shopInfo.activity.id;
-    getShoesList(shopId).then((shoesList) => {
-      if (shoesList) {
-        if (shoesList && shoesList.length !== 0) {
-          showModalbox({
-            element: (<SelectShoeSizeByUnJoinsCom
-              shopId={shopId}
-              navigation={navigation}
-              shopInfo={shopInfo}
-              shoesList={shoesList}
-              closeBox={this.closeBox}
-            />),
-            options: {
-              style: {
-                height: 400,
-                backgroundColor: 'transparent',
-              },
-              position: 'bottom',
-            },
-          });
-        }
-      }
+    showModalbox({
+      element: (<SelectShoeSizeByUnJoinsCom
+        shopId={shopId}
+        navigation={navigation}
+        shopInfo={shopInfo}
+        closeBox={this.closeBox}
+      />),
+      options: {
+        style: {
+          height: 400,
+          backgroundColor: 'transparent',
+        },
+        position: 'bottom',
+      },
     });
   };
 

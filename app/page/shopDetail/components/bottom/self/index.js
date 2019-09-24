@@ -7,13 +7,11 @@
 import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
-import { getShoesList } from '../../../../../redux/actions/shopDetailInfo';
+import { getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
 import { checkTime } from '../../../../../utils/TimeUtils';
 import { debounce } from '../../../../../utils/commonUtils';
 import {
@@ -23,14 +21,7 @@ import {
 function mapStateToProps() {
   return state => ({
     shopDetailInfo: getShopDetailInfo(state),
-    shoesInfo: getReShoesList(state),
   });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    getShoesList,
-  }, dispatch);
 }
 
 class SelfBottomCom extends PureComponent {
@@ -42,28 +33,22 @@ class SelfBottomCom extends PureComponent {
   /**
    * 显示选鞋浮层
    */
-  _showOver = () => {
-    const { shopDetailInfo, getShoesList, navigation } = this.props;
+  showOver = () => {
+    const { shopDetailInfo, navigation } = this.props;
     const shopId = shopDetailInfo.data.activity.id;
-    getShoesList(shopId).then((shoesList) => {
-      if (shoesList && shoesList.length > 0) {
-        showModalbox({
-          element: (<SelectShoeSizeCom
-            shopId={shopId}
-            navigation={navigation}
-            shopInfo={shopDetailInfo.data}
-            shoesList={shoesList}
-            closeBox={this.closeBox}
-          />),
-          options: {
-            style: {
-              height: 400,
-              backgroundColor: 'transparent',
-            },
-            position: 'bottom',
-          },
-        });
-      }
+    showModalbox({
+      element: (<SelectShoeSizeCom
+        shopId={shopId}
+        navigation={navigation}
+        closeBox={this.closeBox}
+      />),
+      options: {
+        style: {
+          height: 400,
+          backgroundColor: 'transparent',
+        },
+        position: 'bottom',
+      },
     });
   };
 
@@ -148,7 +133,7 @@ class SelfBottomCom extends PureComponent {
       : isPay == 0 && number !== 1 ? '支付佣金'
         : shopInfo.user_activity.commission != 0 ? '扩充团队'
           : '邀请助攻';
-    const action = text === '支付佣金' ? this._toCommissionPage : this._showOver;
+    const action = text === '支付佣金' ? this._toCommissionPage : this.showOver;
     return (
       <TouchableOpacity style={bottomStyle.buttonNormalView} onPress={debounce(action)}>
         <Text style={bottomStyle.buttonText}>{text}</Text>
@@ -186,4 +171,4 @@ class SelfBottomCom extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelfBottomCom);
+export default connect(mapStateToProps)(SelfBottomCom);

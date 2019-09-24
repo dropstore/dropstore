@@ -37,7 +37,7 @@ function getShopDetail(shopId, { isDispatchStart = true } = {}) {
  * @returns {Function}
  */
 function getShoesList(shopId) {
-  return dispatch => new Promise((resolve, reject) => {
+  return dispatch => new Promise((resolve) => {
     const params = {
       id: shopId,
     };
@@ -48,8 +48,6 @@ function getShoesList(shopId) {
       }
       dispatch(receiveShoesList(data));
       resolve(data);
-    }).catch((err) => {
-      reject(err);
     });
   });
 }

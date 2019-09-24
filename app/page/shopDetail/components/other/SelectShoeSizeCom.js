@@ -3,19 +3,32 @@ import React, { Component } from 'react';
 import {
   ScrollView, StyleSheet, Text, TouchableOpacity, View,
 } from 'react-native';
-import Image from '../../../../components/Image';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { hitSlop } from '../../../../common/Constant';
 import { BottomBtnGroup } from '../../../../components';
 import { commonStyle } from '../../../../res/style/CommonStyle';
-import Images from '../../../../res/Images';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
-import { startGroup } from '../../../../redux/actions/shopDetailInfo';
+import { startGroup, getShoesList } from '../../../../redux/actions/shopDetailInfo';
 import { showToast } from '../../../../utils/MutualUtil';
+import { wPx2P } from '../../../../utils/ScreenUtil';
+import { getReShoesList } from '../../../../redux/reselect/shopDetailInfo';
 
+function mapStateToProps() {
+  return state => ({
+    shoesInfo: getReShoesList(state),
+  });
+}
 
-export default class SelectShoeSizeCom extends Component {
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getShoesList,
+  }, dispatch);
+}
+
+class SelectShoeSizeCom extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,150 +38,133 @@ export default class SelectShoeSizeCom extends Component {
   }
 
   componentDidMount() {
-    const { shoesList } = this.props;
-    const _shoesList = JSON.parse(JSON.stringify(shoesList));
-    for (let i = 0; i < _shoesList.length; i++) {
-      _shoesList[i].num = 0;
-    }
-    this.setState({ shoesList: _shoesList });
+    const { shopId, getShoesList } = this.props;
+    getShoesList(shopId).then((shoesList) => {
+      this.setState({ shoesList: shoesList.map(v => ({ ...v, num: 0 })) });
+    });
   }
 
-  changeChooseCount = (item, operator) => {
-    const shoesList = this.state.shoesList;
-    let totalCount = this.state.totalCount;
-    for (let i = 0; i < shoesList.length; i++) {
-      if (shoesList[i].id === item.id) {
-        const _shoeData = shoesList[i];
-        if (operator === '+') {
-          if (_shoeData.num < _shoeData.limit_num) {
-            _shoeData.num++;
+  changeChooseCount = (item, isAdd) => {
+    const { shoesList } = this.state;
+    let { totalCount } = this.state;
+    shoesList.map((v) => {
+      if (v.id === item.id) {
+        if (isAdd) {
+          if (item.num < v.limit_num) {
+            v.num += 1;
             totalCount++;
           } else {
             showToast('选择数量不能大于限购数量');
           }
-        } else if (_shoeData.num !== 0) {
-          _shoeData.num--;
+        } else if (item.num >= 1) {
+          item.num--;
           totalCount--;
         }
       }
-    }
+      return v;
+    });
     this.setState({ shoesList, totalCount });
   };
 
-  _confirmChoose = () => {
+  confirmChoose = () => {
     const { shopId, closeBox } = this.props;
+    const { shoesList } = this.state;
     closeBox();
-    startGroup(shopId, this.state.shoesList);
+    startGroup(shopId, shoesList);
   };
 
   render() {
-    const { shoesList, closeBox } = this.props;
+    const { shoesList } = this.state;
     const { totalCount } = this.state;
-    const _shoesList = this.state.shoesList;
-    const showShoesLit = _shoesList.length !== 0 ? _shoesList : shoesList;
     return (
-      <View style={_style.container}>
-        <View style={{ flex: 1, height: 400 }}>
-          <View style={commonStyle.row}>
-            <View style={_style.mainView}>
-              <Text style={_style.title}>鞋码选择</Text>
-              <Text style={_style.alreadyChoose}>{`已选数量${totalCount}`}</Text>
-            </View>
-            <TouchableOpacity hitSlop={hitSlop} style={_style.close} onPress={() => closeBox()}>
-              <Image style={_style.close} source={Images.close_shoe} />
-            </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={{ flex: 1 }}>
+          <View style={styles.mainView}>
+            <Text style={styles.title}>鞋码选择</Text>
+            <Text style={styles.alreadyChoose}>{`已选数量${totalCount}`}</Text>
           </View>
-          <View style={_style.centerView}>
-            <ScrollView>
-              {
-                showShoesLit.map((item, index) => (
-                  <View key={index}>
-                    <View style={[commonStyle.row, { marginLeft: 43 }]}>
-                      <Text style={_style.sizeAndCount}>{item.size}</Text>
-                      <View style={[commonStyle.row, _style.rightView]}>
-                        <Text style={_style.price}>
-                          {item.price / 100}
-￥
-                        </Text>
-                        <TouchableOpacity
-                          style={{ padding: 15 }}
-                          hitSlop={hitSlop}
-                          onPress={() => this.changeChooseCount(item, '-')}
-                        >
-                          <Image style={_style.lrImage} source={Images.shoe_zjt} />
-                        </TouchableOpacity>
-                        <Text style={_style.sizeAndCount}>{item.num}</Text>
-                        <TouchableOpacity
-                          style={{ padding: 15 }}
-                          hitSlop={hitSlop}
-                          onPress={() => this.changeChooseCount(item, '+')}
-                        >
-                          <Image style={_style.lrImage} source={Images.shoe_zjr} />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <Image
-                      style={_style.line}
-                      source={Images.shoe_hth}
-                    />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {
+              shoesList.map((item, index) => (
+                <View key={index} style={[styles.item, { borderBottomWidth: index === 0 ? 0 : StyleSheet.hairlineWidth }]}>
+                  <Text style={styles.sizeAndCount}>{item.size}</Text>
+                  <View style={commonStyle.row}>
+                    <Text style={styles.price}>{`${item.price / 100}￥`}</Text>
+                    <TouchableOpacity style={styles.arrowLeft} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item)} />
+                    <Text style={styles.sizeAndCount}>{item.num}</Text>
+                    <TouchableOpacity style={styles.arrowRight} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item, true)} />
                   </View>
-                ))
-              }
-            </ScrollView>
-          </View>
+                </View>
+              ))
+            }
+          </ScrollView>
         </View>
-        <BottomBtnGroup btns={[{
-          text: '确认',
-          onPress: debounce(this._confirmChoose),
-          disabled: this.state.totalCount === 0,
-        }]}
-        />
+        <BottomBtnGroup btns={[{ text: '确认', onPress: debounce(this.confirmChoose), disabled: totalCount === 0 }]} />
       </View>
     );
   }
 }
 
-const _style = StyleSheet.create({
+const styles = StyleSheet.create({
+  arrowLeft: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 8,
+    borderBottomWidth: 8,
+    borderRightWidth: 12,
+    borderLeftWidth: 0,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: Colors.OTHER_BACK,
+    marginRight: 15,
+  },
+  arrowRight: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 8,
+    borderBottomWidth: 8,
+    borderRightWidth: 0,
+    borderLeftWidth: 12,
+    borderTopColor: 'transparent',
+    borderLeftColor: Colors.OTHER_BACK,
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
+    marginLeft: 15,
+  },
   container: {
     backgroundColor: Colors.WHITE_COLOR,
     height: 400,
   },
   mainView: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginVertical: 12,
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: wPx2P(30),
+    height: 45,
+    borderBottomColor: '#ddd',
+    paddingHorizontal: wPx2P(15),
   },
   title: {
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     fontWeight: 'bold',
     fontSize: 16,
-    marginLeft: 23,
-  },
-  close: {
-    width: 20,
-    height: 20,
-    position: 'absolute',
-    right: 10,
-    top: 5,
-    marginLeft: 10,
+    marginLeft: wPx2P(25),
   },
   alreadyChoose: {
     fontSize: 15,
     color: Colors.NORMAL_TEXT_0,
     fontFamily: YaHei,
     fontWeight: '300',
-    marginLeft: 20,
-  },
-  centerView: {
-    marginTop: 28,
-    height: 250,
-  },
-  rightView: {
-    position: 'absolute',
-    right: 46,
-    top: 0,
+    marginLeft: wPx2P(20),
   },
   sizeAndCount: {
     color: 'rgba(0,0,0,1)',
@@ -179,7 +175,7 @@ const _style = StyleSheet.create({
   price: {
     color: 'rgba(0,0,0,1)',
     fontSize: 15,
-    marginRight: 31,
+    marginRight: wPx2P(25),
   },
   lrImage: {
     width: 6,
@@ -193,3 +189,5 @@ const _style = StyleSheet.create({
     marginLeft: 26,
   },
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelectShoeSizeCom);
