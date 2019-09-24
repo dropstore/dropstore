@@ -29,6 +29,23 @@ export default class ShopListItemCom extends PureComponent {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { item } = this.props;
+    if (item !== nextProps.item) {
+      const now = Date.now() / 1000;
+      const isStart = parseInt(nextProps.item.start_time) < now;
+      const time = isStart ? nextProps.item.end_time : nextProps.item.start_time;
+      if (now > parseInt(nextProps.item.end_time)) {
+        this.end = true;
+      }
+      this.setState({
+        showText: (isStart && now < parseInt(nextProps.item.end_time)) || (parseInt(nextProps.item.start_time) - now < MAX_TIME && !isStart),
+        time,
+        isStart,
+      });
+    }
+  }
+
   toShopDetailPage = () => {
     if (this.end) {
       showToast('活动已结束');
