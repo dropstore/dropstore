@@ -88,7 +88,7 @@ const getPayMes = (activity_id, u_a_id) => {
     activity_id,
     u_a_id,
   };
-  request('/activity/pay_activity', { params, isShowLoading: true });
+  return request('/activity/pay_activity', { params, isShowLoading: true });
 };
 
 /**
@@ -103,7 +103,7 @@ const setCommission = (activity_id, u_a_id, commission) => {
     u_a_id,
     commission,
   };
-  request('/activity/set_commission', { params, isShowLoading: true });
+  return request('/activity/set_commission', { params, isShowLoading: true });
 };
 
 /**
