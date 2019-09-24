@@ -118,9 +118,8 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
   const params = { activity_id };
   try {
     const res = await request(url, { params, isShowLoading: true });
-    console.log(res);
     if (res) {
-      navigation.push('Panicstatus', { shopInfo, Panicstatus: true });
+      navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
     } else {
       navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
     }
