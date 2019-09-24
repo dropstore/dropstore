@@ -3,7 +3,9 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Image, CountdownCom, ImageBackground } from '../../components';
+import {
+  Image, CountdownCom, ImageBackground, Price,
+} from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -71,6 +73,7 @@ class ListItem extends PureComponent {
   render() {
     const { item } = this.props;
     const { text } = this.state;
+    console.log(item);
     return (
       <View>
         <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
@@ -83,6 +86,7 @@ class ListItem extends PureComponent {
           </View>
           <View style={{ flex: 1, justifyContent: item.type !== '6' ? 'space-between' : 'center' }}>
             <TitleWithTag text={item.activity_name} type={item.type} />
+            {['1', '2', '7'].includes(item.type) && item.order_price && <Price price={item.order_price} /> }
             {
 
               ['1', '2'].includes(item.type) && !text && (
