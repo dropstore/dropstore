@@ -104,6 +104,7 @@ class Panicstatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
+    const { endDownTime } = this.state;
     const data = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
     const is_join = data.is_join;
@@ -126,7 +127,7 @@ class Panicstatus extends PureComponent {
               this._getEndTime() > 0 ? (
                 <View style={[commonStyle.row, { marginTop: 26 }]}>
                   <Text style={_style.waitLeft}>距结束：</Text>
-                  <Text style={_style.time}>{this.state.endDownTime}</Text>
+                  <Text style={_style.time}>{endDownTime}</Text>
                 </View>
               ) : <View />
             }

@@ -124,11 +124,10 @@ const setCommission = async (activity_id, u_a_id, commission) => {
  */
 const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
   const url = isLeading ? '/order/do_buy' : '/order/do_help_buy';
-  const params = {
-    activity_id,
-  };
+  const params = { activity_id };
   try {
     const res = await request(url, { params, isShowLoading: true });
+    console.log(res);
     if (res) {
       navigation.push('Panicstatus', { shopInfo, Panicstatus: true });
     } else {

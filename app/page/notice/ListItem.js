@@ -73,7 +73,6 @@ class ListItem extends PureComponent {
   render() {
     const { item } = this.props;
     const { text } = this.state;
-    console.log(item);
     return (
       <View>
         <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
