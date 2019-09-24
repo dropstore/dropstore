@@ -18,7 +18,7 @@ const TYPE = 'warehousePutOnSale';
 function mapStateToProps() {
   return state => ({
     info: getSimpleData(state, TYPE),
-    simpleData: getSimpleData(state, 'appOptions'),
+    appOptions: getSimpleData(state, 'appOptions'),
   });
 }
 
@@ -72,9 +72,9 @@ class PutOnSale extends PureComponent {
   }
 
   render() {
-    const { info, simpleData } = this.props;
+    const { info, appOptions } = this.props;
     const { price, agreed } = this.state;
-    const deposit = price * simpleData?.data?.fee / 100;
+    const deposit = price * appOptions?.data?.fee / 100;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
@@ -111,10 +111,7 @@ class PutOnSale extends PureComponent {
               />
             </View>
             <View style={styles.shoesCommissionMoney}>
-              <Text style={styles.priceText}>{`保证金：${deposit}`}</Text>
-            </View>
-            <View style={styles.shoesCommissionIncome}>
-              <Text style={styles.priceText}>{`成交收入：${price - deposit}`}</Text>
+              <Text style={styles.priceText}>{`平台服务费(${appOptions?.data?.fee}%)：￥${deposit}`}</Text>
             </View>
           </View>
         </ScrollView>
@@ -202,10 +199,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: 9,
+    // paddingBottom: 9,
     marginTop: 24,
-    borderBottomColor: '#F2F2F2',
-    borderBottomWidth: 1,
+    // borderBottomColor: '#F2F2F2',
+    // borderBottomWidth: 1,
   },
   shoesCommissionIncome: {
     flexDirection: 'row',
