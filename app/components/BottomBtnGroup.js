@@ -41,8 +41,6 @@ export default class AvatarWithShadow extends PureComponent<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom: 0,
     height: 66 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
     width: SCREEN_WIDTH,

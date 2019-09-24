@@ -9,13 +9,12 @@ import {
 } from 'react-native';
 import { Image, BottomBtnGroup, CountdownCom } from '../../components';
 import Images from '../../res/Images';
-import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
-import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT } from '../../common/Constant';
+import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT, SCREEN_HEIGHT } from '../../common/Constant';
 
 class Panicstatus extends PureComponent {
   toShare = () => {
@@ -80,7 +79,12 @@ class Panicstatus extends PureComponent {
     }
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.mainView} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.mainView}
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+        >
           <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
           <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
           <Image style={styles.goodImage} source={{ uri: data.goods.image }} />
@@ -101,13 +105,12 @@ class Panicstatus extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
   },
   mainView: {
-    flex: 1,
+    minHeight: SCREEN_HEIGHT - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
     alignItems: 'center',
     paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
-    paddingBottom: hPx2P(20 + BOTTOM_BTN_HEIGHT),
+    paddingBottom: hPx2P(20),
     justifyContent: 'space-between',
   },
   time: {
