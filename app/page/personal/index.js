@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
-import { Image, FadeImage } from '../../components';
+import { Image, AvatarWithShadow } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -63,12 +63,10 @@ class PersonalCenterPage extends PureComponent {
         <View style={styles.header}>
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={styles.imageWrapper}>
-                <FadeImage
-                  source={userInfo.avatar !== -1 ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
-                  style={{ ...styles.image, height: userInfo.avatar ? wPx2P(47) : wPx2P(36), width: userInfo.avatar ? wPx2P(47) : wPx2P(36) }}
-                />
-              </View>
+              <AvatarWithShadow
+                source={userInfo.avatar !== -1 ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                size={userInfo.avatar !== -1 ? wPx2P(47) : wPx2P(36)}
+              />
               <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
@@ -150,10 +148,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  image: {
-    overflow: 'hidden',
-    borderRadius: wPx2P(23.5),
-  },
   editWrapper: {
     height: wPx2P(25),
     paddingHorizontal: wPx2P(6),
@@ -166,26 +160,6 @@ const styles = StyleSheet.create({
   edit: {
     color: '#8F8F8F',
     fontSize: wPx2P(10),
-  },
-  imageWrapper: {
-    height: wPx2P(47),
-    width: wPx2P(47),
-    borderRadius: wPx2P(23.5),
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(166, 166, 166)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 100,
-        position: 'relative',
-      },
-    }),
   },
   header: {
     paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),

@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
-  FlatList, View, Text, StyleSheet, Platform,
+  FlatList, View, Text, StyleSheet,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import {
-  PullToRefresh, FadeImage, Price, Image, BottomPay,
+  PullToRefresh, FadeImage, Price, Image, BottomPay, AvatarWithShadow,
 } from '../../components';
 import ListItem from '../../components/FreeTradeList/ListItem';
 import { getListData } from '../../redux/reselect/listData';
@@ -98,9 +98,7 @@ class FreeTradeBuy extends PureComponent {
           </View>
         </View>
         <View style={styles.vendor}>
-          <View style={styles.imageWrapper}>
-            <FadeImage source={{ uri: this.item.avatar }} style={styles.avatar} />
-          </View>
+          <AvatarWithShadow source={{ uri: this.item.avatar }} size={45} />
           <View style={styles.vendorRight}>
             <View style={{ marginLeft: 10, marginTop: 12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -184,32 +182,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     height: '100%',
-  },
-  imageWrapper: {
-    height: 45,
-    width: 45,
-    borderRadius: 22.5,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(166, 166, 166)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 100,
-        position: 'relative',
-      },
-    }),
-  },
-  avatar: {
-    overflow: 'hidden',
-    borderRadius: 22.5,
-    width: 45,
-    height: 45,
   },
 });
 
