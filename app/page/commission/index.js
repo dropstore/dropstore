@@ -99,7 +99,7 @@ class Commission extends PureComponent {
           />
           <Text style={styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
         </View>
-        <BottomPay notNeedManagement disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
+        <BottomPay disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
       </KeyboardDismiss>
     );
   }

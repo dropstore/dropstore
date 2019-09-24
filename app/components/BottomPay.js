@@ -21,14 +21,15 @@ type Props = {
   price: number,
   disabled: Boolean,
   text?: String,
-  notNeedManagement?:Boolean
+  management?: number | null,
+  needManagementNum?: number
 };
-
 
 class BottomPay extends PureComponent<Props> {
   static defaultProps = {
     text: '确认支付',
-    notNeedManagement: false,
+    management: null,
+    needManagementNum: 0,
   }
 
   onPress = () => {
@@ -38,17 +39,23 @@ class BottomPay extends PureComponent<Props> {
 
   render() {
     const {
-      price, disabled, text, appOptions, notNeedManagement,
+      price, disabled, text, management, needManagementNum, appOptions,
     } = this.props;
     return (
       <View style={styles.bottom}>
         <View style={styles.priceWrapper}>
           <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100 + (notNeedManagement ? 0 : appOptions?.data?.management) }</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100 + (management || appOptions?.data.management * needManagementNum) }</Text>
             <Text style={styles.price}>￥</Text>
           </View>
-          { !notNeedManagement && <Text style={{ fontSize: 11, color: '#333' }}>{`(含库管费${appOptions?.data?.management})`}</Text> }
+          {
+            (management || needManagementNum > 0) && (
+              <Text style={{ fontSize: 11, color: '#333' }}>
+                {`(含库管费${management || appOptions?.data.management * needManagementNum})`}
+              </Text>
+            )
+          }
         </View>
         <TouchableOpacity
           disabled={disabled}
@@ -106,5 +113,4 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
 });
-
 export default connect(mapStateToProps)(BottomPay);
