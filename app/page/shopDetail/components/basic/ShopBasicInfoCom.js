@@ -135,17 +135,17 @@ const _styles = StyleSheet.create({
     marginTop: 21,
   },
   overTitle: {
-    fontSize: 11,
+    fontSize: 15,
     fontWeight: 'bold',
     fontFamily: YaHei,
     color: 'rgba(194,0,0,1)',
   },
   overTime: {
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: Mario,
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
-    width: 80,
+    width: 100,
   },
   price: {
     fontSize: 23,

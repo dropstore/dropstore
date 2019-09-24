@@ -7,13 +7,10 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView, StyleSheet, Text, View,
 } from 'react-native';
-import { BottomBtnGroup } from '../../components';
-import Image from '../../components/Image';
-import { commonStyle } from '../../res/style/CommonStyle';
+import { Image, BottomBtnGroup, CountdownCom } from '../../components';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
-import { checkTime, countDown } from '../../utils/TimeUtils';
 import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
@@ -21,40 +18,7 @@ import { debounce } from '../../utils/commonUtils';
 import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT } from '../../common/Constant';
 
 class Panicstatus extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      endDownTime: '',
-    };
-  }
-
-  componentDidMount() {
-    this._setTime();
-    this._timer = setInterval(() => {
-      this._setTime();
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    this._timer && clearInterval(this._timer);
-  }
-
-  _setTime = () => {
-    const eTimeStamp = this._getEndTime();
-    if (eTimeStamp > 0) {
-      this.setState({ endDownTime: countDown(eTimeStamp) });
-    }
-  };
-
-  _getEndTime = () => {
-    const { navigation } = this.props;
-    const data = navigation.getParam('shopInfo');
-    // 活动开始时间
-    const end_time = data.activity.end_time;
-    return checkTime(end_time);
-  };
-
-  _showShare = () => {
+  toShare = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const is_join = shopInfo.is_join;
@@ -75,7 +39,7 @@ class Panicstatus extends PureComponent {
     });
   };
 
-  _diffClick = () => {
+  toNext = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
@@ -104,32 +68,29 @@ class Panicstatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    const { endDownTime } = this.state;
     const data = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
     const is_join = data.is_join;
     const btns = [{
       text: Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认',
-      onPress: debounce(this._diffClick),
+      onPress: debounce(this.toNext),
     }];
     if (Panicstatus) {
-      btns.unshift({ text: '分享邀请', onPress: debounce(this._showShare) });
+      btns.unshift({ text: '分享邀请', onPress: debounce(this.toShare) });
     }
     return (
-      <View style={style.container}>
-        <ScrollView contentContainerStyle={style.mainView} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.mainView} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
           <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
           <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
-          <Image style={style.goodImage} source={{ uri: data.goods.image }} />
-          {
-              this._getEndTime() > 0 ? (
-                <View style={[commonStyle.row, { marginTop: 26 }]}>
-                  <Text style={style.waitLeft}>距结束：</Text>
-                  <Text style={style.time}>{endDownTime}</Text>
-                </View>
-              ) : <View />
-            }
-          <Text style={style.shopName}>{data.goods.goods_name}</Text>
+          <Image style={styles.goodImage} source={{ uri: data.goods.image }} />
+          <CountdownCom
+            prefix="距结束： "
+            prefixStyle={{ fontSize: 16, fontFamily: YaHei, fontWeight: 'bold' }}
+            time={data?.activity?.end_time}
+            style={styles.time}
+          />
+          <Text style={styles.shopName}>{data.goods.goods_name}</Text>
         </ScrollView>
         <BottomBtnGroup btns={btns} />
       </View>
@@ -137,7 +98,7 @@ class Panicstatus extends PureComponent {
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
@@ -149,16 +110,11 @@ const style = StyleSheet.create({
     paddingBottom: hPx2P(20 + BOTTOM_BTN_HEIGHT),
     justifyContent: 'space-between',
   },
-  waitLeft: {
-    fontSize: 16,
-    fontFamily: YaHei,
-    fontWeight: 'bold',
-    color: 'rgba(0,0,0,1)',
-  },
   time: {
     fontSize: 18,
     fontFamily: Mario,
-    color: 'rgba(0,0,0,1)',
+    color: '#000',
+    width: 85,
   },
   shopName: {
     justifyContent: 'center',

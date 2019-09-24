@@ -93,6 +93,7 @@ class PublishCommission extends PureComponent {
                 type === 'storeMoney' && (
                   <CountdownCom
                     prefix="待付款 "
+                    prefixStyle={{ fontSize: 11, color: Colors.OTHER_BACK }}
                     finish={this.exit}
                     time={data.pay_time}
                     style={{ fontSize: 11, color: Colors.OTHER_BACK, width: 50 }}

@@ -8,6 +8,7 @@ type Props = {
   finish: Function,
   time: number,
   style: Object,
+  prefixStyle: Object,
   prefix: String
 };
 
@@ -54,7 +55,7 @@ export default class CountdownCom extends PureComponent<Props> {
           const {
             finish, isStart, startTime, endTime,
           } = this.props;
-          finish();
+          finish && finish();
           this.clear();
           if (isStart || endTime === startTime) {
             this.setState({ text: '已结束' });
@@ -72,13 +73,13 @@ export default class CountdownCom extends PureComponent<Props> {
     parseInt(timer % 60).toString().padStart(2, 0)}`
 
   render() {
-    const { style, prefix } = this.props;
+    const { style, prefix, prefixStyle } = this.props;
     const { text } = this.state;
     const noTimer = ['已结束', '即将开始'].includes(text);
 
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {prefix && <Text style={{ ...style, width: null }}>{`${prefix}`}</Text>}
+        {prefix && <Text style={prefixStyle || { ...style, width: null }}>{`${prefix}`}</Text>}
         <Text style={{
           color: noTimer ? '#666' : '#000',
           width: noTimer ? 'auto' : 70,
