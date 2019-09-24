@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: hPx2P(160),
     marginHorizontal: wPx2P(60),
-
   },
   countTitle: {
     fontSize: 13,

@@ -14,7 +14,7 @@ import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { SCREEN_WIDTH } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
@@ -130,7 +130,7 @@ class FreeTradeBuy extends PureComponent {
       <View style={{ flex: 1 }}>
         <PullToRefresh
           style={{
-            flex: 1, backgroundColor: Colors.MAIN_BACK, paddingLeft: 9, paddingRight: 1, marginBottom: 66 + PADDING_TAB,
+            flex: 1, backgroundColor: Colors.MAIN_BACK, paddingLeft: 9, paddingRight: 1,
           }}
           ListHeaderComponent={this.listHeaderComponent}
           totalPages={listData.totalPages}

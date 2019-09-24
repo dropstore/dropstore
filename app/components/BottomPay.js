@@ -73,9 +73,6 @@ const styles = StyleSheet.create({
   },
   bottom: {
     height: 66 + PADDING_TAB,
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
     backgroundColor: '#fff',
     paddingBottom: PADDING_TAB,
     flexDirection: 'row',

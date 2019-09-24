@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     paddingLeft: 9,
     paddingRight: 9,
-    marginBottom: 66 + PADDING_TAB,
   },
   moneyCountInfo: {
     flexDirection: 'row',
