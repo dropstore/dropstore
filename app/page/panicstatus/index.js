@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: Mario,
     color: '#000',
-    width: 85,
+    width: 116,
+    backgroundColor: 'red',
   },
   shopName: {
     justifyContent: 'center',
