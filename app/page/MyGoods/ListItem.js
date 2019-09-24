@@ -118,14 +118,15 @@ export default class ListItem extends PureComponent {
         resolve();
       });
     } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
+        const { order_id } = res.data;
         navigation.navigate('PublishCommission', {
           title: '支付保证金',
           TYPE: 'freeTradeToRelease',
           goodsInfo: {
             type: 'deposit',
             price: value,
-            // order_id: this.item.order_id,
+            order_id,
             goodsImage: item.image,
             goodsName: item.goods_name,
           },

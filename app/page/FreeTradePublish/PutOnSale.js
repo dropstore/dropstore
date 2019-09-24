@@ -42,13 +42,8 @@ class PutOnSale extends PureComponent {
 
   toPay = () => {
     const { price, agreed } = this.state;
-    const { info, navigation } = this.props;
-    const min_price = info.data?.min_price / 100;
-    const max_price = info.data?.max_price / 100;
-    if (price < min_price / 100 || price > max_price) {
-      showToast(`请输入介于${min_price}-${max_price}之间的价格`);
-      return;
-    } if (!agreed) {
+    const { navigation } = this.props;
+    if (!agreed) {
       showToast('同意卖家须知后可继续上架');
       return;
     }
@@ -80,7 +75,6 @@ class PutOnSale extends PureComponent {
     const { info, simpleData } = this.props;
     const { price, agreed } = this.state;
     const deposit = price * simpleData?.data?.fee / 100;
-    const disabled = price < info.data?.min_price / 100 || price > info.data?.max_price / 100 || !agreed;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
@@ -110,7 +104,7 @@ class PutOnSale extends PureComponent {
                 style={styles.inputPriceTextare}
                 keyboardType="number-pad"
                 placeholder="输入价格"
-                maxLength={`${info.data?.max_price / 100}`.length}
+                maxLength={9}
                 underlineColorAndroid="transparent"
                 clearButtonMode="while-editing"
                 onChangeText={(price) => { this.setState({ price }); }}
@@ -138,7 +132,7 @@ class PutOnSale extends PureComponent {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={[styles.zhifu, { backgroundColor: disabled ? '#e2e2e2' : Colors.OTHER_BACK }]}
+            style={[styles.zhifu, { backgroundColor: !agreed ? '#e2e2e2' : Colors.OTHER_BACK }]}
             onPress={this.toPay}
           >
             <Text style={styles.queren}>上架</Text>
