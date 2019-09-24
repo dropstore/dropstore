@@ -102,7 +102,7 @@ class PublishCommission extends PureComponent {
             </View>
           </View>
         </ScrollView>
-        <BottomPay price={data.price} onPress={this.toPay} />
+        <BottomPay notNeedManagement={type === 'storeMoney'} price={data.price} onPress={this.toPay} />
       </View>
     );
   }

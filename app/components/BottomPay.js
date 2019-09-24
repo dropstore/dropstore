@@ -20,13 +20,15 @@ type Props = {
   onPress: Function,
   price: number,
   disabled: Boolean,
-  text?: String
+  text?: String,
+  notNeedManagement?:Boolean
 };
 
 
 class BottomPay extends PureComponent<Props> {
   static defaultProps = {
     text: '确认支付',
+    notNeedManagement: false,
   }
 
   onPress = () => {
@@ -43,7 +45,7 @@ class BottomPay extends PureComponent<Props> {
         <View style={styles.priceWrapper}>
           <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100 + appOptions?.data?.management}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{price / 100 + (notNeedManagement ? 0 : appOptions?.data?.management) }</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           { !notNeedManagement && <Text style={{ fontSize: 11, color: '#333' }}>{`(含库管费${appOptions?.data?.management})`}</Text> }
