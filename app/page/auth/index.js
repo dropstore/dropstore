@@ -118,7 +118,7 @@ class AuthLoading extends PureComponent {
         <View style={styles.thirdWrapper}>
           <ImageBackground
             onPress={() => this.auth(2)}
-            source={Images.wxLogin}
+            source={Images.wx}
             style={styles.wechat}
           />
         </View>

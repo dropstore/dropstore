@@ -42,13 +42,13 @@ class OriginalCost extends PureComponent {
   };
 
   renderItem = ({ item }) => (
-    <ImageBackground resizeMode="stretch" source={Images.jc} style={styles.content}>
+    <ImageBackground resizeMode="stretch" style={styles.content}>
       <ShopListItemCom item={item} />
     </ImageBackground>
   )
 
   renderSectionHeader = ({ section }) => (
-    <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.image}>
+    <ImageBackground resizeMode="stretch" style={styles.image}>
       <Text style={styles.text}>{section.title}</Text>
     </ImageBackground>
   )
@@ -62,7 +62,7 @@ class OriginalCost extends PureComponent {
         currentPage={activityInfo.currentPage}
         refresh={this.onRefresh}
         renderSectionHeader={this.renderSectionHeader}
-        ListHeaderComponent={<TopCom bannerId={4} imageSource={Images.bn} />}
+        ListHeaderComponent={<TopCom bannerId={4} />}
         sections={[
           {
             title: '六月',
