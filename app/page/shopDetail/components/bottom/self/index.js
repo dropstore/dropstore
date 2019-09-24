@@ -8,19 +8,14 @@ import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../../../../components/Image';
-import ImageBackground from '../../../../../components/ImageBackground';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
-import Images from '../../../../../res/Images';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
 import { getReShoesList, getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
-import { getShoesList, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
+import { getShoesList } from '../../../../../redux/actions/shopDetailInfo';
 import { checkTime } from '../../../../../utils/TimeUtils';
-import { shopDetail1 } from '../../../../TempData';
 import { debounce } from '../../../../../utils/commonUtils';
-import { wPx2P } from '../../../../../utils/ScreenUtil';
 import {
   showShare, showToast, closeModalbox, showModalbox,
 } from '../../../../../utils/MutualUtil';
@@ -34,17 +29,11 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getShopDetail,
     getShoesList,
   }, dispatch);
 }
 
 class SelfBottomCom extends PureComponent {
-  getShopDetail() {
-    const { getShopDetail } = this.props;
-    getShopDetail(shopDetail1);
-  }
-
   _toCommissionPage = () => {
     const { navigation } = this.props;
     navigation.push('commission', { title: '助攻佣金设定' });

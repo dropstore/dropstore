@@ -21,8 +21,6 @@ const IMAGES = {
   loading: require('./image/loading.gif'),
   xh: require('./image/xh.png'),
   xm: require('./image/xm.png'),
-  qe: require('./image/qe.png'),
-  qr: require('./image/qr.png'),
   shape: require('./image/Shape.png'),
   bn: require('./image/bn.png'),
   ht: require('./image/ht.png'),
@@ -43,7 +41,6 @@ const IMAGES = {
   wx: require('./image/wx.png'),
   pyq: require('./image/pyq.png'),
   wb: require('./image/wb.png'),
-  qq: require('./image/qq.png'),
   // 登陆相关
   wxLogin: require('./image/wxlogin.png'),
   wxLoginGray: require('./image/wx-login.png'),
@@ -138,8 +135,6 @@ const IMAGES = {
   extractRed: require('./image/extract-red.png'),
   extractWhite: require('./image/extract-white.png'),
   arrowRed: require('./image/arrow-red.png'),
-  salou: require('./image/salou.png'),
-  sanjiaotanhao: require('./image/sanjiaotanhao.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
