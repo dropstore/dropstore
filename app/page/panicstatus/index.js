@@ -44,22 +44,13 @@ class Panicstatus extends PureComponent {
     const Panicstatus = navigation.getParam('Panicstatus');
     const payData = navigation.getParam('payData');
     const is_join = shopInfo.is_join;
-    if (Panicstatus) {
-      if (is_join === ShopConstant.NOT_JOIN) {
-        navigation.navigate('pay', {
-          title: '选择支付账户',
-          type: ShopConstant.PAY_ORDER,
-          payData,
-          shopInfo,
-        });
-      } else if (is_join === ShopConstant.LEADING) {
-        const type = 'uncomplete';
-        navigation.navigate('MyGoods', {
-          type,
-        });
-      } else {
-        navigation.goBack();
-      }
+    if (Panicstatus && is_join === ShopConstant.LEADING) {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: ShopConstant.PAY_ORDER,
+        payData,
+        shopInfo,
+      });
     } else {
       navigation.goBack();
     }
