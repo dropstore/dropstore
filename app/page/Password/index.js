@@ -1,6 +1,7 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TextInput,
+  View, Text, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -11,7 +12,7 @@ import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showToast } from '../../utils/MutualUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import { PADDING_TAB, SCREEN_WIDTH } from '../../common/Constant';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapStateToProps() {
@@ -66,56 +67,32 @@ class Password extends PureComponent {
 
   render() {
     const { userInfo } = this.props;
+    const data = [
+      { title: `${userInfo.password ? '新密码' : '设置密码'}`, onChangeText: (text) => { this.password = text; } },
+      { title: '确认密码', onChangeText: (text) => { this.enterPassword = text; } },
+    ];
+    userInfo.password && data.unshift({ title: '旧密码', onChangeText: (text) => { this.oldPassword = text; } });
     return (
       <KeyboardDismiss style={styles.container}>
         <View style={styles.main}>
           {
-            userInfo.password ? (
-              <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-                <Text>旧密码: </Text>
+            data.map((v, i) => (
+              <View style={styles.extractWhite} key={`${v.title}-${i}`}>
+                <Text style={{ fontSize: 12 }}>{`${v.title}: `}</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="_"
-                  maxLength={6}
                   keyboardType="number-pad"
                   placeholderTextColor="#d3d3d3"
                   underlineColorAndroid="transparent"
-                  clearButtonMode="while-editing"
-                  onChangeText={(text) => { this.oldPassword = text; }}
+                  onChangeText={v.onChangeText}
                 />
-              </ImageBackground>
-            ) : null
+              </View>
+            ))
           }
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text>{`${userInfo.password ? '新密码: ' : '设置密码: '}`}</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="_"
-              maxLength={6}
-              keyboardType="number-pad"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              clearButtonMode="while-editing"
-              onChangeText={(text) => { this.password = text; }}
-            />
-          </ImageBackground>
-          <ImageBackground source={Images.extractWhite} style={styles.extractWhite}>
-            <Text>确认密码: </Text>
-            <TextInput
-              style={styles.input}
-              placeholder="_"
-              maxLength={6}
-              keyboardType="number-pad"
-              placeholderTextColor="#d3d3d3"
-              underlineColorAndroid="transparent"
-              clearButtonMode="while-editing"
-              onChangeText={(text) => { this.enterPassword = text; }}
-            />
-          </ImageBackground>
         </View>
-        <ImageBackground onPress={this.submit} source={Images.extractRed} style={styles.extractRed}>
-          <Text style={{ color: '#fff', fontSize: 18 }}>确认修改</Text>
-        </ImageBackground>
+        <TouchableOpacity onPress={this.submit} style={styles.extractRed}>
+          <Text style={{ color: '#fff', fontSize: 16 }}>确认修改</Text>
+        </TouchableOpacity>
       </KeyboardDismiss>
     );
   }
@@ -131,17 +108,23 @@ const styles = StyleSheet.create({
     paddingTop: hPx2P(30),
   },
   extractRed: {
-    width: wPx2P(351),
-    height: wPx2P(38),
+    width: wPx2P(265),
+    height: wPx2P(46),
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: Colors.OTHER_BACK,
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   extractWhite: {
-    width: wPx2P(351),
-    height: wPx2P(38),
+    height: 40,
+    width: SCREEN_WIDTH - 48,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: wPx2P(15),
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    overflow: 'hidden',
     marginBottom: 15,
     justifyContent: 'space-between',
   },
@@ -168,10 +151,11 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    marginRight: wPx2P(15),
-    color: '#555',
-    height: '100%',
     padding: 0,
+    fontSize: 12,
+    color: '#666',
+    height: '100%',
+    textAlign: 'right',
     includeFontPadding: false,
   },
 });

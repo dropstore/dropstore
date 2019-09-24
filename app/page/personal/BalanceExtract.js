@@ -138,7 +138,7 @@ class BalanceExtract extends PureComponent {
         <View style={{ marginBottom: hPx2P(35) + PADDING_TAB }}>
           <Text style={styles.date}>1-3个工作日到账</Text>
           <TouchableOpacity onPress={this.submit} style={styles.extractRed}>
-            <Text style={{ color: '#fff', fontSize: 18 }}>提交申请</Text>
+            <Text style={{ color: '#fff', fontSize: 16 }}>提交申请</Text>
           </TouchableOpacity>
         </View>
       </KeyboardDismiss>
