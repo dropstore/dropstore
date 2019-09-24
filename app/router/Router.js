@@ -86,10 +86,10 @@ const transition = {
 
 const AuthStack = createStackNavigator({
   AuthLoading: { screen: AuthLoading, navigationOptions: { header: null } },
-  NameAge: { screen: NameAge, navigationOptions: { header: null } },
-  GenderSize: { screen: GenderSize, navigationOptions: { header: null } },
-  PhoneNum: { screen: PhoneNum, navigationOptions: { header: null } },
-  Web,
+  NameAge: { screen: NameAge, navigationOptions: { headerTitle: '昵称&年龄' } },
+  GenderSize: { screen: GenderSize, navigationOptions: { headerTitle: '鞋码&性别' } },
+  PhoneNum: { screen: PhoneNum, navigationOptions: { headerTitle: '绑定手机' } },
+  Web: { screen: Web, navigationOptions: { headerTitle: '隐私协议' } },
 }, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
 
 // 需要导航头部的路由写在这里

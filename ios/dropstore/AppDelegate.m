@@ -32,7 +32,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  [RNSplashScreen show];
+  // [RNSplashScreen show];
   [UMConfigure setLogEnabled:YES];
   [RNUMConfigure initWithAppkey:@"5d5393a1570df324ba000e51" channel:@"AppStore"];
   [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wx4def04c004d5c07d" appSecret:@"de810c561534f71384850e79a7455ecb" redirectURL:nil];

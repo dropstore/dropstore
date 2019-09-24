@@ -123,7 +123,6 @@ class AuthLoading extends PureComponent {
           />
         </View>
         { showLoading && <ActivityIndicator size="large" style={styles.centering} /> }
-
         { showTreaty && <ModalTreaty closeTreaty={this.closeTreaty} navigation={navigation} close={this.closeTreaty} /> }
       </KeyboardDismiss>
     );
