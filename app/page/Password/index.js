@@ -10,7 +10,7 @@ import { updateUser, setPassword, updatePassword } from '../../redux/actions/use
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showToast } from '../../utils/MutualUtil';
-import { PADDING_TAB, SCREEN_WIDTH, FULL_WITHOUT_HEADER } from '../../common/Constant';
+import { PADDING_TAB, SCREEN_WIDTH } from '../../common/Constant';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapStateToProps() {
@@ -98,7 +98,7 @@ class Password extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    ...FULL_WITHOUT_HEADER,
+    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.MAIN_BACK,
