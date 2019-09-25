@@ -131,7 +131,7 @@ class AuthLoading extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    height: SCREEN_HEIGHT(),
+    height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
     alignItems: 'center',
     paddingTop: hPx2P(114),

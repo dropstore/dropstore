@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     marginRight: wPx2P(26),
   },
   placeholder: {
-    height: SCREEN_HEIGHT(),
+    height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
     position: 'absolute',
   },

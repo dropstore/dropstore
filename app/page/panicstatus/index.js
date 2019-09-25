@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainView: {
-    minHeight: SCREEN_HEIGHT() - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
+    minHeight: SCREEN_HEIGHT - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
     alignItems: 'center',
     paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
     paddingBottom: hPx2P(20),

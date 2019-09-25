@@ -47,13 +47,13 @@ class MyGoods extends PureComponent {
           onIndexChange={this.onIndexChange}
         />
         <TabView
-          style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT() - STATUSBAR_AND_NAV_HEIGHT }}
+          style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT }}
           navigationState={this.state}
           renderScene={this.renderScene}
           renderTabBar={() => null}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT() - STATUSBAR_AND_NAV_HEIGHT }}
+          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT }}
           lazy
         />
       </View>
@@ -63,7 +63,7 @@ class MyGoods extends PureComponent {
 
 const styles = StyleSheet.create({
   tabView: {
-    height: SCREEN_HEIGHT() - STATUSBAR_AND_NAV_HEIGHT,
+    height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT,
     width: SCREEN_WIDTH,
     backgroundColor: Colors.MAIN_BACK,
   },

@@ -126,7 +126,7 @@ class BottomNavigator extends PureComponent {
           renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT() }}
+          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
           lazy
         />
         <View style={styles.tabBar}>

@@ -57,7 +57,7 @@ class ActionSheet extends PureComponent<Props, State> {
     const { options, cancelButtonIndex } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.cancel}>
-        <View style={[styles.wrapper, { height: SCREEN_HEIGHT(), width: SCREEN_WIDTH }]}>
+        <View style={[styles.wrapper, { height: SCREEN_HEIGHT, width: SCREEN_WIDTH }]}>
           <View style={{ backgroundColor: '#eee' }}>
             {
               options.map((v, i) => {

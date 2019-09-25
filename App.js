@@ -10,19 +10,11 @@ import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { Global, Keyboard } from './app/components';
 import { removeNetListener } from './app/http/Axios';
-import { SCREEN_WIDTH, setScreenHeight } from './app/common/Constant';
 
 const GlobalWithKeyboard = ['toastLoading', 'toast'];
 const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      style: { flex: 1 },
-    };
-  }
-
   componentDidMount() {
     if (!__DEV__) {
       fundebug.init({
@@ -62,25 +54,11 @@ export default class App extends Component {
     this.listener.remove();
   }
 
-  onLayout = (e) => {
-    if (Platform.OS === 'ios') {
-      return;
-    }
-    setScreenHeight(e.nativeEvent.layout.height);
-    this.setState({
-      style: {
-        width: SCREEN_WIDTH,
-        height: e.nativeEvent.layout.height,
-      },
-    });
-  }
-
   render() {
-    const { style } = this.state;
     return (
       <Provider store={store}>
         <MenuProvider backHandler>
-          <View onLayout={this.onLayout} style={style}>
+          <View style={{ flex: 1 }}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <Router />
             <Global ref={(v) => { this.globalCom = v; }} />

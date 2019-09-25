@@ -5,5 +5,5 @@ export const wPx2P = function wPx2P(px) {
 };
 
 export const hPx2P = function hPx2P(px) {
-  return px / 667 * SCREEN_HEIGHT(); // design for height 667
+  return px / 667 * SCREEN_HEIGHT; // design for height 667
 };
