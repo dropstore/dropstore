@@ -74,7 +74,7 @@ class PutOnSale extends PureComponent {
   render() {
     const { info, appOptions } = this.props;
     const { price, agreed } = this.state;
-    const deposit = price * appOptions?.data?.fee / 100;
+    const deposit = Math.ceil(price * appOptions?.data?.fee) / 100;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>

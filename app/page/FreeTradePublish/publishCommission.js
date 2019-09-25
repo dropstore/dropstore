@@ -81,7 +81,7 @@ class PublishCommission extends PureComponent {
                   <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${price}￥`}</Text>
                   <Text style={{ fontFamily: YaHei, fontSize: 12 }}>{`需支付平台服务费：${appOptions?.data?.fee}%`}</Text>
                 </View>
-                <Text style={styles.totalMoneyText}>{`支付金额：${(price * appOptions?.data?.fee / 100).toFixed(2)}￥`}</Text>
+                <Text style={styles.totalMoneyText}>{`支付金额：${Math.ceil(price * appOptions?.data?.fee) / 100}￥`}</Text>
               </View>
             )
           }
