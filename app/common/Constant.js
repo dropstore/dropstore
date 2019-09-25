@@ -8,7 +8,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 const { width: SCREEN_WIDTH, height } = Dimensions.get('screen');
-console.log(Dimensions.get('window'), height, ExtraDimensions.getStatusBarHeight());
+
 const IS_IPHONE_X = isIphoneX();
 const TOAST_DURATION = 2000;
 const TOAST_POSITON = 'center';// top center bottom
