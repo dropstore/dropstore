@@ -1,8 +1,3 @@
-/**
- * @file 常用常量类
- * @date 2019/8/17 10:41
- * @author ZWW
- */
 import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import ExtraDimensions from 'react-native-extra-dimensions-android';
@@ -10,8 +5,6 @@ import ExtraDimensions from 'react-native-extra-dimensions-android';
 const { width: SCREEN_WIDTH, height } = Dimensions.get('screen');
 
 const IS_IPHONE_X = isIphoneX();
-const TOAST_DURATION = 2000;
-const TOAST_POSITON = 'center';// top center bottom
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';
 const SCREEN_HEIGHT = iOS ? height : ExtraDimensions.getRealWindowHeight() - ExtraDimensions.getSoftMenuBarHeight();
@@ -28,7 +21,6 @@ const hitSlop = {
   top: 12, bottom: 12, left: 8, right: 8,
 };
 export {
-  SCREEN_WIDTH, SCREEN_HEIGHT, iOS, Android, TOAST_DURATION, TOAST_POSITON, IS_IPHONE_X,
-  NAV_HEIGHT, STATUSBAR_HEIGHT, STATUSBAR_AND_NAV_HEIGHT, PADDING_TAB, hitSlop, MARGIN_HORIZONTAL,
-  MAX_TIME, BOTTOM_BTN_HEIGHT,
+  SCREEN_WIDTH, SCREEN_HEIGHT, iOS, Android, IS_IPHONE_X, NAV_HEIGHT, STATUSBAR_HEIGHT,
+  STATUSBAR_AND_NAV_HEIGHT, PADDING_TAB, hitSlop, MARGIN_HORIZONTAL, MAX_TIME, BOTTOM_BTN_HEIGHT,
 };
