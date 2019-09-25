@@ -11,6 +11,7 @@ import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
+import { formatDateNoYear } from '../../../utils/commonUtils';
 
 export default class ShopListItemCom extends PureComponent {
   constructor(props) {
@@ -72,7 +73,7 @@ export default class ShopListItemCom extends PureComponent {
                   time={item.end_time}
                   style={styles.time}
                   endTimerText="已结束"
-                  notStartTimerText="即将结束"
+                  notStartTimerText={`${formatDateNoYear(item.end_time)} 结束`}
                 />
               ) : (
                 <CountdownCom
@@ -81,7 +82,7 @@ export default class ShopListItemCom extends PureComponent {
                   finish={this.activityStart}
                   style={styles.time}
                   hasNextTimer
-                  notStartTimerText="即将开始"
+                  notStartTimerText={`${formatDateNoYear(item.start_time)} 开始`}
                 />
               )
             }

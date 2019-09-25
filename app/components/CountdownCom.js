@@ -80,9 +80,9 @@ export default class CountdownCom extends PureComponent<Props> {
     const fontSize = style.fontSize || 14;
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
-        {prefix && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{prefix}</Text>}
+        {prefix && !noTimer && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{prefix}</Text>}
         <Text style={{
-          color: noTimer ? '#666' : '#000',
+          color: noTimer ? '#333' : '#000',
           width: noTimer ? 'auto' : fontSize * 6.44,
           marginLeft: noTimer ? 8 : 0,
           textAlign: 'right',

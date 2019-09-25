@@ -31,6 +31,17 @@ function formatDate(time, separation = '-') {
   return str;
 }
 
+function formatDateNoYear(time, separation = '/') {
+  if (!time) { return ''; }
+  const fullTime = new Date(time * 1000);
+  let str = '';
+  str += (`${fullTime.getMonth() + 1}${separation}`).padStart(3, 0);
+  str += (`${fullTime.getDate() + 1} `).padStart(3, 0);
+  str += (`${fullTime.getHours()}:`).padStart(3, 0);
+  str += (`${fullTime.getMinutes()}`).padStart(2, 0);
+  return str;
+}
+
 function formatTimeAgo(time) {
   const now = Date.now() / 1000;
   const diff = now - time;
@@ -45,5 +56,5 @@ function formatTimeAgo(time) {
 }
 
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo,
+  debounce, debounceDelay, formatDate, formatTimeAgo, formatDateNoYear,
 };

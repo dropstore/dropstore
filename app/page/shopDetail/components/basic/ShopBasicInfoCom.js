@@ -4,6 +4,7 @@ import { FadeImage, CountdownCom } from '../../../../components';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
 import { wPx2P } from '../../../../utils/ScreenUtil';
+import { formatDateNoYear } from '../../../../utils/commonUtils';
 import Colors from '../../../../res/Colors';
 
 export default class ShopBasicInfoCom extends PureComponent {
@@ -26,9 +27,8 @@ export default class ShopBasicInfoCom extends PureComponent {
         <CountdownCom
           style={styles.overTime}
           time={activityInfo.activity.end_time}
-          // offset={Platform.OS === 'ios' ? 2 : 0}
           prefix="距结束时间:"
-          notStartTimerText="即将结束"
+          notStartTimerText={`${formatDateNoYear(activityInfo.activity.end_time)} 结束`}
           endTimerText="活动已结束"
           prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
         />
@@ -36,9 +36,8 @@ export default class ShopBasicInfoCom extends PureComponent {
     }
     return (
       <CountdownCom
-        // offset={Platform.OS === 'ios' ? 2 : 0}
         hasNextTimer
-        notStartTimerText="即将开始"
+        notStartTimerText={`${formatDateNoYear(activityInfo.activity.start_time)} ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
         finish={this.activityStart}
         style={styles.overTime}
         time={activityInfo.activity.start_time}
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
   imageShoe: {
     width: wPx2P(251),
     height: wPx2P(135),
+    marginBottom: 10,
   },
   shopTitle: {
     fontSize: 12,
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
     fontFamily: Mario,
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
-    width: 16 * 6.44,
   },
   price: {
     fontSize: 23,
