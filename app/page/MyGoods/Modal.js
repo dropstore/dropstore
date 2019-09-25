@@ -113,7 +113,7 @@ class Modal extends PureComponent {
                 <Text style={styles.yuan}>元</Text>
               </View>
               <TouchableOpacity onPress={this.toHelp} style={styles.yuanWrapper}>
-                <Text style={styles.shouxufei}>{`手续费：${(appOptions?.data?.fee / 100 * text).toFixed(2)}元`}</Text>
+                <Text style={styles.shouxufei}>{`手续费：${Math.ceil(appOptions?.data?.fee * text) / 100}元`}</Text>
                 <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
               </TouchableOpacity>
             </View>
