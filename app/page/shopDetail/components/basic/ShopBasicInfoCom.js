@@ -1,12 +1,5 @@
-/**
- * @file 商品基本信息组件
- * @date 2019/8/18 16:46
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet, Text, View, Platform,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { FadeImage, CountdownCom } from '../../../../components';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
@@ -17,10 +10,8 @@ export default class ShopBasicInfoCom extends PureComponent {
   constructor(props) {
     super(props);
     const { activityInfo } = this.props;
-    this.startTime = Date.now() / 1000 + 5;
-    this.endTime = this.startTime + 5;
     this.state = {
-      isStart: this.startTime - Date.now() / 1000 < 1,
+      isStart: activityInfo.activity.start_time - Date.now() / 1000 < 1,
     };
   }
 
@@ -34,17 +25,23 @@ export default class ShopBasicInfoCom extends PureComponent {
       return (
         <CountdownCom
           style={styles.overTime}
-          time={this.endTime}
+          time={activityInfo.activity.end_time}
+          // offset={Platform.OS === 'ios' ? 2 : 0}
           prefix="距结束时间:"
+          notStartTimerText="即将结束"
+          endTimerText="活动已结束"
           prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
         />
       );
     }
     return (
       <CountdownCom
+        // offset={Platform.OS === 'ios' ? 2 : 0}
+        hasNextTimer
+        notStartTimerText="即将开始"
         finish={this.activityStart}
         style={styles.overTime}
-        time={this.startTime}
+        time={activityInfo.activity.start_time}
         prefix={activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '距发售时间:' : '距开始时间:'}
         prefixStyle={{ ...styles.overTitle, color: '#0084FF' }}
       />
@@ -113,7 +110,6 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
     width: 16 * 6.44,
-    marginBottom: Platform.OS === 'android' ? 0 : 2,
   },
   price: {
     fontSize: 23,

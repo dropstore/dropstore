@@ -61,7 +61,6 @@ export default class CountdownCom extends PureComponent<Props> {
           this.clear();
           this.setState({ text: hasNextTimer ? this.formatTime(0) : endTimerText, noTimer: !hasNextTimer });
         } else {
-          console.log(diff);
           const text = this.formatTime(diff);
           this.setState({ text, noTimer: false });
         }
