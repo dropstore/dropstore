@@ -3,7 +3,6 @@ import {
   StyleSheet, TouchableOpacity, Text, View,
 } from 'react-native';
 import Modalbox from 'react-native-modalbox';
-import { wPx2P } from '../../utils/ScreenUtil';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Image from '../Image';
 import Images from '../../res/Images';
