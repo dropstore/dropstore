@@ -11,13 +11,13 @@ import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
 import ShopConstant from '../../common/ShopConstant';
-import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    shopDetailInfo: getSimpleData(state, 'activityInfo'),
   });
 }
 

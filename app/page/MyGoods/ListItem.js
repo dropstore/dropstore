@@ -179,9 +179,9 @@ class ListItem extends PureComponent {
               : item.goods_status === '3'
                 ? <Image source={Images.weitongguo} style={styles.tag} />
                 : item.goods_status === '1'
-                  ? <Text style={styles.zhaungtai}>运输中</Text>
+                  ? <Image source={Images.onExpress} style={styles.tag} />
                   : item.goods_status === '5'
-                    ? <Text style={styles.zhaungtai}>销售中</Text> : null
+                    ? <Image source={Images.onSale} style={styles.tag} /> : null
           }
           { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
         </View>

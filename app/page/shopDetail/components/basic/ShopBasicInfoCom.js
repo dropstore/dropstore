@@ -4,99 +4,67 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import FadeImage from '../../../../components/FadeImage';
+import {
+  StyleSheet, Text, View, Platform,
+} from 'react-native';
+import { FadeImage, CountdownCom } from '../../../../components';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
 import { wPx2P } from '../../../../utils/ScreenUtil';
-import { checkTime, countDown } from '../../../../utils/TimeUtils';
+import Colors from '../../../../res/Colors';
 
 export default class ShopBasicInfoCom extends PureComponent {
   constructor(props) {
     super(props);
+    const { activityInfo } = this.props;
+    this.startTime = Date.now() / 1000 + 5;
+    this.endTime = this.startTime + 5;
     this.state = {
-      startDownTime: '',
-      endDownTime: '',
+      isStart: this.startTime - Date.now() / 1000 < 1,
     };
   }
 
-  componentDidMount() {
-    this._setTime();
-    this._timer = setInterval(() => {
-      this._setTime();
-    }, 1000);
+  activityStart = () => {
+    this.setState({ isStart: true });
   }
 
-  componentWillUnmount() {
-    this._timer && clearInterval(this._timer);
-  }
-
-  _setTime = () => {
-    const { shopDetailInfo } = this.props;
-    const shopInfo = shopDetailInfo.data;
-    const sTimeStamp = this._getTimeStamp(shopInfo).sTimeStamp;
-    const eTimeStamp = this._getTimeStamp(shopInfo).eTimeStamp;
-    if (sTimeStamp > 0) {
-      this.setState({ startDownTime: countDown(sTimeStamp) });
-    } else if (eTimeStamp > 0) {
-      this.setState({ endDownTime: countDown(eTimeStamp) });
-    } else {
-      this._timer && clearInterval(this._timer);
-    }
-  };
-
-  _setTimeDOM = (shopInfo) => {
-    const startText = this._getTimeStamp(shopInfo).startText;
-    const sTimeStamp = this._getTimeStamp(shopInfo).sTimeStamp;
-    const eTimeStamp = this._getTimeStamp(shopInfo).eTimeStamp;
-    const { startDownTime, endDownTime } = this.state;
-    if (sTimeStamp > 0) {
+  setTimeDOM = (activityInfo) => {
+    const { isStart } = this.state;
+    if (isStart) {
       return (
-        <View style={_styles.overView}>
-          <Text style={_styles.overTitle}>{startText}</Text>
-          <Text style={_styles.overTime}>{startDownTime}</Text>
-        </View>
+        <CountdownCom
+          style={styles.overTime}
+          time={this.endTime}
+          prefix="距结束时间:"
+          prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
+        />
       );
     }
-    if (eTimeStamp > 0) {
-      return (
-        <View style={_styles.overView}>
-          <Text style={_styles.overTitle}>距结束时间:</Text>
-          <Text style={_styles.overTime}>{endDownTime}</Text>
-        </View>
-      );
-    }
-    return <View />;
-  };
-
-  _getTimeStamp = (shopInfo) => {
-    // 活动类型
-    const type = shopInfo.activity.type;
-    const startText = (type === ShopConstant.ORIGIN_CONST ? '距发售时间:' : '距开始时间:');
-    // 活动开始时间
-    const start_time = shopInfo.activity.start_time;
-    // 活动结束时间
-    const end_time = shopInfo.activity.end_time;
-    const sTimeStamp = checkTime(start_time);
-    const eTimeStamp = checkTime(end_time);
-    return { startText, sTimeStamp, eTimeStamp };
+    return (
+      <CountdownCom
+        finish={this.activityStart}
+        style={styles.overTime}
+        time={this.startTime}
+        prefix={activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '距发售时间:' : '距开始时间:'}
+        prefixStyle={{ ...styles.overTitle, color: '#0084FF' }}
+      />
+    );
   };
 
   render() {
-    const { shopDetailInfo } = this.props;
-    const shopInfo = shopDetailInfo.data;
+    const { activityInfo } = this.props;
     return (
-      <View style={_styles.mainView}>
-        <FadeImage resizeMode="contain" style={_styles.imageShoe} source={{ uri: shopInfo.activity.image }} />
-        { this._setTimeDOM(shopInfo) }
-        <Text style={_styles.shopTitle}>{shopInfo.goods.goods_name}</Text>
-        <Text style={_styles.price}>{`${shopInfo.activity.price / 100}￥`}</Text>
+      <View style={styles.mainView}>
+        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: activityInfo.activity.image }} />
+        { this.setTimeDOM(activityInfo) }
+        <Text style={styles.shopTitle}>{activityInfo.goods.goods_name}</Text>
+        <Text style={styles.price}>{`${activityInfo.activity.price / 100}￥`}</Text>
       </View>
     );
   }
 }
 
-const _styles = StyleSheet.create({
+const styles = StyleSheet.create({
   explainView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -138,7 +106,6 @@ const _styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     fontFamily: YaHei,
-    color: 'rgba(194,0,0,1)',
   },
   overTime: {
     fontSize: 16,
@@ -146,7 +113,7 @@ const _styles = StyleSheet.create({
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
     width: 16 * 6.44,
-    marginTop: 2,
+    marginBottom: Platform.OS === 'android' ? 0 : 2,
   },
   price: {
     fontSize: 23,
@@ -154,7 +121,5 @@ const _styles = StyleSheet.create({
     fontFamily: YaHei,
     color: 'rgba(0,0,0,1)',
     marginTop: 21,
-    // textDecorationLine: 'line-through',
-    // textDecorationColor: 'rgba(0,0,0,1)',
   },
 });

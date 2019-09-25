@@ -10,28 +10,6 @@ const notReceiveShopDetailInfo = createAction('NOT_RECEIVE_SHOP_DETAIL_INFO');
 const receiveShoesList = createAction('RECEIVE_SHOP_SHOE_LIST');
 
 /**
- * 获取商品详情
- * @param shopId
- * @param isDispatchStart
- * @returns {Function}
- */
-function getShopDetail(shopId, { isDispatchStart = true } = {}) {
-  return (dispatch) => {
-    const params = {
-      id: shopId,
-    };
-    if (isDispatchStart) {
-      dispatch(requestShopDetailInfo());
-    }
-    request('/activity/activity_info', { params, isShowLoading: true, image_size_times: 1 }).then((res) => {
-      dispatch(receiveShopDetailInfo(res.data));
-    }).catch(() => {
-      dispatch(notReceiveShopDetailInfo());
-    });
-  };
-}
-
-/**
  * 获取鞋码数据
  * @param shopId
  * @returns {Function}
@@ -146,6 +124,6 @@ const doBuyNow = (activity_id, size_id, navigation, shopInfo) => {
 };
 export {
   requestShopDetailInfo, receiveShopDetailInfo, notReceiveShopDetailInfo,
-  receiveShoesList, getShopDetail, getShoesList, startGroup, getPayMes,
+  receiveShoesList, getShoesList, startGroup, getPayMes,
   setCommission, doBuy, doBuyNow,
 };

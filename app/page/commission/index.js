@@ -7,14 +7,14 @@ import { KeyboardDismiss, BottomPay } from '../../components';
 import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { Normal, YaHei } from '../../res/FontFamily';
-import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 import { setCommission, getPayMes } from '../../redux/actions/shopDetailInfo';
 import ShopConstant from '../../common/ShopConstant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    activityInfo: getSimpleData(state, 'activityInfo'),
   });
 }
 
@@ -30,13 +30,11 @@ class Commission extends PureComponent {
   }
 
   componentDidMount() {
-    const { shopDetailInfo } = this.props;
-    const shopInfo = shopDetailInfo.data;
-    getPayMes(shopInfo.activity.id, shopInfo.user_activity.id).then((res) => {
-      const data = res.data;
-      if (data) {
-        const number = data.number;
-        const commission = data.commission / 100;
+    const { activityInfo: { data } } = this.props;
+    getPayMes(data.activity.id, data.user_activity.id).then((res) => {
+      if (res.data) {
+        const number = res.data.number;
+        const commission = res.data.commission / 100;
         this.setState({ number, commission, totalPrice: number * commission });
       }
     });
@@ -44,8 +42,7 @@ class Commission extends PureComponent {
 
   _toPay = () => {
     const { inputCommission } = this.state;
-    const { shopDetailInfo, navigation } = this.props;
-    const shopInfo = shopDetailInfo.data;
+    const { activityInfo: { data: shopInfo }, navigation } = this.props;
     // let minPrice = shopInfo.activity.min_price;
     if (inputCommission < 1) {
       // return showToast(`单人佣金不能低于1元`);

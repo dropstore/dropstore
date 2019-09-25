@@ -9,28 +9,30 @@ import { BottomBtnGroup } from '../../../../components';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
-import { doBuyNow, getShoesList } from '../../../../redux/actions/shopDetailInfo';
-import { getReShoesList } from '../../../../redux/reselect/shopDetailInfo';
+import { fetchSimpleData } from '../../../../redux/actions/simpleData';
+import { getSimpleData } from '../../../../redux/reselect/simpleData';
+import { requestApi } from '../../../../http/Axios';
 
 const SIZE = (SCREEN_WIDTH - 45) / 4;
+const TYPE = 'activitySize';
 
 function mapStateToProps() {
   return state => ({
-    shoesInfo: getReShoesList(state),
+    shoesInfo: getSimpleData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getShoesList,
+    fetchSimpleData,
   }, dispatch);
 }
 
 class SelectShoeSizeByUnJoinsCom extends Component {
   constructor(props) {
     super(props);
-    const { shopId, getShoesList } = this.props;
-    getShoesList(shopId);
+    const { shopId, fetchSimpleData } = this.props;
+    fetchSimpleData(TYPE, { id: shopId });
     this.state = {
       chooseId: '',
     };
@@ -47,7 +49,13 @@ class SelectShoeSizeByUnJoinsCom extends Component {
     } = this.props;
     const { chooseId } = this.state;
     closeBox();
-    doBuyNow(shopId, chooseId, navigation, shopInfo);
+    const params = {
+      activity_id: shopId,
+      size_id: chooseId,
+    };
+    requestApi('doBuyNow', { params }).then((res) => {
+      navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
+    });
   };
 
   render() {

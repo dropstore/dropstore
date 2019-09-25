@@ -134,6 +134,17 @@ export default {
   },
 
 
+  // 活动详情
+  activityInfo: {
+    url: '/activity/activity_info',
+    initParams: {
+      image_size_times: 0.5,
+    },
+  },
+  // 获取活动鞋码信息
+  activitySize: { url: '/activity/activity_size' },
+
   getShoeSizeList: { url: '/free/get_all_size' },
   getMissionPrice: { url: '/order/do_add_free_trade' },
+  doBuyNow: { url: '/order/do_buy_now' },
 };

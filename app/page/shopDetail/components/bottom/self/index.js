@@ -5,13 +5,11 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
-import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
+import { getSimpleData } from '../../../../../redux/reselect/simpleData';
 import { checkTime } from '../../../../../utils/TimeUtils';
 import { debounce } from '../../../../../utils/commonUtils';
 import {
@@ -21,7 +19,7 @@ import { BottomBtnGroup } from '../../../../../components';
 
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    shopDetailInfo: getSimpleData(state, 'activityInfo'),
   });
 }
 

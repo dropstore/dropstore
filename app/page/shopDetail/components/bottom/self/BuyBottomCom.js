@@ -6,25 +6,18 @@
 import React, { PureComponent } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { doBuy, getShopDetail } from '../../../../../redux/actions/shopDetailInfo';
-import { getShopDetailInfo } from '../../../../../redux/reselect/shopDetailInfo';
+import { doBuy } from '../../../../../redux/actions/shopDetailInfo';
+import { getSimpleData } from '../../../../../redux/reselect/simpleData';
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    shopDetailInfo: getSimpleData(state, 'activityInfo'),
   });
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    getShopDetail,
-  }, dispatch);
 }
 
 class BuyBottomCom extends PureComponent {
@@ -89,4 +82,4 @@ class BuyBottomCom extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuyBottomCom);
+export default connect(mapStateToProps)(BuyBottomCom);

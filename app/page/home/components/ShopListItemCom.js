@@ -17,15 +17,10 @@ export default class ShopListItemCom extends PureComponent {
     super(props);
     const { item } = this.props;
     const now = Date.now() / 1000;
-    const isStart = parseInt(item.start_time) < now;
-    const time = isStart ? item.end_time : item.start_time;
-    if (now > parseInt(item.end_time)) {
-      this.end = true;
-    }
     this.state = {
-      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
-      time,
-      isStart,
+      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
+        || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
+      isStart: item.start_time - Date.now() / 1000 < 1,
     };
   }
 
@@ -33,15 +28,10 @@ export default class ShopListItemCom extends PureComponent {
     const { item } = this.props;
     if (item !== nextProps.item) {
       const now = Date.now() / 1000;
-      const isStart = parseInt(nextProps.item.start_time) < now;
-      const time = isStart ? nextProps.item.end_time : nextProps.item.start_time;
-      if (now > parseInt(nextProps.item.end_time)) {
-        this.end = true;
-      }
       this.setState({
-        showText: (isStart && now < parseInt(nextProps.item.end_time)) || (parseInt(nextProps.item.start_time) - now < MAX_TIME && !isStart),
-        time,
-        isStart,
+        showText: (parseInt(nextProps.item.end_time) - now < MAX_TIME && nextProps.item.end_time > now)
+        || (parseInt(nextProps.item.start_time) - now < MAX_TIME && nextProps.item.start_time > now),
+        isStart: nextProps.item.start_time - Date.now() / 1000 < 1,
       });
     }
   }
@@ -60,24 +50,13 @@ export default class ShopListItemCom extends PureComponent {
     });
   };
 
-  finish = () => {
-    const { item } = this.props;
-    const now = Date.now() / 1000 + 1;
-    const isStart = parseInt(item.start_time) < now;
-    const time = isStart ? item.end_time : item.start_time;
-    if (now > parseInt(item.end_time)) {
-      this.end = true;
-    }
-    this.setState({
-      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
-      time,
-      isStart,
-    });
+  activityStart = () => {
+    this.setState({ isStart: true });
   }
 
   render() {
     const { item } = this.props;
-    const { time, showText, isStart } = this.state;
+    const { showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
         <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
@@ -86,15 +65,26 @@ export default class ShopListItemCom extends PureComponent {
           <View style={styles.rightBottom}>
             <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
-            <CountdownCom
-              offset={Platform.OS === 'ios' ? null : -1.8}
-              startTime={item.start_time}
-              endTime={item.end_time}
-              isStart={isStart}
-              finish={this.finish}
-              style={styles.time}
-              time={time}
-            />
+            {
+              isStart ? (
+                <CountdownCom
+                  offset={Platform.OS === 'ios' ? null : -1.8}
+                  time={item.end_time}
+                  style={styles.time}
+                  endTimerText="已结束"
+                  notStartTimerText="即将结束"
+                />
+              ) : (
+                <CountdownCom
+                  offset={Platform.OS === 'ios' ? null : -1.8}
+                  time={item.start_time}
+                  finish={this.activityStart}
+                  style={styles.time}
+                  hasNextTimer
+                  notStartTimerText="即将开始"
+                />
+              )
+            }
           </View>
           {
             showText && (

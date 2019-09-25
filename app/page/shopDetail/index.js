@@ -4,33 +4,31 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import {
-  DeviceEventEmitter, RefreshControl, View, FlatList,
-} from 'react-native';
+import { RefreshControl, View, FlatList } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getShopDetail } from '../../redux/actions/shopDetailInfo';
-import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
 import SelfBottomCom from './components/bottom/self';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import { AgainLoadCom } from '../../components';
-import NoDataCom from '../../components/NoDataCom';
 import RuleCom from './components/main/RuleCom';
 import DrawMainCom from './components/main/self/components/DrawMainCom';
 import DetailImage from './components/DetailImage';
 
+const TYPE = 'activityInfo';
+
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    activityInfo: getSimpleData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getShopDetail,
+    fetchSimpleData,
   }, dispatch);
 }
 
@@ -39,25 +37,24 @@ class ShopDetail extends PureComponent {
     title: navigation.getParam('title', '商品详情'),
     headerRight: <ShopDetailHeaderRight
       onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
-      navigation={navigation}
       rate={navigation.getParam('rate')}
     />,
   });
 
-  componentDidMount() {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
-      if (res) {
-        getShopDetail(shopId, { isDispatchStart: false });
-      }
-    });
-    getShopDetail(shopId);
+  constructor(props) {
+    super(props);
+    this.fetchData();
   }
 
-  componentWillUnmount() {
-    this.refreshShopInfo.remove();
+  fetchData = (refresh) => {
+    const { fetchSimpleData, navigation } = this.props;
+    this.params = { id: navigation.getParam('shopId') };
+    fetchSimpleData(TYPE, this.params, refresh);
   }
+
+  onRefresh = () => {
+    this.fetchData(true);
+  };
 
   setContentOrBottomUI = (shopInfo) => {
     const { navigation } = this.props;
@@ -68,20 +65,8 @@ class ShopDetail extends PureComponent {
     return null;
   };
 
-  onRefresh = () => {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    getShopDetail(shopId, { isDispatchStart: false });
-  };
-
-  againLoad = () => {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    getShopDetail(shopId, { isDispatchStart: true });
-  };
-
   renderItem = ({ item }) => {
-    const { shopDetailInfo: { data } } = this.props;
+    const { activityInfo: { data } } = this.props;
     if (item === 'RuleCom') {
       return <RuleCom shopInfo={data} />;
     } if (item === 'DrawMainCom') {
@@ -91,51 +76,44 @@ class ShopDetail extends PureComponent {
   }
 
   render() {
-    const { shopDetailInfo } = this.props;
-    const { data } = shopDetailInfo;
-    const isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
-    if (shopDetailInfo.isFetching) { return <View />; }
-    if (isNormalObject) {
-      const { is_join, goods_image } = data;
-      let list = ['RuleCom'];
-      if (is_join === ShopConstant.NOT_JOIN) {
-        list = [
-          ...list,
-          { height: 240, source: require('../../res/image/gonggao.jpg') },
-          ...goods_image,
-          { height: 437, source: require('../../res/image/rule.jpg') },
-        ];
-      } else {
-        list = [...list, 'DrawMainCom'];
-      }
-      return (
-        <View style={{ flex: 1 }}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<ShopBasicInfoCom shopDetailInfo={shopDetailInfo} />}
-            data={list}
-            contentContainerStyle={{ paddingBottom: 7 }}
-            style={{ flex: 1 }}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => `detail-${item}-${index}`}
-            maxToRenderPerBatch={3}
-            initialNumToRender={1}
-            refreshControl={(
-              <RefreshControl
-                progressViewOffset={20}
-                tintColor={Colors.OTHER_BACK}
-                onRefresh={this.onRefresh}
-                refreshing={false}
-              />
-            )}
-          />
-          { this.setContentOrBottomUI(data) }
-        </View>
-      );
-    } if (!shopDetailInfo.error) {
-      return <AgainLoadCom againLoad={this.againLoad} />;
+    const { activityInfo: { data, fetchedParams } } = this.props;
+    if (JSON.stringify(fetchedParams) !== JSON.stringify(this.params) || !fetchedParams) { return <View />; }
+    const { is_join, goods_image } = data;
+    let list = ['RuleCom'];
+    if (is_join === ShopConstant.NOT_JOIN) {
+      list = [
+        ...list,
+        { height: 240, source: require('../../res/image/gonggao.jpg') },
+        ...goods_image,
+        { height: 437, source: require('../../res/image/rule.jpg') },
+      ];
+    } else {
+      list = [...list, 'DrawMainCom'];
     }
-    return <NoDataCom />;
+    return (
+      <View style={{ flex: 1 }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<ShopBasicInfoCom activityInfo={data} />}
+          data={list}
+          contentContainerStyle={{ paddingBottom: 7 }}
+          style={{ flex: 1 }}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => `detail-${item}-${index}`}
+          maxToRenderPerBatch={3}
+          initialNumToRender={1}
+          refreshControl={(
+            <RefreshControl
+              progressViewOffset={20}
+              tintColor={Colors.OTHER_BACK}
+              onRefresh={this.onRefresh}
+              refreshing={false}
+            />
+            )}
+        />
+        { this.setContentOrBottomUI(data) }
+      </View>
+    );
   }
 }
 
