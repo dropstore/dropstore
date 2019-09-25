@@ -26,40 +26,6 @@ class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
-    // 商品状态 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
-    this.btns = [];
-    if (type === 'onSale') {
-      this.btns = [
-        { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
-        { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
-      ];
-    } else if (type === 'uncomplete') {
-      this.btns = [
-        { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
-      ];
-    } else if (type === 'warehouse') {
-      if (item.goods_status === '1') {
-        this.btns = [];
-      } if (item.goods_status === '5') {
-        this.btns = [
-          { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
-          { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
-        ];
-      } else if (item.goods_status === '4') {
-        this.btns = [
-          { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
-          { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
-        ];
-      } else if (item.goods_status === '0') {
-        this.btns = [
-          { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
-        ];
-      } else if (['2', '3'].includes(item.goods_status)) {
-        this.btns = [
-          { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
-        ];
-      }
-    }
     this.state = {
       text: item.end_time <= Date.now() / 1000 && type === 'uncomplete' ? '付款已超时' : null,
     };
@@ -169,6 +135,40 @@ class ListItem extends PureComponent {
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
+    // 商品状态 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
+    let btns = [];
+    if (type === 'onSale') {
+      btns = [
+        { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
+        { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+      ];
+    } else if (type === 'uncomplete') {
+      btns = [
+        { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
+      ];
+    } else if (type === 'warehouse') {
+      if (item.goods_status === '1') {
+        btns = [];
+      } if (item.goods_status === '5') {
+        btns = [
+          { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
+          { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+        ];
+      } else if (item.goods_status === '4') {
+        btns = [
+          { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
+          { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
+        ];
+      } else if (item.goods_status === '0') {
+        btns = [
+          { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
+        ];
+      } else if (['2', '3'].includes(item.goods_status)) {
+        btns = [
+          { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
+        ];
+      }
+    }
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
@@ -208,10 +208,10 @@ class ListItem extends PureComponent {
           { text && <Text style={{ color: Colors.OTHER_BACK, textAlign: 'right', fontSize: 13 }}>{text}</Text>}
           { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id}`}</Text>}
           {
-            this.btns.length > 0 && !text && (
+            btns.length > 0 && !text && (
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
               {
-              this.btns.map(v => (
+              btns.map(v => (
                 <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
                   <Text style={styles.text}>{v.title}</Text>
                 </TouchableOpacity>
