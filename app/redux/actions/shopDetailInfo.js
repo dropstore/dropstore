@@ -106,24 +106,8 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
   }
 };
 
-/**
- * 直接参加
- * @param activity_id
- * @param size_id
- * @param navigation
- * @param shopInfo
- */
-const doBuyNow = (activity_id, size_id, navigation, shopInfo) => {
-  const params = {
-    activity_id,
-    size_id,
-  };
-  request('/order/do_buy_now', { params, isShowLoading: true }).then((res) => {
-    navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
-  });
-};
 export {
   requestShopDetailInfo, receiveShopDetailInfo, notReceiveShopDetailInfo,
   receiveShoesList, getShoesList, startGroup, getPayMes,
-  setCommission, doBuy, doBuyNow,
+  setCommission, doBuy,
 };
