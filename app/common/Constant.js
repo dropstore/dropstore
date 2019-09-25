@@ -14,7 +14,7 @@ const TOAST_DURATION = 2000;
 const TOAST_POSITON = 'center';// top center bottom
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';
-const SCREEN_HEIGHT = iOS ? height : ExtraDimensions.getRealWindowHeight();
+const SCREEN_HEIGHT = iOS ? height : ExtraDimensions.getRealWindowHeight() - ExtraDimensions.getSoftMenuBarHeight();
 const NAV_HEIGHT = 44;
 const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : ExtraDimensions.getStatusBarHeight();
 const PADDING_TAB = IS_IPHONE_X ? 20 : 0;
