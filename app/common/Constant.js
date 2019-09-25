@@ -7,7 +7,7 @@ import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const { width: width1, height: height1 } = Dimensions.get('window');
-const { width: width2, height: height2 } = Dimensions.get('screen');
+const { width: width2, height: height2 } = Dimensions.get('window');
 
 const IS_IPHONE_X = isIphoneX();
 const SCREEN_WIDTH = Math.max(width1, width2);
@@ -23,6 +23,10 @@ const STATUSBAR_AND_NAV_HEIGHT = STATUSBAR_HEIGHT + NAV_HEIGHT;
 const MARGIN_HORIZONTAL = 9;
 const MAX_TIME = 24 * 3600;
 const BOTTOM_BTN_HEIGHT = 66 + PADDING_TAB;
+const FULL_WITHOUT_HEADER = {
+  height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT,
+  width: SCREEN_WIDTH,
+};
 
 // 适用于小图标
 const hitSlop = {
@@ -31,5 +35,5 @@ const hitSlop = {
 export {
   SCREEN_WIDTH, SCREEN_HEIGHT, iOS, Android, TOAST_DURATION, TOAST_POSITON, IS_IPHONE_X,
   NAV_HEIGHT, STATUSBAR_HEIGHT, STATUSBAR_AND_NAV_HEIGHT, PADDING_TAB, hitSlop, MARGIN_HORIZONTAL,
-  MAX_TIME, BOTTOM_BTN_HEIGHT,
+  MAX_TIME, BOTTOM_BTN_HEIGHT, FULL_WITHOUT_HEADER,
 };

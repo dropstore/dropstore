@@ -4,7 +4,7 @@ import {
   Text, ScrollView, View, StyleSheet, TextInput, TouchableOpacity, Platform,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { PADDING_TAB } from '../../common/Constant';
+import { PADDING_TAB, FULL_WITHOUT_HEADER } from '../../common/Constant';
 import { Image } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
@@ -76,7 +76,7 @@ class PutOnSale extends PureComponent {
     const { price, agreed } = this.state;
     const deposit = Math.ceil(price * appOptions?.data?.fee) / 100;
     return (
-      <View style={{ flex: 1 }}>
+      <View style={FULL_WITHOUT_HEADER}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
           <View style={styles.shoesInfo}>
             <View style={styles.shoesInfoTop}>
@@ -136,7 +136,6 @@ class PutOnSale extends PureComponent {
           </TouchableOpacity>
         </View>
       </View>
-
     );
   }
 }
@@ -199,10 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // paddingBottom: 9,
     marginTop: 24,
-    // borderBottomColor: '#F2F2F2',
-    // borderBottomWidth: 1,
   },
   shoesCommissionIncome: {
     flexDirection: 'row',
@@ -226,6 +222,8 @@ const styles = StyleSheet.create({
   inputPriceTextare: {
     flex: 1,
     marginLeft: 5,
+    padding: 0,
+    includeFontPadding: false,
   },
   zhifu: {
     flex: 1,
