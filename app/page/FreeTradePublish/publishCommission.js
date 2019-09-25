@@ -4,7 +4,6 @@ import {
   Text, ScrollView, View, StyleSheet,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { PADDING_TAB } from '../../common/Constant';
 import { BottomPay, CountdownCom } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
