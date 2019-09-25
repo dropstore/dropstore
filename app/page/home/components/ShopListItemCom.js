@@ -37,11 +37,11 @@ export default class ShopListItemCom extends PureComponent {
   }
 
   toShopDetailPage = () => {
-    if (this.end) {
+    const { navigation, item } = this.props;
+    if (Date.now() / 1000 - item.end_time > -1) {
       showToast('活动已结束');
       return;
     }
-    const { navigation, item } = this.props;
     navigation.navigate('shopDetail', {
       title: '商品详情',
       rate: '+25',
