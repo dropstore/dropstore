@@ -106,7 +106,6 @@ class ListItem extends PureComponent {
             goodsImage: item.image,
             goodsName: item.goods_name,
           },
-          needShareBtn: true,
         });
         resolve();
       });

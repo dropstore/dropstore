@@ -57,7 +57,6 @@ class PutOnSale extends PureComponent {
         goodsImage: (this.item.goods || this.item).image,
         goodsName: (this.item.goods || this.item).goods_name,
       },
-      needShareBtn: true,
     });
   }
 
