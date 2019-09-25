@@ -91,7 +91,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = true
+def enableProguardInReleaseBuilds = false
 
 import com.google.gson.Gson
 
@@ -148,7 +148,7 @@ android {
         versionCode _versionCode
         versionName _versionName
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+            abiFilters "armeabi-v7a"
         }
         vectorDrawables.useSupportLibrary = true
         // multiDexEnabled true
@@ -205,6 +205,7 @@ dependencies {
     implementation project(':react-native-fast-image')
     implementation project(':react-native-gesture-handler')
     implementation project(':react-native-reanimated')
+    implementation project(':react-native-extra-dimensions-android')
     // 第三方登录分享所需的配置
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"

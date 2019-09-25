@@ -60,7 +60,7 @@ class GenderSize extends PureComponent {
 
   upSize = () => {
     const { size } = this.state;
-    if (size * 1 === 48) {
+    if (size * 1 >= 48) {
       return;
     }
     this.setState({ size: (size * 1 + 0.5).toFixed(1) });
@@ -68,7 +68,7 @@ class GenderSize extends PureComponent {
 
   downSize = () => {
     const { size } = this.state;
-    if (size * 1 === 35.5) {
+    if (size * 1 <= 35.5) {
       return;
     }
     this.setState({ size: (size - 0.5).toFixed(1) });

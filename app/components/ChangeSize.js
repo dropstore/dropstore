@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { wPx2P } from '../utils/ScreenUtil';
-import { Mario, YaHei } from '../res/FontFamily';
+import { YaHei } from '../res/FontFamily';
 import Colors from '../res/Colors';
 
 export default class ChangeSize extends PureComponent {
@@ -18,7 +18,7 @@ export default class ChangeSize extends PureComponent {
   upSize = () => {
     const { size } = this.state;
     const { onChange } = this.props;
-    if (size * 1 === 48) {
+    if (size * 1 >= 48) {
       return;
     }
     const value = (size * 1 + 0.5).toFixed(1);
@@ -29,7 +29,7 @@ export default class ChangeSize extends PureComponent {
   downSize = () => {
     const { size } = this.state;
     const { onChange } = this.props;
-    if (size * 1 === 35.5) {
+    if (size * 1 <= 35.5) {
       return;
     }
     const value = (size * 1 - 0.5).toFixed(1);
