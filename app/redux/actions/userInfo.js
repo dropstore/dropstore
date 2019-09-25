@@ -30,10 +30,10 @@ function weChatAuth(i) {
         user_name: wxRes.name,
       };
       request('user/wx_login', { params }).then((res) => {
-        dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
         if (parseInt(res.data.size) > 0) {
           AsyncStorage.setItem('token', res.data.user_s_id);
           dispatch(receiveUser(res.data));
+          dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
           resolve(true);
         } else {
           dispatch(receiveUser({
@@ -42,6 +42,7 @@ function weChatAuth(i) {
             sex,
             avatar: wxRes.iconurl,
           }));
+          dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
           resolve(false);
         }
       });
@@ -95,13 +96,14 @@ function sendMessage(api, mobile, sendTime = 0) {
 function messageAuth(mobile, codes) {
   return dispatch => new Promise((resolve) => {
     request('/user/login', { params: { mobile, codes } }).then((res) => {
-      dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
       if (res.data.user_name) {
         AsyncStorage.setItem('token', res.data.user_s_id);
         dispatch(receiveUser(res.data));
+        dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
         resolve(true);
       } else {
         dispatch(receiveUser({ ...res.data, mobile }));
+        dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
         resolve(false);
       }
     });
@@ -136,8 +138,8 @@ function updateUser(params) {
 function getUser() {
   return (dispatch) => {
     request('/user/userinfo', { params: { uid: -1 } }).then((res) => {
-      dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
       dispatch(receiveUser(res.data));
+      dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
     });
   };
 }
