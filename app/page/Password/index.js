@@ -7,12 +7,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Colors from '../../res/Colors';
 import { updateUser, setPassword, updatePassword } from '../../redux/actions/userInfo';
-import ImageBackground from '../../components/ImageBackground';
-import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showToast } from '../../utils/MutualUtil';
-import { PADDING_TAB, SCREEN_WIDTH } from '../../common/Constant';
+import { PADDING_TAB, SCREEN_WIDTH, FULL_WITHOUT_HEADER } from '../../common/Constant';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapStateToProps() {
@@ -100,7 +98,7 @@ class Password extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...FULL_WITHOUT_HEADER,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.MAIN_BACK,
