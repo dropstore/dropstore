@@ -5,7 +5,6 @@ import TabBar from '../../components/TabBar';
 import { SCREEN_WIDTH, STATUSBAR_HEIGHT } from '../../common/Constant';
 // import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
-import Reserve from './reserve';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [

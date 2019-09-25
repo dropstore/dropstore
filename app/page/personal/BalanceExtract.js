@@ -148,7 +148,7 @@ class BalanceExtract extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT,
+    height: SCREEN_HEIGHT() - STATUSBAR_AND_NAV_HEIGHT,
     width: SCREEN_WIDTH,
     backgroundColor: Colors.MAIN_BACK,
     alignItems: 'center',

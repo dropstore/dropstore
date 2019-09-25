@@ -76,7 +76,7 @@ export default class ToastLoading extends PureComponent {
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
-    bottom: (SCREEN_HEIGHT - height) / 2,
+    bottom: (SCREEN_HEIGHT() - height) / 2,
     alignSelf: 'center',
     zIndex: 100,
     height,

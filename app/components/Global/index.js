@@ -49,7 +49,7 @@ export default class Global extends PureComponent {
       <View style={styles.wrapper}>
         {
           share.show && (
-            <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
+            <View style={{ height: SCREEN_HEIGHT(), width: SCREEN_WIDTH }}>
               <ShareCom
                 onClosed={() => this.onClosed('share')}
                 data={share.data}
@@ -62,7 +62,7 @@ export default class Global extends PureComponent {
         }
         {
           modalbox.show && (
-            <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
+            <View style={{ height: SCREEN_HEIGHT(), width: SCREEN_WIDTH }}>
               <Modalbox
                 data={modalbox.data}
                 ref={(v) => { this.modalbox = v; }}

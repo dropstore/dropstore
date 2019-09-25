@@ -4,7 +4,6 @@ import {
 } from 'react-native';
 import { BottomBtnGroup } from '../../components';
 import Image from '../../components/Image';
-import { commonStyle } from '../../res/style/CommonStyle';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { Mario, YaHei } from '../../res/FontFamily';
@@ -110,7 +109,7 @@ class PayStatus extends PureComponent {
             <Image style={_style.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
               PayStatus && !navigation.getParam('noTimer') && this._getStartTime() > 0 ? (
-                <View style={[commonStyle.row, { marginTop: 26 }]}>
+                <View style={{ marginTop: 26, flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={_style.waitLeft}>等待发布：</Text>
                   <Text style={_style.time}>{startDownTime}</Text>
                 </View>

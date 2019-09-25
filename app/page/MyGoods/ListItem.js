@@ -98,7 +98,7 @@ class ListItem extends PureComponent {
         const { order_id } = res.data;
         navigation.navigate('PublishCommission', {
           title: '支付服务费',
-          TYPE: 'freeTradeToRelease',
+          payType: 5,
           goodsInfo: {
             type: 'deposit',
             price: value,

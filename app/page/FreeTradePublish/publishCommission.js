@@ -31,23 +31,22 @@ class PublishCommission extends PureComponent {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
     const {
-      shoeSize, goodsId, type, order_id, price,
+      shoeSize, goodsId, type,
     } = navigation.getParam('goodsInfo');
-    const TYPE = navigation.getParam('TYPE');
     if (type === 'storeMoney') {
-      fetchSimpleData(TYPE, { goods_id: goodsId, size_id: shoeSize });
-    } else {
-      fetchSimpleData(TYPE, { price, order_id });
+      fetchSimpleData(navigation.getParam('TYPE'), { goods_id: goodsId, size_id: shoeSize });
     }
   }
 
   toPay = () => {
     const { navigation, missionPrice } = this.props;
-    const { goodsImage, goodsName, type } = navigation.getParam('goodsInfo');
+    const {
+      goodsImage, goodsName, type, order_id, price,
+    } = navigation.getParam('goodsInfo');
     navigation.navigate('pay', {
       title: '选择支付方式',
-      type: type === 'storeMoney' ? ShopConstant.PAY_ORDER : 4,
-      payData: missionPrice.data,
+      type: navigation.getParam('payType') || (type === 'storeMoney' ? ShopConstant.PAY_ORDER : 4),
+      payData: type === 'storeMoney' ? missionPrice.data : { order_id, price },
       shopInfo: {
         goods: {
           image: goodsImage,
@@ -83,24 +82,24 @@ class PublishCommission extends PureComponent {
               </View>
             )
           }
-          <View style={styles.orderInfo}>
-            <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
-            <View style={styles.creatTime}>
-              <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
-              {
-                type === 'storeMoney' && (
-                  <CountdownCom
-                    prefix="待付款 "
-                    finish={this.exit}
-                    time={data.pay_time}
-                    style={{ fontSize: 11, color: Colors.OTHER_BACK }}
-                  />
-                )
-              }
+          {
+            type === 'storeMoney' && (
+            <View style={styles.orderInfo}>
+              <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
+              <View style={styles.creatTime}>
+                <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
+                <CountdownCom
+                  prefix="待付款 "
+                  finish={this.exit}
+                  time={data.pay_time}
+                  style={{ fontSize: 11, color: Colors.OTHER_BACK }}
+                />
+              </View>
             </View>
-          </View>
+            )
+          }
         </ScrollView>
-        <BottomPay price={data.price} onPress={this.toPay} />
+        <BottomPay price={data.price || price} onPress={this.toPay} />
       </View>
     );
   }

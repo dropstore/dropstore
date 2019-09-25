@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hitSlop } from '../../../../common/Constant';
 import { BottomBtnGroup } from '../../../../components';
-import { commonStyle } from '../../../../res/style/CommonStyle';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
@@ -88,7 +87,7 @@ class SelectShoeSizeCom extends Component {
               shoesList.map((item, index) => (
                 <View key={index} style={[styles.item, { borderBottomWidth: index === 0 ? 0 : StyleSheet.hairlineWidth }]}>
                   <Text style={styles.sizeAndCount}>{item.size}</Text>
-                  <View style={commonStyle.row}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Text style={styles.price}>{`${item.price / 100}￥`}</Text>
                     <TouchableOpacity style={styles.arrowLeft} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item)} />
                     <Text style={[styles.sizeAndCount, { width: 40 }]}>{item.num}</Text>
