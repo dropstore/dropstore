@@ -30,7 +30,6 @@ class WxpayModule extends ReactContextBaseJavaModule {
 
     /**
      * 向微信注册
-     *
      * @param APP_ID
      */
     @ReactMethod
@@ -41,7 +40,6 @@ class WxpayModule extends ReactContextBaseJavaModule {
 
     /**
      * 支付
-     *
      * @param order   支付信息
      * @param promise
      */
@@ -49,33 +47,18 @@ class WxpayModule extends ReactContextBaseJavaModule {
     public void pay(final ReadableMap order, Promise promise) {
         WxpayModule.promise = promise;
         PayReq request = new PayReq();
-        if (order.hasKey("appid")) {
-            request.appId = order.getString("appid");
-        }
-        if (order.hasKey("partnerid")) {
-            request.appId = order.getString("partnerid");
-        }
-        if (order.hasKey("prepayid")) {
-            request.appId = order.getString("prepayid");
-        }
-        if (order.hasKey("package")) {
-            request.appId = order.getString("package");
-        }
-        if (order.hasKey("noncestr")) {
-            request.appId = order.getString("noncestr");
-        }
-        if (order.hasKey("timestamp")) {
-            request.appId = order.getString("timestamp");
-        }
-        if (order.hasKey("sign")) {
-            request.appId = order.getString("sign");
-        }
+        request.appId = order.getString("appid");
+        request.partnerId = order.getString("partnerid");
+        request.prepayId = order.getString("prepayid");
+        request.packageValue = order.getString("package");
+        request.nonceStr = order.getString("noncestr");
+        request.timeStamp = order.getString("timestamp");
+        request.sign = order.getString("sign");
         api.sendReq(request);
     }
 
     /**
      * 判断是否支持微信
-     *
      * @param promise
      */
     @ReactMethod
