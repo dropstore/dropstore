@@ -49,25 +49,25 @@ class WxpayModule extends ReactContextBaseJavaModule {
     public void pay(final ReadableMap order, Promise promise) {
         WxpayModule.promise = promise;
         PayReq request = new PayReq();
-        if (order.hasKey("'appid'")) {
+        if (order.hasKey("appid")) {
             request.appId = order.getString("appid");
         }
-        if (order.hasKey("'partnerid'")) {
+        if (order.hasKey("partnerid")) {
             request.appId = order.getString("partnerid");
         }
-        if (order.hasKey("'prepayid'")) {
+        if (order.hasKey("prepayid")) {
             request.appId = order.getString("prepayid");
         }
-        if (order.hasKey("'package'")) {
+        if (order.hasKey("package")) {
             request.appId = order.getString("package");
         }
-        if (order.hasKey("'noncestr'")) {
+        if (order.hasKey("noncestr")) {
             request.appId = order.getString("noncestr");
         }
-        if (order.hasKey("'timestamp'")) {
+        if (order.hasKey("timestamp")) {
             request.appId = order.getString("timestamp");
         }
-        if (order.hasKey("'sign'")) {
+        if (order.hasKey("sign")) {
             request.appId = order.getString("sign");
         }
         api.sendReq(request);
