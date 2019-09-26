@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  DeviceEventEmitter, ScrollView, StyleSheet, Text, View,
+  ScrollView, StyleSheet, Text, View,
 } from 'react-native';
 import { BottomBtnGroup } from '../../components';
 import Image from '../../components/Image';
@@ -13,6 +13,7 @@ import { debounce } from '../../utils/commonUtils';
 import { showShare } from '../../utils/MutualUtil';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
 
 class PayStatus extends PureComponent {
   constructor(props) {
@@ -81,7 +82,7 @@ class PayStatus extends PureComponent {
     const PayStatus = navigation.getParam('PayStatus');
     // 支付佣金无论成功失败都回详情界面
     if (type === ShopConstant.PAY_COMMISSION) {
-      DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
+      fetchSimpleData('activityInfo', this.params, true);
       navigation.navigate('shopDetail');
     } else {
       const type = PayStatus ? 'PayStatus' : 'uncomplete';

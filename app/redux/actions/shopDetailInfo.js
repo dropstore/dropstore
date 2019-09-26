@@ -1,8 +1,7 @@
-import { DeviceEventEmitter } from 'react-native';
 import { createAction } from 'redux-actions';
 import { request } from '../../http/Axios';
 import { showToast } from '../../utils/MutualUtil';
-import ShopConstant from '../../common/ShopConstant';
+import { fetchSimpleData } from './simpleData';
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
 const receiveShopDetailInfo = createAction('RECEIVE_SHOP_DETAIL_INFO');
@@ -52,7 +51,7 @@ const startGroup = (activity_id, size_list) => {
   };
   request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
     // 开团成功后刷新活动详情
-    DeviceEventEmitter.emit(ShopConstant.REFRESH_SHOP_DETAIL_INFO, true);
+    fetchSimpleData('activityInfo', this.params, true);
   });
 };
 
