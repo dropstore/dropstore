@@ -1,7 +1,7 @@
-import {request} from '../../http/Axios';
-import {alipayModule, wxPayModule} from '../../native/module';
+import { request } from '../../http/Axios';
+import { alipayModule, wxPayModule } from '../../native/module';
 import ShopConstant from '../../common/ShopConstant';
-import {showToast} from '../../utils/MutualUtil';
+import { showToast } from '../../utils/MutualUtil';
 import Strings from '../../res/Strings';
 
 /**
@@ -12,24 +12,24 @@ import Strings from '../../res/Strings';
  * @returns {Promise<*>}
  */
 const getOrderInfo = async (type, chooseWay, order_id) => {
-    const params = {
-        order_id,
-        type,
-    };
-    let url = '';
-    if (chooseWay === ShopConstant.ALIPAY) {
-        url = '/pay/getAlipayOrder';
-    } else if (chooseWay === ShopConstant.WECHATPAY) {
-        url = '/pay/getWechatOrder';
+  const params = {
+    order_id,
+    type,
+  };
+  let url = '';
+  if (chooseWay === ShopConstant.ALIPAY) {
+    url = '/pay/getAlipayOrder';
+  } else if (chooseWay === ShopConstant.WECHATPAY) {
+    url = '/pay/getWechatOrder';
+  }
+  try {
+    const res = await request(url, { params, isShowLoading: true });
+    const data = res.data;
+    if (data) {
+      return await pay(chooseWay, data);
     }
-    try {
-        const res = await request(url, {params, isShowLoading: true});
-        const data = res.data;
-        if (data) {
-            return await pay(chooseWay, data);
-        }
-    } catch (e) {
-    }
+  } catch (e) {
+  }
 };
 
 /**
@@ -39,15 +39,15 @@ const getOrderInfo = async (type, chooseWay, order_id) => {
  * @returns {Promise<void>}
  */
 const pay = async (chooseWay, data) => {
-    if (chooseWay === ShopConstant.ALIPAY) {
-        return await alipay(data);
-    }
-    if (chooseWay === ShopConstant.WECHATPAY) {
-        return await wechatPay(data);
-    }
-    if (chooseWay === ShopConstant.DROPPAY) {
-        return await dropPay(data);
-    }
+  if (chooseWay === ShopConstant.ALIPAY) {
+    return await alipay(data);
+  }
+  if (chooseWay === ShopConstant.WECHATPAY) {
+    return await wechatPay(data);
+  }
+  if (chooseWay === ShopConstant.DROPPAY) {
+    return await dropPay(data);
+  }
 };
 
 /**
@@ -56,21 +56,21 @@ const pay = async (chooseWay, data) => {
  * @returns {Promise<void>}
  */
 const wechatPay = async (data) => {
-    // 判断是否支持微信支付
-    const isSupported = await wxPayModule.isSupported();
-    if (!isSupported) {
-        showToast('找不到微信应用，请安装最新版微信');
-        return;
-    }
-    // 调起微信客户端，发起支付
-    const res = await wxPayModule.pay(data);
-    const status = res.errCode;
-    console.log(res);
-    if (status == -2) {
-        return showToast('已取消本次支付');
-    }
-    return ShopConstant.FINISHPAY;
-
+  // 判断是否支持微信支付
+  const isSupported = await wxPayModule.isSupported();
+  if (!isSupported) {
+    showToast('找不到微信应用，请安装最新版微信');
+    return;
+  }
+  // 调起微信客户端，发起支付
+  console.log(data);
+  const res = await wxPayModule.pay(data.data);
+  const status = res.errCode;
+  console.log(res);
+  if (status == -2) {
+    return showToast('已取消本次支付');
+  }
+  return ShopConstant.FINISHPAY;
 };
 
 /**
@@ -79,17 +79,17 @@ const wechatPay = async (data) => {
  * @returns {Promise<void>}
  */
 const alipay = async (data) => {
-    const res = await alipayModule.pay(data);
-    if (res) {
-        const status = res.resultStatus;
-        if (status == 6001) {
-            return showToast('已取消本次支付');
-        }
-        if (status == 6002) {
-            return showToast(Strings.netError);
-        }
-        return ShopConstant.FINISHPAY;
+  const res = await alipayModule.pay(data);
+  if (res) {
+    const status = res.resultStatus;
+    if (status == 6001) {
+      return showToast('已取消本次支付');
     }
+    if (status == 6002) {
+      return showToast(Strings.netError);
+    }
+    return ShopConstant.FINISHPAY;
+  }
 };
 
 /**
@@ -107,29 +107,29 @@ const dropPay = async () => {
  * @param {Object} shopInfo - 商品详情
  */
 const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTimer, noShareBtn) => {
-    const params = {
-        u_a_id: uAid,
-        type,
-    };
-    const res = await request('/pay/get_pay_status', {params, isShowLoading: true});
-    if (res.data == 1) {
-        showToast('支付成功');
-        if (shopInfo) {
-            navigation.push('PayStatus', {
-                shopInfo, type, buySuccess, noTimer, noShareBtn, PayStatus: true,
-            });
-        } else {
-            navigation.push('MyGoods', {
-                title: '我的库房',
-                type: 'warehouse',
-            });
-        }
+  const params = {
+    u_a_id: uAid,
+    type,
+  };
+  const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
+  if (res.data == 1) {
+    showToast('支付成功');
+    if (shopInfo) {
+      navigation.push('PayStatus', {
+        shopInfo, type, buySuccess, noTimer, noShareBtn, PayStatus: true,
+      });
     } else {
-        showToast('支付失败，请重新支付');
+      navigation.push('MyGoods', {
+        title: '我的库房',
+        type: 'warehouse',
+      });
     }
+  } else {
+    showToast('支付失败，请重新支付');
+  }
 };
 export {
-    getOrderInfo,
-    pay,
-    getPayStatus,
+  getOrderInfo,
+  pay,
+  getPayStatus,
 };
