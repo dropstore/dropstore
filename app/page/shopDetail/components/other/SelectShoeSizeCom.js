@@ -10,10 +10,12 @@ import { BottomBtnGroup } from '../../../../components';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
-import { startGroup, getShoesList } from '../../../../redux/actions/shopDetailInfo';
+import { getShoesList } from '../../../../redux/actions/shopDetailInfo';
 import { showToast } from '../../../../utils/MutualUtil';
 import { wPx2P } from '../../../../utils/ScreenUtil';
 import { getReShoesList } from '../../../../redux/reselect/shopDetailInfo';
+import { request } from '../../../../http/Axios';
+import { fetchSimpleData } from '../../../../redux/actions/simpleData';
 
 function mapStateToProps() {
   return state => ({
@@ -24,6 +26,7 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     getShoesList,
+    fetchSimpleData,
   }, dispatch);
 }
 
@@ -66,10 +69,30 @@ class SelectShoeSizeCom extends Component {
   };
 
   confirmChoose = () => {
-    const { shopId, closeBox } = this.props;
+    const {
+      shopId, closeBox, navigation, fetchSimpleData,
+    } = this.props;
     const { shoesList } = this.state;
+    const toServerSizeList = [];
+    for (let i = 0; i < shoesList.length; i++) {
+      const sizeData = shoesList[i];
+      if (sizeData.num !== 0) {
+        toServerSizeList.push({
+          id: sizeData.id,
+          num: sizeData.num,
+        });
+      }
+    }
+    const params = {
+      activity_id: shopId,
+      size_list: JSON.stringify(toServerSizeList),
+    };
     closeBox();
-    startGroup(shopId, shoesList);
+    request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
+      fetchSimpleData('activityInfo', { id: shopId }, true).then(() => {
+        navigation.push('commission', { title: '助攻佣金设定' });
+      });
+    });
   };
 
   render() {

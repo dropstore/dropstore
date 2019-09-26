@@ -4,6 +4,7 @@ import {
   View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
@@ -16,12 +17,20 @@ import HomePage from '../page/home';
 import FreeTrade from '../page/FreeTrade';
 import Activity from '../page/notice/Activity';
 import { getUserInfo } from '../redux/reselect/userInfo';
+import { fetchSimpleData } from '../redux/actions/simpleData';
 
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
   });
 }
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchSimpleData,
+  }, dispatch);
+}
+
 
 const HOME_ICON_WIDTH = wPx2P(97.5);
 const PADDING_HORIZONTAL = wPx2P(22);
@@ -51,7 +60,8 @@ class BottomNavigator extends PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, userInfo, fetchSimpleData } = this.props;
+    fetchSimpleData('appOptions', { user_id: userInfo.id });
     this.didBlurSubscription = navigation.addListener(
       'willFocus',
       (payload) => {
@@ -224,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(BottomNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomNavigator);

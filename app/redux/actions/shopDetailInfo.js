@@ -1,7 +1,6 @@
 import { createAction } from 'redux-actions';
 import { request } from '../../http/Axios';
 import { showToast } from '../../utils/MutualUtil';
-import { fetchSimpleData } from './simpleData';
 
 const requestShopDetailInfo = createAction('REQUEST_SHIP_DETAIL_INFO');
 const receiveShopDetailInfo = createAction('RECEIVE_SHOP_DETAIL_INFO');
@@ -28,32 +27,6 @@ function getShoesList(shopId) {
     });
   });
 }
-
-/**
- * 团长开团
- * @param activity_id
- * @param size_list
- */
-const startGroup = (activity_id, size_list) => {
-  const toServerSizeList = [];
-  for (let i = 0; i < size_list.length; i++) {
-    const sizeData = size_list[i];
-    if (sizeData.num !== 0) {
-      toServerSizeList.push({
-        id: sizeData.id,
-        num: sizeData.num,
-      });
-    }
-  }
-  const params = {
-    activity_id,
-    size_list: JSON.stringify(toServerSizeList),
-  };
-  request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
-    // 开团成功后刷新活动详情
-    fetchSimpleData('activityInfo', this.params, true);
-  });
-};
 
 /**
  * 填写佣金
@@ -107,6 +80,6 @@ const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
 
 export {
   requestShopDetailInfo, receiveShopDetailInfo, notReceiveShopDetailInfo,
-  receiveShoesList, getShoesList, startGroup, getPayMes,
+  receiveShoesList, getShoesList, getPayMes,
   setCommission, doBuy,
 };

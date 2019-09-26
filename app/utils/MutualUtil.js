@@ -1,9 +1,10 @@
 import { DeviceEventEmitter } from 'react-native';
 
-function triggerEvent(type, params) {
+function triggerEvent(type, params, isShow) {
   DeviceEventEmitter.emit('dropstoreGlobal', {
     dropstoreEventType: type,
     params,
+    isShow,
   });
 }
 
@@ -22,7 +23,7 @@ function addCallbackListener(type, resolve, reject) {
 
 // 分享弹窗
 export const showShare = (params: { text: String, img:String, url: String, title: String }) => new Promise((resolve, reject) => {
-  triggerEvent('share', params);
+  triggerEvent('share', params, true);
   addCallbackListener('share', resolve, reject);
 });
 
@@ -32,21 +33,21 @@ export const showShare = (params: { text: String, img:String, url: String, title
  * @param {Object} options - react-native-modalbox的props
  */
 export const showModalbox = ({ element, options }) => {
-  triggerEvent('modalbox', { element, options });
+  triggerEvent('modalbox', { element, options }, true);
 };
-export const closeModalbox = () => {
-  triggerEvent('modalbox');
+export const closeModalbox = (immediately) => {
+  triggerEvent('modalbox', immediately);
 };
 
 // Toast加载框
 export const showToastLoading = (options = { duration: 5000, text: '加载中' }) => {
-  triggerEvent('toastLoading', options);
+  triggerEvent('toastLoading', options, true);
 };
-export const hideToastLoading = () => {
-  triggerEvent('toastLoading');
+export const hideToastLoading = (immediately) => {
+  triggerEvent('toastLoading', immediately);
 };
 
 // Toast提示
 export const showToast = (text: String) => {
-  text && triggerEvent('toast', text);
+  text && triggerEvent('toast', text, true);
 };

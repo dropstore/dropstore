@@ -51,8 +51,8 @@ class SelfBottomCom extends PureComponent {
     });
   };
 
-  closeBox = () => {
-    closeModalbox();
+  closeBox = (immediately) => {
+    closeModalbox(immediately);
   };
 
   /**

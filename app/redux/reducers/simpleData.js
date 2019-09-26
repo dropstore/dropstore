@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { receiveSimpleData, requestSimpleData } from '../actions/simpleData';
+import { receiveSimpleData, requestSimpleData, resetAllSimpleData } from '../actions/simpleData';
 
 export default handleActions({
   [requestSimpleData]: (state, action) => ({
@@ -16,4 +16,5 @@ export default handleActions({
       fetchedParams: action.payload.fetchedParams,
     },
   }),
+  [resetAllSimpleData]: () => ({}),
 }, {});

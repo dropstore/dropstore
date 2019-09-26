@@ -35,16 +35,16 @@ export default class App extends Component {
 
     this.listener = DeviceEventEmitter.addListener('dropstoreGlobal', (e) => {
       if (GlobalWithKeyboard.includes(e.dropstoreEventType)) {
-        if (e.params) {
+        if (e.isShow) {
           this.keyboardCom.show(e.dropstoreEventType, e.params);
         } else {
-          this.keyboardCom.hide(e.dropstoreEventType);
+          this.keyboardCom.hide(e.dropstoreEventType, e.params);
         }
       } else if (GlobalWithoutKeyboard.includes(e.dropstoreEventType)) {
-        if (e.params) {
+        if (e.isShow) {
           this.globalCom.show(e.dropstoreEventType, e.params);
         } else {
-          this.globalCom.hide(e.dropstoreEventType);
+          this.globalCom.hide(e.dropstoreEventType, e.params);
         }
       }
     });

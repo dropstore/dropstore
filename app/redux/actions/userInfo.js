@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { request } from '../../http/Axios';
 import AuthUtil from '../../utils/AuthUtil';
 import { showToast } from '../../utils/MutualUtil';
-import { fetchSimpleData } from './simpleData';
+import { resetAllSimpleData } from './simpleData';
 
 const receiveAuth = createAction('RECEIVE_AUTH');
 const setMessageSendFlag = createAction('SET_MESSAGE_SEND_FLAG');
@@ -33,7 +33,6 @@ function weChatAuth(i) {
         if (parseInt(res.data.size) > 0) {
           AsyncStorage.setItem('token', res.data.user_s_id);
           dispatch(receiveUser(res.data));
-          dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
           resolve(true);
         } else {
           dispatch(receiveUser({
@@ -42,7 +41,6 @@ function weChatAuth(i) {
             sex,
             avatar: wxRes.iconurl,
           }));
-          dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
           resolve(false);
         }
       });
@@ -99,11 +97,9 @@ function messageAuth(mobile, codes) {
       if (res.data.user_name) {
         AsyncStorage.setItem('token', res.data.user_s_id);
         dispatch(receiveUser(res.data));
-        dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
         resolve(true);
       } else {
         dispatch(receiveUser({ ...res.data, mobile }));
-        dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
         resolve(false);
       }
     });
@@ -139,7 +135,6 @@ function getUser() {
   return (dispatch) => {
     request('/user/userinfo', { params: { uid: -1 } }).then((res) => {
       dispatch(receiveUser(res.data));
-      dispatch(fetchSimpleData('appOptions', { user_id: res.data.id }));
     });
   };
 }
@@ -149,6 +144,7 @@ function logout() {
   return (dispatch) => {
     AsyncStorage.removeItem('token');
     dispatch(resetUser());
+    dispatch(resetAllSimpleData());
   };
 }
 

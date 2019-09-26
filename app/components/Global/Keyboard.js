@@ -19,8 +19,12 @@ export default class Global extends PureComponent {
     });
   }
 
-  hide = (type) => {
-    this[type] && this[type].close();
+  hide = (type, immediately) => {
+    if (immediately) {
+      this.setState({ [type]: { show: false } });
+    } else {
+      this[type] && this[type].close();
+    }
   }
 
   onClosed = (type) => {
