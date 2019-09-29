@@ -4,9 +4,7 @@ import { receiveSimpleData, requestSimpleData, resetAllSimpleData } from '../act
 export default handleActions({
   [requestSimpleData]: (state, action) => ({
     ...state,
-    [action.payload]: {
-      isFetching: true,
-    },
+    [action.payload]: action.meta.needClear ? {} : { ...(state[action.payload] || {}) },
   }),
   [receiveSimpleData]: (state, action) => ({
     ...state,

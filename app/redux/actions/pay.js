@@ -22,13 +22,12 @@ const getOrderInfo = async (type, chooseWay, order_id) => {
   } else if (chooseWay === ShopConstant.WECHATPAY) {
     url = '/pay/getWechatOrder';
   }
-  try {
-    const res = await request(url, { params, isShowLoading: true });
-    const data = res.data;
-    if (data) {
-      return await pay(chooseWay, data);
-    }
-  } catch (e) {
+  const res = await request(url, { params, isShowLoading: true });
+  const data = res.data;
+  console.log(data, url, params);
+  if (data) {
+    const result = await pay(chooseWay, data);
+    return result;
   }
 };
 

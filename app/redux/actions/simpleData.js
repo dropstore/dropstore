@@ -3,13 +3,13 @@ import { request } from '../../http/Axios';
 import api from '../../http/api';
 
 const receiveSimpleData = createAction('RECEIVE_SIMPLE_DATA', a => a, (a, type) => ({ type }));
-const requestSimpleData = createAction('REQUEST_SIMPLE_DATA');
+const requestSimpleData = createAction('REQUEST_SIMPLE_DATA', a => a, (a, needClear) => ({ needClear }));
 const resetAllSimpleData = createAction('RESET_ALL_SIMPLE_DATA');
 
-function fetchSimpleData(type = '', query = {}, refresh = false) {
+function fetchSimpleData(type = '', query = {}, fetchType: 'reload' | 'refresh' = null) {
   return (dispatch, getState) => new Promise((resolve) => {
-    if (!refresh && JSON.stringify(query) === JSON.stringify((getState().simpleData[type] || {}).fetchedParams)) { return; }
-    dispatch(requestSimpleData(type));
+    if (!fetchType && JSON.stringify(query) === JSON.stringify((getState().simpleData[type] || {}).fetchedParams)) { return; }
+    dispatch(requestSimpleData(type, fetchType === 'reload'));
     const params = {
       ...api[type].initParams,
       ...query,

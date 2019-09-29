@@ -53,7 +53,7 @@ class ShopDetail extends PureComponent {
   }
 
   onRefresh = () => {
-    this.fetchData(true);
+    this.fetchData('refresh');
   };
 
   setContentOrBottomUI = (shopInfo) => {
