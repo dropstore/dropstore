@@ -27,11 +27,11 @@ export default class Modal extends PureComponent {
           {customText || <Text style={styles.text}>{text}</Text>}
         </View>
         <View style={styles.btn}>
-          <TouchableOpacity onPress={this.sure} style={styles.sure}>
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={this.cancel} style={styles.cancel}>
             <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>取消</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.sure} style={styles.sure}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={this.cancel} style={styles.cha}>

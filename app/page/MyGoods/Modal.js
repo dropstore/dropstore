@@ -165,11 +165,11 @@ class Modal extends PureComponent {
           ) : null
         }
         <View style={styles.btns}>
-          <TouchableOpacity onPress={this.sure} style={styles.btn}>
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={this.close} style={styles.btn}>
             <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>取消</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.sure} style={styles.btn}>
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={this.close} style={styles.cha}>
