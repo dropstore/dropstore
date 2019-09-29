@@ -16,7 +16,7 @@ function fetchSimpleData(type = '', query = {}, refresh = false) {
     };
     request(api[type].url, { params }).then((res) => {
       dispatch(receiveSimpleData({ data: res.data, fetchedParams: query }, type));
-      resolve();
+      resolve(res.data);
     });
   });
 }

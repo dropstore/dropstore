@@ -89,8 +89,10 @@ class SelectShoeSizeCom extends Component {
     };
     closeBox();
     request('/activity/do_add_user_activity', { params, isShowLoading: true }).then(() => {
-      fetchSimpleData('activityInfo', { id: shopId }, true).then(() => {
-        navigation.push('commission', { title: '助攻佣金设定' });
+      fetchSimpleData('activityInfo', { id: shopId }, true).then((data) => {
+        if (data.user_activity.number > 1) {
+          navigation.push('commission', { title: '助攻佣金设定' });
+        }
       });
     });
   };
