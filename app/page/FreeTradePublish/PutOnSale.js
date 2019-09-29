@@ -50,6 +50,7 @@ class PutOnSale extends PureComponent {
     navigation.navigate('PublishCommission', {
       title: '支付服务费',
       TYPE: 'freeTradeToRelease',
+      payType: 4,
       goodsInfo: {
         type: 'deposit',
         price,

@@ -10,7 +10,6 @@ import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { formatDate } from '../../utils/commonUtils';
-import ShopConstant from '../../common/ShopConstant';
 import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
@@ -31,22 +30,25 @@ class PublishCommission extends PureComponent {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
     const {
-      shoeSize, goodsId, type,
+      shoeSize, goodsId, order_id, price,
     } = navigation.getParam('goodsInfo');
-    if (type === 'storeMoney') {
+    const TYPE = navigation.getParam('TYPE');
+    if (TYPE === 'getMissionPrice') {
       fetchSimpleData(navigation.getParam('TYPE'), { goods_id: goodsId, size_id: shoeSize });
+    } else if (TYPE === 'freeTradeToRelease') {
+      fetchSimpleData(navigation.getParam('TYPE'), { order_id, price });
     }
   }
 
   toPay = () => {
     const { navigation, missionPrice } = this.props;
     const {
-      goodsImage, goodsName, type, order_id, price,
+      goodsImage, goodsName, order_id, price,
     } = navigation.getParam('goodsInfo');
     navigation.navigate('pay', {
       title: '选择支付方式',
-      type: navigation.getParam('payType') || (type === 'storeMoney' ? ShopConstant.PAY_ORDER : 4),
-      payData: type === 'storeMoney' ? missionPrice.data : { order_id, price },
+      type: navigation.getParam('payType'),
+      payData: missionPrice.data || { order_id, price },
       shopInfo: {
         goods: {
           image: goodsImage,

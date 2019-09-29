@@ -40,6 +40,7 @@ class ChooseSize extends PureComponent {
     navigation.navigate('PublishCommission', {
       title: '支付库管费',
       TYPE: 'getMissionPrice',
+      payType: 1,
       goodsInfo: {
         type: 'storeMoney',
         shoeSize: item.id,
