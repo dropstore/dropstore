@@ -56,30 +56,8 @@ const setCommission = (activity_id, u_a_id, commission) => {
   return request('/activity/set_commission', { params, isShowLoading: true });
 };
 
-/**
- * 团长抢购或团员参加
- * @param {Boolean} isLeading - 是否是团长
- * @param {String} activity_id - 活动ID
- * @param navigation
- * @param {Object} shopInfo - 活动详情
- */
-const doBuy = async (isLeading, activity_id, navigation, shopInfo) => {
-  const url = isLeading ? '/order/do_buy' : '/order/do_help_buy';
-  const params = { activity_id };
-  try {
-    const res = await request(url, { params, isShowLoading: true });
-    if (res) {
-      navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
-    } else {
-      navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
-    }
-  } catch (e) {
-    navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
-  }
-};
-
 export {
   requestShopDetailInfo, receiveShopDetailInfo, notReceiveShopDetailInfo,
   receiveShoesList, getShoesList, getPayMes,
-  setCommission, doBuy,
+  setCommission,
 };
