@@ -74,16 +74,11 @@ class ListItem extends PureComponent {
         },
       });
     } else if (type === 'publish') {
-      this.toPublish();
+      navigation.navigate('PutOnSale', {
+        title: '发布商品',
+        item,
+      });
     }
-  }
-
-  toPublish = () => {
-    const { navigation, item } = this.props;
-    navigation.navigate('PutOnSale', {
-      title: '发布商品',
-      item,
-    });
   }
 
   successCallback = (value, type) => new Promise((resolve) => {
