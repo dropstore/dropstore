@@ -60,10 +60,8 @@ export default class Pay extends PureComponent {
         return showToast('请选择付款方式');
       }
       const status = await getOrderInfo(type, PAY_WAYS[choosedIndex].type, data.order_id);
-      // 同步返回支付完成通知
       if (status === ShopConstant.FINISHPAY) {
-        // 获取服务器返回的支付状态
-        await getPayStatus(type, data.order_id, navigation, shopInfo, buySuccess, noTimer, noShareBtn);
+        getPayStatus(type, data.order_id, navigation, shopInfo, buySuccess, noTimer, noShareBtn);
       }
     };
 
@@ -76,22 +74,22 @@ export default class Pay extends PureComponent {
           <Text style={styles.alSel}>请选择付款方式:</Text>
           <View style={{ flex: 1 }}>
             {
-                PAY_WAYS.map((item, index) => (
-                  <TouchableOpacity
-                    style={[styles.wrapper, { backgroundColor: item.bgColor }]}
-                    onPress={() => this.changePayStatus(index)}
-                    key={item.name}
-                  >
-                    <View style={{ alignItems: 'center', flexDirection: 'row', paddingVertical: 10 }}>
-                      <Image style={styles.payImage} source={item.subImage} />
-                      <Text style={styles.payTitle}>{item.name}</Text>
-                    </View>
-                    <Image
-                      style={styles.paySel}
-                      source={choosedIndex === index ? Images.sel : Images.unSel}
-                    />
-                  </TouchableOpacity>
-                ))
+              PAY_WAYS.map((item, index) => (
+                <TouchableOpacity
+                  style={[styles.wrapper, { backgroundColor: item.bgColor }]}
+                  onPress={() => this.changePayStatus(index)}
+                  key={item.name}
+                >
+                  <View style={{ alignItems: 'center', flexDirection: 'row', paddingVertical: 10 }}>
+                    <Image style={styles.payImage} source={item.subImage} />
+                    <Text style={styles.payTitle}>{item.name}</Text>
+                  </View>
+                  <Image
+                    style={styles.paySel}
+                    source={choosedIndex === index ? Images.sel : Images.unSel}
+                  />
+                </TouchableOpacity>
+              ))
             }
           </View>
           <BottomPay management={data.management} price={data.price} onPress={debounce(this.pay)} text="支付" />

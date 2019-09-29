@@ -68,6 +68,7 @@ class BottomNavigator extends PureComponent {
         const { index } = this.state;
         this.changeStatusBar(index);
         const nextIndex = payload?.state?.params?.index;
+        console.log(nextIndex, payload?.state?.params?.index);
         nextIndex && this.onIndexChange(nextIndex);
       },
     );
