@@ -47,6 +47,10 @@ class PutOnSale extends PureComponent {
       showToast('同意卖家须知后可继续上架');
       return;
     }
+    if (price * 1 <= 0) {
+      showToast('请输入价格');
+      return;
+    }
     navigation.navigate('PublishCommission', {
       title: '支付服务费',
       TYPE: 'freeTradeToRelease',

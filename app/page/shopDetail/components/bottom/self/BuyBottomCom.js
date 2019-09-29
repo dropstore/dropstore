@@ -13,6 +13,7 @@ import { getSimpleData } from '../../../../../redux/reselect/simpleData';
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../../utils/MutualUtil';
+import { request } from '../../../../../http/Axios';
 
 function mapStateToProps() {
   return state => ({
@@ -32,6 +33,16 @@ class BuyBottomCom extends PureComponent {
     } else if (is_join === ShopConstant.MEMBER) {
       doBuy(false, activityId, navigation, shopInfo);
     }
+  }
+
+  doBuy = (isLeading, activity_id, navigation, shopInfo) => {
+    const url = isLeading ? '/order/do_buy' : '/order/do_help_buy';
+    const params = { activity_id };
+    request(url, { params, isShowLoading: true }).then((res) => {
+      navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
+    }).catch(() => {
+      navigation.push('Panicstatus', { shopInfo, Panicstatus: false });
+    });
   }
 
   buyBottomText = () => {
