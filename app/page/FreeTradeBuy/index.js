@@ -76,7 +76,7 @@ class FreeTradeBuy extends PureComponent {
     const { navigation } = this.props;
     if (this.ordered) {
       showToast('已下单，自动前往支付');
-      navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
+      // navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
       navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
       return;
     }
