@@ -24,7 +24,6 @@ const getOrderInfo = async (type, chooseWay, order_id) => {
   }
   const res = await request(url, { params, isShowLoading: true });
   const data = res.data;
-  console.log(data, url, params);
   if (data) {
     const result = await pay(chooseWay, data);
     return result;
@@ -32,11 +31,12 @@ const getOrderInfo = async (type, chooseWay, order_id) => {
 };
 
 const pay = async (chooseWay, data) => {
-  const result = {
-    [ShopConstant.ALIPAY]: await alipay(data),
-    [ShopConstant.WECHATPAY]: await wechatPay(data),
-    [ShopConstant.DROPPAY]: await dropPay(data),
-  }[chooseWay];
+  let result;
+  if (ShopConstant.ALIPAY === chooseWay) {
+    result = await alipay(data);
+  } else if (ShopConstant.WECHATPAY === chooseWay) {
+    result = await wechatPay(data);
+  }
   return result;
 };
 
@@ -88,6 +88,7 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
     type,
   };
   const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
+  console.log(res);
   if (res.data == 1) {
     showToast('支付成功');
     if (shopInfo) {

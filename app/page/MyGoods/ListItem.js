@@ -72,6 +72,8 @@ class ListItem extends PureComponent {
           goods: item.goods,
           order_id: item.order_id,
         },
+        noTimer: true,
+        noShareBtn: true,
       });
     } else if (type === 'publish') {
       navigation.navigate('PutOnSale', {
@@ -200,7 +202,7 @@ class ListItem extends PureComponent {
           </View>
           { type === 'uncomplete' && !text && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
           { text && <Text style={{ color: Colors.OTHER_BACK, textAlign: 'right', fontSize: 13 }}>{text}</Text>}
-          { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id}`}</Text>}
+          { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id || '等待寄出'}`}</Text>}
           {
             btns.length > 0 && !text && (
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
