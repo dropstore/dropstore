@@ -19,6 +19,7 @@ import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
 import { requestApi } from '../../http/Axios';
+import { showToast } from '../../utils/MutualUtil';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyInfo';
@@ -73,8 +74,15 @@ class FreeTradeBuy extends PureComponent {
 
   toPay = () => {
     const { navigation } = this.props;
+    if (this.ordered) {
+      showToast('已下单，自动前往支付');
+      navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
+      navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
+      return;
+    }
     const { cuurentItem } = this.state;
     requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
+      this.ordered = true;
       navigation.navigate('pay', {
         title: '选择支付方式',
         type: '1',
