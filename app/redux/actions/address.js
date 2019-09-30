@@ -20,8 +20,8 @@ function addAddress(address, link_name, mobile, is_default = false) {
       mobile,
       is_default: is_default ? '1' : '0',
     };
-    request('/user/add_address', { params }).then(() => {
-      dispatch(fetchAddress());
+    request('/user/add_address', { params }).then((res) => {
+      dispatch(receiveAddress(res.data));
       resolve();
     });
   });
@@ -29,8 +29,8 @@ function addAddress(address, link_name, mobile, is_default = false) {
 
 function delAddress(id) {
   return dispatch => new Promise((resolve) => {
-    request('/user/del_address', { params: { id } }).then(() => {
-      dispatch(fetchAddress());
+    request('/user/del_address', { params: { id } }).then((res) => {
+      dispatch(receiveAddress(res.data));
       resolve();
     });
   });
@@ -45,8 +45,8 @@ function editAddress(address, link_name, mobile, is_default = false, id) {
       is_default: is_default ? '1' : '0',
       id,
     };
-    request('/user/edit_address', { params }).then(() => {
-      dispatch(fetchAddress());
+    request('/user/edit_address', { params }).then((res) => {
+      dispatch(receiveAddress(res.data));
       resolve();
     });
   });
