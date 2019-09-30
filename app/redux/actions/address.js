@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 import { request } from '../../http/Axios';
 
 const receiveAddress = createAction('RECEIVE_ADDRESS');
+const setChoosedAddress = createAction('SET_CHOOSED_ADDRESS');
 
 function fetchAddress() {
   return (dispatch) => {
@@ -52,5 +53,5 @@ function editAddress(address, link_name, mobile, is_default = false, id) {
 }
 
 export {
-  receiveAddress, fetchAddress, addAddress, delAddress, editAddress,
+  receiveAddress, fetchAddress, addAddress, delAddress, editAddress, setChoosedAddress,
 };

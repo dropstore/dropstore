@@ -14,63 +14,31 @@ import { PADDING_TAB } from '../../common/Constant';
 import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import { formatDate } from '../../utils/commonUtils';
 import { request } from '../../http/Axios';
+import { getAddress } from '../../redux/reselect/address';
 import { getSimpleData } from '../../redux/reselect/simpleData';
+import { fetchAddress } from '../../redux/actions/address';
 
 function mapStateToProps() {
   return state => ({
     userInfo: getUserInfo(state),
     simpleData: getSimpleData(state, 'appOptions'),
+    address: getAddress(state),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     updateUser,
+    fetchAddress,
   }, dispatch);
 }
 
 class PickUp extends PureComponent {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
+    const { navigation, fetchAddress } = this.props;
+    fetchAddress();
     this.item = navigation.getParam('item');
-    this.state = {
-      isChoose: false,
-      link_name: null,
-      mobile: null,
-      address: null,
-    };
-  }
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    this.didBlurSubscription = navigation.addListener(
-      'willFocus',
-      (payload) => {
-        const { address } = payload.state.params;
-        if (address) {
-          this.setState({
-            link_name: address.link_name,
-            mobile: address.mobile,
-            address: address.address,
-            isChoose: true,
-          });
-        }
-      },
-    );
-    request('/order/pay_postage', { params: { id: this.item.id } }).then((res) => {
-      const { user_address } = res.data;
-      const { link_name, mobile, address } = user_address;
-      this.setState({
-        link_name,
-        mobile,
-        address,
-      });
-    });
-  }
-
-  componentWillUnmount() {
-    this.didBlurSubscription && this.didBlurSubscription.remove();
   }
 
   changeAddress = () => {
@@ -82,6 +50,15 @@ class PickUp extends PureComponent {
 
   toPay =() => {
     const { navigation, simpleData } = this.props;
+    // request('/order/pay_postage', { params: { id: this.item.id } }).then((res) => {
+    //   const { user_address } = res.data;
+    //   const { link_name, mobile, address } = user_address;
+    //   this.setState({
+    //     link_name,
+    //     mobile,
+    //     address,
+    //   });
+    // });
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '3',
@@ -96,7 +73,6 @@ class PickUp extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
-      needReturn: true,
       address: {
         is_default: true,
       },
@@ -105,10 +81,7 @@ class PickUp extends PureComponent {
 
   render() {
     const item = this.item;
-    const { simpleData } = this.props;
-    const {
-      link_name, mobile, address, isChoose,
-    } = this.state;
+    const { simpleData, address: { current: address, isChoosed } } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -123,18 +96,18 @@ class PickUp extends PureComponent {
           </View>
         </View>
         {
-          link_name ? (
+          address.link_name ? (
             <View style={styles.shouhuorenWrapper}>
               <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                <Text style={styles.shouhuoren}>{`收货人：${link_name}`}</Text>
-                <Text style={styles.shouhuoren}>{mobile}</Text>
+                <Text style={styles.shouhuoren}>{`收货人：${address.link_name}`}</Text>
+                <Text style={styles.shouhuoren}>{address.mobile}</Text>
               </View>
-              <Text style={styles.address}>{address}</Text>
+              <Text style={styles.address}>{address.address}</Text>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <View style={styles.yuandian}>
                   <View style={styles.yuandian1} />
                 </View>
-                <Text style={{ fontSize: 13, fontFamily: YaHei, color: '#333' }}>{`${isChoose ? '已选' : '默认地址'}`}</Text>
+                <Text style={{ fontSize: 13, fontFamily: YaHei, color: '#333' }}>{`${isChoosed ? '已选' : '默认地址'}`}</Text>
               </View>
             </View>
           ) : (
@@ -166,7 +139,11 @@ class PickUp extends PureComponent {
             <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{simpleData?.data?.postage / 100}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
-          <TouchableOpacity disabled={!link_name} style={[styles.zhifu, { backgroundColor: link_name ? Colors.OTHER_BACK : '#e2e2e2' }]} onPress={this.toPay}>
+          <TouchableOpacity
+            disabled={!address.link_name}
+            style={[styles.zhifu, { backgroundColor: address.link_name ? Colors.OTHER_BACK : '#e2e2e2' }]}
+            onPress={this.toPay}
+          >
             <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
           </TouchableOpacity>
         </View>

@@ -52,20 +52,8 @@ class AddressEdit extends PureComponent {
         navigation.pop();
       });
     } else {
-      const needReturn = navigation.getParam('needReturn');
-      addAddress(this.address, this.link_name, this.mobile, needReturn || isDefault).then(() => {
-        if (needReturn) {
-          navigation.navigate('PickUp', {
-            title: '支付运费',
-            address: {
-              link_name: this.link_name,
-              address: this.address,
-              mobile: this.mobile,
-            },
-          });
-        } else {
-          navigation.pop();
-        }
+      addAddress(this.address, this.link_name, this.mobile, isDefault).then(() => {
+        navigation.pop();
       });
     }
   }

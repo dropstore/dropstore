@@ -31,52 +31,29 @@ const getOrderInfo = async (type, chooseWay, order_id) => {
   }
 };
 
-/**
- * 支付
- * @param {Number} chooseWay - 支付方式
- * @param {Object} data - 支付信息
- * @returns {Promise<void>}
- */
 const pay = async (chooseWay, data) => {
-  if (chooseWay === ShopConstant.ALIPAY) {
-    return await alipay(data);
-  }
-  if (chooseWay === ShopConstant.WECHATPAY) {
-    return await wechatPay(data);
-  }
-  if (chooseWay === ShopConstant.DROPPAY) {
-    return await dropPay(data);
-  }
+  const result = {
+    [ShopConstant.ALIPAY]: await alipay(data),
+    [ShopConstant.WECHATPAY]: await wechatPay(data),
+    [ShopConstant.DROPPAY]: await dropPay(data),
+  }[chooseWay];
+  return result;
 };
 
-/**
- * 微信支付
- * @param data
- * @returns {Promise<void>}
- */
 const wechatPay = async (data) => {
-  // 判断是否支持微信支付
   const isSupported = await wxPayModule.isSupported();
   if (!isSupported) {
     showToast('找不到微信应用，请安装最新版微信');
     return;
   }
-  // 调起微信客户端，发起支付
-  console.log(data);
   const res = await wxPayModule.pay(data.data);
   const status = res.errCode;
-  console.log(res);
   if (status == -2) {
     return showToast('已取消本次支付');
   }
   return ShopConstant.FINISHPAY;
 };
 
-/**
- * 支付宝支付
- * @param data
- * @returns {Promise<void>}
- */
 const alipay = async (data) => {
   const res = await alipayModule.pay(data);
   if (res) {
@@ -127,8 +104,4 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
     showToast('支付失败，请重新支付');
   }
 };
-export {
-  getOrderInfo,
-  pay,
-  getPayStatus,
-};
+export { getOrderInfo, pay, getPayStatus };

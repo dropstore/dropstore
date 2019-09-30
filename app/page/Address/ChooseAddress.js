@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Colors from '../../res/Colors';
 import { PADDING_TAB } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
-import { fetchAddress, delAddress, editAddress } from '../../redux/actions/address';
+import { delAddress, editAddress, setChoosedAddress } from '../../redux/actions/address';
 import { ModalNormal } from '../../components';
 import { getAddress } from '../../redux/reselect/address';
 import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
@@ -20,29 +20,24 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchAddress, delAddress, editAddress,
+    delAddress, editAddress, setChoosedAddress,
   }, dispatch);
 }
 
 class ChooseAddress extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { fetchAddress } = this.props;
-    fetchAddress();
-  }
-
   toAdd = () => {
     const { navigation, address } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
       address: {
-        is_default: address.length === 0,
+        is_default: address.list.length === 0,
       },
     });
   }
 
   choose = (address) => {
-    const { navigation } = this.props;
+    const { navigation, setChoosedAddress } = this.props;
+    setChoosedAddress(address);
     navigation.navigate('PickUp', {
       title: '支付运费',
       address,
@@ -88,7 +83,7 @@ class ChooseAddress extends PureComponent {
     return (
       <ScrollView contentContainerStyle={{ paddingBottom: PADDING_TAB + 50 }} style={styles.container} showsVerticalScrollIndicator={false}>
         {
-          address.sort((a, b) => b.is_default - a.is_default).map(v => (
+          address.list.sort((a, b) => b.is_default - a.is_default).map(v => (
             <TouchableOpacity onPress={() => this.choose(v)} key={v.id} style={styles.item}>
               <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                 <Text style={styles.shouhuoren}>{`收货人：${v.link_name}`}</Text>
