@@ -41,20 +41,21 @@ class BottomPay extends PureComponent<Props> {
     const {
       price, disabled, text, management, needManagementNum, appOptions,
     } = this.props;
+    const extra = management || appOptions?.data?.management * needManagementNum;
     return (
       <View style={styles.bottom}>
         <View style={styles.priceWrapper}>
           <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
             <Text style={styles.price}>合计：</Text>
             <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>
-              {Math.ceil((Number(price) + Number(management || appOptions?.data?.management * needManagementNum)).toFixed(3) * 100) / 100}
+              {(Math.ceil(price) / 100 + extra / 100).toFixed(2)}
             </Text>
             <Text style={styles.price}>￥</Text>
           </View>
           {
             (management || needManagementNum > 0) && (
               <Text style={{ fontSize: 11, color: '#333' }}>
-                {`(含库管费${(management || appOptions?.data?.management * needManagementNum) / 100})`}
+                {`(含库管费${extra / 100})`}
               </Text>
             )
           }
