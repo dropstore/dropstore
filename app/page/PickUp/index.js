@@ -49,16 +49,10 @@ class PickUp extends PureComponent {
   }
 
   toPay =() => {
-    const { navigation, simpleData } = this.props;
-    // request('/order/pay_postage', { params: { id: this.item.id } }).then((res) => {
-    //   const { user_address } = res.data;
-    //   const { link_name, mobile, address } = user_address;
-    //   this.setState({
-    //     link_name,
-    //     mobile,
-    //     address,
-    //   });
-    // });
+    const { navigation, simpleData, current } = this.props;
+    request('/order/pay_postage', { params: { id: current.id } }).then(() => {
+
+    });
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '3',
