@@ -9,7 +9,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import { PADDING_TAB, getScreenWidth, getScreenHeight } from '../../common/Constant';
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
@@ -131,8 +131,8 @@ class AuthLoading extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     alignItems: 'center',
     paddingTop: hPx2P(114),
     backgroundColor: 'rgb(246,246,246)',

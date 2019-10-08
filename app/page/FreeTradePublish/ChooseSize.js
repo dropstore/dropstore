@@ -7,13 +7,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Image from '../../components/Image';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 
-const SIZE = (SCREEN_WIDTH - 45) / 4;
+const SIZE = (getScreenWidth() - 45) / 4;
 const TYPE = 'getShoeSizeList';
 
 function mapStateToProps() {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   itemViwe: {
-    width: SCREEN_WIDTH / 4.3,
+    width: getScreenWidth() / 4.3,
     height: wPx2P(83),
     justifyContent: 'center',
     alignItems: 'center',

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, ActivityIndicator, Animated,
 } from 'react-native';
-import { SCREEN_HEIGHT } from '../../common/Constant';
+import { getScreenHeight } from '../../common/Constant';
 
 const height = 80;
 
@@ -76,7 +76,7 @@ export default class ToastLoading extends PureComponent {
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
-    bottom: (SCREEN_HEIGHT - height) / 2,
+    bottom: (getScreenHeight() - height) / 2,
     alignSelf: 'center',
     zIndex: 100,
     height,

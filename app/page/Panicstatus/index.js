@@ -14,7 +14,7 @@ import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
-import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT, SCREEN_HEIGHT } from '../../common/Constant';
+import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT, getScreenHeight } from '../../common/Constant';
 
 class Panicstatus extends PureComponent {
   toShare = () => {
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mainView: {
-    minHeight: SCREEN_HEIGHT - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
+    minHeight: getScreenHeight() - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
     alignItems: 'center',
     paddingTop: hPx2P(30 + STATUSBAR_HEIGHT),
     paddingBottom: hPx2P(20),

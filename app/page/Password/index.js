@@ -10,7 +10,7 @@ import { updateUser, setPassword, updatePassword } from '../../redux/actions/use
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { showToast } from '../../utils/MutualUtil';
-import { PADDING_TAB, SCREEN_WIDTH } from '../../common/Constant';
+import { PADDING_TAB, getScreenWidth } from '../../common/Constant';
 import KeyboardDismiss from '../../components/KeyboardDismiss';
 
 function mapStateToProps() {
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   extractWhite: {
     height: 40,
-    width: SCREEN_WIDTH - 48,
+    width: getScreenWidth() - 48,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,

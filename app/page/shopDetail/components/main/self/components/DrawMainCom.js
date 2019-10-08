@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { SCREEN_WIDTH } from '../../../../../../common/Constant';
+import { getScreenWidth } from '../../../../../../common/Constant';
 import Colors from '../../../../../../res/Colors';
 import { YaHei } from '../../../../../../res/FontFamily';
 import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
   },
   fengexian: {
     backgroundColor: '#ddd',
-    width: SCREEN_WIDTH - 34,
+    width: getScreenWidth() - 34,
     height: StyleSheet.hairlineWidth,
     marginHorizontal: 17,
   },
   acContainer: {
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 5,

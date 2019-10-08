@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   DeviceEventEmitter, View, StyleSheet,
 } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import { getScreenWidth, getScreenHeight } from '../../common/Constant';
 import ShareCom from './ShareCom';
 import Modalbox from './Modalbox';
 
@@ -50,7 +50,7 @@ export default class Global extends PureComponent {
   render() {
     const { share, modalbox } = this.state;
     return (
-      <View style={[styles.wrapper, { height: modalbox.show || share.show ? SCREEN_HEIGHT : 0, width: SCREEN_WIDTH }]}>
+      <View style={[styles.wrapper, { height: modalbox.show || share.show ? getScreenHeight() : 0, width: getScreenWidth() }]}>
         {
           share.show && (
             <ShareCom

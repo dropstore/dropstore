@@ -12,7 +12,7 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { upload } from '../../http/Axios';
@@ -119,8 +119,8 @@ class Setting extends PureComponent {
   openPicker = (i) => {
     if ([0, 1].includes(i)) {
       ImagePicker[['openPicker', 'openCamera'][i]]({
-        width: SCREEN_WIDTH,
-        height: SCREEN_WIDTH,
+        width: getScreenWidth(),
+        height: getScreenWidth(),
         cropping: true,
         freeStyleCropEnabled: true,
         useFrontCamera: true,

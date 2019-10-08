@@ -11,7 +11,7 @@ import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import {
-  PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT, STATUSBAR_AND_NAV_HEIGHT,
+  PADDING_TAB, getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT,
 } from '../../common/Constant';
 import { request } from '../../http/Axios';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
@@ -148,8 +148,8 @@ class BalanceExtract extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    height: SCREEN_HEIGHT - STATUSBAR_AND_NAV_HEIGHT,
-    width: SCREEN_WIDTH,
+    height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
+    width: getScreenWidth(),
     backgroundColor: Colors.MAIN_BACK,
     alignItems: 'center',
     paddingTop: hPx2P(26),
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   extractWhite: {
     height: 40,
-    width: SCREEN_WIDTH - 48,
+    width: getScreenWidth() - 48,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,

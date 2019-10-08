@@ -1,13 +1,19 @@
 import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
-
-const { width: SCREEN_WIDTH, height } = Dimensions.get('screen');
-
+const { width, height } = Dimensions.get('screen');
+let SCREEN_HEIGHT = height;
+let SCREEN_WIDTH = width;
+const setDivice = (height, width) => {
+  SCREEN_HEIGHT = height;
+  SCREEN_WIDTH = width;
+};
+const getScreenHeight = () => SCREEN_HEIGHT;
+const getScreenWidth = () => SCREEN_WIDTH;
 const IS_IPHONE_X = isIphoneX();
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';
-const SCREEN_HEIGHT = height;
+
 const NAV_HEIGHT = 44;
 const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : 25;
 const PADDING_TAB = IS_IPHONE_X ? 20 : 0;
@@ -21,6 +27,7 @@ const hitSlop = {
   top: 12, bottom: 12, left: 8, right: 8,
 };
 export {
-  SCREEN_WIDTH, SCREEN_HEIGHT, iOS, Android, IS_IPHONE_X, NAV_HEIGHT, STATUSBAR_HEIGHT,
+  iOS, Android, IS_IPHONE_X, NAV_HEIGHT, STATUSBAR_HEIGHT,
   STATUSBAR_AND_NAV_HEIGHT, PADDING_TAB, hitSlop, MARGIN_HORIZONTAL, MAX_TIME, BOTTOM_BTN_HEIGHT,
+  setDivice, getScreenHeight, getScreenWidth,
 };

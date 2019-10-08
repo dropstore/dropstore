@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardDismiss, BottomPay } from '../../components';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { Normal, YaHei } from '../../res/FontFamily';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   bottomView: {
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     height: 61 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
     flexDirection: 'row',

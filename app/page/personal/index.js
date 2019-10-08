@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import { STATUSBAR_HEIGHT, getScreenWidth, getScreenHeight } from '../../common/Constant';
 import { Image, AvatarWithShadow } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   hengtiao: {
     height: 1,
-    width: wPx2P(SCREEN_WIDTH - 8),
+    width: wPx2P(getScreenWidth() - 8),
     backgroundColor: '#E3E3E3',
     marginTop: wPx2P(23),
   },
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
   },
   walletLeft: {
     flex: 1,
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     color: '#8F8F8F',
   },
   list1Item: {
-    width: (SCREEN_WIDTH - 8) / 2,
+    width: (getScreenWidth() - 8) / 2,
     height: 54,
     alignItems: 'center',
     borderRightColor: '#bbb',
@@ -268,8 +268,8 @@ const styles = StyleSheet.create({
     marginRight: wPx2P(26),
   },
   placeholder: {
-    height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     position: 'absolute',
   },
   list1: {

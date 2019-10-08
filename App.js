@@ -10,11 +10,19 @@ import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { Global, Keyboard } from './app/components';
 import { removeNetListener } from './app/http/Axios';
+import { setDivice } from './app/common/Constant';
 
 const GlobalWithKeyboard = ['toastLoading', 'toast'];
 const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      style: { flex: 1 },
+    };
+  }
+
   componentDidMount() {
     if (!__DEV__) {
       fundebug.init({
@@ -54,11 +62,18 @@ export default class App extends Component {
     this.listener.remove();
   }
 
+  onLayout = (e) => {
+    const { height, width } = e.nativeEvent.layout;
+    setDivice(height, width);
+    this.setState({ style: { height, width } });
+  }
+
   render() {
+    const { style } = this.state;
     return (
       <Provider store={store}>
         <MenuProvider backHandler>
-          <View style={{ flex: 1 }}>
+          <View style={style} onLayout={this.onLayout}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <Router />
             <Global ref={(v) => { this.globalCom = v; }} />

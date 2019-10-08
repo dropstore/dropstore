@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import FadeImage from '../FadeImage';
 import ScaleView from '../ScaleView';
 import Price from '../Price';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class ListItem extends PureComponent {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     marginRight: 8,
     marginTop: 7,
-    width: (SCREEN_WIDTH - 27) / 2,
+    width: (getScreenWidth() - 27) / 2,
     borderRadius: 2,
     overflow: 'hidden',
     justifyContent: 'space-between',

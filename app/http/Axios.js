@@ -11,7 +11,7 @@ import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
-import { SCREEN_WIDTH } from '../common/Constant';
+import { getScreenWidth } from '../common/Constant';
 import api from './api';
 
 const baseURL = 'http://api.dropstore.cn';
@@ -71,7 +71,7 @@ const request = async (url, {
   const data = {
     ...params,
     timestamp: Date.now(),
-    device_width: SCREEN_WIDTH,
+    device_width: getScreenWidth(),
     image_size_times: params.image_size_times || -1,
   };
   try {

@@ -3,7 +3,7 @@ import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ImageNetUnkoneSize } from '../../components';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 
@@ -31,7 +31,7 @@ class ListItemDetail extends PureComponent {
   renderItem = ({ item }) => (
     <ImageNetUnkoneSize
       key={item.image}
-      style={{ width: SCREEN_WIDTH }}
+      style={{ width: getScreenWidth() }}
       source={{ uri: item.image }}
     />
   );

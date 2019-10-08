@@ -5,7 +5,7 @@ import {
 import { TabView } from 'react-native-tab-view';
 import List from './List';
 import TabBar from '../../components/TabBar';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import HeaderRight from './HeaderRight';
 
@@ -83,7 +83,7 @@ class MyGoods extends PureComponent {
           renderTabBar={() => null}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH }}
+          initialLayout={{ width: getScreenWidth() }}
           lazy
         />
       </View>

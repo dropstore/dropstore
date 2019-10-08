@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
+import { getScreenWidth, getScreenHeight, PADDING_TAB } from '../common/Constant';
 import Colors from '../res/Colors';
 import { wPx2P } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
@@ -138,7 +138,7 @@ class BottomNavigator extends PureComponent {
           renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
+          initialLayout={{ width: getScreenWidth(), height: getScreenHeight() }}
           lazy
         />
         <View style={styles.tabBar}>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   tabBar: {
     height: TAB_HEIGHT + PADDING_TAB,
     paddingBottom: PADDING_TAB,
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     flexDirection: 'row',
     backgroundColor: '#fff',
     paddingHorizontal: PADDING_HORIZONTAL,

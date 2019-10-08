@@ -9,7 +9,7 @@ import Image from '../Image';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
 import ListItem from './ListItem';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 import { debounceDelay } from '../../utils/commonUtils';
 import Images from '../../res/Images';
 
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     height: HeaderHeight,
     backgroundColor: '#fff',
     position: 'absolute',
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
   },
   searchWrapper: {
     flex: 1,

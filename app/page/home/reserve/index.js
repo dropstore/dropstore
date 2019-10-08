@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import TopCom from '../components/TopCom';
 import Images from '../../../res/Images';
-import { SCREEN_WIDTH } from '../../../common/Constant';
+import { getScreenWidth } from '../../../common/Constant';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   image: {
-    width: SCREEN_WIDTH - 20,
+    width: getScreenWidth() - 20,
     height: 36,
     marginVertical: 5,
     marginHorizontal: 10,

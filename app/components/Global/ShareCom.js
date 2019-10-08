@@ -3,7 +3,7 @@ import {
   StyleSheet, TouchableOpacity, Text, View,
 } from 'react-native';
 import Modalbox from 'react-native-modalbox';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import Image from '../Image';
 import Images from '../../res/Images';
 import Share from '../../utils/ShareUtil';
@@ -64,7 +64,7 @@ export default class ShareCom extends PureComponent {
 
 const styles = StyleSheet.create({
   modalbox: {
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     height: 138 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
     paddingHorizontal: 30,

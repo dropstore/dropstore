@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FadeImage } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
-import { SCREEN_WIDTH, MARGIN_HORIZONTAL } from '../../../common/Constant';
+import { getScreenWidth, MARGIN_HORIZONTAL } from '../../../common/Constant';
 import { getBanner } from '../../../redux/reselect/banner';
 import { fetchBanner } from '../../../redux/actions/banner';
 
@@ -46,8 +46,8 @@ class TopCom extends PureComponent {
         data={banner}
         slideStyle={{ alignItems: 'center', justifyContent: 'center' }}
         renderItem={this.renderItem}
-        sliderWidth={SCREEN_WIDTH}
-        itemWidth={SCREEN_WIDTH}
+        sliderWidth={getScreenWidth()}
+        itemWidth={getScreenWidth()}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         enableSnap

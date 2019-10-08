@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import {
   ActionSheetIOS, Platform, TouchableOpacity, Text, StyleSheet, View, TouchableWithoutFeedback,
 } from 'react-native';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../common/Constant';
+import { getScreenWidth, getScreenHeight } from '../common/Constant';
 
 type Props = {
   options: Object,
@@ -57,7 +57,7 @@ class ActionSheet extends PureComponent<Props, State> {
     const { options, cancelButtonIndex } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.cancel}>
-        <View style={[styles.wrapper, { height: SCREEN_HEIGHT, width: SCREEN_WIDTH }]}>
+        <View style={[styles.wrapper, { height: getScreenHeight(), width: getScreenWidth() }]}>
           <View style={{ backgroundColor: '#eee' }}>
             {
               options.map((v, i) => {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     height: 48,
     lineHeight: 48,
     backgroundColor: '#fff',
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     textAlign: 'center',
   },
 });

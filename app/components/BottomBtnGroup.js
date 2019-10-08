@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, View, Platform, TouchableOpacity, Text,
 } from 'react-native';
-import { PADDING_TAB, SCREEN_WIDTH } from '../common/Constant';
+import { PADDING_TAB, getScreenWidth } from '../common/Constant';
 import { wPx2P } from '../utils/ScreenUtil';
 import Colors from '../res/Colors';
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     height: 66 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     flexDirection: 'row',

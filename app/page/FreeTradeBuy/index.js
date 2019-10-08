@@ -14,7 +14,7 @@ import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   vendor: {
     height: 64,
-    width: SCREEN_WIDTH - 18,
+    width: getScreenWidth() - 18,
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',

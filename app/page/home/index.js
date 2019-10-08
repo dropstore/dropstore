@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
-import { SCREEN_WIDTH, STATUSBAR_HEIGHT } from '../../common/Constant';
+import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
 // import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
 import SelfSupport from './selfSupport';
@@ -50,7 +50,7 @@ class HomePage extends PureComponent {
           renderTabBar={() => null}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH }}
+          initialLayout={{ width: getScreenWidth() }}
           lazy
         />
       </View>

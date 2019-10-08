@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import Colors from '../Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 
@@ -9,7 +9,7 @@ export const bottomStyle = StyleSheet.create({
     bottom: 0,
     height: 66 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     flexDirection: 'row',
