@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, StyleSheet, Platform,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { YaHei } from '../res/FontFamily';
 
 export default class TitleWithTagTwo extends PureComponent {
@@ -35,15 +33,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     textAlign: 'center',
     lineHeight: 13,
-    top: Platform.OS === 'ios' ? 2 : 0.5,
-    paddingTop: Platform.OS === 'ios' ? 0 : 0.5,
-    includeFontPadding: false,
+    top: 2,
   },
   shopTitle: {
     fontSize: 12,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     textAlign: 'justify',
-    includeFontPadding: false,
   },
 });
