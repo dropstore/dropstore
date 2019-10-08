@@ -24,6 +24,7 @@ import BottomPay from './BottomPay';
 import AvatarWithShadow from './AvatarWithShadow';
 import NameAndGender from './NameAndGender';
 import BottomBtnGroup from './BottomBtnGroup';
+import Tag from './Tag';
 
 
 export {
@@ -32,5 +33,5 @@ export {
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
   Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
-  AvatarWithShadow, NameAndGender, BottomBtnGroup,
+  AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag,
 };

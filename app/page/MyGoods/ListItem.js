@@ -5,13 +5,14 @@ import {
 import { connect } from 'react-redux';
 import {
   FadeImage, Price, CountdownCom, Image,
+  TitleWithTagTwo, Tag,
 } from '../../components';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import Modal from './Modal';
-import TitleWithTagTwo from '../../components/TitleWithTagTwo';
+
 import Images from '../../res/Images';
 import { request } from '../../http/Axios';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -187,7 +188,10 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {!(item.type === '2' && type === 'warehouse') ? <Price price={item.order_price || item.price} /> : <View />}
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                {!(item.type === '2' && type === 'warehouse') ? <Price price={item.order_price || item.price} /> : <View />}
+                { item.type === '1' && type === 'warehouse' && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
+              </View>
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
