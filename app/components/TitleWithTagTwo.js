@@ -7,11 +7,8 @@ export default class TitleWithTagTwo extends PureComponent {
     const { text, type } = this.props;
     return (
       <View style={{ flexDirection: 'row' }}>
-        <Text style={[styles.tagText, {
-          backgroundColor: type === '1' ? '#FFA700' : ['3', '4', '5'].includes(type) ? '#EF4444' : '#B4DE2A',
-        }]}
-        >
-          {type === '1' ? '现货' : ['3', '4', '5'].includes(type) ? '发布' : '期货'}
+        <Text style={[styles.tagText, { backgroundColor: type === '1' ? '#FFA700' : '#B4DE2A' }]}>
+          {type === '1' ? '现货' : '期货'}
         </Text>
         <Text style={styles.shopTitle}>
 &emsp;&emsp;&nbsp;

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default class TitleWithTagTwo extends PureComponent {
+export default class Tag extends PureComponent {
   render() {
     const { text, backgroundColor, style } = this.props;
     return (
