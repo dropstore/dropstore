@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   thirdWrapper: {
-    marginBottom: hPx2P(36 + PADDING_TAB),
+    marginBottom: hPx2P(60 + PADDING_TAB),
   },
   wechat: {
     height: wPx2P(46),
