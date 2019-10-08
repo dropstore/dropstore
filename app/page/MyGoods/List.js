@@ -6,6 +6,7 @@ import { PullToRefresh } from '../../components';
 import { fetchListData } from '../../redux/actions/listData';
 import { getListData } from '../../redux/reselect/listData';
 import ListItem from './ListItem';
+import SelledItem from './SelledItem';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -36,6 +37,9 @@ class List extends PureComponent {
 
   renderItem = ({ item }) => {
     const { type, navigation, route } = this.props;
+    if (type === 'selled') {
+      return <SelledItem item={item} />;
+    }
     return <ListItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }
 
