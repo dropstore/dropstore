@@ -10,7 +10,6 @@ import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
 import { Global, Keyboard } from './app/components';
 import { removeNetListener } from './app/http/Axios';
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from './app/common/Constant';
 
 const GlobalWithKeyboard = ['toastLoading', 'toast'];
 const GlobalWithoutKeyboard = ['share', 'modalbox'];
@@ -59,7 +58,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <MenuProvider backHandler>
-          <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
+          <View style={{ flex: 1 }}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <Router />
             <Global ref={(v) => { this.globalCom = v; }} />

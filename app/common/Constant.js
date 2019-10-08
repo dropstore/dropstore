@@ -1,16 +1,15 @@
 import { Dimensions, Platform } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import ExtraDimensions from 'react-native-extra-dimensions-android';
 
 
-const { width: SCREEN_WIDTH, height } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height } = Dimensions.get('screen');
 
 const IS_IPHONE_X = isIphoneX();
 const iOS = Platform.OS === 'ios';
 const Android = Platform.OS === 'android';
 const SCREEN_HEIGHT = height;
 const NAV_HEIGHT = 44;
-const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : ExtraDimensions.getStatusBarHeight();
+const STATUSBAR_HEIGHT = IS_IPHONE_X ? 40 : iOS ? 20 : 25;
 const PADDING_TAB = IS_IPHONE_X ? 20 : 0;
 const STATUSBAR_AND_NAV_HEIGHT = STATUSBAR_HEIGHT + NAV_HEIGHT;
 const MARGIN_HORIZONTAL = 9;
