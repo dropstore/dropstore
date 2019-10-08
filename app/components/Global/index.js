@@ -50,29 +50,25 @@ export default class Global extends PureComponent {
   render() {
     const { share, modalbox } = this.state;
     return (
-      <View style={styles.wrapper}>
+      <View style={[styles.wrapper, { height: modalbox.show || share.show ? SCREEN_HEIGHT : 0, width: SCREEN_WIDTH }]}>
         {
           share.show && (
-            <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
-              <ShareCom
-                onClosed={() => this.onClosed('share')}
-                data={share.data}
-                ref={(v) => { this.share = v; }}
-                successCallback={data => successCallback('share', data)}
-                failCallback={data => failCallback('share', data)}
-              />
-            </View>
+            <ShareCom
+              onClosed={() => this.onClosed('share')}
+              data={share.data}
+              ref={(v) => { this.share = v; }}
+              successCallback={data => successCallback('share', data)}
+              failCallback={data => failCallback('share', data)}
+            />
           )
         }
         {
           modalbox.show && (
-            <View style={{ height: SCREEN_HEIGHT, width: SCREEN_WIDTH }}>
-              <Modalbox
-                data={modalbox.data}
-                ref={(v) => { this.modalbox = v; }}
-                onClosed={() => this.onClosed('modalbox')}
-              />
-            </View>
+            <Modalbox
+              data={modalbox.data}
+              ref={(v) => { this.modalbox = v; }}
+              onClosed={() => this.onClosed('modalbox')}
+            />
           )
         }
       </View>
