@@ -4,10 +4,11 @@ import {
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
-import TabBar from '../../components/TabBar';
+import { TabBar } from '../../components';
 import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import HeaderRight from './HeaderRight';
+import { showShare } from '../../utils/MutualUtil';
 
 class MyGoods extends PureComponent {
   constructor(props) {
@@ -26,26 +27,33 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    if (this.routeType === 'Warehouse') {
-      navigation.setParams({
-        headerRight: (
-          <TouchableOpacity onPress={this.add} style={styles.rightWrapper}>
-            <Text style={{ color: '#fff', fontSize: 13 }}>发布</Text>
-          </TouchableOpacity>
-        ),
-      });
-    }
+    navigation.setParams({
+      headerRight: (
+        <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
+          <Text style={{ color: '#fff', fontSize: 14 }}>{this.routeType === 'Warehouse' ? '发布' : '分享'}</Text>
+        </TouchableOpacity>
+      ),
+    });
   }
 
   onIndexChange = (index) => {
     this.setState({ index });
   }
 
-  add = () => {
-    const { navigation } = this.props;
-    navigation.navigate('FreeTradePublish', {
-      title: '选择',
-    });
+  onPress = () => {
+    if (this.routeType === 'Warehouse') {
+      const { navigation } = this.props;
+      navigation.navigate('FreeTradePublish', {
+        title: '选择',
+      });
+    } else {
+      showShare({
+        text: '正文',
+        img: '',
+        url: '',
+        title: '',
+      });
+    }
   }
 
   renderScene = ({ route }) => {
