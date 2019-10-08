@@ -15,6 +15,7 @@ import TitleWithTagTwo from '../../components/TitleWithTagTwo';
 import Images from '../../res/Images';
 import { request } from '../../http/Axios';
 import { getSimpleData } from '../../redux/reselect/simpleData';
+import { formatDate } from '../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -127,7 +128,7 @@ class ListItem extends PureComponent {
   render() {
     const { item, type } = this.props;
     const { text } = this.state;
-    const subTitle = type === 'warehouse' ? '已入库' : '';
+    const subTitle = type === 'warehouse' && ['4', '5', '6'].includes(item.goods_status) ? `入库时间：${formatDate(item.add_time, 'MM/dd')}` : '';
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
@@ -165,6 +166,7 @@ class ListItem extends PureComponent {
         ];
       }
     }
+
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
@@ -185,7 +187,7 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {['warehouse', 'sendOut'].includes(type) ? <View /> : <Price price={item.order_price || item.price} />}
+              {!(item.type === '2' && type === 'warehouse') ? <Price price={item.order_price || item.price} /> : <View />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
@@ -257,6 +259,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    paddingTop: 5,
   },
   btnGroup: {
     alignSelf: 'flex-end',

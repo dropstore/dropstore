@@ -41,7 +41,7 @@ class Message extends Component {
 
   renderItem = ({ item }) => (
     <View>
-      <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
+      <Text style={styles.date}>{formatDate(item.add_time)}</Text>
       <Text style={styles.text}>{item.content}</Text>
     </View>
   )

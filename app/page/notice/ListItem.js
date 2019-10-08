@@ -75,7 +75,7 @@ class ListItem extends PureComponent {
     const { text } = this.state;
     return (
       <View>
-        <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
+        <Text style={styles.date}>{formatDate(item.add_time)}</Text>
         <View style={styles.container}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
             <ImageBackground useFadeImage source={{ uri: item.image }} style={styles.shoe}>

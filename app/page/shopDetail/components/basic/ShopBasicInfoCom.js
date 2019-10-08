@@ -4,7 +4,7 @@ import { FadeImage, CountdownCom } from '../../../../components';
 import { YaHei, Mario } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
 import { wPx2P } from '../../../../utils/ScreenUtil';
-import { formatDateNoYear } from '../../../../utils/commonUtils';
+import { formatDate } from '../../../../utils/commonUtils';
 import Colors from '../../../../res/Colors';
 
 export default class ShopBasicInfoCom extends PureComponent {
@@ -28,7 +28,7 @@ export default class ShopBasicInfoCom extends PureComponent {
           style={styles.overTime}
           time={activityInfo.activity.end_time}
           prefix="距结束时间:"
-          notStartTimerText={`${formatDateNoYear(activityInfo.activity.end_time)} 结束`}
+          notStartTimerText={`${formatDate(activityInfo.activity.end_time, 'MM/dd hh:mm:ss')} 结束`}
           endTimerText="活动已结束"
           prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
         />
@@ -37,7 +37,7 @@ export default class ShopBasicInfoCom extends PureComponent {
     return (
       <CountdownCom
         hasNextTimer
-        notStartTimerText={`${formatDateNoYear(activityInfo.activity.start_time)} ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
+        notStartTimerText={`${formatDate(activityInfo.activity.start_time, 'MM/dd hh:mm:ss')} ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
         finish={this.activityStart}
         style={styles.overTime}
         time={activityInfo.activity.start_time}
