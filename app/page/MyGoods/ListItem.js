@@ -127,7 +127,7 @@ class ListItem extends PureComponent {
   render() {
     const { item, type } = this.props;
     const { text } = this.state;
-    const subTitle = type === 'uncomplete' ? '' : '已入库';
+    const subTitle = type === 'warehouse' ? '已入库' : '';
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
@@ -185,7 +185,7 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {type === 'warehouse' ? <View /> : <Price price={item.order_price || item.price} />}
+              {['warehouse', 'sendOut'].includes(type) ? <View /> : <Price price={item.order_price || item.price} />}
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
