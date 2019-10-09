@@ -5,10 +5,9 @@ import {
 import {
   FadeImage, Price, TitleWithTagTwo, Tag,
 } from '../../components';
-import Colors from '../../res/Colors';
-import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { showToast } from '../../utils/MutualUtil';
+import Id from './component/Id';
 
 export default class ListItem extends PureComponent {
   copy = () => {
@@ -21,13 +20,12 @@ export default class ListItem extends PureComponent {
     const { item } = this.props;
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
-    const showNumber = !!item.order_id;
 
     return (
       <View style={styles.container}>
-        <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
+        <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
           <FadeImage source={{ uri: image }} style={styles.shoe} />
-          { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
+          <Id id={item.order_id} />
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>

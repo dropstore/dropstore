@@ -6,9 +6,9 @@ import {
   FadeImage, CountdownCom, TitleWithTagTwo,
 } from '../../components';
 import Colors from '../../res/Colors';
-import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
+import Id from './component/Id';
 
 export default class ListItem extends PureComponent {
   constructor(props) {
@@ -35,13 +35,12 @@ export default class ListItem extends PureComponent {
     const { text } = this.state;
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
-    const showNumber = !!item.order_id;
 
     return (
       <View style={styles.container}>
-        <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
+        <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
           <FadeImage source={{ uri: image }} style={styles.shoe} />
-          { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
+          <Id id={item.order_id} />
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
@@ -91,11 +90,6 @@ const styles = StyleSheet.create({
   shoe: {
     width: wPx2P(113),
     height: wPx2P(65),
-  },
-  id: {
-    fontSize: 8,
-    marginTop: 15,
-    letterSpacing: -0.1,
   },
   middle: {
     flexDirection: 'row',

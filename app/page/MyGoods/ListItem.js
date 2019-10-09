@@ -11,6 +11,7 @@ import { wPx2P } from '../../utils/ScreenUtil';
 import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import Images from '../../res/Images';
 import { formatDate } from '../../utils/commonUtils';
+import Id from './component/Id';
 
 export default class ListItem extends PureComponent {
   onPress = (type) => {
@@ -24,7 +25,6 @@ export default class ListItem extends PureComponent {
     const { item } = this.props;
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
-    const showNumber = !!item.order_id;
     let btns = [];
     if (item.goods_status === '1') {
       btns = [];
@@ -50,7 +50,7 @@ export default class ListItem extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
+        <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
           <FadeImage source={{ uri: image }} style={styles.shoe} />
           {
             item.goods_status === '2'
@@ -62,7 +62,7 @@ export default class ListItem extends PureComponent {
                   : item.goods_status === '5'
                     ? <Image source={Images.onSale} style={styles.tag} /> : null
           }
-          { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
+          <Id id={item.order_id} />
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
