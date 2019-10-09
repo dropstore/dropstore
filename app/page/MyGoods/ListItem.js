@@ -41,7 +41,6 @@ export default class ListItem extends PureComponent {
   render() {
     const { item, type } = this.props;
     const { text } = this.state;
-    const subTitle = type === 'warehouse' && ['4', '5', '6'].includes(item.goods_status) ? `入库时间：${formatDate(item.add_time, 'MM/dd')}` : '';
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
@@ -99,10 +98,10 @@ export default class ListItem extends PureComponent {
                 {item.buy_price && <Price price={item.buy_price} /> }
                 {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" />}
               </View>
-              {
-                type === 'uncomplete' && !text ? (
-                  <View style={styles.timeWrapper}>
-                    <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
+              <View style={styles.timeWrapper}>
+                <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
+                {
+                  type === 'uncomplete' && (
                     <CountdownCom
                       finish={this.finish}
                       style={styles.time}
@@ -110,11 +109,13 @@ export default class ListItem extends PureComponent {
                       prefix="待付款"
                       prefixStyle={styles.time}
                     />
-                  </View>
-                ) : <Text style={{ fontSize: 11 }}>{subTitle}</Text>
-              }
+                  )
+                }
+              </View>
             </View>
           </View>
+          { type === 'warehouse' && ['4', '5'].includes(item.goods_status)
+          && <Text style={{ fontSize: 11 }}>{`入库时间：${formatDate(item.add_time, 'MM/dd')}`}</Text> }
           { type === 'uncomplete' && !text && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
           { text && <Text style={{ color: Colors.OTHER_BACK, textAlign: 'right', fontSize: 13 }}>{text}</Text>}
           { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id || '等待寄出'}`}</Text>}
