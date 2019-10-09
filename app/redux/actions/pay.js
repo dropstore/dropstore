@@ -3,6 +3,7 @@ import { alipayModule, wxPayModule } from '../../native/module';
 import ShopConstant from '../../common/ShopConstant';
 import { showToast } from '../../utils/MutualUtil';
 import Strings from '../../res/Strings';
+import { fetchSimpleData } from './simpleData';
 
 /**
  * 获取订单信息并调用支付
@@ -88,8 +89,8 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
     type,
   };
   const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
-  console.log(res);
   if (res.data == 1) {
+    fetchSimpleData('activityInfo', { id: shopInfo.activity.id }, 'refresh');
     showToast('支付成功');
     if (shopInfo) {
       navigation.push('PayStatus', {
