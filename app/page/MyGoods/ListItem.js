@@ -25,7 +25,6 @@ export default class ListItem extends PureComponent {
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
-    // 商品状态 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
     let btns = [];
     if (item.goods_status === '1') {
       btns = [];
@@ -151,21 +150,5 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 10,
-  },
-  cuoguo: {
-    color: Colors.OTHER_BACK,
-    fontSize: 10,
-    marginTop: 2,
-    letterSpacing: -0.2,
-  },
-  time: {
-    fontSize: 11,
-    color: Colors.OTHER_BACK,
-  },
-  timeWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flex: 1,
   },
 });
