@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Clipboard,
+  View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import {
   FadeImage, Price, CountdownCom, Image, TitleWithTagTwo, Tag,
@@ -8,7 +8,7 @@ import {
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { showToast, MyGoodsItemOnPress } from '../../utils/MutualUtil';
+import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import Images from '../../res/Images';
 import { formatDate } from '../../utils/commonUtils';
 
@@ -30,12 +30,6 @@ export default class ListItem extends PureComponent {
 
   finish = () => {
     this.setState({ text: '付款已超时' });
-  }
-
-  copy = () => {
-    const { item } = this.props;
-    Clipboard.setString(item.yundanhao);
-    showToast('运单号已复制');
   }
 
   render() {
@@ -118,7 +112,6 @@ export default class ListItem extends PureComponent {
           && <Text style={{ fontSize: 11 }}>{`入库时间：${formatDate(item.add_time, 'MM/dd')}`}</Text> }
           { type === 'uncomplete' && !text && <Text style={styles.cuoguo}>请在规定时间内完成支付，错过将失去购买资格</Text>}
           { text && <Text style={{ color: Colors.OTHER_BACK, textAlign: 'right', fontSize: 13 }}>{text}</Text>}
-          { type === 'sendOut' && <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id || '等待寄出'}`}</Text>}
           {
             btns.length > 0 && !text && (
             <View style={[styles.btnGroup, { marginTop: type === 'uncomplete' ? 3 : 9 }]}>
@@ -208,12 +201,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flex: 1,
-  },
-  yundanhao: {
-    color: '#0A8CCF',
-    fontSize: 10,
-    marginTop: 8,
-    textAlign: 'right',
-    textDecorationLine: 'underline',
   },
 });

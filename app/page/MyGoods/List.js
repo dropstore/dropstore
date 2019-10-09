@@ -8,6 +8,7 @@ import { getListData } from '../../redux/reselect/listData';
 import ListItem from './ListItem';
 import SelledItem from './SelledItem';
 import OnsaleItem from './OnsaleItem';
+import SendOutItem from './SendOutItem';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -42,6 +43,8 @@ class List extends PureComponent {
       return <SelledItem item={item} />;
     } if (type === 'onSale') {
       return <OnsaleItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
+    } if (type === 'sendOut') {
+      return <SendOutItem item={item} />;
     }
     return <ListItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }
