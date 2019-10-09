@@ -6,6 +6,7 @@ import List from './List';
 import Colors from '../../res/Colors';
 import ListItemDetail from './ListItemDetail';
 import { getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
+import Header from './Header';
 
 class MyGoods extends PureComponent {
   constructor(props) {
@@ -27,21 +28,23 @@ class MyGoods extends PureComponent {
     this.setState({ index });
   }
 
+  onScroll = (e) => {
+    // console.log(e.nativeEvent.contentOffset.y);
+  }
+
   renderScene = ({ route }) => {
     const { navigation } = this.props;
     if (route.key === 'freeTradeGoodsDetail') {
-      return <ListItemDetail navigation={navigation} id={this.goods.id} />;
+      return <ListItemDetail onScroll={this.onScroll} navigation={navigation} id={this.goods.id} />;
     }
-    return <List navigation={navigation} type={route.key} goods={this.goods} />;
+    return <List onScroll={this.onScroll} navigation={navigation} type={route.key} goods={this.goods} />;
   }
 
   render() {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
-        <View style={styles.top}>
-          <Text>123</Text>
-        </View>
+        {/* <Header /> */}
         <TabBar
           style={styles.tabBar}
           routes={routes}

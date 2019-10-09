@@ -86,6 +86,7 @@ const request = async (url, {
     // console.log(data, url, response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
+        console.log(response.data, data);
         return response.data;
       }
       console.log(response.data, data, url);

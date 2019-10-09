@@ -14,7 +14,7 @@ export default class Tag extends PureComponent {
 
 const styles = StyleSheet.create({
   wrapper: {
-    padding: 1,
+    paddingHorizontal: 1,
     borderRadius: 2,
     overflow: 'hidden',
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ImageNetUnkoneSize } from '../../components';
@@ -7,6 +7,7 @@ import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const TYPE = 'freeTradeGoodsDetail';
 
 function mapStateToProps() {
@@ -37,10 +38,10 @@ class ListItemDetail extends PureComponent {
   );
 
   render() {
-    const { data } = this.props;
+    const { data, onScroll } = this.props;
     if (data.data) {
       return (
-        <FlatList
+        <AnimatedFlatList
           keyExtractor={(item, index) => `${item.image}-${index}`}
           removeClippedSubviews={false}
           showsVerticalScrollIndicator={false}
@@ -49,6 +50,8 @@ class ListItemDetail extends PureComponent {
           contentContainerStyle={{ paddingBottom: PADDING_TAB }}
           style={{ flex: 1, backgroundColor: '#fff' }}
           renderItem={this.renderItem}
+          onScroll={onScroll}
+          scrollEventThrottle={1}
         />
       );
     }

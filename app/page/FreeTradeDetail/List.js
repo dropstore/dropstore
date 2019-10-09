@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Animated } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
@@ -8,6 +8,8 @@ import { fetchListData } from '../../redux/actions/listData';
 import ListItemHistory from './ListItemHistory';
 import ListItemPrice from './ListItemPrice';
 import Header from './component/Header';
+
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -59,18 +61,22 @@ class List extends PureComponent {
   }
 
   render() {
-    const { listData, type, goods: { id } } = this.props;
+    const {
+      listData, type, goods: { id }, onScroll,
+    } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <Header count={listData.count || 0} id={id} type={type} filter={this.filter} />
         <PullToRefresh
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
-          Wrapper={FlatList}
+          Wrapper={AnimatedFlatList}
           data={listData.list}
           refresh={this.fetchData}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
+          onScroll={onScroll}
+          scrollEventThrottle={1}
         />
       </View>
     );

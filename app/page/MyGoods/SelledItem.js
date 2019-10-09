@@ -4,24 +4,23 @@ import {
   FadeImage, Price, TitleWithTagTwo, AvatarWithShadow,
 } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
+import { formatDate } from '../../utils/commonUtils';
 
 export default class SelledItem extends PureComponent {
   render() {
     const { item } = this.props;
-    const image = (item.goods || item).image;
-    const goods_name = (item.goods || item).goods_name;
-
     return (
       <View style={styles.container}>
-        <FadeImage source={{ uri: image }} style={styles.shoe} />
+        <FadeImage source={{ uri: item.image }} style={styles.shoe} />
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTagTwo text={goods_name} type={item.is_stock} />
+            <TitleWithTagTwo text={item.goods_name} type={item.is_stock} />
             <Price price={item.order_price || item.price} />
           </View>
+          <Text style={{ fontSize: 11, textAlign: 'right' }}>{formatDate(item.buy_time, 'MM/dd hh:mm:ss')}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <AvatarWithShadow source={{ uri: image }} size={27} />
-            <Text style={styles.name}>sssssss</Text>
+            <AvatarWithShadow source={{ uri: item.avatar }} size={27} />
+            <Text style={styles.name}>{item.user_name}</Text>
           </View>
         </View>
       </View>

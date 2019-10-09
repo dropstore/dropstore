@@ -188,10 +188,14 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                {!(item.type === '2' && type === 'warehouse') ? <Price price={item.order_price || item.price} /> : <View />}
-                { item.type === '1' && type === 'warehouse' && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
-              </View>
+              {
+                type === 'onSale' ? <Price price={item.price} /> : (
+                  <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                    {item.buy_price && <Price price={item.buy_price} /> }
+                    { item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
+                  </View>
+                )
+              }
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
