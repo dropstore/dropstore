@@ -97,16 +97,18 @@ export default class ListItem extends PureComponent {
             <View style={styles.middle}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                 {item.buy_price && <Price price={item.buy_price} /> }
-                { item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
+                {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" />}
               </View>
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
-                    <Text style={styles.time}>待付款</Text>
+                    <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
                     <CountdownCom
                       finish={this.finish}
                       style={styles.time}
                       time={item.end_time}
+                      prefix="待付款"
+                      prefixStyle={styles.time}
                     />
                   </View>
                 ) : <Text style={{ fontSize: 11 }}>{subTitle}</Text>
@@ -203,6 +205,8 @@ const styles = StyleSheet.create({
   timeWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   yundanhao: {
     color: '#0A8CCF',
