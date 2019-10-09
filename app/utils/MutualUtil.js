@@ -116,7 +116,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
       payData: {
         order_id: item.order_id,
         price: item.order_price,
-        management: store.getState().simpleData?.appOptions?.data?.management,
+        management: item.order_type === '1' ? store.getState().simpleData?.appOptions?.data?.management : null,
       },
       shopInfo: {
         goods: item.goods,
