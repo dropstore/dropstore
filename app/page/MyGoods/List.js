@@ -9,6 +9,7 @@ import ListItem from './ListItem';
 import SelledItem from './SelledItem';
 import OnsaleItem from './OnsaleItem';
 import SendOutItem from './SendOutItem';
+import UncompleteItem from './UncompleteItem';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -45,6 +46,8 @@ class List extends PureComponent {
       return <OnsaleItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
     } if (type === 'sendOut') {
       return <SendOutItem item={item} />;
+    } if (type === 'uncomplete') {
+      return <UncompleteItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
     }
     return <ListItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }

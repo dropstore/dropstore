@@ -27,13 +27,15 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
-          <Text style={{ color: '#fff', fontSize: 14 }}>{this.routeType === 'Warehouse' ? '发布' : '分享'}</Text>
-        </TouchableOpacity>
-      ),
-    });
+    if (this.routeType === 'Warehouse') {
+      navigation.setParams({
+        headerRight: (
+          <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
+            <Text style={{ color: '#fff', fontSize: 14 }}>{this.routeType === 'Warehouse' ? '发布' : '分享'}</Text>
+          </TouchableOpacity>
+        ),
+      });
+    }
   }
 
   onIndexChange = (index) => {
