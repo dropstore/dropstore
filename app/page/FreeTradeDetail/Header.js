@@ -1,35 +1,18 @@
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet, Text, View, TouchableOpacity, Animated,
+  StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { Image, Price } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { YaHei } from '../../res/FontFamily';
-import Colors from '../../res/Colors';
-
 
 export default class Header extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.translateY = new Animated.Value(0);
-  }
-
-  scroll = (y) => {
-    this.translateY.setValue(-y);
-  }
-
   render() {
     const {
       item, routes, index, onIndexChange,
     } = this.props;
     return (
-      <Animated.View style={{
-        transform: [{ translateY: this.translateY }],
-        // position: 'absolute',
-        // width: '100%',
-        // backgroundColor: Colors.MAIN_BACK,
-      }}
-      >
+      <View>
         <View style={styles.container}>
           <Image source={{ uri: item.image }} style={styles.image} />
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -59,7 +42,7 @@ export default class Header extends PureComponent {
             })
           }
         </View>
-      </Animated.View>
+      </View>
     );
   }
 }

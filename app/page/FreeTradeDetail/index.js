@@ -48,7 +48,6 @@ class MyGoods extends PureComponent {
           routes={routes}
           index={index}
           item={this.goods}
-          ref={(v) => { this.header = v; }}
         />
         <TabView
           style={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
