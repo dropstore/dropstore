@@ -7,17 +7,12 @@ import { Image, Price } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class Header extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
-
   scroll = (y) => {
-    console.log(y);
+    // console.log(y);
   }
 
   render() {
     const { item } = this.props;
-    console.log(item);
     return (
       <Animated.View style={styles.container}>
         <Image source={{ uri: item.image }} style={styles.image} />
