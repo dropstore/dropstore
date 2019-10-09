@@ -96,6 +96,8 @@ class RestPay extends Component {
         },
         order_id: payItems[0].order_id,
       },
+      buySuccess: true,
+      noTimer: true,
     });
   }
 

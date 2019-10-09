@@ -91,7 +91,9 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
   };
   const res = await request('/pay/get_pay_status', { params, isShowLoading: true });
   if (res.data == 1) {
-    store.dispatch(fetchSimpleData('activityInfo', { id: shopInfo.activity.id }, 'refresh'));
+    if (shopInfo?.activity?.id) {
+      store.dispatch(fetchSimpleData('activityInfo', { id: shopInfo.activity.id }, 'refresh'));
+    }
     showToast('支付成功');
     if (shopInfo) {
       navigation.push('PayStatus', {
