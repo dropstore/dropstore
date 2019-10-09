@@ -2,29 +2,17 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Clipboard,
 } from 'react-native';
-import { connect } from 'react-redux';
 import {
-  FadeImage, Price, CountdownCom, Image,
-  TitleWithTagTwo, Tag,
+  FadeImage, Price, CountdownCom, Image, TitleWithTagTwo, Tag,
 } from '../../components';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
-import Modal from './Modal';
-
+import { showToast, MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import Images from '../../res/Images';
-import { request } from '../../http/Axios';
-import { getSimpleData } from '../../redux/reselect/simpleData';
 import { formatDate } from '../../utils/commonUtils';
 
-function mapStateToProps() {
-  return state => ({
-    appOptions: getSimpleData(state, 'appOptions'),
-  });
-}
-
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item, type } = this.props;
@@ -35,86 +23,10 @@ class ListItem extends PureComponent {
 
   onPress = (type) => {
     const {
-      navigation, item, route, appOptions,
+      navigation, item, route, refresh,
     } = this.props;
-    if (['express', 'edit', 'cancel'].includes(type)) {
-      showModalbox({
-        element: (<Modal
-          route={route}
-          navigation={navigation}
-          closeModalbox={closeModalbox}
-          type={type}
-          item={item}
-          successCallback={this.successCallback}
-        />),
-        options: {
-          style: {
-            height: 287,
-            backgroundColor: 'transparent',
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-        },
-      });
-    } else if (['pickUp', 'sendBack'].includes(type)) {
-      navigation.navigate('PickUp', {
-        title: '支付运费',
-        item,
-      });
-    } else if (type === 'pay') {
-      navigation.navigate('pay', {
-        title: '选择支付账户',
-        type: '1',
-        payData: {
-          order_id: item.order_id,
-          price: item.order_price,
-          management: appOptions?.data?.management,
-        },
-        shopInfo: {
-          goods: item.goods,
-          order_id: item.order_id,
-        },
-        noTimer: true,
-        noShareBtn: true,
-      });
-    } else if (type === 'publish') {
-      navigation.navigate('PutOnSale', {
-        title: '发布商品',
-        item,
-      });
-    }
+    MyGoodsItemOnPress(type, route, navigation, item, refresh);
   }
-
-  successCallback = (value, type) => new Promise((resolve) => {
-    const { item, refresh, navigation } = this.props;
-    if (type === 'express') {
-      request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
-        refresh();
-        resolve();
-      });
-    } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
-        const { order_id } = res.data;
-        navigation.navigate('PublishCommission', {
-          title: '支付服务费',
-          payType: 5,
-          goodsInfo: {
-            type: 'deposit',
-            price: value,
-            order_id,
-            goodsImage: item.image,
-            goodsName: item.goods_name,
-          },
-        });
-        resolve();
-      });
-    } else if (type === 'cancel') {
-      request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
-        refresh();
-        resolve();
-      });
-    }
-  })
 
   finish = () => {
     this.setState({ text: '付款已超时' });
@@ -135,12 +47,7 @@ class ListItem extends PureComponent {
     const showNumber = !!item.order_id;
     // 商品状态 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
     let btns = [];
-    if (type === 'onSale') {
-      btns = [
-        { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
-        { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
-      ];
-    } else if (type === 'uncomplete') {
+    if (type === 'uncomplete') {
       btns = [
         { title: '付款', backgroundColor: '#EF4444', key: 'pay' },
       ];
@@ -188,14 +95,10 @@ class ListItem extends PureComponent {
           <View>
             <TitleWithTagTwo text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              {
-                type === 'onSale' ? <Price price={item.price} /> : (
-                  <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                    {item.buy_price && <Price price={item.buy_price} /> }
-                    { item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
-                  </View>
-                )
-              }
+              <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                {item.buy_price && <Price price={item.buy_price} /> }
+                { item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" /> }
+              </View>
               {
                 type === 'uncomplete' && !text ? (
                   <View style={styles.timeWrapper}>
@@ -309,5 +212,3 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
 });
-
-export default connect(mapStateToProps)(ListItem);

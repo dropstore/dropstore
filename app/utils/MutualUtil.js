@@ -1,4 +1,8 @@
+import React from 'react';
 import { DeviceEventEmitter } from 'react-native';
+import Modal from '../page/MyGoods/Modal';
+import store from '../redux/configureStore';
+import { request } from '../http/Axios';
 
 function triggerEvent(type, params, isShow) {
   DeviceEventEmitter.emit('dropstoreGlobal', {
@@ -50,4 +54,81 @@ export const hideToastLoading = (immediately) => {
 // Toast提示
 export const showToast = (text: String) => {
   text && triggerEvent('toast', text, true);
+};
+
+export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
+  if (['express', 'edit', 'cancel'].includes(type)) {
+    showModalbox({
+      element: (<Modal
+        route={route}
+        navigation={navigation}
+        closeModalbox={closeModalbox}
+        type={type}
+        item={item}
+        successCallback={(value, type) => new Promise((resolve) => {
+          if (type === 'express') {
+            request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
+              refresh();
+              resolve();
+            });
+          } else if (type === 'edit') {
+            request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
+              const { order_id } = res.data;
+              navigation.navigate('PublishCommission', {
+                title: '支付服务费',
+                payType: 5,
+                goodsInfo: {
+                  type: 'deposit',
+                  price: value,
+                  order_id,
+                  goodsImage: item.image,
+                  goodsName: item.goods_name,
+                },
+              });
+              resolve();
+            });
+          } else if (type === 'cancel') {
+            request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
+              refresh();
+              resolve();
+            });
+          }
+        })}
+      />),
+      options: {
+        style: {
+          height: 287,
+          backgroundColor: 'transparent',
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+      },
+    });
+  } else if (['pickUp', 'sendBack'].includes(type)) {
+    navigation.navigate('PickUp', {
+      title: '支付运费',
+      item,
+    });
+  } else if (type === 'pay') {
+    navigation.navigate('pay', {
+      title: '选择支付账户',
+      type: '1',
+      payData: {
+        order_id: item.order_id,
+        price: item.order_price,
+        management: store.getState().simpleData?.appOptions?.data?.management,
+      },
+      shopInfo: {
+        goods: item.goods,
+        order_id: item.order_id,
+      },
+      noTimer: true,
+      noShareBtn: true,
+    });
+  } else if (type === 'publish') {
+    navigation.navigate('PutOnSale', {
+      title: '发布商品',
+      item,
+    });
+  }
 };

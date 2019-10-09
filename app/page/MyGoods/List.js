@@ -7,6 +7,7 @@ import { fetchListData } from '../../redux/actions/listData';
 import { getListData } from '../../redux/reselect/listData';
 import ListItem from './ListItem';
 import SelledItem from './SelledItem';
+import OnsaleItem from './OnsaleItem';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -39,6 +40,8 @@ class List extends PureComponent {
     const { type, navigation, route } = this.props;
     if (type === 'selled') {
       return <SelledItem item={item} />;
+    } if (type === 'onSale') {
+      return <OnsaleItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
     }
     return <ListItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }
