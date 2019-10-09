@@ -8,7 +8,6 @@ import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bottomStyle } from '../../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../../common/ShopConstant';
-import { doBuy } from '../../../../../redux/actions/shopDetailInfo';
 import { getSimpleData } from '../../../../../redux/reselect/simpleData';
 import SelectShoeSizeByUnJoinsCom from '../../other/SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../../utils/commonUtils';
@@ -29,9 +28,9 @@ class BuyBottomCom extends PureComponent {
     if (is_join === ShopConstant.NOT_JOIN) {
       this.showOver();
     } else if (is_join === ShopConstant.LEADING) {
-      doBuy(true, activityId, navigation, shopInfo);
+      this.doBuy(true, activityId, navigation, shopInfo);
     } else if (is_join === ShopConstant.MEMBER) {
-      doBuy(false, activityId, navigation, shopInfo);
+      this.doBuy(false, activityId, navigation, shopInfo);
     }
   }
 
