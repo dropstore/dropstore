@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
 import List from './List';
@@ -29,7 +29,7 @@ class MyGoods extends PureComponent {
   }
 
   onScroll = (e) => {
-    // console.log(e.nativeEvent.contentOffset.y);
+    this.header.scroll(e.nativeEvent.contentOffset.y);
   }
 
   renderScene = ({ route }) => {
@@ -44,7 +44,7 @@ class MyGoods extends PureComponent {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
-        {/* <Header /> */}
+        <Header item={this.goods} ref={(v) => { this.header = v; }} />
         <TabBar
           style={styles.tabBar}
           routes={routes}

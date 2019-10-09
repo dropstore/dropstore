@@ -16,7 +16,7 @@ export default class ListItem extends PureComponent {
     const { item, notShowCount, showPrice } = this.props;
     return (
       <ScaleView onPress={this.onPress} style={styles.container}>
-        <Text numberOfLines={3} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
+        <Text numberOfLines={2} style={{ fontSize: 12, textAlign: 'justify' }}>{item.goods_name}</Text>
         <FadeImage source={{ uri: item.image }} style={styles.shoe} />
         {
           showPrice && (
