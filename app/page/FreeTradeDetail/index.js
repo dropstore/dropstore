@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import TabBar from '../../components/TabBar';
 import List from './List';
 import Colors from '../../res/Colors';
 import ListItemDetail from './ListItemDetail';
@@ -29,7 +28,7 @@ class MyGoods extends PureComponent {
   }
 
   onScroll = (e) => {
-    this.header.scroll(e.nativeEvent.contentOffset.y);
+    // this.header.scroll(e.nativeEvent.contentOffset.y);
   }
 
   renderScene = ({ route }) => {
@@ -44,13 +43,12 @@ class MyGoods extends PureComponent {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
-        <Header item={this.goods} ref={(v) => { this.header = v; }} />
-        <TabBar
-          style={styles.tabBar}
+        <Header
+          onIndexChange={this.onIndexChange}
           routes={routes}
           index={index}
-          itemMargin={20}
-          onIndexChange={this.onIndexChange}
+          item={this.goods}
+          ref={(v) => { this.header = v; }}
         />
         <TabView
           style={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
