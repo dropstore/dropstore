@@ -75,7 +75,7 @@ export default class App extends Component {
         <MenuProvider backHandler>
           <View style={style} onLayout={this.onLayout}>
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-            <Router />
+            <Router uriPrefix="dropstore://" />
             <Global ref={(v) => { this.globalCom = v; }} />
             <Keyboard ref={(v) => { this.keyboardCom = v; }} />
           </View>

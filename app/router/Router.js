@@ -114,7 +114,7 @@ const routesWithHeader = {
   FreeTradeDetail,
   FreeTradePublish,
   ChooseSize,
-  FreeTradeBuy,
+  FreeTradeBuy: { path: 'freetradebuy/:freeid', screen: FreeTradeBuy },
   PublishCommission,
   PutOnSale,
 };
@@ -127,7 +127,11 @@ const routesWithoutHeader = {
 };
 
 for (const i in routesWithoutHeader) {
-  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+  if (routesWithoutHeader[i].constructor === Object) {
+    routesWithoutHeader[i] = { navigationOptions: { header: null }, ...routesWithoutHeader[i] };
+  } else {
+    routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+  }
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
   initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
@@ -135,7 +139,10 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
 
 const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
-  Main: MainStack,
+  Main: {
+    screen: MainStack,
+    path: 'main',
+  },
 }, {
   initialRouteName: 'Auth',
   ...transition,

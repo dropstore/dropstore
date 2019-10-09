@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
 import List from './List';
@@ -39,6 +39,9 @@ class MyGoods extends PureComponent {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
+        <View style={styles.top}>
+          <Text>123</Text>
+        </View>
         <TabBar
           style={styles.tabBar}
           routes={routes}
@@ -72,6 +75,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 6,
     paddingHorizontal: 9,
+  },
+  top: {
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    borderRadius: 2,
   },
 });
 
