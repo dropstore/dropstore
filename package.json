@@ -35,8 +35,7 @@
     "redux-actions": "^2.6.5",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0",
-    "rn-collapsing-tab-bar": "^0.1.7"
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
