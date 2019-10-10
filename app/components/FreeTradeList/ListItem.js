@@ -22,7 +22,17 @@ export default class ListItem extends PureComponent {
           showPrice && (
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               {
-              item.price > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
+              item.price > 0 ? (
+                <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+                  <Price offsetBottom={2} price={item.price} />
+                  <Text style={{
+                    fontSize: 9, color: '#C20000', marginLeft: 3, fontWeight: '500',
+                  }}
+                  >
+                    {'起'}
+                  </Text>
+                </View>
+              ) : <Text style={{ fontSize: 11, color: '#666' }}>暂无报价</Text>
             }
               {
               !notShowCount && <Text style={{ fontSize: 11 }}>{`${item.buy_num}人已购买`}</Text>
