@@ -102,6 +102,7 @@ class List extends PureComponent {
           keyExtractor={(item, index) => `${item.id}-${index}`}
           renderItem={this.renderItem}
           scrollEnabled={false}
+          showsVerticalScrollIndicator={false}
           removeClippedSubviews={false}
           ListFooterComponent={this.renderFooter}
         />

@@ -70,6 +70,7 @@ export default class Collapse extends React.Component {
         tabContentHeights={[tabHeight0, tabHeight1, tabHeight2]}
         scrollEnabled
         page={index}
+        contentProps={{ bounces: false }}
         style={{ backgroundColor: Colors.MAIN_BACK }}
         refreshControl={(
           <RefreshControl

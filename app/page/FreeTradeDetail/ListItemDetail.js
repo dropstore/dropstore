@@ -57,6 +57,7 @@ class ListItemDetail extends PureComponent {
           removeClippedSubviews={false}
           initialNumToRender={1}
           data={data.data}
+          showsVerticalScrollIndicator={false}
           scrollEnabled={false}
           renderItem={this.renderItem}
         />
