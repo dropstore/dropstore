@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import TopCom from '../components/TopCom';
-import Images from '../../../res/Images';
 import { getScreenWidth } from '../../../common/Constant';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';

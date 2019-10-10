@@ -138,7 +138,7 @@ export default {
   activityInfo: {
     url: '/activity/activity_info',
     initParams: {
-      image_size_times: 0.5,
+      image_size_times: 1,
     },
   },
   // 获取活动鞋码信息
