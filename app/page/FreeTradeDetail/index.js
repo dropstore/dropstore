@@ -79,7 +79,8 @@ export default class Collapse extends React.Component {
             onRefresh={this.onRefresh}
             refreshing={refreshingIndex > -1}
           />
-          )}
+        )}
+        scrollToTopAnimation={false}
         prerenderingSiblingsNumber={Infinity}
         onChangeTab={this.onChangeTab}
         showsVerticalScrollIndicator={false}
