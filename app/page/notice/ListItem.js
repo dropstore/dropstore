@@ -17,13 +17,13 @@ export default class ListItem extends PureComponent {
     const { item } = this.props;
     this.state = {
       text: ['3'].includes(item.type) ? '佣金已入账'
-        : item.pay_status == '1' ? '已完成'
-          : item.end_time <= Date.now() / 1000 ? '超时' : null,
+        : item.end_time <= Date.now() / 1000 ? '活动已结束'
+          : item.pay_status == '1' ? '已购买' : null,
     };
   }
 
   finish = () => {
-    this.setState({ text: '超时' });
+    this.setState({ text: '活动已结束' });
   }
 
   toPay = () => {
