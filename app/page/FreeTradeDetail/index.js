@@ -84,6 +84,7 @@ export default class Collapse extends React.Component {
         onChangeTab={this.onChangeTab}
         showsVerticalScrollIndicator={false}
         loadMore={this.loadMore}
+        tabBarHeight={50}
         renderTabBar={() => (
           <TabBar
             style={styles.tabBar}
