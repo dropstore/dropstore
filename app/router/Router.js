@@ -50,7 +50,7 @@ import PutOnSale from '../page/FreeTradePublish/PutOnSale';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
-  headerTintColor: Colors.WHITE_COLOR,
+  headerTintColor: '#010101',
   headerTitleStyle: styles.headerTitleStyle,
   headerBackTitle: null,
   headerTitleContainerStyle: { left: 56, right: 56 },
@@ -156,19 +156,17 @@ const styles = StyleSheet.create({
     paddingRight: 40,
   },
   headerStyle: {
+    backgroundColor: '#fff',
+    borderBottomWidth: 0,
     ...Platform.select({
       android: {
         height: STATUSBAR_AND_NAV_HEIGHT,
-        borderBottomWidth: 0,
         paddingTop: STATUSBAR_HEIGHT,
-        backgroundColor: Colors.OTHER_BACK,
         elevation: 0,
       },
       ios: {
         marginTop: IS_IPHONE_X ? -4 : 0,
-        backgroundColor: Colors.OTHER_BACK,
         height: NAV_HEIGHT,
-        borderBottomWidth: 0,
       },
     }),
   },

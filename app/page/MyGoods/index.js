@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, StatusBar, TouchableOpacity,
+  View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
@@ -67,7 +67,6 @@ class MyGoods extends PureComponent {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View style={styles.header}>
           <TabBar
             style={{ ...styles.tabBar, width: this.routeType === 'Goods' ? 140 : 180 }}

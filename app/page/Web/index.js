@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet, Platform, View, StatusBar,
+  StyleSheet, Platform, View,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 
@@ -46,7 +46,6 @@ export default class Web extends Component {
     const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <WebView
           style={styles.webView}
           source={{ uri: navigation.getParam('url') }}
