@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { connect } from 'react-redux';
 import {
   Image, CountdownCom, ImageBackground, Price,
 } from '../../components';
@@ -11,15 +10,8 @@ import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../utils/commonUtils';
-import { getSimpleData } from '../../redux/reselect/simpleData';
 
-function mapStateToProps() {
-  return state => ({
-    appOptions: getSimpleData(state, 'appOptions'),
-  });
-}
-
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
@@ -35,7 +27,7 @@ class ListItem extends PureComponent {
   }
 
   toPay = () => {
-    const { item, navigation, appOptions } = this.props;
+    const { item, navigation } = this.props;
     if (item.type === '7') {
       navigation.navigate('pay', {
         title: '选择支付账户',
@@ -43,7 +35,6 @@ class ListItem extends PureComponent {
         payData: {
           order_id: item.order_id,
           price: item.order_price,
-          management: appOptions?.data?.management,
         },
         shopInfo: {
           goods: {
@@ -178,5 +169,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default connect(mapStateToProps)(ListItem);
