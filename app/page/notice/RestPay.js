@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   FlatList, View, StyleSheet, TouchableOpacity, Text,
 } from 'react-native';
-import { connect } from 'react-redux';
 import RestPayItem from './RestPayItem';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
