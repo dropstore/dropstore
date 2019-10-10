@@ -52,7 +52,9 @@ export default class ListItem extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <FadeImage source={{ uri: image }} style={styles.shoe} />
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <FadeImage source={{ uri: image }} style={styles.shoe} />
+          </View>
           {
             item.goods_status === '2'
               ? <Image source={Images.jiandingzhong} style={styles.tag} />
