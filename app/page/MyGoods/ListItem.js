@@ -26,6 +26,7 @@ export default class ListItem extends PureComponent {
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     let btns = [];
+    // 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
     if (item.goods_status === '1') {
       btns = [];
     } if (item.goods_status === '5') {
@@ -42,7 +43,7 @@ export default class ListItem extends PureComponent {
       btns = [
         { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
       ];
-    } else if (['2', '3'].includes(item.goods_status)) {
+    } else if (['3'].includes(item.goods_status)) {
       btns = [
         { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
       ];
