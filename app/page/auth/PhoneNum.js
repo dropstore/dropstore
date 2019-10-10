@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
-import { showToast } from '../../utils/MutualUtil';
 import PhoneNumCom from './PhoneNumCom';
+import Colors from '../../res/Colors';
 import { mobileBind } from '../../redux/actions/userInfo';
-import { Image, ImageBackground, KeyboardDismiss } from '../../components';
+import { Image, KeyboardDismiss } from '../../components';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -17,6 +17,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 class PhoneNum extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.mobile = '';
+    this.state = {
+      disabled: true,
+    };
+  }
+
   goBack = () => {
     const { navigation } = this.props;
     navigation.pop();
@@ -24,38 +32,34 @@ class PhoneNum extends PureComponent {
 
   goNext = () => {
     const { navigation, mobileBind } = this.props;
-    if (this.disabled) {
-      showToast('请输入验证码');
-    } else {
-      mobileBind(this.mobile, this.code).then(() => {
-        navigation.navigate('NameAge');
-      });
-    }
+    mobileBind(this.mobile, this.code).then(() => {
+      navigation.navigate('NameAge');
+    });
   }
 
   finished = (mobile, code) => {
     this.mobile = mobile;
     this.code = code;
-    this.disabled = false;
+    this.setState({ disabled: false });
   }
 
   unfinished = () => {
-    this.disabled = true;
+    this.setState({ disabled: true });
   }
 
   render() {
+    const { disabled } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
         <Image style={styles.phoneNum} source={Images.phoneNum} />
         <PhoneNumCom bindPhone finished={this.finished} unfinished={this.unfinished} />
-        <View style={styles.bottom}>
-          <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
-            <Text style={styles.nextText}>上一步</Text>
-          </ImageBackground>
-          <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
-            <Text style={styles.nextText}>下一步</Text>
-          </ImageBackground>
-        </View>
+        <TouchableOpacity
+          disabled={disabled}
+          style={[styles.frameBlack, { backgroundColor: disabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
+          onPress={this.goNext}
+        >
+          <Text style={styles.nextText}>绑定手机</Text>
+        </TouchableOpacity>
       </KeyboardDismiss>
     );
   }
@@ -65,17 +69,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: hPx2P(125),
+    paddingTop: hPx2P(115),
+    backgroundColor: Colors.MAIN_BACK,
   },
   phoneNum: {
     width: wPx2P(307),
     height: wPx2P(92),
   },
   frameBlack: {
-    width: wPx2P(177),
+    flexDirection: 'row',
+    bottom: hPx2P(34 + PADDING_TAB),
+    position: 'absolute',
     height: wPx2P(48),
+    width: wPx2P(244),
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   bottom: {
     flexDirection: 'row',

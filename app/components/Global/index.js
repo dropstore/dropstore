@@ -1,6 +1,10 @@
 import React, { PureComponent } from 'react';
-import { DeviceEventEmitter } from 'react-native';
+import {
+  DeviceEventEmitter, View, StyleSheet,
+} from 'react-native';
+import { getScreenWidth, getScreenHeight } from '../../common/Constant';
 import ShareCom from './ShareCom';
+import Modalbox from './Modalbox';
 
 const callback = (dropstoreEventType, type, data) => {
   DeviceEventEmitter.emit('dropstoreCallback', {
@@ -22,45 +26,62 @@ export default class Global extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      type: null,
-      share: {},
+      share: { show: false, data: {} },
+      modalbox: { show: false, data: {} },
     };
   }
 
-  componentDidMount() {
-    this.listener = DeviceEventEmitter.addListener('dropstoreGlobal', (e) => {
-      if (e.dropstoreEventType === 'toast') {
-        console.log(e.params);
-      } else if (e.dropstoreEventType === 'share') {
-        this.setState({
-          type: 'share',
-          share: {
-            ...e.params,
-            show: true,
-          },
-        });
-      }
-    });
+  show = (type, data) => {
+    this.setState({ [type]: { show: true, data } });
   }
 
-  componentWillUnmount() {
-    this.listener.remove();
+  hide = (type, immediately) => {
+    if (immediately) {
+      this.setState({ [type]: { show: false } });
+    } else {
+      this[type] && this[type].close();
+    }
   }
 
-  close = () => {
-    this.setState({ type: null });
+  onClosed = (type) => {
+    this.setState({ [type]: { show: false } });
   }
 
   render() {
-    const { share, type } = this.state;
-    if (!type) { return null; }
-    return ({
-      share: <ShareCom
-        closeShare={this.close}
-        share={share}
-        successCallback={data => successCallback('share', data)}
-        failCallback={data => failCallback('share', data)}
-      />,
-    }[type]);
+    const { share, modalbox } = this.state;
+    return (
+      <View style={[styles.wrapper, { height: modalbox.show || share.show ? getScreenHeight() : 0, width: getScreenWidth() }]}>
+        {
+          share.show && (
+            <ShareCom
+              onClosed={() => this.onClosed('share')}
+              data={share.data}
+              ref={(v) => { this.share = v; }}
+              successCallback={data => successCallback('share', data)}
+              failCallback={data => failCallback('share', data)}
+            />
+          )
+        }
+        {
+          modalbox.show && (
+            <Modalbox
+              data={modalbox.data}
+              ref={(v) => { this.modalbox = v; }}
+              onClosed={() => this.onClosed('modalbox')}
+            />
+          )
+        }
+      </View>
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    bottom: 0,
+    alignSelf: 'center',
+    zIndex: 100,
+  },
+});

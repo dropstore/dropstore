@@ -12,10 +12,9 @@ import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { SCREEN_WIDTH, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { showToast } from '../../utils/MutualUtil';
-import { closeModalbox, showModalbox } from '../../redux/actions/component';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { upload } from '../../http/Axios';
 
 function mapStateToProps() {
@@ -26,7 +25,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, closeModalbox, showModalbox,
+    updateUser,
   }, dispatch);
 }
 
@@ -67,7 +66,11 @@ class Setting extends PureComponent {
   }
 
   onPress = (item) => {
-    const { showModalbox, closeModalbox } = this.props;
+    const { userInfo } = this.props;
+    this.name = userInfo.user_name;
+    this.sex = userInfo.sex;
+    this.age = userInfo.age;
+    this.size = userInfo.size;
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name !== 'sex') {
@@ -89,6 +92,10 @@ class Setting extends PureComponent {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
+            if (this.name.length < 1) {
+              showToast('请输入昵称');
+              return;
+            }
             this.changeValue(item.name, this[item.name]);
             closeModalbox();
           }}
@@ -102,6 +109,7 @@ class Setting extends PureComponent {
             width: 265,
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: 'transparent',
           },
         },
       });
@@ -111,8 +119,8 @@ class Setting extends PureComponent {
   openPicker = (i) => {
     if ([0, 1].includes(i)) {
       ImagePicker[['openPicker', 'openCamera'][i]]({
-        width: SCREEN_WIDTH,
-        height: SCREEN_WIDTH,
+        width: getScreenWidth(),
+        height: getScreenWidth(),
         cropping: true,
         freeStyleCropEnabled: true,
         useFrontCamera: true,
@@ -177,10 +185,7 @@ class Setting extends PureComponent {
                               source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy}
                               style={styles.sexBtnWrapper}
                               onPress={this.changeSex}
-                            >
-                              {/* <TouchableOpacity onPress={() => this.changeSex('男')} style={styles.sexBtn} />
-                              <TouchableOpacity onPress={() => this.changeSex('女')} style={styles.sexBtn} /> */}
-                            </ImageBackground>
+                            />
                           )
                           : <Text style={styles.text}>{v.value}</Text>
                     }
@@ -275,7 +280,7 @@ const styles = StyleSheet.create({
   itemWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 12,
+    paddingVertical: wPx2P(19),
     backgroundColor: '#fff',
     paddingHorizontal: 18,
     alignItems: 'center',

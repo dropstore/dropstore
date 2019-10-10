@@ -7,8 +7,13 @@ import { persistStore, persistReducer } from 'redux-persist';
 import reducers from './reducers';
 
 function configureStore() {
-  // const middlewares = applyMiddleware(thunkMiddleware);
-  const middlewares = applyMiddleware(thunkMiddleware, loggerMiddleware);
+  let middlewares;
+  if (__DEV__) {
+    middlewares = applyMiddleware(thunkMiddleware);
+    // middlewares = applyMiddleware(thunkMiddleware, loggerMiddleware);
+  } else {
+    middlewares = applyMiddleware(thunkMiddleware);
+  }
   const store = createStore(persistReducer({
     key: 'root',
     storage: AsyncStorage,

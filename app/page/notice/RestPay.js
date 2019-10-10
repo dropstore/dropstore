@@ -2,40 +2,32 @@ import React, { Component } from 'react';
 import {
   FlatList, View, StyleSheet, TouchableOpacity, Text,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import RestPayItem from './RestPayItem';
-import { fetchNotice } from '../../redux/actions/notice';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { PADDING_TAB } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { ModalNormal, CountdownCom } from '../../components';
-import { showModalbox, closeModalbox } from '../../redux/actions/component';
 import { request } from '../../http/Axios';
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    fetchNotice, showModalbox, closeModalbox,
-  }, dispatch);
-}
 
 class RestPay extends Component {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
+    const { end_time } = navigation.getParam('order');
     this.state = {
       list: [],
-      end_time: 0,
+      end_time,
     };
   }
 
   componentDidMount() {
     const { navigation } = this.props;
     const { id } = navigation.getParam('order');
-    request('/notice/notice_info', { params: { id } }).then((res) => {
-      this.setState({ list: res.data.info.map(v => ({ ...v, choosed: true })), end_time: res.data.end_time });
+    request('/notice/notice_info', { params: { id, image_size_times: 0.35 } }).then((res) => {
+      this.setState({ list: res.data.info.map(v => ({ ...v, choosed: true })) });
     });
   }
 
@@ -52,9 +44,8 @@ class RestPay extends Component {
   }
 
   onPress = (payItems, totalPrice) => {
-    const { showModalbox, closeModalbox } = this.props;
     const { list } = this.state;
-    if (payItems.length !== list.length) {
+    if (payItems.length !== list.filter(v => v.pay_status != 1).length) {
       showModalbox({
         element: (<ModalNormal
           sure={() => {
@@ -89,25 +80,33 @@ class RestPay extends Component {
 
   toPay = (payItems, totalPrice) => {
     const { navigation } = this.props;
-    const { order_id } = navigation.getParam('order');
+    const order_id = payItems.map(v => v.order_id).join(',');
     navigation.navigate('pay', {
       title: '选择支付账户',
-      type: 'pay_order',
+      type: '1',
       payData: {
         order_id,
         price: totalPrice,
       },
+      shopInfo: {
+        goods: {
+          goods_name: payItems[0].activity_name,
+          image: payItems[0].image,
+        },
+        order_id: payItems[0].order_id,
+      },
+      buySuccess: true,
+      noTimer: true,
     });
   }
 
   listFooterComponent = () => {
     const { navigation } = this.props;
-    const { order_id, add_time } = navigation.getParam('order');
+    const { add_time } = navigation.getParam('order');
     return (
       <View>
         <Text style={styles.hint}>付款后的商品寄存在我的库房，如需发货，请到“我的”&gt;&gt;“我的库房”中选择发货地址</Text>
         <View style={styles.orderWrapper}>
-          <Text style={styles.order}>{`订单编号：${order_id}`}</Text>
           <Text style={styles.order}>{`创建日期：${formatDate(add_time)}`}</Text>
         </View>
       </View>
@@ -124,15 +123,15 @@ class RestPay extends Component {
 
   render() {
     const { list, end_time } = this.state;
-    const payItems = list.filter(v => v.choosed);
-    const totalPrice = payItems.reduce((sum, v) => sum + v.order_price / 100, 0);
+    const payItems = list.filter(v => v.choosed && v.pay_status != 1);
+    const totalPrice = payItems.reduce((sum, v) => sum + v.order_price * 1, 0);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
         <View style={styles.timeWrapper}>
           <Text style={styles.time}>待付款</Text>
           <CountdownCom
             finish={this.finish}
-            style={{ ...styles.time, width: 50 }}
+            style={styles.time}
             time={end_time}
           />
         </View>
@@ -146,7 +145,7 @@ class RestPay extends Component {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{totalPrice}</Text>
+            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{`${totalPrice / 100}`}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity
@@ -177,10 +176,13 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     alignSelf: 'flex-end',
     marginRight: 9,
+    alignItems: 'center',
   },
   hintModal: {
     fontFamily: YaHei,
     textAlign: 'center',
+    flex: 1,
+    marginTop: 20,
   },
   orderWrapper: {
     marginHorizontal: 9,
@@ -235,4 +237,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(RestPay);
+export default RestPay;

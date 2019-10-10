@@ -6,13 +6,11 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../../components/Image';
+import { FadeImage } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
-import { SCREEN_WIDTH, MARGIN_HORIZONTAL } from '../../../common/Constant';
-import { ScaleView } from '../../../components';
+import { getScreenWidth, MARGIN_HORIZONTAL } from '../../../common/Constant';
 import { getBanner } from '../../../redux/reselect/banner';
 import { fetchBanner } from '../../../redux/actions/banner';
 
@@ -34,21 +32,7 @@ class TopCom extends PureComponent {
     fetchBanner(bannerId);
   }
 
-  toShopDetailPage = (item) => {
-    const { navigation } = this.props;
-    navigation.navigate('shopDetail', {
-      title: '商品详情',
-      rate: '+25',
-      shopId: item.id,
-      type: item.type,
-    });
-  };
-
-  renderItem = ({ item }) => (
-    <View style={_styles.topImage} onPress={() => this.toShopDetailPage(item)}>
-      <Image style={_styles.topImage} source={{ uri: item.image }} />
-    </View>
-  )
+  renderItem = ({ item }) => <FadeImage style={_styles.topImage} source={{ uri: item.image }} />
 
   render() {
     const { banner } = this.props;
@@ -62,8 +46,8 @@ class TopCom extends PureComponent {
         data={banner}
         slideStyle={{ alignItems: 'center', justifyContent: 'center' }}
         renderItem={this.renderItem}
-        sliderWidth={SCREEN_WIDTH}
-        itemWidth={SCREEN_WIDTH}
+        sliderWidth={getScreenWidth()}
+        itemWidth={getScreenWidth()}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         enableSnap
@@ -85,4 +69,4 @@ const _styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(TopCom));
+export default connect(mapStateToProps, mapDispatchToProps)(TopCom);

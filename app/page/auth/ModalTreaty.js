@@ -4,7 +4,7 @@ import {
   View, StyleSheet, TouchableOpacity, Text, ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth } from '../../common/Constant';
 
 class ModalTreaty extends PureComponent {
   constructor(props) {
@@ -40,7 +40,7 @@ class ModalTreaty extends PureComponent {
     ];
     return (
       <View style={styles.container}>
-        <View style={[styles.wrapper, { height: disAgree ? 164.5 : 328, marginTop: disAgree ? 0 : (SCREEN_WIDTH - 328) * 0.2 }]}>
+        <View style={[styles.wrapper, { height: disAgree ? 164.5 : 328, marginTop: disAgree ? 0 : (getScreenWidth() - 328) * 0.2 }]}>
           <Text style={styles.title}>温馨提示</Text>
           <ScrollView showsVerticalScrollIndicator={false} style={styles.contentWrapper}>
             {

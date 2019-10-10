@@ -1,83 +1,28 @@
-/**
- * @file 抽签成员详情组件
- * @date 2019/8/22 17:29
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet, TouchableOpacity, View, Text, DeviceEventEmitter,
-} from 'react-native';
-import { SCREEN_WIDTH } from '../../../../../../common/Constant';
-import ImageBackground from '../../../../../../components/ImageBackground';
-import Image from '../../../../../../components/Image';
+import { Text, View, StyleSheet } from 'react-native';
+import { getScreenWidth } from '../../../../../../common/Constant';
 import Colors from '../../../../../../res/Colors';
-import Images from '../../../../../../res/Images';
-import { YaHei, Mario } from '../../../../../../res/FontFamily';
-import { commonStyle } from '../../../../../../res/style/CommonStyle';
+import { YaHei } from '../../../../../../res/FontFamily';
+import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
 
 export default class DrawMainCom extends PureComponent {
-  _renderLeading = (item, index, userActivity, joinUserLength) => (
-    <View key={`leading-${index}`} style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, { backgroundColor: Colors.OTHER_BACK }]}>
-        <Text style={[_styles.index, { color: Colors.WHITE_COLOR }]}>{index + 1}</Text>
-        <ImageBackground
-          style={_styles.userImageBg}
-          source={Images.tx}
-          children={
-            <Image style={_styles.userImage} source={item.avatar} />
-          }
-        />
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, { color: Colors.WHITE_COLOR }]}>已取号</Text>
-            {/* <Text style={[_styles.code, {color: Colors.WHITE_COLOR}]}>{item.code}</Text> */}
-            <Text style={[_styles.code, { color: Colors.WHITE_COLOR }]}>001122212</Text>
-          </View>
-          <View style={[commonStyle.row, { marginTop: 7 }]}>
-            <Image style={_styles.jt} source={Images.shape_1_ji3} />
-            <Text style={[_styles.userName, { color: Colors.WHITE_COLOR }]}>{item.user_name}</Text>
-            <Image style={_styles.sexImage} source={Images.xt_xn} />
-          </View>
-        </View>
-        <View style={{ justifyContent: 'center', alignItems: 'flex-start', marginRight: 17 }}>
-          <Text style={[_styles.zg, { marginBottom: 5 }]}>
-我的助攻团队：
-            {joinUserLength}
-人
-          </Text>
-          <Text style={[_styles.zg, { marginTop: 5 }]}>
-助攻佣金：
-            {userActivity.pay_price}
-￥
-          </Text>
-        </View>
+  renderItem = (item, index, userActivity, joinUserLength, isLeader) => (
+    <View key={`leading-${index}`} style={styles.listContainer}>
+      <AvatarWithShadow source={{ uri: item.avatar }} size={55} />
+      <View style={{ flex: 1, marginLeft: 12, paddingTop: 4 }}>
+        <NameAndGender name={item.user_name} sex={item.sex} />
+        <Text style={{ color: '#111', fontSize: 11, marginTop: 2 }}>已取号</Text>
       </View>
-    </View>
-  );
-
-  _renderMember = (item, index) => (
-    <View style={_styles.listContainer}>
-      <View style={[_styles.itemContainer, { backgroundColor: Colors.NORMAL_TEXT_F6 }]}>
-        <Text style={[_styles.index, { color: Colors.NORMAL_TEXT_1E }]}>{index + 1}</Text>
-        <ImageBackground
-          style={_styles.userImageBg}
-          source={Images.tx}
-          children={
-            <Image style={_styles.userImage} source={item.avatar} />
-          }
-        />
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <View style={commonStyle.row}>
-            <Text style={[_styles.qhStatus, { color: Colors.NORMAL_TEXT_1E }]}>已取号</Text>
-            <Text style={[_styles.code, { color: Colors.NORMAL_TEXT_1E }]}>{item.code}</Text>
+      {
+        isLeader && (
+          <View style={{ flex: 1, alignItems: 'flex-end', paddingTop: 5 }}>
+            <View>
+              <Text style={{ color: '#696969', fontSize: 11 }}>{`我的团队：${joinUserLength}人`}</Text>
+              <Text style={{ color: '#696969', fontSize: 11 }}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
+            </View>
           </View>
-        </View>
-        <View style={[commonStyle.row, { marginRight: 17 }]}>
-          <Image style={[_styles.jt]} source={Images.shape_1_ji3} />
-          <Text style={[_styles.userName, { color: Colors.NORMAL_TEXT_1E }]}>{item.user_name}</Text>
-          <Image style={_styles.sexImage} source={Images.xt_xn} />
-        </View>
-      </View>
+        )
+      }
     </View>
   );
 
@@ -87,70 +32,59 @@ export default class DrawMainCom extends PureComponent {
     const userActivity = shopInfo.user_activity;
     const number = userActivity.number;
     return (
-      <View style={_styles.container}>
-        <View style={_styles.acContainer}>
-          <Text style={_styles.acNormalMes}>
-预期购买
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number}
-            </Text>
-            {' '}
-双
+      <View style={styles.container}>
+        <View style={styles.fengexian} />
+        <View style={styles.acContainer}>
+          <Text style={styles.acNormalMes}>
+            {'预期购买'}
+            <Text style={styles.acImpMes}>{number}</Text>
+            {'双'}
           </Text>
-          <Text style={_styles.acNormalMes}>
-团队上限
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number === 1 ? number : number + 1}
-            </Text>
-            {' '}
-人
+          <Text style={styles.acNormalMes}>
+            {'团队上限'}
+            <Text style={styles.acImpMes}>{number}</Text>
+            {'人'}
           </Text>
-          <Text style={_styles.acNormalMes}>
-参与人数
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {joinUser.length}
-            </Text>
-            {' '}
-人
+          <Text style={styles.acNormalMes}>
+            {'参与人数'}
+            <Text style={styles.acImpMes}>{joinUser.length}</Text>
+            {'人'}
           </Text>
-          <Text style={_styles.acNormalMes}>
-还差
-            <Text style={_styles.acImpMes}>
-              {' '}
-              {number === 1 ? number - 1 : (number + 1 - joinUser.length)}
-            </Text>
-            {' '}
-人满额
+          <Text style={styles.acNormalMes}>
+            {'还差'}
+            <Text style={styles.acImpMes}>{number - joinUser.length}</Text>
+            {'人满额'}
           </Text>
         </View>
-        {
-          joinUser && joinUser.map((item, index) => (
-            index === 0 ? this._renderLeading(item, index, userActivity, joinUser.length) : this._renderMember(item, index)
-          ))
-        }
+        { joinUser && joinUser.map((item, index) => this.renderItem(item, index, userActivity, joinUser.length, index === 0)) }
       </View>
     );
   }
 }
-const _styles = {
+const styles = StyleSheet.create({
   container: {
-    marginTop: 13,
-    marginBottom: 13,
+    backgroundColor: Colors.MAIN_BACK,
+    minHeight: '200%',
+  },
+  fengexian: {
+    backgroundColor: '#ddd',
+    width: getScreenWidth() - 34,
+    height: StyleSheet.hairlineWidth,
+    marginHorizontal: 17,
   },
   acContainer: {
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.NORMAL_TEXT_F6,
     paddingVertical: 5,
-    paddingRight: 80,
+    paddingRight: 17,
+    height: 30,
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
   },
   acNormalMes: {
     fontSize: 11,
-    color: Colors.NORMAL_TEXT_5E,
+    color: '#333',
     fontFamily: YaHei,
     fontWeight: '400',
     marginLeft: 17,
@@ -164,53 +98,12 @@ const _styles = {
   listContainer: {
     marginHorizontal: 10,
     marginTop: 7,
-    width: SCREEN_WIDTH - 20,
-  },
-  itemContainer: {
+    height: 68,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
     flexDirection: 'row',
-    alignItems: 'center',
-    height: 67,
+    paddingHorizontal: 7,
+    paddingVertical: 6,
   },
-  index: {
-    fontSize: 12,
-    fontFamily: Mario,
-    marginLeft: 8,
-  },
-  userImageBg: {
-    width: 54,
-    height: 53,
-    marginLeft: 7,
-  },
-  userImage: {
-    width: 54,
-    height: 53,
-  },
-  qhStatus: {
-    fontSize: 10,
-    fontFamily: YaHei,
-    fontWeight: '400',
-  },
-  code: {
-    fontSize: 11,
-    marginLeft: 12,
-  },
-  zg: {
-    fontSize: 12,
-    fontFamily: YaHei,
-    fontWeight: '400',
-    color: Colors.WHITE_COLOR,
-  },
-  jt: {
-    width: 8,
-    height: 9,
-  },
-  userName: {
-    fontSize: 11,
-    marginLeft: 11,
-  },
-  sexImage: {
-    width: 12,
-    height: 11,
-    marginLeft: 5,
-  },
-};
+});

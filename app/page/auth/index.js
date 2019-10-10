@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Text, View, StyleSheet, ActivityIndicator,
+  Text, View, StyleSheet, ActivityIndicator, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,11 +9,12 @@ import SplashScreen from 'react-native-splash-screen';
 import { Image, ImageBackground, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
+import { PADDING_TAB, getScreenWidth, getScreenHeight } from '../../common/Constant';
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -42,25 +43,20 @@ class AuthLoading extends PureComponent {
 
   componentDidMount() {
     const { navigation, getUser } = this.props;
-    if (require('../../../app.json').needLogin) {
-      AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
-        if (res[0][1]) {
-          getUser(res[0][1]);
-          navigation.navigate('Main');
-          SplashScreen.hide();
-        } else {
-          SplashScreen.hide();
-        }
-        if (!res[1][1]) {
-          this.setState({ showTreaty: true });
-        }
-      }).catch(() => {
+    AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
+      if (res[0][1]) {
+        getUser(res[0][1]);
+        navigation.navigate('Main');
         SplashScreen.hide();
-      });
-    } else {
-      navigation.navigate('Main');
+      } else {
+        SplashScreen.hide();
+      }
+      if (!res[1][1]) {
+        this.setState({ showTreaty: true });
+      }
+    }).catch(() => {
       SplashScreen.hide();
-    }
+    });
   }
 
   toLogin = () => {
@@ -110,25 +106,23 @@ class AuthLoading extends PureComponent {
         <View style={{ alignItems: 'center' }}>
           <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
           <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
-          <ImageBackground
+          <TouchableOpacity
             onPress={this.toLogin}
-            source={disabled ? Images.frameInLogin : Images.frameLogin}
-            style={styles.frameLogin}
+            style={[styles.frameLogin, { backgroundColor: disabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
             disabled={disabled}
           >
             <Text style={styles.login}>登陆</Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.thirdWrapper}>
           <ImageBackground
             onPress={() => this.auth(2)}
-            source={Images.wxLogin}
+            source={Images.wx}
             style={styles.wechat}
           />
         </View>
         { showLoading && <ActivityIndicator size="large" style={styles.centering} /> }
-
         { showTreaty && <ModalTreaty closeTreaty={this.closeTreaty} navigation={navigation} close={this.closeTreaty} /> }
       </KeyboardDismiss>
     );
@@ -137,9 +131,8 @@ class AuthLoading extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     alignItems: 'center',
     paddingTop: hPx2P(114),
     backgroundColor: 'rgb(246,246,246)',
@@ -151,18 +144,20 @@ const styles = StyleSheet.create({
     width: wPx2P(191),
   },
   frameLogin: {
-    height: wPx2P(51),
-    width: wPx2P(229),
+    height: wPx2P(48),
+    width: wPx2P(244),
     alignItems: 'center',
-    marginTop: hPx2P(51),
+    marginTop: hPx2P(46),
     justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   login: {
     color: '#fff',
     fontSize: 16,
   },
   thirdWrapper: {
-    marginBottom: hPx2P(36 + PADDING_TAB),
+    marginBottom: hPx2P(60 + PADDING_TAB),
   },
   wechat: {
     height: wPx2P(46),

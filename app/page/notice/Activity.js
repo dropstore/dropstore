@@ -5,19 +5,20 @@ import { bindActionCreators } from 'redux';
 import ListItem from './ListItem';
 import { NavigationBarCom, PullToRefresh } from '../../components';
 import { STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
-import { fetchNotice } from '../../redux/actions/notice';
-import { getActivity } from '../../redux/reselect/notice';
+import { fetchListData } from '../../redux/actions/listData';
+import { getListData } from '../../redux/reselect/listData';
+
+const TYPE = 'activityNotice';
 
 function mapStateToProps() {
   return state => ({
-    activity: getActivity(state) || {},
+    listData: getListData(state, TYPE),
   });
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice,
+    fetchListData,
   }, dispatch);
 }
 
@@ -27,29 +28,32 @@ class Activity extends Component {
     this.fetchData();
   }
 
-  fetchData = (fetchMore) => {
-    const { fetchNotice } = this.props;
-    fetchNotice('/notice/notice_list', 1, fetchMore);
+  fetchData = (fetchType) => {
+    const { fetchListData } = this.props;
+    fetchListData(TYPE, { type: 1 }, fetchType);
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
-  renderItem = ({ item }) => <ListItem item={item} />
+  renderItem = ({ item }) => {
+    const { navigation } = this.props;
+    return <ListItem navigation={navigation} item={item} />;
+  }
 
   render() {
-    const { activity } = this.props;
+    const { listData } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <NavigationBarCom title="活动通知" />
         <PullToRefresh
           Wrapper={FlatList}
-          totalPages={activity.totalPages}
-          currentPage={activity.currentPage}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
           refresh={this.fetchData}
           style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
-          data={activity.list}
+          data={listData.list}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
         />

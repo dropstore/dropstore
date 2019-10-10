@@ -1,10 +1,10 @@
-import {NativeModules} from 'react-native';
+import { NativeModules } from 'react-native';
 
 const wxPayModule = NativeModules.Wxpay;
 const alipayModule = NativeModules.Alipay;
-const wxAppId = "wx4def04c004d5c07d";
+const wxAppId = 'wx4def04c004d5c07d';
 export {
   wxPayModule,
   wxAppId,
-  alipayModule
-}
+  alipayModule,
+};

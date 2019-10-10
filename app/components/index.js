@@ -1,7 +1,6 @@
 import Image from './Image';
 import ImageBackground from './ImageBackground';
 import KeyboardDismiss from './KeyboardDismiss';
-import Modalbox from './Modalbox';
 import ActionSheet from './ActionSheet';
 import TabBar from './TabBar';
 import AgainLoadCom from './AgainLoadCom';
@@ -12,18 +11,27 @@ import NoDataCom from './NoDataCom';
 import NavigationBarCom from './NavigationBarCom';
 import PullToRefresh from './PullToRefresh';
 import ScaleView from './ScaleView';
-import ShareCom from './ShareCom';
 import CountdownCom from './CountdownCom';
 import Price from './Price';
 import ModalNormal from './ModalNormal';
 import ChangeSize from './ChangeSize';
 import ImageNetUnkoneSize from './ImageNetUnkoneSize';
 import Global from './Global';
+import Keyboard from './Global/Keyboard';
+import TitleWithTagTwo from './TitleWithTagTwo';
+import FreeTradeList from './FreeTradeList';
+import BottomPay from './BottomPay';
+import AvatarWithShadow from './AvatarWithShadow';
+import NameAndGender from './NameAndGender';
+import BottomBtnGroup from './BottomBtnGroup';
+import Tag from './Tag';
+
 
 export {
-  Image, ImageBackground, KeyboardDismiss, Modalbox, TabBar,
+  Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
-  NoDataCom, NavigationBarCom, PullToRefresh, ScaleView, ShareCom,
+  NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
-  Global,
+  Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
+  AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag,
 };

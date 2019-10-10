@@ -5,41 +5,36 @@
  * @author ZWW
  */
 import Axios from 'axios';
-import { isConnected } from '../utils/NetUtil';
+import NetInfo from '@react-native-community/netinfo';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
+import { getScreenWidth } from '../common/Constant';
+import api from './api';
 
 const baseURL = 'http://api.dropstore.cn';
-const timeout = 10000;
+let networkIsConnected = true;
+const timeout = 5000;
 const headers = header => ({
   ...header,
   Authorization: store.getState().userInfo.user_s_id,
 });
-/**
- * 自定义Axios实例默认值
- * @type {AxiosInstance}
- */
+
+// 监听网络变化
+const netListener = NetInfo.addEventListener((state) => {
+  networkIsConnected = state.isConnected;
+});
+
+// 移除网络监听
+const removeNetListener = () => {
+  netListener();
+};
+
 const axiosInstance = Axios.create({
   timeout,
 });
-
-// 允许携带请求头
-axiosInstance.defaults.withCredentials = true;
-// 网络请求前处理
-axiosInstance.interceptors.request.use(
-  config => config,
-  error => Promise.reject(error),
-);
-
-// 网络返回处理
-axiosInstance.interceptors.response.use(
-  res => res,
-  // 在拦截器里处理超时错误会有问题，reject给使用者
-  error => Promise.reject(error),
-);
 
 /**
  * 发送请求
@@ -62,16 +57,24 @@ const request = async (url, {
   timeout = timeout,
   type = 'form',
 } = {}) => {
-  if (!await isConnected()) {
-    showToast(Strings.netError);
-    throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+  if (!networkIsConnected) {
+    const netState = await NetInfo.fetch();
+    if (!netState.isConnected) {
+      showToast(Strings.netError);
+      throw new Error(`NETWORK IS UNCONNECTED------url:${url}`);
+    }
   }
   if (isShowLoading) {
     showToastLoading({ text: loadingText, duration: timeout });
   }
   let response;
+  const data = {
+    ...params,
+    timestamp: Date.now(),
+    device_width: getScreenWidth(),
+    image_size_times: params.image_size_times || -1,
+  };
   try {
-    const data = { ...params, timestamp: Date.now() };
     response = await axiosInstance({
       url,
       method,
@@ -80,30 +83,31 @@ const request = async (url, {
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
+    // console.log(data, url, response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
+        // console.log(response.data, data);
         return response.data;
       }
-      console.log(response.data);
+      console.log(response.data, data, url);
       showToast(response.data.callbackMsg);
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
-    // 获取到响应拦截器里返回的的error
-    if (error.response) {
-      showToast(error.response.data.callbackMsg);
-      return error.response.data;
-    }
-    // 请求超时
+    console.log(error.message, data, `${baseURL}${url}`, error);
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
-      throw new Error(`CONNECT TIMEOUT------URL:${url}------ERROR:${error}`);
+    } else if (error.response) {
+      if (error.response.status === 500) {
+        showToast('服务器开了小差，请稍后再试');
+      } else if (error.response.data.callbackMsg) {
+        showToast(error.response.data.callbackMsg);
+        return error.response.data;
+      }
     }
     throw new Error(`ERROR TO REQUEST------URL:${url}------ERROR:${error}`);
   } finally {
-    if (isShowLoading) {
-      hideToastLoading();
-    }
+    hideToastLoading();
   }
 };
 
@@ -134,6 +138,8 @@ const upload = (url, data) => {
   });
 };
 
+const requestApi = (type, params) => request(api[type].url, params);
+
 export {
-  axiosInstance, timeout, request, upload,
+  timeout, request, upload, removeNetListener, requestApi,
 };

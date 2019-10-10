@@ -3,8 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { SectionList, StyleSheet, Text } from 'react-native';
 import TopCom from '../components/TopCom';
-import Images from '../../../res/Images';
-import { SCREEN_WIDTH } from '../../../common/Constant';
+import { getScreenWidth } from '../../../common/Constant';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
@@ -42,13 +41,13 @@ class OriginalCost extends PureComponent {
   };
 
   renderItem = ({ item }) => (
-    <ImageBackground resizeMode="stretch" source={Images.jc} style={styles.content}>
+    <ImageBackground resizeMode="stretch" style={styles.content}>
       <ShopListItemCom item={item} />
     </ImageBackground>
   )
 
   renderSectionHeader = ({ section }) => (
-    <ImageBackground resizeMode="stretch" source={Images.ht} style={styles.image}>
+    <ImageBackground resizeMode="stretch" style={styles.image}>
       <Text style={styles.text}>{section.title}</Text>
     </ImageBackground>
   )
@@ -62,7 +61,7 @@ class OriginalCost extends PureComponent {
         currentPage={activityInfo.currentPage}
         refresh={this.onRefresh}
         renderSectionHeader={this.renderSectionHeader}
-        ListHeaderComponent={<TopCom bannerId={4} imageSource={Images.bn} />}
+        ListHeaderComponent={<TopCom bannerId={4} />}
         sections={[
           {
             title: '六月',
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   image: {
-    width: SCREEN_WIDTH - 20,
+    width: getScreenWidth() - 20,
     height: 36,
     marginVertical: 5,
     marginHorizontal: 10,

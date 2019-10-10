@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		000044560A2746BB8C7D3E9E /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CA2F44B10E42E7A4CB28B1 /* libRNTextInputMask.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -679,7 +680,6 @@
 				42891F198E674B1DA24943D5 /* libRNReanimated-tvOS.a in Frameworks */,
 				B59AD68D6B6442EABB8D99BC /* libRNGestureHandler-tvOS.a in Frameworks */,
 				6D7087EC17C0402685BC4851 /* libFastImage-tvOS.a in Frameworks */,
-				6AE62A5931584147A5C1A6CA /* libRNVectorIcons-tvOS.a in Frameworks */,
 				4DC296206C2D4D4EBDFF72D7 /* libRNCNetInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -969,13 +969,11 @@
 				35D65FC18B324B8AA17EC925 /* libFastImage.a */,
 				B729B459F2A743E980DB1156 /* libBVLinearGradient.a */,
 				18C29553DB094C889503F1E7 /* libSplashScreen.a */,
-				2E3A012AE52748A8AB9DF6DF /* libRNVectorIcons.a */,
 				743F541AAA2548D299B4D46C /* libRNCNetInfo.a */,
 				5F9D5A7D6FE149EBA3B71F10 /* libRNCAsyncStorage.a */,
 				6BDFB86278104FA58838CCDF /* libRNReanimated-tvOS.a */,
 				6EB4CC03203C4FEF8E563308 /* libRNGestureHandler-tvOS.a */,
 				CA40E32A86FE4A0DB1D4D53B /* libFastImage-tvOS.a */,
-				B3DAE9EB90604713B04FF0CE /* libRNVectorIcons-tvOS.a */,
 				10A48CCECEB3483096ED6988 /* libRNCNetInfo-tvOS.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				748A86BE80DF4306AA05050B /* libRNCWebView.a */,
@@ -1648,13 +1646,6 @@
 			remoteRef = D497F3612303AAB000CBEEA6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D497F3682303AAB000CBEEA6 /* libRNVectorIcons-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libRNVectorIcons-tvOS.a";
-			remoteRef = D497F3672303AAB000CBEEA6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		D497F36E2303AAB000CBEEA6 /* libRNGestureHandler.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1912,9 +1903,7 @@
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1952,9 +1941,7 @@
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1970,7 +1957,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -2024,7 +2011,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = HJ628JNTRW;
@@ -2105,9 +2092,7 @@
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2153,9 +2138,7 @@
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2200,9 +2183,7 @@
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2247,9 +2228,7 @@
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",

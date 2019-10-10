@@ -17,26 +17,15 @@ import NetInfo from '@react-native-community/netinfo';
  * @private
  */
 const _getNetType = async () => {
-  let state = await NetInfo.fetch();
+  const state = await NetInfo.fetch();
   return state.type;
-};
-
-/**
- * 网络是否可以正常使用
- * @returns {Promise<false | true>}
- */
-export const isConnected = async () => {
-  let state = await NetInfo.fetch();
-  return state.isConnected;
 };
 
 /**
  * 是否是移动网络
  * @returns {Promise<boolean>}
  */
-export const isMobile = async () => {
-  return await _getNetType() === 'cellular';
-};
+export const isMobile = async () => await _getNetType() === 'cellular';
 
 /**
  * 是否是wifi

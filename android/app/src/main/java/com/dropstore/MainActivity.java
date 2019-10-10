@@ -8,9 +8,10 @@ import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import org.devio.rn.splashscreen.SplashScreen;
 import com.dropstore.share.ShareModule;
+import android.view.WindowManager;
+import android.util.DisplayMetrics;
 
 public class MainActivity extends ReactActivity {
-
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
@@ -32,6 +33,10 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        WindowManager manager = this.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int height = outMetrics.heightPixels;
         SplashScreen.show(this, R.style.SplashScreenTheme);  // 启动页
         super.onCreate(savedInstanceState);
         ShareModule.initSocialSDK(this);

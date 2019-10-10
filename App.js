@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
-import NetInfo from '@react-native-community/netinfo';
-import { View, StatusBar, Platform } from 'react-native';
+import {
+  View, StatusBar, Platform, DeviceEventEmitter,
+} from 'react-native';
 import { Provider } from 'react-redux';
+import { MenuProvider } from 'react-native-popup-menu';
+import fundebug from 'fundebug-reactnative';
+// import SplashScreen from 'react-native-splash-screen';
 import { Router, store } from './app/router/Router';
 import { wxPayModule, wxAppId } from './app/native/module';
-import { ShareCom, Modalbox, Global } from './app/components';
+import { Global, Keyboard } from './app/components';
+import { removeNetListener } from './app/http/Axios';
+import { setDivice } from './app/common/Constant';
 
-/**
- * Js程序异常处理
- * @param {Object} error - 错误信息
- * @param {boolean} isFatal - 是否一定是致命错误：程序崩溃
- */
-const jsErrorHandler = (error, isFatal) => {
-  if (isFatal) {
-    // TODO 记录错误日志到本地文件中，
-    // 每次启动创建session成功后判断本地是否有错误日志，上传到服务器，上传成功后删除这个错误日志
-  } else {
-    // TODO 建议和致命错误一样上传到服务器
-  }
-};
+const GlobalWithKeyboard = ['toastLoading', 'toast'];
+const GlobalWithoutKeyboard = ['share', 'modalbox'];
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      style: { flex: 1 },
+    };
+  }
+
   componentDidMount() {
+    if (!__DEV__) {
+      fundebug.init({
+        apikey: 'fd759507ed752cf8057174abf891536d5d71809de6c85bd05c519382e62f18bc',
+        appVersion: require('./app.json').versionName,
+      });
+    }
+    // SplashScreen.hide();
     console.disableYellowBox = true;
     if (Platform.OS === 'android') {
       StatusBar.setTranslucent(true);
@@ -30,43 +39,47 @@ export default class App extends Component {
     }
     // global.XMLHttpRequest = global.originalXMLHttpRequest || global.XMLHttpRequest;
     wxPayModule.registerApp(wxAppId); // 向微信注册
-    if (!__DEV__) {
-      // 全局控制log语句
-      global.console = {
-        info: () => {},
-        log: () => {},
-        warn: () => {},
-        error: () => {},
-      };
-      // 全局控制异常
-      global.ErrorUtils.setGlobalHandler(jsErrorHandler);
-    }
 
-    /**
-     * 开启网络监听
-     * 防止iOS有时无法正常获取网络状态
-     * @type {NetInfoSubscription}
-     */
-    this.unsubscribe = NetInfo.addEventListener((state) => {
-      // console.log("Connection type", state.type);
-      // console.log("Is connected?", state.isConnected);
+    this.listener = DeviceEventEmitter.addListener('dropstoreGlobal', (e) => {
+      if (GlobalWithKeyboard.includes(e.dropstoreEventType)) {
+        if (e.isShow) {
+          this.keyboardCom.show(e.dropstoreEventType, e.params);
+        } else {
+          this.keyboardCom.hide(e.dropstoreEventType, e.params);
+        }
+      } else if (GlobalWithoutKeyboard.includes(e.dropstoreEventType)) {
+        if (e.isShow) {
+          this.globalCom.show(e.dropstoreEventType, e.params);
+        } else {
+          this.globalCom.hide(e.dropstoreEventType, e.params);
+        }
+      }
     });
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    removeNetListener();
+    this.listener.remove();
+  }
+
+  onLayout = (e) => {
+    const { height, width } = e.nativeEvent.layout;
+    setDivice(height, width);
+    this.setState({ style: { height, width } });
   }
 
   render() {
+    const { style } = this.state;
     return (
       <Provider store={store}>
-        <View style={{ flex: 1 }}>
-          <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-          <Router />
-          {/* <ShareCom /> */}
-          <Modalbox />
-          <Global />
-        </View>
+        <MenuProvider backHandler>
+          <View style={style} onLayout={this.onLayout}>
+            <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+            <Router uriPrefix="dropstore://" />
+            <Global ref={(v) => { this.globalCom = v; }} />
+            <Keyboard ref={(v) => { this.keyboardCom = v; }} />
+          </View>
+        </MenuProvider>
       </Provider>
     );
   }

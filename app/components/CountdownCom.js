@@ -1,29 +1,38 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Text } from 'react-native';
-import { Normal } from '../res/FontFamily';
+import { Text, View } from 'react-native';
+import { Normal, Mario } from '../res/FontFamily';
 import { MAX_TIME } from '../common/Constant';
 
 type Props = {
   finish: Function,
   time: number,
-  style: Object
+  style: Object,
+  prefixStyle: Object,
+  prefix: String,
+  notStartTimerText?: String,
+  endTimerText?: String,
+  hasNextTimer?: Boolean,
 };
 
 export default class CountdownCom extends PureComponent<Props> {
-  constructor(props) {
-    super(props);
-    const { time } = this.props;
-    const timer = time - Date.now() / 1000;
-    this.state = {
-      text: timer > MAX_TIME ? '即将开始' : timer < 1 ? '已结束' : this.formatTime(timer),
-    };
-    this.timeInterval = null;
+  static defaultProps = {
+    notStartTimerText: '',
+    endTimerText: '',
+    hasNextTimer: false,
   }
 
-  componentDidMount() {
-    const { time } = this.props;
-    this.start(time);
+  constructor(props) {
+    super(props);
+    const { time, notStartTimerText, endTimerText } = this.props;
+    const diff = time - Date.now() / 1000;
+    const noTimer = diff > MAX_TIME || diff < 1;
+    this.state = {
+      text: diff > MAX_TIME ? notStartTimerText : diff < 1 ? endTimerText : this.formatTime(diff || 0),
+      noTimer,
+    };
+    this.timeInterval = null;
+    noTimer || this.start(time);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,43 +54,49 @@ export default class CountdownCom extends PureComponent<Props> {
     this.clear();
     if (time - Date.now() / 1000 < MAX_TIME) {
       this.timeInterval = setInterval(() => {
-        const timer = time - Date.now() / 1000;
-        if (timer < 1) {
-          const { finish, isStart } = this.props;
-          finish();
+        const diff = time - Date.now() / 1000;
+        if (diff < 1) {
+          const { finish, endTimerText, hasNextTimer } = this.props;
+          finish && finish();
           this.clear();
-          if (isStart) {
-            this.setState({ text: '已结束' });
-            return;
-          }
+          this.setState({ text: hasNextTimer ? this.formatTime(0) : endTimerText, noTimer: !hasNextTimer });
+        } else {
+          const text = this.formatTime(diff);
+          this.setState({ text, noTimer: false });
         }
-        const text = this.formatTime(timer);
-        this.setState({ text });
       }, 1000);
     }
   }
 
-  formatTime = timer => `${parseInt(timer / 3600).toString().padStart(2, 0)}:${
-    parseInt((timer % 3600) / 60).toString().padStart(2, 0)}:${
+  formatTime = timer => `${parseInt(timer / 3600).toString().padStart(2, 0)}：${
+    parseInt((timer % 3600) / 60).toString().padStart(2, 0)}：${
     parseInt(timer % 60).toString().padStart(2, 0)}`
 
   render() {
-    const { style } = this.props;
-    const { text } = this.state;
-    const noTimer = ['已结束', '即将开始'].includes(text);
+    const {
+      style, prefix, prefixStyle, offset,
+    } = this.props;
+    const { text, noTimer } = this.state;
+    const fontSize = style.fontSize || 14;
     return (
-      <Text style={{
-        color: noTimer ? '#666' : '#000',
-        width: noTimer ? 'auto' : 70,
-        marginLeft: noTimer ? 8 : 0,
-        textAlign: 'right',
-        ...style,
-        fontSize: noTimer ? style.fontSize * 0.86 : style.fontSize,
-        fontFamily: noTimer ? Normal : style.fontFamily,
-      }}
-      >
-        {text}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
+        {prefix && !noTimer && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{prefix}</Text>}
+        <Text style={{
+          color: noTimer ? '#333' : '#000',
+          width: noTimer ? 'auto' : fontSize * 6.44,
+          marginLeft: noTimer ? 8 : 0,
+          textAlign: 'right',
+          padding: 0,
+          top: offset || (noTimer || style.fontFamily !== Mario) ? 0 : fontSize * 0.09,
+          includeFontPadding: false,
+          ...style,
+          fontSize: noTimer ? fontSize * 0.86 : fontSize,
+          fontFamily: noTimer ? Normal : (style.fontFamily || Normal),
+        }}
+        >
+          {text}
+        </Text>
+      </View>
     );
   }
 }

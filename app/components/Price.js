@@ -27,6 +27,8 @@ const styles = StyleSheet.create({
     fontFamily: BlackItalic,
     color: '#C20000',
     position: 'relative',
+    padding: 0,
+    includeFontPadding: false,
     bottom: -5.5,
   },
   price: {
@@ -35,6 +37,8 @@ const styles = StyleSheet.create({
     color: '#C20000',
     position: 'relative',
     bottom: -3.2,
+    padding: 0,
+    includeFontPadding: false,
   },
   priceImage: {
     height: 10,

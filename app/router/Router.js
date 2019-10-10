@@ -22,24 +22,31 @@ import PhoneNum from '../page/auth/PhoneNum';
 
 import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
-import luckDetail from '../page/home/luckyCharm/Luckydetail';
+// import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
-import payStatus from '../page/pay/PayStatus';
+import PayStatus from '../page/pay/PayStatus';
 import commission from '../page/commission';
-import panicStatus from '../page/panicstatus';
+import Panicstatus from '../page/Panicstatus';
 import drawStatus from '../page/drawstatus';
 
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
-import AddressEdit from '../page/personal/Address/AddressEdit';
+import AddressEdit from '../page/Address/AddressEdit';
 import Message from '../page/notice/Message';
-import Extract from '../page/personal/Extract';
-import Detaile from '../page/personal/Detaile';
-import Password from '../page/personal/Password';
-import MyGoods from '../page/personal/MyGoods';
-import PickUp from '../page/personal/PickUp';
-import ChooseAddress from '../page/personal/Address/ChooseAddress';
+import BalanceExtract from '../page/personal/BalanceExtract';
+import BalanceDetail from '../page/personal/BalanceDetail';
+import Password from '../page/Password';
+import MyGoods from '../page/MyGoods';
+import PickUp from '../page/PickUp';
+import ChooseAddress from '../page/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
+
+import FreeTradeDetail from '../page/FreeTradeDetail';
+import FreeTradePublish from '../page/FreeTradePublish';
+import ChooseSize from '../page/FreeTradePublish/ChooseSize';
+import FreeTradeBuy from '../page/FreeTradeBuy';
+import PublishCommission from '../page/FreeTradePublish/PublishCommission';
+import PutOnSale from '../page/FreeTradePublish/PutOnSale';
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -48,7 +55,13 @@ const defaultNavigationOptions = ({ navigation }) => ({
   headerBackTitle: null,
   headerTitleContainerStyle: { left: 56, right: 56 },
   headerLeft: (
-    <TouchableOpacity style={styles.btnWrapper} onPress={() => navigation.pop()}>
+    <TouchableOpacity
+      style={styles.btnWrapper}
+      onPress={() => {
+        const customBack = navigation.getParam('customBack');
+        customBack ? customBack() : navigation.pop();
+      }}
+    >
       <Image resizeMode="contain" style={{ height: 18, width: 10 }} source={Images.back} />
     </TouchableOpacity>
   ),
@@ -73,10 +86,10 @@ const transition = {
 
 const AuthStack = createStackNavigator({
   AuthLoading: { screen: AuthLoading, navigationOptions: { header: null } },
-  NameAge: { screen: NameAge, navigationOptions: { header: null } },
-  GenderSize: { screen: GenderSize, navigationOptions: { header: null } },
-  PhoneNum: { screen: PhoneNum, navigationOptions: { header: null } },
-  Web,
+  NameAge: { screen: NameAge, navigationOptions: { headerTitle: '昵称&年龄' } },
+  GenderSize: { screen: GenderSize, navigationOptions: { headerTitle: '鞋码&性别' } },
+  PhoneNum: { screen: PhoneNum, navigationOptions: { headerTitle: '绑定手机' } },
+  Web: { screen: Web, navigationOptions: { headerTitle: '隐私协议' } },
 }, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
 
 // 需要导航头部的路由写在这里
@@ -85,30 +98,40 @@ const routesWithHeader = {
   vendorDetail,
   Safesetting,
   shopDetail,
-  luckDetail,
+  // luckDetail,
   pay,
   commission,
   Message,
   AddressEdit,
   Web,
-  Extract,
-  Detaile,
+  BalanceExtract,
+  BalanceDetail,
   Password,
   MyGoods,
   PickUp,
   ChooseAddress,
   RestPay,
+  FreeTradeDetail,
+  FreeTradePublish,
+  ChooseSize,
+  FreeTradeBuy: { path: 'freetradebuy/:freeid', screen: FreeTradeBuy },
+  PublishCommission,
+  PutOnSale,
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator,
-  payStatus,
-  panicStatus,
+  PayStatus,
+  Panicstatus,
   drawStatus,
 };
 
 for (const i in routesWithoutHeader) {
-  routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+  if (routesWithoutHeader[i].constructor === Object) {
+    routesWithoutHeader[i] = { navigationOptions: { header: null }, ...routesWithoutHeader[i] };
+  } else {
+    routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
+  }
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
   initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
@@ -116,7 +139,10 @@ const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHe
 
 const Router = createAppContainer(createSwitchNavigator({
   Auth: AuthStack,
-  Main: MainStack,
+  Main: {
+    screen: MainStack,
+    path: 'main',
+  },
 }, {
   initialRouteName: 'Auth',
   ...transition,
@@ -139,7 +165,7 @@ const styles = StyleSheet.create({
         elevation: 0,
       },
       ios: {
-        marginTop: IS_IPHONE_X ? -10 : 0,
+        marginTop: IS_IPHONE_X ? -4 : 0,
         backgroundColor: Colors.OTHER_BACK,
         height: NAV_HEIGHT,
         borderBottomWidth: 0,

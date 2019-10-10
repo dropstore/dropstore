@@ -4,19 +4,20 @@ import {
   View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { TabView } from 'react-native-tab-view';
 import Image from '../components/Image';
 import Images from '../res/Images';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, PADDING_TAB } from '../common/Constant';
+import { getScreenWidth, getScreenHeight, PADDING_TAB } from '../common/Constant';
 import Colors from '../res/Colors';
 import { wPx2P } from '../utils/ScreenUtil';
 import Personal from '../page/personal';
 import Identify from '../page/identify';
 import HomePage from '../page/home';
-import FreeTrade from '../page/freeTrade';
+import FreeTrade from '../page/FreeTrade';
 import Activity from '../page/notice/Activity';
 import { getUserInfo } from '../redux/reselect/userInfo';
-// import { showShare } from '../utils/MutualUtil';
+import { fetchSimpleData } from '../redux/actions/simpleData';
 
 function mapStateToProps() {
   return state => ({
@@ -24,15 +25,20 @@ function mapStateToProps() {
   });
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchSimpleData,
+  }, dispatch);
+}
 
-const HOME_ICON_WIDTH = wPx2P(97);
+
+const HOME_ICON_WIDTH = wPx2P(97.5);
 const PADDING_HORIZONTAL = wPx2P(22);
 const TAB_HEIGHT = 52;
-
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
-  { screen: HomePage, key: 'drop' },
+  { screen: HomePage, key: 'home' },
   { screen: Activity, key: 'message', title: '消息' },
   { screen: Personal, key: 'personal', title: '我的' },
 ];
@@ -54,12 +60,17 @@ class BottomNavigator extends PureComponent {
   }
 
   componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, userInfo, fetchSimpleData } = this.props;
+    fetchSimpleData('appOptions', { user_id: userInfo.id });
     this.didBlurSubscription = navigation.addListener(
       'willFocus',
-      () => {
+      (payload) => {
         const { index } = this.state;
         this.changeStatusBar(index);
+        if (payload.action.type === 'Navigation/NAVIGATE') {
+          const nextIndex = payload?.state?.params?.index;
+          nextIndex && this.onIndexChange(nextIndex);
+        }
       },
     );
   }
@@ -77,12 +88,6 @@ class BottomNavigator extends PureComponent {
   }
 
   onIndexChange = (index) => {
-    // showShare({
-    //   text: '参与活动',
-    //   img: 'https://www.baidu.com/img/bd_logo1.png',
-    //   url: 'https://www.baidu.com/img/bd_logo1.png',
-    //   title: '参与活动',
-    // }).then(() => console.log(123));
     const { userInfo, navigation } = this.props;
     if (index === 4 && !userInfo.user_s_id) {
       navigation.navigate('Auth');
@@ -115,8 +120,9 @@ class BottomNavigator extends PureComponent {
   }
 
   renderScene = ({ route }) => {
+    const { navigation } = this.props;
     const Screen = route.screen;
-    return <Screen onIndexChange={this.onIndexChange} />;
+    return <Screen navigation={navigation} onIndexChange={this.onIndexChange} />;
   };
 
   renderTabBar = () => null;
@@ -132,7 +138,7 @@ class BottomNavigator extends PureComponent {
           renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT }}
+          initialLayout={{ width: getScreenWidth(), height: getScreenHeight() }}
           lazy
         />
         <View style={styles.tabBar}>
@@ -154,10 +160,13 @@ class BottomNavigator extends PureComponent {
                   {
                       v
                         ? (
-                          <Animated.View style={{ opacity: this.opacity[index], alignItems: 'center', paddingTop: 5 }}>
+                          <Animated.View style={{
+                            opacity: this.opacity[index], alignItems: 'center', paddingTop: 5, paddingBottom: 6, justifyContent: 'space-between',
+                          }}
+                          >
                             {
-                              v.key === 'drop'
-                                ? <Image style={styles.drop} source={Images.drop} />
+                              v.key === 'home'
+                                ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
                                 : (
                                   <Image
                                     resizeMode="contain"
@@ -169,9 +178,9 @@ class BottomNavigator extends PureComponent {
                                   />
                                 )
                             }
-                            {v.key !== 'drop' ? (
+                            {v.key !== 'home' ? (
                               <Text
-                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10, marginTop: 4 }}
+                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10 }}
                               >
                                 {v.title}
                               </Text>
@@ -205,7 +214,7 @@ const styles = StyleSheet.create({
   tabBar: {
     height: TAB_HEIGHT + PADDING_TAB,
     paddingBottom: PADDING_TAB,
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     flexDirection: 'row',
     backgroundColor: '#fff',
     paddingHorizontal: PADDING_HORIZONTAL,
@@ -221,11 +230,10 @@ const styles = StyleSheet.create({
   },
   drop: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(51),
-    // marginBottom: 27.5,
+    height: wPx2P(54),
     position: 'relative',
     top: -15,
   },
 });
 
-export default connect(mapStateToProps)(BottomNavigator);
+export default connect(mapStateToProps, mapDispatchToProps)(BottomNavigator);

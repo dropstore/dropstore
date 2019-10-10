@@ -1,15 +1,9 @@
-/**
- * @file 商品列表组件
- * @date 2019/8/17 19:38
- * @author ZWW
- */
 import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import {
-  ScaleView, Image, CountdownCom, Price,
+  ScaleView, FadeImage, Price, CountdownCom,
 } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
@@ -17,31 +11,38 @@ import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
 import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
+import { formatDate } from '../../../utils/commonUtils';
 
-
-class ShopListItemCom extends PureComponent {
+export default class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
     const now = Date.now() / 1000;
-    const isStart = parseInt(item.start_time) < now;
-    const time = isStart ? item.end_time : item.start_time;
-    if (now > parseInt(item.end_time)) {
-      this.end = true;
-    }
     this.state = {
-      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
-      time,
-      isStart,
+      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
+        || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
+      isStart: item.start_time - Date.now() / 1000 < 1,
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { item } = this.props;
+    if (item !== nextProps.item) {
+      const now = Date.now() / 1000;
+      this.setState({
+        showText: (parseInt(nextProps.item.end_time) - now < MAX_TIME && nextProps.item.end_time > now)
+        || (parseInt(nextProps.item.start_time) - now < MAX_TIME && nextProps.item.start_time > now),
+        isStart: nextProps.item.start_time - Date.now() / 1000 < 1,
+      });
+    }
+  }
+
   toShopDetailPage = () => {
-    if (this.end) {
+    const { navigation, item } = this.props;
+    if (Date.now() / 1000 - item.end_time > -1) {
       showToast('活动已结束');
       return;
     }
-    const { navigation, item } = this.props;
     navigation.navigate('shopDetail', {
       title: '商品详情',
       rate: '+25',
@@ -50,33 +51,41 @@ class ShopListItemCom extends PureComponent {
     });
   };
 
-  finish = () => {
-    const { item } = this.props;
-    const now = Date.now() / 1000 + 1;
-    const isStart = parseInt(item.start_time) < now;
-    const time = isStart ? item.end_time : item.start_time;
-    if (now > parseInt(item.end_time)) {
-      this.end = true;
-    }
-    this.setState({
-      showText: (isStart && now < parseInt(item.end_time)) || (parseInt(item.start_time) - now < MAX_TIME && !isStart),
-      time,
-      isStart,
-    });
+  activityStart = () => {
+    this.setState({ isStart: true });
   }
 
   render() {
     const { item } = this.props;
-    const { time, showText, isStart } = this.state;
+    const { showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <Image resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
+        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
           <View style={styles.rightBottom}>
             <Price price={item.price} offsetBottom={3} />
             <Text style={styles.xiegang}>/</Text>
-            <CountdownCom isStart={isStart} finish={this.finish} style={styles.time} time={time} />
+            {
+              isStart ? (
+                <CountdownCom
+                  offset={Platform.OS === 'ios' ? null : -1.8}
+                  time={item.end_time}
+                  style={styles.time}
+                  endTimerText="已结束"
+                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd hh:mm:ss')} 结束`}
+                />
+              ) : (
+                <CountdownCom
+                  offset={Platform.OS === 'ios' ? null : -1.8}
+                  time={item.start_time}
+                  finish={this.activityStart}
+                  style={styles.time}
+                  hasNextTimer
+                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd hh:mm:ss')} 开始`}
+                />
+              )
+            }
           </View>
           {
             showText && (
@@ -133,5 +142,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default withNavigation(ShopListItemCom);

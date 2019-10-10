@@ -2,38 +2,56 @@ import React, { PureComponent } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { Image, CountdownCom, ImageBackground } from '../../components';
-import Images from '../../res/Images';
+import {
+  Image, CountdownCom, ImageBackground, Price,
+} from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../utils/commonUtils';
 
-class ListItem extends PureComponent {
+export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
     this.state = {
-      text: item.end_time <= Date.now() / 1000 ? '付款已超时' : null,
+      text: ['3'].includes(item.type) ? '佣金已入账'
+        : item.end_time <= Date.now() / 1000 ? '活动已结束'
+          : item.pay_status == '1' ? '已购买' : null,
     };
   }
 
   finish = () => {
-    this.setState({ text: '付款已超时' });
+    this.setState({ text: '活动已结束' });
   }
 
   toPay = () => {
     const { item, navigation } = this.props;
-    if (item.type === '1') {
+    if (item.type === '7') {
       navigation.navigate('pay', {
         title: '选择支付账户',
-        type: 'pay_order',
+        type: '1',
         payData: {
           order_id: item.order_id,
-          price: item.order_price / 100,
+          price: item.order_price,
         },
+        shopInfo: {
+          goods: {
+            image: item.goods_image,
+            goods_name: item.goods_name,
+          },
+          order_id: item.order_id,
+        },
+        buySuccess: true,
+        noTimer: true,
+      });
+    } else if (['8', '9'].includes(item.type)) {
+      navigation.navigate('shopDetail', {
+        title: '商品详情',
+        rate: '+25',
+        shopId: item.activity_id,
+        type: item.b_type,
       });
     } else {
       navigation.navigate('RestPay', {
@@ -48,16 +66,17 @@ class ListItem extends PureComponent {
     const { text } = this.state;
     return (
       <View>
-        <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
+        <Text style={styles.date}>{formatDate(item.add_time)}</Text>
         <View style={styles.container}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-            <ImageBackground source={{ uri: item.image }} style={styles.shoe}>
+            <ImageBackground useFadeImage source={{ uri: item.image }} style={styles.shoe}>
               { item.type === '2' && <Image source={require('../../res/image/zhongqian.png')} style={styles.zhongqian} /> }
             </ImageBackground>
-            { item.size && <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> }
+            { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }
           </View>
           <View style={{ flex: 1, justifyContent: item.type !== '6' ? 'space-between' : 'center' }}>
             <TitleWithTag text={item.activity_name} type={item.type} />
+            {['1', '2', '7'].includes(item.type) && item.order_price && <Price price={item.order_price} /> }
             {
 
               ['1', '2'].includes(item.type) && !text && (
@@ -65,25 +84,22 @@ class ListItem extends PureComponent {
                   <Text style={styles.time}>待付款</Text>
                   <CountdownCom
                     finish={this.finish}
-                    style={{ ...styles.time, width: 50 }}
+                    style={styles.time}
                     time={item.end_time}
                   />
                 </View>
               )
             }
             {
-              ['1', '2'].includes(item.type) && !text && (
+              ['1', '2', '7', '8', '9'].includes(item.type) && !text && (
                 <TouchableOpacity onPress={this.toPay} style={styles.btn}>
-                  <Text style={styles.fukuan}>付款</Text>
+                  <Text style={styles.fukuan}>
+                    {['1', '2', '7'].includes(item.type) ? '付款' : '查看详情'}
+                  </Text>
                 </TouchableOpacity>
               )
             }
-            { ['1', '2'].includes(item.type) && text && <Text style={styles.yongjin}>{text}</Text> }
-            {
-              item.type === '3' && (
-                <Text style={styles.yongjin}>帮抢成功，佣金已入账</Text>
-              )
-            }
+            { !!text && <Text style={styles.yongjin}>{text}</Text> }
           </View>
         </View>
       </View>
@@ -135,6 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 6,
     marginBottom: 6,
+    alignItems: 'center',
   },
   size: {
     fontSize: 12,
@@ -152,5 +169,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default withNavigation(ListItem);

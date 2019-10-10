@@ -4,35 +4,31 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import {
-  DeviceEventEmitter, RefreshControl, ScrollView, StyleSheet, View,
-} from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { RefreshControl, View, FlatList } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getShopDetail } from '../../redux/actions/shopDetailInfo';
-import { getShopDetailInfo } from '../../redux/reselect/shopDetailInfo';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
+import { getSimpleData } from '../../redux/reselect/simpleData';
 import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
-import EmptyViewCom from '../../components/EmptyViewCom';
 import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
-import SelfCom from './components/main/self';
 import SelfBottomCom from './components/bottom/self';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import LuckBottomCom from './components/bottom/LuckBottomCom';
-import LuckCom from './components/main/lucky';
-import AgainLoadCom from '../../components/AgainLoadCom';
-import NoDataCom from '../../components/NoDataCom';
+import RuleCom from './components/main/RuleCom';
+import DrawMainCom from './components/main/self/components/DrawMainCom';
+import DetailImage from './components/DetailImage';
+
+const TYPE = 'activityInfo';
 
 function mapStateToProps() {
   return state => ({
-    shopDetailInfo: getShopDetailInfo(state),
+    activityInfo: getSimpleData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getShopDetail,
+    fetchSimpleData,
   }, dispatch);
 }
 
@@ -41,141 +37,84 @@ class ShopDetail extends PureComponent {
     title: navigation.getParam('title', '商品详情'),
     headerRight: <ShopDetailHeaderRight
       onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
-      navigation={navigation}
       rate={navigation.getParam('rate')}
     />,
   });
 
-  componentDidMount() {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    this.refreshShopInfo = DeviceEventEmitter.addListener(ShopConstant.REFRESH_SHOP_DETAIL_INFO, (res) => {
-      if (res) {
-        getShopDetail(shopId, { isDispatchStart: false });
-      }
-    });
-    getShopDetail(shopId);
+  constructor(props) {
+    super(props);
+    this.fetchData();
   }
 
-  componentWillUnmount() {
-    this.refreshShopInfo.remove();
+  fetchData = (refresh) => {
+    const { fetchSimpleData, navigation } = this.props;
+    this.params = { id: navigation.getParam('shopId') };
+    fetchSimpleData(TYPE, this.params, refresh);
   }
-
-  /**
-   * 设置主体内容和底部UI
-   * @param {boolean} isBottom 是否是底部UI调用
-   * @param shopInfo
-   * @returns {*}
-   */
-
-  _setContentOrBottomUI = (isBottom, shopInfo) => {
-    const type = shopInfo.activity.type;
-    // let type = 3;
-    // 发售、自营
-    if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
-      return this._showSelf(isBottom);
-    } if (type === ShopConstant.LUCKY_CHARM) {
-      return this._showLuck(isBottom);
-    }
-  };
-
-  /**
-   * 设置发售和自营布局
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
-  _showSelf = (isBottom) => {
-    if (isBottom) {
-      return <SelfBottomCom />;
-    }
-    return (
-      <View>
-        <SelfCom />
-      </View>
-    );
-  };
-
-  /**
-   * 锦鲤详情
-   * @param isBottom
-   * @returns {*}
-   * @private
-   */
-  _showLuck = (isBottom) => {
-    if (isBottom) {
-      return <LuckBottomCom />;
-    }
-    return (
-      <View>
-        <LuckCom />
-      </View>
-    );
-  };
 
   onRefresh = () => {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    getShopDetail(shopId, { isDispatchStart: false });
+    this.fetchData('refresh');
   };
 
-  againLoad = () => {
-    const { getShopDetail, navigation } = this.props;
-    const shopId = navigation.getParam('shopId');
-    getShopDetail(shopId, { isDispatchStart: true });
+  setContentOrBottomUI = (shopInfo) => {
+    const { navigation } = this.props;
+    const type = shopInfo.activity.type;
+    if (type === ShopConstant.ORIGIN_CONST || type === ShopConstant.SELF_SUPPORT) {
+      return <SelfBottomCom navigation={navigation} />;
+    }
+    return null;
   };
 
-  _mainDOM = () => {
-    const { shopDetailInfo } = this.props;
-    const data = shopDetailInfo.data;
-    const isNormalObject = (data instanceof Object && Object.keys(data).length !== 0);
-    if (shopDetailInfo.isFetching) {
-      return <View />;
+  renderItem = ({ item }) => {
+    const { activityInfo: { data } } = this.props;
+    if (item === 'RuleCom') {
+      return <RuleCom shopInfo={data} />;
+    } if (item === 'DrawMainCom') {
+      return <DrawMainCom shopInfo={data} />;
     }
-    if (isNormalObject) {
-      return (
-        <View style={_styles.container}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ flex: 1 }}
-            refreshControl={(
-              <RefreshControl
-                progressViewOffset={20}
-                tintColor={Colors.HEADER_COLOR}
-                onRefresh={this.onRefresh}
-                refreshing={false}
-              />
-            )}
-          >
-            <ShopBasicInfoCom />
-            <EmptyViewCom />
-            {
-              this._setContentOrBottomUI(false, data)
-            }
-          </ScrollView>
-          {
-            this._setContentOrBottomUI(true, data)
-          }
-        </View>
-      );
-    }
-    if (!shopDetailInfo.error) {
-      return <AgainLoadCom againLoad={this.againLoad} />;
-    }
-    return <NoDataCom />;
-  };
+    return <DetailImage item={item} />;
+  }
 
   render() {
+    const { activityInfo: { data, fetchedParams } } = this.props;
+    if (JSON.stringify(fetchedParams) !== JSON.stringify(this.params) || !fetchedParams) { return <View />; }
+    const { is_join, goods_image } = data;
+    let list = ['RuleCom'];
+    if (is_join === ShopConstant.NOT_JOIN) {
+      list = [
+        ...list,
+        { height: 240, source: require('../../res/image/gonggao.jpg') },
+        ...goods_image,
+        { height: 437, source: require('../../res/image/rule.jpg') },
+      ];
+    } else {
+      list = [...list, 'DrawMainCom'];
+    }
     return (
-      this._mainDOM()
+      <View style={{ flex: 1 }}>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={<ShopBasicInfoCom activityInfo={data} />}
+          data={list}
+          contentContainerStyle={{ paddingBottom: 7 }}
+          style={{ flex: 1 }}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => `detail-${item}-${index}`}
+          maxToRenderPerBatch={3}
+          initialNumToRender={1}
+          refreshControl={(
+            <RefreshControl
+              progressViewOffset={20}
+              tintColor={Colors.OTHER_BACK}
+              onRefresh={this.onRefresh}
+              refreshing={false}
+            />
+            )}
+        />
+        { this.setContentOrBottomUI(data) }
+      </View>
     );
   }
 }
 
-const _styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
-  },
-});
-export default connect(mapStateToProps, mapDispatchToProps)(withNavigation(ShopDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(ShopDetail);

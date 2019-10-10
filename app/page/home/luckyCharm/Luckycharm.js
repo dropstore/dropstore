@@ -6,7 +6,7 @@
 import React, { PureComponent } from 'react';
 import {StyleSheet } from 'react-native';
 import { connect } from 'react-redux'
-import { SCREEN_WIDTH } from '../../../common/Constant';
+import { getScreenWidth } from '../../../common/Constant';
 import Images from '../../../res/Images';
 import Colors from '../../../res/Colors';
 import TopCom from '../components/TopCom';
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nameText: {
-    maxWidth: SCREEN_WIDTH - 175,
+    maxWidth: getScreenWidth() - 175,
     flexShrink: 1,
     fontFamily: YaHei,
     lineHeight: 24,

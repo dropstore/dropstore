@@ -4,6 +4,7 @@ import {
 } from '../actions/userInfo';
 
 const initialState = {
+  avatar: -1,
 };
 
 export default handleActions({
@@ -17,7 +18,9 @@ export default handleActions({
 
   [receiveUser]: (state, action) => ({ ...state, ...action.payload, sex: { 1: '男', 2: '女' }[action.payload.sex] }),
 
-  [resetUser]: () => ({}),
+  [resetUser]: () => ({
+    avatar: -1,
+  }),
 
   [receiveIosNativeDeviceId]: (state, action) => ({ ...state, iosNativeDeviceId: action.payload }),
 }, initialState);

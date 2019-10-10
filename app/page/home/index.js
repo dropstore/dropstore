@@ -2,19 +2,16 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import TabBar from '../../components/TabBar';
-import { SCREEN_WIDTH, STATUSBAR_HEIGHT } from '../../common/Constant';
-import Home from './home';
-import LuckyCharm from './luckyCharm';
+import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
+// import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
-import Reserve from './reserve';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [
-  // { key: 'home', title: '首页' },
-  { key: 'originalCost', title: '原价发售' },
-  { key: 'selfSupport', title: 'Drop自营' },
-  // { key: 'luckyCharm', title: '球鞋锦鲤' },
-  // { key: 'reserve', title: '球鞋预定' },
+  { key: 'originalCost', title: '原价发售', screen: OriginalCost },
+  { key: 'selfSupport', title: 'Drop自营', screen: SelfSupport },
+  // { key: 'luckyCharm', title: '球鞋锦鲤',screen: LuckyCharm },
+  // { key: 'reserve', title: '球鞋预定',screen: Reserve },
 ];
 
 class HomePage extends PureComponent {
@@ -30,13 +27,11 @@ class HomePage extends PureComponent {
     this.setState({ index });
   }
 
-  renderScene = ({ route }) => ({
-    home: <Home />,
-    originalCost: <OriginalCost />,
-    selfSupport: <SelfSupport />,
-    luckyCharm: <LuckyCharm />,
-    reserve: <Reserve />,
-  }[route.key]);
+  renderScene = ({ route }) => {
+    const { navigation } = this.props;
+    const Screen = route.screen;
+    return <Screen navigation={navigation} />;
+  }
 
   render() {
     const { routes, index } = this.state;
@@ -55,7 +50,7 @@ class HomePage extends PureComponent {
           renderTabBar={() => null}
           onIndexChange={this.onIndexChange}
           useNativeDriver
-          initialLayout={{ width: SCREEN_WIDTH }}
+          initialLayout={{ width: getScreenWidth() }}
           lazy
         />
       </View>

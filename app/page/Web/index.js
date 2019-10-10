@@ -3,7 +3,6 @@ import {
   StyleSheet, Platform, View, StatusBar,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { withNavigation } from 'react-navigation';
 
 const injectedJavaScript = Platform.OS === 'ios' ? `
 (function() {
@@ -25,7 +24,7 @@ const injectedJavaScript = Platform.OS === 'ios' ? `
 true;
 ` : null;
 
-class Web extends Component {
+export default class Web extends Component {
   onShouldStartLoadWithRequest = (e) => {
     const scheme = e.url.split('://')[0];
     if (scheme === 'http' || scheme === 'https') {
@@ -100,5 +99,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
-module.exports = withNavigation(Web);

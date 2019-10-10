@@ -5,32 +5,22 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
-import { fetchNotice } from '../../redux/actions/notice';
-import { getMessage } from '../../redux/reselect/notice';
+import { fetchListData } from '../../redux/actions/listData';
+import { getListData } from '../../redux/reselect/listData';
 import Colors from '../../res/Colors';
 import { formatDate } from '../../utils/commonUtils';
 
-const LIST = [
-  {
-    add_time: Date.now() / 1000,
-    text: '亲爱的用户，JFGH SQIOFH FHISA OHDIOS DSIA FHIHF OIAS，SIOAS FDOIAH FAO ISFAS HIO AHFA OIS WOIDFJWEF HOIEWFHIOEWFHIOWEFI！',
-  },
-  {
-    add_time: Date.now() / 1000,
-    text: '亲爱的用户，JFGH SQIOFH FHISA OHDIOS DSIA FHIHF OIAS，SIOAS FDOIAH FAO ISFAS HIO AHFA OIS WOIDFJWEF HOIEWFHIOEWFHIOWEFI！',
-  },
-];
+const TYPE = 'noticeMessage';
 
 function mapStateToProps() {
   return state => ({
-    notice: getMessage(state),
+    listData: getListData(state, TYPE),
   });
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchNotice,
+    fetchListData,
   }, dispatch);
 }
 
@@ -40,33 +30,33 @@ class Message extends Component {
     this.fetchData();
   }
 
-
-  fetchData = (fetchMore) => {
-    // const { fetchNotice } = this.props;
-    // fetchNotice('/notice/notice_list', 1, fetchMore);
+  fetchData = (fetchType) => {
+    const { fetchListData } = this.props;
+    fetchListData(TYPE, { type: 1 }, fetchType);
   }
 
   loadMore = () => {
-    this.fetchData(true);
+    this.fetchData('more');
   }
 
   renderItem = ({ item }) => (
     <View>
-      <Text style={styles.date}>{formatDate(item.add_time, '/')}</Text>
-      <Text style={styles.text}>{item.text}</Text>
+      <Text style={styles.date}>{formatDate(item.add_time)}</Text>
+      <Text style={styles.text}>{item.content}</Text>
     </View>
   )
 
   render() {
+    const { listData } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
         <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <PullToRefresh
           Wrapper={FlatList}
-          totalPages={1}
-          currentPage={1}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
           refresh={this.fetchData}
-          data={LIST}
+          data={listData.list}
           renderItem={this.renderItem}
           onEndReached={this.loadMore}
         />
@@ -91,6 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     fontSize: 12,
+    color: '#333',
     paddingVertical: 6,
   },
 });

@@ -61,7 +61,7 @@ end
 
 def export_appstore
   puts "---------- packing ios ------------"
-  edit_modules()
+  puts `yarn i`
   new_content = File.read("ios/dropstore/Info.plist")
   new_content = new_content.gsub(/<key>CFBundleDevelopmentRegion<\/key>/,
     "<key>method<\/key>\n  <string>ad-hoc<\/string>\n  <key>CFBundleDevelopmentRegion<\/key>")
@@ -82,6 +82,13 @@ def edit_modules
   File.write('./node_modules/react-native-clear-cache/android/build.gradle', result1)
   result3 = File.read('./edit_node_modules/metro/DependencyGraph.js')
   File.write('./node_modules/metro/src/node-haste/DependencyGraph.js', result3)
+
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControl.h')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControl.h', result3)
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControl.m')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControl.m', result3)
+  # result3 = File.read('./edit_node_modules/RefreshControl/RCTRefreshControlManager.m')
+  # File.write('./node_modules/react-native/React/Views/RCTRefreshControlManager.m', result3)
   puts "---------- finish install and edit node_modules ------------"
 end
 
@@ -94,13 +101,17 @@ def bundleVersion(version)
 end
 
 def export_android(channel)
-  edit_modules()
+  puts `yarn i`
   puts "---------- packing android: #{channel} ------------"
+  result1 = File.read('./android/app/build.gradle')
+  File.write('./android/app/build.gradle', File.read('./edit_node_modules/android/build.gradle'))
+  puts "---------- finish install and edit node_modules ------------"
   puts `cd android &&
     rm -f app/build/outputs/apk/release/app-release.apk &&
     ./gradlew assembleRelease &&
     mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/#{channel}.apk
   `
+  File.write('./android/app/build.gradle', result1)
   puts "---------- finish packing android: #{channel} ------------"
   return true
 end

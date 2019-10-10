@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet, TouchableOpacity, Text, View,
+} from 'react-native';
 import Modalbox from 'react-native-modalbox';
-import { wPx2P } from '../../utils/ScreenUtil';
-import { SCREEN_WIDTH } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import Image from '../Image';
 import Images from '../../res/Images';
-import ImageBackground from '../ImageBackground';
 import Share from '../../utils/ShareUtil';
 import { showToast } from '../../utils/MutualUtil';
 
 const schemes = [
-  { icon: 'wx', scheme: 2 },
-  { icon: 'pyq', scheme: 3 },
+  { icon: 'wx', scheme: 2, title: '微信好友' },
+  { icon: 'pyq', scheme: 3, title: '朋友圈' },
 ];
 
 export default class ShareCom extends PureComponent {
@@ -20,10 +20,10 @@ export default class ShareCom extends PureComponent {
   }
 
   share = (scheme) => {
-    const { share, successCallback, failCallback } = this.props;
+    const { data, successCallback, failCallback } = this.props;
     const {
       text, img, url, title,
-    } = share;
+    } = data;
     Share(text, img, url, title, scheme).then(() => {
       successCallback();
     }).catch(() => {
@@ -33,26 +33,30 @@ export default class ShareCom extends PureComponent {
   }
 
   render() {
-    const { closeShare } = this.props;
+    const { onClosed } = this.props;
     return (
       <Modalbox
         position="bottom"
         backButtonClose
-        onClosed={closeShare}
+        onClosed={onClosed}
         style={styles.modalbox}
         ref={(v) => {
           this.modalbox = v;
         }}
       >
-        <ImageBackground source={Images.fxt} style={{ ...styles.modalbox, ...styles.fxt }}>
+        <View style={styles.tisheng}>
+          <Text style={{ color: '#4B4B4B', fontSize: 12 }}>分享提升中签率</Text>
+        </View>
+        <View style={styles.fxt}>
           {
             schemes.map(v => (
-              <TouchableOpacity key={v.icon} onPress={() => this.share(v.scheme)}>
+              <TouchableOpacity style={{ marginRight: 40 }} key={v.icon} onPress={() => this.share(v.scheme)}>
                 <Image style={styles.shareIcon} source={Images[v.icon]} />
+                <Text style={{ color: '#5A5A5A', fontSize: 11 }}>{v.title}</Text>
               </TouchableOpacity>
             ))
           }
-        </ImageBackground>
+        </View>
       </Modalbox>
     );
   }
@@ -60,17 +64,25 @@ export default class ShareCom extends PureComponent {
 
 const styles = StyleSheet.create({
   modalbox: {
-    width: SCREEN_WIDTH,
-    height: wPx2P(278),
+    width: getScreenWidth(),
+    height: 138 + PADDING_TAB,
+    paddingBottom: PADDING_TAB,
+    paddingHorizontal: 30,
   },
   shareIcon: {
-    width: wPx2P(69),
-    height: wPx2P(91),
-    marginHorizontal: wPx2P(15),
+    width: 44,
+    height: 44,
+    marginTop: 14,
+    marginBottom: 8,
+  },
+  tisheng: {
+    height: 40,
+    borderBottomColor: '#ddd',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    justifyContent: 'center',
   },
   fxt: {
     flexDirection: 'row',
-    paddingTop: wPx2P(159),
-    justifyContent: 'center',
+    flex: 1,
   },
 });

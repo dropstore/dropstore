@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, Platform,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { STATUSBAR_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT } from '../../common/Constant';
-import Image from '../../components/Image';
+import { STATUSBAR_HEIGHT, getScreenWidth, getScreenHeight } from '../../common/Constant';
+import { Image, AvatarWithShadow } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
@@ -29,13 +28,13 @@ class PersonalCenterPage extends PureComponent {
         title: '我的活动', icon: 'myActivity', route: 'fashounotice',
       },
       {
-        title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房' },
+        title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房', onIndexChange },
       },
-      // {
-      //   title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
-      // },
       {
-        title: '提现', icon: 'extract', route: 'Extract', params: { title: '提现' },
+        title: '我的商品', icon: 'myGoods', route: 'MyGoods', params: { title: '我的商品' },
+      },
+      {
+        title: '提现', icon: 'extract', route: 'BalanceExtract', params: { title: '提现' },
       },
     ];
     this.list2 = [
@@ -60,20 +59,19 @@ class PersonalCenterPage extends PureComponent {
   render() {
     const { navigation, userInfo } = this.props;
     return (
-      <ScrollView bounces={false} contentContainerStyle={{ flex: 1 }} style={styles.container} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
-              <View style={styles.imageWrapper}>
-                <Image
-                  source={userInfo.avatar ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
-                  style={{ ...styles.image, height: userInfo.avatar ? wPx2P(47) : wPx2P(36), width: userInfo.avatar ? wPx2P(47) : wPx2P(36) }}
-                />
-              </View>
+              <AvatarWithShadow
+                source={userInfo.avatar !== -1 ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                size={userInfo.avatar !== -1 ? wPx2P(47) : wPx2P(36)}
+              />
               <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.name}>{userInfo.user_name}</Text>
+                  <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
                   <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={userInfo.sex === '女' ? Images.littleGirl : Images.littleBoy} />
+                  {userInfo.age * 1 > -1 && <Text style={{ color: '#bbb', fontSize: 11, marginLeft: 5 }}>{`${userInfo.age}岁`}</Text>}
                 </View>
                 <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
               </View>
@@ -86,7 +84,7 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.walletWrapper}>
             <TouchableOpacity
               style={styles.walletLeft}
-              onPress={() => navigation.navigate('Detaile', { title: '明细' })}
+              onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}
             >
               <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
               <Text style={styles.moenyText}>账户总余额(￥)</Text>
@@ -150,12 +148,6 @@ class PersonalCenterPage extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),
-  },
-  image: {
-    overflow: 'hidden',
-    borderRadius: wPx2P(23.5),
   },
   editWrapper: {
     height: wPx2P(25),
@@ -170,28 +162,10 @@ const styles = StyleSheet.create({
     color: '#8F8F8F',
     fontSize: wPx2P(10),
   },
-  imageWrapper: {
-    height: wPx2P(47),
-    width: wPx2P(47),
-    borderRadius: wPx2P(23.5),
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(166, 166, 166)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 100,
-        position: 'relative',
-      },
-    }),
-  },
   header: {
+    paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   headerTitle: {
     paddingTop: STATUSBAR_HEIGHT,
@@ -229,7 +203,7 @@ const styles = StyleSheet.create({
   },
   hengtiao: {
     height: 1,
-    width: wPx2P(SCREEN_WIDTH - 8),
+    width: wPx2P(getScreenWidth() - 8),
     backgroundColor: '#E3E3E3',
     marginTop: wPx2P(23),
   },
@@ -243,7 +217,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
   },
   walletLeft: {
     flex: 1,
@@ -251,7 +225,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   moeny: {
-    fontSize: wPx2P(15),
+    fontSize: wPx2P(18),
     marginBottom: wPx2P(8),
     fontFamily: YaHei,
   },
@@ -260,7 +234,7 @@ const styles = StyleSheet.create({
     color: '#8F8F8F',
   },
   list1Item: {
-    width: (SCREEN_WIDTH - 8) / 2,
+    width: (getScreenWidth() - 8) / 2,
     height: 54,
     alignItems: 'center',
     borderRightColor: '#bbb',
@@ -294,8 +268,8 @@ const styles = StyleSheet.create({
     marginRight: wPx2P(26),
   },
   placeholder: {
-    height: SCREEN_HEIGHT,
-    width: SCREEN_WIDTH,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     position: 'absolute',
   },
   list1: {
@@ -318,7 +292,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: wPx2P(20),
+    height: 55,
     flexDirection: 'row',
   },
   right: {
@@ -328,4 +302,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withNavigation(connect(mapStateToProps)(PersonalCenterPage));
+export default connect(mapStateToProps)(PersonalCenterPage);

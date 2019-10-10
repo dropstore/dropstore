@@ -5,14 +5,15 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Image, KeyboardDismiss, ImageBackground } from '../../components';
+import { Image, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
-import { Mario, YaHei } from '../../res/FontFamily';
+import { YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -59,7 +60,7 @@ class GenderSize extends PureComponent {
 
   upSize = () => {
     const { size } = this.state;
-    if (size * 1 === 46) {
+    if (size * 1 >= 48) {
       return;
     }
     this.setState({ size: (size * 1 + 0.5).toFixed(1) });
@@ -67,7 +68,7 @@ class GenderSize extends PureComponent {
 
   downSize = () => {
     const { size } = this.state;
-    if (size * 1 === 36) {
+    if (size * 1 <= 35.5) {
       return;
     }
     this.setState({ size: (size - 0.5).toFixed(1) });
@@ -85,21 +86,11 @@ class GenderSize extends PureComponent {
     return (
       <KeyboardDismiss style={styles.container}>
         <Image style={styles.sizeGender} source={Images.sizeGender} />
-        <ImageBackground
-          style={styles.iconUp}
-          source={Images.iconUp}
-          onPress={this.upSize}
-          hitSlop={hitSlop}
-        />
-        <ImageBackground source={Images.frameSize} style={styles.sizeWrapper}>
+        <TouchableOpacity style={styles.arrowUp} onPress={this.upSize} hitSlop={hitSlop} />
+        <View style={styles.sizeWrapper}>
           <Text style={styles.sizeText}>{size}</Text>
-        </ImageBackground>
-        <ImageBackground
-          style={styles.iconUp}
-          source={Images.iconDown}
-          onPress={this.downSize}
-          hitSlop={hitSlop}
-        />
+        </View>
+        <TouchableOpacity style={styles.arrowDown} onPress={this.downSize} hitSlop={hitSlop} />
         <Image style={styles.sexText} source={Images.sexText} />
         <View style={[styles.genderWrapper]}>
           <TouchableOpacity onPress={() => this.chooseGender(1)}>
@@ -115,29 +106,55 @@ class GenderSize extends PureComponent {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.bottom}>
-          <ImageBackground source={Images.frameLogin} style={styles.frameLogin} onPress={this.goNext}>
-            <Text style={styles.nextText}>开始体验</Text>
-          </ImageBackground>
-        </View>
+        <TouchableOpacity style={styles.bottom} onPress={this.goNext}>
+          <Text style={styles.nextText}>开始体验</Text>
+        </TouchableOpacity>
       </KeyboardDismiss>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  arrowUp: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 0,
+    borderBottomWidth: 16,
+    borderRightWidth: 15,
+    borderLeftWidth: 15,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderBottomColor: Colors.OTHER_BACK,
+    borderRightColor: 'transparent',
+  },
+  arrowDown: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 16,
+    borderBottomWidth: 0,
+    borderRightWidth: 15,
+    borderLeftWidth: 15,
+    borderTopColor: Colors.OTHER_BACK,
+    borderLeftColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
+  },
   sizeWrapper: {
-    width: wPx2P(115),
-    height: wPx2P(39),
+    width: wPx2P(94),
+    height: wPx2P(40),
     marginVertical: wPx2P(15),
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom: hPx2P(50),
+    backgroundColor: Colors.MAIN_BACK,
   },
   sexText: {
     marginTop: hPx2P(67),
@@ -163,30 +180,28 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flexDirection: 'row',
-    bottom: hPx2P(24 + PADDING_TAB),
+    bottom: hPx2P(34 + PADDING_TAB),
     position: 'absolute',
+    height: wPx2P(48),
+    width: wPx2P(244),
+    backgroundColor: Colors.OTHER_BACK,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   nextText: {
     color: '#fff',
     fontSize: 16,
-  },
-  frameLogin: {
-    height: wPx2P(51),
-    width: wPx2P(229),
-    alignItems: 'center',
-    marginTop: hPx2P(51),
-    justifyContent: 'center',
   },
   iconUp: {
     height: wPx2P(15),
     width: wPx2P(26),
   },
   sizeText: {
-    fontFamily: Mario,
+    fontFamily: YaHei,
     fontSize: 21,
     padding: 0,
-    marginBottom: 1,
-    color: '#000',
   },
   genderWrapper: {
     flexDirection: 'row',

@@ -10,13 +10,17 @@ export default class TabBar extends PureComponent {
   }
 
   renderItem = ({ item, index }: { item: Object, index: number }) => {
-    const { onIndexChange, position, index: activeIndex } = this.props;
+    const {
+      onIndexChange, position, index: activeIndex, itemMargin, routes,
+    } = this.props;
     return (
       <TabBarItem
         item={item}
         activeIndex={activeIndex}
         index={index}
+        itemMargin={itemMargin}
         key={item.key}
+        isLastItem={routes.length - 1 === index}
         position={position}
         onPress={onIndexChange}
         inputRange={this.inputRange}

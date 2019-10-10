@@ -1,17 +1,16 @@
 import React, { PureComponent } from 'react';
 import {
-  Text, View, StyleSheet, TextInput,
+  Text, View, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextInputMask from 'react-native-text-input-mask';
-import ImageBackground from '../../components/ImageBackground';
-import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { debounce } from '../../utils/commonUtils';
 import { showToast } from '../../utils/MutualUtil';
 import { sendMessage } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -40,6 +39,15 @@ class PhoneNumCom extends PureComponent {
   }
 
   onChange = (formatted, mobile) => {
+    if (mobile.length === 11) {
+      const { userInfo: { sendPhone, sendTime } } = this.props;
+      if (sendPhone === mobile && Date.now() - sendTime < 60000) {
+        this.startTimer(true);
+      } else {
+        this.clearInterval();
+        this.setState({ timer: null });
+      }
+    }
     this.setState({ mobile });
   }
 
@@ -71,11 +79,8 @@ class PhoneNumCom extends PureComponent {
   }
 
   startTimer = (samePhone) => {
-    if (!samePhone) {
-      this.clearInterval();
-    }
     const { userInfo } = this.props;
-    const time = Math.min(parseInt((5900 - Date.now() + userInfo.sendTime) / 1000), 59);
+    const time = Math.min(parseInt((59000 - Date.now() + userInfo.sendTime) / 1000), 59);
     this.setState({
       timer: samePhone ? time : 59,
     });
@@ -95,10 +100,10 @@ class PhoneNumCom extends PureComponent {
     const sendDisabled = mobile.length !== 11 || !!timer;
     return (
       <View>
-        <ImageBackground source={Images.framePhoneInput} style={styles.framePhoneInput}>
+        <View style={styles.framePhoneInput}>
           <TextInputMask
             style={styles.phoneInput}
-            placeholder="手机号码_"
+            placeholder="手机号码"
             clearButtonMode="while-editing"
             onChangeText={this.onChange}
             mask="[000] [0000] [0000]"
@@ -106,13 +111,13 @@ class PhoneNumCom extends PureComponent {
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
           />
-        </ImageBackground>
+        </View>
         <View style={styles.verifiCodeWrapper}>
-          <ImageBackground source={Images.verifiCode} style={styles.verifiCode}>
+          <View style={styles.verifiCode}>
             <TextInput
               maxLength={6}
               keyboardType="number-pad"
-              placeholder="验证码_"
+              placeholder="验证码"
               placeholderTextColor="#d3d3d3"
               underlineColorAndroid="transparent"
               style={styles.phoneInput}
@@ -120,17 +125,16 @@ class PhoneNumCom extends PureComponent {
               clearButtonMode="while-editing"
               onChangeText={this.onChangeText}
             />
-          </ImageBackground>
-          <ImageBackground
+          </View>
+          <TouchableOpacity
             onPress={debounce(this.toSendCode)}
-            source={sendDisabled ? Images.inSendVerifiCode : Images.sendVerifiCode}
-            style={styles.sendVerifiCode}
+            style={[styles.sendVerifiCode, { backgroundColor: sendDisabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
             disabled={sendDisabled}
           >
             <Text style={styles.login}>
               {`${timer ? `${timer}s` : '发送验证码'}`}
             </Text>
-          </ImageBackground>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -139,9 +143,12 @@ class PhoneNumCom extends PureComponent {
 
 const styles = StyleSheet.create({
   framePhoneInput: {
-    height: wPx2P(51),
-    width: wPx2P(240),
-    marginTop: hPx2P(65),
+    height: wPx2P(40),
+    width: wPx2P(244),
+    marginTop: hPx2P(69),
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
   },
   phoneInput: {
     flex: 1,
@@ -153,22 +160,28 @@ const styles = StyleSheet.create({
   },
   login: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 13,
   },
   verifiCodeWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: hPx2P(11),
   },
   verifiCode: {
-    height: wPx2P(39),
-    width: wPx2P(116),
+    height: wPx2P(40),
+    width: wPx2P(150),
     marginRight: wPx2P(10),
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
   },
   sendVerifiCode: {
-    height: wPx2P(34),
-    width: wPx2P(113),
+    height: wPx2P(40),
+    width: wPx2P(84),
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
 });
 

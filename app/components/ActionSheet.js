@@ -2,8 +2,9 @@
 /* ActionSheet组件，解决第三方插件在安卓某些机型上显示位置不对 */
 import React, { PureComponent } from 'react';
 import {
-  ActionSheetIOS, Platform, TouchableOpacity, Text, StyleSheet, Dimensions, View, TouchableWithoutFeedback,
+  ActionSheetIOS, Platform, TouchableOpacity, Text, StyleSheet, View, TouchableWithoutFeedback,
 } from 'react-native';
+import { getScreenWidth, getScreenHeight } from '../common/Constant';
 
 type Props = {
   options: Object,
@@ -56,7 +57,7 @@ class ActionSheet extends PureComponent<Props, State> {
     const { options, cancelButtonIndex } = this.props;
     return (
       <TouchableWithoutFeedback onPress={this.cancel}>
-        <View style={[styles.wrapper, { height: Dimensions.get('screen').height, width: Dimensions.get('screen').width }]}>
+        <View style={[styles.wrapper, { height: getScreenHeight(), width: getScreenWidth() }]}>
           <View style={{ backgroundColor: '#eee' }}>
             {
               options.map((v, i) => {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     height: 48,
     lineHeight: 48,
     backgroundColor: '#fff',
-    width: Dimensions.get('screen').width,
+    width: getScreenWidth(),
     textAlign: 'center',
   },
 });

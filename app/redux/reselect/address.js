@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 const getAddress = createSelector(
-  state => state.address.list,
+  state => state.address,
   value => value,
 );
 

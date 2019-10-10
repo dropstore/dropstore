@@ -5,12 +5,11 @@
  */
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, SCREEN_WIDTH } from '../common/Constant';
+import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, getScreenWidth } from '../common/Constant';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 
-class NavigationBarCom extends PureComponent {
+export default class NavigationBarCom extends PureComponent {
   render() {
     const { title } = this.props;
     return (
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.OTHER_BACK,
     alignItems: 'center',
     justifyContent: 'center',
-    width: SCREEN_WIDTH,
+    width: getScreenWidth(),
     top: 0,
     position: 'absolute',
   },
@@ -38,5 +37,3 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
 });
-
-export default withNavigation(NavigationBarCom);

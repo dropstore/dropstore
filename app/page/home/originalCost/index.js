@@ -4,14 +4,15 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
+import { FlatList } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TopCom from '../components/TopCom';
-import ShopListCom from '../components/ShopListCom';
-import Images from '../../../res/Images';
+import ShopListItemCom from '../components/ShopListItemCom';
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
+import { PullToRefresh } from '../../../components';
 
 function mapStateToProps() {
   return state => ({
@@ -43,14 +44,24 @@ class OriginalCost extends PureComponent {
     getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
   };
 
+  renderItem = ({ item }) => {
+    const { navigation } = this.props;
+    return <ShopListItemCom navigation={navigation} item={item} />;
+  }
+
   render() {
-    const { activityInfo } = this.props;
+    const { activityInfo: shopList } = this.props;
     return (
-      <ShopListCom
-        shopList={activityInfo}
-        loadMore={this.loadMore}
-        onRefresh={this.onRefresh}
-        ListHeaderComponent={<TopCom bannerId={1} imageSource={Images.instructions} />}
+      <PullToRefresh
+        totalPages={shopList.totalPages}
+        currentPage={shopList.currentPage}
+        Wrapper={FlatList}
+        style={{ paddingTop: 5 }}
+        ListHeaderComponent={<TopCom bannerId={2} />}
+        data={shopList.list}
+        refresh={this.onRefresh}
+        renderItem={this.renderItem}
+        onEndReached={this.loadMore}
       />
     );
   }

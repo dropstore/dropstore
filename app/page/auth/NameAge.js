@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, TextInput, StyleSheet,
+  Text, TextInput, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Image, ImageBackground, KeyboardDismiss } from '../../components';
+import { Image, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import { PADDING_TAB } from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import { receiveUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return state => ({
@@ -62,10 +63,10 @@ class NameAge extends PureComponent {
     return (
       <KeyboardDismiss style={styles.container}>
         <Image style={styles.nameAge} source={Images.nameAge} />
-        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+        <TouchableOpacity style={styles.nicknameBack}>
           <TextInput
             maxLength={12}
-            placeholder="昵称_"
+            placeholder="昵称"
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
             style={styles.age}
@@ -73,27 +74,22 @@ class NameAge extends PureComponent {
             clearButtonMode="while-editing"
             onChangeText={this.onChangeName}
           />
-        </ImageBackground>
-        <ImageBackground source={Images.frameNickname} style={styles.nicknameBack}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.nicknameBack}>
           <TextInput
             maxLength={3}
             keyboardType="number-pad"
-            placeholder="年龄_"
+            placeholder="年龄"
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
             style={styles.age}
             clearButtonMode="while-editing"
             onChangeText={this.onChangeAge}
           />
-        </ImageBackground>
-        <View style={styles.bottom}>
-          <ImageBackground source={Images.frameBlack} style={{ ...styles.frameBlack, marginRight: wPx2P(9) }} onPress={this.goBack}>
-            <Text style={styles.nextText}>上一步</Text>
-          </ImageBackground>
-          <ImageBackground source={Images.frameRed} style={styles.frameBlack} onPress={this.goNext}>
-            <Text style={styles.nextText}>下一步</Text>
-          </ImageBackground>
-        </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.frameBlack} onPress={this.goNext}>
+          <Text style={styles.nextText}>下一步</Text>
+        </TouchableOpacity>
       </KeyboardDismiss>
     );
   }
@@ -103,7 +99,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: hPx2P(125),
+    paddingTop: hPx2P(115),
+    backgroundColor: Colors.MAIN_BACK,
   },
   nameAge: {
     width: wPx2P(307),
@@ -119,15 +116,22 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   nicknameBack: {
-    width: wPx2P(238),
-    height: wPx2P(39),
+    width: wPx2P(244),
+    height: wPx2P(40),
     marginTop: hPx2P(13),
+    backgroundColor: '#fff',
   },
   frameBlack: {
-    width: wPx2P(177),
+    flexDirection: 'row',
+    bottom: hPx2P(34 + PADDING_TAB),
+    position: 'absolute',
     height: wPx2P(48),
+    width: wPx2P(244),
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: Colors.OTHER_BACK,
   },
   bottom: {
     flexDirection: 'row',

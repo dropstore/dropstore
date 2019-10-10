@@ -15,7 +15,8 @@ export default class PullToRefresh extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { totalPages } = this.props;
+    const { totalPages, refresh } = this.props;
+    if (!refresh) { return; }
     if (totalPages === -1 && nextProps.totalPages > -1) {
       this.setState({ refreshing: false });
     }
@@ -41,22 +42,32 @@ export default class PullToRefresh extends PureComponent {
   onRefresh = () => {
     const { refresh } = this.props;
     this.setState({ refreshing: true });
-    refresh();
+    refresh('refresh');
   }
 
   render() {
-    const { renderFooter, Wrapper } = this.props;
+    const {
+      renderFooter, Wrapper, iosOffsetY, progressViewOffset, refresh,
+    } = this.props;
     const { refreshing } = this.state;
     return (
       <Wrapper
         ListFooterComponent={renderFooter || this.renderFooter}
-        refreshControl={<RefreshControl tintColor="#c20000" refreshing={refreshing} onRefresh={this.onRefresh} />}
+        refreshControl={refresh ? (
+          <RefreshControl
+            progressViewOffset={progressViewOffset}
+            iosOffsetY={iosOffsetY}
+            tintColor="#c20000"
+            refreshing={refreshing}
+            onRefresh={this.onRefresh}
+          />
+        ) : null}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         removeClippedSubviews={false}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.5}
         showsVerticalScrollIndicator={false}
-        maxToRenderPerBatch={5}
-        initialNumToRender={10}
+        initialNumToRender={8}
+        maxToRenderPerBatch={6}
         {...this.props}
       />
     );
