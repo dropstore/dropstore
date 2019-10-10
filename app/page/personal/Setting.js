@@ -50,9 +50,9 @@ class Setting extends PureComponent {
     const { updateUser, navigation } = this.props;
     const { list } = this.state;
     updateUser({
-      size: list[4].value,
-      sex: { 男: 1, 女: 2 }[list[2].value],
-      age: list[3].value,
+      size: list[4].value === '0.0' ? -1 : list[4].value,
+      sex: { 男: 1, 女: 2 }[list[2].value] || -1,
+      age: list[3].value === '0' ? -1 : list[3].value,
       user_name: list[1].value,
       avatar: list[0].value,
     }).then(() => {
@@ -74,7 +74,7 @@ class Setting extends PureComponent {
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name !== 'sex') {
-      const customText = item.name === 'size' ? <ChangeSize onChange={this.sizeChange} initSize={item.value} /> : (
+      const customText = item.name === 'size' ? <ChangeSize onChange={this.sizeChange} initSize={item.value === '0.0' ? 42 : item.value} /> : (
         <View style={styles.inputWrapper}>
           <TextInput
             maxLength={item.name === 'name' ? 12 : 3}
@@ -83,7 +83,7 @@ class Setting extends PureComponent {
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
             style={styles.input}
-            defaultValue={item.value}
+            defaultValue={item.name !== 'age' || item.value !== '0' ? item.value : ''}
             clearButtonMode="while-editing"
             onChangeText={(text) => { this[item.name] = text; }}
           />
@@ -153,7 +153,7 @@ class Setting extends PureComponent {
 
   changeSex = () => {
     const { list } = this.state;
-    const sex = list[2].value === '女' ? '男' : '女';
+    const sex = list[2].value === '男' ? '女' : '男';
     this.changeValue('sex', sex);
   }
 
@@ -182,12 +182,12 @@ class Setting extends PureComponent {
                         : v.name === 'sex'
                           ? (
                             <ImageBackground
-                              source={v.value === '女' ? Images.chooseGirl : Images.chooseBoy}
+                              source={v.value === '女' ? Images.chooseGirl : v.value === '男' ? Images.chooseBoy : Images.nosex}
                               style={styles.sexBtnWrapper}
                               onPress={this.changeSex}
                             />
                           )
-                          : <Text style={styles.text}>{v.value}</Text>
+                          : <Text style={styles.text}>{['0', '0.0'].includes(v.value) ? '未设置' : v.value}</Text>
                     }
                   <Image source={Images.iconRight} style={styles.right} />
                 </View>

@@ -71,7 +71,7 @@ class PersonalCenterPage extends PureComponent {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
                   <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={userInfo.sex === '女' ? Images.littleGirl : Images.littleBoy} />
-                  {userInfo.age * 1 > -1 && <Text style={{ color: '#bbb', fontSize: 11, marginLeft: 5 }}>{`${userInfo.age}岁`}</Text>}
+                  {userInfo.age * 1 > 0 && <Text style={{ color: '#bbb', fontSize: 11, marginLeft: 5 }}>{`${userInfo.age}岁`}</Text>}
                 </View>
                 <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
               </View>

@@ -63,6 +63,7 @@ const IMAGES = {
   iconRight: require('./image/icon-arrow-right.png'),
   chooseBoy: require('./image/choose-boy.png'),
   chooseGirl: require('./image/choose-girl.png'),
+  nosex: require('./image/nosex.png'),
 
   // 自由贸易
   freeTradePlaceholder: require('./image/freeTrade-placeholder.png'),
