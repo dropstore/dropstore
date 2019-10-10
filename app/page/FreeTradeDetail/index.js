@@ -1,122 +1,82 @@
-import React from 'react';
-import { View, RefreshControl, StyleSheet } from 'react-native';
-import ScrollableTabView from 'rn-collapsing-tab-bar';
-import Colors from '../../res/Colors';
-import Header from './Header';
-import TabBar from '../../components/TabBar';
-import { getScreenHeight, STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
+import React, { PureComponent } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { TabView } from 'react-native-tab-view';
 import List from './List';
+import Colors from '../../res/Colors';
 import ListItemDetail from './ListItemDetail';
+import { getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
+import Header from './Header';
 
-const routes = [
-  { key: 'freeTradeGoodsPrice', title: '询价' },
-  { key: 'freeTradeGoodsDetail', title: '概述' },
-  { key: 'freeTradeHistory', title: '交易历史' },
-];
-
-export default class Collapse extends React.Component {
+class MyGoods extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    this.goods = navigation.getParam('item');
+    const routes = [
+      { key: 'freeTradeGoodsPrice', title: '询价' },
+      { key: 'freeTradeGoodsDetail', title: '概述' },
+      { key: 'freeTradeHistory', title: '交易历史' },
+    ];
     this.state = {
+      routes,
       index: 0,
-      refreshingIndex: -1,
-      tabHeight0: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
-      tabHeight1: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
-      tabHeight2: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
     };
+    this.goods = navigation.getParam('item');
   }
 
-  loadMore = () => {
-    const { index } = this.state;
-    if ([0, 2].includes(index)) {
-      this[`list${index}`].loadMore();
+  onIndexChange = (index) => {
+    this.setState({ index });
+  }
+
+  renderScene = ({ route }) => {
+    const { navigation } = this.props;
+    if (route.key === 'freeTradeGoodsDetail') {
+      return <ListItemDetail navigation={navigation} id={this.goods.id} />;
     }
-  }
-
-  onRefresh = () => {
-    const { index } = this.state;
-    this.setState({ refreshingIndex: index });
-    this[`list${index}`].refresh();
-  }
-
-  finishRefresh = () => {
-    this.setState({ refreshingIndex: -1 });
-  }
-
-  onChangeTab = (index) => {
-    const nextIndex = typeof index === 'number' ? index : index.i;
-    const { index: lastIndex } = this.state;
-    if (nextIndex !== lastIndex) {
-      this.setState({ index: nextIndex });
-    }
-  }
-
-  measure = (event, i) => {
-    this.setState({
-      [`tabHeight${i}`]: event.nativeEvent.layout.height,
-    });
+    return <List navigation={navigation} type={route.key} goods={this.goods} />;
   }
 
   render() {
-    const {
-      index, tabHeight0, tabHeight1, tabHeight2, refreshingIndex,
-    } = this.state;
-    const { navigation } = this.props;
+    const { routes, index } = this.state;
     return (
-      <ScrollableTabView
-        collapsableBar={<Header item={this.goods} />}
-        tabContentHeights={[tabHeight0, tabHeight1, tabHeight2]}
-        scrollEnabled
-        page={index}
-        contentProps={{ bounces: false }}
-        style={{ backgroundColor: Colors.MAIN_BACK }}
-        refreshControl={(
-          <RefreshControl
-            progressViewOffset={20}
-            tintColor={Colors.OTHER_BACK}
-            onRefresh={this.onRefresh}
-            refreshing={refreshingIndex > -1}
-          />
-        )}
-        prerenderingSiblingsNumber={Infinity}
-        onChangeTab={this.onChangeTab}
-        showsVerticalScrollIndicator={false}
-        loadMore={this.loadMore}
-        tabBarHeight={50}
-        renderTabBar={() => (
-          <TabBar
-            style={styles.tabBar}
-            routes={routes}
-            index={index}
-            itemMargin={20}
-            onIndexChange={this.onChangeTab}
-          />
-        )}
-      >
-        {
-          routes.map((v, i) => (
-            <View key={v.key} onLayout={event => this.measure(event, i)} style={{ minHeight: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT - 50 }}>
-              {
-                v.key === 'freeTradeGoodsDetail'
-                  ? <ListItemDetail finishRefresh={this.finishRefresh} ref={(v) => { this[`list${i}`] = v; }} id={this.goods.id} />
-                  : <List finishRefresh={this.finishRefresh} ref={(v) => { this[`list${i}`] = v; }} navigation={navigation} type={v.key} goods={this.goods} />
-              }
-            </View>
-          ))
-        }
-      </ScrollableTabView>
+      <View style={styles.tabView}>
+        <Header
+          onIndexChange={this.onIndexChange}
+          routes={routes}
+          index={index}
+          item={this.goods}
+        />
+        <TabView
+          style={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          renderTabBar={() => null}
+          onIndexChange={this.onIndexChange}
+          useNativeDriver
+          initialLayout={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
+          lazy
+        />
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  tabView: {
+    height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
+    width: getScreenWidth(),
+    backgroundColor: Colors.MAIN_BACK,
+  },
   tabBar: {
     height: 50,
     flexDirection: 'row',
     paddingBottom: 6,
     paddingHorizontal: 9,
-    backgroundColor: Colors.MAIN_BACK,
+  },
+  top: {
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    borderRadius: 2,
   },
 });
+
+export default MyGoods;

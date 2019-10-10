@@ -1,17 +1,13 @@
 import React, { PureComponent } from 'react';
-import {
-  FlatList, View, StyleSheet, Text,
-} from 'react-native';
+import { FlatList, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { PullToRefresh } from '../../components';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
 import ListItemHistory from './ListItemHistory';
 import ListItemPrice from './ListItemPrice';
 import Header from './component/Header';
-import { Image } from '../../components';
-import Images from '../../res/Images';
-import Colors from '../../res/Colors';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -32,13 +28,6 @@ class List extends PureComponent {
     this.filterParams = {};
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { listData, finishRefresh } = this.props;
-    if (listData.totalPages === -1 && nextProps.listData.totalPages > -1) {
-      finishRefresh();
-    }
-  }
-
   loadMore = () => {
     this.fetchData('more');
   }
@@ -49,10 +38,6 @@ class List extends PureComponent {
       goods_id,
       ...this.filterParams,
     }, fetchType);
-  }
-
-  refresh = () => {
-    this.fetchData('refresh');
   }
 
   filter = (params) => {
@@ -73,61 +58,25 @@ class List extends PureComponent {
     return <ListItemHistory navigation={navigation} item={item} />;
   }
 
-  renderFooter = () => {
-    const { listData } = this.props;
-    if (listData.totalPages === listData.currentPage || listData.totalPages === 0) {
-      return (
-        <View style={styles.loadingFooter}>
-          <Text style={styles.loadingText}>没有更多了</Text>
-        </View>
-      );
-    }
-    return (
-      <View style={styles.loadingFooter}>
-        <Text style={styles.loadingText}>加载中</Text>
-        <Image source={Images.loading} style={styles.loadingGif} />
-      </View>
-    );
-  }
-
   render() {
     const {
       listData, type, goods: { id },
     } = this.props;
     return (
-      <View>
-        { type !== 'freeTradeGoodsDetail' && <Header count={listData.count || 0} id={id} type={type} filter={this.filter} /> }
-        <FlatList
+      <View style={{ flex: 1 }}>
+        <Header count={listData.count || 0} id={id} type={type} filter={this.filter} />
+        <PullToRefresh
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
+          Wrapper={FlatList}
           data={listData.list}
-          keyExtractor={(item, index) => `${item.id}-${index}`}
+          refresh={this.fetchData}
           renderItem={this.renderItem}
-          scrollEnabled={false}
-          showsVerticalScrollIndicator={false}
-          removeClippedSubviews={false}
-          ListFooterComponent={this.renderFooter}
+          onEndReached={this.loadMore}
         />
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  loadingFooter: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: 60,
-    paddingBottom: 20,
-  },
-  loadingText: {
-    fontSize: 12,
-    color: Colors.NORMAL_TEXT_6,
-  },
-  loadingGif: {
-    width: 23,
-    height: 5,
-    marginLeft: 6,
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(List);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

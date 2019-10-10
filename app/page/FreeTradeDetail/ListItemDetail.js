@@ -28,18 +28,6 @@ class ListItemDetail extends PureComponent {
     fetchSimpleData(TYPE, { id });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { finishRefresh, data } = this.props;
-    if (data.isFetching && !nextProps.data.isFetching) {
-      finishRefresh();
-    }
-  }
-
-  refresh = () => {
-    const { fetchSimpleData, id } = this.props;
-    fetchSimpleData(TYPE, { id }, 'refresh');
-  }
-
   renderItem = ({ item }) => (
     <ImageNetUnkoneSize
       key={item.image}
@@ -55,10 +43,11 @@ class ListItemDetail extends PureComponent {
         <FlatList
           keyExtractor={(item, index) => `${item.image}-${index}`}
           removeClippedSubviews={false}
+          showsVerticalScrollIndicator={false}
           initialNumToRender={1}
           data={data.data}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
+          contentContainerStyle={{ paddingBottom: PADDING_TAB }}
+          style={{ flex: 1, backgroundColor: '#fff' }}
           renderItem={this.renderItem}
         />
       );
@@ -67,4 +56,4 @@ class ListItemDetail extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(ListItemDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(ListItemDetail);
