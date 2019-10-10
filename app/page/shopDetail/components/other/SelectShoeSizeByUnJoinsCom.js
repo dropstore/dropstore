@@ -59,7 +59,7 @@ class SelectShoeSizeByUnJoinsCom extends Component {
   };
 
   render() {
-    const { shoesInfo: { shoesList = [] } } = this.props;
+    const { shoesInfo: { data: shoesList = [] } } = this.props;
     const { chooseId } = this.state;
     return (
       <View style={styles.container}>
