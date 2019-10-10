@@ -26,7 +26,7 @@ export default class ListItem extends PureComponent {
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     let btns = [];
-    // 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5已发布出售
+    // 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5正在出售
     if (item.goods_status === '1') {
       btns = [];
     } if (item.goods_status === '5') {
@@ -35,10 +35,10 @@ export default class ListItem extends PureComponent {
         { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
       ];
     } else if (item.goods_status === '4') {
-      btns = [
-        { title: '发布', backgroundColor: '#FFA700', key: 'publish' },
-        { title: '提货', backgroundColor: '#EF4444', key: 'pickUp' },
-      ];
+      btns = [{ title: '发布', backgroundColor: '#FFA700', key: 'publish' }];
+      if (item.is_stock === '1' || item.add_time * 1000 < Date.now()) {
+        btns.push({ title: '提货', backgroundColor: '#EF4444', key: 'pickUp' });
+      }
     } else if (item.goods_status === '0') {
       btns = [
         { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
@@ -76,13 +76,23 @@ export default class ListItem extends PureComponent {
               <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
             </View>
           </View>
-          { ['4', '5'].includes(item.goods_status) && <Text style={{ fontSize: 11, marginTop: 2 }}>{`${item.is_stock === '1' ? '' : '预计'}入库时间：${formatDate(item.add_time, 'MM/dd')}`}</Text> }
+          {
+            ['4', '5'].includes(item.goods_status) && (
+              <Text style={{ fontSize: 11, marginTop: 2 }}>
+                {`${item.is_stock === '1' ? '' : '预计'}入库时间：${formatDate(item.add_time, 'MM/dd')}`}
+              </Text>
+            )
+          }
           {
             btns.length > 0 && (
               <View style={styles.btnGroup}>
                 {
                   btns.map(v => (
-                    <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
+                    <TouchableOpacity
+                      key={v.key}
+                      onPress={() => this.onPress(v.key)}
+                      style={[styles.btn, { backgroundColor: v.backgroundColor, width: v.key === 'express' ? 115 : 53 }]}
+                    >
                       <Text style={styles.text}>{v.title}</Text>
                     </TouchableOpacity>
                   ))
@@ -136,12 +146,10 @@ const styles = StyleSheet.create({
   btnGroup: {
     alignSelf: 'flex-end',
     flexDirection: 'row',
-    width: 115,
-    height: 25,
     marginTop: 9,
   },
   btn: {
-    flex: 1,
+    height: 25,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 2,
