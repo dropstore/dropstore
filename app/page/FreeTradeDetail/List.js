@@ -66,7 +66,7 @@ class List extends PureComponent {
     } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <Header count={listData.count || 0} id={id} type={type} filter={this.filter} />
+        {/* <Header count={listData.count || 0} id={id} type={type} filter={this.filter} /> */}
         <PullToRefresh
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
