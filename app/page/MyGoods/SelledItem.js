@@ -13,12 +13,15 @@ export default class SelledItem extends PureComponent {
       <View style={styles.container}>
         <FadeImage source={{ uri: item.image }} style={styles.shoe} />
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <View>
-            <TitleWithTagTwo text={item.goods_name} type={item.is_stock} />
-            <Price price={item.order_price || item.price} />
+          <TitleWithTagTwo text={item.goods_name} type={item.is_stock} />
+          <View style={styles.middle}>
+            <Price price={item.order_price || item.price} offsetBottom={4} />
+            <Text style={{ fontSize: 11, textAlign: 'right' }}>{formatDate(item.buy_time, 'MM/dd hh:mm:ss')}</Text>
           </View>
-          <Text style={{ fontSize: 11, textAlign: 'right' }}>{formatDate(item.buy_time, 'MM/dd hh:mm:ss')}</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <View style={{
+            flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginTop: 5,
+          }}
+          >
             <AvatarWithShadow source={{ uri: item.avatar }} size={27} />
             <Text style={styles.name}>{item.user_name}</Text>
           </View>
@@ -31,7 +34,13 @@ export default class SelledItem extends PureComponent {
 const styles = StyleSheet.create({
   name: {
     fontSize: 13,
-    marginLeft: 5,
+    marginLeft: 6,
+  },
+  middle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    marginTop: 3,
   },
   container: {
     backgroundColor: '#fff',
