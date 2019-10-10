@@ -6,6 +6,7 @@ import Header from './Header';
 import TabBar from '../../components/TabBar';
 import { getScreenHeight, STATUSBAR_AND_NAV_HEIGHT } from '../../common/Constant';
 import List from './List';
+import ListItemDetail from './ListItemDetail';
 
 const routes = [
   { key: 'freeTradeGoodsPrice', title: '询价' },
@@ -20,6 +21,7 @@ export default class Collapse extends React.Component {
     this.goods = navigation.getParam('item');
     this.state = {
       index: 0,
+      refreshingIndex: -1,
       tabHeight0: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
       tabHeight1: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
       tabHeight2: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT,
@@ -27,11 +29,20 @@ export default class Collapse extends React.Component {
   }
 
   loadMore = () => {
-    console.log(123);
+    const { index } = this.state;
+    if ([0, 2].includes(index)) {
+      this[`list${index}`].loadMore();
+    }
   }
 
   onRefresh = () => {
-    console.log(456);
+    const { index } = this.state;
+    this.setState({ refreshingIndex: index });
+    this[`list${index}`].refresh();
+  }
+
+  finishRefresh = () => {
+    this.setState({ refreshingIndex: -1 });
   }
 
   onChangeTab = (index) => {
@@ -50,7 +61,7 @@ export default class Collapse extends React.Component {
 
   render() {
     const {
-      index, tabHeight0, tabHeight1, tabHeight2,
+      index, tabHeight0, tabHeight1, tabHeight2, refreshingIndex,
     } = this.state;
     const { navigation } = this.props;
     return (
@@ -59,12 +70,13 @@ export default class Collapse extends React.Component {
         tabContentHeights={[tabHeight0, tabHeight1, tabHeight2]}
         scrollEnabled
         page={index}
+        style={{ backgroundColor: Colors.MAIN_BACK }}
         refreshControl={(
           <RefreshControl
             progressViewOffset={20}
             tintColor={Colors.OTHER_BACK}
             onRefresh={this.onRefresh}
-            refreshing={false}
+            refreshing={refreshingIndex > -1}
           />
           )}
         prerenderingSiblingsNumber={Infinity}
@@ -83,8 +95,12 @@ export default class Collapse extends React.Component {
       >
         {
           routes.map((v, i) => (
-            <View key={v.key} onLayout={event => this.measure(event, i)}>
-              <List navigation={navigation} type={v.key} goods={this.goods} />
+            <View key={v.key} onLayout={event => this.measure(event, i)} style={{ minHeight: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT - 50 }}>
+              {
+                v.key === 'freeTradeGoodsDetail'
+                  ? <ListItemDetail finishRefresh={this.finishRefresh} ref={(v) => { this[`list${i}`] = v; }} id={this.goods.id} />
+                  : <List finishRefresh={this.finishRefresh} ref={(v) => { this[`list${i}`] = v; }} navigation={navigation} type={v.key} goods={this.goods} />
+              }
             </View>
           ))
         }
@@ -99,5 +115,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 6,
     paddingHorizontal: 9,
+    backgroundColor: Colors.MAIN_BACK,
   },
 });
