@@ -24,7 +24,7 @@ function formatDate(time, format = 'yyyy/MM/dd hh:mm:ss') {
   return format
     .replace('yyyy', fullTime.getFullYear())
     .replace('MM', `${fullTime.getMonth() + 1}`.padStart(2, 0))
-    .replace('dd', `${fullTime.getDate() + 1}`.padStart(2, 0))
+    .replace('dd', `${fullTime.getDate()}`.padStart(2, 0))
     .replace('hh', `${fullTime.getHours()}`.padStart(2, 0))
     .replace('mm', `${fullTime.getMinutes()}`.padStart(2, 0))
     .replace('ss', `${fullTime.getSeconds()}`.padStart(2, 0));

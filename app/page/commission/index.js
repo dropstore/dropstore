@@ -50,14 +50,10 @@ class Commission extends PureComponent {
     const acId = shopInfo.user_activity.id;
     setCommission(shopInfo.activity.id, acId, inputCommission).then((res) => {
       if (res) {
-        const payData = {
-          order_id: acId,
-          price: res.data,
-        };
         navigation.navigate('pay', {
           title: '选择支付账户',
           type: ShopConstant.PAY_COMMISSION,
-          payData,
+          payData: res.data,
           shopInfo,
         });
       }

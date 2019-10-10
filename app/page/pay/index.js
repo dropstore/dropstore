@@ -18,13 +18,13 @@ const PAY_WAYS = [{
   isSelect: false,
   bgColor: Colors.PAY_ZFB_BG,
 },
-{
-  type: ShopConstant.WECHATPAY,
-  subImage: Images.pay_wx,
-  name: '微信钱包',
-  isSelect: false,
-  bgColor: Colors.PAY_WX_BG,
-},
+// {
+//   type: ShopConstant.WECHATPAY,
+//   subImage: Images.pay_wx,
+//   name: '微信钱包',
+//   isSelect: false,
+//   bgColor: Colors.PAY_WX_BG,
+// },
   // {
 //   type: ShopConstant.DROPPAY,
 //   subImage: Images.pay_drop,
