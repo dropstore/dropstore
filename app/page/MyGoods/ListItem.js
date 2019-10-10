@@ -36,7 +36,7 @@ export default class ListItem extends PureComponent {
       ];
     } else if (item.goods_status === '4') {
       btns = [{ title: '发布', backgroundColor: '#FFA700', key: 'publish' }];
-      if (item.is_stock === '1' || item.add_time * 1000 < Date.now()) {
+      if (item.is_stock === '1') {
         btns.push({ title: '提货', backgroundColor: '#EF4444', key: 'pickUp' });
       }
     } else if (item.goods_status === '0') {
