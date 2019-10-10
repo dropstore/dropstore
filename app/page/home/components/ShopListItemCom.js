@@ -60,7 +60,7 @@ export default class ShopListItemCom extends PureComponent {
     const { showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.image }} />
+        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
         <View style={styles.right}>
           <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
           <View style={styles.rightBottom}>
