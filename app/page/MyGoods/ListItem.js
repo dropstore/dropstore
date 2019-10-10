@@ -76,7 +76,7 @@ export default class ListItem extends PureComponent {
               <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
             </View>
           </View>
-          { ['4', '5'].includes(item.goods_status) && <Text style={{ fontSize: 11 }}>{`入库时间：${formatDate(item.add_time, 'MM/dd')}`}</Text> }
+          { ['4', '5'].includes(item.goods_status) && <Text style={{ fontSize: 11, marginTop: 2 }}>{`${item.is_stock === '1' ? '' : '预计'}入库时间：${formatDate(item.add_time, 'MM/dd')}`}</Text> }
           {
             btns.length > 0 && (
               <View style={styles.btnGroup}>
