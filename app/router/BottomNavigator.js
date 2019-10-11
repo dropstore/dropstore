@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, TouchableWithoutFeedback, StatusBar, Animated, Text, Platform,
+  View, StyleSheet, TouchableWithoutFeedback, Animated, Text, Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -65,8 +65,6 @@ class BottomNavigator extends PureComponent {
     this.didBlurSubscription = navigation.addListener(
       'willFocus',
       (payload) => {
-        const { index } = this.state;
-        this.changeStatusBar(index);
         if (payload.action.type === 'Navigation/NAVIGATE') {
           const nextIndex = payload?.state?.params?.index;
           nextIndex && this.onIndexChange(nextIndex);
@@ -79,14 +77,6 @@ class BottomNavigator extends PureComponent {
     this.didBlurSubscription && this.didBlurSubscription.remove();
   }
 
-  changeStatusBar = (i) => {
-    if ([0, 1, 3].includes(i)) {
-      StatusBar.setBarStyle('light-content', true);
-    } else {
-      StatusBar.setBarStyle('dark-content', true);
-    }
-  }
-
   onIndexChange = (index) => {
     const { userInfo, navigation } = this.props;
     if (index === 4 && !userInfo.user_s_id) {
@@ -94,7 +84,6 @@ class BottomNavigator extends PureComponent {
       return;
     }
     this.setState({ index });
-    this.changeStatusBar(index);
   }
 
   onPressIn = (i) => {

@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Alert, StatusBar,
+  View, Text, StyleSheet, TouchableOpacity, Alert,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -100,7 +100,6 @@ class Safesetting extends PureComponent {
     const { list, cache, unit } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View>
           {
             list.map((group, i) => (

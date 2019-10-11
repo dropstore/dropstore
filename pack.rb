@@ -101,7 +101,9 @@ def bundleVersion(version)
 end
 
 def export_android(channel)
-  puts `yarn i`
+  puts `yarn`
+  puts `yarn add react-native-reanimated@1.2.0`
+  puts `./pack.rb edit_modules edit`
   puts "---------- packing android: #{channel} ------------"
   result1 = File.read('./android/app/build.gradle')
   File.write('./android/app/build.gradle', File.read('./edit_node_modules/android/build.gradle'))

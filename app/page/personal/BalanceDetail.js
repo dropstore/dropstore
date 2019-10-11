@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, FlatList, StatusBar,
+  View, Text, StyleSheet, TouchableOpacity, FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -55,7 +55,6 @@ class BalanceDetail extends PureComponent {
     const { listData } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <PullToRefresh
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}

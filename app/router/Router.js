@@ -1,9 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
 import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import {
   Platform, Animated, Easing, TouchableOpacity, StyleSheet,
 } from 'react-native';
-// eslint-disable-next-line import/no-unresolved
 import CardStackStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator';
 import store from '../redux/configureStore';
 import BottomNavigator from './BottomNavigator';
@@ -12,6 +12,7 @@ import {
 } from '../common/Constant';
 import Image from '../components/Image';
 import Colors from '../res/Colors';
+import { YaHei } from '../res/FontFamily';
 import Images from '../res/Images';
 import Web from '../page/Web';
 
@@ -156,26 +157,26 @@ const styles = StyleSheet.create({
     paddingRight: 40,
   },
   headerStyle: {
+    borderBottomWidth: 0,
+    backgroundColor: '#fff',
     ...Platform.select({
       android: {
         height: STATUSBAR_AND_NAV_HEIGHT,
-        borderBottomWidth: 0,
         paddingTop: STATUSBAR_HEIGHT,
-        backgroundColor: Colors.OTHER_BACK,
         elevation: 0,
       },
       ios: {
         marginTop: IS_IPHONE_X ? -4 : 0,
-        backgroundColor: Colors.OTHER_BACK,
         height: NAV_HEIGHT,
-        borderBottomWidth: 0,
       },
     }),
   },
   headerTitleStyle: {
-    fontWeight: 'bold',
     flex: 1,
     textAlign: 'center',
+    color: '#010101',
+    fontSize: 16,
+    fontFamily: YaHei,
   },
 });
 

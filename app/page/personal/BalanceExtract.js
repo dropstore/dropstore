@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar,
+  View, Text, StyleSheet, TouchableOpacity, TextInput,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -109,7 +109,6 @@ class BalanceExtract extends PureComponent {
     ];
     return (
       <KeyboardDismiss style={styles.container}>
-        <StatusBar translucent backgroundColor="transparent" barStyle="light-content" />
         <View>
           {
             data.map((v, i) => (
