@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
+import Animated from 'react-native-reanimated';
 import TabBar from '../../components/TabBar';
 import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
 // import LuckyCharm from './luckyCharm';
@@ -9,7 +10,9 @@ import SelfSupport from './selfSupport';
 
 const ROUTES = [
   { key: 'originalCost', title: '原价发售', screen: OriginalCost },
-  { key: 'selfSupport', title: 'Drop自营', screen: SelfSupport },
+  {
+    key: 'selfSupport', title: 'Drop自营', screen: SelfSupport, width: 55,
+  },
   // { key: 'luckyCharm', title: '球鞋锦鲤',screen: LuckyCharm },
   // { key: 'reserve', title: '球鞋预定',screen: Reserve },
 ];
@@ -17,10 +20,12 @@ const ROUTES = [
 class HomePage extends PureComponent {
   constructor(props) {
     super(props);
+    const initIndex = 0;
     this.state = {
-      index: 0,
+      index: initIndex,
       routes: ROUTES,
     };
+    this.indexScrollPosition = new Animated.Value(initIndex);
   }
 
   onIndexChange = (index) => {
@@ -33,6 +38,11 @@ class HomePage extends PureComponent {
     return <Screen navigation={navigation} />;
   }
 
+  renderTabBar = (props) => {
+    this.indexScrollPosition = props.position;
+    return null;
+  }
+
   render() {
     const { routes, index } = this.state;
     return (
@@ -41,13 +51,15 @@ class HomePage extends PureComponent {
           style={styles.tabBar}
           routes={routes}
           index={index}
+          itemMargin={25}
+          position={this.indexScrollPosition}
           onIndexChange={this.onIndexChange}
         />
         <TabView
           style={{ flex: 1 }}
           navigationState={this.state}
           renderScene={this.renderScene}
-          renderTabBar={() => null}
+          renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
           initialLayout={{ width: getScreenWidth() }}
@@ -64,11 +76,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tabBar: {
-    width: 185, // 330
     height: 40,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 9,
     marginBottom: 5,
   },
 });

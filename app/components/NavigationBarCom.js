@@ -6,7 +6,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, getScreenWidth } from '../common/Constant';
-import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 
 export default class NavigationBarCom extends PureComponent {
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
   container: {
     height: STATUSBAR_AND_NAV_HEIGHT,
     paddingTop: STATUSBAR_HEIGHT,
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     width: getScreenWidth(),
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   title: {
-    color: '#fff',
+    color: '#010101',
     fontSize: 16,
     fontFamily: YaHei,
   },
