@@ -39,9 +39,7 @@ export default class TabBar extends PureComponent {
         fontSize={fontSize}
         sidePadding={sidePadding}
         onPress={onIndexChange}
-        inputRange={this.inputRange}
         isFirst={index === 0}
-        isLast={index === this.inputRange.length - 1}
       />
     );
   }

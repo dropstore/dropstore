@@ -9,9 +9,10 @@ const inactiveColor = 137;
 class TabBarItem extends PureComponent {
   render() {
     const {
-      item, index, onPress, itemMargin, isLastItem, inputRange, position, fontSize, sidePadding,
+      item, index, onPress, itemMargin, isLastItem, position, fontSize, sidePadding,
     } = this.props;
     const isFirst = index === 0;
+    const inputRange = isFirst ? [0, 1] : isLastItem ? [index - 1, index] : [index - 1, index, index + 1];
     const R = inputRange.length > 1 ? Animated.round(
       Animated.interpolate(position, {
         inputRange,

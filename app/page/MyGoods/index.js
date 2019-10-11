@@ -63,15 +63,20 @@ class MyGoods extends PureComponent {
     return <List navigation={navigation} apiType={route.apiType} route={this.routeType} type={route.key} />;
   }
 
+  renderTabBar = (props) => {
+    this.indexScrollPosition = props.position;
+    return null;
+  }
+
   render() {
     const { routes, index } = this.state;
     return (
       <View style={styles.tabView}>
         <View style={styles.header}>
           <TabBar
-            style={{ ...styles.tabBar, width: this.routeType === 'Goods' ? 140 : 180 }}
+            style={styles.tabBar}
             routes={routes}
-            index={index}
+            position={this.indexScrollPosition}
             onIndexChange={this.onIndexChange}
           />
           {
@@ -89,7 +94,7 @@ class MyGoods extends PureComponent {
           style={{ flex: 1 }}
           navigationState={this.state}
           renderScene={this.renderScene}
-          renderTabBar={() => null}
+          renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
           initialLayout={{ width: getScreenWidth() }}
@@ -110,11 +115,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   tabBar: {
-    height: 50,
+    height: 39,
     flexDirection: 'row',
-    paddingBottom: 4,
-    justifyContent: 'space-between',
-    paddingHorizontal: 9,
+    paddingTop: 12,
   },
   rightWrapper: {
     paddingRight: 12,

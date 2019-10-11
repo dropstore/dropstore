@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 7,
     marginHorizontal: 9,
-    marginTop: 7,
+    marginBottom: 7,
     flexDirection: 'row',
   },
   tag: {

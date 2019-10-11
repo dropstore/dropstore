@@ -22,6 +22,7 @@ class HomePage extends PureComponent {
     super(props);
     const initIndex = 0;
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       index: initIndex,
       routes: ROUTES,
     };
@@ -29,6 +30,7 @@ class HomePage extends PureComponent {
   }
 
   onIndexChange = (index) => {
+    // eslint-disable-next-line react/no-unused-state
     this.setState({ index });
   }
 
@@ -48,15 +50,13 @@ class HomePage extends PureComponent {
   }
 
   render() {
-    const { routes, index } = this.state;
+    const { routes } = this.state;
     return (
       <View style={styles.tabView}>
         <View style={styles.header}>
           <TabBar
             style={styles.tabBar}
             routes={routes}
-            index={index}
-            itemMargin={25}
             position={this.indexScrollPosition}
             onIndexChange={this.onIndexChange}
           />
