@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>zh_CN</string>
 	<key>CFBundleDisplayName</key>
-	<string>drop</string>
+	<string>炒饭</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -42,22 +42,11 @@
 				<string>dropstore</string>
 			</array>
 		</dict>
-		<!-- <dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>alipay</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>2019090466881829</string>
-			</array>
-		</dict> -->
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<!-- <string>alipay</string> -->
 		<string>wechat</string>
 		<string>weixin</string>
 		<string>sinaweibohd</string>
