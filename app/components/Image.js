@@ -1,12 +1,13 @@
 /* @flow */
 import React, { PureComponent } from 'react';
-import { Platform, Image } from 'react-native';
+import { Platform, Image, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 type Props = {
   style: Object,
   resizeMode?: 'cover' | 'contain' | 'stretch' | 'center',
   source: any,
+  onPress: Function,
 };
 
 type State = {
@@ -19,9 +20,28 @@ export default class ImageOrFastImage extends PureComponent<Props, State> {
   }
 
   render() {
-    const { source, style, resizeMode } = this.props;
+    const {
+      source, style, resizeMode, onPress, hitSlop,
+    } = this.props;
     if (!source) { return null; }
     const Wrapper = Platform.OS === 'ios' && source.constructor !== Object ? FastImage : Image;
+    if (onPress) {
+      return (
+        <TouchableOpacity
+          onPress={onPress}
+          hitSlop={hitSlop || {
+            top: 20, right: 20, left: 20, bottom: 20,
+          }}
+        >
+          <Wrapper
+            resizeMode={resizeMode}
+            style={style}
+            source={source}
+            onError={this.onError}
+          />
+        </TouchableOpacity>
+      );
+    }
     return (
       <Wrapper
         resizeMode={resizeMode}
