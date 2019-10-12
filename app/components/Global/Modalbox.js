@@ -15,10 +15,13 @@ export default class Modal extends PureComponent {
     return (
       <Modalbox
         swipeToClose={false}
-        onClosed={onClosed}
         backButtonClose
         ref={(v) => { this.modalbox = v; }}
         {...options}
+        onClosed={() => {
+          onClosed();
+          options.onClosed && options.onClosed();
+        }}
       >
         {element}
       </Modalbox>

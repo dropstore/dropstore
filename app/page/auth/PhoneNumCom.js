@@ -111,7 +111,7 @@ class PhoneNumCom extends PureComponent {
   render() {
     const { timer, code, mobile } = this.state;
     return (
-      <View>
+      <View style={{ height: 100, justifyContent: 'space-between' }}>
         <View style={styles.wrapper}>
           <Text style={styles.text}>手机号</Text>
           <View style={styles.inputWrapper}>
@@ -127,7 +127,7 @@ class PhoneNumCom extends PureComponent {
             />
           </View>
         </View>
-        <View style={[styles.wrapper, { marginTop: 50 }]}>
+        <View style={styles.wrapper}>
           <Text style={styles.text}>验证码</Text>
 
           <View style={styles.inputWrapper}>

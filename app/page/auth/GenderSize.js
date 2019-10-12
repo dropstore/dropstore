@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet,
+  View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -9,14 +9,15 @@ import { Image, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import {
-  PADDING_TAB, getScreenWidth, getScreenHeight,
+  PADDING_TAB, getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT,
 } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import Colors from '../../res/Colors';
 
+const sizes = Array(26).fill('').map((v, i) => i / 2 + 35.5);
 
 function mapStateToProps() {
   return state => ({
@@ -35,8 +36,9 @@ class GenderSize extends PureComponent {
     super(props);
     const { userInfo } = this.props;
     this.state = {
-      size: 42.5,
+      size: '',
       sex: userInfo.sex,
+      modalIsOpen: false,
     };
   }
 
@@ -61,53 +63,108 @@ class GenderSize extends PureComponent {
     }
   }
 
-  upSize = () => {
-    const { size } = this.state;
-    if (size * 1 >= 48) {
-      return;
-    }
-    this.setState({ size: (size * 1 + 0.5).toFixed(1) });
-  }
-
-  downSize = () => {
-    const { size } = this.state;
-    if (size * 1 <= 35.5) {
-      return;
-    }
-    this.setState({ size: (size - 0.5).toFixed(1) });
-  }
-
   changeSex = () => {
     const { sex } = this.state;
     this.setState({ sex: sex === '男' ? '女' : '男' });
   }
 
+  chooseSize = (size) => {
+    this.setState({ size });
+    this.closeModal();
+  }
+
+  openModal = () => {
+    const { modalIsOpen } = this.state;
+    if (!modalIsOpen) {
+      this.setState({ modalIsOpen: true });
+      showModalbox({
+        element: (
+          <ScrollView contentContainerStyle={styles.modal}>
+            {
+              sizes.map(v => (
+                <TouchableOpacity
+                  onPress={() => this.chooseSize(v)}
+                  key={v}
+                  style={[styles.itemWrapper, { borderRightColor: '#F2F2F2', borderBottomColor: '#F2F2F2' }]}
+                >
+                  <Text>{v}</Text>
+                </TouchableOpacity>
+              ))
+            }
+          </ScrollView>
+        ),
+        options: {
+          style: {
+            height: this.modalHeight,
+            width: getScreenWidth(),
+            marginTop: 10,
+            backgroundColor: '#fff',
+            ...Platform.select({
+              ios: {
+                shadowColor: 'rgb(166, 166, 166)',
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.35,
+                shadowRadius: 5,
+              },
+              android: {
+                elevation: 5,
+                position: 'relative',
+              },
+            }),
+          },
+          position: 'bottom',
+          backdropOpacity: 0,
+          onClosed: () => {
+            this.setState({ modalIsOpen: false });
+          },
+        },
+      });
+    } else {
+      this.closeModal();
+    }
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+    closeModalbox();
+  }
+
+  onLayout = (e) => {
+    this.modalHeight = getScreenHeight() - e.nativeEvent.layout.y - STATUSBAR_AND_NAV_HEIGHT + 25;
+  }
+
   render() {
-    const { size, sex } = this.state;
+    const { size, sex, modalIsOpen } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
         <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
-        <View style={styles.wrapper}>
-          <Text style={styles.text}>性别</Text>
-          <View style={styles.inputWrapper}>
-            <Text style={{ color: '#E4E4EE', fontSize: 12 }}>选择性别</Text>
-            <Image
-              source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
-              style={styles.sexBtnWrapper}
-              onPress={this.changeSex}
-            />
-          </View>
-        </View>
-        <View style={[styles.wrapper, { marginTop: 50 }]}>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.text}>鞋码</Text>
-            <Text style={styles.size}>56</Text>
-          </View>
-          <TouchableOpacity>
-            <View />
+        <View style={{ height: 100, justifyContent: 'space-between' }}>
+          <TouchableOpacity style={styles.wrapper} onPress={this.changeSex}>
+            <Text style={styles.text}>性别</Text>
+            <View style={styles.inputWrapper}>
+              <Text style={{ color: '#E4E4EE', fontSize: 12 }}>选择性别</Text>
+              <Image
+                source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
+                style={styles.sexBtnWrapper}
+                onPress={this.changeSex}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.wrapper} onPress={this.openModal}>
+            <View style={styles.sizeWrapper0}>
+              <Text style={styles.text}>鞋码</Text>
+              <Text style={styles.size}>{size}</Text>
+            </View>
+            <TouchableOpacity style={styles.btn} onPress={this.openModal}>
+              <View style={modalIsOpen ? styles.arrowUp : styles.arrowDown} />
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.bottom} onPress={this.goNext}>
+        <TouchableOpacity
+          style={[styles.frameLogin, { backgroundColor: size === '' || sex === '' ? Colors.DISABLE : Colors.YELLOW }]}
+          onPress={this.goNext}
+          onLayout={this.onLayout}
+        >
           <Text style={styles.nextText}>开始体验</Text>
         </TouchableOpacity>
       </KeyboardDismiss>
@@ -131,6 +188,50 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
   },
+  frameLogin: {
+    height: wPx2P(43),
+    width: wPx2P(304),
+    alignItems: 'center',
+    marginTop: hPx2P(34),
+    justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  btn: {
+    height: 17,
+    width: 17,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: Colors.YELLOW,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  scrollView: {
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgb(166, 166, 166)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 50,
+        position: 'relative',
+      },
+    }),
+  },
+  modal: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  itemWrapper: {
+    width: '25%',
+    height: getScreenWidth() / 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderRightWidth: StyleSheet.hairlineWidth,
+  },
   sexBtnWrapper: {
     width: 55,
     height: 23,
@@ -139,11 +240,17 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 3,
+  },
+  sizeWrapper0: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 29,
   },
   wrapper: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    paddingBottom: 3,
     width: wPx2P(304),
     borderBottomColor: '#E4E4EE',
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -153,8 +260,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: YaHei,
     fontWeight: 'bold',
-    position: 'relative',
-    top: 5,
     marginLeft: 25,
   },
   arrowUp: {
@@ -162,23 +267,23 @@ const styles = StyleSheet.create({
     height: 0,
     borderStyle: 'solid',
     borderTopWidth: 0,
-    borderBottomWidth: 16,
-    borderRightWidth: 15,
-    borderLeftWidth: 15,
+    borderBottomWidth: 5,
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
     borderTopColor: 'transparent',
     borderLeftColor: 'transparent',
-    borderBottomColor: Colors.OTHER_BACK,
+    borderBottomColor: '#fff',
     borderRightColor: 'transparent',
   },
   arrowDown: {
     width: 0,
     height: 0,
     borderStyle: 'solid',
-    borderTopWidth: 16,
+    borderTopWidth: 5,
     borderBottomWidth: 0,
-    borderRightWidth: 15,
-    borderLeftWidth: 15,
-    borderTopColor: Colors.OTHER_BACK,
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
+    borderTopColor: '#fff',
     borderLeftColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',
