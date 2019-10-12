@@ -129,7 +129,6 @@ class PhoneNumCom extends PureComponent {
         </View>
         <View style={styles.wrapper}>
           <Text style={styles.text}>验证码</Text>
-
           <View style={styles.inputWrapper}>
             {code.length === 0 && <Text style={styles.placeholder}>输入验证码</Text>}
             <TextInputMask
@@ -188,22 +187,6 @@ const styles = StyleSheet.create({
     width: wPx2P(304),
     borderBottomColor: '#E4E4EE',
     borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  verifiCode: {
-    height: wPx2P(40),
-    width: wPx2P(150),
-    marginRight: wPx2P(10),
-    borderRadius: 2,
-    overflow: 'hidden',
-    backgroundColor: '#fff',
-  },
-  sendVerifiCode: {
-    height: wPx2P(40),
-    width: wPx2P(84),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 2,
-    overflow: 'hidden',
   },
 });
 

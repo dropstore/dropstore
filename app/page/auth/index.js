@@ -62,7 +62,7 @@ class AuthLoading extends PureComponent {
 
   toLogin = () => {
     const { messageAuth, navigation } = this.props;
-    navigation.navigate('GenderSize');
+    navigation.navigate('NameAge');
     // messageAuth(this.mobile, this.code).then((isLogin) => {
     //   if (isLogin) {
     //     navigation.navigate('Main');

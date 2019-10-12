@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react';
 import {
-  Text, TextInput, StyleSheet, TouchableOpacity,
+  Text, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import TextInputMask from 'react-native-text-input-mask';
 import { Image, KeyboardDismiss } from '../../components';
-import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import {
+  PADDING_TAB, getScreenWidth, getScreenHeight,
+} from '../../common/Constant';
 import { showToast } from '../../utils/MutualUtil';
 import { receiveUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 
 function mapStateToProps() {
@@ -29,7 +32,10 @@ class NameAge extends PureComponent {
   constructor(props) {
     super(props);
     const { userInfo } = this.props;
-    this.nickName = userInfo.user_name;
+    this.state = {
+      user_name: userInfo.user_name || '',
+      age: userInfo.age || '',
+    };
   }
 
   goBack = () => {
@@ -39,56 +45,70 @@ class NameAge extends PureComponent {
 
   goNext = () => {
     const { navigation, receiveUser } = this.props;
-    if (!this.nickName) {
+    const { user_name, age } = this.state;
+    if (!user_name) {
       showToast('请输入昵称');
       return;
-    } if (!this.age) {
+    } if (!age) {
       showToast('请输入年龄');
       return;
     }
-    receiveUser({ user_name: this.nickName, age: this.age });
+    receiveUser({ user_name, age });
     navigation.navigate('GenderSize');
   }
 
-  onChangeName = (nickName) => {
-    this.nickName = nickName;
+  onChangeName = (user_name) => {
+    this.setState({ user_name });
   }
 
   onChangeAge = (age) => {
-    this.age = age;
+    this.setState({ age });
   }
 
   render() {
-    const { userInfo } = this.props;
+    const { user_name, age } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
-        <Image style={styles.nameAge} source={Images.nameAge} />
-        <TouchableOpacity style={styles.nicknameBack}>
-          <TextInput
-            maxLength={12}
-            placeholder="昵称"
-            placeholderTextColor="#d3d3d3"
-            underlineColorAndroid="transparent"
-            style={styles.age}
-            defaultValue={userInfo.user_name}
-            clearButtonMode="while-editing"
-            onChangeText={this.onChangeName}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.nicknameBack}>
-          <TextInput
-            maxLength={3}
-            keyboardType="number-pad"
-            placeholder="年龄"
-            placeholderTextColor="#d3d3d3"
-            underlineColorAndroid="transparent"
-            style={styles.age}
-            clearButtonMode="while-editing"
-            onChangeText={this.onChangeAge}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.frameBlack} onPress={this.goNext}>
-          <Text style={styles.nextText}>下一步</Text>
+        <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
+        <View style={{ height: 107.5, justifyContent: 'space-between' }}>
+          <View style={styles.wrapper}>
+            <Text style={{ fontSize: 12 }}>昵称</Text>
+            <View style={[styles.inputWrapper, { height: 30 }]}>
+              {user_name.length === 0 && <Text style={styles.placeholder}>输入昵称</Text>}
+              <TextInputMask
+                style={styles.phoneInput}
+                clearButtonMode="while-editing"
+                onChangeText={this.onChangeName}
+                selectionColor="#00AEFF"
+                defaultValue={user_name}
+                underlineColorAndroid="transparent"
+              />
+            </View>
+          </View>
+
+          <View style={styles.wrapper}>
+            <Text style={{ fontSize: 12 }}>年龄</Text>
+            <View style={styles.inputWrapper}>
+              {age.length === 0 && <Text style={styles.placeholder}>输入年龄</Text>}
+              <TextInputMask
+                style={styles.phoneInput}
+                clearButtonMode="while-editing"
+                onChangeText={this.onChangeAge}
+                selectionColor="#00AEFF"
+                mask="[000]"
+                keyboardType="number-pad"
+                defaultValue={age}
+                underlineColorAndroid="transparent"
+              />
+            </View>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          onPress={this.goNext}
+          style={[styles.frameLogin, { backgroundColor: user_name === '' || age === '' ? Colors.DISABLE : Colors.YELLOW }]}
+        >
+          <Text style={styles.login}>下一步</Text>
         </TouchableOpacity>
       </KeyboardDismiss>
     );
@@ -97,15 +117,57 @@ class NameAge extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     alignItems: 'center',
-    paddingTop: hPx2P(115),
-    backgroundColor: Colors.MAIN_BACK,
+    backgroundColor: '#fff',
   },
-  nameAge: {
-    width: wPx2P(307),
-    height: wPx2P(91),
-    marginBottom: hPx2P(32),
+  placeholder: {
+    color: '#E4E4EE',
+    fontSize: 12,
+    position: 'absolute',
+    bottom: 3,
+  },
+  frameLogin: {
+    height: wPx2P(43),
+    width: wPx2P(304),
+    alignItems: 'center',
+    marginTop: hPx2P(34),
+    justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  inputWrapper: {
+    flex: 1,
+    marginLeft: 25,
+    height: 25,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    position: 'relative',
+    top: 3,
+  },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    width: wPx2P(304),
+    paddingBottom: 3,
+    borderBottomColor: '#E4E4EE',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  phoneInput: {
+    flex: 1,
+    padding: 0,
+    includeFontPadding: false,
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: YaHei,
+    marginBottom: 5,
+  },
+  logo: {
+    height: wPx2P(114),
+    width: wPx2P(108),
+    marginBottom: hPx2P(43.5),
+    marginTop: hPx2P(55),
   },
   age: {
     flex: 1,
@@ -115,30 +177,12 @@ const styles = StyleSheet.create({
     padding: 0,
     includeFontPadding: false,
   },
-  nicknameBack: {
-    width: wPx2P(244),
-    height: wPx2P(40),
-    marginTop: hPx2P(13),
-    backgroundColor: '#fff',
-  },
-  frameBlack: {
-    flexDirection: 'row',
-    bottom: hPx2P(34 + PADDING_TAB),
-    position: 'absolute',
-    height: wPx2P(48),
-    width: wPx2P(244),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 2,
-    overflow: 'hidden',
-    backgroundColor: Colors.OTHER_BACK,
-  },
   bottom: {
     flexDirection: 'row',
     bottom: hPx2P(24 + PADDING_TAB),
     position: 'absolute',
   },
-  nextText: {
+  login: {
     color: '#fff',
     fontSize: 16,
   },
