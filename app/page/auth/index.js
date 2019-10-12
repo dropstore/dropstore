@@ -115,13 +115,21 @@ class AuthLoading extends PureComponent {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.thirdWrapper}>
-          <ImageBackground
-            onPress={() => this.auth(2)}
-            source={Images.wx}
-            style={styles.wechat}
-          />
+        <View style={{ width: '100%', alignItems: 'center' }}>
+          <View style={{ alignItems: 'center', marginHorizontal: wPx2P(51), flexDirection: 'row' }}>
+            <View style={styles.hengxian} />
+            <Text style={{ fontSize: 11, color: '#707479', marginHorizontal: wPx2P(11) }}>其他方式登录</Text>
+            <View style={styles.hengxian} />
+          </View>
+          <View style={styles.thirdWrapper}>
+            <ImageBackground
+              onPress={() => this.auth(2)}
+              source={require('../../res/image/wxLogin.png')}
+              style={styles.wechat}
+            />
+          </View>
         </View>
+
         { showLoading && <ActivityIndicator size="large" style={styles.centering} /> }
         { showTreaty && <ModalTreaty closeTreaty={this.closeTreaty} navigation={navigation} close={this.closeTreaty} /> }
       </KeyboardDismiss>
@@ -135,13 +143,19 @@ const styles = StyleSheet.create({
     width: getScreenWidth(),
     alignItems: 'center',
     paddingTop: hPx2P(114),
-    backgroundColor: 'rgb(246,246,246)',
+    backgroundColor: '#fff',
     position: 'relative',
     justifyContent: 'space-between',
+  },
+  hengxian: {
+    flex: 1,
+    height: 0.5,
+    backgroundColor: '#EEEEF4',
   },
   drop: {
     height: wPx2P(103),
     width: wPx2P(191),
+    marginBottom: hPx2P(55),
   },
   frameLogin: {
     height: wPx2P(48),
@@ -158,10 +172,11 @@ const styles = StyleSheet.create({
   },
   thirdWrapper: {
     marginBottom: hPx2P(60 + PADDING_TAB),
+    marginTop: 13,
   },
   wechat: {
-    height: wPx2P(46),
-    width: wPx2P(46),
+    height: wPx2P(47),
+    width: wPx2P(47),
   },
   centering: {
     alignItems: 'center',
