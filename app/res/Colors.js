@@ -33,5 +33,9 @@ const COLORS = {
   // 支付
   PAY_WX_BG: '#61D759',
   PAY_ZFB_BG: '#5EC1EA',
+
+  // 按钮
+  YELLOW: '#FFA700',
+  DISABLE: '#AAAAB9',
 };
 export default COLORS;

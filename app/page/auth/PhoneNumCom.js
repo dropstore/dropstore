@@ -9,8 +9,8 @@ import { wPx2P } from '../../utils/ScreenUtil';
 import { debounce } from '../../utils/commonUtils';
 import { showToast } from '../../utils/MutualUtil';
 import { sendMessage } from '../../redux/actions/userInfo';
+import { YaHei } from '../../res/FontFamily';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { getScreenWidth } from '../../common/Constant';
 
 function mapStateToProps() {
   return state => ({
@@ -27,10 +27,10 @@ function mapDispatchToProps(dispatch) {
 class PhoneNumCom extends PureComponent {
   constructor(props) {
     super(props);
-    this.code = '';
     this.state = {
       mobile: '',
       timer: null,
+      code: '',
     };
   }
 
@@ -53,13 +53,13 @@ class PhoneNumCom extends PureComponent {
 
   onChangeText = (code) => {
     const { finished, unfinished } = this.props;
-    const { mobile } = this.state;
+    const { mobile, code: lastCode } = this.state;
     if (code.length === 6) {
       finished(mobile.replace(/\s/g, ''), code);
-    } else if (this.code.length > code.length) {
+    } else if (lastCode.length > code.length) {
       unfinished();
     }
-    this.code = code;
+    this.setState({ code });
   }
 
   toSendCode =() => {
@@ -100,40 +100,44 @@ class PhoneNumCom extends PureComponent {
   }
 
   render() {
-    const { timer } = this.state;
+    const { timer, code, mobile } = this.state;
     return (
       <View>
         <View style={styles.wrapper}>
           <Text style={styles.text}>手机号</Text>
-          <TextInputMask
-            style={styles.phoneInput}
-            placeholder="输入手机号"
-            clearButtonMode="while-editing"
-            onChangeText={this.onChange}
-            mask="[000] [0000] [0000]"
-            keyboardType="number-pad"
-            selectionColor="#3FCF77"
-            placeholderTextColor="#d3d3d3"
-            underlineColorAndroid="transparent"
-          />
+          <View style={styles.inputWrapper}>
+            {mobile.length === 0 && <Text style={styles.placeholder}>输入手机号</Text>}
+            <TextInputMask
+              style={styles.phoneInput}
+              clearButtonMode="while-editing"
+              onChangeText={this.onChange}
+              mask="[000] [0000] [0000]"
+              keyboardType="number-pad"
+              selectionColor="#00AEFF"
+              underlineColorAndroid="transparent"
+            />
+          </View>
         </View>
         <View style={[styles.wrapper, { marginTop: 50 }]}>
           <Text style={styles.text}>验证码</Text>
-          <TextInput
-            maxLength={6}
-            keyboardType="number-pad"
-            placeholder="输入验证码"
-            placeholderTextColor="#d3d3d3"
-            underlineColorAndroid="transparent"
-            style={styles.phoneInput}
-            selectionColor="#3FCF77"
-            ref={(v) => { this.codeInput = v; }}
-            clearButtonMode="while-editing"
-            onChangeText={this.onChangeText}
-          />
+
+          <View style={styles.inputWrapper}>
+            {code.length === 0 && <Text style={styles.placeholder}>输入验证码</Text>}
+            <TextInputMask
+              style={styles.phoneInput}
+              clearButtonMode="while-editing"
+              onChangeText={this.onChangeText}
+              mask="[000000]"
+              keyboardType="number-pad"
+              selectionColor="#3FCF77"
+              underlineColorAndroid="transparent"
+              ref={(v) => { this.codeInput = v; }}
+            />
+          </View>
+
           <TouchableOpacity onPress={debounce(this.toSendCode)}>
             <Text style={styles.login}>
-              {`${timer ? `${timer}s` : '获取验证码'}`}
+              {`${timer ? `重发${timer}` : '获取验证码'}`}
             </Text>
           </TouchableOpacity>
         </View>
@@ -145,11 +149,23 @@ class PhoneNumCom extends PureComponent {
 const styles = StyleSheet.create({
   phoneInput: {
     flex: 1,
-    marginLeft: 25,
-    color: '#666',
     padding: 0,
-    fontSize: 12,
     includeFontPadding: false,
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: YaHei,
+    marginBottom: 5,
+  },
+  inputWrapper: {
+    flex: 1,
+    marginLeft: 25,
+    height: 25,
+  },
+  placeholder: {
+    color: '#E4E4EE',
+    fontSize: 12,
+    position: 'absolute',
+    top: 4,
   },
   text: {
     fontSize: 12,
@@ -160,7 +176,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: wPx2P(getScreenWidth() - 80),
+    width: wPx2P(304),
     borderBottomColor: '#E4E4EE',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },

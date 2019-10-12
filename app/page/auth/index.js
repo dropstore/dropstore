@@ -108,7 +108,7 @@ class AuthLoading extends PureComponent {
           <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
           <TouchableOpacity
             onPress={this.toLogin}
-            style={[styles.frameLogin, { backgroundColor: disabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
+            style={[styles.frameLogin, { backgroundColor: disabled ? Colors.DISABLE : Colors.YELLOW }]}
             disabled={disabled}
           >
             <Text style={styles.login}>登陆</Text>
@@ -158,10 +158,10 @@ const styles = StyleSheet.create({
     marginBottom: hPx2P(55),
   },
   frameLogin: {
-    height: wPx2P(48),
-    width: wPx2P(244),
+    height: wPx2P(43),
+    width: wPx2P(304),
     alignItems: 'center',
-    marginTop: hPx2P(46),
+    marginTop: hPx2P(34),
     justifyContent: 'center',
     borderRadius: 2,
     overflow: 'hidden',
