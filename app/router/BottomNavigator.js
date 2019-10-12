@@ -32,9 +32,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const HOME_ICON_WIDTH = wPx2P(97.5);
+const HOME_ICON_WIDTH = wPx2P(70);
 const PADDING_HORIZONTAL = wPx2P(22);
-const TAB_HEIGHT = 52;
+const TAB_HEIGHT = 46;
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
   { screen: Identify, key: 'identify', title: '鉴定' },
@@ -131,6 +131,7 @@ class BottomNavigator extends PureComponent {
           lazy
         />
         <View style={styles.tabBar}>
+          <View style={styles.homeIcon} />
           {
             routes.reduce((arr, v) => [...arr, false, false, v], []).slice(2).map((v, i, arr) => {
               const index = (i + 1) / 3 | 0;
@@ -150,7 +151,7 @@ class BottomNavigator extends PureComponent {
                       v
                         ? (
                           <Animated.View style={{
-                            opacity: this.opacity[index], alignItems: 'center', paddingTop: 5, paddingBottom: 6, justifyContent: 'space-between',
+                            opacity: this.opacity[index], alignItems: 'center', paddingTop: 3, paddingBottom: 6, justifyContent: 'space-between',
                           }}
                           >
                             {
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#ddd',
   },
   placeholder: {
-    height: 10,
+    height: 25,
     width: HOME_ICON_WIDTH,
     position: 'absolute',
     alignSelf: 'center',
@@ -219,9 +220,20 @@ const styles = StyleSheet.create({
   },
   drop: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(54),
+    height: wPx2P(70),
     position: 'relative',
-    top: -15,
+    top: -33,
+  },
+  homeIcon: {
+    width: HOME_ICON_WIDTH,
+    height: wPx2P(70),
+    position: 'absolute',
+    bottom: PADDING_TAB + 6,
+    zIndex: -1,
+    backgroundColor: '#fff',
+    left: (getScreenWidth() - wPx2P(70)) / 2,
+    borderRadius: wPx2P(35),
+    overflow: 'hidden',
   },
 });
 

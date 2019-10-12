@@ -4,7 +4,7 @@
  * @author ZWW
  */
 const COLORS = {
-  MAIN_BACK: '#f6f6f6',
+  MAIN_BACK: '#F4F4F4',
   OTHER_BACK: '#C20000',
   HEADER_COLOR: '#fff',
   WHITE_COLOR: '#fff',
