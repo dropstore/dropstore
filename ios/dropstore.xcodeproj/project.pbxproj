@@ -86,6 +86,7 @@
 		D46F1CB72317BB9B00E0ED6F /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4C6DC79231E536E00E4C596 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */; };
 		D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */; };
+		D4CA672C2351DDB100302882 /* ruixian.TTF in Resources */ = {isa = PBXBuildFile; fileRef = D4CA66F62351DDB100302882 /* ruixian.TTF */; };
 		D513C320C3814A44B5C5143A /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */; };
 		DC7D1A31FD8F4E72B0E1F93F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B729B459F2A743E980DB1156 /* libBVLinearGradient.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -588,6 +589,7 @@
 		D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/QBImagePicker.framework"; sourceTree = "<group>"; };
 		D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
 		D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
+		D4CA66F62351DDB100302882 /* ruixian.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ruixian.TTF; sourceTree = "<group>"; };
 		D4EF51772317B7FA003E4F6E /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EF51792317B803003E4F6E /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB8E2958C62B43458F0AC9B9 /* RCTClearCacheModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTClearCacheModule.xcodeproj; path = "../node_modules/react-native-clear-cache/ios/RCTClearCacheModule.xcodeproj"; sourceTree = "<group>"; };
@@ -826,6 +828,7 @@
 		2EC46F3B25D242FA85AC1A18 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D4CA66F62351DDB100302882 /* ruixian.TTF */,
 				D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */,
 				D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */,
 				D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */,
@@ -1758,6 +1761,7 @@
 				D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */,
 				D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */,
 				C2CA2739230BF218005FA070 /* README.txt in Resources */,
+				D4CA672C2351DDB100302882 /* ruixian.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

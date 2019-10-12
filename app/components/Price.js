@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { BrowalliaNew } from '../res/FontFamily';
 
 export default class Price extends PureComponent {
   render() {
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
     bottom: -8,
     fontWeight: 'bold',
+    fontFamily: BrowalliaNew,
   },
   price: {
     fontSize: 14,
@@ -33,5 +35,6 @@ const styles = StyleSheet.create({
     padding: 0,
     includeFontPadding: false,
     fontWeight: 'bold',
+    fontFamily: BrowalliaNew,
   },
 });
