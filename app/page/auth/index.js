@@ -36,7 +36,7 @@ class AuthLoading extends PureComponent {
     super(props);
     this.mobile = '';
     this.state = {
-      disabled: false,
+      disabled: true,
       showTreaty: false,
       showLoading: false,
     };
@@ -62,14 +62,13 @@ class AuthLoading extends PureComponent {
 
   toLogin = () => {
     const { messageAuth, navigation } = this.props;
-    navigation.navigate('NameAge');
-    // messageAuth(this.mobile, this.code).then((isLogin) => {
-    //   if (isLogin) {
-    //     navigation.navigate('Main');
-    //   } else {
-    //     navigation.navigate('NameAge');
-    //   }
-    // });
+    messageAuth(this.mobile, this.code).then((isLogin) => {
+      if (isLogin) {
+        navigation.navigate('Main');
+      } else {
+        navigation.navigate('NameAge');
+      }
+    });
   }
 
   auth = (i) => {
