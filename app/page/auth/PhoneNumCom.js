@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Text, View, StyleSheet, TextInput, TouchableOpacity,
+  Text, View, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -39,6 +39,8 @@ class PhoneNumCom extends PureComponent {
   }
 
   onChange = (formatted, mobile) => {
+    const { code, mobile: lastMobile } = this.state;
+    const { finished, unfinished } = this.props;
     if (mobile.length === 11) {
       const { userInfo: { sendPhone, sendTime } } = this.props;
       if (sendPhone === mobile && Date.now() - sendTime < 60000) {
@@ -48,14 +50,21 @@ class PhoneNumCom extends PureComponent {
         this.setState({ timer: null });
       }
     }
+    if (code.length === 6) {
+      if (mobile.length === 11) {
+        finished(mobile, code);
+      } else if (lastMobile.length > mobile.length) {
+        unfinished();
+      }
+    }
     this.setState({ mobile });
   }
 
-  onChangeText = (code) => {
+  onChangeText = (formatted, code) => {
     const { finished, unfinished } = this.props;
     const { mobile, code: lastCode } = this.state;
-    if (code.length === 6) {
-      finished(mobile.replace(/\s/g, ''), code);
+    if (code.length === 6 && mobile.length === 11) {
+      finished(mobile, code);
     } else if (lastCode.length > code.length) {
       unfinished();
     }

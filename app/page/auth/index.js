@@ -7,9 +7,10 @@ import { bindActionCreators } from 'redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import SplashScreen from 'react-native-splash-screen';
 import { Image, ImageBackground, KeyboardDismiss } from '../../components';
-import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB, getScreenWidth, getScreenHeight } from '../../common/Constant';
+import {
+  PADDING_TAB, getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT,
+} from '../../common/Constant';
 import { messageAuth, weChatAuth, getUser } from '../../redux/actions/userInfo';
 import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
@@ -35,7 +36,7 @@ class AuthLoading extends PureComponent {
     super(props);
     this.mobile = '';
     this.state = {
-      disabled: true,
+      disabled: false,
       showTreaty: false,
       showLoading: false,
     };
@@ -61,13 +62,14 @@ class AuthLoading extends PureComponent {
 
   toLogin = () => {
     const { messageAuth, navigation } = this.props;
-    messageAuth(this.mobile, this.code).then((isLogin) => {
-      if (isLogin) {
-        navigation.navigate('Main');
-      } else {
-        navigation.navigate('NameAge');
-      }
-    });
+    navigation.navigate('GenderSize');
+    // messageAuth(this.mobile, this.code).then((isLogin) => {
+    //   if (isLogin) {
+    //     navigation.navigate('Main');
+    //   } else {
+    //     navigation.navigate('NameAge');
+    //   }
+    // });
   }
 
   auth = (i) => {
@@ -104,7 +106,7 @@ class AuthLoading extends PureComponent {
     return (
       <KeyboardDismiss style={styles.container}>
         <View style={{ alignItems: 'center' }}>
-          <Image resizeMode="contain" source={Images.drop} style={styles.drop} />
+          <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
           <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
           <TouchableOpacity
             onPress={this.toLogin}
@@ -142,20 +144,20 @@ const styles = StyleSheet.create({
     height: getScreenHeight(),
     width: getScreenWidth(),
     alignItems: 'center',
-    paddingTop: hPx2P(114),
     backgroundColor: '#fff',
     position: 'relative',
     justifyContent: 'space-between',
+  },
+  logo: {
+    height: wPx2P(114),
+    width: wPx2P(108),
+    marginBottom: hPx2P(50),
+    marginTop: hPx2P(55) + STATUSBAR_AND_NAV_HEIGHT,
   },
   hengxian: {
     flex: 1,
     height: 0.5,
     backgroundColor: '#EEEEF4',
-  },
-  drop: {
-    height: wPx2P(103),
-    width: wPx2P(191),
-    marginBottom: hPx2P(55),
   },
   frameLogin: {
     height: wPx2P(43),

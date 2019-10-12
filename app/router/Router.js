@@ -87,9 +87,9 @@ const transition = {
 
 const AuthStack = createStackNavigator({
   AuthLoading: { screen: AuthLoading, navigationOptions: { header: null } },
-  NameAge: { screen: NameAge, navigationOptions: { headerTitle: '昵称&年龄' } },
-  GenderSize: { screen: GenderSize, navigationOptions: { headerTitle: '鞋码&性别' } },
-  PhoneNum: { screen: PhoneNum, navigationOptions: { headerTitle: '绑定手机' } },
+  NameAge: { screen: NameAge, navigationOptions: { headerTitle: '个人信息' } },
+  GenderSize: { screen: GenderSize, navigationOptions: { headerTitle: '个人信息' } },
+  PhoneNum: { screen: PhoneNum, navigationOptions: { headerTitle: '个人信息' } },
   Web: { screen: Web, navigationOptions: { headerTitle: '隐私协议' } },
 }, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
 

@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import {
+  PADDING_TAB, getScreenWidth, getScreenHeight,
+} from '../../common/Constant';
 import PhoneNumCom from './PhoneNumCom';
 import Colors from '../../res/Colors';
 import { mobileBind } from '../../redux/actions/userInfo';
@@ -51,11 +52,11 @@ class PhoneNum extends PureComponent {
     const { disabled } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
-        <Image style={styles.phoneNum} source={Images.phoneNum} />
+        <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
         <PhoneNumCom bindPhone finished={this.finished} unfinished={this.unfinished} />
         <TouchableOpacity
           disabled={disabled}
-          style={[styles.frameBlack, { backgroundColor: disabled ? '#C7C7C7' : Colors.OTHER_BACK }]}
+          style={[styles.frameLogin, { backgroundColor: disabled ? Colors.DISABLE : Colors.YELLOW }]}
           onPress={this.goNext}
         >
           <Text style={styles.nextText}>绑定手机</Text>
@@ -67,10 +68,25 @@ class PhoneNum extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: getScreenHeight(),
+    width: getScreenWidth(),
     alignItems: 'center',
-    paddingTop: hPx2P(115),
-    backgroundColor: Colors.MAIN_BACK,
+    backgroundColor: '#fff',
+  },
+  logo: {
+    height: wPx2P(114),
+    width: wPx2P(108),
+    marginBottom: hPx2P(50),
+    marginTop: hPx2P(55),
+  },
+  frameLogin: {
+    height: wPx2P(43),
+    width: wPx2P(304),
+    alignItems: 'center',
+    marginTop: hPx2P(34),
+    justifyContent: 'center',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   phoneNum: {
     width: wPx2P(307),

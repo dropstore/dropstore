@@ -8,12 +8,15 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Image, KeyboardDismiss } from '../../components';
 import Images from '../../res/Images';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { PADDING_TAB } from '../../common/Constant';
+import {
+  PADDING_TAB, getScreenWidth, getScreenHeight,
+} from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
 import { showToast } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import Colors from '../../res/Colors';
+
 
 function mapStateToProps() {
   return state => ({
@@ -33,7 +36,7 @@ class GenderSize extends PureComponent {
     const { userInfo } = this.props;
     this.state = {
       size: 42.5,
-      gender: userInfo.sex,
+      sex: userInfo.sex,
     };
   }
 
@@ -44,10 +47,10 @@ class GenderSize extends PureComponent {
 
   goNext = () => {
     const { navigation, userInfo, updateUser } = this.props;
-    const { size, gender } = this.state;
-    if (gender) {
+    const { size, sex } = this.state;
+    if (sex) {
       const user = {
-        size, sex: gender, user_name: userInfo.user_name, age: userInfo.age,
+        size, sex, user_name: userInfo.user_name, age: userInfo.age,
       };
       updateUser(user).then(() => {
         AsyncStorage.setItem('token', userInfo.user_s_id);
@@ -74,37 +77,37 @@ class GenderSize extends PureComponent {
     this.setState({ size: (size - 0.5).toFixed(1) });
   }
 
-  chooseGender = (gender) => {
-    this.setState({ gender });
+  changeSex = () => {
+    const { sex } = this.state;
+    this.setState({ sex: sex === '男' ? '女' : '男' });
   }
 
   render() {
-    const { size, gender } = this.state;
-    const hitSlop = {
-      top: 20, left: 50, right: 50, bottom: 20,
-    };
+    const { size, sex } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
-        <Image style={styles.sizeGender} source={Images.sizeGender} />
-        <TouchableOpacity style={styles.arrowUp} onPress={this.upSize} hitSlop={hitSlop} />
-        <View style={styles.sizeWrapper}>
-          <Text style={styles.sizeText}>{size}</Text>
+        <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
+        <View style={styles.wrapper}>
+          <Text style={styles.text}>性别</Text>
+          <View style={styles.inputWrapper}>
+            <Text style={{ color: '#E4E4EE', fontSize: 12 }}>选择性别</Text>
+            <Image
+              source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
+              style={styles.sexBtnWrapper}
+              onPress={this.changeSex}
+            />
+          </View>
         </View>
-        <TouchableOpacity style={styles.arrowDown} onPress={this.downSize} hitSlop={hitSlop} />
-        <Image style={styles.sexText} source={Images.sexText} />
-        <View style={[styles.genderWrapper]}>
-          <TouchableOpacity onPress={() => this.chooseGender(1)}>
-            <View style={[styles.gender, { opacity: parseInt(gender) === 1 ? 1 : 0.35 }]}>
-              <Image style={styles.iconBoy} source={Images.iconBoy} />
-              <Image style={styles.boy} source={Images.boy} />
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.chooseGender(2)}>
-            <View style={[styles.gender, { opacity: parseInt(gender) === 2 ? 1 : 0.35 }]}>
-              <Image style={styles.iconBoy} source={Images.iconGirl} />
-              <Image style={styles.boy} source={Images.girl} />
-            </View>
-          </TouchableOpacity>
+        <View style={[styles.wrapper, { marginTop: 50 }]}>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.text}>鞋码</Text>
+            <Text style={styles.size}>56</Text>
+          </View>
+          <Image
+            source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
+            style={styles.sexBtnWrapper}
+            onPress={this.changeSex}
+          />
         </View>
         <TouchableOpacity style={styles.bottom} onPress={this.goNext}>
           <Text style={styles.nextText}>开始体验</Text>
@@ -115,6 +118,47 @@ class GenderSize extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    height: getScreenHeight(),
+    width: getScreenWidth(),
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  logo: {
+    height: wPx2P(114),
+    width: wPx2P(108),
+    marginBottom: hPx2P(50),
+    marginTop: hPx2P(55),
+  },
+  text: {
+    fontSize: 12,
+  },
+  sexBtnWrapper: {
+    width: 55,
+    height: 23,
+    marginLeft: 10,
+  },
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 3,
+  },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: wPx2P(304),
+    borderBottomColor: '#E4E4EE',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    justifyContent: 'space-between',
+  },
+  size: {
+    fontSize: 24,
+    fontFamily: YaHei,
+    fontWeight: 'bold',
+    position: 'relative',
+    top: 5,
+    marginLeft: 25,
+  },
   arrowUp: {
     width: 0,
     height: 0,
@@ -149,13 +193,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: hPx2P(50),
-    backgroundColor: Colors.MAIN_BACK,
-  },
   sexText: {
     marginTop: hPx2P(67),
     width: wPx2P(41),
@@ -166,7 +203,7 @@ const styles = StyleSheet.create({
     height: wPx2P(91),
     marginBottom: hPx2P(32),
   },
-  gender: {
+  sex: {
     justifyContent: 'center',
     alignItems: 'center',
   },
