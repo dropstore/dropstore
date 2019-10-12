@@ -47,7 +47,7 @@ class AuthLoading extends PureComponent {
     AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
       if (res[0][1]) {
         getUser(res[0][1]);
-        navigation.navigate('Main');
+        // navigation.navigate('Main');
         SplashScreen.hide();
       } else {
         SplashScreen.hide();

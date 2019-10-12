@@ -4,13 +4,12 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TextInputMask from 'react-native-text-input-mask';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { debounce } from '../../utils/commonUtils';
 import { showToast } from '../../utils/MutualUtil';
 import { sendMessage } from '../../redux/actions/userInfo';
-import { YaHei } from '../../res/FontFamily';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { InputVarySize } from '../../components';
 
 function mapStateToProps() {
   return state => ({
@@ -57,6 +56,7 @@ class PhoneNumCom extends PureComponent {
         unfinished();
       }
     }
+
     this.setState({ mobile });
   }
 
@@ -76,7 +76,6 @@ class PhoneNumCom extends PureComponent {
     const { mobile } = this.state;
     if (mobile.length < 11) {
       showToast('请输入正确的手机号码');
-      return;
     }
     if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
       sendMessage(bindPhone ? '/user/send_change_message' : '/user/send_message', mobile, Date.now()).then(() => {
@@ -109,39 +108,29 @@ class PhoneNumCom extends PureComponent {
   }
 
   render() {
-    const { timer, code, mobile } = this.state;
+    const { timer } = this.state;
     return (
       <View style={{ height: 100, justifyContent: 'space-between' }}>
         <View style={styles.wrapper}>
           <Text style={styles.text}>手机号</Text>
-          <View style={styles.inputWrapper}>
-            {mobile.length === 0 && <Text style={styles.placeholder}>输入手机号</Text>}
-            <TextInputMask
-              style={styles.phoneInput}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChange}
-              mask="[000] [0000] [0000]"
-              keyboardType="number-pad"
-              selectionColor="#00AEFF"
-              underlineColorAndroid="transparent"
-            />
-          </View>
+          <InputVarySize
+            onChangeText={this.onChange}
+            mask="[000] [0000] [0000]"
+            keyboardType="number-pad"
+            selectionColor="#00AEFF"
+            placeholder="输入手机号"
+          />
         </View>
         <View style={styles.wrapper}>
           <Text style={styles.text}>验证码</Text>
-          <View style={styles.inputWrapper}>
-            {code.length === 0 && <Text style={styles.placeholder}>输入验证码</Text>}
-            <TextInputMask
-              style={styles.phoneInput}
-              clearButtonMode="while-editing"
-              onChangeText={this.onChangeText}
-              mask="[000000]"
-              keyboardType="number-pad"
-              selectionColor="#3FCF77"
-              underlineColorAndroid="transparent"
-              ref={(v) => { this.codeInput = v; }}
-            />
-          </View>
+          <InputVarySize
+            onChangeText={this.onChangeText}
+            mask="[000000]"
+            keyboardType="number-pad"
+            selectionColor="#3FCF77"
+            placeholder="输入验证码"
+            ref={(v) => { this.codeInput = v; }}
+          />
 
           <TouchableOpacity onPress={debounce(this.toSendCode)}>
             <Text style={styles.login}>
@@ -155,26 +144,6 @@ class PhoneNumCom extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  phoneInput: {
-    flex: 1,
-    padding: 0,
-    includeFontPadding: false,
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: YaHei,
-    marginBottom: 5,
-  },
-  inputWrapper: {
-    flex: 1,
-    marginLeft: 25,
-    height: 25,
-  },
-  placeholder: {
-    color: '#E4E4EE',
-    fontSize: 12,
-    position: 'absolute',
-    top: 4,
-  },
   text: {
     fontSize: 12,
   },
