@@ -103,11 +103,9 @@ class GenderSize extends PureComponent {
             <Text style={styles.text}>鞋码</Text>
             <Text style={styles.size}>56</Text>
           </View>
-          <Image
-            source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
-            style={styles.sexBtnWrapper}
-            onPress={this.changeSex}
-          />
+          <TouchableOpacity>
+            <View />
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.bottom} onPress={this.goNext}>
           <Text style={styles.nextText}>开始体验</Text>
