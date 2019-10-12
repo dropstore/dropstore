@@ -5,7 +5,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import TextInputMask from 'react-native-text-input-mask';
-import { Image, KeyboardDismiss } from '../../components';
+import { Image, KeyboardDismiss, InputVarySize } from '../../components';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import {
   PADDING_TAB, getScreenWidth, getScreenHeight,
@@ -73,34 +73,25 @@ class NameAge extends PureComponent {
         <View style={{ height: 107.5, justifyContent: 'space-between' }}>
           <View style={styles.wrapper}>
             <Text style={{ fontSize: 12 }}>昵称</Text>
-            <View style={[styles.inputWrapper, { height: 30 }]}>
-              {user_name.length === 0 && <Text style={styles.placeholder}>输入昵称</Text>}
-              <TextInputMask
-                style={styles.phoneInput}
-                clearButtonMode="while-editing"
-                onChangeText={this.onChangeName}
-                selectionColor="#00AEFF"
-                defaultValue={user_name}
-                underlineColorAndroid="transparent"
-              />
-            </View>
+            <InputVarySize
+              onChangeText={this.onChangeName}
+              selectionColor="#00AEFF"
+              placeholder="输入昵称"
+              defaultValue={user_name}
+              maxLength={12}
+            />
           </View>
 
           <View style={styles.wrapper}>
             <Text style={{ fontSize: 12 }}>年龄</Text>
-            <View style={styles.inputWrapper}>
-              {age.length === 0 && <Text style={styles.placeholder}>输入年龄</Text>}
-              <TextInputMask
-                style={styles.phoneInput}
-                clearButtonMode="while-editing"
-                onChangeText={this.onChangeAge}
-                selectionColor="#00AEFF"
-                mask="[000]"
-                keyboardType="number-pad"
-                defaultValue={age}
-                underlineColorAndroid="transparent"
-              />
-            </View>
+            <InputVarySize
+              onChangeText={this.onChangeAge}
+              keyboardType="number-pad"
+              selectionColor="#00AEFF"
+              placeholder="输入年龄"
+              mask="[000]"
+              defaultValue={age}
+            />
           </View>
         </View>
 
@@ -122,12 +113,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  placeholder: {
-    color: '#E4E4EE',
-    fontSize: 12,
-    position: 'absolute',
-    bottom: 3,
-  },
   frameLogin: {
     height: wPx2P(43),
     width: wPx2P(304),
@@ -137,15 +122,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
   },
-  inputWrapper: {
-    flex: 1,
-    marginLeft: 25,
-    height: 25,
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    position: 'relative',
-    top: 3,
-  },
   wrapper: {
     flexDirection: 'row',
     alignItems: 'flex-end',
@@ -153,15 +129,6 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     borderBottomColor: '#E4E4EE',
     borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  phoneInput: {
-    flex: 1,
-    padding: 0,
-    includeFontPadding: false,
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: YaHei,
-    marginBottom: 5,
   },
   logo: {
     height: wPx2P(114),

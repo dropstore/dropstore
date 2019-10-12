@@ -38,8 +38,8 @@ class PhoneNumCom extends PureComponent {
   }
 
   onChange = (formatted, mobile) => {
-    const { code, mobile: lastMobile } = this.state;
-    const { finished, unfinished } = this.props;
+    const { code } = this.state;
+    const { onChange } = this.props;
     if (mobile.length === 11) {
       const { userInfo: { sendPhone, sendTime } } = this.props;
       if (sendPhone === mobile && Date.now() - sendTime < 60000) {
@@ -49,25 +49,14 @@ class PhoneNumCom extends PureComponent {
         this.setState({ timer: null });
       }
     }
-    if (code.length === 6) {
-      if (mobile.length === 11) {
-        finished(mobile, code);
-      } else if (lastMobile.length > mobile.length) {
-        unfinished();
-      }
-    }
-
+    onChange(mobile, code);
     this.setState({ mobile });
   }
 
   onChangeText = (formatted, code) => {
-    const { finished, unfinished } = this.props;
-    const { mobile, code: lastCode } = this.state;
-    if (code.length === 6 && mobile.length === 11) {
-      finished(mobile, code);
-    } else if (lastCode.length > code.length) {
-      unfinished();
-    }
+    const { onChange } = this.props;
+    const { mobile } = this.state;
+    onChange(mobile, code);
     this.setState({ code });
   }
 
@@ -152,7 +141,8 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
+    paddingBottom: 3,
     width: wPx2P(304),
     borderBottomColor: '#E4E4EE',
     borderBottomWidth: StyleSheet.hairlineWidth,

@@ -16,6 +16,7 @@ import PhoneNumCom from './PhoneNumCom';
 import ModalTreaty from './ModalTreaty';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import Colors from '../../res/Colors';
+import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -47,7 +48,7 @@ class AuthLoading extends PureComponent {
     AsyncStorage.multiGet(['token', 'aggredTreaty']).then((res) => {
       if (res[0][1]) {
         getUser(res[0][1]);
-        // navigation.navigate('Main');
+        navigation.navigate('Main');
         SplashScreen.hide();
       } else {
         SplashScreen.hide();
@@ -62,6 +63,13 @@ class AuthLoading extends PureComponent {
 
   toLogin = () => {
     const { messageAuth, navigation } = this.props;
+    if (this.mobile.length < 11) {
+      showToast('请输入正确的手机号码');
+      return;
+    } if (this.code.length < 6) {
+      showToast('请输入6位短信验证码');
+      return;
+    }
     messageAuth(this.mobile, this.code).then((isLogin) => {
       if (isLogin) {
         navigation.navigate('Main');
@@ -84,14 +92,10 @@ class AuthLoading extends PureComponent {
     });
   }
 
-  finished = (mobile, code) => {
+  onChange = (mobile, code) => {
     this.mobile = mobile;
     this.code = code;
-    this.setState({ disabled: false });
-  }
-
-  unfinished = () => {
-    this.setState({ disabled: true });
+    this.setState({ disabled: mobile.length !== 11 || code.length !== 6 });
   }
 
   closeTreaty = () => {
@@ -106,11 +110,10 @@ class AuthLoading extends PureComponent {
       <KeyboardDismiss style={styles.container}>
         <View style={{ alignItems: 'center' }}>
           <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
-          <PhoneNumCom finished={this.finished} unfinished={this.unfinished} />
+          <PhoneNumCom onChange={this.onChange} />
           <TouchableOpacity
             onPress={this.toLogin}
             style={[styles.frameLogin, { backgroundColor: disabled ? Colors.DISABLE : Colors.YELLOW }]}
-            disabled={disabled}
           >
             <Text style={styles.login}>登陆</Text>
           </TouchableOpacity>

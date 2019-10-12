@@ -50,17 +50,20 @@ class GenderSize extends PureComponent {
   goNext = () => {
     const { navigation, userInfo, updateUser } = this.props;
     const { size, sex } = this.state;
-    if (sex) {
-      const user = {
-        size, sex, user_name: userInfo.user_name, age: userInfo.age,
-      };
-      updateUser(user).then(() => {
-        AsyncStorage.setItem('token', userInfo.user_s_id);
-        navigation.navigate('Main');
-      });
-    } else {
+    if (!sex) {
       showToast('请选择性别');
+      return;
+    } if (!size) {
+      showToast('请选择鞋码');
+      return;
     }
+    const user = {
+      size, sex, user_name: userInfo.user_name, age: userInfo.age,
+    };
+    updateUser(user).then(() => {
+      AsyncStorage.setItem('token', userInfo.user_s_id);
+      navigation.navigate('Main');
+    });
   }
 
   changeSex = () => {
