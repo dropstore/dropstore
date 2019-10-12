@@ -59,6 +59,8 @@ class SelfSupport extends PureComponent {
         style={{ paddingTop: 5 }}
         ListHeaderComponent={<TopCom bannerId={2} />}
         data={shopList.list}
+        numColumns={2}
+        contentContainerStyle={{ paddingLeft: 1 }}
         refresh={this.onRefresh}
         renderItem={this.renderItem}
         onEndReached={this.loadMore}

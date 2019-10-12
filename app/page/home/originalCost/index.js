@@ -57,8 +57,10 @@ class OriginalCost extends PureComponent {
         currentPage={shopList.currentPage}
         Wrapper={FlatList}
         style={{ paddingTop: 5 }}
+        contentContainerStyle={{ paddingLeft: 1 }}
         ListHeaderComponent={<TopCom bannerId={2} />}
         data={shopList.list}
+        numColumns={2}
         refresh={this.onRefresh}
         renderItem={this.renderItem}
         onEndReached={this.loadMore}

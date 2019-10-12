@@ -47,7 +47,7 @@ export default class PullToRefresh extends PureComponent {
 
   render() {
     const {
-      renderFooter, Wrapper, iosOffsetY, progressViewOffset, refresh,
+      renderFooter, Wrapper, refresh,
     } = this.props;
     const { refreshing } = this.state;
     return (
@@ -55,8 +55,6 @@ export default class PullToRefresh extends PureComponent {
         ListFooterComponent={renderFooter || this.renderFooter}
         refreshControl={refresh ? (
           <RefreshControl
-            progressViewOffset={progressViewOffset}
-            iosOffsetY={iosOffsetY}
             tintColor="#c20000"
             refreshing={refreshing}
             onRefresh={this.onRefresh}

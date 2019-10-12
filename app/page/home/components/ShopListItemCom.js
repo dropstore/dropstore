@@ -9,7 +9,7 @@ import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
-import { MARGIN_HORIZONTAL, MAX_TIME } from '../../../common/Constant';
+import { MARGIN_HORIZONTAL, MAX_TIME, getScreenWidth } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
 
@@ -60,12 +60,18 @@ export default class ShopListItemCom extends PureComponent {
     const { showText, isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
+        <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
         <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
-        <View style={styles.right}>
-          <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
+        <View style={styles.bottom}>
+          <Price price={item.price} offsetBottom={3} />
           <View style={styles.rightBottom}>
-            <Price price={item.price} offsetBottom={3} />
-            <Text style={styles.xiegang}>/</Text>
+            {
+              showText && (
+                <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                  {`${isStart ? '距活动结束' : '距活动开始'}`}
+                </Text>
+              )
+            }
             {
               isStart ? (
                 <CountdownCom
@@ -87,13 +93,6 @@ export default class ShopListItemCom extends PureComponent {
               )
             }
           </View>
-          {
-            showText && (
-              <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-                {`${isStart ? '距活动结束' : '距活动开始'}`}
-              </Text>
-            )
-          }
         </View>
       </ScaleView>
     );
@@ -102,27 +101,26 @@ export default class ShopListItemCom extends PureComponent {
 
 const styles = StyleSheet.create({
   rightBottom: {
-    flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
   scaleView: {
-    marginHorizontal: MARGIN_HORIZONTAL,
     backgroundColor: Colors.WHITE_COLOR,
-    flexDirection: 'row',
     marginTop: 7,
     padding: 10,
+    marginLeft: 8,
     paddingBottom: 7,
     borderRadius: 2,
     overflow: 'hidden',
-    alignItems: 'center',
+    width: (getScreenWidth() - 26) / 2,
   },
   time: {
     fontFamily: Aldrich,
     fontSize: 14,
   },
-  right: {
-    flex: 1,
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   shopTitle: {
     fontSize: 12,
@@ -131,9 +129,9 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
   },
   imageShoe: {
-    width: wPx2P(113),
-    height: wPx2P(65),
-    marginRight: 15,
+    width: wPx2P(129),
+    height: wPx2P(80),
+    alignSelf: 'center',
   },
   xiegang: {
     marginLeft: 5,
