@@ -129,12 +129,12 @@ class PickUp extends PureComponent {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{simpleData?.data?.postage / 100}</Text>
+            <Text style={[styles.price, { color: Colors.YELLOW }]}>{simpleData?.data?.postage / 100}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity
             disabled={!address.link_name}
-            style={[styles.zhifu, { backgroundColor: address.link_name ? Colors.OTHER_BACK : '#e2e2e2' }]}
+            style={[styles.zhifu, { backgroundColor: address.link_name ? Colors.YELLOW : '#e2e2e2' }]}
             onPress={this.toPay}
           >
             <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
   },
   cuoguo: {
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     fontSize: 10,
     marginTop: 2,
     letterSpacing: -0.1,
@@ -197,14 +197,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 6.5,
     overflow: 'hidden',
-    borderColor: Colors.OTHER_BACK,
+    borderColor: Colors.YELLOW,
     borderWidth: 1,
     marginRight: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   yuandian1: {
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     height: 4,
     borderRadius: 2,
     overflow: 'hidden',

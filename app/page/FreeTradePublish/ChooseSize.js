@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
     borderRadius: 2,
     overflow: 'hidden',
-    borderColor: Colors.OTHER_BACK,
+    borderColor: Colors.YELLOW,
     marginLeft: 9,
     marginTop: 7,
   },

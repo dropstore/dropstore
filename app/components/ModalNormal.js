@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   sure: {
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
   cancel: {
     flex: 1,
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     alignItems: 'center',
     justifyContent: 'center',
     borderLeftColor: '#890000',

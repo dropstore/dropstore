@@ -92,7 +92,7 @@ class Header extends PureComponent {
                       >
                         <View style={{ alignItems: 'center' }}>
                           <Text>{v.title}</Text>
-                          <View style={[styles.zhishiqi, { backgroundColor: v.id === filterType ? Colors.OTHER_BACK : 'transparent' }]} />
+                          <View style={[styles.zhishiqi, { backgroundColor: v.id === filterType ? Colors.YELLOW : 'transparent' }]} />
                         </View>
                       </TouchableOpacity>
                     ))

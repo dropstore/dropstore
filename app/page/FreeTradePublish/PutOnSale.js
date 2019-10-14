@@ -133,7 +133,7 @@ class PutOnSale extends PureComponent {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={[styles.zhifu, { backgroundColor: !agreed ? '#e2e2e2' : Colors.OTHER_BACK }]}
+            style={[styles.zhifu, { backgroundColor: !agreed ? '#e2e2e2' : Colors.YELLOW }]}
             onPress={this.toPay}
           >
             <Text style={styles.queren}>上架</Text>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
   LowPrice: {
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     fontSize: 13,
   },
   inputPriceTextare: {

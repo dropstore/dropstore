@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   cuoguo: {
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     fontSize: 10,
     marginTop: 2,
     letterSpacing: -0.2,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
   },
   timeWrapper: {
     flexDirection: 'row',

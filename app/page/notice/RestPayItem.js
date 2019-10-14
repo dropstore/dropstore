@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   yizhifu: {
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     fontSize: 11,
   },
   order: {

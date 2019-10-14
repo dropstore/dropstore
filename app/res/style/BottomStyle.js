@@ -31,7 +31,7 @@ export const bottomStyle = StyleSheet.create({
   buttonNormalView: {
     width: wPx2P(168),
     height: 46,
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     overflow: 'hidden',
     borderRadius: 2,
     alignItems: 'center',

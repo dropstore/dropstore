@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 15,
     borderTopColor: 'transparent',
     borderLeftColor: 'transparent',
-    borderBottomColor: Colors.OTHER_BACK,
+    borderBottomColor: Colors.YELLOW,
     borderRightColor: 'transparent',
   },
   arrowDown: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderRightWidth: 15,
     borderLeftWidth: 15,
-    borderTopColor: Colors.OTHER_BACK,
+    borderTopColor: Colors.YELLOW,
     borderLeftColor: 'transparent',
     borderBottomColor: 'transparent',
     borderRightColor: 'transparent',

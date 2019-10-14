@@ -94,7 +94,7 @@ class PublishCommission extends PureComponent {
                   prefix="待付款 "
                   finish={this.exit}
                   time={data.pay_time}
-                  style={{ fontSize: 11, color: Colors.OTHER_BACK }}
+                  style={{ fontSize: 11, color: Colors.YELLOW }}
                 />
               </View>
             </View>

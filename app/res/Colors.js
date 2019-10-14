@@ -5,7 +5,6 @@
  */
 const COLORS = {
   MAIN_BACK: '#F4F4F4',
-  OTHER_BACK: '#C20000',
   HEADER_COLOR: '#fff',
   WHITE_COLOR: '#fff',
   NORMAL_TEXT_0: '#000',

@@ -145,12 +145,12 @@ class RestPay extends Component {
         <View style={styles.bottom}>
           <View style={styles.priceWrapper}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>{`${totalPrice / 100}`}</Text>
+            <Text style={[styles.price, { color: Colors.YELLOW }]}>{`${totalPrice / 100}`}</Text>
             <Text style={styles.price}>￥</Text>
           </View>
           <TouchableOpacity
             disabled={payItems.length === 0}
-            style={[styles.zhifu, { backgroundColor: payItems.length > 0 ? Colors.OTHER_BACK : '#e2e2e2' }]}
+            style={[styles.zhifu, { backgroundColor: payItems.length > 0 ? Colors.YELLOW : '#e2e2e2' }]}
             onPress={() => this.onPress(payItems, totalPrice)}
           >
             <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     textAlign: 'right',
   },
   hint: {

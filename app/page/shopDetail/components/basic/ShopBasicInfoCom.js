@@ -31,7 +31,7 @@ export default class ShopBasicInfoCom extends PureComponent {
           format="dd天hh时mm分ss秒"
           notStartTimerText={`${formatDate(activityInfo.activity.end_time, 'MM/dd hh:mm:ss')} 结束`}
           endTimerText="活动已结束"
-          prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
+          prefixStyle={{ ...styles.overTitle, color: Colors.YELLOW }}
         />
       );
     }

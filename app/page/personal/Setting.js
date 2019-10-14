@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   btn: {
     height: 46,
     width: wPx2P(265),
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     overflow: 'hidden',
     borderRadius: 2,
     alignItems: 'center',

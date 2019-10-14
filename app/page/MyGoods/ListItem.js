@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
     position: 'absolute',
     left: wPx2P(15),
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
   },
   tag: {
     width: wPx2P(52),

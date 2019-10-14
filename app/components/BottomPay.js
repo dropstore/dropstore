@@ -47,7 +47,7 @@ class BottomPay extends PureComponent<Props> {
         <View style={styles.priceWrapper}>
           <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
             <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.OTHER_BACK }]}>
+            <Text style={[styles.price, { color: Colors.YELLOW }]}>
               {(Math.ceil(price) / 100 + extra / 100).toFixed(2)}
             </Text>
             <Text style={styles.price}>￥</Text>
@@ -62,7 +62,7 @@ class BottomPay extends PureComponent<Props> {
         </View>
         <TouchableOpacity
           disabled={disabled}
-          style={[styles.zhifu, { backgroundColor: disabled ? '#e2e2e2' : Colors.OTHER_BACK }]}
+          style={[styles.zhifu, { backgroundColor: disabled ? '#e2e2e2' : Colors.YELLOW }]}
           onPress={this.onPress}
         >
           <Text style={styles.queren}>{text}</Text>

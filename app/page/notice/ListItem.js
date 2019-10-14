@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
   },
   timeWrapper: {
     flexDirection: 'row',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   yongjin: {
     fontSize: 12,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     textAlign: 'right',
   },
 });

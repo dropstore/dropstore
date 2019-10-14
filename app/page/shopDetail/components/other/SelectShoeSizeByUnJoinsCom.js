@@ -83,8 +83,8 @@ class SelectShoeSizeByUnJoinsCom extends Component {
                     key={item.id}
                     onPress={() => this.changeChooseStatus(item.id)}
                   >
-                    <Text style={[styles.sizeAndCount, { color: isSelect ? Colors.OTHER_BACK : '#000' }]}>{item.size}</Text>
-                    <Text style={[styles.price, { color: isSelect ? Colors.OTHER_BACK : '#A4A4A4' }]}>{`￥${item.price / 100}`}</Text>
+                    <Text style={[styles.sizeAndCount, { color: isSelect ? Colors.YELLOW : '#000' }]}>{item.size}</Text>
+                    <Text style={[styles.price, { color: isSelect ? Colors.YELLOW : '#A4A4A4' }]}>{`￥${item.price / 100}`}</Text>
                   </TouchableOpacity>
                 );
               })
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
     borderRadius: 2,
     overflow: 'hidden',
-    borderColor: Colors.OTHER_BACK,
+    borderColor: Colors.YELLOW,
     marginLeft: 9,
     marginTop: 7,
   },

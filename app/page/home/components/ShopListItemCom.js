@@ -77,7 +77,7 @@ export default class ShopListItemCom extends PureComponent {
             <View style={styles.rightBottom}>
               {
                 showText && (
-                  <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                  <Text style={{ color: isStart ? Colors.YELLOW : '#0084FF', fontSize: 7, textAlign: 'right' }}>
                     {`${isStart ? '距活动结束' : '距活动开始'}`}
                   </Text>
                 )

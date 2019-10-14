@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
   acImpMes: {
     fontSize: 11,
-    color: Colors.OTHER_BACK,
+    color: Colors.YELLOW,
     fontFamily: YaHei,
     fontWeight: '400',
   },

@@ -264,12 +264,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cha: {
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     position: 'absolute',
     right: 0,
     height: 35,

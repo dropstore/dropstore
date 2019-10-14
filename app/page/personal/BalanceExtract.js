@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     height: wPx2P(46),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.OTHER_BACK,
+    backgroundColor: Colors.YELLOW,
     borderRadius: 2,
     overflow: 'hidden',
   },
