@@ -81,6 +81,7 @@ const IMAGES = {
   jiandingzhong: require('./image/jiandingzhong.png'),
   onExpress: require('./image/onExpress.png'),
   onSale: require('./image/onSale.png'),
+  daifahuo: require('./image/daifahuo.png'),
 };
 
 export default IMAGES;

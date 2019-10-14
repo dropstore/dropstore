@@ -52,19 +52,21 @@ export default class ListItem extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={{ flex: 1 }}>
             <FadeImage source={{ uri: image }} style={styles.shoe} />
+            {
+              item.goods_status === '2'
+                ? <Image source={Images.jiandingzhong} style={styles.tag} />
+                : item.goods_status === '3'
+                  ? <Image source={Images.weitongguo} style={styles.tag} />
+                  : item.goods_status === '1'
+                    ? <Image source={Images.onExpress} style={styles.tag} />
+                    : item.goods_status === '5'
+                      ? <Image source={Images.onSale} style={styles.tag} />
+                      : item.goods_status === '0'
+                        ? <Image source={Images.daifahuo} style={styles.tag} /> : null
+            }
           </View>
-          {
-            item.goods_status === '2'
-              ? <Image source={Images.jiandingzhong} style={styles.tag} />
-              : item.goods_status === '3'
-                ? <Image source={Images.weitongguo} style={styles.tag} />
-                : item.goods_status === '1'
-                  ? <Image source={Images.onExpress} style={styles.tag} />
-                  : item.goods_status === '5'
-                    ? <Image source={Images.onSale} style={styles.tag} /> : null
-          }
           <Id id={item.order_id} />
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -125,14 +127,15 @@ const styles = StyleSheet.create({
     color: Colors.OTHER_BACK,
   },
   tag: {
-    width: wPx2P(74),
-    height: wPx2P(74),
+    width: wPx2P(52),
+    height: wPx2P(52),
     position: 'absolute',
-    left: wPx2P(15),
+    left: wPx2P(17),
+    top: wPx2P(12),
   },
   shoe: {
-    width: wPx2P(113),
-    height: wPx2P(65),
+    width: wPx2P(129 * 0.87),
+    height: wPx2P(80 * 0.87),
   },
   id: {
     fontSize: 8,
