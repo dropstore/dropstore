@@ -63,7 +63,7 @@ export default class ShopListItemCom extends PureComponent {
           <Price price={item.price} offsetBottom={3} />
           <View style={styles.rightBottom}>
             <Text style={{ color: isStart || item.b_type === '1' ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-              {item.b_type === '1' ? '进行中' : `${isStart ? '距活动结束' : '距活动开始'}`}
+              {`${isStart ? '距活动结束' : '距活动开始'}`}
             </Text>
             {
               isStart ? (
@@ -72,7 +72,7 @@ export default class ShopListItemCom extends PureComponent {
                   time={item.end_time}
                   style={styles.time}
                   endTimerText="已结束"
-                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd hh:mm:ss')}`}
+                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd')} 结束`}
                 />
               ) : (
                 <CountdownCom
@@ -81,7 +81,7 @@ export default class ShopListItemCom extends PureComponent {
                   finish={this.activityStart}
                   style={styles.time}
                   hasNextTimer
-                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd hh:mm:ss')}`}
+                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd')} 开始`}
                 />
               )
             }
