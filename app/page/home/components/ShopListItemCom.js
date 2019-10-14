@@ -3,13 +3,13 @@ import {
   StyleSheet, Text, View, Platform,
 } from 'react-native';
 import {
-  ScaleView, FadeImage, Price, CountdownCom,
+  ScaleView, FadeImage, Price, CountdownCom, Image,
 } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
-import { MARGIN_HORIZONTAL, MAX_TIME, getScreenWidth } from '../../../common/Constant';
+import { getScreenWidth } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
 
@@ -17,10 +17,7 @@ export default class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
-    const now = Date.now() / 1000;
     this.state = {
-      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
-        || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
       isStart: item.start_time - Date.now() / 1000 < 1,
     };
   }
@@ -28,10 +25,7 @@ export default class ShopListItemCom extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { item } = this.props;
     if (item !== nextProps.item) {
-      const now = Date.now() / 1000;
       this.setState({
-        showText: (parseInt(nextProps.item.end_time) - now < MAX_TIME && nextProps.item.end_time > now)
-        || (parseInt(nextProps.item.start_time) - now < MAX_TIME && nextProps.item.start_time > now),
         isStart: nextProps.item.start_time - Date.now() / 1000 < 1,
       });
     }
@@ -57,21 +51,20 @@ export default class ShopListItemCom extends PureComponent {
 
   render() {
     const { item } = this.props;
-    const { showText, isStart } = this.state;
+    const { isStart } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
-        <TitleWithTag text={item.activity_name} bType={item.b_type} sType={item.is_stock} />
-        <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
+        <TitleWithTag text={item.activity_name} bType={item.b_type} />
+        <View style={{ marginTop: 5 }}>
+          <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
+          <Image style={styles.qihuo} source={item.is_stock === '2' ? require('../../../res/image/qihuo.png') : require('../../../res/image/xianhuo.png')} />
+        </View>
         <View style={styles.bottom}>
           <Price price={item.price} offsetBottom={3} />
           <View style={styles.rightBottom}>
-            {
-              showText && (
-                <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-                  {`${isStart ? '距活动结束' : '距活动开始'}`}
-                </Text>
-              )
-            }
+            <Text style={{ color: isStart || item.b_type === '1' ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+              {item.b_type === '1' ? '进行中' : `${isStart ? '距活动结束' : '距活动开始'}`}
+            </Text>
             {
               isStart ? (
                 <CountdownCom
@@ -79,7 +72,7 @@ export default class ShopListItemCom extends PureComponent {
                   time={item.end_time}
                   style={styles.time}
                   endTimerText="已结束"
-                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd hh:mm:ss')} 结束`}
+                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd hh:mm:ss')}`}
                 />
               ) : (
                 <CountdownCom
@@ -88,7 +81,7 @@ export default class ShopListItemCom extends PureComponent {
                   finish={this.activityStart}
                   style={styles.time}
                   hasNextTimer
-                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd hh:mm:ss')} 开始`}
+                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd hh:mm:ss')}`}
                 />
               )
             }
@@ -121,6 +114,12 @@ const styles = StyleSheet.create({
   bottom: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  qihuo: {
+    height: 23,
+    width: 41,
+    alignSelf: 'flex-end',
+    position: 'absolute',
   },
   shopTitle: {
     fontSize: 12,
