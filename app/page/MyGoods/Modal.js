@@ -103,7 +103,7 @@ class Modal extends PureComponent {
               <Text style={styles.new}>预期价格：</Text>
               <View style={styles.inputWrapper}>
                 <TextInput
-                  keyboardType="number-pad"
+                  keyboardType="numeric"
                   placeholderTextColor="#d3d3d3"
                   underlineColorAndroid="transparent"
                   style={styles.input}

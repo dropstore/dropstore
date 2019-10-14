@@ -104,8 +104,8 @@ class BalanceExtract extends PureComponent {
     const data = [
       { title: canExtract > 15300 ? '当日可提现金额' : '可提现金额', onChangeText: (text) => { this.name = text; } },
       { title: '姓名', onChangeText: (text) => { this.name = text; } },
-      { title: '支付宝账号', keyboardType: 'number-pad', onChangeText: (text) => { this.account = text; } },
-      { title: '提现金额', keyboardType: 'number-pad', onChangeText: (text) => { this.price = text; } },
+      { title: '支付宝账号', keyboardType: 'numeric', onChangeText: (text) => { this.account = text; } },
+      { title: '提现金额', keyboardType: 'numeric', onChangeText: (text) => { this.price = text; } },
     ];
     return (
       <KeyboardDismiss style={styles.container}>

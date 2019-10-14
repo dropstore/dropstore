@@ -26,6 +26,7 @@ import NameAndGender from './NameAndGender';
 import BottomBtnGroup from './BottomBtnGroup';
 import Tag from './Tag';
 import InputVarySize from './InputVarySize';
+import BtnGroup from './BtnGroup';
 
 
 export {
@@ -35,4 +36,5 @@ export {
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
   Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
   AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag, InputVarySize,
+  BtnGroup,
 };

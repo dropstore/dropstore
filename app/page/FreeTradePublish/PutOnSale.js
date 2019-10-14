@@ -106,7 +106,7 @@ class PutOnSale extends PureComponent {
               <Text style={{ color: '#999' }}>￥</Text>
               <TextInput
                 style={styles.inputPriceTextare}
-                keyboardType="number-pad"
+                keyboardType="numeric"
                 placeholder="输入价格"
                 maxLength={9}
                 underlineColorAndroid="transparent"

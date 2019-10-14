@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet,
 } from 'react-native';
 import {
-  Image, CountdownCom, ImageBackground, Price,
+  Image, CountdownCom, ImageBackground, Price, BtnGroup,
 } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
@@ -64,6 +64,9 @@ export default class ListItem extends PureComponent {
   render() {
     const { item } = this.props;
     const { text } = this.state;
+    const btns = [
+      { onPress: this.toPay, text: ['1', '2', '7'].includes(item.type) ? '付款' : '查看详情' },
+    ];
     return (
       <View>
         <Text style={styles.date}>{formatDate(item.add_time)}</Text>
@@ -90,15 +93,7 @@ export default class ListItem extends PureComponent {
                 </View>
               )
             }
-            {
-              ['1', '2', '7', '8', '9'].includes(item.type) && !text && (
-                <TouchableOpacity onPress={this.toPay} style={styles.btn}>
-                  <Text style={styles.fukuan}>
-                    {['1', '2', '7'].includes(item.type) ? '付款' : '查看详情'}
-                  </Text>
-                </TouchableOpacity>
-              )
-            }
+            { ['1', '2', '7', '8', '9'].includes(item.type) && !text && <BtnGroup btns={btns} />}
             { !!text && <Text style={styles.yongjin}>{text}</Text> }
           </View>
         </View>
@@ -115,32 +110,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     flexDirection: 'row',
   },
+  btn: {
+    alignSelf: 'flex-end',
+  },
   date: {
     color: '#B6B6B6',
     fontSize: 10,
     textAlign: 'center',
-    marginTop: 8,
-    marginBottom: 2,
+    marginVertical: 10,
   },
   shoe: {
-    width: wPx2P(113),
-    height: wPx2P(65),
+    width: wPx2P(129 * 0.87),
+    height: wPx2P(80 * 0.87),
     justifyContent: 'center',
-  },
-  btn: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginLeft: 9,
-    backgroundColor: '#EF4444',
-    width: 115,
-    height: 25,
-    alignSelf: 'flex-end',
+    paddingLeft: wPx2P(17),
+    paddingTop: wPx2P(12),
   },
   fukuan: {
     fontSize: 10,
-    color: '#fff',
+    color: Colors.RED,
     fontFamily: YaHei,
   },
   time: {
@@ -159,13 +147,12 @@ const styles = StyleSheet.create({
     width: wPx2P(113),
   },
   zhongqian: {
-    width: 74,
-    height: 74,
-    marginLeft: 3,
+    width: 52,
+    height: 52,
   },
   yongjin: {
-    fontSize: 12,
-    color: Colors.YELLOW,
+    fontSize: 10,
+    color: Colors.DISABLE,
     textAlign: 'right',
   },
 });

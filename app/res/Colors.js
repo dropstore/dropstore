@@ -36,5 +36,6 @@ const COLORS = {
   // 按钮
   YELLOW: '#FFA700',
   DISABLE: '#AAAAB9',
+  RED: '#EF4444',
 };
 export default COLORS;
