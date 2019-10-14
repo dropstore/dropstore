@@ -68,8 +68,8 @@ export default class CountdownCom extends PureComponent<Props> {
     }
   }
 
-  formatTime = timer => `${parseInt(timer / 3600).toString().padStart(2, 0)}：${
-    parseInt((timer % 3600) / 60).toString().padStart(2, 0)}：${
+  formatTime = timer => `${parseInt(timer / 3600).toString().padStart(2, 0)} : ${
+    parseInt((timer % 3600) / 60).toString().padStart(2, 0)} : ${
     parseInt(timer % 60).toString().padStart(2, 0)}`
 
   render() {
