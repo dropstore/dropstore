@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {
-  FadeImage, Price, Image, Tag, BtnGroup,
+  Price, Image, Tag, BtnGroup, ImageBackground,
 } from '../../components';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
@@ -51,20 +51,21 @@ export default class ListItem extends PureComponent {
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <View style={{ flex: 1 }}>
-            <FadeImage source={{ uri: image }} style={styles.shoe} />
-            {
-              item.goods_status === '2'
-                ? <Image source={Images.jiandingzhong} style={styles.tag} />
-                : item.goods_status === '3'
-                  ? <Image source={Images.weitongguo} style={styles.tag} />
-                  : item.goods_status === '1'
-                    ? <Image source={Images.onExpress} style={styles.tag} />
-                    : item.goods_status === '5'
-                      ? <Image source={Images.onSale} style={styles.tag} />
-                      : item.goods_status === '0'
-                        ? <Image source={Images.daifahuo} style={styles.tag} /> : null
-            }
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <ImageBackground useFadeImage source={{ uri: image }} style={styles.shoe}>
+              {
+                item.goods_status === '2'
+                  ? <Image source={Images.jiandingzhong} style={styles.tag} />
+                  : item.goods_status === '3'
+                    ? <Image source={Images.weitongguo} style={styles.tag} />
+                    : item.goods_status === '1'
+                      ? <Image source={Images.onExpress} style={styles.tag} />
+                      : item.goods_status === '5'
+                        ? <Image source={Images.onSale} style={styles.tag} />
+                        : item.goods_status === '0'
+                          ? <Image source={Images.daifahuo} style={styles.tag} /> : null
+              }
+            </ImageBackground>
           </View>
           <Id id={item.order_id} />
         </View>

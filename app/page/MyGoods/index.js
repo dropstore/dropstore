@@ -7,6 +7,7 @@ import List from './List';
 import { TabBar } from '../../components';
 import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
+import { YaHei } from '../../res/FontFamily';
 import HeaderRight from './HeaderRight';
 import { showShare } from '../../utils/MutualUtil';
 
@@ -14,7 +15,7 @@ class MyGoods extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
-        <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '发布'}</Text>
+        <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '我要出售'}</Text>
       </TouchableOpacity>
     ),
   });
@@ -28,7 +29,7 @@ class MyGoods extends PureComponent {
       { key: 'selled', title: '已卖出', apiType: 'goodsSelled' },
     ] : [
       { key: 'warehouse', title: '库房', apiType: 'warehouse' },
-      { key: 'uncomplete', title: '未完成', apiType: 'uncomplete' },
+      { key: 'uncomplete', title: '未付款', apiType: 'uncomplete' },
       { key: 'sendOut', title: '已出库', apiType: 'sendOut' },
     ];
     this.state = {
@@ -81,7 +82,7 @@ class MyGoods extends PureComponent {
           {
             (this.routeType === 'Goods' || index === 0) && (
               <HeaderRight
-                color={index === 0 ? '#C81919' : '#37B6EB'}
+                color={index === 0 ? Colors.RED : '#37B6EB'}
                 prefix={`${this.routeType === 'Goods' ? (index === 0 ? '销售中: ' : '已卖出: ') : '库存 '}`}
                 apiType={routes[index].apiType}
               />
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: YaHei,
   },
 });
 

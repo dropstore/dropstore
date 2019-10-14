@@ -87,7 +87,7 @@ export default class ListItem extends PureComponent {
                     finish={this.finish}
                     style={styles.time}
                     time={item.end_time}
-                    prefix="待付款"
+                    prefix="待付款 "
                     prefixStyle={[styles.time, { color: Colors.RED }]}
                   />
                 </View>
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
+    fontFamily: YaHei,
   },
   timeWrapper: {
     flexDirection: 'row',

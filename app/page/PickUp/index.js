@@ -74,7 +74,7 @@ class PickUp extends PureComponent {
 
   render() {
     const item = this.item;
-    const { simpleData, address: { current: address, isChoosed } } = this.props;
+    const { simpleData, address: { current: address = {}, isChoosed } } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>

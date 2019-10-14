@@ -21,7 +21,7 @@ export default class Id extends PureComponent {
 const styles = StyleSheet.create({
   id: {
     fontSize: 8,
-    marginTop: 15,
     letterSpacing: -0.1,
+    marginTop: 5,
   },
 });

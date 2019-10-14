@@ -3,11 +3,14 @@ import {
   View, Text, StyleSheet, Clipboard,
 } from 'react-native';
 import {
-  FadeImage, Price, TitleWithTagTwo, Tag,
+  FadeImage, Price, Tag,
 } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { showToast } from '../../utils/MutualUtil';
 import Id from './component/Id';
+import TitleWithTag from './component/TitleWithTag';
+import { formatDate } from '../../utils/commonUtils';
+import { YaHei } from '../../res/FontFamily';
 
 export default class ListItem extends PureComponent {
   copy = () => {
@@ -29,16 +32,27 @@ export default class ListItem extends PureComponent {
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTagTwo text={goods_name} type={item.is_stock} />
+            <TitleWithTag text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                 {item.buy_price && <Price price={item.buy_price} /> }
                 {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" />}
               </View>
-              <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
+              <View style={{ flexDirection: 'row', marginTop: 2 }}>
+                <Text style={{ fontSize: 11, color: '#858585' }}>出库时间</Text>
+                <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
+                  {formatDate(item.add_time, 'yyyy-MM-dd')}
+                </Text>
+              </View>
             </View>
           </View>
-          <Text onPress={this.copy} style={styles.yundanhao}>{`运单号：${item.express_id || '等待寄出'}`}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
+            <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${item.size}`}</Text>
+            {
+              item.express_id ? <Text onPress={this.copy} style={[styles.yundanhao, { textDecorationLine: 'underline' }]}>{`运单号：${item.express_id}`}</Text>
+                : <Text onPress={this.copy} style={[styles.yundanhao, { color: '#858585' }]}>等待寄出</Text>
+            }
+          </View>
         </View>
       </View>
     );
@@ -76,8 +90,6 @@ const styles = StyleSheet.create({
   yundanhao: {
     color: '#0A8CCF',
     fontSize: 10,
-    marginTop: 8,
     textAlign: 'right',
-    textDecorationLine: 'underline',
   },
 });

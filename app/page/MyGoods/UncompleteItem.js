@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
-} from 'react-native';
-import {
-  FadeImage, CountdownCom, TitleWithTagTwo,
+  FadeImage, CountdownCom, Price, BtnGroup,
 } from '../../components';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import Id from './component/Id';
+import TitleWithTag from './component/TitleWithTag';
+import { YaHei } from '../../res/FontFamily';
 
 export default class ListItem extends PureComponent {
   constructor(props) {
@@ -35,37 +35,38 @@ export default class ListItem extends PureComponent {
     const { text } = this.state;
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
+    const btns = [
+      { text: '付款', onPress: () => this.onPress('pay') },
+    ];
 
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-          <FadeImage source={{ uri: image }} style={styles.shoe} />
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <FadeImage source={{ uri: image }} style={styles.shoe} />
+          </View>
           <Id id={item.order_id} />
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTagTwo text={goods_name} type={item.is_stock} />
+            <TitleWithTag text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
-              <View style={styles.timeWrapper}>
-                <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
-                <CountdownCom
-                  finish={this.finish}
-                  style={styles.time}
-                  time={item.end_time}
-                  prefix="待付款"
-                  prefixStyle={styles.time}
-                />
-              </View>
+              <Price price={item.order_price} />
+              <CountdownCom
+                finish={this.finish}
+                style={styles.time}
+                time={item.end_time}
+                prefix="待付款 "
+                prefixStyle={[styles.time, { color: Colors.RED }]}
+              />
             </View>
           </View>
           <Text style={styles.cuoguo}>{text || '请在规定时间内完成支付，错过将失去购买资格'}</Text>
-          {
-            !text && (
-              <TouchableOpacity onPress={() => this.onPress('pay')} style={styles.btn}>
-                <Text style={styles.text}>付款</Text>
-              </TouchableOpacity>
-            )
-          }
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
+            <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${item.size}`}</Text>
+            { !text && <BtnGroup btns={btns} /> }
+          </View>
         </View>
       </View>
     );
@@ -80,6 +81,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     marginBottom: 7,
     flexDirection: 'row',
+  },
+  time: {
+    fontSize: 11,
+    fontFamily: YaHei,
   },
   tag: {
     width: wPx2P(74),
@@ -113,15 +118,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   cuoguo: {
-    color: Colors.YELLOW,
+    color: '#858585',
     fontSize: 10,
     marginTop: 2,
     letterSpacing: -0.2,
     textAlign: 'right',
-  },
-  time: {
-    fontSize: 11,
-    color: Colors.YELLOW,
   },
   timeWrapper: {
     flexDirection: 'row',
