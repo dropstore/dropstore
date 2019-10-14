@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
-import { TabBar, Image } from '../../components';
+import { TabBar } from '../../components';
 import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
 // import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
@@ -45,10 +45,6 @@ class HomePage extends PureComponent {
     return null;
   }
 
-  toSearch = () => {
-    console.log(123);
-  }
-
   render() {
     const { routes } = this.state;
     return (
@@ -60,7 +56,7 @@ class HomePage extends PureComponent {
             position={this.indexScrollPosition}
             onIndexChange={this.onIndexChange}
           />
-          <Image onPress={this.toSearch} style={styles.search} source={require('../../res/image/search-index.png')} />
+          {/* <Image onPress={this.toSearch} style={styles.search} source={require('../../res/image/search-index.png')} /> */}
         </View>
         <TabView
           style={{ flex: 1 }}
