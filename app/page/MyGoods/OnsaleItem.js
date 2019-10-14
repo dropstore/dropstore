@@ -40,7 +40,7 @@ export default class ListItem extends PureComponent {
             <View style={{ flexDirection: 'row', marginTop: 2 }}>
               <Text style={{ fontSize: 11, color: '#858585' }}>预计入库</Text>
               <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
-                {formatDate(item.add_time, 'yyyy-MM-dd')}
+                {formatDate(item.storage_time, 'yyyy-MM-dd')}
               </Text>
             </View>
           </View>

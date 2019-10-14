@@ -84,7 +84,7 @@ export default class ListItem extends PureComponent {
                       {`${item.is_stock === '1' ? '入库时间' : '预计入库'}`}
                     </Text>
                     <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
-                      {formatDate(item.add_time, 'yyyy-MM-dd')}
+                      {formatDate(item.is_stock === '1' ? item.storage_time : item.add_time, 'yyyy-MM-dd')}
                     </Text>
                   </View>
                 )
