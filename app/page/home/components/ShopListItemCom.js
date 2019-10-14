@@ -9,7 +9,7 @@ import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
 import { Aldrich, YaHei } from '../../../res/FontFamily';
-import { getScreenWidth } from '../../../common/Constant';
+import { getScreenWidth, MAX_TIME } from '../../../common/Constant';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
 
@@ -17,6 +17,7 @@ export default class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
     const { item } = this.props;
+    const now = Date.now() / 1000;
     this.state = {
       isStart: item.start_time - Date.now() / 1000 < 1,
       showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
@@ -26,9 +27,12 @@ export default class ShopListItemCom extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { item } = this.props;
+    const now = Date.now() / 1000;
     if (item !== nextProps.item) {
       this.setState({
         isStart: nextProps.item.start_time - Date.now() / 1000 < 1,
+        showText: (parseInt(nextProps.item.end_time) - now < MAX_TIME && nextProps.item.end_time > now)
+          || (parseInt(nextProps.item.start_time) - now < MAX_TIME && nextProps.item.start_time > now),
       });
     }
   }
@@ -48,45 +52,57 @@ export default class ShopListItemCom extends PureComponent {
   };
 
   activityStart = () => {
-    this.setState({ isStart: true });
+    const { item } = this.props;
+    const now = Date.now() / 1000;
+    this.setState({
+      isStart: true,
+      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
+          || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
+    });
   }
 
   render() {
     const { item } = this.props;
-    const { isStart } = this.state;
+    const { isStart, showText } = this.state;
     return (
       <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
         <TitleWithTag text={item.activity_name} bType={item.b_type} />
-        <View style={{ marginTop: 5 }}>
-          <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
-          <Image style={styles.qihuo} source={item.is_stock === '2' ? require('../../../res/image/qihuo.png') : require('../../../res/image/xianhuo.png')} />
-        </View>
-        <View style={styles.bottom}>
-          <Price price={item.price} offsetBottom={3} />
-          <View style={styles.rightBottom}>
-            <Text style={{ color: isStart || item.b_type === '1' ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-              {`${isStart ? '距活动结束' : '距活动开始'}`}
-            </Text>
-            {
+        <View>
+          <View style={{ marginTop: 5 }}>
+            <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
+            <Image style={styles.qihuo} source={item.is_stock === '2' ? require('../../../res/image/qihuo.png') : require('../../../res/image/xianhuo.png')} />
+          </View>
+          <View style={styles.bottom}>
+            <Price price={item.price} offsetBottom={3} />
+            <View style={styles.rightBottom}>
+              {
+              showText && (
+                <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                  {`${isStart ? '距活动结束' : '距活动开始'}`}
+                </Text>
+              )
+            }
+              {
               isStart ? (
                 <CountdownCom
                   offset={Platform.OS === 'ios' ? null : -1.8}
                   time={item.end_time}
-                  style={styles.time}
+                  style={{ ...styles.time, color: '#C51616' }}
                   endTimerText="已结束"
-                  notStartTimerText={`${formatDate(item.end_time, 'MM/dd')} 结束`}
+                  notStartTimerText={`${formatDate(item.end_time, 'MM月dd日')}å结束`}
                 />
               ) : (
                 <CountdownCom
                   offset={Platform.OS === 'ios' ? null : -1.8}
                   time={item.start_time}
                   finish={this.activityStart}
-                  style={styles.time}
+                  style={{ ...styles.time, color: '#0084FF' }}
                   hasNextTimer
-                  notStartTimerText={`${formatDate(item.start_time, 'MM/dd')} 开始`}
+                  notStartTimerText={`${formatDate(item.start_time, 'MM月dd日')}开始`}
                 />
               )
             }
+            </View>
           </View>
         </View>
       </ScaleView>
@@ -108,10 +124,11 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     width: (getScreenWidth() - 26) / 2,
+    justifyContent: 'space-between',
   },
   time: {
     fontFamily: Aldrich,
-    fontSize: 14,
+    fontSize: 12,
   },
   bottom: {
     flexDirection: 'row',

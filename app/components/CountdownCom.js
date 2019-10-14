@@ -1,7 +1,6 @@
 /* @flow */
 import React, { PureComponent } from 'react';
 import { Text, View } from 'react-native';
-import { Normal, Mario } from '../res/FontFamily';
 import { MAX_TIME } from '../common/Constant';
 
 type Props = {
@@ -29,7 +28,6 @@ export default class CountdownCom extends PureComponent<Props> {
     const noTimer = diff > MAX_TIME || diff < 1;
     this.state = {
       text: diff > MAX_TIME ? notStartTimerText : diff < 1 ? endTimerText : this.formatTime(diff || 0),
-      noTimer,
     };
     this.timeInterval = null;
     noTimer || this.start(time);
@@ -59,10 +57,10 @@ export default class CountdownCom extends PureComponent<Props> {
           const { finish, endTimerText, hasNextTimer } = this.props;
           finish && finish();
           this.clear();
-          this.setState({ text: hasNextTimer ? this.formatTime(0) : endTimerText, noTimer: !hasNextTimer });
+          this.setState({ text: hasNextTimer ? this.formatTime(0) : endTimerText });
         } else {
           const text = this.formatTime(diff);
-          this.setState({ text, noTimer: false });
+          this.setState({ text });
         }
       }, 1000);
     }
@@ -74,26 +72,13 @@ export default class CountdownCom extends PureComponent<Props> {
 
   render() {
     const {
-      style, prefix, prefixStyle, offset,
+      style, prefix, prefixStyle,
     } = this.props;
-    const { text, noTimer } = this.state;
-    const fontSize = style.fontSize || 14;
+    const { text } = this.state;
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
-        {prefix && !noTimer && <Text style={{ ...(prefixStyle || style), padding: 0, includeFontPadding: false }}>{prefix}</Text>}
-        <Text style={{
-          color: noTimer ? '#333' : '#000',
-          width: noTimer ? 'auto' : fontSize * 6.44,
-          marginLeft: noTimer ? 8 : 0,
-          textAlign: 'right',
-          padding: 0,
-          top: offset || (noTimer || style.fontFamily !== Mario) ? 0 : fontSize * 0.09,
-          includeFontPadding: false,
-          ...style,
-          fontSize: noTimer ? fontSize * 0.86 : fontSize,
-          fontFamily: noTimer ? Normal : (style.fontFamily || Normal),
-        }}
-        >
+        {prefix && <Text style={prefixStyle || style}>{prefix}</Text>}
+        <Text style={{ textAlign: 'right', ...style }}>
           {text}
         </Text>
       </View>
