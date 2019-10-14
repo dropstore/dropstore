@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { FadeImage, CountdownCom } from '../../../../components';
-import { YaHei, Mario } from '../../../../res/FontFamily';
+import { YaHei } from '../../../../res/FontFamily';
 import ShopConstant from '../../../../common/ShopConstant';
 import { wPx2P } from '../../../../utils/ScreenUtil';
 import { formatDate } from '../../../../utils/commonUtils';
@@ -27,7 +27,8 @@ export default class ShopBasicInfoCom extends PureComponent {
         <CountdownCom
           style={styles.overTime}
           time={activityInfo.activity.end_time}
-          prefix="距结束时间:"
+          prefix={activityInfo.activity.b_type === 1 ? '抽签参与中:' : '距结束时间:'}
+          format="dd天hh时mm分ss秒"
           notStartTimerText={`${formatDate(activityInfo.activity.end_time, 'MM/dd hh:mm:ss')} 结束`}
           endTimerText="活动已结束"
           prefixStyle={{ ...styles.overTitle, color: Colors.OTHER_BACK }}
@@ -40,6 +41,7 @@ export default class ShopBasicInfoCom extends PureComponent {
         notStartTimerText={`${formatDate(activityInfo.activity.start_time, 'MM/dd hh:mm:ss')} ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
         finish={this.activityStart}
         style={styles.overTime}
+        format="dd天hh时mm分ss秒"
         time={activityInfo.activity.start_time}
         prefix={activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '距发售时间:' : '距开始时间:'}
         prefixStyle={{ ...styles.overTitle, color: '#0084FF' }}
@@ -54,7 +56,10 @@ export default class ShopBasicInfoCom extends PureComponent {
         <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: activityInfo.activity.image }} />
         { this.setTimeDOM(activityInfo) }
         <Text style={styles.shopTitle}>{activityInfo.goods.goods_name}</Text>
-        <Text style={styles.price}>{`${activityInfo.activity.price / 100}￥`}</Text>
+        <Text style={styles.price}>
+          {`${activityInfo.activity.price / 100}￥`}
+          <Text style={styles.shopTitle}>起</Text>
+        </Text>
       </View>
     );
   }
@@ -85,7 +90,7 @@ const styles = StyleSheet.create({
   },
   imageShoe: {
     width: wPx2P(375),
-    height: wPx2P(300),
+    height: wPx2P(375),
     marginBottom: 10,
   },
   shopTitle: {
@@ -100,13 +105,12 @@ const styles = StyleSheet.create({
     marginTop: 21,
   },
   overTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 10,
     fontFamily: YaHei,
   },
   overTime: {
-    fontSize: 16,
-    fontFamily: Mario,
+    fontSize: 17,
+    fontFamily: YaHei,
     color: 'rgba(0,0,0,1)',
     marginLeft: 6,
   },
