@@ -5,6 +5,7 @@ import {
   StyleSheet, View, TouchableOpacity, Text,
 } from 'react-native';
 import Colors from '../res/Colors';
+import { YaHei } from '../res/FontFamily';
 
 type Props = {
   btns: Array<{
@@ -20,6 +21,7 @@ export default class BottomBtnGroup extends PureComponent<Props> {
     const { btns } = this.props;
     const left = btns[0];
     const right = btns[1] || btns[0];
+
     return (
       <View style={styles.container}>
         {
@@ -32,7 +34,7 @@ export default class BottomBtnGroup extends PureComponent<Props> {
               top: 20, left: 20, right: 10, bottom: 20,
             }}
           >
-            <Text style={[styles.text, { color: right.color || Colors.RED }]}>{left.text}</Text>
+            <Text style={[styles.text, { color: left.color || Colors.RED }]}>{left.text}</Text>
           </TouchableOpacity>
           )
         }
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 10,
+    fontFamily: YaHei,
   },
   shuxian: {
     height: '100%',

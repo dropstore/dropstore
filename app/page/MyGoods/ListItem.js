@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
-} from 'react-native';
-import {
-  FadeImage, Price, Image, TitleWithTagTwo, Tag,
+  FadeImage, Price, Image, Tag, BtnGroup,
 } from '../../components';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
@@ -12,6 +10,7 @@ import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import Images from '../../res/Images';
 import { formatDate } from '../../utils/commonUtils';
 import Id from './component/Id';
+import TitleWithTag from './component/TitleWithTag';
 
 export default class ListItem extends PureComponent {
   onPress = (type) => {
@@ -31,21 +30,21 @@ export default class ListItem extends PureComponent {
       btns = [];
     } if (item.goods_status === '5') {
       btns = [
-        { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
-        { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+        { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
+        { text: '下架', onPress: () => this.onPress('cancel') },
       ];
     } else if (item.goods_status === '4') {
-      btns = [{ title: '发布', backgroundColor: '#FFA700', key: 'publish' }];
+      btns = [{ text: '上架', color: '#000', onPress: () => this.onPress('publish') }];
       if (item.is_stock === '1') {
-        btns.push({ title: '提货', backgroundColor: '#EF4444', key: 'pickUp' });
+        btns.push({ text: '提货', onPress: () => this.onPress('pickUp') });
       }
     } else if (item.goods_status === '0') {
       btns = [
-        { title: '填写物流信息', backgroundColor: '#FFA700', key: 'express' },
+        { text: '填写物流信息', color: '#000', onPress: () => this.onPress('express') },
       ];
     } else if (['3'].includes(item.goods_status)) {
       btns = [
-        { title: '寄回', backgroundColor: '#EF4444', key: 'sendBack' },
+        { text: '寄回', onPress: () => this.onPress('sendBack') },
       ];
     }
 
@@ -71,39 +70,30 @@ export default class ListItem extends PureComponent {
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <View>
-            <TitleWithTagTwo text={goods_name} type={item.is_stock} />
+            <TitleWithTag text={goods_name} type={item.is_stock} />
             <View style={styles.middle}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                 {item.buy_price && <Price price={item.buy_price} /> }
                 {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" />}
               </View>
-              <Text style={{ fontSize: 12 }}>{`SIZE：${item.size}`}</Text>
+              {
+                ['4', '5'].includes(item.goods_status) && (
+                  <View style={{ flexDirection: 'row', marginTop: 2 }}>
+                    <Text style={{ fontSize: 11, color: '#858585' }}>
+                      {`${item.is_stock === '1' ? '入库时间' : '预计入库'}`}
+                    </Text>
+                    <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
+                      {formatDate(item.add_time, 'yyyy-MM-dd')}
+                    </Text>
+                  </View>
+                )
+              }
             </View>
           </View>
-          {
-            ['4', '5'].includes(item.goods_status) && (
-              <Text style={{ fontSize: 11, marginTop: 2 }}>
-                {`${item.is_stock === '1' ? '' : '预计'}入库时间：${formatDate(item.add_time, 'MM/dd')}`}
-              </Text>
-            )
-          }
-          {
-            btns.length > 0 && (
-              <View style={styles.btnGroup}>
-                {
-                  btns.map(v => (
-                    <TouchableOpacity
-                      key={v.key}
-                      onPress={() => this.onPress(v.key)}
-                      style={[styles.btn, { backgroundColor: v.backgroundColor, width: v.key === 'express' ? 115 : 53 }]}
-                    >
-                      <Text style={styles.text}>{v.title}</Text>
-                    </TouchableOpacity>
-                  ))
-                }
-              </View>
-            )
-          }
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${item.size}`}</Text>
+            { btns.length > 0 && <BtnGroup btns={btns} /> }
+          </View>
         </View>
       </View>
     );
@@ -147,6 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingTop: 5,
+    minHeight: 35,
   },
   btnGroup: {
     alignSelf: 'flex-end',
