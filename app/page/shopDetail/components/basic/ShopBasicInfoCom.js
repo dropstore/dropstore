@@ -38,7 +38,8 @@ export default class ShopBasicInfoCom extends PureComponent {
     return (
       <CountdownCom
         hasNextTimer
-        notStartTimerText={`${formatDate(activityInfo.activity.start_time, 'MM/dd hh:mm:ss')} ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
+        notStartTimerText={`${formatDate(activityInfo.activity.start_time, 'MM/dd hh:mm:ss')}
+        ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
         finish={this.activityStart}
         style={styles.overTime}
         format="dd天hh时mm分ss秒"

@@ -38,7 +38,6 @@ const _styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: YaHei,
     color: '#000',
-    marginRight: 7,
     fontWeight: '400',
   },
   rateImage: {
@@ -47,6 +46,7 @@ const _styles = StyleSheet.create({
   },
   imageShoe: {
     width: 22,
+    marginHorizontal: 1,
     height: 19,
   },
 });
