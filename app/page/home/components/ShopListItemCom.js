@@ -19,6 +19,8 @@ export default class ShopListItemCom extends PureComponent {
     const { item } = this.props;
     this.state = {
       isStart: item.start_time - Date.now() / 1000 < 1,
+      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
+        || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
     };
   }
 
