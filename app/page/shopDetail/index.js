@@ -4,7 +4,9 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { RefreshControl, View, FlatList } from 'react-native';
+import {
+  RefreshControl, View, FlatList, StyleSheet,
+} from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
@@ -34,7 +36,7 @@ function mapDispatchToProps(dispatch) {
 
 class ShopDetail extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
-    title: navigation.getParam('title', '商品详情'),
+    title: '商品详情',
     headerRight: <ShopDetailHeaderRight
       onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
       rate={navigation.getParam('rate')}
@@ -91,7 +93,7 @@ class ShopDetail extends PureComponent {
       list = [...list, 'DrawMainCom'];
     }
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#999' }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<ShopBasicInfoCom activityInfo={data} />}

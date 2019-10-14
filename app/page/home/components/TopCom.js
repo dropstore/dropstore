@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FadeImage } from '../../../components';
 import { wPx2P } from '../../../utils/ScreenUtil';
-import { getScreenWidth, MARGIN_HORIZONTAL } from '../../../common/Constant';
+import { getScreenWidth } from '../../../common/Constant';
 import { getBanner } from '../../../redux/reselect/banner';
 import { fetchBanner } from '../../../redux/actions/banner';
 
@@ -62,9 +62,8 @@ class TopCom extends PureComponent {
 
 const _styles = StyleSheet.create({
   topImage: {
-    width: wPx2P(375 - MARGIN_HORIZONTAL * 2),
-    height: wPx2P(150),
-    borderRadius: 2,
+    width: wPx2P(375),
+    height: wPx2P(125),
     alignSelf: 'center',
   },
 });

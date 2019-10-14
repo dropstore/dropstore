@@ -5,9 +5,10 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  Image, StyleSheet, Text, View, TouchableOpacity,
+  StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import Images from '../../../../res/Images';
+import { Image } from '../../../../components';
 import { YaHei } from '../../../../res/FontFamily';
 
 export default class ShopDetailHeaderRight extends PureComponent {
@@ -19,7 +20,7 @@ export default class ShopDetailHeaderRight extends PureComponent {
         <Wrapper onPress={onPress} style={_styles.mainView}>
           <Text style={_styles.rateTitle}>中签率</Text>
           <Image resizeMode="contain" style={_styles.imageShoe} source={Images.lot_win_rate} />
-          <Text style={_styles.rateText}>{rate}</Text>
+          <Text style={_styles.rateTitle}>{rate}</Text>
         </Wrapper>
       );
     }
@@ -34,21 +35,18 @@ const _styles = StyleSheet.create({
     marginRight: 12,
   },
   rateTitle: {
-    fontSize: 9,
+    fontSize: 12,
     fontFamily: YaHei,
-    fontWeight: '400',
-    color: 'rgba(255,255,255,1)',
+    color: '#000',
     marginRight: 7,
+    fontWeight: '400',
   },
   rateImage: {
     width: 13,
     height: 12,
   },
-  rateText: {
-    fontSize: 11,
-    fontFamily: YaHei,
-    fontWeight: 'bold',
-    color: 'rgba(255,255,255,1)',
-    marginLeft: 4,
+  imageShoe: {
+    width: 22,
+    height: 19,
   },
 });

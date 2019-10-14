@@ -11,6 +11,14 @@ import HeaderRight from './HeaderRight';
 import { showShare } from '../../utils/MutualUtil';
 
 class MyGoods extends PureComponent {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
+        <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '发布'}</Text>
+      </TouchableOpacity>
+    ),
+  });
+
   constructor(props) {
     super(props);
     const { navigation } = this.props;
@@ -27,15 +35,6 @@ class MyGoods extends PureComponent {
       routes,
       index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
     };
-    if (this.routeType === 'Warehouse') {
-      navigation.setParams({
-        headerRight: (
-          <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
-            <Text style={{ color: '#fff', fontSize: 14 }}>{this.routeType === 'Warehouse' ? '发布' : '分享'}</Text>
-          </TouchableOpacity>
-        ),
-      });
-    }
   }
 
   onIndexChange = (index) => {

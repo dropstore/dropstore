@@ -76,32 +76,32 @@ export default class ShopListItemCom extends PureComponent {
             <Price price={item.price} offsetBottom={3} />
             <View style={styles.rightBottom}>
               {
-              showText && (
-                <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-                  {`${isStart ? '距活动结束' : '距活动开始'}`}
-                </Text>
-              )
-            }
+                showText && (
+                  <Text style={{ color: isStart ? Colors.OTHER_BACK : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                    {`${isStart ? '距活动结束' : '距活动开始'}`}
+                  </Text>
+                )
+              }
               {
-              isStart ? (
-                <CountdownCom
-                  offset={Platform.OS === 'ios' ? null : -1.8}
-                  time={item.end_time}
-                  style={{ ...styles.time, color: '#C51616' }}
-                  endTimerText="已结束"
-                  notStartTimerText={`${formatDate(item.end_time, 'MM月dd日')}å结束`}
-                />
-              ) : (
-                <CountdownCom
-                  offset={Platform.OS === 'ios' ? null : -1.8}
-                  time={item.start_time}
-                  finish={this.activityStart}
-                  style={{ ...styles.time, color: '#0084FF' }}
-                  hasNextTimer
-                  notStartTimerText={`${formatDate(item.start_time, 'MM月dd日')}开始`}
-                />
-              )
-            }
+                isStart ? (
+                  <CountdownCom
+                    offset={Platform.OS === 'ios' ? null : -1.8}
+                    time={item.end_time}
+                    style={{ ...styles.time, color: '#C51616' }}
+                    endTimerText="已结束"
+                    notStartTimerText={`${formatDate(item.end_time, 'MM月dd日')} 结束`}
+                  />
+                ) : (
+                  <CountdownCom
+                    offset={Platform.OS === 'ios' ? null : -1.8}
+                    time={item.start_time}
+                    finish={this.activityStart}
+                    style={{ ...styles.time, color: '#0084FF' }}
+                    hasNextTimer
+                    notStartTimerText={`${formatDate(item.start_time, 'MM月dd日')}开始`}
+                  />
+                )
+              }
             </View>
           </View>
         </View>
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   qihuo: {
     height: 23,
     width: 41,
-    alignSelf: 'flex-end',
     position: 'absolute',
+    right: 0,
   },
   shopTitle: {
     fontSize: 12,

@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   imageShoe: {
-    width: wPx2P(251),
-    height: wPx2P(135),
+    width: wPx2P(375),
+    height: wPx2P(300),
     marginBottom: 10,
   },
   shopTitle: {
