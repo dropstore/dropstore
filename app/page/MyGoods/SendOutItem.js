@@ -41,7 +41,7 @@ export default class ListItem extends PureComponent {
               <View style={{ flexDirection: 'row', marginTop: 2 }}>
                 <Text style={{ fontSize: 11, color: '#858585' }}>出库时间</Text>
                 <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
-                  {formatDate(item.add_time, 'yyyy-MM-dd')}
+                  {formatDate(item.out_stock_time, 'yyyy-MM-dd')}
                 </Text>
               </View>
             </View>

@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet,
 } from 'react-native';
 import {
-  Image, CountdownCom, ImageBackground, Price, BtnGroup,
+  Image, CountdownCom, ImageBackground, Price, BtnGroup, ScaleView,
 } from '../../components';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
@@ -66,10 +66,11 @@ export default class ListItem extends PureComponent {
     const btns = [
       { onPress: this.toPay, text: ['1', '2', '7'].includes(item.type) ? '付款' : '查看详情' },
     ];
+    const Wrapper = ['1', '2', '7', '8', '9'].includes(item.type) && !text ? ScaleView : View;
     return (
       <View>
         <Text style={styles.date}>{formatDate(item.add_time)}</Text>
-        <View style={styles.container}>
+        <Wrapper onPress={this.toPay} style={styles.container}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
             <ImageBackground useFadeImage source={{ uri: item.image }} style={styles.shoe}>
               { item.type === '2' && <Image source={require('../../res/image/zhongqian.png')} style={styles.zhongqian} /> }
@@ -96,7 +97,7 @@ export default class ListItem extends PureComponent {
             { ['1', '2', '7', '8', '9'].includes(item.type) && !text && <BtnGroup btns={btns} />}
             { !!text && <Text style={styles.yongjin}>{text}</Text> }
           </View>
-        </View>
+        </Wrapper>
       </View>
     );
   }

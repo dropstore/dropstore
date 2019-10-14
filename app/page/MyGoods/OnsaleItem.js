@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity,
+  View, Text, StyleSheet,
 } from 'react-native';
-import {
-  FadeImage, Price, TitleWithTagTwo,
-} from '../../components';
+import { FadeImage, Price, BtnGroup } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
+import TitleWithTag from './component/TitleWithTag';
+import { YaHei } from '../../res/FontFamily';
+import { formatDate } from '../../utils/commonUtils';
 
 export default class ListItem extends PureComponent {
   onPress = (type) => {
@@ -22,10 +23,10 @@ export default class ListItem extends PureComponent {
     const goods_name = (item.goods || item).goods_name;
     const showNumber = !!item.order_id;
     const btns = [
-      { title: '编辑', backgroundColor: '#FFA700', key: 'edit' },
-      { title: '取消', backgroundColor: '#EF4444', key: 'cancel' },
+      { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
+      { text: '下架', color: '#A2A2A2', onPress: () => this.onPress('cancel') },
     ];
-
+    console.log(item);
     return (
       <View style={styles.container}>
         <View style={{ justifyContent: showNumber ? 'space-between' : 'center', marginRight: 15 }}>
@@ -33,17 +34,17 @@ export default class ListItem extends PureComponent {
           { showNumber && <Text style={styles.id}>{`编号: ${item.order_id}`}</Text> }
         </View>
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
-          <TitleWithTagTwo text={goods_name} type={item.is_stock} />
-          <Price price={item.price} />
-          <View style={[styles.btnGroup, { marginTop: 9 }]}>
-            {
-              btns.map(v => (
-                <TouchableOpacity key={v.key} onPress={() => this.onPress(v.key)} style={[styles.btn, { backgroundColor: v.backgroundColor }]}>
-                  <Text style={styles.text}>{v.title}</Text>
-                </TouchableOpacity>
-              ))
-            }
+          <TitleWithTag text={goods_name} type={item.is_stock} />
+          <View style={styles.middle}>
+            <Price price={item.price} />
+            <View style={{ flexDirection: 'row', marginTop: 2 }}>
+              <Text style={{ fontSize: 11, color: '#858585' }}>预计入库</Text>
+              <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
+                {formatDate(item.add_time, 'yyyy-MM-dd')}
+              </Text>
+            </View>
           </View>
+          <BtnGroup btns={btns} />
         </View>
       </View>
     );
@@ -85,5 +86,13 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 10,
+  },
+  middle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingTop: 5,
+    minHeight: 35,
+    marginBottom: 5,
   },
 });

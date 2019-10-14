@@ -81,7 +81,7 @@ class MyGoods extends PureComponent {
           {
             (this.routeType === 'Goods' || index === 0) && (
               <HeaderRight
-                color={index === 0 ? Colors.RED : '#37B6EB'}
+                color={index === 0 ? Colors.RED : '#FF9600'}
                 prefix={`${this.routeType === 'Goods' ? (index === 0 ? '销售中: ' : '已卖出: ') : '库存 '}`}
                 apiType={routes[index].apiType}
               />
