@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   imageShoe: {
     width: wPx2P(375),
-    height: wPx2P(375),
+    height: wPx2P(300),
     marginBottom: 10,
   },
   shopTitle: {

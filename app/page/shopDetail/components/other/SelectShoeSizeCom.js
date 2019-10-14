@@ -6,7 +6,7 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { hitSlop } from '../../../../common/Constant';
-import { BottomBtnGroup } from '../../../../components';
+import { BottomBtnGroup, Image } from '../../../../components';
 import Colors from '../../../../res/Colors';
 import { YaHei } from '../../../../res/FontFamily';
 import { debounce } from '../../../../utils/commonUtils';
@@ -98,25 +98,44 @@ class SelectShoeSizeCom extends Component {
   };
 
   render() {
-    const { shoesList } = this.state;
-    const { totalCount } = this.state;
+    const { shoesList, totalCount } = this.state;
+    const { closeBox } = this.props;
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
           <View style={styles.mainView}>
-            <Text style={styles.title}>鞋码选择</Text>
-            <Text style={styles.alreadyChoose}>{`已选数量${totalCount}`}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.title}>鞋码选择</Text>
+              <Text style={styles.alreadyChoose}>{`已选数量：${totalCount}`}</Text>
+            </View>
+
+            <Image onPress={() => closeBox()} style={styles.close} source={require('../../../../res/image/close-x.png')} />
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {
               shoesList.map((item, index) => (
-                <View key={index} style={[styles.item, { borderBottomWidth: index === 0 ? 0 : StyleSheet.hairlineWidth }]}>
-                  <Text style={styles.sizeAndCount}>{item.size}</Text>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View key={index} style={styles.item}>
+                  <View style={styles.itemLeft}>
+                    <Text style={styles.sizeAndCount}>{item.size}</Text>
                     <Text style={styles.price}>{`${item.price / 100}￥`}</Text>
-                    <TouchableOpacity style={styles.arrowLeft} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item)} />
-                    <Text style={[styles.sizeAndCount, { width: 40 }]}>{item.num}</Text>
-                    <TouchableOpacity style={styles.arrowRight} hitSlop={hitSlop} onPress={() => this.changeChooseCount(item, true)} />
+                  </View>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', height: '100%' }}>
+                    <TouchableOpacity
+                      style={[styles.add, { backgroundColor: item.num < 1 ? '#fff' : Colors.YELLOW }]}
+                      hitSlop={hitSlop}
+                      disabled={item.num < 1}
+                      onPress={() => this.changeChooseCount(item)}
+                    >
+                      <Text style={styles.addText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={[styles.sizeAndCount, { width: 40, fontSize: 20 }]}>{item.num}</Text>
+                    <TouchableOpacity
+                      style={[styles.add, { backgroundColor: item.num >= item.limit_num ? Colors.DISABLE : Colors.YELLOW }]}
+                      hitSlop={hitSlop}
+                      onPress={() => this.changeChooseCount(item, true)}
+                    >
+                      <Text style={styles.addText}>+</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               ))
@@ -130,31 +149,32 @@ class SelectShoeSizeCom extends Component {
 }
 
 const styles = StyleSheet.create({
-  arrowLeft: {
-    width: 0,
-    height: 0,
-    borderStyle: 'solid',
-    borderTopWidth: 8,
-    borderBottomWidth: 8,
-    borderRightWidth: 12,
-    borderLeftWidth: 0,
-    borderTopColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderBottomColor: 'transparent',
-    borderRightColor: Colors.OTHER_BACK,
+  addText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: 'bold',
+    lineHeight: 17,
   },
-  arrowRight: {
-    width: 0,
-    height: 0,
-    borderStyle: 'solid',
-    borderTopWidth: 8,
-    borderBottomWidth: 8,
-    borderRightWidth: 0,
-    borderLeftWidth: 12,
-    borderTopColor: 'transparent',
-    borderLeftColor: Colors.OTHER_BACK,
-    borderBottomColor: 'transparent',
-    borderRightColor: 'transparent',
+  add: {
+    height: 17,
+    width: 17,
+    alignItems: 'center',
+    overflow: 'hidden',
+    borderRadius: 2,
+  },
+  itemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+    borderBottomColor: '#ddd',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginRight: wPx2P(30),
+    height: '100%',
+  },
+  close: {
+    height: 12,
+    width: 12,
   },
   container: {
     backgroundColor: Colors.WHITE_COLOR,
@@ -163,42 +183,42 @@ const styles = StyleSheet.create({
   mainView: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 12,
+    marginTop: 25,
+    paddingBottom: 11,
+    marginHorizontal: 24,
+    borderBottomColor: '#F2F2F2',
+    borderBottomWidth: 1,
+    justifyContent: 'space-between',
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginHorizontal: wPx2P(30),
-    height: 45,
-    borderBottomColor: '#ddd',
+    height: 74,
     paddingHorizontal: wPx2P(15),
   },
   title: {
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: wPx2P(25),
+    fontSize: 15,
   },
   alreadyChoose: {
-    fontSize: 15,
+    fontSize: 13,
     color: Colors.NORMAL_TEXT_0,
     fontFamily: YaHei,
     fontWeight: '300',
     marginLeft: wPx2P(20),
   },
   sizeAndCount: {
-    color: '#000',
     fontFamily: YaHei,
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 25,
     textAlign: 'center',
   },
   price: {
-    color: 'rgba(0,0,0,1)',
-    fontSize: 15,
-    marginRight: wPx2P(25),
+    color: '#4F4F4F',
   },
   lrImage: {
     width: 6,
