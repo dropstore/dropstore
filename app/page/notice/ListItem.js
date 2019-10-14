@@ -5,10 +5,9 @@ import {
 import {
   Image, CountdownCom, ImageBackground, Price, BtnGroup,
 } from '../../components';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
-import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../utils/commonUtils';
 
 export default class ListItem extends PureComponent {
@@ -78,17 +77,18 @@ export default class ListItem extends PureComponent {
             { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }
           </View>
           <View style={{ flex: 1, justifyContent: item.type !== '6' ? 'space-between' : 'center' }}>
-            <TitleWithTag text={item.activity_name} type={item.type} />
+            <Text style={styles.title}>{item.activity_name}</Text>
             {['1', '2', '7'].includes(item.type) && item.order_price && <Price price={item.order_price} /> }
             {
 
               ['1', '2'].includes(item.type) && !text && (
                 <View style={styles.timeWrapper}>
-                  <Text style={styles.time}>待付款</Text>
                   <CountdownCom
                     finish={this.finish}
                     style={styles.time}
                     time={item.end_time}
+                    prefix="待付款"
+                    prefixStyle={[styles.time, { color: Colors.RED }]}
                   />
                 </View>
               )
@@ -113,6 +113,13 @@ const styles = StyleSheet.create({
   btn: {
     alignSelf: 'flex-end',
   },
+  title: {
+    fontSize: 12,
+    fontFamily: RuiXian,
+    textAlign: 'justify',
+    flex: 1,
+    lineHeight: 14,
+  },
   date: {
     color: '#B6B6B6',
     fontSize: 10,
@@ -125,6 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: wPx2P(17),
     paddingTop: wPx2P(12),
+    backgroundColor: 'red',
   },
   fukuan: {
     fontSize: 10,
@@ -133,7 +141,6 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.YELLOW,
   },
   timeWrapper: {
     flexDirection: 'row',
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
   size: {
     fontSize: 12,
     marginTop: 3,
-    width: wPx2P(113),
+    width: wPx2P(129 * 0.87),
   },
   zhongqian: {
     width: 52,
