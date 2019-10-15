@@ -6,25 +6,28 @@ import { YaHei } from '../../../../../../res/FontFamily';
 import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
 
 export default class DrawMainCom extends PureComponent {
-  renderItem = (item, index, userActivity, joinUserLength, isLeader) => (
-    <View key={`leading-${index}`} style={styles.listContainer}>
+  renderLeader = (item, userActivity, joinUserLength) => (
+    <View style={styles.listContainer}>
       <AvatarWithShadow source={{ uri: item.avatar }} size={55} />
       <View style={{ flex: 1, marginLeft: 12, paddingTop: 4 }}>
         <NameAndGender name={item.user_name} sex={item.sex} />
         <Text style={{ color: '#111', fontSize: 11, marginTop: 2 }}>已取号</Text>
       </View>
-      {
-        isLeader && (
-          <View style={{ flex: 1, alignItems: 'flex-end', paddingTop: 5 }}>
-            <View>
-              <Text style={{ color: '#696969', fontSize: 11 }}>{`我的团队：${joinUserLength}人`}</Text>
-              <Text style={{ color: '#696969', fontSize: 11 }}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
-            </View>
-          </View>
-        )
-      }
+      <View style={{ flex: 1, alignItems: 'flex-end', paddingTop: 5 }}>
+        <View>
+          <Text style={{ color: '#696969', fontSize: 11 }}>{`我的团队：${joinUserLength}人`}</Text>
+          <Text style={{ color: '#696969', fontSize: 11 }}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
+        </View>
+      </View>
     </View>
   );
+
+  renderMember = (item, index) => (
+    <View key={index} style={styles.item}>
+      <AvatarWithShadow source={{ uri: item.avatar }} size={41} />
+      <Text style={{ marginTop: 5, fontSize: 10 }}>{item.user_name}</Text>
+    </View>
+  )
 
   render() {
     const { shopInfo } = this.props;
@@ -56,7 +59,10 @@ export default class DrawMainCom extends PureComponent {
             {'人满额'}
           </Text>
         </View>
-        { joinUser && joinUser.map((item, index) => this.renderItem(item, index, userActivity, joinUser.length, index === 0)) }
+        {joinUser && this.renderLeader(joinUser[0], userActivity, joinUser.length)}
+        <View style={styles.list2Container}>
+          {joinUser && joinUser.slice(1).map(this.renderMember) }
+        </View>
       </View>
     );
   }
@@ -95,15 +101,29 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
     fontWeight: '400',
   },
+  list2Container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: 10,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    marginTop: 7,
+  },
   listContainer: {
     marginHorizontal: 10,
     marginTop: 7,
-    height: 68,
     borderRadius: 2,
     overflow: 'hidden',
     backgroundColor: '#fff',
     flexDirection: 'row',
     paddingHorizontal: 7,
     paddingVertical: 6,
+  },
+  item: {
+    width: (getScreenWidth() - 20) / 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 10,
   },
 });
