@@ -100,10 +100,10 @@ class AddressEdit extends PureComponent {
               onChangeText={(text) => { this.address = text; }}
             />
           </View>
-          <TouchableOpacity onPress={() => this.setState({ isDefault: !isDefault })} style={styles.switchWrapper}>
+          {/* <TouchableOpacity onPress={() => this.setState({ isDefault: !isDefault })} style={styles.switchWrapper}>
             <Text style={{ fontSize: 12 }}>设为默认地址</Text>
             <Image source={isDefault ? Images.choose : Images.unchoose} style={styles.choose} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <TouchableOpacity onPress={this.submit} style={styles.bg_right}>
           <Text style={{ color: '#fff' }}>确认提交</Text>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: Colors.MAIN_BACK,
-    paddingTop: hPx2P(60),
+    paddingTop: hPx2P(0),
     paddingBottom: hPx2P(40 + PADDING_TAB),
   },
   main: {
@@ -161,8 +161,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    borderWidth: 0.5,
-    borderColor: '#8F8F8F',
   },
   framePhoneInput: {
     width: wPx2P(254),
@@ -171,8 +169,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    borderWidth: 0.5,
-    borderColor: '#8F8F8F',
   },
   input: {
     flex: 1,
