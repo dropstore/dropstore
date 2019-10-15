@@ -130,7 +130,11 @@ class Safesetting extends PureComponent {
         <View style={{ marginBottom: 50 }}>
           {
             bottomList.map(item => (
-              <TouchableOpacity onPress={() => this.onPress(item.type)} key={item.type} style={[styles.itemWrapper, { marginBottom: 15, justifyContent: 'center' }]}>
+              <TouchableOpacity
+                onPress={() => this.onPress(item.type)}
+                key={item.type}
+                style={[styles.itemWrapper, { marginBottom: 15, justifyContent: 'center' }]}
+              >
                 <Text style={styles.text}>{item.title}</Text>
               </TouchableOpacity>
             ))

@@ -93,7 +93,7 @@ class ShopDetail extends PureComponent {
       list = [...list, 'DrawMainCom'];
     }
     return (
-      <View style={{ flex: 1, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#999' }}>
+      <View style={{ flex: 1 }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={<ShopBasicInfoCom activityInfo={data} />}

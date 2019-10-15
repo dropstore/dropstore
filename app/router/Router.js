@@ -21,7 +21,6 @@ import NameAge from '../page/auth/NameAge';
 import GenderSize from '../page/auth/GenderSize';
 import PhoneNum from '../page/auth/PhoneNum';
 
-import vendorDetail from '../page/vendorDetail';
 import shopDetail from '../page/shopDetail';
 // import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
@@ -48,6 +47,37 @@ import ChooseSize from '../page/FreeTradePublish/ChooseSize';
 import FreeTradeBuy from '../page/FreeTradeBuy';
 import PublishCommission from '../page/FreeTradePublish/PublishCommission';
 import PutOnSale from '../page/FreeTradePublish/PutOnSale';
+
+const styles = {
+  btnWrapper: {
+    height: NAV_HEIGHT,
+    justifyContent: 'center',
+    paddingLeft: 20,
+    paddingRight: 40,
+  },
+  headerStyle: {
+    borderBottomWidth: 0,
+    backgroundColor: '#fff',
+    ...Platform.select({
+      android: {
+        height: STATUSBAR_AND_NAV_HEIGHT,
+        paddingTop: STATUSBAR_HEIGHT,
+        elevation: 0,
+      },
+      ios: {
+        marginTop: IS_IPHONE_X ? -4 : 0,
+        height: NAV_HEIGHT,
+      },
+    }),
+  },
+  headerTitleStyle: {
+    flex: 1,
+    textAlign: 'center',
+    color: '#010101',
+    fontSize: 16,
+    fontFamily: YaHei,
+  },
+};
 
 const defaultNavigationOptions = ({ navigation }) => ({
   headerStyle: styles.headerStyle,
@@ -95,18 +125,16 @@ const AuthStack = createStackNavigator({
 
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
-  Setting,
-  vendorDetail,
-  Safesetting,
-  shopDetail,
-  // luckDetail,
   pay,
   commission,
   Message,
   AddressEdit,
-  Web,
+  Web: { screen: Web, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  Safesetting: { screen: Safesetting, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  BalanceDetail: { screen: BalanceDetail, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  shopDetail: { screen: shopDetail, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  Setting: { screen: Setting, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   BalanceExtract,
-  BalanceDetail,
   Password,
   MyGoods,
   PickUp,
@@ -148,36 +176,5 @@ const Router = createAppContainer(createSwitchNavigator({
   initialRouteName: 'Auth',
   ...transition,
 }));
-
-const styles = StyleSheet.create({
-  btnWrapper: {
-    height: NAV_HEIGHT,
-    justifyContent: 'center',
-    paddingLeft: 20,
-    paddingRight: 40,
-  },
-  headerStyle: {
-    borderBottomWidth: 0,
-    backgroundColor: '#fff',
-    ...Platform.select({
-      android: {
-        height: STATUSBAR_AND_NAV_HEIGHT,
-        paddingTop: STATUSBAR_HEIGHT,
-        elevation: 0,
-      },
-      ios: {
-        marginTop: IS_IPHONE_X ? -4 : 0,
-        height: NAV_HEIGHT,
-      },
-    }),
-  },
-  headerTitleStyle: {
-    flex: 1,
-    textAlign: 'center',
-    color: '#010101',
-    fontSize: 16,
-    fontFamily: YaHei,
-  },
-});
 
 export { Router, store };

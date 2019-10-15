@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingLeft: wPx2P(17),
     paddingTop: wPx2P(12),
-    backgroundColor: 'red',
   },
   fukuan: {
     fontSize: 10,

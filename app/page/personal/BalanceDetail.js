@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, FlatList,
+  View, Text, StyleSheet, FlatList,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -40,7 +40,7 @@ class BalanceDetail extends PureComponent {
   }
 
   renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item}>
+    <View style={styles.item}>
       <View>
         <Text style={{ fontFamily: YaHei }}>{item.reason}</Text>
         <Text style={{ fontSize: 13, color: '#666' }}>{formatDate(item.add_time)}</Text>
@@ -48,7 +48,7 @@ class BalanceDetail extends PureComponent {
       <View>
         <Text style={{ fontSize: 17, fontFamily: YaHei }}>{`${item.type === '1' ? '- ' : '+ '}${item.price / 100}`}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 
   render() {
