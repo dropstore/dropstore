@@ -20,6 +20,7 @@ const timeout = 5000;
 const headers = header => ({
   ...header,
   Authorization: store.getState().userInfo.user_s_id,
+  device_id: 123,
 });
 
 // 监听网络变化
