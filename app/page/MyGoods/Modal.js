@@ -258,9 +258,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
   },
   input: {
-    fontSize: 30,
+    fontSize: 15,
     fontFamily: YaHei,
-    marginTop: 5,
+    marginTop: 15,
     borderBottomColor: '#C5C5CD',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
