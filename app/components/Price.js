@@ -4,11 +4,11 @@ import { BrowalliaNew } from '../res/FontFamily';
 
 export default class Price extends PureComponent {
   render() {
-    const { price } = this.props;
+    const { price, offsetBottom } = this.props;
     const text = `${price / 100}`;
     return (
       <View style={{
-        flexDirection: 'row', alignItems: 'flex-end', position: 'relative', marginRight: 4,
+        flexDirection: 'row', alignItems: 'flex-end', position: 'relative', marginRight: 4, bottom: -offsetBottom || 0,
       }}
       >
         <Text style={[styles.bigPrice, styles.price]}>{text[0]}</Text>

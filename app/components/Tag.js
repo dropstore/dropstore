@@ -24,7 +24,5 @@ const styles = StyleSheet.create({
   tagText: {
     color: '#fff',
     fontSize: 10,
-    padding: 0,
-    includeFontPadding: false,
   },
 });
