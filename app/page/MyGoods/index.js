@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
+import Animated from 'react-native-reanimated';
 import List from './List';
 import { TabBar } from '../../components';
 import { getScreenWidth } from '../../common/Constant';
@@ -24,9 +25,10 @@ class MyGoods extends PureComponent {
       { key: 'uncomplete', title: '未付款', apiType: 'uncomplete' },
       { key: 'sendOut', title: '已出库', apiType: 'sendOut' },
     ];
+    const initIndex = Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0);
     this.state = {
       routes,
-      index: Math.max(routes.findIndex(v => v.key === navigation.getParam('type')), 0),
+      index: initIndex,
     };
     navigation.setParams({
       headerRight: (
@@ -35,6 +37,7 @@ class MyGoods extends PureComponent {
         </TouchableOpacity>
       ),
     });
+    this.indexScrollPosition = new Animated.Value(initIndex);
   }
 
   onIndexChange = (index) => {
