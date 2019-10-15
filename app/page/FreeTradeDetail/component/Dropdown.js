@@ -32,7 +32,13 @@ export default class Dropdown extends PureComponent {
     const { options, width } = this.props;
     return (
       <Menu ref={(v) => { this.menu = v; }} style={{ alignItems: 'flex-end' }}>
-        <TouchableOpacity onPress={this.open} style={styles.touch}>
+        <TouchableOpacity
+          hitSlop={{
+            top: 8, right: 10, bottom: 8, left: 10,
+          }}
+          onPress={this.open}
+          style={styles.touch}
+        >
           <Text style={styles.outPrice}>{text}</Text>
           <View style={styles.btn}>
             <View style={styles.arrowDown} />
@@ -81,7 +87,6 @@ const styles = StyleSheet.create({
   touch: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: 120,
     justifyContent: 'flex-end',
   },
   arrowUp: {

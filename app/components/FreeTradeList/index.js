@@ -109,7 +109,7 @@ class List extends PureComponent {
           renderItem={this.renderItem}
           numColumns={2}
           // scrollEventThrottle={1}
-          // onEndReached={this.loadMore}
+          onEndReached={this.loadMore}
         />
         {/* <Animated.View style={[styles.header, { transform: [{ translateY: this.translateY }] }]}>
           <View style={styles.searchWrapper}>
