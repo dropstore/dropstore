@@ -81,7 +81,7 @@ export default {
     url: '/order/order_goods_list',
     initParams: {
       limit: 10,
-      image_size_times: 0.35,
+      image_size_times: 0.75,
       goods_status: 1,
     },
   },

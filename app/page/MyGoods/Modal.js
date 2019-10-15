@@ -3,9 +3,9 @@ import {
   View, Text, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 import Images from '../../res/Images';
-import { Image, KeyboardDismiss } from '../../components';
+import { Image, KeyboardDismiss, FadeImage } from '../../components';
 import Colors from '../../res/Colors';
 import { showToast } from '../../utils/MutualUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -73,6 +73,18 @@ class Modal extends PureComponent {
     this.setState({ text });
   }
 
+  renderShoe = () => {
+    const { item } = this.props;
+    const image = (item.goods || item).image;
+    const goods_name = (item.goods || item).goods_name;
+    return (
+      <View style={styles.titleWrapper}>
+        <FadeImage source={{ uri: image }} style={styles.shoe} />
+        <Text numberOfLines={2} style={styles.title}>{goods_name}</Text>
+      </View>
+    );
+  }
+
   toKufang = () => {
     const { navigation, route } = this.props;
     this.close();
@@ -87,8 +99,9 @@ class Modal extends PureComponent {
   render() {
     const { step, text } = this.state;
     const { item, appOptions } = this.props;
+
     return (
-      <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 287 : 197 }]}>
+      <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 307 : 247 }]}>
         {
           step === 0 ? (
             <View style={{ paddingTop: 12, flex: 1 }}>
@@ -117,15 +130,12 @@ class Modal extends PureComponent {
                 <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
               </TouchableOpacity>
             </View>
-          ) : step === 1 ? (
-            <View style={styles.wrapper}>
-              <Text style={{ fontSize: 16, fontFamily: YaHei }}>修改完成！</Text>
-            </View>
-          ) : [2, 3].includes(step) ? (
-            <View>
-              <Text style={styles.hint}>友情提示</Text>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
-                {
+          ) : step === 1 ? <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
+            : [2, 3].includes(step) ? (
+              <View>
+                <Text style={styles.hint}>友情提示</Text>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
+                  {
                   step === 2 ? (
                     <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
                       {'取消售卖，货品会回到您的'}
@@ -140,40 +150,40 @@ class Modal extends PureComponent {
                     </Text>
                   )
                 }
+                </View>
               </View>
-            </View>
-          ) : step === 4 ? (
-            <View style={{ paddingHorizontal: 27 }}>
-              <Text style={styles.hint}>物流信息</Text>
-              <Text style={{ fontFamily: YaHei }}>
-                {'物流公司：'}
-                <Text style={{ color: '#8F8F8F', fontFamily: YaHei }}>顺丰快递</Text>
-              </Text>
-              <Text style={[styles.new, { marginHorizontal: 0 }]}>填写订单号 :</Text>
-              <View style={[styles.inputWrapper, { marginHorizontal: 0 }]}>
+            ) : step === 4 ? (
+              <View style={{ flex: 1 }}>
+                {this.renderShoe()}
+                <Text style={{ fontFamily: YaHei, color: '#A4A4A4', fontSize: 11 }}>
+                  {'物流公司：'}
+                  <Text style={{ fontFamily: YaHei, fontSize: 11 }}>顺丰快递</Text>
+                </Text>
                 <TextInput
                   keyboardType="number-pad"
                   placeholderTextColor="#d3d3d3"
                   underlineColorAndroid="transparent"
-                  style={[styles.input, { marginHorizontal: 0 }]}
+                  style={styles.input}
+                  selectionColor="#00AEFF"
                   clearButtonMode="while-editing"
+                  placeholder="填写运单号"
                   onChangeText={this.onChangeText}
                 />
+                <Text style={styles.shouxufei}>物流信息填写后无法修改</Text>
               </View>
-              <Text style={styles.shouxufei}>物流信息填写后无法修改</Text>
-            </View>
-          ) : null
+            ) : null
         }
-        <View style={styles.btns}>
-          <TouchableOpacity onPress={this.close} style={styles.btn}>
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>取消</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.sure} style={styles.btn}>
-            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity onPress={this.close} style={styles.cha}>
-          <Image source={Images.cha} style={{ width: 24, height: 24 }} />
+        <TouchableOpacity onPress={this.sure} style={[styles.btn, { backgroundColor: text.length === 0 ? Colors.DISABLE : Colors.YELLOW }]}>
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          hitSlop={{
+            top: 20, left: 20, right: 20, bottom: 20,
+          }}
+          onPress={this.close}
+          style={styles.cha}
+        >
+          <Image source={require('../../res/image/close-x.png')} style={{ height: 12, width: 12 }} />
         </TouchableOpacity>
       </KeyboardDismiss>
     );
@@ -181,11 +191,27 @@ class Modal extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  shoe: {
+    width: 64.5,
+    height: 40,
+  },
+  titleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 35,
+    marginBottom: 40,
+  },
   wrapper: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 46,
+  },
+  title: {
+    fontFamily: RuiXian,
+    fontSize: 11,
+    flex: 1,
+    marginLeft: 5,
   },
   btns: {
     height: 45,
@@ -200,10 +226,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   container: {
-    width: 265,
+    width: 307,
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
+    paddingHorizontal: 27,
   },
   oldText: {
     fontSize: 14,
@@ -226,15 +253,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
   },
   input: {
-    borderColor: '#8F8F8F',
-    borderWidth: 0.5,
-    borderRadius: 2,
-    overflow: 'hidden',
-    flex: 1,
-    height: 26,
-    padding: 0,
-    includeFontPadding: false,
-    paddingHorizontal: 5,
+    fontSize: 30,
+    fontFamily: YaHei,
+    marginTop: 5,
+    borderBottomColor: '#C5C5CD',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   edit: {
     fontSize: 16,
@@ -263,22 +286,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn: {
-    flex: 1,
-    backgroundColor: Colors.YELLOW,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cha: {
-    backgroundColor: Colors.YELLOW,
-    position: 'absolute',
-    right: 0,
-    height: 35,
-    width: 35,
-    borderBottomLeftRadius: 2,
-    paddingLeft: 2,
+    height: 43,
+    width: 204,
+    borderRadius: 2,
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
+    marginBottom: 38,
+  },
+  cha: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
   hint: {
     fontSize: 16,
