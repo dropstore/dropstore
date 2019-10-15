@@ -6,7 +6,7 @@ import {
 import { bindActionCreators } from 'redux';
 import { PADDING_TAB } from '../../common/Constant';
 import { Image } from '../../components';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -86,8 +86,8 @@ class PutOnSale extends PureComponent {
             <View style={styles.shoesInfoTop}>
               <Image style={{ width: wPx2P(166), height: wPx2P(97) }} source={{ uri: (this.item.goods || this.item).image }} />
               <View style={styles.shoesInfoNameBox}>
-                <Text style={{ fontFamily: YaHei, fontSize: 15, textAlign: 'justify' }}>{(this.item.goods || this.item).goods_name}</Text>
-                <Text style={{ fontSize: 12, fontFamily: YaHei }}>{`SIZE : ${this.item.size}`}</Text>
+                <Text style={styles.title}>{(this.item.goods || this.item).goods_name}</Text>
+                <Text style={{ fontSize: 12 }}>{`SIZE : ${this.item.size}`}</Text>
               </View>
             </View>
             <View style={styles.shoeSalePrice}>
@@ -144,6 +144,12 @@ class PutOnSale extends PureComponent {
   }
 }
 const styles = StyleSheet.create({
+  title: {
+    fontFamily: RuiXian,
+    fontSize: 15,
+    textAlign: 'justify',
+    lineHeight: 18,
+  },
   scrollView: {
     flex: 1,
     backgroundColor: '#efefef',

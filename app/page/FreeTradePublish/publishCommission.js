@@ -77,10 +77,21 @@ class PublishCommission extends PureComponent {
             type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`库管费：${appOptions?.data?.management / 100}￥`}</Text> : (
               <View style={styles.moneyCount}>
                 <View style={styles.moneyCountInfo}>
-                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>{`鞋款共计：${price}￥`}</Text>
-                  <Text style={{ fontFamily: YaHei, fontSize: 12 }}>{`需支付平台服务费：${appOptions?.data?.fee}%`}</Text>
+                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>
+                    {'鞋款共计 : '}
+                    <Text style={{ fontFamily: YaHei, fontSize: 15, color: Colors.YELLOW }}>{price}</Text>
+                    {'￥'}
+                  </Text>
+                  <Text style={{ fontFamily: YaHei, fontSize: 12, color: '#A2A2A2' }}>{`需支付平台服务费：${appOptions?.data?.fee}%`}</Text>
                 </View>
-                <Text style={styles.totalMoneyText}>{`支付金额：${Math.ceil(price * appOptions?.data?.fee) / 100}￥`}</Text>
+                <Text style={{
+                  fontFamily: YaHei, fontSize: 15, flex: 1, lineHeight: 43,
+                }}
+                >
+                  {'支付金额 : '}
+                  <Text style={{ fontFamily: YaHei, fontSize: 15, color: Colors.YELLOW }}>{Math.ceil(price * appOptions?.data?.fee) / 100}</Text>
+                  {'￥'}
+                </Text>
               </View>
             )
           }
