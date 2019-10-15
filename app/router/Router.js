@@ -47,6 +47,7 @@ import ChooseSize from '../page/FreeTradePublish/ChooseSize';
 import FreeTradeBuy from '../page/FreeTradeBuy';
 import PublishCommission from '../page/FreeTradePublish/PublishCommission';
 import PutOnSale from '../page/FreeTradePublish/PutOnSale';
+import ImagePage from '../page/ImagePage';
 
 const styles = {
   btnWrapper: {
@@ -136,6 +137,7 @@ const routesWithHeader = {
   Setting: { screen: Setting, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   PickUp: { screen: PickUp, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   ChooseAddress: { screen: ChooseAddress, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  ImagePage: { screen: ImagePage, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   BalanceExtract,
   Password,
   MyGoods,

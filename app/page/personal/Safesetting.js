@@ -45,7 +45,7 @@ class Safesetting extends PureComponent {
         ], [
           { title: '清理内存', type: 'clearCache' },
           { title: '隐私协议', type: 'secret' },
-          { title: '关于Drop store', type: 'age' },
+          { title: '关于炒饭', type: 'about' },
           // { title: '帮助与反馈', type: 'size' },
         ],
       ],
@@ -93,6 +93,12 @@ class Safesetting extends PureComponent {
       });
     } else if (type === 'secret') {
       navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/secret', title: '隐私协议' });
+    } else if (type === 'about') {
+      navigation.navigate('ImagePage', {
+        images: [
+          { source: require('../../res/image/about.png'), style: { width: 375, height: 728 } }],
+        title: '关于炒饭',
+      });
     }
   }
 
