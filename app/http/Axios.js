@@ -6,6 +6,7 @@
  */
 import Axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
+import DeviceInfo from 'react-native-device-info';
 import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
@@ -20,7 +21,7 @@ const timeout = 5000;
 const headers = header => ({
   ...header,
   Authorization: store.getState().userInfo.user_s_id,
-  device_id: 123,
+  device_id: DeviceInfo.getUniqueId(),
 });
 
 // 监听网络变化

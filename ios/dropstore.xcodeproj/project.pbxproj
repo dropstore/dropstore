@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		000044560A2746BB8C7D3E9E /* libRNTextInputMask.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7CA2F44B10E42E7A4CB28B1 /* libRNTextInputMask.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -91,6 +90,8 @@
 		DC7D1A31FD8F4E72B0E1F93F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B729B459F2A743E980DB1156 /* libBVLinearGradient.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
+		5C33867CCE6344AFB3AC9265 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D2B5FB95744D129B0E0220 /* libRNDeviceInfo.a */; };
+		F85D5820F6284C79949D7B7B /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 696E5BCBD27C4FB181C61313 /* libRNDeviceInfo-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -598,6 +599,9 @@
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F2E19AEA509F4D92B858DE7B /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 		F68DE0F4B0B94281A19C8E3B /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
+		8A00EF60B9BC42E984B8376A /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		08D2B5FB95744D129B0E0220 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		696E5BCBD27C4FB181C61313 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -663,6 +667,7 @@
 				5287F1B52EB7446295FEE327 /* libRCTClearCacheModule.a in Frameworks */,
 				D513C320C3814A44B5C5143A /* libimageCropPicker.a in Frameworks */,
 				000044560A2746BB8C7D3E9E /* libRNTextInputMask.a in Frameworks */,
+				5C33867CCE6344AFB3AC9265 /* libRNDeviceInfo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +688,7 @@
 				B59AD68D6B6442EABB8D99BC /* libRNGestureHandler-tvOS.a in Frameworks */,
 				6D7087EC17C0402685BC4851 /* libFastImage-tvOS.a in Frameworks */,
 				4DC296206C2D4D4EBDFF72D7 /* libRNCNetInfo-tvOS.a in Frameworks */,
+				F85D5820F6284C79949D7B7B /* libRNDeviceInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,6 +886,7 @@
 				DB8E2958C62B43458F0AC9B9 /* RCTClearCacheModule.xcodeproj */,
 				F2E19AEA509F4D92B858DE7B /* imageCropPicker.xcodeproj */,
 				28410E3C43FA4A0880C7CB31 /* RNTextInputMask.xcodeproj */,
+				8A00EF60B9BC42E984B8376A /* RNDeviceInfo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1903,11 +1910,16 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1941,11 +1953,16 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = dropstoreTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1987,6 +2004,7 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = dropstore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2040,6 +2058,7 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = dropstore/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -2093,10 +2112,15 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2139,10 +2163,15 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2184,10 +2213,15 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2229,10 +2263,15 @@
 					"$(SRCROOT)/../node_modules/react-native-clear-cache/ios/RCTClearCacheModule",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-text-input-mask/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 				);
 				INFOPLIST_FILE = "dropstore-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
