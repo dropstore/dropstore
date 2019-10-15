@@ -97,40 +97,41 @@ class Modal extends PureComponent {
   }
 
   render() {
-    const { step, text } = this.state;
+    const { text, step } = this.state;
     const { item, appOptions } = this.props;
 
     return (
       <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 307 : 247 }]}>
         {
           step === 0 ? (
-            <View style={{ paddingTop: 12, flex: 1 }}>
-              <Text style={styles.edit}>修改价格</Text>
-              <View style={{ flexDirection: 'row', marginHorizontal: 32 }}>
-                <Text style={{ fontSize: 14, fontFamily: YaHei }}>当前价格：</Text>
-                <View style={styles.priceOld}>
-                  <Text style={styles.oldText}>{(item.order_price || item.price) / 100}</Text>
-                </View>
-                <Text style={styles.yuan}>元</Text>
+            <View style={{ flex: 1 }}>
+              {this.renderShoe()}
+              <View style={{ flexDirection: 'row' }}>
+                <Text style={{ fontSize: 11, fontFamily: YaHei, color: '#A4A4A4' }}>当前价格：</Text>
+                <Text style={styles.oldText}>
+                  {`${(item.order_price || item.price) / 100}￥`}
+                </Text>
               </View>
-              <Text style={styles.new}>预期价格：</Text>
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  keyboardType="numeric"
-                  placeholderTextColor="#d3d3d3"
-                  underlineColorAndroid="transparent"
-                  style={styles.input}
-                  clearButtonMode="while-editing"
-                  onChangeText={this.onChangeText}
-                />
-                <Text style={styles.yuan}>元</Text>
-              </View>
+              <TextInput
+                keyboardType="numeric"
+                placeholderTextColor="#DEDEDE"
+                underlineColorAndroid="transparent"
+                style={styles.input}
+                selectionColor="#00AEFF"
+                clearButtonMode="while-editing"
+                placeholder="预期价格"
+                onChangeText={this.onChangeText}
+              />
               <TouchableOpacity onPress={this.toHelp} style={styles.yuanWrapper}>
                 <Text style={styles.shouxufei}>{`手续费：${Math.ceil(appOptions?.data?.fee * text) / 100}元`}</Text>
                 <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
               </TouchableOpacity>
             </View>
-          ) : step === 1 ? <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
+          ) : step === 1 ? (
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
+            </View>
+          )
             : [2, 3].includes(step) ? (
               <View style={{ flex: 1 }}>
                 <Text style={styles.hint}>友情提示</Text>
@@ -161,7 +162,7 @@ class Modal extends PureComponent {
                 </Text>
                 <TextInput
                   keyboardType="number-pad"
-                  placeholderTextColor="#d3d3d3"
+                  placeholderTextColor="#DEDEDE"
                   underlineColorAndroid="transparent"
                   style={styles.input}
                   selectionColor="#00AEFF"
@@ -173,7 +174,10 @@ class Modal extends PureComponent {
               </View>
             ) : null
         }
-        <TouchableOpacity onPress={this.sure} style={[styles.btn, { backgroundColor: text.length === 0 ? Colors.DISABLE : Colors.YELLOW }]}>
+        <TouchableOpacity
+          onPress={this.sure}
+          style={[styles.btn, { backgroundColor: text.length === 0 && [4, 0].includes(step) ? '#DEDEDE' : Colors.YELLOW }]}
+        >
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -211,6 +215,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     flex: 1,
     marginLeft: 5,
+    textAlign: 'justify',
   },
   btns: {
     height: 45,
@@ -229,16 +234,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    paddingHorizontal: 27,
+    paddingHorizontal: 32,
     paddingTop: 35,
     paddingBottom: 38,
   },
   oldText: {
-    fontSize: 14,
+    fontSize: 13,
     fontFamily: YaHei,
-    color: '#8F8F8F',
     position: 'relative',
-    bottom: -3,
+    bottom: 2,
   },
   priceOld: {
     flex: 1,
@@ -281,7 +285,6 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
   yuanWrapper: {
-    marginRight: 32,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
