@@ -19,7 +19,7 @@ export default class Warehouse extends PureComponent {
     } if (item.goods_status === '5') {
       btns = [
         { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
-        { text: '下架', onPress: () => this.onPress('cancel') },
+        { text: '下架', color: '#A2A2A2', onPress: () => this.onPress('cancel') },
       ];
     } else if (item.goods_status === '4') {
       btns = [{ text: '上架', color: '#000', onPress: () => this.onPress('publish') }];

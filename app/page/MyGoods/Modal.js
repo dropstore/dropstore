@@ -132,7 +132,7 @@ class Modal extends PureComponent {
             </View>
           ) : step === 1 ? <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
             : [2, 3].includes(step) ? (
-              <View>
+              <View style={{ flex: 1 }}>
                 <Text style={styles.hint}>友情提示</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
                   {
@@ -198,7 +198,6 @@ const styles = StyleSheet.create({
   titleWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 35,
     marginBottom: 40,
   },
   wrapper: {
@@ -231,6 +230,8 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     paddingHorizontal: 27,
+    paddingTop: 35,
+    paddingBottom: 38,
   },
   oldText: {
     fontSize: 14,
@@ -293,7 +294,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginBottom: 38,
   },
   cha: {
     position: 'absolute',
@@ -301,10 +301,10 @@ const styles = StyleSheet.create({
     top: 10,
   },
   hint: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: YaHei,
-    marginTop: 13,
     textAlign: 'center',
+    fontWeight: 'bold',
     marginBottom: 27,
   },
   kufang: {
