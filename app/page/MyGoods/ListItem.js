@@ -75,7 +75,7 @@ export default class ListItem extends PureComponent {
             <View style={styles.middle}>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
                 {item.buy_price && <Price price={item.buy_price} /> }
-                {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text="买入价" />}
+                {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 3 }} text="买入价" />}
               </View>
               {
                 ['4', '5'].includes(item.goods_status) && (
@@ -91,7 +91,7 @@ export default class ListItem extends PureComponent {
               }
             </View>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 5 }}>
             <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${item.size}`}</Text>
             { btns.length > 0 && <BtnGroup btns={btns} /> }
           </View>
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingTop: 5,
-    minHeight: 35,
+    // minHeight: 30,
   },
   btnGroup: {
     alignSelf: 'flex-end',

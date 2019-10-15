@@ -4,15 +4,15 @@ import { BrowalliaNew } from '../res/FontFamily';
 
 export default class Price extends PureComponent {
   render() {
-    const { price, offsetBottom } = this.props;
+    const { price } = this.props;
     const text = `${price / 100}`;
     return (
       <View style={{
-        flexDirection: 'row', alignItems: 'flex-end', position: 'relative', bottom: offsetBottom || 2,
+        flexDirection: 'row', alignItems: 'flex-end', position: 'relative', marginRight: 4,
       }}
       >
-        <Text style={styles.bigPrice}>{text[0]}</Text>
-        <Text style={styles.price}>{`${text.slice(1)}￥`}</Text>
+        <Text style={[styles.bigPrice, styles.price]}>{text[0]}</Text>
+        <Text style={[styles.price, styles.littlePrice]}>{`${text.slice(1)}￥`}</Text>
       </View>
     );
   }
@@ -20,21 +20,16 @@ export default class Price extends PureComponent {
 
 const styles = StyleSheet.create({
   bigPrice: {
-    fontSize: 25,
-    position: 'relative',
-    padding: 0,
-    includeFontPadding: false,
-    bottom: -8,
+    transform: [{ scale: 1.8 }, { translateX: 1 }, { translateY: -2.2 }],
+    fontWeight: '500',
+  },
+  littlePrice: {
+    transform: [{ translateX: 4 }],
     fontWeight: 'bold',
-    fontFamily: BrowalliaNew,
   },
   price: {
     fontSize: 14,
     position: 'relative',
-    bottom: -4.5,
-    padding: 0,
-    includeFontPadding: false,
-    fontWeight: 'bold',
     fontFamily: BrowalliaNew,
   },
 });
