@@ -8,7 +8,7 @@ import Colors from '../../res/Colors';
 import { PADDING_TAB } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
 import { delAddress, editAddress, setChoosedAddress } from '../../redux/actions/address';
-import { ModalNormal } from '../../components';
+import { ModalNormal, BtnGroup } from '../../components';
 import { getAddress } from '../../redux/reselect/address';
 import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
 
@@ -25,6 +25,18 @@ function mapDispatchToProps(dispatch) {
 }
 
 class ChooseAddress extends PureComponent {
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    navigation.setParams({
+      headerRight: (
+        <TouchableOpacity onPress={this.toAdd} style={{ marginRight: 20 }}>
+          <Text style={{ fontSize: 16, fontFamily: YaHei }}>+</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }
+
   toAdd = () => {
     const { navigation, address } = this.props;
     navigation.navigate('AddressEdit', {
@@ -83,31 +95,22 @@ class ChooseAddress extends PureComponent {
     return (
       <ScrollView contentContainerStyle={{ paddingBottom: PADDING_TAB + 50 }} style={styles.container} showsVerticalScrollIndicator={false}>
         {
-          address.list.sort((a, b) => b.is_default - a.is_default).map(v => (
-            <TouchableOpacity onPress={() => this.choose(v)} key={v.id} style={styles.item}>
-              <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                <Text style={styles.shouhuoren}>{`收货人：${v.link_name}`}</Text>
-                <Text style={styles.shouhuoren}>{v.mobile}</Text>
-              </View>
-              <Text style={styles.address}>{v.address}</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <TouchableOpacity onPress={() => this.setDefault(v)} style={styles.defaultBtn}>
-                  <View style={[styles.yuandian, { borderColor: v.is_default ? Colors.YELLOW : '#666' }]}>
-                    {v.is_default && <View style={styles.yuandian1} />}
-                  </View>
-                  <Text style={{ fontSize: 12, color: '#333' }}>默认地址</Text>
-                </TouchableOpacity>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                  <TouchableOpacity onPress={() => this.toEdit(v)} style={[styles.btn, { backgroundColor: '#FFA700' }]}>
-                    <Text style={styles.edit}>编辑</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.toDel(v)} style={[styles.btn, { backgroundColor: '#EF4444', marginLeft: 9 }]}>
-                    <Text style={styles.edit}>删除</Text>
-                  </TouchableOpacity>
+          address.list.sort((a, b) => b.is_default - a.is_default).map((v) => {
+            const btns = [
+              { onPress: () => this.toEdit(v), color: '#000', text: '编辑' },
+              { onPress: () => this.toDel(v), text: '删除' },
+            ];
+            return (
+              <TouchableOpacity onPress={() => this.choose(v)} key={v.id} style={styles.item}>
+                <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+                  <Text style={styles.shouhuoren}>{`收货人：${v.link_name}`}</Text>
+                  <Text style={styles.shouhuoren}>{v.mobile}</Text>
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))
+                <Text style={styles.address}>{v.address}</Text>
+                <BtnGroup btns={btns} />
+              </TouchableOpacity>
+            );
+          })
         }
         <TouchableOpacity style={styles.addWrapper} onPress={this.toAdd}>
           <View style={styles.addIcon}>
@@ -122,20 +125,18 @@ class ChooseAddress extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.MAIN_BACK,
     flex: 1,
-    paddingHorizontal: 9,
+    backgroundColor: '#fff',
   },
   item: {
-    height: 85,
-    paddingTop: 6,
+    paddingTop: 12,
     paddingBottom: 14,
     justifyContent: 'space-between',
-    paddingHorizontal: 11,
+    paddingHorizontal: 20,
     borderRadius: 2,
     overflow: 'hidden',
-    backgroundColor: '#fff',
-    marginTop: 7,
+    borderBottomColor: '#C7C7C7',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
   addWrapper: {
     justifyContent: 'center',
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
     height: 85,
     borderRadius: 2,
     overflow: 'hidden',
-    backgroundColor: '#fff',
     marginTop: 7,
     flexDirection: 'row',
   },
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   address: {
-    fontSize: 12,
+    fontSize: 13,
   },
   edit: {
     fontSize: 10,
