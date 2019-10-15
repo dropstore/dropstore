@@ -21,6 +21,7 @@ export default class OnsaleItem extends PureComponent {
       <ListItem
         item={item}
         btns={btns}
+        price={item.price}
         timePrefix="预计入库"
         timeText={item.is_stock === '2' ? item.storage_time : null}
       />

@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
-import {
-  View, Text, Clipboard, StyleSheet,
-} from 'react-native';
+import { Text, Clipboard, StyleSheet } from 'react-native';
 import { showToast } from '../../utils/MutualUtil';
-import { formatDate } from '../../utils/commonUtils';
-import { YaHei } from '../../res/FontFamily';
 import ListItem from './component/ListItem';
 
 export default class SendOutItem extends PureComponent {
@@ -14,27 +10,18 @@ export default class SendOutItem extends PureComponent {
     showToast('运单号已复制');
   }
 
-  renderTime = () => {
-    const { item } = this.props;
-    return (
-      <View style={{ flexDirection: 'row', marginTop: 2 }}>
-        <Text style={{ fontSize: 11, color: '#858585' }}>出库时间</Text>
-        <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
-          {formatDate(item.out_stock_time, 'yyyy-MM-dd')}
-        </Text>
-      </View>
-    );
-  }
-
   render() {
     const { item } = this.props;
     return (
       <ListItem
         item={item}
-        Time={this.renderTime}
-        RightBottom={() => (item.express_id
+        timePrefix="出库时间"
+        timeText={item.out_stock_time}
+        price={item.buy_price}
+        priceTag="买入价"
+        RightBottom={item.express_id
           ? <Text onPress={this.copy} style={[styles.yundanhao, { textDecorationLine: 'underline' }]}>{`运单号：${item.express_id}`}</Text>
-          : <Text style={[styles.yundanhao, { color: '#858585' }]}>等待寄出</Text>)}
+          : <Text style={[styles.yundanhao, { color: '#858585' }]}>等待寄出</Text>}
       />
     );
   }

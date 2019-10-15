@@ -15,7 +15,11 @@ type Props = {
   btns?: Array<Object>,
   RightBottom: any,
   timePrefix: String,
-  timeText: String
+  timeText: String,
+  priceTag: String,
+  price: Number,
+  CountdownCom: any,
+  Hint: any,
 };
 
 export default class ListItem extends PureComponent<Props> {
@@ -26,13 +30,13 @@ export default class ListItem extends PureComponent<Props> {
 
   render() {
     const {
-      item, showSeal, RightBottom, timePrefix, timeText, btns,
+      item, showSeal, RightBottom, timePrefix, timeText, btns, price, priceTag, CountdownCom, Hint,
     } = this.props;
     const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     return (
       <View style={styles.container}>
-        <View style={styles.left}>
+        <View>
           <View style={{ flex: 1, justifyContent: 'center' }}>
             {
               showSeal ? (
@@ -57,26 +61,27 @@ export default class ListItem extends PureComponent<Props> {
         </View>
         <View style={styles.right}>
           <TitleWithTag text={goods_name} type={item.is_stock} />
-          <View style={[styles.middle, { marginTop: 3 }]}>
+          <View style={[styles.middle, { marginTop: 10 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end', flex: 1 }}>
-              {item.buy_price && <Price price={item.buy_price} /> }
-              {item.buy_price && <Tag style={{ marginLeft: 3, marginBottom: 3 }} text="买入价" />}
+              {price && <Price price={price} /> }
+              {price && priceTag && <Tag style={{ marginLeft: 3, marginBottom: 3 }} text={priceTag} />}
             </View>
             {
-              timeText && (
-              <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
-                <Text style={{ fontSize: 11, color: '#858585' }}>{timePrefix}</Text>
-                <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
-                  {formatDate(timeText, 'yyyy-MM-dd')}
-                </Text>
-              </View>
-              )
+              timeText ? (
+                <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-end' }}>
+                  <Text style={{ fontSize: 11, color: '#858585' }}>{timePrefix}</Text>
+                  <Text style={{ fontSize: 11, fontFamily: YaHei, marginLeft: 2 }}>
+                    {formatDate(timeText, 'yyyy-MM-dd')}
+                  </Text>
+                </View>
+              ) : CountdownCom || null
             }
           </View>
+          {Hint}
           <View style={styles.middle}>
             <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${item.size}`}</Text>
             { btns.length > 0 && <BtnGroup btns={btns} /> }
-            { RightBottom && <RightBottom /> }
+            { RightBottom }
           </View>
         </View>
       </View>
@@ -94,17 +99,10 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     flexDirection: 'row',
   },
-  left: {
-    fontSize: 8,
-    letterSpacing: -0.1,
-    marginTop: 5,
-  },
   right: {
-    fontSize: 8,
-    letterSpacing: -0.1,
-    marginTop: 5,
     flex: 1,
     marginLeft: 10,
+    marginTop: 2,
   },
   shoe: {
     width: wPx2P(129 * 0.87),
