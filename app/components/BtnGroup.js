@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   shuxian: {
-    height: '100%',
+    height: 13,
     width: StyleSheet.hairlineWidth,
     backgroundColor: '#C0C0C0',
     marginHorizontal: 13,

@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     marginBottom: 7,
     flexDirection: 'row',
+    height: 110,
   },
   time: {
     fontSize: 11,

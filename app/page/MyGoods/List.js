@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { PullToRefresh } from '../../components';
 import { fetchListData } from '../../redux/actions/listData';
 import { getListData } from '../../redux/reselect/listData';
-import ListItem from './ListItem';
+import Warehouse from './Warehouse';
 import SelledItem from './SelledItem';
 import OnsaleItem from './OnsaleItem';
 import SendOutItem from './SendOutItem';
@@ -49,7 +49,7 @@ class List extends PureComponent {
     } if (type === 'uncomplete') {
       return <UncompleteItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
     }
-    return <ListItem route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
+    return <Warehouse route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
   }
 
   render() {
