@@ -37,7 +37,6 @@ export default class UncompleteItem extends PureComponent {
         item={item}
         showSeal
         price={item.order_price}
-        priceTag="买入价"
         btns={btns}
         CountdownCom={(
           <CountdownCom
@@ -49,8 +48,6 @@ export default class UncompleteItem extends PureComponent {
           />
         )}
         Hint={<Text style={styles.cuoguo}>{text || '请在规定时间内完成支付，错过将失去购买资格'}</Text>}
-        timePrefix={item.is_stock === '1' ? '入库时间' : '预计入库'}
-        timeText={['4', '5'].includes(item.goods_status) ? (item.is_stock === '1' ? item.storage_time : item.add_time) : null}
       />
     );
   }
