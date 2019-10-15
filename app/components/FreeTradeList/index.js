@@ -101,17 +101,17 @@ class List extends PureComponent {
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
           Wrapper={AnimatedFlatList}
-          onScroll={this.onScroll}
+          // onScroll={this.onScroll}
           data={listData.list}
           refresh={this.fetchData}
-          keyboardDismissMode="on-drag"
+          // keyboardDismissMode="on-drag"
           contentContainerStyle={styles.list}
           renderItem={this.renderItem}
           numColumns={2}
-          scrollEventThrottle={1}
-          onEndReached={this.loadMore}
+          // scrollEventThrottle={1}
+          // onEndReached={this.loadMore}
         />
-        <Animated.View style={[styles.header, { transform: [{ translateY: this.translateY }] }]}>
+        {/* <Animated.View style={[styles.header, { transform: [{ translateY: this.translateY }] }]}>
           <View style={styles.searchWrapper}>
             <Image source={Images.search} style={styles.search} />
             <TextInput
@@ -125,7 +125,7 @@ class List extends PureComponent {
               clearButtonMode="while-editing"
             />
           </View>
-        </Animated.View>
+        </Animated.View> */}
       </View>
     );
   }
@@ -134,7 +134,7 @@ class List extends PureComponent {
 const styles = StyleSheet.create({
   list: {
     paddingLeft: 9,
-    paddingTop: HeaderHeight,
+    // paddingTop: HeaderHeight,
     paddingRight: 1,
   },
   header: {
