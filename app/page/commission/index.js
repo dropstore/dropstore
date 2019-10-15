@@ -78,6 +78,7 @@ class Commission extends PureComponent {
             maxLength={13}
             editable={commission == 0}
             keyboardType="numeric"
+            selectionColor="#00AEFF"
             placeholder={commission != 0 ? commission.toString() : '填写佣金...'}
             placeholderTextColor="rgba(162,162,162,1)"
             underlineColorAndroid="transparent"

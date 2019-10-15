@@ -55,7 +55,7 @@ export default class PullToRefresh extends PureComponent {
         ListFooterComponent={renderFooter || this.renderFooter}
         refreshControl={refresh ? (
           <RefreshControl
-            tintColor="#c20000"
+            tintColor={Colors.YELLOW}
             refreshing={refreshing}
             onRefresh={this.onRefresh}
           />

@@ -123,6 +123,7 @@ class BalanceExtract extends PureComponent {
                       underlineColorAndroid="transparent"
                       // clearButtonMode="while-editing"
                       onChangeText={v.onChangeText}
+                      selectionColor="#00AEFF"
                     />
                   )
                 }

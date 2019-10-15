@@ -4,16 +4,29 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet, Text, View, TouchableOpacity,
+} from 'react-native';
 import { STATUSBAR_AND_NAV_HEIGHT, STATUSBAR_HEIGHT, getScreenWidth } from '../common/Constant';
 import { YaHei } from '../res/FontFamily';
+import Image from './Image';
 
 export default class NavigationBarCom extends PureComponent {
   render() {
-    const { title } = this.props;
+    const { title, navigation } = this.props;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
+        {
+          navigation && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('FreeTradeSearch', { title: '搜索' })}
+              style={{ position: 'absolute', right: 16, top: 12 + STATUSBAR_HEIGHT }}
+            >
+              <Image source={require('../res/image/search-index.png')} style={{ height: 19, width: 19 }} />
+            </TouchableOpacity>
+          )
+        }
       </View>
     );
   }

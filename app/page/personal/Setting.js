@@ -83,6 +83,7 @@ class Setting extends PureComponent {
             placeholderTextColor="#d3d3d3"
             underlineColorAndroid="transparent"
             style={styles.input}
+            selectionColor="#00AEFF"
             defaultValue={item.name !== 'age' || item.value !== '0' ? item.value : ''}
             clearButtonMode="while-editing"
             onChangeText={(text) => { this[item.name] = text; }}

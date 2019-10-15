@@ -83,6 +83,7 @@ class Password extends PureComponent {
                   placeholderTextColor="#d3d3d3"
                   underlineColorAndroid="transparent"
                   onChangeText={v.onChangeText}
+                  selectionColor="#00AEFF"
                 />
               </View>
             ))

@@ -69,6 +69,7 @@ class AddressEdit extends PureComponent {
             <TextInput
               style={styles.input}
               placeholder="输入收件人"
+              selectionColor="#00AEFF"
               defaultValue={address.link_name}
               placeholderTextColor="#D6D6D6"
               underlineColorAndroid="transparent"
@@ -79,6 +80,7 @@ class AddressEdit extends PureComponent {
           <View style={styles.framePhoneInput}>
             <TextInput
               style={styles.input}
+              selectionColor="#00AEFF"
               placeholder="输入手机号"
               keyboardType="number-pad"
               defaultValue={address.mobile}
@@ -92,6 +94,7 @@ class AddressEdit extends PureComponent {
             <TextInput
               style={[styles.input, { lineHeight: 20, textAlignVertical: 'top' }]}
               multiline
+              selectionColor="#00AEFF"
               placeholder="输入详细地址"
               defaultValue={address.address}
               placeholderTextColor="#D6D6D6"

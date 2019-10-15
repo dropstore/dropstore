@@ -13,6 +13,7 @@ export default class FreeTrade extends PureComponent {
   }
 
   render() {
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <FreeTradeList
@@ -22,7 +23,7 @@ export default class FreeTrade extends PureComponent {
           params={{ type: 1 }}
           showPrice
         />
-        <NavigationBarCom title="自由交易" />
+        <NavigationBarCom navigation={navigation} title="自由交易" />
       </View>
     );
   }

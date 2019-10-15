@@ -109,6 +109,7 @@ class PutOnSale extends PureComponent {
                 keyboardType="numeric"
                 placeholder="输入价格"
                 maxLength={9}
+                selectionColor="#00AEFF"
                 underlineColorAndroid="transparent"
                 clearButtonMode="while-editing"
                 onChangeText={(price) => { this.setState({ price }); }}
