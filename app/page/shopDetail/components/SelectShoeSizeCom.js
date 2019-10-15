@@ -5,17 +5,17 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { hitSlop } from '../../../../common/Constant';
-import { BottomBtnGroup, Image } from '../../../../components';
-import Colors from '../../../../res/Colors';
-import { YaHei } from '../../../../res/FontFamily';
-import { debounce } from '../../../../utils/commonUtils';
-import { getShoesList } from '../../../../redux/actions/shopDetailInfo';
-import { showToast } from '../../../../utils/MutualUtil';
-import { wPx2P } from '../../../../utils/ScreenUtil';
-import { getReShoesList } from '../../../../redux/reselect/shopDetailInfo';
-import { request } from '../../../../http/Axios';
-import { fetchSimpleData } from '../../../../redux/actions/simpleData';
+import { hitSlop } from '../../../common/Constant';
+import { BottomBtnGroup, Image } from '../../../components';
+import Colors from '../../../res/Colors';
+import { YaHei } from '../../../res/FontFamily';
+import { debounce } from '../../../utils/commonUtils';
+import { getShoesList } from '../../../redux/actions/shopDetailInfo';
+import { showToast } from '../../../utils/MutualUtil';
+import { wPx2P } from '../../../utils/ScreenUtil';
+import { getReShoesList } from '../../../redux/reselect/shopDetailInfo';
+import { request } from '../../../http/Axios';
+import { fetchSimpleData } from '../../../redux/actions/simpleData';
 
 function mapStateToProps() {
   return state => ({
@@ -109,7 +109,7 @@ class SelectShoeSizeCom extends Component {
               <Text style={styles.alreadyChoose}>{`已选数量：${totalCount}`}</Text>
             </View>
 
-            <Image onPress={() => closeBox()} style={styles.close} source={require('../../../../res/image/close-x.png')} />
+            <Image onPress={() => closeBox()} style={styles.close} source={require('../../../res/image/close-x.png')} />
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             {

@@ -7,9 +7,9 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
-import Images from '../../../../res/Images';
-import { Image } from '../../../../components';
-import { YaHei } from '../../../../res/FontFamily';
+import Images from '../../../res/Images';
+import { Image } from '../../../components';
+import { YaHei } from '../../../res/FontFamily';
 
 export default class ShopDetailHeaderRight extends PureComponent {
   render() {

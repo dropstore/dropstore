@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { FadeImage, CountdownCom } from '../../../../components';
-import { YaHei } from '../../../../res/FontFamily';
-import ShopConstant from '../../../../common/ShopConstant';
-import { wPx2P } from '../../../../utils/ScreenUtil';
-import { formatDate } from '../../../../utils/commonUtils';
-import Colors from '../../../../res/Colors';
+import { FadeImage, CountdownCom } from '../../../components';
+import { YaHei } from '../../../res/FontFamily';
+import ShopConstant from '../../../common/ShopConstant';
+import { wPx2P } from '../../../utils/ScreenUtil';
+import { formatDate } from '../../../utils/commonUtils';
+import Colors from '../../../res/Colors';
 
 export default class ShopBasicInfoCom extends PureComponent {
   constructor(props) {

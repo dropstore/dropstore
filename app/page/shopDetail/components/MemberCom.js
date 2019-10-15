@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { getScreenWidth } from '../../../../../../common/Constant';
-import Colors from '../../../../../../res/Colors';
-import { YaHei } from '../../../../../../res/FontFamily';
-import { AvatarWithShadow, NameAndGender } from '../../../../../../components';
+import { getScreenWidth } from '../../../common/Constant';
+import Colors from '../../../res/Colors';
+import { YaHei } from '../../../res/FontFamily';
+import { AvatarWithShadow, NameAndGender } from '../../../components';
 
-export default class DrawMainCom extends PureComponent {
+export default class MemberCom extends PureComponent {
   renderLeader = (item, userActivity, joinUserLength) => (
     <View style={styles.listContainer}>
       <AvatarWithShadow source={{ uri: item.avatar }} size={55} />

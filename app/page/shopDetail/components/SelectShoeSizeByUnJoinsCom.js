@@ -4,14 +4,14 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getScreenWidth } from '../../../../common/Constant';
-import { BottomBtnGroup } from '../../../../components';
-import Colors from '../../../../res/Colors';
-import { YaHei } from '../../../../res/FontFamily';
-import { debounce } from '../../../../utils/commonUtils';
-import { fetchSimpleData } from '../../../../redux/actions/simpleData';
-import { getSimpleData } from '../../../../redux/reselect/simpleData';
-import { requestApi } from '../../../../http/Axios';
+import { getScreenWidth } from '../../../common/Constant';
+import { BottomBtnGroup } from '../../../components';
+import Colors from '../../../res/Colors';
+import { YaHei } from '../../../res/FontFamily';
+import { debounce } from '../../../utils/commonUtils';
+import { fetchSimpleData } from '../../../redux/actions/simpleData';
+import { getSimpleData } from '../../../redux/reselect/simpleData';
+import { requestApi } from '../../../http/Axios';
 
 const SIZE = (getScreenWidth() - 45) / 4;
 const TYPE = 'activitySize';

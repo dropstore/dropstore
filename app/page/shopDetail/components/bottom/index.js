@@ -6,16 +6,16 @@
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import SelectShoeSizeCom from '../../other/SelectShoeSizeCom';
+import SelectShoeSizeCom from '../SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
-import ShopConstant from '../../../../../common/ShopConstant';
-import { getSimpleData } from '../../../../../redux/reselect/simpleData';
-import { checkTime } from '../../../../../utils/TimeUtils';
-import { debounce } from '../../../../../utils/commonUtils';
+import ShopConstant from '../../../../common/ShopConstant';
+import { getSimpleData } from '../../../../redux/reselect/simpleData';
+import { checkTime } from '../../../../utils/TimeUtils';
+import { debounce } from '../../../../utils/commonUtils';
 import {
   showShare, showToast, closeModalbox, showModalbox,
-} from '../../../../../utils/MutualUtil';
-import { BottomBtnGroup } from '../../../../../components';
+} from '../../../../utils/MutualUtil';
+import { BottomBtnGroup } from '../../../../components';
 
 function mapStateToProps() {
   return state => ({

@@ -5,19 +5,19 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  RefreshControl, View, FlatList, StyleSheet,
+  RefreshControl, View, FlatList,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { getSimpleData } from '../../redux/reselect/simpleData';
-import ShopDetailHeaderRight from './components/basic/ShopDetailHeaderRight';
-import ShopBasicInfoCom from './components/basic/ShopBasicInfoCom';
-import SelfBottomCom from './components/bottom/self';
+import ShopDetailHeaderRight from './components/ShopDetailHeaderRight';
+import ShopBasicInfoCom from './components/ShopBasicInfoCom';
+import SelfBottomCom from './components/bottom';
 import Colors from '../../res/Colors';
 import ShopConstant from '../../common/ShopConstant';
-import RuleCom from './components/main/RuleCom';
-import DrawMainCom from './components/main/self/components/DrawMainCom';
+import RuleCom from './components/RuleCom';
+import MemberCom from './components/MemberCom';
 import DetailImage from './components/DetailImage';
 
 const TYPE = 'activityInfo';
@@ -71,8 +71,8 @@ class ShopDetail extends PureComponent {
     const { activityInfo: { data } } = this.props;
     if (item === 'RuleCom') {
       return <RuleCom shopInfo={data} />;
-    } if (item === 'DrawMainCom') {
-      return <DrawMainCom shopInfo={data} />;
+    } if (item === 'MemberCom') {
+      return <MemberCom shopInfo={data} />;
     }
     return <DetailImage item={item} />;
   }
@@ -90,7 +90,7 @@ class ShopDetail extends PureComponent {
         { height: 192, source: require('../../res/image/rule.jpeg') },
       ];
     } else {
-      list = [...list, 'DrawMainCom'];
+      list = [...list, 'MemberCom'];
     }
     return (
       <View style={{ flex: 1 }}>
