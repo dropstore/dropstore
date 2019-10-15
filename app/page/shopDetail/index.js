@@ -85,7 +85,7 @@ class ShopDetail extends PureComponent {
     if (is_join === ShopConstant.NOT_JOIN) {
       list = [
         ...list,
-        { height: 240, source: require('../../res/image/gonggao.jpg') },
+        { height: 240, source: require('../../res/image/gonggao.jpeg') },
         ...goods_image,
         { height: 437, source: require('../../res/image/rule.jpg') },
       ];
