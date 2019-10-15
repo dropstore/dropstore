@@ -138,13 +138,13 @@ class Modal extends PureComponent {
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
                   {
                   step === 2 ? (
-                    <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
+                    <Text style={{ fontSize: 14, fontFamily: YaHei }}>
                       {'取消售卖，货品会回到您的'}
                       <Text style={styles.kufang} onPress={this.toKufang}>库房</Text>
                       {'中，你可以在库房中直接售卖！'}
                     </Text>
                   ) : (
-                    <Text style={{ fontSize: 14, fontFamily: YaHei, textAlign: 'center' }}>
+                    <Text style={{ fontSize: 14, fontFamily: YaHei }}>
                       {'商品已取消售卖，可以到'}
                       <Text style={styles.kufang} onPress={this.toKufang}>我的库房</Text>
                       {'中查看，管理商品！'}
