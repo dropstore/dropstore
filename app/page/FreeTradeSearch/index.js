@@ -22,22 +22,28 @@ export default class FreeTrade extends PureComponent {
     this.setState({ params });
   }
 
+  onChangeText = (text) => {
+    const { params } = this.state;
+    if (params.type === '2') {
+      this.freeTradeList.fetchData(null, { test: text });
+    }
+  }
+
   render() {
     const { params } = this.state;
+    const { navigation } = this.props;
     const List = {
       1: <Text>123</Text>,
       2: <FreeTradeList
-        itemOnPress={this.itemOnPress}
-        style={{ flex: 1 }}
-        type="freeTradeIndex"
-        params={{ type: 1 }}
-        showPrice
+        type="freeTradeSearch"
+        navigation={navigation}
+        ref={(v) => { this.freeTradeList = v; }}
       />,
       3: <Text>789</Text>,
     }[params.type];
     return (
       <KeyboardDismiss style={{ flex: 1 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', paddingRight: 10 }}>
+        <View style={styles.header}>
           <View style={styles.inputWrapper}>
             <Image source={require('../../res/image/search.png')} style={{ height: 12, width: 12 }} />
             <TextInput
@@ -47,7 +53,7 @@ export default class FreeTrade extends PureComponent {
               placeholderTextColor="#D6D6D6"
               underlineColorAndroid="transparent"
               clearButtonMode="while-editing"
-              onChangeText={(text) => { this.link_name = text; }}
+              onChangeText={this.onChangeText}
             />
           </View>
           <Dropdown filter={this.filter} index="type" options={this.options} defaultValue={this.options[0]} width={60} />
@@ -59,6 +65,12 @@ export default class FreeTrade extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 10,
+    marginBottom: 14,
+  },
   inputWrapper: {
     backgroundColor: '#F5F5F5',
     overflow: 'hidden',

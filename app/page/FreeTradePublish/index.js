@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 6,
     marginHorizontal: 9,
-    marginBottom: 10,
+    marginBottom: 14,
     borderRadius: 2,
     overflow: 'hidden',
     flexDirection: 'row',

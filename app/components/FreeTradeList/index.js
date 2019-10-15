@@ -1,19 +1,16 @@
 import React, { PureComponent } from 'react';
 import {
-  FlatList, View, TextInput, StyleSheet, Animated,
+  FlatList, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PullToRefresh from '../PullToRefresh';
-import Image from '../Image';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
 import ListItem from './ListItem';
 import { getScreenWidth } from '../../common/Constant';
-import { debounceDelay } from '../../utils/commonUtils';
-import Images from '../../res/Images';
+import Colors from '../../res/Colors';
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 const HeaderHeight = 46;
 
 function mapStateToProps() {
@@ -31,102 +28,43 @@ function mapDispatchToProps(dispatch) {
 class List extends PureComponent {
   constructor(props) {
     super(props);
-    this.filterParams = {};
     this.fetchData();
-    this.translateY = new Animated.Value(0);
+  }
+
+  itemOnPress = (item) => {
+    const { navigation } = this.props;
+    navigation.navigate('FreeTradeDetail', {
+      title: '商品详情',
+      item,
+    });
   }
 
   loadMore = () => {
     this.fetchData('more');
   }
 
-  fetchData = (fetchType) => {
-    const { fetchListData, type, params } = this.props;
-    fetchListData(type, { ...this.filterParams, ...params }, fetchType);
+  fetchData = (fetchType, params) => {
+    const { fetchListData, type } = this.props;
+    fetchListData(type, { type: 1, ...params }, fetchType);
   }
 
-  onChangeText = (goods_name) => {
-    this.filterParams = { goods_name };
-    this.fetchData();
-  }
-
-  onScroll = (e) => {
-    const y = e.nativeEvent.contentOffset.y;
-    if (y < 0) {
-      this.translateY.setValue(y);
-      return;
-    }
-    this.lastTriggerAnimatedY = this.lastTriggerAnimatedY || y;
-    this.diff = this.lastTriggerAnimatedY - y;
-    if (this.diff < -36) {
-      this.lastTriggerAnimatedY = y;
-      if (this.drogDirection !== 'up') {
-        this.drogDirection = 'up';
-        Animated.timing(
-          this.translateY,
-          {
-            toValue: -HeaderHeight,
-            duration: 300,
-            useNativeDriver: true,
-          },
-        ).start();
-      }
-    } else if (this.diff > 36) {
-      this.lastTriggerAnimatedY = y;
-      if (this.drogDirection !== 'down') {
-        this.drogDirection = 'down';
-        Animated.timing(
-          this.translateY,
-          {
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          },
-        ).start();
-      }
-    }
-  }
-
-  renderItem = ({ item }) => {
-    const { itemOnPress, showPrice } = this.props;
-    return <ListItem showPrice={showPrice} onPress={itemOnPress} item={item} />;
-  }
+  renderItem = ({ item }) => <ListItem showPrice onPress={this.itemOnPress} item={item} />
 
   render() {
     const { listData, style } = this.props;
     return (
-      <View style={style}>
-        <PullToRefresh
-          style={{ flex: 1 }}
-          totalPages={listData.totalPages}
-          currentPage={listData.currentPage}
-          Wrapper={AnimatedFlatList}
-          // onScroll={this.onScroll}
-          data={listData.list}
-          refresh={this.fetchData}
-          // keyboardDismissMode="on-drag"
-          contentContainerStyle={styles.list}
-          renderItem={this.renderItem}
-          numColumns={2}
-          // scrollEventThrottle={1}
-          onEndReached={this.loadMore}
-        />
-        {/* <Animated.View style={[styles.header, { transform: [{ translateY: this.translateY }] }]}>
-          <View style={styles.searchWrapper}>
-            <Image source={Images.search} style={styles.search} />
-            <TextInput
-              onChangeText={debounceDelay(this.onChangeText)}
-              underlineColorAndroid="transparent"
-              returnKeyType="search"
-              placeholder="搜索"
-              placeholderTextColor="#9F9F9F"
-              style={styles.searchTextInput}
-              onSubmitEditing={e => this.onChangeText(e.nativeEvent.text)}
-              clearButtonMode="while-editing"
-            />
-          </View>
-        </Animated.View> */}
-      </View>
+      <PullToRefresh
+        style={{ backgroundColor: Colors.MAIN_BACK, ...style }}
+        totalPages={listData.totalPages}
+        currentPage={listData.currentPage}
+        Wrapper={FlatList}
+        data={listData.list}
+        refresh={this.fetchData}
+        contentContainerStyle={styles.list}
+        renderItem={this.renderItem}
+        numColumns={2}
+        onEndReached={this.loadMore}
+      />
     );
   }
 }
@@ -134,7 +72,6 @@ class List extends PureComponent {
 const styles = StyleSheet.create({
   list: {
     paddingLeft: 9,
-    // paddingTop: HeaderHeight,
     paddingRight: 1,
   },
   header: {
@@ -170,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(List);
