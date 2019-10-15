@@ -44,9 +44,9 @@ class OriginalCost extends PureComponent {
     getActivityList(ShopConstant.ORIGIN_CONST, { fetchNextPage: true });
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { navigation } = this.props;
-    return <ShopListItemCom navigation={navigation} item={item} />;
+    return <ShopListItemCom index={index} navigation={navigation} item={item} />;
   }
 
   render() {
@@ -56,8 +56,6 @@ class OriginalCost extends PureComponent {
         totalPages={shopList.totalPages}
         currentPage={shopList.currentPage}
         Wrapper={FlatList}
-        style={{ paddingTop: 5 }}
-        contentContainerStyle={{ paddingLeft: 1 }}
         ListHeaderComponent={<TopCom bannerId={2} />}
         data={shopList.list}
         numColumns={2}

@@ -62,10 +62,10 @@ export default class ShopListItemCom extends PureComponent {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, index } = this.props;
     const { isStart, showText } = this.state;
     return (
-      <ScaleView style={styles.scaleView} onPress={this.toShopDetailPage}>
+      <ScaleView style={{ ...styles.scaleView, marginLeft: index % 2 === 0 ? 8 : 9 }} onPress={this.toShopDetailPage}>
         <TitleWithTag text={item.activity_name} bType={item.b_type} />
         <View>
           <View style={{ marginTop: 5 }}>
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE_COLOR,
     marginTop: 7,
     padding: 10,
-    marginLeft: 8,
     paddingBottom: 7,
     borderRadius: 2,
     overflow: 'hidden',

@@ -44,9 +44,9 @@ class SelfSupport extends PureComponent {
     getActivityList(ShopConstant.SELF_SUPPORT, { fetchNextPage: true });
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     const { navigation } = this.props;
-    return <ShopListItemCom navigation={navigation} item={item} />;
+    return <ShopListItemCom index={index} navigation={navigation} item={item} />;
   }
 
   render() {
@@ -56,11 +56,9 @@ class SelfSupport extends PureComponent {
         totalPages={shopList.totalPages}
         currentPage={shopList.currentPage}
         Wrapper={FlatList}
-        style={{ paddingTop: 5 }}
         ListHeaderComponent={<TopCom bannerId={2} />}
         data={shopList.list}
         numColumns={2}
-        contentContainerStyle={{ paddingLeft: 1 }}
         refresh={this.onRefresh}
         renderItem={this.renderItem}
         onEndReached={this.loadMore}
