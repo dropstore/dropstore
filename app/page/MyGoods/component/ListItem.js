@@ -63,7 +63,7 @@ export default class ListItem extends PureComponent<Props> {
           <TitleWithTag text={goods_name} type={item.is_stock} />
           <View style={[styles.middle, { marginTop: 10 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end', flex: 1 }}>
-              {/* {price && <Price price={price} /> } */}
+              {price && <Price price={price} /> }
               {price && priceTag && <Tag style={{ marginLeft: 3, marginBottom: 3 }} text={priceTag} />}
             </View>
             {
