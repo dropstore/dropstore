@@ -78,7 +78,7 @@ class NameAge extends PureComponent {
               selectionColor="#00AEFF"
               placeholder="输入昵称"
               defaultValue={user_name}
-              maxLength={12}
+              maxLength={8}
             />
           </View>
 

@@ -77,7 +77,7 @@ class Setting extends PureComponent {
       const customText = item.name === 'size' ? <ChangeSize onChange={this.sizeChange} initSize={item.value === '0.0' ? 42 : item.value} /> : (
         <View style={styles.inputWrapper}>
           <TextInput
-            maxLength={item.name === 'name' ? 12 : 3}
+            maxLength={item.name === 'name' ? 8 : 3}
             keyboardType={item.name === 'name' ? null : 'number-pad'}
             placeholder={item.name === 'name' ? '输入昵称' : '输入年龄'}
             placeholderTextColor="#d3d3d3"
