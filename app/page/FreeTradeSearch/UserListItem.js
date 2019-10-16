@@ -2,10 +2,20 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { ScaleView, AvatarWithShadow, NameAndGender } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
+import { showToast } from '../../utils/MutualUtil';
 
 export default class UserListItem extends PureComponent {
   onPress = () => {
-
+    const { item, navigation } = this.props;
+    if (item.sell_num < 1) {
+      showToast('该用户暂无商品出售');
+    } else {
+      navigation.navigate('FreeTradeBuy', {
+        title: '购买',
+        item,
+        goods: {},
+      });
+    }
   }
 
   render() {

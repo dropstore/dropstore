@@ -73,31 +73,31 @@ class FreeTradeBuy extends PureComponent {
   }
 
   toPay = () => {
-    const { navigation } = this.props;
-    if (this.ordered) {
-      showToast('已下单，自动前往支付');
-      // navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
-      navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
-      return;
-    }
-    const { currentItem } = this.state;
-    requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
-      this.ordered = true;
-      navigation.navigate('pay', {
-        title: '选择支付方式',
-        type: '1',
-        payData: res.data,
-        shopInfo: {
-          goods: {
-            image: currentItem.image,
-            goods_name: currentItem.goods_name,
-            start_time: 0,
-          },
-        },
-        noTimer: true,
-        noShareBtn: true,
-      });
-    });
+    // const { navigation } = this.props;
+    // if (this.ordered) {
+    //   showToast('已下单，自动前往支付');
+    //   // navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
+    //   navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
+    //   return;
+    // }
+    // const { currentItem } = this.state;
+    // requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
+    //   this.ordered = true;
+    //   navigation.navigate('pay', {
+    //     title: '选择支付方式',
+    //     type: '1',
+    //     payData: res.data,
+    //     shopInfo: {
+    //       goods: {
+    //         image: currentItem.image,
+    //         goods_name: currentItem.goods_name,
+    //         start_time: 0,
+    //       },
+    //     },
+    //     noTimer: true,
+    //     noShareBtn: true,
+    //   });
+    // });
   }
 
   listHeaderComponent = () => {
@@ -147,7 +147,7 @@ class FreeTradeBuy extends PureComponent {
           numColumns={2}
           onEndReached={this.loadMore}
         />
-        <BottomPay needManagementNum={1} price={currentItem.price} onPress={this.toPay} />
+        <BottomPay text="确认购买" needManagementNum={1} price={currentItem.price} onPress={this.toPay} />
       </View>
     );
   }
