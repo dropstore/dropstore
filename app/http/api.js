@@ -168,6 +168,13 @@ export default {
       image_size_times: 1,
     },
   },
+  // 抢购后的推荐活动
+  recommendActivityList: {
+    url: '/activity/recommend_activity_list',
+    initParams: {
+      image_size_times: 0.5,
+    },
+  },
   // 获取活动鞋码信息
   activitySize: { url: '/activity/activity_size' },
 

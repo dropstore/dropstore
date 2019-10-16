@@ -23,11 +23,21 @@ export default class CountdownCom extends PureComponent<Props> {
 
   constructor(props) {
     super(props);
-    const { time, notStartTimerText, endTimerText } = this.props;
+    const {
+      time, notStartTimerText, endTimerText, noMax,
+    } = this.props;
     const diff = time - Date.now() / 1000;
-    const noTimer = diff > MAX_TIME || diff < 1;
+    const noTimer = (diff > MAX_TIME || diff < 1) && !noMax;
+    let text = '';
+    if (diff > MAX_TIME && !noMax) {
+      text = notStartTimerText;
+    } else if (diff < 1) {
+      text = endTimerText;
+    } else {
+      text = this.formatTime(diff || 0);
+    }
     this.state = {
-      text: diff > MAX_TIME ? notStartTimerText : diff < 1 ? endTimerText : this.formatTime(diff || 0),
+      text,
     };
     this.timeInterval = null;
     noTimer || this.start(time);
@@ -50,7 +60,8 @@ export default class CountdownCom extends PureComponent<Props> {
 
   start = (time) => {
     this.clear();
-    if (time - Date.now() / 1000 < MAX_TIME) {
+    const { noMax } = this.props;
+    if (time - Date.now() / 1000 < MAX_TIME || noMax) {
       this.timeInterval = setInterval(() => {
         const diff = time - Date.now() / 1000;
         if (diff < 1) {
@@ -69,7 +80,7 @@ export default class CountdownCom extends PureComponent<Props> {
   formatTime = (timer) => {
     const { format = 'hh : mm : ss' } = this.props;
     const dd = parseInt(timer / 3600 / 24).toString().padStart(2, 0);
-    const hh = parseInt(timer / 3600).toString().padStart(2, 0);
+    const hh = parseInt((timer % (3600 * 24)) / 3600).toString().padStart(2, 0);
     const mm = parseInt((timer % 3600) / 60).toString().padStart(2, 0);
     const ss = parseInt(timer % 60).toString().padStart(2, 0);
     return format.replace('dd', dd).replace('hh', hh).replace('mm', mm).replace('ss', ss);

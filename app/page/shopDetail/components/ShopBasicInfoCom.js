@@ -29,8 +29,8 @@ export default class ShopBasicInfoCom extends PureComponent {
           time={activityInfo.activity.end_time}
           prefix={activityInfo.activity.b_type === 1 ? '抽签参与中:' : '距结束时间:'}
           format="dd天hh时mm分ss秒"
-          notStartTimerText={`${formatDate(activityInfo.activity.end_time, 'MM/dd hh:mm:ss')} 结束`}
           endTimerText="活动已结束"
+          noMax
           prefixStyle={{ ...styles.overTitle, color: Colors.YELLOW }}
         />
       );
@@ -38,8 +38,7 @@ export default class ShopBasicInfoCom extends PureComponent {
     return (
       <CountdownCom
         hasNextTimer
-        notStartTimerText={`${formatDate(activityInfo.activity.start_time, 'MM/dd hh:mm:ss')}
-        ${activityInfo.activity.type === ShopConstant.ORIGIN_CONST ? '发售' : '开始'}`}
+        noMax
         finish={this.activityStart}
         style={styles.overTime}
         format="dd天hh时mm分ss秒"
@@ -99,6 +98,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     marginTop: 9,
+    marginHorizontal: 17,
   },
   overView: {
     flexDirection: 'row',

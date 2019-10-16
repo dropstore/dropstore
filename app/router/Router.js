@@ -140,6 +140,7 @@ const routesWithHeader = {
   PickUp: { screen: PickUp, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   ChooseAddress: { screen: ChooseAddress, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   ImagePage: { screen: ImagePage, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  Panicstatus: { screen: Panicstatus, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   BalanceExtract,
   Password,
   MyGoods,
@@ -157,7 +158,6 @@ const routesWithHeader = {
 const routesWithoutHeader = {
   BottomNavigator,
   PayStatus,
-  Panicstatus,
   drawStatus,
 };
 

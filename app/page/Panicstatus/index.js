@@ -5,18 +5,52 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  ScrollView, StyleSheet, Text, View,
+  StyleSheet, Text, View, FlatList,
 } from 'react-native';
-import { Image, BottomBtnGroup, CountdownCom } from '../../components';
-import Images from '../../res/Images';
-import { Mario, YaHei } from '../../res/FontFamily';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Image, BottomBtnGroup, FadeImage } from '../../components';
+import { Mario, YaHei, RuiXian } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
+import Colors from '../../res/Colors';
 import { STATUSBAR_HEIGHT, BOTTOM_BTN_HEIGHT, getScreenHeight } from '../../common/Constant';
+import { fetchListData } from '../../redux/actions/listData';
+import { getListData } from '../../redux/reselect/listData';
+import ShopListItemCom from '../home/components/ShopListItemCom';
+
+const TYPE = 'recommendActivityList';
+
+function mapStateToProps() {
+  return state => ({
+    listData: getListData(state, TYPE),
+  });
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    fetchListData,
+  }, dispatch);
+}
 
 class Panicstatus extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.fetchData();
+  }
+
+  loadMore = () => {
+    this.fetchData('more');
+  }
+
+  fetchData = (fetchType) => {
+    const { fetchListData, navigation } = this.props;
+    const id = navigation.getParam('shopInfo')?.activity?.id;
+    fetchListData(TYPE, { id, type: 'all' }, fetchType);
+  }
+
   toShare = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
@@ -57,8 +91,47 @@ class Panicstatus extends PureComponent {
     }
   };
 
-  render() {
+  onPress = (item) => {
     const { navigation } = this.props;
+    navigation.navigate({ routeName: 'BottomNavigator' });
+    navigation.navigate('shopDetail', {
+      title: '商品详情',
+      rate: '+25',
+      shopId: item.id,
+      type: item.type,
+    });
+    // navigation.push('shopDetail', {
+    //   title: '商品详情',
+    //   rate: '+25',
+    //   shopId: item.id,
+    //   type: item.type,
+    // });
+  }
+
+  renderHeader = () => {
+    const { navigation } = this.props;
+    const data = navigation.getParam('shopInfo');
+    const Panicstatus = navigation.getParam('Panicstatus');
+    return (
+      <View style={{ alignItems: 'center', backgroundColor: '#fff' }}>
+        <FadeImage style={styles.goodImage} source={{ uri: data.goods.image }} />
+        <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
+        <Text style={[styles.status, { color: Panicstatus ? '#FFA700' : '#909090' }]}>{Panicstatus ? '抢购成功' : '抢购失败'}</Text>
+        <Text style={styles.shopName}>{data.goods.goods_name}</Text>
+        <View style={styles.tuijianWrapper}>
+          <Text style={styles.tuijian}>相关推荐</Text>
+        </View>
+      </View>
+    );
+  }
+
+  renderItem = ({ item, index }) => {
+    const { navigation } = this.props;
+    return <ShopListItemCom onPress={() => this.onPress(item)} index={index} navigation={navigation} item={item} />;
+  }
+
+  render() {
+    const { navigation, listData } = this.props;
     const data = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
     const is_join = data.is_join;
@@ -69,25 +142,20 @@ class Panicstatus extends PureComponent {
     if (Panicstatus) {
       btns.unshift({ text: '分享邀请', onPress: debounce(this.toShare) });
     }
+
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={styles.mainView}
+        <FlatList
+          keyExtractor={(item, index) => `tuijian-${index}`}
+          removeClippedSubviews={false}
           showsVerticalScrollIndicator={false}
-          alwaysBounceVertical={false}
-        >
-          <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Panicstatus ? Images.gm_cg : Images.qx_sb} />
-          <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
-          <Image style={styles.goodImage} source={{ uri: data.goods.image }} />
-          <CountdownCom
-            prefix="距结束:"
-            prefixStyle={{ fontSize: 16, fontFamily: YaHei, fontWeight: 'bold' }}
-            time={data?.activity?.end_time}
-            style={styles.time}
-          />
-          <Text style={styles.shopName}>{data.goods.goods_name}</Text>
-        </ScrollView>
+          initialNumToRender={1}
+          data={listData.list}
+          ListHeaderComponent={this.renderHeader}
+          style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
+          renderItem={this.renderItem}
+          onEndReached={this.loadMore}
+        />
         <BottomBtnGroup btns={btns} />
       </View>
     );
@@ -95,6 +163,17 @@ class Panicstatus extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  tuijianWrapper: {
+    paddingTop: 10,
+    paddingBottom: 3,
+    paddingLeft: 17,
+    backgroundColor: Colors.MAIN_BACK,
+    width: '100%',
+  },
+  tuijian: {
+    fontSize: 13,
+    fontFamily: YaHei,
+  },
   container: {
     flex: 1,
   },
@@ -112,17 +191,28 @@ const styles = StyleSheet.create({
   },
   shopName: {
     justifyContent: 'center',
-    fontSize: 17,
-    color: 'rgba(0,0,0,1)',
-    fontFamily: YaHei,
-    fontWeight: '400',
-    marginTop: 17,
-    marginHorizontal: 20,
+    fontSize: 13,
+    fontFamily: RuiXian,
+    marginHorizontal: 17,
     textAlign: 'justify',
   },
+  status: {
+    fontSize: 20,
+    fontFamily: YaHei,
+    marginVertical: 8,
+  },
   goodImage: {
-    width: 294,
-    height: 155,
+    width: wPx2P(258),
+    height: wPx2P(160),
+    marginBottom: 10,
+  },
+  icon: {
+    width: wPx2P(47),
+    height: wPx2P(47),
+    position: 'absolute',
+    right: 20,
+    top: 15,
   },
 });
-export default Panicstatus;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Panicstatus);
