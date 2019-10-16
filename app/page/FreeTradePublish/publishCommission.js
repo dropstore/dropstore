@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -67,48 +68,52 @@ class PublishCommission extends PureComponent {
     navigation.goback();
   }
 
+  renderBlock = items => (
+    <View style={styles.block}>
+      {
+        items.map((v, i) => (
+          <View key={i} style={[styles.itemWrapper, { borderBottomColor: i === items.length - 1 ? '#fff' : '#F2F2F2' }]}>
+            <Text style={{ fontFamily: YaHei, fontSize: 15, marginVertical: 10 }}>
+              {v.text}
+              <Text style={styles.price}>{v.price}</Text>
+              {'￥'}
+            </Text>
+            <Text style={{ fontSize: 12, color: '#A2A2A2' }}>{v.right}</Text>
+          </View>
+        ))
+      }
+    </View>
+  )
+
   render() {
     const { missionPrice: { data = {} }, navigation, appOptions } = this.props;
     const { type, price } = navigation.getParam('goodsInfo');
+    const items = type === 'storeMoney' ? [{ text: '库管费 : ', price: appOptions?.data?.management / 100 }] : [
+      { text: '鞋款共计 : ', price, right: `需支付平台服务费：${appOptions?.data?.fee}%` },
+      { text: '支付金额 : ', price: Math.ceil(price * appOptions?.data?.fee) / 100 },
+    ];
     return (
       <View style={{ flex: 1 }}>
         <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
-          {
-            type === 'storeMoney' ? <Text style={styles.cangchuPrice}>{`库管费：${appOptions?.data?.management / 100}￥`}</Text> : (
-              <View style={styles.moneyCount}>
-                <View style={styles.moneyCountInfo}>
-                  <Text style={{ fontFamily: YaHei, fontSize: 15 }}>
-                    {'鞋款共计 : '}
-                    <Text style={{ fontFamily: YaHei, fontSize: 15, color: Colors.YELLOW }}>{price}</Text>
-                    {'￥'}
-                  </Text>
-                  <Text style={{ fontFamily: YaHei, fontSize: 12, color: '#A2A2A2' }}>{`需支付平台服务费：${appOptions?.data?.fee}%`}</Text>
-                </View>
-                <Text style={{
-                  fontFamily: YaHei, fontSize: 15, flex: 1, lineHeight: 43,
-                }}
-                >
-                  {'支付金额 : '}
-                  <Text style={{ fontFamily: YaHei, fontSize: 15, color: Colors.YELLOW }}>{Math.ceil(price * appOptions?.data?.fee) / 100}</Text>
-                  {'￥'}
-                </Text>
-              </View>
-            )
-          }
+          { this.renderBlock(items) }
           {
             type === 'storeMoney' && (
-            <View style={styles.orderInfo}>
-              <Text style={{ fontSize: 13 }}>{`订单编号 : ${data.order_id}`}</Text>
-              <View style={styles.creatTime}>
-                <Text style={{ fontSize: 13 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
-                <CountdownCom
-                  prefix="待付款 "
-                  finish={this.exit}
-                  time={data.pay_time}
-                  style={{ fontSize: 11, color: Colors.YELLOW }}
-                />
+              <View style={styles.orderInfo}>
+                <View style={[styles.itemWrapper0, { borderBottomColor: '#F2F2F2' }]}>
+                  <Text style={{ fontSize: 12, color: '#585858' }}>{`订单编号 : ${data.order_id}`}</Text>
+                </View>
+                <View style={[styles.itemWrapper0, { borderBottomColor: '#fff' }]}>
+                  <Text style={{ fontSize: 10, color: '#A2A2A2', marginTop: 3 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
+                  <CountdownCom
+                    prefix="待付款 "
+                    prefixStyle={{ fontSize: 11, color: Colors.RED, fontFamily: YaHei }}
+                    finish={this.exit}
+                    time={data.pay_time}
+                    style={{ fontSize: 11, fontFamily: YaHei }}
+                  />
+                </View>
+
               </View>
-            </View>
             )
           }
         </ScrollView>
@@ -118,12 +123,29 @@ class PublishCommission extends PureComponent {
   }
 }
 const styles = StyleSheet.create({
-  moneyCount: {
+  block: {
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    height: 86,
     paddingHorizontal: 12,
+  },
+  price: {
+    fontFamily: YaHei,
+    fontSize: 15,
+    color: Colors.YELLOW,
+  },
+  itemWrapper: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  itemWrapper0: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 8,
   },
   scrollView: {
     flex: 1,
@@ -132,58 +154,12 @@ const styles = StyleSheet.create({
     paddingLeft: 9,
     paddingRight: 9,
   },
-  moneyCountInfo: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomColor: '#ddd',
-    flex: 1,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  totalMoney: {
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    height: 44,
-    marginHorizontal: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#ddd',
-  },
-  totalMoneyText: {
-    fontSize: 18,
-    fontFamily: YaHei,
-    textAlign: 'right',
-    flex: 1,
-    lineHeight: 43,
-  },
-  cangchuPrice: {
-    fontSize: 18,
-    fontFamily: YaHei,
-    borderRadius: 2,
-    backgroundColor: '#fff',
-    overflow: 'hidden',
-    paddingLeft: 12,
-    paddingVertical: 13,
-  },
   orderInfo: {
-    padding: 12,
+    paddingHorizontal: 12,
     backgroundColor: '#fff',
     marginTop: 9,
     borderRadius: 2,
     overflow: 'hidden',
-  },
-  creatTime: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 4.5,
-  },
-  storeMoneyTotalMoney: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    height: 44,
-    marginHorizontal: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#ddd',
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PublishCommission);
