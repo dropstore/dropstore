@@ -1,10 +1,9 @@
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet, Text, View, TouchableOpacity,
-} from 'react-native';
-import { Image, Price, TabBar } from '../../components';
+import { StyleSheet, View } from 'react-native';
+import { TabBar } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { YaHei, RuiXian } from '../../res/FontFamily';
+import ImageHeader from './component/ImageHeader';
 
 export default class Header extends PureComponent {
   render() {
@@ -13,15 +12,7 @@ export default class Header extends PureComponent {
     } = this.props;
     return (
       <View>
-        <View style={styles.container}>
-          <Image source={{ uri: item.image }} style={styles.image} />
-          <View style={{ flex: 1, justifyContent: 'space-between' }}>
-            <Text style={styles.title}>{item.goods_name}</Text>
-            <View style={{ alignItems: 'flex-end' }}>
-              {item.price * 1 > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 12, color: '#666' }}>暂无报价</Text>}
-            </View>
-          </View>
-        </View>
+        <ImageHeader item={item} />
         <TabBar
           style={styles.tabBar}
           routes={routes}

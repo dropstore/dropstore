@@ -20,6 +20,7 @@ import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
 import { requestApi } from '../../http/Axios';
 import { showToast } from '../../utils/MutualUtil';
+import ImageHeader from '../FreeTradeDetail/component/ImageHeader';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyInfo';
@@ -105,16 +106,7 @@ class FreeTradeBuy extends PureComponent {
     const { cuurentItem } = this.state;
     return (
       <View>
-        <View style={styles.header}>
-          <FadeImage resizeMode="contain" source={{ uri: cuurentItem.image }} style={{ width: wPx2P(166), height: wPx2P(97) }} />
-          <View style={{ flex: 1, justifyContent: 'space-between', marginLeft: 10 }}>
-            <Text style={styles.title}>{cuurentItem.goods_name}</Text>
-            <View style={styles.priceWrapper}>
-              <Text style={{ fontSize: 11, color: '#333' }}>{`SIZE：${cuurentItem.size}`}</Text>
-              <Price price={cuurentItem.price} />
-            </View>
-          </View>
-        </View>
+        <ImageHeader item={cuurentItem} showSize />
         <View style={styles.vendor}>
           <AvatarWithShadow source={{ uri: this.item.avatar }} size={45} />
           <View style={styles.vendorRight}>
