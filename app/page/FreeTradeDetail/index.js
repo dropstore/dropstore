@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
+import Animated from 'react-native-reanimated';
 import List from './List';
 import Colors from '../../res/Colors';
 import ListItemDetail from './ListItemDetail';
@@ -21,6 +22,7 @@ class MyGoods extends PureComponent {
       index: 0,
     };
     this.goods = navigation.getParam('item');
+    this.indexScrollPosition = new Animated.Value(0);
   }
 
   onIndexChange = (index) => {
@@ -35,6 +37,11 @@ class MyGoods extends PureComponent {
     return <List navigation={navigation} type={route.key} goods={this.goods} />;
   }
 
+  renderTabBar = (props) => {
+    this.indexScrollPosition = props.position;
+    return null;
+  }
+
   render() {
     const { routes, index } = this.state;
     return (
@@ -44,12 +51,13 @@ class MyGoods extends PureComponent {
           routes={routes}
           index={index}
           item={this.goods}
+          indexScrollPosition={this.indexScrollPosition}
         />
         <TabView
           style={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
           navigationState={this.state}
           renderScene={this.renderScene}
-          renderTabBar={() => null}
+          renderTabBar={this.renderTabBar}
           onIndexChange={this.onIndexChange}
           useNativeDriver
           initialLayout={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}

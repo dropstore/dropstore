@@ -56,7 +56,6 @@ class HomePage extends PureComponent {
             position={this.indexScrollPosition}
             onIndexChange={this.onIndexChange}
           />
-          {/* <Image onPress={this.toSearch} style={styles.search} source={require('../../res/image/search-index.png')} /> */}
         </View>
         <TabView
           style={{ flex: 1 }}
@@ -86,13 +85,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  search: {
-    width: 19,
-    height: 19,
-    right: 16,
-    top: 20,
-    marginLeft: 20,
   },
 });
 

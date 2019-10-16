@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
-import { Image, Price } from '../../components';
+import { Image, Price, TabBar } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 
 export default class Header extends PureComponent {
   render() {
     const {
-      item, routes, index, onIndexChange,
+      item, routes, onIndexChange, indexScrollPosition,
     } = this.props;
     return (
       <View>
@@ -22,26 +22,12 @@ export default class Header extends PureComponent {
             </View>
           </View>
         </View>
-        <View style={styles.tabBar}>
-          {
-            routes.map((item, i) => {
-              const focused = i === index;
-              return (
-                <TouchableOpacity key={item.key} style={{ justifyContent: 'flex-end' }} onPress={() => onIndexChange(i)}>
-                  <Text style={[styles.text, {
-                    fontSize: focused ? 25 : 12,
-                    bottom: focused ? -2.5 : 0,
-                    fontWeight: focused ? 'bold' : 'normal',
-                    marginLeft: i === 0 ? 0 : 10,
-                  }]}
-                  >
-                    {item.title}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })
-          }
-        </View>
+        <TabBar
+          style={styles.tabBar}
+          routes={routes}
+          position={indexScrollPosition}
+          onIndexChange={onIndexChange}
+        />
       </View>
     );
   }
@@ -63,14 +49,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 12,
     textAlign: 'justify',
+    fontFamily: RuiXian,
+    fontSize: 15,
+    lineHeight: 16,
   },
   tabBar: {
-    height: 50,
+    height: 42,
     flexDirection: 'row',
-    paddingBottom: 6,
-    paddingHorizontal: 9,
+    paddingTop: 14,
   },
   text: {
     padding: 0,

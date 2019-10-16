@@ -91,14 +91,16 @@ class Header extends PureComponent {
                         }}
                       >
                         <View style={{ alignItems: 'center' }}>
-                          <Text>{v.title}</Text>
+                          <Text style={{ color: v.id === filterType ? Colors.YELLOW : '#000', fontSize: 12 }}>{v.title}</Text>
                           <View style={[styles.zhishiqi, { backgroundColor: v.id === filterType ? Colors.YELLOW : 'transparent' }]} />
                         </View>
                       </TouchableOpacity>
                     ))
                   }
                 </View>
-                <Dropdown filter={filter} index="is_stock" options={options2} defaultValue={options2[0]} width={60} />
+                <View style={styles.shuxian}>
+                  <Dropdown filter={filter} index="is_stock" options={options2} defaultValue={options2[0]} width={60} />
+                </View>
               </View>
             )
           }
@@ -113,6 +115,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 2,
     marginHorizontal: 10,
+  },
+  shuxian: {
+    paddingLeft: 40,
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderLeftColor: '#E3E3E3',
   },
   header: {
     paddingHorizontal: 10,
