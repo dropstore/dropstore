@@ -40,7 +40,7 @@ export default class ListItem extends PureComponent {
             </View>
           )
         }
-        { isCurrentItem && <Image style={styles.chooseIcon} source={require('../../res/image/close-x.png')} /> }
+        { isCurrentItem && <Image style={styles.chooseIcon} source={require('../../res/image/chooseIcon.png')} /> }
       </ScaleView>
     );
   }
