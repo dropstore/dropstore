@@ -20,6 +20,13 @@ export default {
       image_size_times: 0.5,
     },
   },
+  // 自由交易搜索用户列表
+  freeTradeSearchUser: {
+    url: '/user/user_list',
+    initParams: {
+      limit: 10,
+    },
+  },
   // 自由交易某商品价格列表
   freeTradeGoodsPrice: {
     url: '/free/info',

@@ -21,9 +21,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 class List extends PureComponent {
+  static defaultProps = {
+    autoFetch: true,
+  }
+
   constructor(props) {
     super(props);
-    this.fetchData();
+    const { autoFetch } = this.props;
+    if (autoFetch) {
+      this.fetchData();
+    }
   }
 
   itemOnPress = (item) => {

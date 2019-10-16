@@ -4,43 +4,53 @@ import {
 } from 'react-native';
 import { Image, KeyboardDismiss, FreeTradeList } from '../../components';
 import Dropdown from '../FreeTradeDetail/component/Dropdown';
+import UserList from './UserList';
+import { debounceDelay } from '../../utils/commonUtils';
 
 export default class FreeTrade extends PureComponent {
   constructor(props) {
     super(props);
     this.options = [
-      { id: '1', title: '分类' },
-      { id: '2', title: '货品' },
-      { id: '3', title: '用户' },
+      { id: 'brand', title: '分类' },
+      { id: 'goods', title: '货品' },
+      { id: 'user', title: '用户' },
     ];
     this.state = {
-      params: { type: 1 },
+      filterType: 'brand',
+      text: '',
     };
   }
 
-  filter = (params) => {
-    this.setState({ params });
+  filter = ({ filterType }) => {
+    this.setState({ filterType });
   }
 
   onChangeText = (text) => {
-    const { params } = this.state;
-    if (params.type === '2') {
-      this.freeTradeList.fetchData(null, { test: text });
+    const { filterType } = this.state;
+    this.setState({ text });
+    if (filterType === 'goods') {
+      this.freeTradeList.fetchData(null, { goods_name: text });
+    } else if (filterType === 'user') {
+      this.userList.fetchData(null, { user_name: text });
     }
   }
 
   render() {
-    const { params } = this.state;
+    const { filterType, text } = this.state;
     const { navigation } = this.props;
     const List = {
-      1: <Text>123</Text>,
-      2: <FreeTradeList
+      brand: <Text>123</Text>,
+      goods: <FreeTradeList
         type="freeTradeSearch"
         navigation={navigation}
+        autoFetch={false}
         ref={(v) => { this.freeTradeList = v; }}
       />,
-      3: <Text>789</Text>,
-    }[params.type];
+      user: <UserList
+        navigation={navigation}
+        ref={(v) => { this.userList = v; }}
+      />,
+    }[filterType];
     return (
       <KeyboardDismiss style={{ flex: 1 }}>
         <View style={styles.header}>
@@ -53,12 +63,12 @@ export default class FreeTrade extends PureComponent {
               placeholderTextColor="#D6D6D6"
               underlineColorAndroid="transparent"
               clearButtonMode="while-editing"
-              onChangeText={this.onChangeText}
+              onChangeText={debounceDelay(this.onChangeText)}
             />
           </View>
-          <Dropdown filter={this.filter} index="type" options={this.options} defaultValue={this.options[0]} width={60} />
+          <Dropdown filter={this.filter} index="filterType" options={this.options} defaultValue={this.options[0]} width={60} />
         </View>
-        {List}
+        {text.length > 0 && List}
       </KeyboardDismiss>
     );
   }
