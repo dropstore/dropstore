@@ -43,7 +43,7 @@ class BrandList extends PureComponent {
     const { navigation } = this.props;
     navigation.navigate('BrandListPage', {
       title: v.brand_name,
-      params: { brand: v.id },
+      params: { brand_id: v.id },
     });
   }
 
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     backgroundColor: '#fff',
-    marginRight: 3,
+    marginLeft: 3,
     marginTop: 3,
   },
   image: {
