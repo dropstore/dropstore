@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: wPx2P(238),
     height: wPx2P(52),
     marginTop: hPx2P(20),
-    marginBottom: hPx2P(50),
+    marginBottom: hPx2P(30),
   },
   chaofan_hui: {
     width: wPx2P(69),
