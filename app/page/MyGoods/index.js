@@ -15,7 +15,23 @@ import { showShare } from '../../utils/MutualUtil';
 class MyGoods extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
-      <TouchableOpacity onPress={this.onPress} style={styles.rightWrapper}>
+      <TouchableOpacity
+        onPress={() => {
+          if (navigation.getParam('title') === '我的商品') {
+            showShare({
+              text: '正文',
+              img: '',
+              url: '',
+              title: '',
+            });
+          } else {
+            navigation.navigate('FreeTradePublish', {
+              title: '选择',
+            });
+          }
+        }}
+        style={styles.rightWrapper}
+      >
         <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '我要出售'}</Text>
       </TouchableOpacity>
     ),
@@ -43,22 +59,6 @@ class MyGoods extends PureComponent {
 
   onIndexChange = (index) => {
     this.setState({ index });
-  }
-
-  onPress = () => {
-    if (this.routeType === 'Warehouse') {
-      const { navigation } = this.props;
-      navigation.navigate('FreeTradePublish', {
-        title: '选择',
-      });
-    } else {
-      showShare({
-        text: '正文',
-        img: '',
-        url: '',
-        title: '',
-      });
-    }
   }
 
   renderScene = ({ route }) => {
