@@ -29,17 +29,13 @@ function mapDispatchToProps(dispatch) {
 }
 
 class BalanceExtract extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { navigation } = this.props;
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })} style={styles.rightWrapper}>
-          <Text style={{ color: '#fff', fontSize: 14 }}>明细</Text>
-        </TouchableOpacity>
-      ),
-    });
-  }
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <TouchableOpacity onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}>
+        <Text style={{ marginRight: 12 }}>明细</Text>
+      </TouchableOpacity>
+    ),
+  });
 
   submit = () => {
     if (!this.name) {

@@ -25,25 +25,18 @@ function mapDispatchToProps(dispatch) {
 }
 
 class ChooseAddress extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { navigation } = this.props;
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={this.toAdd} style={{ marginRight: 20 }}>
-          <Text style={{ fontSize: 16, fontFamily: YaHei }}>+</Text>
-        </TouchableOpacity>
-      ),
-    });
-  }
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <TouchableOpacity onPress={() => navigation.navigate('AddressEdit', { title: '添加收货地址' })}>
+        <Text style={{ marginRight: 12 }}>新增</Text>
+      </TouchableOpacity>
+    ),
+  });
 
   toAdd = () => {
-    const { navigation, address } = this.props;
+    const { navigation } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
-      address: {
-        is_default: address.list.length === 0,
-      },
     });
   }
 

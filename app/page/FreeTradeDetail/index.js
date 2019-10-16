@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  View, StyleSheet, TouchableOpacity, Text,
+} from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import List from './List';
@@ -9,6 +11,14 @@ import { getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT } from '../..
 import Header from './Header';
 
 class MyGoods extends PureComponent {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <TouchableOpacity onPress={() => navigation.navigate('ChooseSize', { title: '选择鞋码', item: navigation.getParam('item') })}>
+        <Text style={{ marginRight: 12 }}>我要出售</Text>
+      </TouchableOpacity>
+    ),
+  });
+
   constructor(props) {
     super(props);
     const { navigation } = this.props;

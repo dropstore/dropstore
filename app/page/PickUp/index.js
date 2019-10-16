@@ -105,7 +105,8 @@ class PickUp extends PureComponent {
                     <View style={styles.yuandian}>
                       <View style={styles.yuandian1} />
                     </View>
-                    <Text style={{ fontSize: 12, color: '#212121' }}>{`${isChoosed ? '已选' : '默认地址'}`}</Text>
+                    <Text style={{ fontSize: 12, color: '#212121' }}>已选</Text>
+                    {/* <Text style={{ fontSize: 12, color: '#212121' }}>{`${isChoosed ? '已选' : '默认地址'}`}</Text> */}
                   </View>
                   <BtnGroup btns={[{ onPress: this.changeAddress, text: '更改物流信息', color: '#0097C2' }]} />
                 </View>
