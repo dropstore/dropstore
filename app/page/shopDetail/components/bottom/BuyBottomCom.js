@@ -4,15 +4,14 @@
  * @author ZWW
  */
 import React, { PureComponent } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
-import { bottomStyle } from '../../../../res/style/BottomStyle';
 import ShopConstant from '../../../../common/ShopConstant';
 import { getSimpleData } from '../../../../redux/reselect/simpleData';
 import SelectShoeSizeByUnJoinsCom from '../SelectShoeSizeByUnJoinsCom';
 import { debounce } from '../../../../utils/commonUtils';
 import { closeModalbox, showModalbox } from '../../../../utils/MutualUtil';
 import { request } from '../../../../http/Axios';
+import { BottomBtnGroup } from '../../../../components';
 
 function mapStateToProps() {
   return state => ({
@@ -81,14 +80,7 @@ class BuyBottomCom extends PureComponent {
   };
 
   render() {
-    return (
-      <View style={bottomStyle.bottomView}>
-        <View />
-        <TouchableOpacity style={[bottomStyle.buttonNormalView]} onPress={debounce(this.onPress)}>
-          <Text style={bottomStyle.buttonText}>{this.buyBottomText()}</Text>
-        </TouchableOpacity>
-      </View>
-    );
+    return <BottomBtnGroup btns={[{ text: this.buyBottomText(), onPress: debounce(this.onPress) }]} />;
   }
 }
 
