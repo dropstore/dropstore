@@ -6,14 +6,14 @@ const receiveListData = createAction('RECEIVE_LIST_DATA', a => a, (a, type) => (
 const requestListData = createAction('REQUEST_LIST_DATA');
 const resetListData = createAction('RESET_LIST_DATA', a => a, (a, needClear) => ({ needClear }));
 
-function fetchListData(type = '', query = {}, fetchType: 'more' | 'refresh' = '') {
+function fetchListData(type = '', query = {}, fetchType: 'more' | 'refresh' = null) {
   return (dispatch, getState) => {
     const listData = getState().listData[type] || {};
     if (listData.isFetching || (listData.currentPage >= listData.totalPages && fetchType === 'more')) {
       return;
     }
     if (fetchType !== 'more') {
-      dispatch(resetListData(type, fetchType === ''));
+      dispatch(resetListData(type, !fetchType));
     }
     const page = fetchType === 'more' ? listData.currentPage + 1 : 1;
     const params = {

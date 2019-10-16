@@ -29,9 +29,9 @@ export default class FreeTrade extends PureComponent {
     const { filterType } = this.state;
     this.setState({ text });
     if (filterType === 'goods') {
-      this.freeTradeList.fetchData(null, { goods_name: text });
+      this.freeTradeList && this.freeTradeList.fetchData(null, { goods_name: text });
     } else if (filterType === 'user') {
-      this.userList.fetchData(null, { user_name: text });
+      this.userList && this.userList.fetchData(null, { user_name: text });
     }
   }
 

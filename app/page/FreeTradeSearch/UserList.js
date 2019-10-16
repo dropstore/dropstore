@@ -6,6 +6,7 @@ import { PullToRefresh } from '../../components';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
 import UserListItem from './UserListItem';
+import Colors from '../../res/Colors';
 
 const TYPE = 'freeTradeSearchUser';
 
@@ -26,9 +27,9 @@ class UserList extends PureComponent {
     this.fetchData('more');
   }
 
-  fetchData = (fetchType) => {
+  fetchData = (fetchType, params) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { user_name: '' }, fetchType);
+    fetchListData(TYPE, params, fetchType);
   }
 
   renderItem = ({ item }) => {
@@ -43,6 +44,7 @@ class UserList extends PureComponent {
         totalPages={listData.totalPages}
         currentPage={listData.currentPage}
         Wrapper={FlatList}
+        style={{ backgroundColor: Colors.MAIN_BACK  }}
         data={listData.list}
         refresh={this.fetchData}
         renderItem={this.renderItem}
@@ -52,4 +54,4 @@ class UserList extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(UserList);

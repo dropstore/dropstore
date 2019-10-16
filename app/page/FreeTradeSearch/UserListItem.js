@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import {
-  Price, Image, ScaleView, AvatarWithShadow, NameAndGender,
-} from '../../components';
+import { ScaleView, AvatarWithShadow, NameAndGender } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class UserListItem extends PureComponent {
@@ -17,14 +15,9 @@ export default class UserListItem extends PureComponent {
         <AvatarWithShadow source={{ uri: item.avatar }} size={wPx2P(55)} />
         <View style={{ marginLeft: 10, paddingTop: 5 }}>
           <NameAndGender name={item.user_name} sex={item.sex} />
-          <Text style={styles.size}>{`SIZE: ${item.size}`}</Text>
         </View>
         <View style={styles.right}>
-          <Image
-            style={{ height: 13, width: 25 }}
-            source={item.is_stock === '2' ? require('../../res/image/qihuo_icon.png') : require('../../res/image/qihuo_icon.png')}
-          />
-          <Price price={item.price} />
+          <Text style={styles.size}>{`在售: ${item.sell_num}`}</Text>
         </View>
       </ScaleView>
     );
@@ -49,8 +42,9 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   right: {
-    justifyContent: 'space-between',
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
 });
