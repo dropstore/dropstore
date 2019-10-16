@@ -5,13 +5,13 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Image from '../../components/Image';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
+import { ShoeImageHeader } from '../../components';
 
 const SIZE = (getScreenWidth() - 45) / 4;
 const TYPE = 'getShoeSizeList';
@@ -56,10 +56,7 @@ class ChooseSize extends PureComponent {
     const item = navigation.getParam('item');
     return (
       <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.choseSizeContainer}>
-        <View style={styles.shoseName}>
-          <Image source={{ uri: item.image }} style={styles.shoseImage} />
-          <Text style={styles.title}>{item.goods_name}</Text>
-        </View>
+        <ShoeImageHeader showPrice={false} item={item} />
         <Text style={styles.choseYourShoeText}>选择你要出售的鞋码</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', flex: 1 }}>
           {

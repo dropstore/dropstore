@@ -7,16 +7,18 @@ import { RuiXian } from '../res/FontFamily';
 
 type Props = {
   item: Number,
-  showSize?: String,
+  showSize?: Boolean,
+  showPrice?: Boolean
 };
 
 export default class ShoeImageHeader extends PureComponent<Props> {
   static defaultProps = {
     showSize: null,
+    showPrice: true,
   }
 
   render() {
-    const { item, showSize } = this.props;
+    const { item, showSize, showPrice } = this.props;
     return (
       <View style={styles.container}>
         <Image source={{ uri: item.image }} style={styles.image} />
@@ -24,7 +26,9 @@ export default class ShoeImageHeader extends PureComponent<Props> {
           <Text style={styles.title}>{item.goods_name}</Text>
           <View style={{ alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 11, color: '#333' }}>{showSize ? `SIZE：${item.size}` : ''}</Text>
-            {item.price * 1 > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 12, color: '#666' }}>暂无报价</Text>}
+            {
+              showPrice ? (item.price * 1 > 0 ? <Price price={item.price} /> : <Text style={{ fontSize: 12, color: '#666' }}>暂无报价</Text>) : null
+            }
           </View>
         </View>
       </View>
