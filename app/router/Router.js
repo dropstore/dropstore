@@ -49,6 +49,7 @@ import PublishCommission from '../page/FreeTradePublish/PublishCommission';
 import PutOnSale from '../page/FreeTradePublish/PutOnSale';
 import ImagePage from '../page/ImagePage';
 import FreeTradeSearch from '../page/FreeTradeSearch';
+import BrandListPage from '../page/FreeTradeSearch/BrandListPage';
 
 const styles = {
   btnWrapper: {
@@ -149,6 +150,7 @@ const routesWithHeader = {
   FreeTradeBuy: { path: 'freetradebuy/:freeid', screen: FreeTradeBuy },
   PublishCommission,
   PutOnSale,
+  BrandListPage,
   FreeTradeSearch,
 };
 // 不需要导航头部的路由写在这里

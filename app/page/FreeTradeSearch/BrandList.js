@@ -1,50 +1,64 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
-import {
-  ScrollView, View, Text, StyleSheet,
-} from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getListData } from '../../redux/reselect/listData';
-import { fetchListData } from '../../redux/actions/listData';
+import { getSimpleData } from '../../redux/reselect/simpleData';
+import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
-import { ScaleView } from '../../components';
+import { ScaleView, Image } from '../../components';
+import { wPx2P } from '../../utils/ScreenUtil';
 
-const TYPE = 'freeTradeSearchUser';
+const TYPE = 'freeTradeSearchBrand';
 
 function mapStateToProps() {
   return state => ({
-    listData: getListData(state, TYPE),
+    data: getSimpleData(state, TYPE),
   });
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    fetchListData,
+    fetchSimpleData,
   }, dispatch);
 }
 
-class UserList extends PureComponent {
+class BrandList extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.fetchData();
+  }
+
   loadMore = () => {
     this.fetchData('more');
   }
 
-  fetchData = (fetchType, params) => {
-    const { fetchListData } = this.props;
-    fetchListData(TYPE, params, fetchType);
+  fetchData = () => {
+    const { fetchSimpleData } = this.props;
+    fetchSimpleData(TYPE);
+  }
+
+  toListPage = (v) => {
+    const { navigation } = this.props;
+    navigation.navigate('BrandListPage', {
+      title: v.brand_name,
+      params: { brand: v.id },
+    });
   }
 
   render() {
-    const { listData } = this.props;
+    const { data } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }} contentContainerStyle={styles.container}>
-          { [1, 2, 3, 5, 4, 6].map((v, i) => (
-            <ScaleView key={i} style={styles.item}>
-              <Text>123</Text>
-            </ScaleView>
-          )) }
+          {
+            (data?.data?.brand || []).map((v, i) => (
+              <ScaleView onPress={() => this.toListPage(v)} key={i} style={styles.item}>
+                <Image source={{ uri: v.image }} style={styles.image} />
+              </ScaleView>
+            ))
+          }
         </ScrollView>
       </View>
     );
@@ -67,6 +81,10 @@ const styles = StyleSheet.create({
     marginRight: 3,
     marginTop: 3,
   },
+  image: {
+    width: wPx2P(60),
+    height: wPx2P(60),
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(UserList);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(BrandList);

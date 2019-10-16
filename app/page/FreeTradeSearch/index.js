@@ -16,18 +16,26 @@ export default class FreeTrade extends PureComponent {
       { id: 'user', title: '用户' },
     ];
     this.state = {
-      filterType: 'brand',
+      filterType: 'goods',
       text: '',
     };
   }
 
   filter = ({ filterType }) => {
-    this.setState({ filterType });
+    this.setState({ filterType }, () => {
+      const { text } = this.state;
+      if (text !== '') {
+        this.fetchData();
+      }
+    });
   }
 
   onChangeText = (text) => {
-    const { filterType } = this.state;
-    this.setState({ text });
+    this.setState({ text }, this.fetchData);
+  }
+
+  fetchData = () => {
+    const { filterType, text } = this.state;
     if (filterType === 'goods') {
       this.freeTradeList && this.freeTradeList.fetchData(null, { goods_name: text });
     } else if (filterType === 'user') {
@@ -67,7 +75,7 @@ export default class FreeTrade extends PureComponent {
           </View>
           <Dropdown filter={this.filter} index="filterType" options={this.options} defaultValue={this.options[0]} width={60} />
         </View>
-        {text.length > 0 ? List : <BrandList />}
+        {text.length > 0 ? List : <BrandList navigation={navigation} />}
       </KeyboardDismiss>
     );
   }

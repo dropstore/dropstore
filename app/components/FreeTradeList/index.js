@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class List extends PureComponent {
+class FreeTradeList extends PureComponent {
   static defaultProps = {
     autoFetch: true,
   }
@@ -46,8 +46,9 @@ class List extends PureComponent {
   }
 
   fetchData = (fetchType, params) => {
-    const { fetchListData, type } = this.props;
-    fetchListData(type, { type: 1, ...params }, fetchType);
+    const { fetchListData, type, navigation } = this.props;
+    const defaultParams = navigation.getParam('params') || {};
+    fetchListData(type, { type: 1, ...defaultParams, ...params }, fetchType);
   }
 
   renderItem = ({ item, index }) => <ListItem index={index} showPrice onPress={this.itemOnPress} item={item} />
@@ -70,4 +71,4 @@ class List extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(List);
+export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(FreeTradeList);

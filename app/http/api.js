@@ -27,6 +27,18 @@ export default {
       limit: 10,
     },
   },
+  // 自由交易搜索品牌
+  freeTradeSearchBrand: {
+    url: '/goods/goods_brand',
+  },
+  // 自由交易搜索品牌列表
+  freeTradeSearchBrandList: {
+    url: '/free/index',
+    initParams: {
+      limit: 10,
+      image_size_times: 0.5,
+    },
+  },
   // 自由交易某商品价格列表
   freeTradeGoodsPrice: {
     url: '/free/info',
