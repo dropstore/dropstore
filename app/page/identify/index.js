@@ -23,9 +23,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   jianding_hui: {
-    width: wPx2P(238), height: wPx2P(52), marginTop: hPx2P(20), marginBottom: hPx2P(50),
+    width: wPx2P(238),
+    height: wPx2P(52),
+    marginTop: hPx2P(20),
+    marginBottom: hPx2P(50),
   },
   chaofan_hui: {
-    width: wPx2P(59), height: wPx2P(68),
+    width: wPx2P(69),
+    height: wPx2P(68),
   },
 });
