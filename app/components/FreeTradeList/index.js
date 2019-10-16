@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react';
-import {
-  FlatList, StyleSheet,
-} from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PullToRefresh from '../PullToRefresh';
 import { getListData } from '../../redux/reselect/listData';
 import { fetchListData } from '../../redux/actions/listData';
 import ListItem from './ListItem';
-import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
-
-const HeaderHeight = 46;
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -48,7 +43,7 @@ class List extends PureComponent {
     fetchListData(type, { type: 1, ...params }, fetchType);
   }
 
-  renderItem = ({ item }) => <ListItem showPrice onPress={this.itemOnPress} item={item} />
+  renderItem = ({ item, index }) => <ListItem index={index} showPrice onPress={this.itemOnPress} item={item} />
 
   render() {
     const { listData, style } = this.props;
@@ -60,7 +55,6 @@ class List extends PureComponent {
         Wrapper={FlatList}
         data={listData.list}
         refresh={this.fetchData}
-        contentContainerStyle={styles.list}
         renderItem={this.renderItem}
         numColumns={2}
         onEndReached={this.loadMore}
@@ -68,43 +62,5 @@ class List extends PureComponent {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  list: {
-    paddingLeft: 9,
-    paddingRight: 1,
-  },
-  header: {
-    height: HeaderHeight,
-    backgroundColor: '#fff',
-    position: 'absolute',
-    width: getScreenWidth(),
-  },
-  searchWrapper: {
-    flex: 1,
-    marginVertical: 6,
-    marginHorizontal: 9,
-    borderRadius: 2,
-    overflow: 'hidden',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: '#DBDBDB',
-    borderWidth: StyleSheet.hairlineWidth,
-    backgroundColor: '#F5F5F5',
-  },
-  searchTextInput: {
-    height: '100%',
-    flex: 1,
-    lineHeight: 34,
-    fontSize: 16,
-    paddingHorizontal: 8,
-    paddingVertical: 0,
-  },
-  search: {
-    width: 19.5,
-    height: 19,
-    marginLeft: 10,
-  },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps, null, { forwardRef: true })(List);

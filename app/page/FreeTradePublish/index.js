@@ -96,14 +96,14 @@ class List extends PureComponent {
     }
   }
 
-  renderItem = ({ item }) => <ListItem showPrice={false} onPress={this.itemOnPress} item={item} />
+  renderItem = ({ item, index }) => <ListItem index={index} showPrice={false} onPress={this.itemOnPress} item={item} />
 
   render() {
     const { listData } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <PullToRefresh
-          style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
+          style={{ flex: 1, backgroundColor: Colors.MAIN_BACK, paddingTop: HeaderHeight }}
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
           Wrapper={AnimatedFlatList}
@@ -111,7 +111,6 @@ class List extends PureComponent {
           data={listData.list}
           refresh={this.fetchData}
           keyboardDismissMode="on-drag"
-          contentContainerStyle={styles.list}
           renderItem={this.renderItem}
           numColumns={2}
           scrollEventThrottle={1}
@@ -138,11 +137,6 @@ class List extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  list: {
-    paddingLeft: 9,
-    paddingTop: HeaderHeight,
-    paddingRight: 1,
-  },
   header: {
     height: HeaderHeight,
     backgroundColor: '#fff',
