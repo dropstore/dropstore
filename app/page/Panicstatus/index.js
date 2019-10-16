@@ -20,6 +20,7 @@ class Panicstatus extends PureComponent {
   toShare = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
+    const order_id = navigation.getParam('payData').order_id;
     const is_join = shopInfo.is_join;
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
@@ -27,7 +28,7 @@ class Panicstatus extends PureComponent {
     const title = shopInfo.goods.goods_name;
     const image = shopInfo.goods.image;
     const baseUrl = is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
-    const url = `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
+    const url = `${baseUrl}?id=${order_id}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
     showShare({
       text: ShopConstant.SHARE_TEXT,
       img: image,
