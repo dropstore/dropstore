@@ -1,17 +1,17 @@
 import React, { PureComponent } from 'react';
 import {
-  View, TextInput, StyleSheet, Text,
+  View, TextInput, StyleSheet,
 } from 'react-native';
 import { Image, KeyboardDismiss, FreeTradeList } from '../../components';
 import Dropdown from '../FreeTradeDetail/component/Dropdown';
 import UserList from './UserList';
+import BrandList from './BrandList';
 import { debounceDelay } from '../../utils/commonUtils';
 
 export default class FreeTrade extends PureComponent {
   constructor(props) {
     super(props);
     this.options = [
-      { id: 'brand', title: '分类' },
       { id: 'goods', title: '货品' },
       { id: 'user', title: '用户' },
     ];
@@ -39,7 +39,6 @@ export default class FreeTrade extends PureComponent {
     const { filterType, text } = this.state;
     const { navigation } = this.props;
     const List = {
-      brand: <Text>123</Text>,
       goods: <FreeTradeList
         type="freeTradeSearch"
         navigation={navigation}
@@ -68,7 +67,7 @@ export default class FreeTrade extends PureComponent {
           </View>
           <Dropdown filter={this.filter} index="filterType" options={this.options} defaultValue={this.options[0]} width={60} />
         </View>
-        {text.length > 0 && List}
+        {text.length > 0 ? List : <BrandList />}
       </KeyboardDismiss>
     );
   }
