@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {
-  Price, Image, TitleWithTagTwo, ScaleView, AvatarWithShadow,
+  Price, Image, ScaleView, AvatarWithShadow, NameAndGender,
 } from '../../components';
-import Images from '../../res/Images';
 import { wPx2P } from '../../utils/ScreenUtil';
 
 export default class ListItem extends PureComponent {
@@ -21,15 +20,15 @@ export default class ListItem extends PureComponent {
     return (
       <ScaleView style={styles.container} onPress={this.onPress}>
         <AvatarWithShadow source={{ uri: item.avatar }} size={wPx2P(55)} />
-        <View style={{ marginLeft: 10 }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 6 }}>
-            <Text style={styles.name}>{item.user_name}</Text>
-            <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={item.sex === '2' ? Images.littleGirl : Images.littleBoy} />
-          </View>
+        <View style={{ marginLeft: 10, paddingTop: 5 }}>
+          <NameAndGender name={item.user_name} sex={item.sex} />
           <Text style={styles.size}>{`SIZE: ${item.size}`}</Text>
         </View>
         <View style={styles.right}>
-          <TitleWithTagTwo text="" type={item.is_stock} />
+          <Image
+            style={{ height: 13, width: 25 }}
+            source={item.is_stock === '2' ? require('../../res/image/qihuo_icon.png') : require('../../res/image/qihuo_icon.png')}
+          />
           <Price price={item.price} />
         </View>
       </ScaleView>

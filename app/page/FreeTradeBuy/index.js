@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import {
-  PullToRefresh, FadeImage, Price, Image, BottomPay, AvatarWithShadow,
+  PullToRefresh, Image, BottomPay, AvatarWithShadow, NameAndGender,
 } from '../../components';
 import ListItem from '../../components/FreeTradeList/ListItem';
 import { getListData } from '../../redux/reselect/listData';
@@ -13,7 +13,6 @@ import { fetchListData } from '../../redux/actions/listData';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import Colors from '../../res/Colors';
-import { wPx2P } from '../../utils/ScreenUtil';
 import { getScreenWidth } from '../../common/Constant';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
@@ -24,6 +23,7 @@ import ImageHeader from '../FreeTradeDetail/component/ImageHeader';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyInfo';
+const MARGIN_HORIZONTAL = 9;
 
 function mapStateToProps() {
   return state => ({
@@ -47,9 +47,10 @@ class FreeTradeBuy extends PureComponent {
     const { goods_name, image } = navigation.getParam('goods');
     this.free_id = this.item.free_id;
     this.state = {
-      cuurentItem: {
+      currentItem: {
         image,
         goods_name,
+        id: this.item.id,
         size: this.item.size,
         price: this.item.price,
       },
@@ -69,7 +70,7 @@ class FreeTradeBuy extends PureComponent {
 
   onPress = (item) => {
     this.free_id = item.free_id;
-    this.setState({ cuurentItem: item });
+    this.setState({ currentItem: item });
     this.fetchData('refresh');
   }
 
@@ -81,7 +82,7 @@ class FreeTradeBuy extends PureComponent {
       navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
       return;
     }
-    const { cuurentItem } = this.state;
+    const { currentItem } = this.state;
     requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
       this.ordered = true;
       navigation.navigate('pay', {
@@ -90,8 +91,8 @@ class FreeTradeBuy extends PureComponent {
         payData: res.data,
         shopInfo: {
           goods: {
-            image: cuurentItem.image,
-            goods_name: cuurentItem.goods_name,
+            image: currentItem.image,
+            goods_name: currentItem.goods_name,
             start_time: 0,
           },
         },
@@ -103,18 +104,15 @@ class FreeTradeBuy extends PureComponent {
 
   listHeaderComponent = () => {
     const { vendorInfo: { data } } = this.props;
-    const { cuurentItem } = this.state;
+    const { currentItem } = this.state;
     return (
       <View>
-        <ImageHeader item={cuurentItem} showSize />
+        <ImageHeader item={currentItem} showSize />
         <View style={styles.vendor}>
           <AvatarWithShadow source={{ uri: this.item.avatar }} size={45} />
           <View style={styles.vendorRight}>
             <View style={{ marginLeft: 10, marginTop: 12 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={{ fontSize: 15 }}>{this.item.user_name}</Text>
-                <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={this.item.sex === '2' ? Images.littleGirl : Images.littleBoy} />
-              </View>
+              <NameAndGender name={this.item.user_name} sex={this.item.sex} />
               <Text style={{ fontSize: 11, color: '#696969' }}>
                 {'累计成交订单：'}
                 <Text style={{ fontSize: 11, color: '#37B6EB', fontFamily: YaHei }}>{(data || {}).goods_number}</Text>
@@ -123,21 +121,24 @@ class FreeTradeBuy extends PureComponent {
             <Text style={{ fontSize: 9, color: '#696969', marginTop: 15 }}>{`入驻平台时间：${formatDate((data || {}).user_time)}`}</Text>
           </View>
         </View>
-        <Text style={{ fontSize: 12, color: '#272727', marginTop: 20 }}>卖家还在卖</Text>
+        <Text style={styles.haizaimai}>卖家还在卖</Text>
       </View>
     );
   }
 
-  renderItem = ({ item }) => <ListItem onPress={this.onPress} notShowCount item={item} />
+  renderItem = ({ item, index }) => {
+    const { currentItem } = this.state;
+    return <ListItem isCurrentItem={currentItem.id === item.id} index={index} onPress={this.onPress} notShowCount item={item} />;
+  }
 
   render() {
     const { listData } = this.props;
-    const { cuurentItem } = this.state;
+    const { currentItem } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <PullToRefresh
           style={{
-            flex: 1, backgroundColor: Colors.MAIN_BACK, paddingLeft: 9, paddingRight: 1,
+            flex: 1, backgroundColor: Colors.MAIN_BACK,
           }}
           ListHeaderComponent={this.listHeaderComponent}
           totalPages={listData.totalPages}
@@ -148,13 +149,19 @@ class FreeTradeBuy extends PureComponent {
           numColumns={2}
           onEndReached={this.loadMore}
         />
-        <BottomPay needManagementNum={1} price={cuurentItem.price} onPress={this.toPay} />
+        <BottomPay needManagementNum={1} price={currentItem.price} onPress={this.toPay} />
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  haizaimai: {
+    fontSize: 12,
+    marginTop: 13.5,
+    fontFamily: YaHei,
+    marginLeft: MARGIN_HORIZONTAL,
+  },
   header: {
     flexDirection: 'row',
     padding: 10,
@@ -186,6 +193,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     alignItems: 'center',
+    marginLeft: MARGIN_HORIZONTAL,
   },
   vendorRight: {
     flexDirection: 'row',
