@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import {
-  PullToRefresh, Image, BottomPay, AvatarWithShadow, NameAndGender,
+  PullToRefresh, ShoeImageHeader, BottomPay, AvatarWithShadow, NameAndGender,
 } from '../../components';
 import ListItem from '../../components/FreeTradeList/ListItem';
 import { getListData } from '../../redux/reselect/listData';
@@ -14,12 +14,10 @@ import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import Colors from '../../res/Colors';
 import { getScreenWidth } from '../../common/Constant';
-import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
 import { requestApi } from '../../http/Axios';
 import { showToast } from '../../utils/MutualUtil';
-import ImageHeader from '../FreeTradeDetail/component/ImageHeader';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyInfo';
@@ -107,7 +105,7 @@ class FreeTradeBuy extends PureComponent {
     const { currentItem } = this.state;
     return (
       <View>
-        <ImageHeader item={currentItem} showSize />
+        <ShoeImageHeader item={currentItem} showSize />
         <View style={styles.vendor}>
           <AvatarWithShadow source={{ uri: this.item.avatar }} size={45} />
           <View style={styles.vendorRight}>

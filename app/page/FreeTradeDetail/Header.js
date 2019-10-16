@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { TabBar } from '../../components';
+import { TabBar, ShoeImageHeader } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { YaHei, RuiXian } from '../../res/FontFamily';
-import ImageHeader from './component/ImageHeader';
 
 export default class Header extends PureComponent {
   render() {
@@ -12,7 +11,7 @@ export default class Header extends PureComponent {
     } = this.props;
     return (
       <View>
-        <ImageHeader item={item} />
+        <ShoeImageHeader item={item} />
         <TabBar
           style={styles.tabBar}
           routes={routes}

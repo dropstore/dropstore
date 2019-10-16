@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Image, Price } from '../../../components';
-import { wPx2P } from '../../../utils/ScreenUtil';
-import { RuiXian } from '../../../res/FontFamily';
+import Image from './Image';
+import Price from './Price';
+import { wPx2P } from '../utils/ScreenUtil';
+import { RuiXian } from '../res/FontFamily';
 
 type Props = {
   item: Number,
   showSize?: String,
 };
 
-export default class ImageHeader extends PureComponent<Props> {
+export default class ShoeImageHeader extends PureComponent<Props> {
   static defaultProps = {
     showSize: null,
   }
