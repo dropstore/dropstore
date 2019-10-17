@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   image: {
-    height: wPx2P(97),
-    width: wPx2P(166),
+    height: wPx2P(93),
+    width: wPx2P(150),
     marginRight: 10,
   },
   title: {

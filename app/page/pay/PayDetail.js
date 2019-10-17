@@ -11,7 +11,6 @@ import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { formatDate } from '../../utils/commonUtils';
-import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -69,8 +68,8 @@ class PayDetail extends PureComponent {
     const goodsInfo = navigation.getParam('goodsInfo');
     const items = [];
     // price 商品价格 management 仓库管理费 service 服务费 postage 快递费
-    data.price && items.push({ text: '商品价格 : ', price: data.service });
-    data.management && items.push({ text: '仓库管理费 : ', price: data.service });
+    data.price && items.push({ text: '商品价格 : ', price: data.price });
+    data.management && items.push({ text: '仓库管理费 : ', price: data.management });
     data.service && items.push({ text: '平台服务费 : ', price: data.service });
     data.postage && items.push({ text: '快递费 : ', price: data.postage });
     const total = ['service', 'management', 'price'].reduce((sum, v) => sum + (data[v] || 0), 0);
@@ -82,10 +81,11 @@ class PayDetail extends PureComponent {
       '平台服务费：商品发货至买家时所需的各类包装材料及人工包装服务所产生的服务费用。',
       '仓库管理费：对每件商品进行仓库储存所产生的服务费用。',
     ];
+
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
-          <ShoeImageHeader item={goodsInfo} showSize />
+          <ShoeImageHeader showPrice={!!goodsInfo.price} item={goodsInfo} showSize />
           { this.renderBlock(items) }
           <View style={styles.orderInfo}>
             <View style={[styles.itemWrapper0, { borderBottomColor: '#F2F2F2' }]}>

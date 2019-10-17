@@ -31,21 +31,24 @@ class ChooseSize extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
-    this.item = navigation.getParam('item');
-    fetchSimpleData(TYPE, { goods_id: this.item.id });
+    this.shoe = navigation.getParam('item');
+    fetchSimpleData(TYPE, { goods_id: this.shoe.id });
   }
 
-  changeChooseStatus = (item) => {
+  changeChooseStatus = (size) => {
     const { navigation } = this.props;
     navigation.navigate('PayDetail', {
       api: {
         type: 'getManagementPrice',
-        params: { goods_id: this.item.id, size_id: item.id },
+        params: { goods_id: this.shoe.id, size_id: size.id },
       },
       title: '支付库管费',
       payType: 'management',
       type: 1,
-      goodsInfo: this.item,
+      goodsInfo: {
+        ...this.shoe,
+        size: size.size,
+      },
     });
   }
 
