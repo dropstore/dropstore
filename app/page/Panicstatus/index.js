@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  Image, BottomBtnGroup, FadeImage, PullToRefresh,
+  Image, BottomBtnGroup, FadeImage, PullToRefresh, BottomPay,
 } from '../../components';
 import { Mario, YaHei, RuiXian } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
@@ -136,14 +136,10 @@ class Panicstatus extends PureComponent {
     const { navigation, listData } = this.props;
     const data = navigation.getParam('shopInfo');
     const Panicstatus = navigation.getParam('Panicstatus');
+    const payData = navigation.getParam('payData');
     const is_join = data.is_join;
-    const btns = [{
-      text: Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING) ? '去付款' : '确认',
-      onPress: debounce(this.toNext),
-    }];
-    if (Panicstatus) {
-      btns.unshift({ text: '分享邀请', onPress: debounce(this.toShare) });
-    }
+    const showPay = Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING);
+    const btns = [{ text: '确认', onPress: debounce(this.toNext) }];
 
     return (
       <View style={styles.container}>
@@ -159,7 +155,7 @@ class Panicstatus extends PureComponent {
           ListHeaderComponent={this.renderHeader}
           onEndReached={this.loadMore}
         />
-        <BottomBtnGroup btns={btns} />
+        { showPay ? <BottomPay price={payData.price} onPress={debounce(this.toNext)} /> : <BottomBtnGroup btns={btns} />}
       </View>
     );
   }
