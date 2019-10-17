@@ -61,6 +61,7 @@ export default class Pay extends PureComponent {
       }
       const status = await getOrderInfo(type, PAY_WAYS[choosedIndex].type, data.order_id);
       if (status === ShopConstant.FINISHPAY) {
+        window.waitPay = null;
         getPayStatus(type, data.order_id, navigation, shopInfo, buySuccess, noTimer, noShareBtn);
       }
     };
