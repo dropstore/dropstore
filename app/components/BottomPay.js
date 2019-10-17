@@ -41,7 +41,7 @@ class BottomPay extends PureComponent<Props> {
     const {
       price, disabled, text, management, needManagementNum, appOptions,
     } = this.props;
-    const extra = management || appOptions?.data?.management * needManagementNum;
+    const extra = management || appOptions?.data?.management * needManagementNum || 0;
     return (
       <View style={styles.bottom}>
         <View style={styles.priceWrapper}>

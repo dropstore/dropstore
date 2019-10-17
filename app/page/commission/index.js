@@ -89,7 +89,7 @@ class Commission extends PureComponent {
             onChange={this.onChange}
           />
           <Text style={styles.tip}>{commission != 0 ? `已填写单双佣金${commission}` : '请填写单双佣金'}</Text>
-          <Image style={{ height: wPx2P(800), width: wPx2P(375) }} source={require('../../res/image/zhugongrule.png')} />
+          <Image style={{ height: wPx2P(647.5), width: wPx2P(375), marginVertical: 25 }} source={require('../../res/image/zhugongrule.png')} />
         </ScrollView>
         <BottomPay disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
       </View>
