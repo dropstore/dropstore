@@ -40,10 +40,11 @@ function mapDispatchToProps(dispatch) {
 class Panicstatus extends PureComponent {
   constructor(props) {
     super(props);
-    this.fetchData();
     const { navigation } = this.props;
     if (navigation.getParam('Panicstatus')) {
       window.waitPay = navigation.getParam('payData').order_id;
+    } else {
+      this.fetchData();
     }
   }
 
@@ -125,9 +126,13 @@ class Panicstatus extends PureComponent {
         <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
         <Text style={[styles.status, { color: Panicstatus ? '#FFA700' : '#909090' }]}>{Panicstatus ? '抢购成功' : '抢购失败'}</Text>
         <Text style={styles.shopName}>{data.goods.goods_name}</Text>
-        <View style={styles.tuijianWrapper}>
-          <Text style={styles.tuijian}>相关推荐</Text>
-        </View>
+        {
+          !Panicstatus && (
+            <View style={styles.tuijianWrapper}>
+              <Text style={styles.tuijian}>相关推荐</Text>
+            </View>
+          )
+        }
       </View>
     );
   }
@@ -148,18 +153,26 @@ class Panicstatus extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <PullToRefresh
-          style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
-          totalPages={listData.totalPages}
-          currentPage={listData.currentPage}
-          Wrapper={FlatList}
-          data={listData.list}
-          initialNumToRender={1}
-          renderItem={this.renderItem}
-          numColumns={2}
-          ListHeaderComponent={this.renderHeader}
-          onEndReached={this.loadMore}
-        />
+        {
+          Panicstatus ? (
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              {this.renderHeader()}
+            </View>
+          ) : (
+            <PullToRefresh
+              style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
+              totalPages={listData.totalPages}
+              currentPage={listData.currentPage}
+              Wrapper={FlatList}
+              data={listData.list}
+              initialNumToRender={1}
+              renderItem={this.renderItem}
+              numColumns={2}
+              ListHeaderComponent={this.renderHeader}
+              onEndReached={this.loadMore}
+            />
+          )
+        }
         { showPay ? <BottomPay text="去付款" price={payData.price} onPress={debounce(this.toNext)} /> : <BottomBtnGroup btns={btns} />}
       </View>
     );
