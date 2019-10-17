@@ -39,18 +39,10 @@ class FreeTradeBuy extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
+    // free_id user_id
     this.item = navigation.getParam('item');
-    const { goods_name, image } = navigation.getParam('goods');
     this.free_id = this.item.free_id;
-    this.state = {
-      currentItem: {
-        image,
-        goods_name,
-        id: this.item.id,
-        size: this.item.size,
-        price: this.item.price,
-      },
-    };
+    this.state = {};
     fetchSimpleData(VENDOR_TYPE, { id: this.item.free_id });
     this.fetchData();
   }
@@ -61,7 +53,7 @@ class FreeTradeBuy extends PureComponent {
 
   fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { free_id: this.free_id, is_stock: '1', user_id: this.item.user_id }, fetchType);
+    fetchListData(TYPE, { free_id: this.item.free_id, is_stock: '1', user_id: this.item.user_id }, fetchType);
   }
 
   onPress = (item) => {
@@ -88,22 +80,22 @@ class FreeTradeBuy extends PureComponent {
   }
 
   listHeaderComponent = () => {
-    const { vendorInfo: { data } } = this.props;
+    const { vendorInfo: { data = {} } } = this.props;
     const { currentItem } = this.state;
     return (
       <View>
-        <ShoeImageHeader item={currentItem} showSize />
+        <ShoeImageHeader item={currentItem || data} showSize />
         <View style={styles.vendor}>
-          <AvatarWithShadow source={{ uri: this.item.avatar }} size={45} />
+          <AvatarWithShadow source={{ uri: data.avatar }} size={45} />
           <View style={styles.vendorRight}>
             <View style={{ marginLeft: 10, marginTop: 12 }}>
-              <NameAndGender name={this.item.user_name} sex={this.item.sex} />
+              <NameAndGender name={data.user_name} sex={data.sex} />
               <Text style={{ fontSize: 11, color: '#696969' }}>
                 {'累计成交订单：'}
-                <Text style={{ fontSize: 11, color: '#37B6EB', fontFamily: YaHei }}>{(data || {}).goods_number}</Text>
+                <Text style={{ fontSize: 11, color: '#37B6EB', fontFamily: YaHei }}>{data.goods_number}</Text>
               </Text>
             </View>
-            <Text style={{ fontSize: 9, color: '#696969', marginTop: 15 }}>{`入驻平台时间：${formatDate((data || {}).user_time)}`}</Text>
+            <Text style={{ fontSize: 9, color: '#696969', marginTop: 15 }}>{`入驻平台时间：${formatDate(data.user_time)}`}</Text>
           </View>
         </View>
         <Text style={styles.haizaimai}>卖家还在卖</Text>
@@ -112,12 +104,13 @@ class FreeTradeBuy extends PureComponent {
   }
 
   renderItem = ({ item, index }) => {
+    const { vendorInfo: { data = {} } } = this.props;
     const { currentItem } = this.state;
-    return <ListItem isCurrentItem={currentItem.id === item.id} index={index} onPress={this.onPress} notShowCount item={item} />;
+    return <ListItem isCurrentItem={(currentItem || data).id === item.id} index={index} onPress={this.onPress} notShowCount item={item} />;
   }
 
   render() {
-    const { listData } = this.props;
+    const { listData, vendorInfo: { data = {} } } = this.props;
     const { currentItem } = this.state;
     return (
       <View style={{ flex: 1 }}>
@@ -134,7 +127,7 @@ class FreeTradeBuy extends PureComponent {
           numColumns={2}
           onEndReached={this.loadMore}
         />
-        <BottomPay text="确认购买" needManagementNum={1} price={currentItem.price} onPress={this.toPay} />
+        <BottomPay text="确认购买" needManagementNum={1} price={(currentItem || data).price} onPress={this.toPay} />
       </View>
     );
   }
