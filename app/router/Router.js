@@ -129,7 +129,6 @@ const AuthStack = createStackNavigator({
 // 需要导航头部的路由写在这里
 const routesWithHeader = {
   pay,
-  commission,
   Message,
   AddressEdit,
   Web: { screen: Web, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
@@ -141,6 +140,7 @@ const routesWithHeader = {
   ChooseAddress: { screen: ChooseAddress, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   ImagePage: { screen: ImagePage, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   Panicstatus: { screen: Panicstatus, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  commission: { screen: commission, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
   BalanceExtract,
   Password,
   MyGoods,

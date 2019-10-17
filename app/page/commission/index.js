@@ -1,16 +1,15 @@
 import React, { PureComponent } from 'react';
 import {
-  StyleSheet, Text, TextInput, View,
+  StyleSheet, Text, TextInput, View, ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardDismiss, BottomPay } from '../../components';
+import { BottomPay, Image } from '../../components';
 import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
-import Colors from '../../res/Colors';
-import { Normal, YaHei } from '../../res/FontFamily';
+import { Normal, YaHei, BrowalliaNew } from '../../res/FontFamily';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { setCommission, getPayMes } from '../../redux/actions/shopDetailInfo';
 import ShopConstant from '../../common/ShopConstant';
-import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
+import { wPx2P } from '../../utils/ScreenUtil';
 
 function mapStateToProps() {
   return state => ({
@@ -67,10 +66,10 @@ class Commission extends PureComponent {
   render() {
     const { commission, totalPrice, number } = this.state;
     return (
-      <KeyboardDismiss style={styles.container}>
-        <View style={styles.mainView}>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.countTitle}>
-            {'合计数量 '}
+            {'合计数量 : '}
             <Text style={styles.count}>{number}</Text>
             {' 双'}
           </Text>
@@ -89,10 +88,11 @@ class Commission extends PureComponent {
             ref={(v) => { this.valueInput = v; }}
             onChange={this.onChange}
           />
-          <Text style={styles.tip}>{commission != 0 ? '已填写单双佣金' : '请填写单双佣金'}</Text>
-        </View>
+          <Text style={styles.tip}>{commission != 0 ? `已填写单双佣金${commission}` : '请填写单双佣金'}</Text>
+          <Image style={{ height: wPx2P(800), width: wPx2P(375) }} source={require('../../res/image/zhugongrule.png')} />
+        </ScrollView>
         <BottomPay disabled={totalPrice * 1 <= 0} price={totalPrice * 100} onPress={this._toPay} />
-      </KeyboardDismiss>
+      </View>
     );
   }
 }
@@ -100,21 +100,15 @@ class Commission extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.MAIN_BACK,
-  },
-  mainView: {
-    flex: 1,
-    marginTop: hPx2P(160),
-    marginHorizontal: wPx2P(60),
   },
   countTitle: {
-    fontSize: 13,
-    fontFamily: YaHei,
-    fontWeight: '400',
-    color: '#000',
+    fontSize: 11,
+    color: '#A4A4A4',
+    marginLeft: 22,
+    marginTop: 25,
   },
   count: {
-    fontSize: 13,
+    fontSize: 11,
     fontFamily: YaHei,
     fontWeight: 'bold',
     color: '#37B6EB',
@@ -129,19 +123,19 @@ const styles = StyleSheet.create({
     height: 60,
   },
   pricePh: {
-    height: 36,
-    backgroundColor: '#fff',
-    fontSize: 14,
-    color: 'rgba(162,162,162,1)',
-    borderRadius: 2,
-    overflow: 'hidden',
-    marginVertical: 10,
-    paddingHorizontal: 8,
+    fontSize: 20,
+    fontFamily: BrowalliaNew,
+    marginHorizontal: 22,
+    borderBottomColor: '#C5C5CD',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginTop: 10,
+    marginBottom: 6,
   },
   tip: {
-    fontSize: 12,
-    color: 'rgba(0,0,0,1)',
+    fontSize: 10,
+    color: '#8F8F8F',
     textAlign: 'right',
+    marginRight: 22,
   },
   bottomView: {
     width: getScreenWidth(),
