@@ -36,7 +36,6 @@ class PayDetail extends PureComponent {
 
   toPay = () => {
     const { navigation, payData: { data = {} } } = this.props;
-    const { goodsImage, goodsName } = navigation.getParam('goodsInfo');
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: navigation.getParam('type'),
@@ -45,21 +44,11 @@ class PayDetail extends PureComponent {
         price: ['service', 'management', 'price', 'postage'].reduce((sum, v) => sum + (data[v] || 0), 0),
       },
       shopInfo: {
-        goods: {
-          image: goodsImage,
-          goods_name: goodsName,
-          start_time: 0,
-        },
+        goods: navigation.getParam('goodsInfo'),
       },
       noTimer: true,
       noShareBtn: true,
     });
-  }
-
-  exit = () => {
-    const { navigation } = this.props;
-    showToast('订单支付超时，自动退出');
-    navigation.goback();
   }
 
   renderBlock = items => (

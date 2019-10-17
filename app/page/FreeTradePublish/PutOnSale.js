@@ -61,7 +61,7 @@ class PutOnSale extends PureComponent {
       payType: 'service',
       goodsInfo: {
         ...this.item,
-        price,
+        price: price * 100,
         image: (this.item.goods || this.item).image,
         goods_name: (this.item.goods || this.item).goods_name,
       },

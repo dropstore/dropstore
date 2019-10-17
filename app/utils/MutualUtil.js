@@ -78,15 +78,11 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
                 title: '支付服务费',
                 api: {
                   type: 'freeTradeToRelease',
-                  params: { order_id: this.item.order_id, price: value },
+                  params: { order_id, price: value },
                 },
                 type: 5,
                 payType: 'service',
-                goodsInfo: {
-                  ...item,
-                  price: value,
-                  order_id,
-                },
+                goodsInfo: { ...item, price: value * 100 },
               });
               resolve();
             });
