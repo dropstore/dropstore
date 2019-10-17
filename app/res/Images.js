@@ -82,6 +82,7 @@ const IMAGES = {
   onExpress: require('./image/onExpress.png'),
   onSale: require('./image/onSale.png'),
   daifahuo: require('./image/daifahuo.png'),
+  daifukuan: require('./image/daifukuan.png'),
 };
 
 export default IMAGES;

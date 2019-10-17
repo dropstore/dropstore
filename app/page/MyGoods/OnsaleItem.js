@@ -16,7 +16,6 @@ export default class OnsaleItem extends PureComponent {
       { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
       { text: '下架', color: '#A2A2A2', onPress: () => this.onPress('cancel') },
     ];
-
     return (
       <ListItem
         item={item}

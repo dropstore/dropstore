@@ -37,10 +37,10 @@ function mapDispatchToProps(dispatch) {
 class ShopDetail extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: '商品详情',
-    headerRight: <ShopDetailHeaderRight
-      onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
-      rate={navigation.getParam('rate')}
-    />,
+    // headerRight: <ShopDetailHeaderRight
+    //   onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
+    //   rate={navigation.getParam('rate')}
+    // />,
   });
 
   constructor(props) {
