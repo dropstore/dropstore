@@ -93,7 +93,7 @@ export default class Pay extends PureComponent {
               ))
             }
           </View>
-          <BottomPay management={data.management} price={data.price} onPress={debounce(this.pay)} text="支付" />
+          <BottomPay management={data.management} price={data.price} onPress={debounce(this.pay)} text="立即支付" />
         </View>
       );
     }
