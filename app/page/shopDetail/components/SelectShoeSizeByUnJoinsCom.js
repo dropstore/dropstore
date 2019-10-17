@@ -54,7 +54,9 @@ class SelectShoeSizeByUnJoinsCom extends Component {
       size_id: chooseId,
     };
     requestApi('doBuyNow', { params }).then((res) => {
-      navigation.push('Panicstatus', { shopInfo, payData: res.data, Panicstatus: true });
+      navigation.push('Panicstatus', {
+        shopInfo, payData: res.data, Panicstatus: true, title: '抢购成功',
+      });
     });
   };
 

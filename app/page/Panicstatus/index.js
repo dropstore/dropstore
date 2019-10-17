@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Image, BottomBtnGroup, FadeImage } from '../../components';
+import {
+  Image, BottomBtnGroup, FadeImage, PullToRefresh,
+} from '../../components';
 import { Mario, YaHei, RuiXian } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
@@ -145,15 +147,16 @@ class Panicstatus extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <FlatList
-          keyExtractor={(item, index) => `tuijian-${index}`}
-          removeClippedSubviews={false}
-          showsVerticalScrollIndicator={false}
-          initialNumToRender={1}
-          data={listData.list}
-          ListHeaderComponent={this.renderHeader}
+        <PullToRefresh
           style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}
+          totalPages={listData.totalPages}
+          currentPage={listData.currentPage}
+          Wrapper={FlatList}
+          data={listData.list}
+          initialNumToRender={1}
           renderItem={this.renderItem}
+          numColumns={2}
+          ListHeaderComponent={this.renderHeader}
           onEndReached={this.loadMore}
         />
         <BottomBtnGroup btns={btns} />
