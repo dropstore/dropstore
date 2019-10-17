@@ -40,7 +40,10 @@ class PayDetail extends PureComponent {
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: navigation.getParam('type'),
-      payData: data,
+      payData: {
+        order_id: data.order_id,
+        price: ['service', 'management', 'price', 'postage'].reduce((sum, v) => sum + (data[v] || 0), 0),
+      },
       shopInfo: {
         goods: {
           image: goodsImage,
@@ -76,11 +79,20 @@ class PayDetail extends PureComponent {
     const { payData: { data = {} }, navigation } = this.props;
     const goodsInfo = navigation.getParam('goodsInfo');
     const items = [];
-    // service 服务费 price 商品价格 management 仓库管理费
+    // price 商品价格 management 仓库管理费 service 服务费 postage 快递费
     data.price && items.push({ text: '商品价格 : ', price: data.service });
     data.management && items.push({ text: '仓库管理费 : ', price: data.service });
     data.service && items.push({ text: '平台服务费 : ', price: data.service });
+    data.postage && items.push({ text: '快递费 : ', price: data.postage });
     const total = ['service', 'management', 'price'].reduce((sum, v) => sum + (data[v] || 0), 0);
+    const text = [
+      '卖家资费标准说明',
+      '现在将对卖家在炒饭APP交易过程中产生的费用作出如下说明',
+      '转账服务费：第三方支付平台对每笔转账收取的手续费及平台转账服务提供的技术支持服务费用。',
+      '鉴别费：对每件商品进行多重鉴别真伪服务产生的服务费用。',
+      '平台服务费：商品发货至买家时所需的各类包装材料及人工包装服务所产生的服务费用。',
+      '仓库管理费：对每件商品进行仓库储存所产生的服务费用。',
+    ];
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
@@ -93,6 +105,16 @@ class PayDetail extends PureComponent {
             <View style={[styles.itemWrapper0, { borderBottomColor: '#fff' }]}>
               <Text style={{ fontSize: 10, color: '#A2A2A2', marginTop: 3 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
             </View>
+          </View>
+          <View style={[styles.orderInfo, { paddingVertical: 10 }]}>
+            {
+              text.map((v, i) => (
+                <View key={i} style={{ flexDirection: 'row', marginTop: 2 }}>
+                  {i > 1 && <Text style={styles.text}>* </Text>}
+                  <Text style={[styles.text, { flex: 1 }]}>{v}</Text>
+                </View>
+              ))
+            }
           </View>
         </ScrollView>
         <BottomPay price={total} onPress={this.toPay} />
@@ -111,6 +133,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  text: {
+    fontSize: 11,
+    color: '#888',
+    textAlign: 'justify',
   },
   itemWrapper0: {
     borderBottomWidth: StyleSheet.hairlineWidth,
