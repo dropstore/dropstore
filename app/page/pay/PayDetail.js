@@ -86,14 +86,14 @@ class PayDetail extends PureComponent {
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
           <ShoeImageHeader showPrice={!!goodsInfo.price} item={goodsInfo} showSize />
           { this.renderBlock(items) }
-          <View style={styles.orderInfo}>
+          {/* <View style={styles.orderInfo}>
             <View style={[styles.itemWrapper0, { borderBottomColor: '#F2F2F2' }]}>
               <Text style={{ fontSize: 12, color: '#585858' }}>{`订单编号 : ${data.order_id}`}</Text>
             </View>
             <View style={[styles.itemWrapper0, { borderBottomColor: '#fff' }]}>
               <Text style={{ fontSize: 10, color: '#A2A2A2', marginTop: 3 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
             </View>
-          </View>
+          </View> */}
           <View style={[styles.orderInfo, { paddingVertical: 10 }]}>
             {
               text.map((v, i) => (
