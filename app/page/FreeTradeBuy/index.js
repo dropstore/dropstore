@@ -16,8 +16,6 @@ import Colors from '../../res/Colors';
 import { getScreenWidth } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
 import { formatDate } from '../../utils/commonUtils';
-import { requestApi } from '../../http/Axios';
-import { showToast } from '../../utils/MutualUtil';
 
 const TYPE = 'freeTradeUserRecommend';
 const VENDOR_TYPE = 'freeTradeBuyInfo';
@@ -73,32 +71,20 @@ class FreeTradeBuy extends PureComponent {
   }
 
   toPay = () => {
-    // const { navigation } = this.props;
-    // if (this.ordered) {
-    //   showToast('已下单，自动前往支付');
-    //   // navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
-    //   navigation.navigate({ routeName: 'MyGoods', params: { type: 'uncomplete' } });
-    //   return;
-    // }
-    // const { currentItem } = this.state;
-    // requestApi('freeTradeToOrder', { params: { free_id: this.free_id } }).then((res) => {
-    //   this.ordered = true;
-    //   navigation.navigate('pay', {
-    //     title: '选择支付方式',
-    //     type: '1',
-    //     payData: res.data,
-    //     payType: 'buyGoods',
-    //     shopInfo: {
-    //       goods: {
-    //         image: currentItem.image,
-    //         goods_name: currentItem.goods_name,
-    //         start_time: 0,
-    //       },
-    //     },
-    //     noTimer: true,
-    //     noShareBtn: true,
-    //   });
-    // });
+    const { navigation } = this.props;
+    const { currentItem } = this.state;
+    navigation.navigate('PayDetail', {
+      api: {
+        type: 'freeTradeToOrder',
+        params: { free_id: this.free_id },
+      },
+      title: '确认购买',
+      payType: 'buyGoods',
+      type: 1,
+      goodsInfo: {
+        ...currentItem,
+      },
+    });
   }
 
   listHeaderComponent = () => {

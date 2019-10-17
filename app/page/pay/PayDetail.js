@@ -40,7 +40,7 @@ class PayDetail extends PureComponent {
       type: navigation.getParam('type'),
       payData: {
         order_id: data.order_id,
-        price: ['service', 'management', 'price', 'postage'].reduce((sum, v) => sum + (data[v] || 0), 0),
+        price: ['service', 'management', 'price', 'postage'].reduce((sum, v) => sum + (data[v] || 0) * 1, 0),
       },
       shopInfo: {
         goods: navigation.getParam('goodsInfo'),
@@ -72,7 +72,7 @@ class PayDetail extends PureComponent {
     data.management && items.push({ text: '仓库管理费 : ', price: data.management });
     data.service && items.push({ text: '平台服务费 : ', price: data.service });
     data.postage && items.push({ text: '快递费 : ', price: data.postage });
-    const total = ['service', 'management', 'price'].reduce((sum, v) => sum + (data[v] || 0), 0);
+    const total = ['service', 'management', 'price'].reduce((sum, v) => sum + (data[v] || 0) * 1, 0);
     const text = [
       '卖家资费标准说明',
       '现在将对卖家在炒饭APP交易过程中产生的费用作出如下说明',
@@ -106,7 +106,7 @@ class PayDetail extends PureComponent {
             }
           </View>
         </ScrollView>
-        <BottomPay price={total} onPress={this.toPay} />
+        <BottomPay text="去支付" price={total} onPress={this.toPay} />
       </View>
     );
   }
