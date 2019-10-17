@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import {
-  RefreshControl, View, FlatList,
+  RefreshControl, View, FlatList, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -19,6 +19,9 @@ import ShopConstant from '../../common/ShopConstant';
 import RuleCom from './components/RuleCom';
 import MemberCom from './components/MemberCom';
 import DetailImage from './components/DetailImage';
+import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
+import { YaHei } from '../../res/FontFamily';
+import { Image } from '../../components';
 
 const TYPE = 'activityInfo';
 
@@ -46,6 +49,67 @@ class ShopDetail extends PureComponent {
   constructor(props) {
     super(props);
     this.fetchData();
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.didBlurSubscription = navigation.addListener(
+      'willFocus',
+      (payload) => {
+        if (['Navigation/BACK', 'Navigation/POP'].includes(payload.action.type) && window.waitPay && window.waitPay !== this.waitPay) {
+          this.waitPay = window.waitPay;
+          showModalbox({
+            element: (
+              <View style={styles.modal}>
+                <Text style={styles.hint}>友情提示</Text>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
+                  <Text style={{ fontSize: 14, fontFamily: YaHei }}>
+                    {'支付未完成，可在您的库房'}
+                    <Text style={styles.kufang} onPress={this.toKufang}>未完成</Text>
+                    {'中继续支付'}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  hitSlop={{
+                    top: 20, left: 20, right: 20, bottom: 20,
+                  }}
+                  onPress={this.close}
+                  style={styles.cha}
+                >
+                  <Image source={require('../../res/image/close-x.png')} style={{ height: 12, width: 12 }} />
+                </TouchableOpacity>
+              </View>
+            ),
+            options: {
+              style: {
+                height: 185,
+                width: 265,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'transparent',
+              },
+            },
+          });
+        }
+      },
+    );
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription.remove();
+  }
+
+  close = () => {
+    closeModalbox();
+  }
+
+  toKufang = () => {
+    const { navigation } = this.props;
+    this.close();
+    navigation.push('MyGoods', {
+      title: '我的库房',
+      type: 'uncomplete',
+    });
   }
 
   fetchData = (refresh) => {
@@ -118,5 +182,36 @@ class ShopDetail extends PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    overflow: 'hidden',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingTop: 35,
+    paddingBottom: 38,
+  },
+  kufang: {
+    fontSize: 14,
+    fontFamily: YaHei,
+    color: '#37B6EB',
+    textAlign: 'right',
+  },
+  cha: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
+  hint: {
+    fontSize: 20,
+    fontFamily: YaHei,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 27,
+  },
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShopDetail);
