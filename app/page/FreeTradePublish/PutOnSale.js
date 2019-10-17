@@ -53,8 +53,12 @@ class PutOnSale extends PureComponent {
     }
     navigation.navigate('PayDetail', {
       title: '支付服务费',
-      TYPE: 'freeTradeToRelease',
-      payType: 4,
+      api: {
+        type: 'freeTradeToRelease',
+        params: { order_id: this.item.order_id, price },
+      },
+      type: 4,
+      payType: 'ServiceCharge',
       goodsInfo: {
         type: 'deposit',
         price,

@@ -76,7 +76,12 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
               const { order_id } = res.data;
               navigation.navigate('PayDetail', {
                 title: '支付服务费',
-                payType: 5,
+                api: {
+                  type: 'freeTradeToRelease',
+                  params: { order_id: this.item.order_id, price: value },
+                },
+                type: 5,
+                payType: 'ServiceCharge',
                 goodsInfo: {
                   type: 'deposit',
                   price: value,

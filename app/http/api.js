@@ -179,6 +179,6 @@ export default {
   activitySize: { url: '/activity/activity_size' },
 
   getShoeSizeList: { url: '/free/get_all_size' },
-  getMissionPrice: { url: '/order/do_add_free_trade' },
+  getManagementPrice: { url: '/order/do_add_free_trade' },
   doBuyNow: { url: '/order/do_buy_now' },
 };

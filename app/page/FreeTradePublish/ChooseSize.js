@@ -38,9 +38,13 @@ class ChooseSize extends PureComponent {
   changeChooseStatus = (item) => {
     const { navigation } = this.props;
     navigation.navigate('PayDetail', {
+      api: {
+        type: 'getManagementPrice',
+        params: { goods_id: this.item.id, size_id: item.id },
+      },
       title: '支付库管费',
-      TYPE: 'getMissionPrice',
-      payType: 1,
+      payType: 'management',
+      type: 1,
       goodsInfo: {
         type: 'storeMoney',
         shoeSize: item.id,

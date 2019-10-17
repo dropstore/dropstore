@@ -15,7 +15,7 @@ import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return (state, props) => ({
-    missionPrice: getSimpleData(state, props.navigation.getParam('TYPE')),
+    missionPrice: getSimpleData(state, props.navigation.getParam('api').type),
     appOptions: getSimpleData(state, 'appOptions'),
   });
 }
@@ -30,15 +30,8 @@ class PayDetail extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
-    const {
-      shoeSize, goodsId, order_id, price,
-    } = navigation.getParam('goodsInfo');
-    const TYPE = navigation.getParam('TYPE');
-    if (TYPE === 'getMissionPrice') {
-      fetchSimpleData(navigation.getParam('TYPE'), { goods_id: goodsId, size_id: shoeSize });
-    } else if (TYPE === 'freeTradeToRelease') {
-      fetchSimpleData(navigation.getParam('TYPE'), { order_id, price });
-    }
+    const { type, params } = navigation.getParam('api');
+    fetchSimpleData(type, params);
   }
 
   toPay = () => {
@@ -48,7 +41,7 @@ class PayDetail extends PureComponent {
     } = navigation.getParam('goodsInfo');
     navigation.navigate('pay', {
       title: '选择支付方式',
-      type: navigation.getParam('payType'),
+      type: navigation.getParam('type'),
       payData: missionPrice.data || { order_id, price },
       shopInfo: {
         goods: {
