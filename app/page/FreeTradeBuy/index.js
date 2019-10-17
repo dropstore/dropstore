@@ -63,18 +63,19 @@ class FreeTradeBuy extends PureComponent {
   }
 
   toPay = () => {
-    const { navigation } = this.props;
+    const { navigation, vendorInfo: { data = {} } } = this.props;
+    if (!data) { return; }
     const { currentItem } = this.state;
     navigation.navigate('PayDetail', {
       api: {
         type: 'freeTradeToOrder',
         params: { free_id: this.free_id },
       },
-      title: '确认购买',
+      title: '订单确认',
       payType: 'buyGoods',
       type: 1,
       goodsInfo: {
-        ...currentItem,
+        ...(currentItem || data),
       },
     });
   }
@@ -127,7 +128,7 @@ class FreeTradeBuy extends PureComponent {
           numColumns={2}
           onEndReached={this.loadMore}
         />
-        <BottomPay text="确认购买" needManagementNum={1} price={(currentItem || data).price} onPress={this.toPay} />
+        <BottomPay text="去下单" needManagementNum={1} price={(currentItem || data).price} onPress={this.toPay} />
       </View>
     );
   }
