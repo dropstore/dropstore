@@ -48,7 +48,7 @@ export default class ListItem extends PureComponent<Props> {
                     ? <Image source={Images.weitongguo} style={styles.tag} />
                     : item.goods_status === '1'
                       ? <Image source={Images.onExpress} style={styles.tag} />
-                      : item.goods_status === '5'
+                      : ['5', '6'].includes(item.goods_status)
                         ? <Image source={Images.onSale} style={styles.tag} />
                         : item.goods_status === '0'
                           ? <Image source={Images.daifahuo} style={styles.tag} /> : null

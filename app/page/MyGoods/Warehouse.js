@@ -16,7 +16,7 @@ export default class Warehouse extends PureComponent {
     // 0尚未邮寄 1快递中 2鉴定中 3未通过鉴定 4鉴定通过 5正在出售
     if (item.goods_status === '1') {
       btns = [];
-    } if (item.goods_status === '5') {
+    } if (['5', '6'].includes(item.goods_status)) {
       btns = [
         { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
         { text: '下架', color: '#A2A2A2', onPress: () => this.onPress('cancel') },
