@@ -72,17 +72,21 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
               resolve();
             });
           } else if (type === 'edit') {
-            request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
-              const { order_id } = res.data;
+            request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
               navigation.navigate('PayDetail', {
                 title: '支付服务费',
                 api: {
                   type: 'freeTradeToRelease',
-                  params: { order_id, price: value },
+                  params: { order_id: item.order_id, price: value },
                 },
                 type: 5,
                 payType: 'service',
-                goodsInfo: { ...item, price: value * 100 },
+                goodsInfo: {
+                  ...item,
+                  image: (item.goods || item).image,
+                  goods_name: (item.goods || item).goods_name,
+                  price: value * 100,
+                },
               });
               resolve();
             });

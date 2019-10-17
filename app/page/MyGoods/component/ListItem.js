@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import {
+  StyleSheet, View, Text, Clipboard,
+} from 'react-native';
 import {
   Image, ImageBackground, FadeImage, BtnGroup, Price, Tag,
 } from '../../../components';
@@ -8,6 +10,7 @@ import { wPx2P } from '../../../utils/ScreenUtil';
 import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
 import { YaHei } from '../../../res/FontFamily';
+import { showToast } from '../../../utils/MutualUtil';
 
 type Props = {
   item: Object,
@@ -26,6 +29,12 @@ export default class ListItem extends PureComponent<Props> {
   static defaultProps = {
     showSeal: false,
     btns: [],
+  }
+
+  copy = () => {
+    const { item } = this.props;
+    Clipboard.setString(item.order_id);
+    showToast('订单号已复制');
   }
 
   render() {
@@ -59,7 +68,7 @@ export default class ListItem extends PureComponent<Props> {
               ) : <FadeImage source={{ uri: image }} style={styles.shoe} />
             }
           </View>
-          {item.order_id && <Text onPress={this.onPress} style={styles.id}>{`编号: ${item.order_id}`}</Text>}
+          {item.order_id && <Text onPress={this.copy} style={styles.id}>{`编号: ${item.order_id}`}</Text>}
         </View>
         <View style={styles.right}>
           <TitleWithTag text={goods_name} type={item.is_stock} />
