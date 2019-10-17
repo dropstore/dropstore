@@ -18,7 +18,7 @@ function debounceDelay(fun, delay = 350) {
   };
 }
 
-function formatDate(time, format = 'yyyy/MM/dd hh:mm:ss') {
+function formatDate(time, format = 'yyyy-MM-dd hh:mm:ss') {
   if (!time) { return ''; }
   const fullTime = new Date(time * 1000);
   return format

@@ -45,13 +45,7 @@ class ChooseSize extends PureComponent {
       title: '支付库管费',
       payType: 'management',
       type: 1,
-      goodsInfo: {
-        type: 'storeMoney',
-        shoeSize: item.id,
-        goodsId: this.item.id,
-        goodsImage: this.item.image,
-        goodsName: this.item.goods_name,
-      },
+      goodsInfo: this.item,
     });
   }
 

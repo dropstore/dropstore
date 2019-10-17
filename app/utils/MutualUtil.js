@@ -81,13 +81,11 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
                   params: { order_id: this.item.order_id, price: value },
                 },
                 type: 5,
-                payType: 'ServiceCharge',
+                payType: 'service',
                 goodsInfo: {
-                  type: 'deposit',
+                  ...item,
                   price: value,
                   order_id,
-                  goodsImage: item.image,
-                  goodsName: item.goods_name,
                 },
               });
               resolve();

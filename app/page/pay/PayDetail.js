@@ -5,7 +5,7 @@ import {
   Text, ScrollView, View, StyleSheet,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
-import { BottomPay, CountdownCom } from '../../components';
+import { BottomPay, ShoeImageHeader } from '../../components';
 import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -15,7 +15,7 @@ import { showToast } from '../../utils/MutualUtil';
 
 function mapStateToProps() {
   return (state, props) => ({
-    missionPrice: getSimpleData(state, props.navigation.getParam('api').type),
+    payData: getSimpleData(state, props.navigation.getParam('api').type),
     appOptions: getSimpleData(state, 'appOptions'),
   });
 }
@@ -35,14 +35,12 @@ class PayDetail extends PureComponent {
   }
 
   toPay = () => {
-    const { navigation, missionPrice } = this.props;
-    const {
-      goodsImage, goodsName, order_id, price,
-    } = navigation.getParam('goodsInfo');
+    const { navigation, payData: { data = {} } } = this.props;
+    const { goodsImage, goodsName } = navigation.getParam('goodsInfo');
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: navigation.getParam('type'),
-      payData: missionPrice.data || { order_id, price },
+      payData: data,
       shopInfo: {
         goods: {
           image: goodsImage,
@@ -62,16 +60,12 @@ class PayDetail extends PureComponent {
   }
 
   renderBlock = items => (
-    <View style={styles.block}>
+    <View style={styles.orderInfo}>
       {
         items.map((v, i) => (
           <View key={i} style={[styles.itemWrapper, { borderBottomColor: i === items.length - 1 ? '#fff' : '#F2F2F2' }]}>
-            <Text style={{ fontFamily: YaHei, fontSize: 15, marginVertical: 10 }}>
-              {v.text}
-              <Text style={styles.price}>{v.price}</Text>
-              {'￥'}
-            </Text>
-            <Text style={{ fontSize: 12, color: '#A2A2A2' }}>{v.right}</Text>
+            <Text style={{ fontSize: 12, marginVertical: 10 }}>{v.text}</Text>
+            <Text style={{ fontSize: 12, color: i === 0 ? '#000' : 'red' }}>{`${i !== 0 ? '+' : ''}￥${(v.price / 100).toFixed(2)}`}</Text>
           </View>
         ))
       }
@@ -79,49 +73,34 @@ class PayDetail extends PureComponent {
   )
 
   render() {
-    const { missionPrice: { data = {} }, navigation, appOptions } = this.props;
-    const { type, price } = navigation.getParam('goodsInfo');
-    const items = type === 'storeMoney' ? [{ text: '库管费 : ', price: appOptions?.data?.management / 100 }] : [
-      { text: '鞋款共计 : ', price, right: `需支付平台服务费：${appOptions?.data?.fee}%` },
-      { text: '支付金额 : ', price: Math.ceil(price * appOptions?.data?.fee) / 100 },
-    ];
+    const { payData: { data = {} }, navigation } = this.props;
+    const goodsInfo = navigation.getParam('goodsInfo');
+    const items = [];
+    // service 服务费 price 商品价格 management 仓库管理费
+    data.price && items.push({ text: '商品价格 : ', price: data.service });
+    data.management && items.push({ text: '仓库管理费 : ', price: data.service });
+    data.service && items.push({ text: '平台服务费 : ', price: data.service });
+    const total = ['service', 'management', 'price'].reduce((sum, v) => sum + (data[v] || 0), 0);
     return (
-      <View style={{ flex: 1 }}>
-        <ScrollView alwaysBounceVertical={false} showsVerticalScrollIndicator={false} style={styles.scrollView}>
+      <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+          <ShoeImageHeader item={goodsInfo} showSize />
           { this.renderBlock(items) }
-          {
-            type === 'storeMoney' && (
-              <View style={styles.orderInfo}>
-                <View style={[styles.itemWrapper0, { borderBottomColor: '#F2F2F2' }]}>
-                  <Text style={{ fontSize: 12, color: '#585858' }}>{`订单编号 : ${data.order_id}`}</Text>
-                </View>
-                <View style={[styles.itemWrapper0, { borderBottomColor: '#fff' }]}>
-                  <Text style={{ fontSize: 10, color: '#A2A2A2', marginTop: 3 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
-                  <CountdownCom
-                    prefix="待付款 "
-                    prefixStyle={{ fontSize: 11, color: Colors.RED, fontFamily: YaHei }}
-                    finish={this.exit}
-                    time={data.pay_time}
-                    style={{ fontSize: 11, fontFamily: YaHei }}
-                  />
-                </View>
-
-              </View>
-            )
-          }
+          <View style={styles.orderInfo}>
+            <View style={[styles.itemWrapper0, { borderBottomColor: '#F2F2F2' }]}>
+              <Text style={{ fontSize: 12, color: '#585858' }}>{`订单编号 : ${data.order_id}`}</Text>
+            </View>
+            <View style={[styles.itemWrapper0, { borderBottomColor: '#fff' }]}>
+              <Text style={{ fontSize: 10, color: '#A2A2A2', marginTop: 3 }}>{`创建日期 : ${formatDate(data.add_time)}`}</Text>
+            </View>
+          </View>
         </ScrollView>
-        <BottomPay price={data.price || price} onPress={this.toPay} />
+        <BottomPay price={total} onPress={this.toPay} />
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
-  block: {
-    backgroundColor: '#fff',
-    borderRadius: 2,
-    overflow: 'hidden',
-    paddingHorizontal: 12,
-  },
   price: {
     fontFamily: YaHei,
     fontSize: 15,
@@ -140,19 +119,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 8,
   },
-  scrollView: {
-    flex: 1,
-    backgroundColor: '#efefef',
-    paddingTop: 9,
-    paddingLeft: 9,
-    paddingRight: 9,
-  },
   orderInfo: {
     paddingHorizontal: 12,
     backgroundColor: '#fff',
     marginTop: 9,
     borderRadius: 2,
     overflow: 'hidden',
+    marginHorizontal: 9,
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PayDetail);

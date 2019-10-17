@@ -58,13 +58,12 @@ class PutOnSale extends PureComponent {
         params: { order_id: this.item.order_id, price },
       },
       type: 4,
-      payType: 'ServiceCharge',
+      payType: 'service',
       goodsInfo: {
-        type: 'deposit',
+        ...this.item,
         price,
-        order_id: this.item.order_id,
-        goodsImage: (this.item.goods || this.item).image,
-        goodsName: (this.item.goods || this.item).goods_name,
+        image: (this.item.goods || this.item).image,
+        goods_name: (this.item.goods || this.item).goods_name,
       },
     });
   }
