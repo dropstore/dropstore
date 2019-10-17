@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import Images from '../../res/Images';
 import { Image, KeyboardDismiss, FadeImage } from '../../components';
@@ -96,9 +97,37 @@ class Modal extends PureComponent {
     }
   }
 
+  renderTip = () => {
+    const { appOptions } = this.props;
+    const { text } = this.state;
+    return (
+      <Menu ref={(v) => { this.menu = v; }} style={{ alignItems: 'flex-end' }}>
+        <TouchableOpacity
+          hitSlop={{
+            top: 8, right: 10, bottom: 8, left: 10,
+          }}
+          onPress={() => this.menu.open()}
+          style={styles.openTip}
+        >
+          <Text style={styles.shouxufei}>{`平台服务费：${Math.ceil(appOptions?.data?.fee * text) / 100}元`}</Text>
+          <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
+        </TouchableOpacity>
+        <MenuTrigger />
+        <MenuOptions
+          renderOptionsContainer={() => (
+            <Text style={[styles.shouxufei, { fontSize: 11, textAlign: 'justify' }]}>
+              {'包含鉴别费(对每件商品进行多重鉴别真伪服务产生的服务费用)，包装服务费(商品发货至买家时所需的各类包装材料及人工包装服务所产生的服务费用)。'}
+            </Text>
+          )}
+          customStyles={{ optionsContainer: { width: 180, paddingHorizontal: 10 } }}
+        />
+      </Menu>
+    );
+  }
+
   render() {
     const { text, step } = this.state;
-    const { item, appOptions } = this.props;
+    const { item } = this.props;
 
     return (
       <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 307 : 247 }]}>
@@ -122,10 +151,7 @@ class Modal extends PureComponent {
                 placeholder="预期价格"
                 onChangeText={this.onChangeText}
               />
-              <TouchableOpacity onPress={this.toHelp} style={styles.yuanWrapper}>
-                <Text style={styles.shouxufei}>{`手续费：${Math.ceil(appOptions?.data?.fee * text) / 100}元`}</Text>
-                <Image source={Images.wenhao} style={{ width: 14, height: 14 }} />
-              </TouchableOpacity>
+              {this.renderTip()}
             </View>
           ) : step === 1 ? (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -198,6 +224,10 @@ const styles = StyleSheet.create({
   shoe: {
     width: 64.5,
     height: 40,
+  },
+  openTip: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   titleWrapper: {
     flexDirection: 'row',
