@@ -156,7 +156,7 @@ class Panicstatus extends PureComponent {
           ListHeaderComponent={this.renderHeader}
           onEndReached={this.loadMore}
         />
-        { showPay ? <BottomPay price={payData.price} onPress={debounce(this.toNext)} /> : <BottomBtnGroup btns={btns} />}
+        { showPay ? <BottomPay text="去付款" price={payData.price} onPress={debounce(this.toNext)} /> : <BottomBtnGroup btns={btns} />}
       </View>
     );
   }
