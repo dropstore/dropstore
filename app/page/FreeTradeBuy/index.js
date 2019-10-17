@@ -106,7 +106,7 @@ class FreeTradeBuy extends PureComponent {
   renderItem = ({ item, index }) => {
     const { vendorInfo: { data = {} } } = this.props;
     const { currentItem } = this.state;
-    return <ListItem isCurrentItem={(currentItem || data).id === item.id} index={index} onPress={this.onPress} notShowCount item={item} />;
+    return <ListItem isCurrentItem={(currentItem || data).free === item.free} index={index} onPress={this.onPress} notShowCount item={item} />;
   }
 
   render() {
