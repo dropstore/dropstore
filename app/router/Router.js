@@ -45,11 +45,11 @@ import FreeTradeDetail from '../page/FreeTradeDetail';
 import FreeTradePublish from '../page/FreeTradePublish';
 import ChooseSize from '../page/FreeTradePublish/ChooseSize';
 import FreeTradeBuy from '../page/FreeTradeBuy';
-import PublishCommission from '../page/FreeTradePublish/PublishCommission';
 import PutOnSale from '../page/FreeTradePublish/PutOnSale';
 import ImagePage from '../page/ImagePage';
 import FreeTradeSearch from '../page/FreeTradeSearch';
 import BrandListPage from '../page/FreeTradeSearch/BrandListPage';
+import PayDetail from '../page/pay/PayDetail';
 
 const styles = {
   btnWrapper: {
@@ -149,7 +149,7 @@ const routesWithHeader = {
   FreeTradePublish,
   ChooseSize,
   FreeTradeBuy: { path: 'freetradebuy/:freeid', screen: FreeTradeBuy },
-  PublishCommission,
+  PayDetail,
   PutOnSale,
   BrandListPage,
   FreeTradeSearch,

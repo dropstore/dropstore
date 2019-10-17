@@ -54,6 +54,7 @@ class PickUp extends PureComponent {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '3',
+        payType: 'postage',
         payData: {
           order_id: this.item.id,
           price: simpleData?.data?.postage,

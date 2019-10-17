@@ -51,7 +51,7 @@ class PutOnSale extends PureComponent {
       showToast('请输入价格');
       return;
     }
-    navigation.navigate('PublishCommission', {
+    navigation.navigate('PayDetail', {
       title: '支付服务费',
       TYPE: 'freeTradeToRelease',
       payType: 4,

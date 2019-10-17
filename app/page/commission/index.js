@@ -53,6 +53,7 @@ class Commission extends PureComponent {
         type: ShopConstant.PAY_COMMISSION,
         payData: res.data,
         shopInfo,
+        payType: 'commission',
       });
     });
   };

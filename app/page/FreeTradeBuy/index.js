@@ -87,6 +87,7 @@ class FreeTradeBuy extends PureComponent {
     //     title: '选择支付方式',
     //     type: '1',
     //     payData: res.data,
+    //     payType: 'buyGoods',
     //     shopInfo: {
     //       goods: {
     //         image: currentItem.image,

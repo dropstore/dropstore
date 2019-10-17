@@ -31,6 +31,7 @@ export default class ListItem extends PureComponent {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',
+        payType: 'buyGoods',
         payData: {
           order_id: item.order_id,
           price: item.order_price,

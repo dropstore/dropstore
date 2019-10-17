@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class PublishCommission extends PureComponent {
+class PayDetail extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation, fetchSimpleData } = this.props;
@@ -162,4 +162,4 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PublishCommission);
+export default connect(mapStateToProps, mapDispatchToProps)(PayDetail);

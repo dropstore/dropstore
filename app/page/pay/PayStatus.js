@@ -93,6 +93,8 @@ class PayStatus extends PureComponent {
     const { navigation } = this.props;
     const { startDownTime } = this.state;
     const shopInfo = navigation.getParam('shopInfo');
+    // commission支付佣金 buyGoods购买商品 postage支付邮费
+    const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
     const noShareBtn = navigation.getParam('noShareBtn');
     const btns = [{ text: '确定', onPress: debounce(this.confirm) }];

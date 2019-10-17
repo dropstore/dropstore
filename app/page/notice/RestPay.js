@@ -88,6 +88,7 @@ class RestPay extends Component {
         order_id,
         price: totalPrice,
       },
+      payType: 'buyGoods',
       shopInfo: {
         goods: {
           goods_name: payItems[0].activity_name,

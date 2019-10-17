@@ -74,7 +74,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
           } else if (type === 'edit') {
             request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
               const { order_id } = res.data;
-              navigation.navigate('PublishCommission', {
+              navigation.navigate('PayDetail', {
                 title: '支付服务费',
                 payType: 5,
                 goodsInfo: {
@@ -113,6 +113,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
+      payType: 'buyGoods',
       payData: {
         order_id: item.order_id,
         price: item.order_price,
