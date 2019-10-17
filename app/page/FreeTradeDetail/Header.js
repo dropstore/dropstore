@@ -1,10 +1,21 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet, View, TouchableOpacity, Text,
+} from 'react-native';
 import { TabBar, ShoeImageHeader } from '../../components';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 
 export default class Header extends PureComponent {
+  toRules = () => {
+    const { navigation } = this.props;
+    navigation.navigate('ImagePage', {
+      images: [
+        { source: require('../../res/image/freeTradeRules.png'), style: { width: 375, height: 730 } }],
+      title: '交易规则',
+    });
+  }
+
   render() {
     const {
       item, routes, onIndexChange, indexScrollPosition,
@@ -12,12 +23,17 @@ export default class Header extends PureComponent {
     return (
       <View>
         <ShoeImageHeader item={item} />
-        <TabBar
-          style={styles.tabBar}
-          routes={routes}
-          position={indexScrollPosition}
-          onIndexChange={onIndexChange}
-        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <TabBar
+            style={styles.tabBar}
+            routes={routes}
+            position={indexScrollPosition}
+            onIndexChange={onIndexChange}
+          />
+          <TouchableOpacity onPress={this.toRules}>
+            <Text style={{ marginRight: 20, fontSize: 12, color: '#333' }}>规则说明</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

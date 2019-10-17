@@ -54,6 +54,7 @@ class MyGoods extends PureComponent {
 
   render() {
     const { routes, index } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.tabView}>
         <Header
@@ -61,6 +62,7 @@ class MyGoods extends PureComponent {
           routes={routes}
           index={index}
           item={this.goods}
+          navigation={navigation}
           indexScrollPosition={this.indexScrollPosition}
         />
         <TabView
