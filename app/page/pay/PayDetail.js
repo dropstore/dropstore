@@ -58,7 +58,7 @@ class PayDetail extends PureComponent {
     const { type, params } = navigation.getParam('api');
     if (type === 'freeTradeToOrder') {
       request('/order/do_buy_free', { params }).then((res) => {
-        window.waitPay = navigation.getParam('payData').order_id;
+        window.waitPay = res.data.order_id;
         this.toPay(res.data);
       });
     } else {
