@@ -31,7 +31,6 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-
 const HOME_ICON_WIDTH = wPx2P(70);
 const PADDING_HORIZONTAL = wPx2P(22);
 const TAB_HEIGHT = 46;
@@ -46,9 +45,10 @@ const ROUTES = [
 class BottomNavigator extends PureComponent {
   constructor(props) {
     super(props);
+    const { navigation } = this.props;
     this.state = {
       routes: ROUTES,
-      index: 2,
+      index: navigation.state?.params?.index === 0 ? 0 : (navigation.state?.params?.index || 2),
     };
     this.opacity = [
       new Animated.Value(1),

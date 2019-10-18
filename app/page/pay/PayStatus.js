@@ -12,6 +12,16 @@ import { showShare } from '../../utils/MutualUtil';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
+const ShopInfo = {
+  goods: {
+    image: '',
+    goods_name: '',
+  },
+  activity: {
+    b_type: '1',
+  },
+};
+
 class PayStatus extends PureComponent {
   showShare = () => {
     const { navigation } = this.props;
@@ -54,11 +64,24 @@ class PayStatus extends PureComponent {
     }
   };
 
+  toFreeTrade = () => {
+    const { navigation } = this.props;
+    navigation.navigate({ routeName: 'BottomNavigator', params: { index: 0 } });
+  }
+
+  toKufang = () => {
+    const { navigation } = this.props;
+    navigation.push('MyGoods', {
+      title: '我的库房',
+      type: 'warehouse',
+    });
+  }
+
   render() {
     const { navigation } = this.props;
-    const shopInfo = navigation.getParam('shopInfo');
+    const shopInfo = navigation.getParam('shopInfo') || ShopInfo;
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
-    const payType = navigation.getParam('payType');
+    const payType = navigation.getParam('payType') || 'buyActivityGoods';
     const PayStatus = navigation.getParam('PayStatus');
     const btns = [{ text: '确定', onPress: debounce(this.confirm) }];
     if (PayStatus && payType === 'commission') {
@@ -94,6 +117,16 @@ class PayStatus extends PureComponent {
                   {'活动链接给好友吧，'}
                   {shopInfo.activity.b_type === '1'
                     ? '每位好友的加入都能多一只签' : '邀请好友来帮我抢购买资格'}
+                </Text>
+              )
+            }
+            {
+              ['buyActivityGoods', 'buyGoods'].includes(payType) && (
+                <Text style={styles.share} onPress={this.showShare}>
+                  {'商品购买成功，可在'}
+                  <Text onPress={this.toKufang} style={{ color: '#0097C2', fontSize: 13 }}>我的库房</Text>
+                  {'中提货或者发布到'}
+                  <Text onPress={this.toFreeTrade} style={{ color: '#0097C2', fontSize: 13 }}>自由交易区</Text>
                 </Text>
               )
             }
