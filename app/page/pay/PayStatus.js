@@ -61,7 +61,9 @@ class PayStatus extends PureComponent {
     const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
     const btns = [{ text: '确定', onPress: debounce(this.confirm) }];
-    if (PayStatus && ['commission', 'buyActivityGoods'].includes(payType)) {
+    if (PayStatus && payType === 'commission') {
+      btns.unshift({ text: '邀请助攻', onPress: debounce(this.showShare) });
+    } else if (PayStatus && payType === 'buyActivityGoods') {
       btns.unshift({ text: '分享', onPress: debounce(this.showShare) });
     }
 
