@@ -1,10 +1,11 @@
 import {
-  View, Text, TouchableOpacity, Linking,
+  View, Text, TouchableOpacity, Linking, StyleSheet,
 } from 'react-native';
 import React from 'react';
 import { showModalbox } from './MutualUtil';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
+
 
 let isChecked = false;
 function debounce(fun, delay = 1000) {
@@ -104,6 +105,72 @@ function needUpdate(appVersion, minVersion) {
   });
 }
 
+function showNoPayment(appVersion, minVersion) {
+  // showModalbox({
+  //   element: (
+  //     <View style={styles.modal}>
+  //       <Text style={styles.hint}>友情提示</Text>
+  //       <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
+  //         <Text style={{ fontSize: 14, fontFamily: YaHei }}>
+  //           {'支付未完成，可在您的库房'}
+  //           <Text style={styles.kufang} onPress={this.toKufang}>未完成</Text>
+  //           {'中继续支付'}
+  //         </Text>
+  //       </View>
+  //       <TouchableOpacity
+  //         hitSlop={{
+  //           top: 20, left: 20, right: 20, bottom: 20,
+  //         }}
+  //         onPress={this.close}
+  //         style={styles.cha}
+  //       >
+  //         <Image source={require('../../res/image/close-x.png')} style={{ height: 12, width: 12 }} />
+  //       </TouchableOpacity>
+  //     </View>
+  //   ),
+  //   options: {
+  //     style: {
+  //       height: 185,
+  //       width: 265,
+  //       alignItems: 'center',
+  //       justifyContent: 'center',
+  //       backgroundColor: 'transparent',
+  //     },
+  //   },
+  // });
+}
+
+const styles = StyleSheet.create({
+  modal: {
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    overflow: 'hidden',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'space-between',
+    paddingTop: 35,
+    paddingBottom: 38,
+  },
+  kufang: {
+    fontSize: 14,
+    fontFamily: YaHei,
+    color: '#37B6EB',
+    textAlign: 'right',
+  },
+  cha: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
+  hint: {
+    fontSize: 20,
+    fontFamily: YaHei,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 27,
+  },
+});
+
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate,
+  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment,
 };
