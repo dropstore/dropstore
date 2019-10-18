@@ -2,11 +2,10 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView, StyleSheet, Text, View,
 } from 'react-native';
-import { BottomBtnGroup, CountdownCom } from '../../components';
+import { BottomBtnGroup, CountdownCom, FadeImage } from '../../components';
 import Image from '../../components/Image';
-import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { YaHei } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
 import { showShare } from '../../utils/MutualUtil';
@@ -21,8 +20,6 @@ class PayStatus extends PureComponent {
     const aId = shopInfo.activity?.id;
     const uAId = shopInfo.user_activity?.id;
     const uId = shopInfo.user_activity?.user_id;
-    const title = shopInfo.goods.goods_name;
-    const image = shopInfo.goods.image;
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const baseUrl = {
@@ -35,9 +32,9 @@ class PayStatus extends PureComponent {
     }[payType];
     showShare({
       text: ShopConstant.SHARE_TEXT,
-      img: image,
+      img: shopInfo.goods.image,
       url,
-      title,
+      title: shopInfo.goods.goods_name,
     }).then(() => {
       // 分享成功回调
     });
@@ -59,16 +56,7 @@ class PayStatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    // const shopInfo = navigation.getParam('shopInfo');
-    const shopInfo = {
-      goods: {
-        image: 'http://image.dropstore.cn/tower/goods/image/5da3f3f0f2bf0889203.jpg?x-oss-process=image/resize,m_lfit,w_197',
-        goods_name: 'Air Jordan 2 BHM黑人月 2019 现货原价购',
-      },
-      activity: {
-        end_time: 1571049960,
-      },
-    };
+    const shopInfo = navigation.getParam('shopInfo');
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
@@ -79,22 +67,34 @@ class PayStatus extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
-          <View style={styles.mainView}>
-            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={PayStatus ? Images.zf_cg : Images.zf_sb} />
-            <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
-            <Image style={styles.goodImage} source={{ uri: shopInfo.goods.image }} />
+        <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center', paddingTop: 10 }} showsVerticalScrollIndicator={false}>
+          <View style={{ alignItems: 'center' }}>
+            <FadeImage style={styles.goodImage} source={{ uri: shopInfo.goods.image }} />
+            <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
+            <Text style={styles.shopName}>{shopInfo.goods.goods_name}</Text>
+            <View style={styles.hengxian} />
+            <Text style={[styles.status, { color: PayStatus ? '#FFA700' : '#909090' }]}>{PayStatus ? '支付成功!' : '支付失败!'}</Text>
             {
               PayStatus && payType === 'commission' && (
                 <CountdownCom
-                  style={styles.time}
                   time={shopInfo.activity.end_time}
-                  prefix="距活动结束："
-                  prefixStyle={[styles.time, { color: Colors.RED }]}
+                  style={styles.time}
+                  prefix="距活动结束 "
+                  prefixStyle={[styles.time, { color: '#727272' }]}
                 />
               )
             }
-            <Text style={styles.shopName}>{shopInfo.goods.goods_name}</Text>
+            {
+              payType === 'commission' && shopInfo?.activity?.b_type && (
+                <Text style={styles.share} onPress={this.showShare}>
+                  {'赶快'}
+                  <Text style={{ color: '#0097C2', fontSize: 13 }}>分享</Text>
+                  {'活动链接给好友吧，'}
+                  {shopInfo.activity.b_type === '1'
+                    ? '每位好友的加入都能多一只签' : '邀请好友来帮我抢购买资格'}
+                </Text>
+              )
+            }
           </View>
         </ScrollView>
         <BottomBtnGroup btns={btns} />
@@ -107,6 +107,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
+  },
+  hengxian: {
+    backgroundColor: '#E2E2E2',
+    height: StyleSheet.hairlineWidth,
+    width: wPx2P(345),
+    marginVertical: 10,
   },
   mainView: {
     flex: 1,
@@ -121,23 +127,39 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'rgba(0,0,0,1)',
   },
+  share: {
+    fontSize: 13,
+    color: '#696969',
+    marginTop: 20,
+    marginHorizontal: 15,
+  },
   time: {
-    fontSize: 18,
     fontFamily: YaHei,
-    color: 'rgba(0,0,0,1)',
+    color: Colors.YELLOW,
+  },
+  goodImage: {
+    width: wPx2P(258),
+    height: wPx2P(160),
+    marginBottom: 10,
   },
   shopName: {
     justifyContent: 'center',
-    fontSize: 17,
-    color: 'rgba(0,0,0,1)',
-    fontFamily: YaHei,
-    fontWeight: '400',
-    marginTop: 17,
-    marginHorizontal: 20,
+    fontSize: 13,
+    fontFamily: RuiXian,
+    marginHorizontal: 17,
+    textAlign: 'justify',
   },
-  goodImage: {
-    width: 294,
-    height: 155,
+  status: {
+    fontSize: 20,
+    fontFamily: YaHei,
+    marginBottom: 5,
+  },
+  icon: {
+    width: wPx2P(47),
+    height: wPx2P(47),
+    position: 'absolute',
+    right: 20,
+    top: 15,
   },
 });
 export default PayStatus;

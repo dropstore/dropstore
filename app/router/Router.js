@@ -170,7 +170,7 @@ for (const i in routesWithoutHeader) {
   }
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
-  initialRouteName: 'PayStatus', defaultNavigationOptions, ...transition,
+  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
 });
 
 const Router = createAppContainer(createSwitchNavigator({
