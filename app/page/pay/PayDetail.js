@@ -11,6 +11,7 @@ import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { formatDate } from '../../utils/commonUtils';
+import { request } from '../../http/Axios';
 
 function mapStateToProps() {
   return (state, props) => ({
@@ -33,8 +34,20 @@ class PayDetail extends PureComponent {
     fetchSimpleData(type, params);
   }
 
-  toPay = () => {
+  onPress = () => {
     const { navigation, payData: { data = {} } } = this.props;
+    const { type, params } = navigation.getParam('api');
+    if (type === 'freeTradeToOrder') {
+      request('/order/do_buy_free', { params }).then((res) => {
+        this.toPay(res.data);
+      });
+    } else {
+      this.toPay(data);
+    }
+  }
+
+  toPay = (data) => {
+    const { navigation } = this.props;
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: navigation.getParam('type'),
@@ -105,7 +118,7 @@ class PayDetail extends PureComponent {
             }
           </View>
         </ScrollView>
-        <BottomPay text="去支付" price={total} onPress={this.toPay} />
+        <BottomPay text="去支付" price={total} onPress={this.onPress} />
       </View>
     );
   }
