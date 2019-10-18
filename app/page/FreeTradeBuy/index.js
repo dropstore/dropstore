@@ -53,7 +53,7 @@ class FreeTradeBuy extends PureComponent {
 
   fetchData = (fetchType) => {
     const { fetchListData } = this.props;
-    fetchListData(TYPE, { free_id: this.item.free_id, is_stock: '1', user_id: this.item.user_id }, fetchType);
+    fetchListData(TYPE, { free_id: this.item.free_id, is_stock: -1, user_id: this.item.user_id }, fetchType);
   }
 
   onPress = (item) => {
