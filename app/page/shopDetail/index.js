@@ -17,9 +17,7 @@ import ShopConstant from '../../common/ShopConstant';
 import RuleCom from './components/RuleCom';
 import MemberCom from './components/MemberCom';
 import DetailImage from './components/DetailImage';
-import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
-import { YaHei } from '../../res/FontFamily';
-import { Image } from '../../components';
+import { showNoPayment } from '../../utils/commonUtils';
 
 const TYPE = 'activityInfo';
 
@@ -56,6 +54,7 @@ class ShopDetail extends PureComponent {
       (payload) => {
         if (['Navigation/BACK', 'Navigation/POP'].includes(payload.action.type) && window.waitPay && window.waitPay !== this.waitPay) {
           this.waitPay = window.waitPay;
+          showNoPayment(navigation);
         }
       },
     );
@@ -63,19 +62,6 @@ class ShopDetail extends PureComponent {
 
   componentWillUnmount() {
     this.didBlurSubscription.remove();
-  }
-
-  close = () => {
-    closeModalbox();
-  }
-
-  toKufang = () => {
-    const { navigation } = this.props;
-    this.close();
-    navigation.push('MyGoods', {
-      title: '我的库房',
-      type: 'uncomplete',
-    });
   }
 
   fetchData = (refresh) => {

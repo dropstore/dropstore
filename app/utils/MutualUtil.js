@@ -116,7 +116,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
-      payType: item.order_type === '1' ? 'buyGoods' : 'buyActivityGoods',
+      payType: item.goods_status === '4' ? 'service' : item.order_type === '1' ? 'buyGoods' : 'buyActivityGoods',
       payData: {
         order_id: item.order_id,
         price: item.order_price,

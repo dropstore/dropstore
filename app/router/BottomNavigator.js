@@ -67,7 +67,7 @@ class BottomNavigator extends PureComponent {
       (payload) => {
         if (payload.action.type === 'Navigation/NAVIGATE') {
           const nextIndex = payload?.state?.params?.index;
-          nextIndex && this.onIndexChange(nextIndex);
+          typeof nextIndex === 'number' && this.onIndexChange(nextIndex);
         }
       },
     );

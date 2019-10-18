@@ -10,7 +10,7 @@ import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
-import { formatDate } from '../../utils/commonUtils';
+import { formatDate, showNoPayment } from '../../utils/commonUtils';
 import { request } from '../../http/Axios';
 
 function mapStateToProps() {
@@ -34,11 +34,31 @@ class PayDetail extends PureComponent {
     fetchSimpleData(type, params);
   }
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    if (navigation.getParam('api').type === 'freeTradeToOrder') {
+      this.didBlurSubscription = navigation.addListener(
+        'willFocus',
+        (payload) => {
+          if (['Navigation/BACK', 'Navigation/POP'].includes(payload.action.type) && window.waitPay && window.waitPay !== this.waitPay) {
+            this.waitPay = window.waitPay;
+            showNoPayment(navigation);
+          }
+        },
+      );
+    }
+  }
+
+  componentWillUnmount() {
+    this.didBlurSubscription && this.didBlurSubscription.remove();
+  }
+
   onPress = () => {
     const { navigation, payData: { data = {} } } = this.props;
     const { type, params } = navigation.getParam('api');
     if (type === 'freeTradeToOrder') {
       request('/order/do_buy_free', { params }).then((res) => {
+        window.waitPay = navigation.getParam('payData').order_id;
         this.toPay(res.data);
       });
     } else {
