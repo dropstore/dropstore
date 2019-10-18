@@ -150,7 +150,7 @@ const routesWithHeader = {
   FreeTradeDetail,
   FreeTradePublish,
   ChooseSize,
-  FreeTradeBuy: { path: 'freetradebuy/:freeid', screen: FreeTradeBuy },
+  FreeTradeBuy: { path: 'freetradebuy/:userId/:freeId', screen: FreeTradeBuy },
   PayDetail,
   PutOnSale,
   BrandListPage,
