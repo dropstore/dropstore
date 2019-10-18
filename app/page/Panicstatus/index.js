@@ -92,7 +92,7 @@ class Panicstatus extends PureComponent {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: ShopConstant.PAY_ORDER,
-        payType: 'buyGoods',
+        payType: 'buyActivityGoods',
         payData,
         shopInfo,
       });

@@ -31,7 +31,7 @@ export default class ListItem extends PureComponent {
       navigation.navigate('pay', {
         title: '选择支付账户',
         type: '1',
-        payType: 'buyGoods',
+        payType: 'buyActivityGoods',
         payData: {
           order_id: item.order_id,
           price: item.order_price,
@@ -43,8 +43,6 @@ export default class ListItem extends PureComponent {
           },
           order_id: item.order_id,
         },
-        buySuccess: true,
-        noTimer: true,
       });
     } else if (['8', '9'].includes(item.type)) {
       navigation.navigate('shopDetail', {

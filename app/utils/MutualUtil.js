@@ -116,7 +116,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
-      payType: 'buyGoods',
+      payType: 'buyGoods' || 'buyActivityGoods',
       payData: {
         order_id: item.order_id,
         price: item.order_price,
@@ -126,8 +126,6 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
         goods: item.goods,
         order_id: item.order_id,
       },
-      noTimer: true,
-      noShareBtn: true,
     });
   } else if (type === 'publish') {
     navigation.navigate('PutOnSale', {

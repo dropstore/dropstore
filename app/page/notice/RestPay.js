@@ -88,7 +88,7 @@ class RestPay extends Component {
         order_id,
         price: totalPrice,
       },
-      payType: 'buyGoods',
+      payType: 'buyActivityGoods',
       shopInfo: {
         goods: {
           goods_name: payItems[0].activity_name,
@@ -96,8 +96,6 @@ class RestPay extends Component {
         },
         order_id: payItems[0].order_id,
       },
-      buySuccess: true,
-      noTimer: true,
     });
   }
 

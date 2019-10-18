@@ -84,7 +84,7 @@ const dropPay = async () => {
  * @param navigation
  * @param {Object} shopInfo - 商品详情
  */
-const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTimer, noShareBtn) => {
+const getPayStatus = async (type, uAid, navigation, shopInfo) => {
   const params = {
     u_a_id: uAid,
     type,
@@ -97,7 +97,7 @@ const getPayStatus = async (type, uAid, navigation, shopInfo, buySuccess, noTime
     showToast('支付成功');
     if (shopInfo) {
       navigation.push('PayStatus', {
-        shopInfo, type, buySuccess, noTimer, noShareBtn, PayStatus: true,
+        shopInfo, type, PayStatus: true,
       });
     } else {
       navigation.push('MyGoods', {

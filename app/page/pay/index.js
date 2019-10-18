@@ -52,9 +52,6 @@ export default class Pay extends PureComponent {
       const data = navigation.getParam('payData');
       const type = navigation.getParam('type');
       const shopInfo = navigation.getParam('shopInfo');
-      const noTimer = navigation.getParam('noTimer');
-      const buySuccess = navigation.getParam('buySuccess');
-      const noShareBtn = navigation.getParam('noShareBtn');
       const { choosedIndex } = this.state;
       if (choosedIndex < 0) {
         return showToast('请选择付款方式');
@@ -62,7 +59,7 @@ export default class Pay extends PureComponent {
       const status = await getOrderInfo(type, PAY_WAYS[choosedIndex].type, data.order_id);
       if (status === ShopConstant.FINISHPAY) {
         window.waitPay = null;
-        getPayStatus(type, data.order_id, navigation, shopInfo, buySuccess, noTimer, noShareBtn);
+        getPayStatus(type, data.order_id, navigation, shopInfo);
       }
     };
 

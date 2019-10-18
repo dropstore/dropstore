@@ -58,8 +58,6 @@ class PayDetail extends PureComponent {
       shopInfo: {
         goods: navigation.getParam('goodsInfo'),
       },
-      noTimer: true,
-      noShareBtn: true,
     });
   }
 

@@ -54,7 +54,6 @@ class PayStatus extends PureComponent {
 
   showShare = () => {
     const { navigation } = this.props;
-    const buySuccess = navigation.getParam('buySuccess');
     const shopInfo = navigation.getParam('shopInfo');
     const is_join = shopInfo.is_join;
     const aId = shopInfo.activity?.id;
@@ -62,9 +61,16 @@ class PayStatus extends PureComponent {
     const uId = shopInfo.user_activity?.user_id;
     const title = shopInfo.goods.goods_name;
     const image = shopInfo.goods.image;
-    const baseUrl = buySuccess ? ShopConstant.SHARE_BYU_SUCCESS_URL
-      : is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
-    const url = buySuccess ? `${baseUrl}?id=${shopInfo.order_id}` : `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
+    // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
+    const payType = navigation.getParam('payType');
+    const baseUrl = {
+      buyGoods: ShopConstant.SHARE_BYU_SUCCESS_URL,
+      commission: is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL,
+    }[payType];
+    const url = {
+      buyGoods: `${baseUrl}?id=${shopInfo.order_id}`,
+      commission: `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`,
+    }[payType];
     showShare({
       text: ShopConstant.SHARE_TEXT,
       img: image,
@@ -93,7 +99,7 @@ class PayStatus extends PureComponent {
     const { navigation } = this.props;
     const { startDownTime } = this.state;
     const shopInfo = navigation.getParam('shopInfo');
-    // commission支付佣金 buyGoods购买商品 postage支付邮费 service支付服务费 management库管费
+    // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
     const noShareBtn = navigation.getParam('noShareBtn');
