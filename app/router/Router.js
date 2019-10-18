@@ -96,7 +96,7 @@ const defaultNavigationOptions = ({ navigation }) => ({
         customBack ? customBack() : navigation.pop();
       }}
     >
-      <Image resizeMode="contain" style={{ height: 18, width: 10 }} source={Images.back} />
+      <Image resizeMode="contain" style={{ height: 18, width: 11 }} source={Images.back} />
     </TouchableOpacity>
   ),
   headerRight: navigation.getParam('headerRight'),

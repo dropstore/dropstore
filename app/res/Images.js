@@ -16,7 +16,6 @@ const IMAGES = {
   identifyInactive: require('./image/identify-inactive.png'),
   freeTradeInactive: require('./image/freeTrade-inactive.png'),
   back: require('./image/back.png'),
-  ic_back_gray: require('./image/ic-back-gray.png'),
   loading: require('./image/loading.gif'),
   lot_win_rate: require('./image/lot_win_rate.png'),
 
