@@ -2,12 +2,11 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView, StyleSheet, Text, View,
 } from 'react-native';
-import { BottomBtnGroup } from '../../components';
+import { BottomBtnGroup, CountdownCom } from '../../components';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { Mario, YaHei } from '../../res/FontFamily';
-import { checkTime, countDown } from '../../utils/TimeUtils';
+import { YaHei } from '../../res/FontFamily';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
 import { showShare } from '../../utils/MutualUtil';
@@ -15,43 +14,6 @@ import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
 class PayStatus extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startDownTime: '',
-    };
-  }
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    const PayStatus = navigation.getParam('PayStatus');
-    if (PayStatus && !navigation.getParam('noTimer')) {
-      this._setTime();
-      this._timer = setInterval(() => {
-        this._setTime();
-      }, 1000);
-    }
-  }
-
-  componentWillUnmount() {
-    this._timer && clearInterval(this._timer);
-  }
-
-  _setTime = () => {
-    const sTimeStamp = this.getStartTime();
-    if (sTimeStamp > 0) {
-      this.setState({ startDownTime: countDown(sTimeStamp) });
-    }
-  };
-
-  getStartTime = () => {
-    const { navigation } = this.props;
-    const shopInfo = navigation.getParam('shopInfo');
-    // 活动开始时间
-    const start_time = shopInfo.activity.start_time;
-    return checkTime(start_time);
-  };
-
   showShare = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
@@ -64,11 +26,11 @@ class PayStatus extends PureComponent {
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const baseUrl = {
-      buyGoods: ShopConstant.SHARE_BYU_SUCCESS_URL,
+      buyActivityGoods: ShopConstant.SHARE_BYU_SUCCESS_URL,
       commission: is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL,
     }[payType];
     const url = {
-      buyGoods: `${baseUrl}?id=${shopInfo.order_id}`,
+      buyActivityGoods: `${baseUrl}?id=${shopInfo.order_id}`,
       commission: `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`,
     }[payType];
     showShare({
@@ -97,16 +59,15 @@ class PayStatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    const { startDownTime } = this.state;
     const shopInfo = navigation.getParam('shopInfo');
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
-    const noShareBtn = navigation.getParam('noShareBtn');
     const btns = [{ text: '确定', onPress: debounce(this.confirm) }];
-    if (!noShareBtn && PayStatus) {
+    if (PayStatus && ['commission', 'buyActivityGoods'].includes(payType)) {
       btns.unshift({ text: '分享', onPress: debounce(this.showShare) });
     }
+
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
@@ -115,12 +76,14 @@ class PayStatus extends PureComponent {
             <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={styles.goodImage} source={{ uri: shopInfo.goods.image }} />
             {
-              PayStatus && !navigation.getParam('noTimer') && this.getStartTime() > 0 ? (
-                <View style={{ marginTop: 26, flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.waitLeft}>等待发布：</Text>
-                  <Text style={styles.time}>{startDownTime}</Text>
-                </View>
-              ) : <View />
+              PayStatus && payType === 'commission' && (
+                <CountdownCom
+                  style={styles.time}
+                  time={shopInfo.activity.end_time}
+                  prefix="距活动结束："
+                  prefixStyle={[styles.time, { color: Colors.RED }]}
+                />
+              )
             }
             <Text style={styles.shopName}>{shopInfo.goods.goods_name}</Text>
           </View>
@@ -151,7 +114,7 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 18,
-    fontFamily: Mario,
+    fontFamily: YaHei,
     color: 'rgba(0,0,0,1)',
   },
   shopName: {
