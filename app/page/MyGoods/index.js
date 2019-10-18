@@ -10,7 +10,7 @@ import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import HeaderRight from './HeaderRight';
-import { showShare } from '../../utils/MutualUtil';
+import { toShare } from '../../utils/commonUtils';
 
 class MyGoods extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
@@ -18,12 +18,7 @@ class MyGoods extends PureComponent {
       <TouchableOpacity
         onPress={() => {
           if (navigation.getParam('title') === '我的商品') {
-            showShare({
-              text: '正文',
-              img: '',
-              url: '',
-              title: '',
-            });
+            toShare();
           } else {
             navigation.navigate('FreeTradePublish', {
               title: '选择',

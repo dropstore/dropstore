@@ -108,6 +108,7 @@ class ShopDetail extends PureComponent {
     } else {
       list = [...list, 'MemberCom'];
     }
+    console.log(data);
     return (
       <View style={{ flex: 1 }}>
         <FlatList

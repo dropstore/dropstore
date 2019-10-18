@@ -2,10 +2,11 @@ import {
   View, Text, TouchableOpacity, Linking, StyleSheet,
 } from 'react-native';
 import React from 'react';
-import { showModalbox, closeModalbox } from './MutualUtil';
+import { showModalbox, closeModalbox, showShare } from './MutualUtil';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 import { Image } from '../components';
+import store from '../redux/configureStore';
 
 
 let isChecked = false;
@@ -151,6 +152,15 @@ function showNoPayment(navigation) {
   });
 }
 
+function toShare() {
+  showShare({
+    text: '缺文案',
+    img: 'https://www.baidu.com/img/bd_logo1.png?where=super',
+    url: `http://m.dropstore.cn/index.html#/shareMyShoese/${store.getState().userInfo.id}`,
+    title: `${store.getState().userInfo.user_name}在炒饭APP上有${store.getState().listData?.goodsOnSale?.count}双鞋正在销售，快来看看有没有你喜欢的吧`,
+  });
+}
+
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#fff',
@@ -183,5 +193,5 @@ const styles = StyleSheet.create({
 });
 
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment,
+  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare,
 };
