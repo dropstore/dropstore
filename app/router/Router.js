@@ -127,20 +127,22 @@ const AuthStack = createStackNavigator({
 }, { initialRouteName: 'AuthLoading', defaultNavigationOptions, ...transition });
 
 // 需要导航头部的路由写在这里
+const navigationOptionsWithBorderBottom = { navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } };
 const routesWithHeader = {
   pay,
   Message,
   AddressEdit,
-  Web: { screen: Web, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  Safesetting: { screen: Safesetting, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  BalanceDetail: { screen: BalanceDetail, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  shopDetail: { screen: shopDetail, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  Setting: { screen: Setting, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  PickUp: { screen: PickUp, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  ChooseAddress: { screen: ChooseAddress, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  ImagePage: { screen: ImagePage, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  Panicstatus: { screen: Panicstatus, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
-  commission: { screen: commission, navigationOptions: { headerStyle: { ...styles.headerStyle, borderBottomWidth: StyleSheet.hairlineWidth } } },
+  Web: { ...navigationOptionsWithBorderBottom, screen: Web },
+  Safesetting: { ...navigationOptionsWithBorderBottom, screen: Safesetting },
+  BalanceDetail: { ...navigationOptionsWithBorderBottom, screen: BalanceDetail },
+  shopDetail: { ...navigationOptionsWithBorderBottom, screen: shopDetail },
+  Setting: { ...navigationOptionsWithBorderBottom, screen: Setting },
+  PickUp: { ...navigationOptionsWithBorderBottom, screen: PickUp },
+  ChooseAddress: { ...navigationOptionsWithBorderBottom, screen: ChooseAddress },
+  ImagePage: { ...navigationOptionsWithBorderBottom, screen: ImagePage },
+  Panicstatus: { ...navigationOptionsWithBorderBottom, screen: Panicstatus },
+  commission: { ...navigationOptionsWithBorderBottom, screen: commission },
+  PayStatus: { ...navigationOptionsWithBorderBottom, screen: PayStatus },
   BalanceExtract,
   Password,
   MyGoods,
@@ -157,7 +159,6 @@ const routesWithHeader = {
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator,
-  PayStatus,
   drawStatus,
 };
 
@@ -169,7 +170,7 @@ for (const i in routesWithoutHeader) {
   }
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
-  initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
+  initialRouteName: 'PayStatus', defaultNavigationOptions, ...transition,
 });
 
 const Router = createAppContainer(createSwitchNavigator({

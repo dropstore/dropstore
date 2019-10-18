@@ -59,7 +59,16 @@ class PayStatus extends PureComponent {
 
   render() {
     const { navigation } = this.props;
-    const shopInfo = navigation.getParam('shopInfo');
+    // const shopInfo = navigation.getParam('shopInfo');
+    const shopInfo = {
+      goods: {
+        image: 'http://image.dropstore.cn/tower/goods/image/5da3f3f0f2bf0889203.jpg?x-oss-process=image/resize,m_lfit,w_197',
+        goods_name: 'Air Jordan 2 BHM黑人月 2019 现货原价购',
+      },
+      activity: {
+        end_time: 1571049960,
+      },
+    };
     // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
     const payType = navigation.getParam('payType');
     const PayStatus = navigation.getParam('PayStatus');
