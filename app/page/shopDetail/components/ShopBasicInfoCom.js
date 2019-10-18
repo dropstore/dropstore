@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   mainView: {
-    paddingTop: 19,
     paddingBottom: 10,
     alignItems: 'center',
     backgroundColor: '#fff',
