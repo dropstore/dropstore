@@ -1,3 +1,12 @@
+import {
+  View, Text, TouchableOpacity, Linking,
+} from 'react-native';
+import React from 'react';
+import { showModalbox } from './MutualUtil';
+import Colors from '../res/Colors';
+import { YaHei } from '../res/FontFamily';
+
+let isChecked = false;
 function debounce(fun, delay = 1000) {
   return (...params) => {
     if (!fun.timer || Date.now() - fun.timer > delay) {
@@ -43,6 +52,58 @@ function formatTimeAgo(time) {
   return formatDate(time);
 }
 
+function needUpdate(appVersion, minVersion) {
+  if (isChecked) { return; }
+  isChecked = true;
+  const arr1 = appVersion.split('.').map(v => v * 1);
+  const arr2 = minVersion.split('.').map(v => v * 1);
+  let updateIsOpen = false;
+  arr1.forEach((v, i) => {
+    if (v < arr2[i] && !updateIsOpen) {
+      updateIsOpen = true;
+      showModalbox({
+        element: (
+          <View style={{
+            backgroundColor: '#fff', height: '100%', width: '100%', borderRadius: 2, overflow: 'hidden',
+          }}
+          >
+            <Text style={{
+              fontSize: 16, fontFamily: YaHei, textAlign: 'center', marginTop: 50,
+            }}
+            >
+              {'版本太旧，请升级至最新版本'}
+            </Text>
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://www.baidu.com')}
+              style={{
+                backgroundColor: Colors.YELLOW,
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: 45,
+                width: '100%',
+                position: 'absolute',
+                bottom: 0,
+              }}
+            >
+              <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>确定</Text>
+            </TouchableOpacity>
+          </View>
+        ),
+        options: {
+          style: {
+            height: 180,
+            width: 240,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'transparent',
+          },
+          backdropPressToClose: false,
+        },
+      });
+    }
+  });
+}
+
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo,
+  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate,
 };

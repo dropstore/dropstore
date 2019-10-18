@@ -4,18 +4,24 @@
  * @date 2019/8/17 15:59
  * @author ZWW
  */
+
 import Axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
-import { showToast, showToastLoading, hideToastLoading } from '../utils/MutualUtil';
+import {
+  showToast, showToastLoading, hideToastLoading,
+} from '../utils/MutualUtil';
 import Strings from '../res/Strings';
 import { sortObj } from '../utils/SortUtil';
 import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
 import { getScreenWidth } from '../common/Constant';
+import { needUpdate } from '../utils/commonUtils';
+
 import api from './api';
 
 const baseURL = 'http://api.dropstore.cn';
+const appVersion = DeviceInfo.getVersion();
 let networkIsConnected = true;
 const timeout = 5000;
 const headers = header => ({
@@ -85,6 +91,7 @@ const request = async (url, {
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
+    needUpdate(appVersion, response.headers.versions);
     // console.log(data, url, response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
