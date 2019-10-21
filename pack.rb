@@ -106,8 +106,7 @@ def export_android(channel)
   puts `./pack.rb edit_modules edit`
   puts "---------- packing android: #{channel} ------------"
   result1 = File.read('./android/app/build.gradle')
-  File.write('./android/app/build.gradle', File.read('./edit_node_modules/android/build.gradle'))
-  File.write('./android/app/build.gradle', new_content.gsub(/abiFilters "armeabi-v7a", "x86"/, "abiFilters \"armeabi-v7a\""))
+  File.write('./android/app/build.gradle', result1.gsub(/abiFilters "armeabi-v7a", "x86"/, "abiFilters \"armeabi-v7a\""))
   puts "---------- finish install and edit node_modules ------------"
   puts `cd android &&
     rm -f app/build/outputs/apk/release/app-release.apk &&
