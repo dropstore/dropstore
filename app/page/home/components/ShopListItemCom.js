@@ -81,9 +81,11 @@ export default class ShopListItemCom extends PureComponent {
             <View style={styles.rightBottom}>
               {
                 showText && (
-                  <Text style={{ color: isStart ? Colors.YELLOW : '#0084FF', fontSize: 7, textAlign: 'right' }}>
-                    {`${isStart ? '距活动结束' : '距活动开始'}`}
-                  </Text>
+                  <View style={[styles.biankuang, { borderColor: isStart ? Colors.YELLOW : '#0084FF' }]}>
+                    <Text style={{ color: isStart ? Colors.YELLOW : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                      {`${isStart ? '距活动结束' : '距活动开始'}`}
+                    </Text>
+                  </View>
                 )
               }
               {
@@ -159,5 +161,10 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'ios' ? 10 : 11,
     lineHeight: 17,
     fontWeight: 'bold',
+  },
+  biankuang: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 2,
+    paddingHorizontal: 1,
   },
 });

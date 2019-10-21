@@ -148,37 +148,34 @@ class BottomNavigator extends PureComponent {
                   onPress={() => this.onIndexChange(index)}
                 >
                   {
-                      v
-                        ? (
-                          <Animated.View style={{
-                            opacity: this.opacity[index], alignItems: 'center', paddingTop: 3, paddingBottom: 6, justifyContent: 'space-between',
-                          }}
-                          >
-                            {
-                              v.key === 'home'
-                                ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
-                                : (
-                                  <Image
-                                    resizeMode="contain"
-                                    style={{
-                                      width: wPx2P(26),
-                                      height: wPx2P(26),
-                                    }}
-                                    source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
-                                  />
-                                )
-                            }
-                            {v.key !== 'home' ? (
-                              <Text
-                                style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10 }}
-                              >
-                                {v.title}
-                              </Text>
-                            ) : null}
-                          </Animated.View>
-                        )
-                        : <View style={{ flex: 1, height: '100%' }} />
-                    }
+                    v
+                      ? (
+                        <Animated.View style={[styles.item, { opacity: this.opacity[index] }]}>
+                          {
+                            v.key === 'home'
+                              ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
+                              : (
+                                <Image
+                                  resizeMode="contain"
+                                  style={{
+                                    width: wPx2P(26),
+                                    height: wPx2P(26),
+                                  }}
+                                  source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]}
+                                />
+                              )
+                          }
+                          {v.key !== 'home' ? (
+                            <Text
+                              style={{ color: indexState === index ? '#000' : '#A7A7A7', fontSize: 10 }}
+                            >
+                              {v.title}
+                            </Text>
+                          ) : null}
+                        </Animated.View>
+                      )
+                      : <View style={{ flex: 1, height: '100%' }} />
+                  }
                 </TouchableWithoutFeedback>
               );
             })
@@ -203,7 +200,6 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     height: TAB_HEIGHT + PADDING_TAB,
-    paddingBottom: PADDING_TAB,
     width: getScreenWidth(),
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -221,8 +217,8 @@ const styles = StyleSheet.create({
   drop: {
     width: HOME_ICON_WIDTH,
     height: wPx2P(70),
-    position: 'relative',
-    top: -33,
+    position: 'absolute',
+    bottom: PADDING_TAB + 6,
   },
   homeIcon: {
     width: HOME_ICON_WIDTH,
@@ -234,6 +230,13 @@ const styles = StyleSheet.create({
     left: (getScreenWidth() - wPx2P(70)) / 2,
     borderRadius: wPx2P(35),
     overflow: 'hidden',
+  },
+  item: {
+    alignItems: 'center',
+    paddingTop: 3,
+    paddingBottom: 6 + PADDING_TAB,
+    justifyContent: 'space-between',
+    height: '100%',
   },
 });
 
