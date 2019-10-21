@@ -131,6 +131,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     marginTop: 10,
     marginBottom: 6,
+    includeFontPadding: false,
+    padding: 0,
   },
   tip: {
     fontSize: 10,

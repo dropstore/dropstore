@@ -293,6 +293,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     borderBottomColor: '#C5C5CD',
     borderBottomWidth: StyleSheet.hairlineWidth,
+    includeFontPadding: false,
+    padding: 0,
   },
   edit: {
     fontSize: 16,

@@ -159,6 +159,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     paddingHorizontal: 8,
     paddingVertical: 0,
+    includeFontPadding: false,
+    padding: 0,
   },
   search: {
     width: 12,

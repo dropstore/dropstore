@@ -104,5 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
     marginLeft: 8,
+    includeFontPadding: false,
+    padding: 0,
   },
 });
