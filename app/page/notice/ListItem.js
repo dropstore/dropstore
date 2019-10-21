@@ -54,7 +54,7 @@ export default class ListItem extends PureComponent {
       });
     } else {
       navigation.navigate('RestPay', {
-        title: '尾款支付',
+        title: '支付',
         order: item,
       });
     }
