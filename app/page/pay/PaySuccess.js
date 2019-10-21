@@ -14,22 +14,23 @@ import { showShare } from '../../utils/MutualUtil';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
-const TestShopInfo = {
-  goods: {
-    image: '',
-    goods_name: '',
-  },
-  activity: {
-    b_type: '1',
-    end_time: Date.now() / 1000 + 5000,
-  },
-  user_activity: {
-    commission: 1,
-  },
-  is_join: true,
-};
+const TestShopInfo = {};
+// const TestShopInfo = {
+//   goods: {
+//     image: 'http://image.dropstore.cn/tower/goods/image/5da4222a0ff4a433907.jpg?x-oss-process=image/resize,m_lfit,w_197',
+//     goods_name: 'Air Jordan 2 BHM黑人月 2019 现货原价购',
+//   },
+//   activity: {
+//     b_type: '1',
+//     end_time: Date.now() / 1000 + 5000,
+//   },
+//   user_activity: {
+//     commission: 1,
+//   },
+//   is_join: true,
+// };
 // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
-const TestPayType = 'buyGoods';
+const TestPayType = '';
 
 
 export default class PaySuccess extends PureComponent {
@@ -67,9 +68,15 @@ export default class PaySuccess extends PureComponent {
     const payType = navigation.getParam('payType') || TestPayType;
     if (payType === 'commission') {
       navigation.navigate('shopDetail');
-    } else {
+    } else if (['buyGoods', 'buyActivityGoods', 'management'].includes(payType)) {
       navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
       navigation.navigate({ routeName: 'MyGoods', params: { type: 'warehouse' } });
+    } else if (payType === 'postage') {
+      navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
+      navigation.navigate({ routeName: 'MyGoods', params: { type: 'sendOut' } });
+    } else if (payType === 'service') {
+      navigation.navigate({ routeName: 'BottomNavigator', params: { index: 4 } });
+      navigation.navigate({ routeName: 'MyGoods', params: { type: 'onSale', title: '我的商品' } });
     }
   };
 
@@ -131,7 +138,7 @@ export default class PaySuccess extends PureComponent {
       return (
         <Text style={styles.share} onPress={this.showShare}>
           {'邮费支付成功，可在我的库房'}
-          <Text onPress={() => this.toMyGoods('sendOut')} style={{ color: '#0097C2', fontSize: 13 }}>已出库</Text>
+          <Text onPress={() => this.toWarehouse('sendOut')} style={{ color: '#0097C2', fontSize: 13 }}>已出库</Text>
           {'中查看物流单号'}
         </Text>
       );
