@@ -134,10 +134,10 @@ class PhoneNumCom extends PureComponent {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 12,
+    fontSize: 13,
   },
   login: {
-    fontSize: 12,
+    fontSize: 13,
   },
   wrapper: {
     flexDirection: 'row',

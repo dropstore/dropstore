@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     padding: 0,
-    fontSize: 12,
+    fontSize: 13,
     color: '#666',
     height: '100%',
     textAlign: 'right',

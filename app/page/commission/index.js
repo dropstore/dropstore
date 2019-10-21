@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     color: '#37B6EB',
   },
   payTitle: {
-    fontSize: 12,
+    fontSize: 13,
     color: 'rgba(0,0,0,1)',
     marginLeft: 10,
   },

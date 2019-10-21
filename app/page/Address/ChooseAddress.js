@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   plus: {
-    fontSize: 12,
+    fontSize: 13,
     color: '#fff',
     lineHeight: 13.5,
     fontWeight: 'bold',

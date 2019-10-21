@@ -101,7 +101,7 @@ class GenderSize extends PureComponent {
           <TouchableOpacity style={styles.wrapper} onPress={this.changeSex}>
             <Text style={styles.text}>性别</Text>
             <View style={styles.inputWrapper}>
-              <Text style={{ color: '#E4E4EE', fontSize: 12 }}>选择性别</Text>
+              <Text style={{ color: '#E4E4EE', fontSize: 13 }}>选择性别</Text>
               <Image
                 source={sex === '女' ? Images.chooseGirl : sex === '男' ? Images.chooseBoy : Images.nosex}
                 style={styles.sexBtnWrapper}
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginTop: hPx2P(55),
   },
   text: {
-    fontSize: 12,
+    fontSize: 13,
   },
   frameLogin: {
     height: wPx2P(43),

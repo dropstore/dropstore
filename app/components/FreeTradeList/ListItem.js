@@ -6,8 +6,8 @@ import Price from '../Price';
 import Image from '../Image';
 import { getScreenWidth } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
+import Styles from '../../res/style';
 
 export default class ListItem extends PureComponent {
   onPress = () => {
@@ -21,7 +21,7 @@ export default class ListItem extends PureComponent {
     } = this.props;
     return (
       <ScaleView onPress={this.onPress} style={{ ...styles.container, marginLeft: index % 2 === 1 ? 8 : 9 }}>
-        <Text numberOfLines={2} style={styles.title}>{item.goods_name}</Text>
+        <Text numberOfLines={2} style={Styles.listTitle}>{item.goods_name}</Text>
         <FadeImage source={{ uri: item.image }} style={styles.shoe} />
         {
           showPrice && (
@@ -56,11 +56,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: 12,
-    fontFamily: RuiXian,
-    lineHeight: 14,
   },
   shoe: {
     width: wPx2P(129),

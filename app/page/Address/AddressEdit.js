@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     marginLeft: wPx2P(12),
     marginRight: wPx2P(5),
     color: '#333',
-    fontSize: 12,
+    fontSize: 13,
     includeFontPadding: false,
   },
   choose: {

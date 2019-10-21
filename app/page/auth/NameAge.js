@@ -72,7 +72,7 @@ class NameAge extends PureComponent {
         <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
         <View style={{ height: 107.5, justifyContent: 'space-between' }}>
           <View style={styles.wrapper}>
-            <Text style={{ fontSize: 12 }}>昵称</Text>
+            <Text style={{ fontSize: 13 }}>昵称</Text>
             <InputVarySize
               onChangeText={this.onChangeName}
               selectionColor="#00AEFF"
@@ -83,7 +83,7 @@ class NameAge extends PureComponent {
           </View>
 
           <View style={styles.wrapper}>
-            <Text style={{ fontSize: 12 }}>年龄</Text>
+            <Text style={{ fontSize: 13 }}>年龄</Text>
             <InputVarySize
               onChangeText={this.onChangeAge}
               keyboardType="number-pad"

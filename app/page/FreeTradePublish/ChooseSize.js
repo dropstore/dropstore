@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
-    padding: 12,
+    padding: 13,
     marginTop: 7,
   },
   shoseImage: {

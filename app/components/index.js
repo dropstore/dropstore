@@ -3,7 +3,6 @@ import ImageBackground from './ImageBackground';
 import KeyboardDismiss from './KeyboardDismiss';
 import ActionSheet from './ActionSheet';
 import TabBar from './TabBar';
-import AgainLoadCom from './AgainLoadCom';
 import EmptyViewCom from './EmptyViewCom';
 import Frame from './Frame';
 import FadeImage from './FadeImage';
@@ -18,7 +17,6 @@ import ChangeSize from './ChangeSize';
 import ImageNetUnkoneSize from './ImageNetUnkoneSize';
 import Global from './Global';
 import Keyboard from './Global/Keyboard';
-import TitleWithTagTwo from './TitleWithTagTwo';
 import FreeTradeList from './FreeTradeList';
 import BottomPay from './BottomPay';
 import AvatarWithShadow from './AvatarWithShadow';
@@ -32,10 +30,10 @@ import ShoeImageHeader from './ShoeImageHeader';
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
-  ActionSheet, AgainLoadCom, EmptyViewCom, FadeImage, Frame,
+  ActionSheet, EmptyViewCom, FadeImage, Frame,
   NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ChangeSize, ImageNetUnkoneSize,
-  Global, Keyboard, TitleWithTagTwo, FreeTradeList, BottomPay,
+  Global, Keyboard, FreeTradeList, BottomPay,
   AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag, InputVarySize,
   BtnGroup, ShoeImageHeader,
 };

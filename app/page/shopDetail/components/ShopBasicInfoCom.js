@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   shopTitle: {
-    fontSize: 12,
+    fontSize: 13,
     color: 'rgba(0,0,0,1)',
     fontFamily: YaHei,
     marginTop: 9,

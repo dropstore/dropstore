@@ -4,14 +4,14 @@
  * @author YDD
  */
 import React, { PureComponent } from 'react';
-import { FlatList } from 'react-native'
-import {AgainLoadCom, PullToRefresh  } from '../../../components'
+import { FlatList } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {AgainLoadCom, PullToRefresh  } from '../../../components'
 import { getActivityInfo } from '../../../redux/reselect/activityList';
 import { getActivityList } from '../../../redux/actions/activityList';
 import ShopConstant from '../../../common/ShopConstant';
-import LuckyItem from './luckItem'
+import LuckyItem from './luckItem';
 
 function mapStateToProps() {
   return state => ({
@@ -42,13 +42,11 @@ class Lucky extends PureComponent {
     const { getActivityList } = this.props;
     getActivityList(ShopConstant.LUCKY_CHARM, { fetchNextPage: true });
   };
-  _renderItem = ({item,index})=>{
-     return <LuckyItem item={item} />
-  }
+
+  _renderItem = ({ item, index }) => <LuckyItem item={item} />
 
   render() {
-
-    const shopList = this.props.activityInfo
+    const shopList = this.props.activityInfo;
     const list = shopList.list;
     if (shopList.error && list.length === 0) {
       return <AgainLoadCom againLoad={this.onRefresh} />;
@@ -59,10 +57,10 @@ class Lucky extends PureComponent {
         currentPage={shopList.currentPage}
         Wrapper={FlatList}
         style={{ paddingTop: 5 }}
-        data = {list}
-        refresh={ this.onRefresh }
-        renderItem = { this._renderItem }
-        onEndReached = { this.loadMore }
+        data= {list}
+        refresh={this.onRefresh}
+        renderItem ={this._renderItem}
+        onEndReached= {this.loadMore}
       />
     );
   }

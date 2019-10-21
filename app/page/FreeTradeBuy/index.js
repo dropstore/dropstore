@@ -150,11 +150,6 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
   },
-  title: {
-    fontSize: 12,
-    textAlign: 'justify',
-    flex: 1,
-  },
   priceWrapper: {
     flex: 1,
     flexDirection: 'row',
