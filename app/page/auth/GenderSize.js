@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform,
+  View, Text, TouchableOpacity, StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,12 +12,11 @@ import {
   PADDING_TAB, getScreenWidth, getScreenHeight, STATUSBAR_AND_NAV_HEIGHT,
 } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
-import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
+import { showToast, closeModalbox } from '../../utils/MutualUtil';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import Colors from '../../res/Colors';
-
-const sizes = Array(26).fill('').map((v, i) => i / 2 + 35.5);
+import { showChooseSize } from '../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -79,48 +78,9 @@ class GenderSize extends PureComponent {
   openModal = () => {
     const { modalIsOpen } = this.state;
     if (!modalIsOpen) {
-      this.setState({ modalIsOpen: true });
-      showModalbox({
-        element: (
-          <ScrollView contentContainerStyle={styles.modal}>
-            {
-              sizes.map(v => (
-                <TouchableOpacity
-                  onPress={() => this.chooseSize(v)}
-                  key={v}
-                  style={[styles.itemWrapper, { borderRightColor: '#F2F2F2', borderBottomColor: '#F2F2F2' }]}
-                >
-                  <Text>{v}</Text>
-                </TouchableOpacity>
-              ))
-            }
-          </ScrollView>
-        ),
-        options: {
-          style: {
-            height: this.modalHeight,
-            width: getScreenWidth(),
-            marginTop: 10,
-            backgroundColor: '#fff',
-            ...Platform.select({
-              ios: {
-                shadowColor: 'rgb(166, 166, 166)',
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.35,
-                shadowRadius: 5,
-              },
-              android: {
-                elevation: 5,
-                position: 'relative',
-              },
-            }),
-          },
-          position: 'bottom',
-          backdropOpacity: 0,
-          onClosed: () => {
-            this.setState({ modalIsOpen: false });
-          },
-        },
+      this.sizeWrapper.measure((x, y, w, h, px, py) => {
+        this.setState({ modalIsOpen: true });
+        showChooseSize(getScreenHeight() - py - 45, this.chooseSize, () => this.setState({ modalIsOpen: false }));
       });
     } else {
       this.closeModal();
@@ -130,10 +90,6 @@ class GenderSize extends PureComponent {
   closeModal = () => {
     this.setState({ modalIsOpen: false });
     closeModalbox();
-  }
-
-  onLayout = (e) => {
-    this.modalHeight = getScreenHeight() - e.nativeEvent.layout.y - STATUSBAR_AND_NAV_HEIGHT + 25;
   }
 
   render() {
@@ -153,7 +109,7 @@ class GenderSize extends PureComponent {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.wrapper} onPress={this.openModal}>
+          <TouchableOpacity style={styles.wrapper} onPress={this.openModal} ref={(v) => { this.sizeWrapper = v; }}>
             <View style={styles.sizeWrapper0}>
               <Text style={styles.text}>鞋码</Text>
               <Text style={styles.size}>{size}</Text>
@@ -166,7 +122,6 @@ class GenderSize extends PureComponent {
         <TouchableOpacity
           style={[styles.frameLogin, { backgroundColor: size === '' || sex === '' ? Colors.DISABLE : Colors.YELLOW }]}
           onPress={this.goNext}
-          onLayout={this.onLayout}
         >
           <Text style={styles.nextText}>开始体验</Text>
         </TouchableOpacity>
@@ -208,32 +163,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.YELLOW,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  scrollView: {
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(166, 166, 166)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 50,
-        position: 'relative',
-      },
-    }),
-  },
-  modal: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  itemWrapper: {
-    width: '25%',
-    height: getScreenWidth() / 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderRightWidth: StyleSheet.hairlineWidth,
   },
   sexBtnWrapper: {
     width: 55,

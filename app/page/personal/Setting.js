@@ -1,21 +1,22 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, Platform, TextInput,
+  View, Text, StyleSheet, TouchableOpacity, TextInput,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import {
-  Image, ActionSheet, ImageBackground, KeyboardDismiss,
+  ActionSheet, ImageBackground, KeyboardDismiss, AvatarWithShadow,
 } from '../../components';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
-import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
+import { getScreenWidth, PADDING_TAB, getScreenHeight } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { showToast } from '../../utils/MutualUtil';
+import { showToast, closeModalbox } from '../../utils/MutualUtil';
 import { upload } from '../../http/Axios';
+import { showChooseSize } from '../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -43,6 +44,7 @@ class Setting extends PureComponent {
         { title: '年龄', name: 'age', value: userInfo.age },
         { title: '鞋码', name: 'size', value: userInfo.size },
       ],
+      modalIsOpen: false,
     };
   }
 
@@ -74,8 +76,26 @@ class Setting extends PureComponent {
     if (item.name === 'avatar') {
       this.actionSheet.show();
     } else if (item.name === 'size') {
-
+      const { modalIsOpen } = this.state;
+      if (!modalIsOpen) {
+        this.sizeWrapper.measure((x, y, w, h, px, py) => {
+          this.setState({ modalIsOpen: true });
+          showChooseSize(getScreenHeight() - py - 50, this.chooseSize, () => this.setState({ modalIsOpen: false }));
+        });
+      } else {
+        this.closeModal();
+      }
     }
+  }
+
+  chooseSize = (size) => {
+    this.changeValue('size', size);
+    this.closeModal();
+  }
+
+  closeModal = () => {
+    this.setState({ modalIsOpen: false });
+    closeModalbox();
   }
 
   openPicker = (i) => {
@@ -120,42 +140,46 @@ class Setting extends PureComponent {
   }
 
   render() {
-    const { list } = this.state;
+    const { list, modalIsOpen } = this.state;
     return (
       <KeyboardDismiss style={styles.container}>
         {
           list.map((v) => {
             const Wrapper = ['sex', 'age', 'name'].includes(v.name) ? View : TouchableOpacity;
             return (
-              <Wrapper onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
+              <Wrapper
+                onPress={() => this.onPress(v)}
+                key={v.name}
+                style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2, height: v.name === 'avatar' ? 64 : 56 }]}
+              >
                 <Text style={styles.text}>{v.title}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                <View style={styles.itemRight}>
                   {
-                    v.name === 'avatar' ? (
-                      <View style={styles.imageWrapper}>
-                        <Image
-                          source={v.value ? { uri: v.value } : list[2].value === '女' ? Images.iconGirl : Images.iconBoy}
-                          style={{ ...styles.image, height: v.value ? wPx2P(40) : wPx2P(34), width: v.value ? wPx2P(40) : wPx2P(34) }}
+                    v.name === 'avatar' ? <AvatarWithShadow source={{ uri: v.value }} size={40} />
+                      : v.name === 'sex' ? (
+                        <ImageBackground
+                          source={v.value === '女' ? Images.chooseGirl : v.value === '男' ? Images.chooseBoy : Images.nosex}
+                          style={styles.sexBtnWrapper}
+                          onPress={this.changeSex}
                         />
-                      </View>
-                    ) : v.name === 'sex' ? (
-                      <ImageBackground
-                        source={v.value === '女' ? Images.chooseGirl : v.value === '男' ? Images.chooseBoy : Images.nosex}
-                        style={styles.sexBtnWrapper}
-                        onPress={this.changeSex}
-                      />
-                    ) : (
-                      <TextInput
-                        style={styles.input}
-                        placeholder={`输入${v.name === 'age' ? '年龄' : '昵称'}`}
-                        selectionColor="#00AEFF"
-                        defaultValue={['0', '0.0'].includes(v.value) ? '未设置' : v.value}
-                        placeholderTextColor="#D6D6D6"
-                        underlineColorAndroid="transparent"
-                        keyboardType={v.name === 'age' ? 'number-pad' : null}
-                        onChangeText={(text) => { this[v.name] = text; }}
-                      />
-                    )
+                      ) : v.name === 'size' ? (
+                        <View style={{ flexDirection: 'row' }} ref={(v) => { this.sizeWrapper = v; }}>
+                          <Text style={{ color: '#DEDEDE', fontSize: 12, marginRight: 5 }}>{v.value}</Text>
+                          <View style={styles.arrow}>
+                            <View style={modalIsOpen ? styles.arrowUp : styles.arrowDown} />
+                          </View>
+                        </View>
+                      ) : (
+                        <TextInput
+                          style={styles.input}
+                          placeholder={['0', '0.0'].includes(v.value) ? '未设置' : v.value}
+                          selectionColor="#00AEFF"
+                          placeholderTextColor="#DEDEDE"
+                          underlineColorAndroid="transparent"
+                          keyboardType={v.name === 'age' ? 'number-pad' : null}
+                          onChangeText={(text) => { this.changeValue(v.name, text); }}
+                        />
+                      )
                   }
                 </View>
               </Wrapper>
@@ -184,11 +208,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 2,
   },
-  sexBtn: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   btn: {
     height: 46,
     width: wPx2P(265),
@@ -205,45 +224,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.MAIN_BACK,
   },
-  inputWrapper: {
-    height: 26,
-    width: 200,
-    overflow: 'hidden',
-    borderRadius: 2,
-    borderColor: '#8F8F8F',
-    borderWidth: 0.5,
-    paddingLeft: 7,
-  },
   input: {
     flex: 1,
     fontSize: 12,
     padding: 0,
     includeFontPadding: false,
     textAlign: 'right',
-  },
-  image: {
-    overflow: 'hidden',
-    borderRadius: wPx2P(20),
-  },
-  imageWrapper: {
-    height: wPx2P(40),
-    width: wPx2P(40),
-    borderRadius: wPx2P(23.5),
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(166, 166, 166)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 100,
-        position: 'relative',
-      },
-    }),
   },
   itemWrapper: {
     flexDirection: 'row',
@@ -257,16 +243,51 @@ const styles = StyleSheet.create({
     color: '#333',
     fontSize: 13,
   },
-  frameAvatar: {
-    height: 60,
-    width: 60,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   right: {
     height: 7.5,
     width: 5,
     marginLeft: 10,
+  },
+  itemRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  arrow: {
+    height: 17,
+    width: 17,
+    borderRadius: 2,
+    overflow: 'hidden',
+    backgroundColor: Colors.YELLOW,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrowUp: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 0,
+    borderBottomWidth: 5,
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
+    borderTopColor: 'transparent',
+    borderLeftColor: 'transparent',
+    borderBottomColor: '#fff',
+    borderRightColor: 'transparent',
+  },
+  arrowDown: {
+    width: 0,
+    height: 0,
+    borderStyle: 'solid',
+    borderTopWidth: 5,
+    borderBottomWidth: 0,
+    borderRightWidth: 3,
+    borderLeftWidth: 3,
+    borderTopColor: '#fff',
+    borderLeftColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderRightColor: 'transparent',
   },
 });
 

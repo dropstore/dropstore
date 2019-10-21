@@ -1,5 +1,5 @@
 import {
-  View, Text, TouchableOpacity, Linking, StyleSheet,
+  View, Text, TouchableOpacity, Linking, StyleSheet, Platform, ScrollView,
 } from 'react-native';
 import React from 'react';
 import { showModalbox, closeModalbox, showShare } from './MutualUtil';
@@ -7,8 +7,9 @@ import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 import { Image } from '../components';
 import store from '../redux/configureStore';
+import { getScreenWidth } from '../common/Constant';
 
-
+const sizes = Array(26).fill('').map((v, i) => i / 2 + 35.5);
 let isChecked = false;
 function debounce(fun, delay = 1000) {
   return (...params) => {
@@ -161,6 +162,49 @@ function toShare() {
   });
 }
 
+function showChooseSize(height, onChoosed, onClosed) {
+  showModalbox({
+    element: (
+      <ScrollView contentContainerStyle={styles.sizeModal}>
+        {
+          sizes.map(v => (
+            <TouchableOpacity
+              onPress={() => onChoosed(v)}
+              key={v}
+              style={[styles.itemWrapper, { borderRightColor: '#F2F2F2', borderBottomColor: '#F2F2F2' }]}
+            >
+              <Text>{v}</Text>
+            </TouchableOpacity>
+          ))
+        }
+      </ScrollView>
+    ),
+    options: {
+      style: {
+        height,
+        width: getScreenWidth(),
+        marginTop: 10,
+        backgroundColor: '#fff',
+        ...Platform.select({
+          ios: {
+            shadowColor: 'rgb(166, 166, 166)',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.35,
+            shadowRadius: 5,
+          },
+          android: {
+            elevation: 5,
+            position: 'relative',
+          },
+        }),
+      },
+      position: 'bottom',
+      backdropOpacity: 0,
+      onClosed,
+    },
+  });
+}
+
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#fff',
@@ -190,8 +234,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 27,
   },
+  sizeModal: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  itemWrapper: {
+    width: '25%',
+    height: getScreenWidth() / 4,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderRightWidth: StyleSheet.hairlineWidth,
+  },
 });
 
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare,
+  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare, showChooseSize,
 };
