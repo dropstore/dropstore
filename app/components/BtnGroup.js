@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: YaHei,
   },
   shuxian: {

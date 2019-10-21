@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { getScreenWidth } from '../../common/Constant';
+import Colors from '../../res/Colors';
 
 class ModalTreaty extends PureComponent {
   constructor(props) {
@@ -34,7 +35,7 @@ class ModalTreaty extends PureComponent {
   render() {
     const { disAgree } = this.state;
     const list = [
-      '欢迎使用dropAPP！\n依据最新法律要求，更新了隐私政策，特地向您推送本提示。drop一直致力采用最大可能的方法和手段保护您的信息安全，并根据使用服务的具体功能需要收集信息。\n除非得到授权，我们不会向任何第三方提供您的信息。您可以阅读我们完整的',
+      '欢迎使用炒饭APP！\n依据最新法律要求，更新了隐私政策，特地向您推送本提示。炒饭一直致力采用最大可能的方法和手段保护您的信息安全，并根据使用服务的具体功能需要收集信息。\n除非得到授权，我们不会向任何第三方提供您的信息。您可以阅读我们完整的',
       '《隐私协议》',
       '了解我们的承诺。',
     ];
@@ -73,7 +74,7 @@ class ModalTreaty extends PureComponent {
                   alignItems: 'center',
                 }}
               >
-                <Text style={{ color: '#c20000', fontSize: 17 }}>下一步</Text>
+                <Text style={{ color: Colors.YELLOW, fontSize: 17 }}>下一步</Text>
               </TouchableOpacity>
             )
             : (
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     borderRadius: 5,
     overflow: 'hidden',
-    backgroundColor: '#c20000',
+    backgroundColor: Colors.YELLOW,
     height: 40,
     width: 122,
     textAlign: 'center',
