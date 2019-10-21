@@ -11,7 +11,7 @@ import SelfSupport from './selfSupport';
 const ROUTES = [
   { key: 'originalCost', title: '原价发售', screen: OriginalCost },
   {
-    key: 'selfSupport', title: 'Drop自营', screen: SelfSupport, width: 52,
+    key: 'selfSupport', title: 'Drop自营', screen: SelfSupport, width: 60,
   },
   // { key: 'luckyCharm', title: '球鞋锦鲤',screen: LuckyCharm },
   // { key: 'reserve', title: '球鞋预定',screen: Reserve },

@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   shopTitle: {
-    fontSize: 12,
+    fontSize: 13,
     color: 'rgba(0,0,0,1)',
     fontFamily: RuiXian,
     textAlign: 'justify',

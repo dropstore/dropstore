@@ -3,7 +3,7 @@ import { View, Platform } from 'react-native';
 import TabBarItem from './TabBarItem';
 import TabBarIndicator from './TabBarIndicator';
 
-const fontSize = 12;
+const fontSize = 14;
 const sidePadding = 20;
 const middlePadding = 25;
 

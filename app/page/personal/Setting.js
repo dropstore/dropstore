@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import {
-  Image, ModalNormal, ActionSheet, ChangeSize, ImageBackground,
+  Image, ActionSheet, ImageBackground, KeyboardDismiss,
 } from '../../components';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
@@ -14,7 +14,7 @@ import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { getScreenWidth, PADDING_TAB } from '../../common/Constant';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
-import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
+import { showToast } from '../../utils/MutualUtil';
 import { upload } from '../../http/Axios';
 
 function mapStateToProps() {
@@ -73,47 +73,8 @@ class Setting extends PureComponent {
     this.size = userInfo.size;
     if (item.name === 'avatar') {
       this.actionSheet.show();
-    } else if (item.name !== 'sex') {
-      const customText = item.name === 'size' ? <ChangeSize onChange={this.sizeChange} initSize={item.value === '0.0' ? 42 : item.value} /> : (
-        <View style={styles.inputWrapper}>
-          <TextInput
-            maxLength={item.name === 'name' ? 8 : 3}
-            keyboardType={item.name === 'name' ? null : 'number-pad'}
-            placeholder={item.name === 'name' ? '输入昵称' : '输入年龄'}
-            placeholderTextColor="#d3d3d3"
-            underlineColorAndroid="transparent"
-            style={styles.input}
-            selectionColor="#00AEFF"
-            defaultValue={item.name !== 'age' || item.value !== '0' ? item.value : ''}
-            clearButtonMode="while-editing"
-            onChangeText={(text) => { this[item.name] = text; }}
-          />
-        </View>
-      );
-      showModalbox({
-        element: (<ModalNormal
-          sure={() => {
-            if (this.name.length < 1) {
-              showToast('请输入昵称');
-              return;
-            }
-            this.changeValue(item.name, this[item.name]);
-            closeModalbox();
-          }}
-          closeModalbox={closeModalbox}
-          customText={customText}
-          title={`修改${item.title}`}
-        />),
-        options: {
-          style: {
-            height: 250,
-            width: 265,
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-          },
-        },
-      });
+    } else if (item.name === 'size') {
+
     }
   }
 
@@ -161,35 +122,41 @@ class Setting extends PureComponent {
   render() {
     const { list } = this.state;
     return (
-      <View style={styles.container}>
+      <KeyboardDismiss style={styles.container}>
         {
           list.map((v) => {
-            const Wrapper = v.name === 'sex' ? View : TouchableOpacity;
+            const Wrapper = ['sex', 'age', 'name'].includes(v.name) ? View : TouchableOpacity;
             return (
               <Wrapper onPress={() => this.onPress(v)} key={v.name} style={[styles.itemWrapper, { marginBottom: v.name === 'avatar' ? 7 : 2 }]}>
                 <Text style={styles.text}>{v.title}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                   {
-                      v.name === 'avatar'
-                        ? (
-                          <View style={styles.imageWrapper}>
-                            <Image
-                              source={v.value ? { uri: v.value } : list[2].value === '女' ? Images.iconGirl : Images.iconBoy}
-                              style={{ ...styles.image, height: v.value ? wPx2P(40) : wPx2P(34), width: v.value ? wPx2P(40) : wPx2P(34) }}
-                            />
-                          </View>
-                        )
-                        : v.name === 'sex'
-                          ? (
-                            <ImageBackground
-                              source={v.value === '女' ? Images.chooseGirl : v.value === '男' ? Images.chooseBoy : Images.nosex}
-                              style={styles.sexBtnWrapper}
-                              onPress={this.changeSex}
-                            />
-                          )
-                          : <Text style={styles.text}>{['0', '0.0'].includes(v.value) ? '未设置' : v.value}</Text>
-                    }
-                  {/* <Image source={Images.iconRight} style={styles.right} /> */}
+                    v.name === 'avatar' ? (
+                      <View style={styles.imageWrapper}>
+                        <Image
+                          source={v.value ? { uri: v.value } : list[2].value === '女' ? Images.iconGirl : Images.iconBoy}
+                          style={{ ...styles.image, height: v.value ? wPx2P(40) : wPx2P(34), width: v.value ? wPx2P(40) : wPx2P(34) }}
+                        />
+                      </View>
+                    ) : v.name === 'sex' ? (
+                      <ImageBackground
+                        source={v.value === '女' ? Images.chooseGirl : v.value === '男' ? Images.chooseBoy : Images.nosex}
+                        style={styles.sexBtnWrapper}
+                        onPress={this.changeSex}
+                      />
+                    ) : (
+                      <TextInput
+                        style={styles.input}
+                        placeholder={`输入${v.name === 'age' ? '年龄' : '昵称'}`}
+                        selectionColor="#00AEFF"
+                        defaultValue={['0', '0.0'].includes(v.value) ? '未设置' : v.value}
+                        placeholderTextColor="#D6D6D6"
+                        underlineColorAndroid="transparent"
+                        keyboardType={v.name === 'age' ? 'number-pad' : null}
+                        onChangeText={(text) => { this[v.name] = text; }}
+                      />
+                    )
+                  }
                 </View>
               </Wrapper>
             );
@@ -204,7 +171,7 @@ class Setting extends PureComponent {
           cancelButtonIndex={2}
           onPress={this.openPicker}
         />
-      </View>
+      </KeyboardDismiss>
     );
   }
 }
@@ -252,6 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     padding: 0,
     includeFontPadding: false,
+    textAlign: 'right',
   },
   image: {
     overflow: 'hidden',
