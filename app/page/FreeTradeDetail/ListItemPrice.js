@@ -27,7 +27,7 @@ export default class ListItem extends PureComponent {
         <View style={styles.right}>
           <Image
             style={{ height: 13, width: 25 }}
-            source={item.is_stock === '2' ? require('../../res/image/qihuo_icon.png') : require('../../res/image/qihuo_icon.png')}
+            source={item.is_stock === '2' ? require('../../res/image/qihuo.png') : require('../../res/image/xianhuo.png')}
           />
           <Price price={item.price} />
         </View>
