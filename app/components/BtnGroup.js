@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   item: {
     alignItems: 'center',
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     fontFamily: YaHei,
   },
   shuxian: {
-    height: 13,
+    height: 14.5,
     width: StyleSheet.hairlineWidth,
     backgroundColor: '#C0C0C0',
     marginHorizontal: 13,

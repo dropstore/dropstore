@@ -109,6 +109,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     marginBottom: 7,
     flexDirection: 'row',
+    borderRadius: 2,
+    overflow: 'hidden',
   },
   right: {
     flex: 1,
