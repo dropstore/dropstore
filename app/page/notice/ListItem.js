@@ -9,6 +9,7 @@ import { YaHei, RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
+import Styles from '../../res/style';
 
 export default class ListItem extends PureComponent {
   constructor(props) {
@@ -77,7 +78,7 @@ export default class ListItem extends PureComponent {
             { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }
           </View>
           <View style={{ flex: 1, justifyContent: item.type !== '6' ? 'space-between' : 'center' }}>
-            <Text style={styles.title}>{item.activity_name}</Text>
+            <Text style={Styles.listTitle}>{item.activity_name}</Text>
             {['1', '2', '7'].includes(item.type) && item.order_price && <Price price={item.order_price} /> }
             {
 
@@ -112,13 +113,6 @@ const styles = StyleSheet.create({
   },
   btn: {
     alignSelf: 'flex-end',
-  },
-  title: {
-    fontSize: 12,
-    fontFamily: RuiXian,
-    textAlign: 'justify',
-    flex: 1,
-    lineHeight: 14,
   },
   date: {
     color: '#B6B6B6',

@@ -10,5 +10,6 @@ export default StyleSheet.create({
     fontFamily: RuiXian,
     lineHeight: 14,
     textAlign: 'justify',
+    flex: 1,
   },
 });
