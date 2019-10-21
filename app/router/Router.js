@@ -24,7 +24,7 @@ import PhoneNum from '../page/auth/PhoneNum';
 import shopDetail from '../page/shopDetail';
 // import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
-import PayStatus from '../page/pay/PayStatus';
+import PaySuccess from '../page/pay/PaySuccess';
 import commission from '../page/commission';
 import Panicstatus from '../page/Panicstatus';
 import drawStatus from '../page/drawstatus';
@@ -142,7 +142,7 @@ const routesWithHeader = {
   ImagePage: { ...navigationOptionsWithBorderBottom, screen: ImagePage },
   Panicstatus: { ...navigationOptionsWithBorderBottom, screen: Panicstatus },
   commission: { ...navigationOptionsWithBorderBottom, screen: commission },
-  PayStatus: { ...navigationOptionsWithBorderBottom, screen: PayStatus },
+  PaySuccess: { ...navigationOptionsWithBorderBottom, screen: PaySuccess },
   BalanceExtract,
   Password,
   MyGoods,

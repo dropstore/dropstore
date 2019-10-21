@@ -71,6 +71,7 @@ class PayDetail extends PureComponent {
     navigation.navigate('pay', {
       title: '选择支付方式',
       type: navigation.getParam('type'),
+      payType: navigation.getParam('payType'),
       payData: {
         order_id: data.order_id,
         price: ['service', 'management', 'price', 'postage'].reduce((sum, v) => sum + (data[v] || 0) * 1, 0),

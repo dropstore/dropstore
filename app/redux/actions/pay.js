@@ -5,6 +5,7 @@ import { showToast } from '../../utils/MutualUtil';
 import Strings from '../../res/Strings';
 import { fetchSimpleData } from './simpleData';
 import store from '../configureStore';
+import { showNoPayment } from '../../utils/commonUtils';
 
 /**
  * 获取订单信息并调用支付
@@ -84,7 +85,7 @@ const dropPay = async () => {
  * @param navigation
  * @param {Object} shopInfo - 商品详情
  */
-const getPayStatus = async (type, uAid, navigation, shopInfo) => {
+const getPayStatus = async (type, uAid, navigation, shopInfo, payType) => {
   const params = {
     u_a_id: uAid,
     type,
@@ -96,8 +97,8 @@ const getPayStatus = async (type, uAid, navigation, shopInfo) => {
     }
     showToast('支付成功');
     if (shopInfo) {
-      navigation.push('PayStatus', {
-        shopInfo, type, PayStatus: true,
+      navigation.push('PaySuccess', {
+        shopInfo, type, payType,
       });
     } else {
       navigation.push('MyGoods', {
@@ -107,6 +108,7 @@ const getPayStatus = async (type, uAid, navigation, shopInfo) => {
     }
   } else {
     showToast('支付失败，请重新支付');
+    showNoPayment(navigation);
   }
 };
 export { getOrderInfo, pay, getPayStatus };

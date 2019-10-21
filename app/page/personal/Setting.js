@@ -189,7 +189,7 @@ class Setting extends PureComponent {
                           )
                           : <Text style={styles.text}>{['0', '0.0'].includes(v.value) ? '未设置' : v.value}</Text>
                     }
-                  <Image source={Images.iconRight} style={styles.right} />
+                  {/* <Image source={Images.iconRight} style={styles.right} /> */}
                 </View>
               </Wrapper>
             );
