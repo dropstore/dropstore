@@ -142,7 +142,6 @@ const routesWithHeader = {
   ImagePage: { ...navigationOptionsWithBorderBottom, screen: ImagePage },
   Panicstatus: { ...navigationOptionsWithBorderBottom, screen: Panicstatus },
   commission: { ...navigationOptionsWithBorderBottom, screen: commission },
-  PaySuccess: { ...navigationOptionsWithBorderBottom, screen: PaySuccess },
   BalanceExtract,
   Password,
   MyGoods,
@@ -160,13 +159,12 @@ const routesWithHeader = {
 const routesWithoutHeader = {
   BottomNavigator,
   drawStatus,
+  PaySuccess: { screen: PaySuccess, navigationOptions: { header: null, gesturesEnabled: false } },
 };
 
 for (const i in routesWithoutHeader) {
   if (routesWithoutHeader[i].constructor === Object) {
     routesWithoutHeader[i] = { navigationOptions: { header: null }, ...routesWithoutHeader[i] };
-  } else {
-    routesWithoutHeader[i] = { screen: routesWithoutHeader[i], navigationOptions: { header: null } };
   }
 }
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {

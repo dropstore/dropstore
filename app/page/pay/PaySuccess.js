@@ -32,7 +32,6 @@ const TestShopInfo = {};
 // commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
 const TestPayType = '';
 
-
 export default class PaySuccess extends PureComponent {
   showShare = () => {
     const { navigation } = this.props;
@@ -210,6 +209,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.WHITE_COLOR,
+    paddingTop: STATUSBAR_HEIGHT + 20,
   },
   hengxian: {
     backgroundColor: '#E2E2E2',
