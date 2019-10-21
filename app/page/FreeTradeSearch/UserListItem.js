@@ -7,7 +7,6 @@ import { showToast } from '../../utils/MutualUtil';
 export default class UserListItem extends PureComponent {
   onPress = () => {
     const { item, navigation } = this.props;
-    console.log(item);
     if (item.sell_num < 1) {
       showToast('该用户暂无商品出售');
     } else {
