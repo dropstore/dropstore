@@ -101,11 +101,10 @@ class SelfBottomCom extends PureComponent {
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
     const uId = shopInfo.user_activity.user_id;
-    const image = shopInfo.goods.image;
     const url = `${ShopConstant.SHARE_BASE_URL}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
     showShare({
       text: shopInfo.goods.goods_name,
-      img: image,
+      img: shopInfo.goods.icon,
       url,
       title: shopInfo.activity.b_type === '2' ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元佣金`
         : `快来炒饭APP帮我抽一支幸运签，中签可立获${shopInfo.user_activity.commission / 100}元佣金`,
