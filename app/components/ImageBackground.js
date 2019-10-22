@@ -11,6 +11,7 @@ type Props = {
   onPress?: Function,
   disabled?: boolean,
   hitSlop?: Object,
+  useFadeImage?: boolean,
 };
 
 export default class ImageBackgroundCom extends PureComponent<Props> {
@@ -19,6 +20,7 @@ export default class ImageBackgroundCom extends PureComponent<Props> {
     onPress: null,
     disabled: false,
     hitSlop: {},
+    useFadeImage: false,
   };
 
   render() {
