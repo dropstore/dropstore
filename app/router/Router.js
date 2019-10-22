@@ -157,16 +157,11 @@ const routesWithHeader = {
 };
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
-  BottomNavigator,
-  drawStatus,
+  BottomNavigator: { screen: BottomNavigator, navigationOptions: { header: null } },
+  drawStatus: { screen: drawStatus, navigationOptions: { header: null } },
   PaySuccess: { screen: PaySuccess, navigationOptions: { header: null, gesturesEnabled: false } },
 };
 
-for (const i in routesWithoutHeader) {
-  if (routesWithoutHeader[i].constructor === Object) {
-    routesWithoutHeader[i] = { navigationOptions: { header: null }, ...routesWithoutHeader[i] };
-  }
-}
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
   initialRouteName: 'BottomNavigator', defaultNavigationOptions, ...transition,
 });
