@@ -5,6 +5,7 @@ import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import Colors from '../../res/Colors';
+import Styles from '../../res/style';
 
 export default class RestPayItem extends PureComponent {
   changeChoosed = () => {
@@ -26,7 +27,7 @@ export default class RestPayItem extends PureComponent {
             </View>
           </View>
           <View style={{ flex: 1, justifyContent: 'space-between' }}>
-            <Text style={styles.title}>{item.activity_name}</Text>
+            <Text numberOfLines={2} style={Styles.listTitle}>{item.activity_name}</Text>
             <View>
               <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
                 <Price price={item.order_price} />

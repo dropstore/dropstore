@@ -64,7 +64,7 @@ class PersonalCenterPage extends PureComponent {
           <View style={styles.headerWrapper}>
             <View style={{ flex: 1, flexDirection: 'row' }}>
               <AvatarWithShadow
-                source={userInfo.avatar !== -1 ? { uri: userInfo.avatar } : userInfo.sex === '女' ? Images.iconGirl : Images.iconBoy}
+                source={{ uri: userInfo.avatar }}
                 size={userInfo.avatar !== -1 ? wPx2P(47) : wPx2P(36)}
               />
               <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>

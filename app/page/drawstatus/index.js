@@ -48,8 +48,6 @@ class DrawStatus extends PureComponent {
       <View style={_style.container}>
         <ScrollView contentContainerStyle={{ flex: 1 }} showsVerticalScrollIndicator={false} alwaysBounceVertical={false}>
           <View style={_style.mainView}>
-            <Image style={{ width: wPx2P(250), height: wPx2P(100) }} source={Images.gx_zq} />
-            <Image style={{ width: wPx2P(200), height: wPx2P(200) }} source={Images.got_em} />
             <Image style={_style.goodImage} source={{ uri: data.goods.image }} />
             <Text style={_style.shopName}>{data.goods.goods_name}</Text>
           </View>
