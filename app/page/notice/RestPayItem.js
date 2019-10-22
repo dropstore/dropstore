@@ -41,7 +41,7 @@ export default class RestPayItem extends PureComponent {
           {
             item.pay_status == 1
               ? <Text style={styles.yizhifu}>已支付</Text>
-              : <Image source={item.choosed ? Images.choose : Images.unchoose} style={{ width: 19, height: 19 }} />
+              : <Image source={item.choosed ? require('../../res/image/choose.png') : Images.unchoose} style={{ width: 19, height: 19 }} />
           }
         </View>
       </Wrapper>
