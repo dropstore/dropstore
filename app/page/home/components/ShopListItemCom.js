@@ -16,25 +16,9 @@ import { formatDate } from '../../../utils/commonUtils';
 export default class ShopListItemCom extends PureComponent {
   constructor(props) {
     super(props);
-    const { item } = this.props;
-    const now = Date.now() / 1000;
     this.state = {
-      isStart: item.start_time - Date.now() / 1000 < 1,
-      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
-        || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
+      isStartState: null,
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { item } = this.props;
-    const now = Date.now() / 1000;
-    if (item !== nextProps.item) {
-      this.setState({
-        isStart: nextProps.item.start_time - Date.now() / 1000 < 1,
-        showText: (parseInt(nextProps.item.end_time) - now < MAX_TIME && nextProps.item.end_time > now)
-          || (parseInt(nextProps.item.start_time) - now < MAX_TIME && nextProps.item.start_time > now),
-      });
-    }
   }
 
   toShopDetailPage = () => {
@@ -56,18 +40,18 @@ export default class ShopListItemCom extends PureComponent {
   };
 
   activityStart = () => {
-    const { item } = this.props;
-    const now = Date.now() / 1000;
     this.setState({
-      isStart: true,
-      showText: (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
-          || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now),
+      isStartState: true,
     });
   }
 
   render() {
     const { item, index } = this.props;
-    const { isStart, showText } = this.state;
+    const { isStartState } = this.state;
+    const now = Date.now() / 1000;
+    const isStart = isStartState || item.start_time - now < 1;
+    const showText = (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
+    || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now);
     return (
       <ScaleView style={{ ...styles.scaleView, marginLeft: index % 2 === 0 ? 8 : 9 }} onPress={this.toShopDetailPage}>
         <TitleWithTag text={item.activity_name} bType={item.b_type} />
