@@ -27,7 +27,6 @@ import pay from '../page/pay';
 import PaySuccess from '../page/pay/PaySuccess';
 import commission from '../page/commission';
 import Panicstatus from '../page/Panicstatus';
-import drawStatus from '../page/drawstatus';
 
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
@@ -158,7 +157,6 @@ const routesWithHeader = {
 // 不需要导航头部的路由写在这里
 const routesWithoutHeader = {
   BottomNavigator: { screen: BottomNavigator, navigationOptions: { header: null } },
-  drawStatus: { screen: drawStatus, navigationOptions: { header: null } },
   PaySuccess: { screen: PaySuccess, navigationOptions: { header: null, gesturesEnabled: false } },
 };
 
