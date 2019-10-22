@@ -48,8 +48,7 @@ const IMAGES = {
   chaNew: require('./image/chaNew.png'),
   wenhao: require('./image/wenhao.png'),
   search: require('./image/search.png'),
-  // 鉴定
-  choose: require('./image/choose.png'),
+
   unchoose: require('./image/unchoose.png'),
   weitongguo: require('./image/weitongguo.png'),
   jiandingzhong: require('./image/jiandingzhong.png'),
