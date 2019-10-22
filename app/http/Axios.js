@@ -1,10 +1,3 @@
-/**
- * @file 网络请求封装
- * https://github.com/axios/axios
- * @date 2019/8/17 15:59
- * @author ZWW
- */
-
 import Axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
