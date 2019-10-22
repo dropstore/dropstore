@@ -14,11 +14,11 @@ import api from './api';
 
 const appVersion = DeviceInfo.getVersion();
 const deviceInfo = {
-  'unique-id': `${DeviceInfo.getUniqueID()}`,
-  'app-version': `${appVersion}`,
-  system: `${DeviceInfo.getSystemName()}`,
-  'device-brand': `${escape(DeviceInfo.getBrand())}`,
-  'device-id': `${DeviceInfo.getDeviceId()}`,
+  'Unique-Id': `${DeviceInfo.getUniqueID()}`,
+  'App-Version': `${appVersion}`,
+  System: `${DeviceInfo.getSystemName()}`,
+  'Device-Brand': `${escape(DeviceInfo.getBrand())}`,
+  'Device-Id': `${DeviceInfo.getDeviceId()}`,
 };
 const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
