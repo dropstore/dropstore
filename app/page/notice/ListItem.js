@@ -14,11 +14,8 @@ import Styles from '../../res/style';
 export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
-    const { item } = this.props;
     this.state = {
-      text: ['3'].includes(item.type) ? '佣金已入账'
-        : item.end_time <= Date.now() / 1000 ? '活动已结束'
-          : item.pay_status == '1' ? '已购买' : null,
+      text: '',
     };
   }
 
@@ -95,7 +92,17 @@ export default class ListItem extends PureComponent {
               )
             }
             { ['1', '2', '7', '8', '9'].includes(item.type) && !text && <BtnGroup btns={btns} />}
-            { !!text && <Text style={styles.yongjin}>{text}</Text> }
+            {
+              !!text && (
+                <Text style={styles.yongjin}>
+                  {
+                    text || ['3'].includes(item.type) ? '佣金已入账'
+                      : item.end_time <= Date.now() / 1000 ? '活动已结束'
+                        : item.pay_status == '1' ? '已购买' : null
+                  }
+                </Text>
+              )
+            }
           </View>
         </Wrapper>
       </View>
