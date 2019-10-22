@@ -15,13 +15,15 @@ type Props = {
     disabled: Boolean,
     text: String
   }>,
+  customLeft: any,
 };
 
 export default class BottomBtnGroup extends PureComponent<Props> {
   render() {
-    const { btns } = this.props;
+    const { btns, customLeft } = this.props;
     return (
-      <View style={[styles.container, { justifyContent: btns.length === 2 ? 'space-between' : 'flex-end' }]}>
+      <View style={[styles.container, { justifyContent: (btns.length === 2 || customLeft) ? 'space-between' : 'flex-end' }]}>
+        {customLeft}
         {
           btns.map(((v, i) => (
             <TouchableOpacity
@@ -43,11 +45,11 @@ const styles = StyleSheet.create({
   container: {
     height: 66 + PADDING_TAB,
     paddingBottom: PADDING_TAB,
+    alignItems: 'center',
     width: getScreenWidth(),
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     flexDirection: 'row',
-    paddingTop: 9,
     ...Platform.select({
       ios: {
         shadowColor: 'rgb(188, 188, 188)',

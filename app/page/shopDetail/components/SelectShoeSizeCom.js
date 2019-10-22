@@ -104,9 +104,9 @@ class SelectShoeSizeCom extends Component {
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
           <View style={styles.mainView}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={styles.header}>
               <Text style={styles.title}>鞋码选择</Text>
-              <Text style={styles.alreadyChoose}>{`已选数量：${totalCount}`}</Text>
+              <Text style={{ color: '#666', fontSize: 12 }}>每选一双鞋，团队可增加一人</Text>
             </View>
 
             <Image onPress={() => closeBox()} style={styles.close} source={require('../../../res/image/close-x.png')} />
@@ -142,7 +142,10 @@ class SelectShoeSizeCom extends Component {
             }
           </ScrollView>
         </View>
-        <BottomBtnGroup btns={[{ text: '确认', onPress: debounce(this.confirmChoose), disabled: totalCount === 0 }]} />
+        <BottomBtnGroup
+          customLeft={<Text style={styles.alreadyChoose}>{`已选数量：${totalCount}`}</Text>}
+          btns={[{ text: '确认', onPress: debounce(this.confirmChoose), disabled: totalCount === 0 }]}
+        />
       </View>
     );
   }
@@ -154,6 +157,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     lineHeight: 17,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+    paddingRight: 10,
   },
   add: {
     height: 17,
