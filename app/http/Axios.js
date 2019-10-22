@@ -21,11 +21,11 @@ import api from './api';
 
 const appVersion = DeviceInfo.getVersion();
 const deviceInfo = {
-  unique_id: DeviceInfo.getUniqueID(),
-  app_version: appVersion,
-  system: DeviceInfo.getSystemName(),
-  device_brand: escape(DeviceInfo.getBrand()),
-  device_id: DeviceInfo.getDeviceId(),
+  'unique-id': `${DeviceInfo.getUniqueID()}`,
+  'app-version': `${appVersion}`,
+  system: `${DeviceInfo.getSystemName()}`,
+  'device-brand': `${escape(DeviceInfo.getBrand())}`,
+  'device-id': `${DeviceInfo.getDeviceId()}`,
 };
 const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
@@ -33,7 +33,6 @@ const timeout = 5000;
 const headers = header => ({
   ...header,
   ...deviceInfo,
-  carrier: DeviceInfo.getCarrier(),
   Authorization: store.getState().userInfo.user_s_id,
 });
 
