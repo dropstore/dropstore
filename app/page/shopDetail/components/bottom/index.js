@@ -73,7 +73,7 @@ class SelfBottomCom extends PureComponent {
     }
     const btns = [];
     if (joinUser.length !== 0) {
-      btns.push({ text: '分享', onPress: debounce(this._showShare) });
+      btns.push({ text: '邀请加入', onPress: debounce(this._showShare) });
     } else {
       btns.push({ text: '通知我', onPress: () => showToast('已添加到通知') });
     }

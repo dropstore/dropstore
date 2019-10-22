@@ -9,7 +9,7 @@ import { PADDING_TAB } from '../../common/Constant';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
 import { showToast, showModalbox, closeModalbox } from '../../utils/MutualUtil';
-import { ModalNormal, CountdownCom } from '../../components';
+import { ModalNormal, CountdownCom, BottomPay } from '../../components';
 import { request } from '../../http/Axios';
 
 class RestPay extends Component {
@@ -105,9 +105,9 @@ class RestPay extends Component {
     return (
       <View>
         <Text style={styles.hint}>付款后的商品寄存在我的库房，如需发货，请到“我的”&gt;&gt;“我的库房”中选择发货地址</Text>
-        <View style={styles.orderWrapper}>
+        {/* <View style={styles.orderWrapper}>
           <Text style={styles.order}>{`创建日期：${formatDate(add_time)}`}</Text>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -126,35 +126,23 @@ class RestPay extends Component {
     const totalPrice = payItems.reduce((sum, v) => sum + v.order_price * 1, 0);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK }}>
-        <View style={styles.timeWrapper}>
-          <Text style={styles.time}>待付款</Text>
+        <View style={styles.top}>
           <CountdownCom
             finish={this.finish}
             style={styles.time}
             time={end_time}
+            prefix="待付款 "
+            prefixStyle={[styles.time, { color: Colors.RED }]}
           />
+          <Text style={styles.time}>请在规定时间内完成支付，错过将失去购买资格</Text>
         </View>
-        <Text style={[styles.time, { marginRight: 9, marginBottom: 5 }]}>请在规定时间内完成支付，错过将失去购买资格</Text>
         <FlatList
           data={list}
           style={{ marginBottom: 69 }}
           renderItem={this.renderItem}
           ListFooterComponent={this.listFooterComponent}
         />
-        <View style={styles.bottom}>
-          <View style={styles.priceWrapper}>
-            <Text style={styles.price}>合计：</Text>
-            <Text style={[styles.price, { color: Colors.YELLOW }]}>{`${totalPrice / 100}`}</Text>
-            <Text style={styles.price}>￥</Text>
-          </View>
-          <TouchableOpacity
-            disabled={payItems.length === 0}
-            style={[styles.zhifu, { backgroundColor: payItems.length > 0 ? Colors.YELLOW : '#e2e2e2' }]}
-            onPress={() => this.onPress(payItems, totalPrice)}
-          >
-            <Text style={{ color: '#fff', fontSize: 16, fontFamily: YaHei }}>确认支付</Text>
-          </TouchableOpacity>
-        </View>
+        <BottomPay disabled={payItems.length === 0} price={totalPrice} onPress={() => this.onPress(payItems, totalPrice)} />
       </View>
     );
   }
@@ -193,12 +181,12 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 11,
-    color: Colors.YELLOW,
+    color: Colors.RED,
     textAlign: 'right',
   },
   hint: {
     color: '#B6B6B6',
-    fontSize: 9,
+    fontSize: 10,
     marginHorizontal: 9,
     textAlign: 'justify',
     marginTop: 3,
@@ -233,6 +221,11 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontFamily: YaHei,
+  },
+  top: {
+    alignItems: 'flex-end',
+    paddingVertical: 5,
+    paddingRight: 9,
   },
 });
 
