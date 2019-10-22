@@ -5,7 +5,7 @@ import {
 import {
   Image, CountdownCom, ImageBackground, Price, BtnGroup, ScaleView,
 } from '../../components';
-import { YaHei, RuiXian } from '../../res/FontFamily';
+import { YaHei } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { formatDate } from '../../utils/commonUtils';
