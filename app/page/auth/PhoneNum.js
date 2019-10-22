@@ -8,13 +8,13 @@ import {
 } from '../../common/Constant';
 import PhoneNumCom from './PhoneNumCom';
 import Colors from '../../res/Colors';
-import { mobileBind } from '../../redux/actions/userInfo';
+import { wxBindMobile } from '../../redux/actions/userInfo';
 import { Image, KeyboardDismiss } from '../../components';
 import { showToast } from '../../utils/MutualUtil';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    mobileBind,
+    wxBindMobile,
   }, dispatch);
 }
 
@@ -33,7 +33,7 @@ class PhoneNum extends PureComponent {
   }
 
   goNext = () => {
-    const { navigation, mobileBind } = this.props;
+    const { navigation, wxBindMobile } = this.props;
     if (this.mobile.length < 11) {
       showToast('请输入正确的手机号码');
       return;
@@ -41,7 +41,7 @@ class PhoneNum extends PureComponent {
       showToast('请输入6位短信验证码');
       return;
     }
-    mobileBind(this.mobile, this.code).then(() => {
+    wxBindMobile(this.mobile, this.code).then(() => {
       navigation.navigate('NameAge');
     });
   }
@@ -57,7 +57,7 @@ class PhoneNum extends PureComponent {
     return (
       <KeyboardDismiss style={styles.container}>
         <Image resizeMode="contain" source={require('../../res/image/logo.png')} style={styles.logo} />
-        <PhoneNumCom bindPhone onChange={this.onChange} />
+        <PhoneNumCom onChange={this.onChange} />
         <TouchableOpacity
           style={[styles.frameLogin, { backgroundColor: disabled ? Colors.DISABLE : Colors.YELLOW }]}
           onPress={this.goNext}

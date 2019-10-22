@@ -61,13 +61,13 @@ class PhoneNumCom extends PureComponent {
   }
 
   toSendCode =() => {
-    const { userInfo, sendMessage, bindPhone } = this.props;
+    const { userInfo, sendMessage } = this.props;
     const { mobile } = this.state;
     if (mobile.length < 11) {
       showToast('请输入正确的手机号码');
     }
     if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
-      sendMessage(bindPhone ? '/user/send_change_message' : '/user/send_message', mobile, Date.now()).then(() => {
+      sendMessage('/user/send_message', mobile, Date.now()).then(() => {
         showToast(`验证码已发送至${mobile}`);
         this.startTimer();
         this.codeInput.focus();
@@ -120,7 +120,6 @@ class PhoneNumCom extends PureComponent {
             placeholder="输入验证码"
             ref={(v) => { this.codeInput = v; }}
           />
-
           <TouchableOpacity onPress={debounce(this.toSendCode)}>
             <Text style={styles.login}>
               {`${timer ? `重发${timer}` : '获取验证码'}`}

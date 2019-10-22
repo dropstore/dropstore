@@ -25,12 +25,9 @@ function weChatAuth(i) {
       const params = {
         unionid: wxRes.unionid,
         openid: wxRes.openid,
-        avatar: wxRes.iconurl,
-        sex,
-        user_name: wxRes.name,
       };
       request('user/wx_login', { params }).then((res) => {
-        if (parseInt(res.data.size) > 0) {
+        if (res?.data?.user_s_id) {
           AsyncStorage.setItem('token', res.data.user_s_id);
           dispatch(receiveUser(res.data));
           resolve(true);
@@ -40,6 +37,8 @@ function weChatAuth(i) {
             user_name: wxRes.name,
             sex,
             avatar: wxRes.iconurl,
+            unionid: wxRes.unionid,
+            openid: wxRes.openid,
           }));
           resolve(false);
         }
@@ -50,7 +49,7 @@ function weChatAuth(i) {
   });
 }
 
-// 微信绑定
+// 手机绑定微信
 function weChatBind(i) {
   return dispatch => new Promise((resolve) => {
     AuthUtil(i).then((wxRes) => {
@@ -68,7 +67,26 @@ function weChatBind(i) {
   });
 }
 
-// 手机号绑定
+// 微信绑定手机号
+function wxBindMobile(mobile, codes) {
+  return (dispatch, getState) => new Promise((resolve) => {
+    const {
+      sex, user_name, avatar, unionid, openid,
+    } = getState().userInfo;
+    request('/user/do_set_wx', {
+      params: {
+        mobile, codes, unionid, openid, user_name, avatar, sex,
+      },
+    }).then((res) => {
+      dispatch(receiveUser({
+        user_s_id: res.data.user_s_id,
+      }));
+      resolve();
+    });
+  });
+}
+
+// 手机号换绑
 function mobileBind(mobile, codes) {
   return () => new Promise((resolve) => {
     request('/user/up_mobile', { params: { mobile, codes } }).then(() => {
@@ -180,5 +198,5 @@ function updatePassword(password, new_password) {
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
   receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
-  setPassword, updatePassword, mobileBind,
+  setPassword, updatePassword, mobileBind, wxBindMobile,
 };
