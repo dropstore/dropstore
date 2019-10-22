@@ -9,7 +9,7 @@ const IMAGES = {
   personal: require('./image/personal.png'),
   identify: require('./image/identify.png'),
   freeTrade: require('./image/freeTrade.png'),
-  homeInactive: require('./image/home.png'),
+  homeInactive: require('./image/homeInactive.png'),
   messageInactive: require('./image/message-inactive.png'),
   personalInactive: require('./image/personal-inactive.png'),
   identifyInactive: require('./image/identify-inactive.png'),
