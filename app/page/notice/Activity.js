@@ -51,7 +51,7 @@ class Activity extends Component {
           Wrapper={FlatList}
           totalPages={listData.totalPages}
           currentPage={listData.currentPage}
-          refresh={this.fetchData}
+          refresh={() => this.fetchData('refresh')}
           style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
           data={listData.list}
           renderItem={this.renderItem}
