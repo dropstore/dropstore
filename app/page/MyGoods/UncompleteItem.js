@@ -9,9 +9,8 @@ import ListItem from './component/ListItem';
 export default class UncompleteItem extends PureComponent {
   constructor(props) {
     super(props);
-    const { item, type } = this.props;
     this.state = {
-      text: item.end_time <= Date.now() / 1000 && type === 'uncomplete' ? '付款已超时' : null,
+      textState: null,
     };
   }
 
@@ -23,15 +22,16 @@ export default class UncompleteItem extends PureComponent {
   }
 
   finish = () => {
-    this.setState({ text: '付款已超时' });
+    this.setState({ textState: '付款已超时' });
   }
 
   render() {
     const { item } = this.props;
-    const { text } = this.state;
+    const { textState } = this.state;
     const btns = [
       { text: '付款', onPress: () => this.onPress('pay') },
     ];
+    const text = textState || (item.end_time <= Date.now() / 1000 ? '付款已超时' : null);
     return (
       <ListItem
         item={item}

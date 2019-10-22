@@ -15,7 +15,7 @@ export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
+      text: null,
     };
   }
 
