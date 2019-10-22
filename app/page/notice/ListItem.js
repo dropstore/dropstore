@@ -15,12 +15,12 @@ export default class ListItem extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      text: null,
+      textState: null,
     };
   }
 
   finish = () => {
-    this.setState({ text: '活动已结束' });
+    this.setState({ textState: '活动已结束' });
   }
 
   toPay = () => {
@@ -59,7 +59,10 @@ export default class ListItem extends PureComponent {
 
   render() {
     const { item } = this.props;
-    const { text } = this.state;
+    const { textState } = this.state;
+    const text = textState || (['3'].includes(item.type) ? '佣金已入账'
+      : item.end_time <= Date.now() / 1000 ? '活动已结束'
+        : item.pay_status == '1' ? '已购买' : null);
     const btns = [
       { onPress: this.toPay, text: ['1', '2', '7'].includes(item.type) ? '付款' : '查看详情' },
     ];
@@ -94,13 +97,7 @@ export default class ListItem extends PureComponent {
             { ['1', '2', '7', '8', '9'].includes(item.type) && !text && <BtnGroup btns={btns} />}
             {
               !!text && (
-                <Text style={styles.yongjin}>
-                  {
-                    text || ['3'].includes(item.type) ? '佣金已入账'
-                      : item.end_time <= Date.now() / 1000 ? '活动已结束'
-                        : item.pay_status == '1' ? '已购买' : null
-                  }
-                </Text>
+                <Text style={styles.yongjin}>{text}</Text>
               )
             }
           </View>
