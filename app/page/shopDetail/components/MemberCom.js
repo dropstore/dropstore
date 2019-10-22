@@ -16,7 +16,11 @@ export default class MemberCom extends PureComponent {
       <View style={{ flex: 1, alignItems: 'flex-end', paddingTop: 5 }}>
         <View>
           <Text style={{ color: '#696969', fontSize: 11 }}>{`我的团队：${joinUserLength}人`}</Text>
-          <Text style={{ color: '#696969', fontSize: 11 }}>{`助攻佣金：${userActivity.pay_price / 100}￥`}</Text>
+          <Text style={{ color: '#696969', fontSize: 11 }}>
+            {'助攻佣金：'}
+            <Text style={{ color: Colors.RED, fontSize: 12 }}>{userActivity.pay_price / 100}</Text>
+            {'￥'}
+          </Text>
         </View>
       </View>
     </View>
