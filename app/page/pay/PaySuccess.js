@@ -2,7 +2,7 @@
 // 支付成功页面，支付失败直接在支付页显示弹窗，不跳转到该页面
 import React, { PureComponent } from 'react';
 import {
-  ScrollView, StyleSheet, Text, View,
+  ScrollView, StyleSheet, Text, View, TouchableOpacity, Clipboard,
 } from 'react-native';
 import { BottomBtnGroup, CountdownCom, FadeImage } from '../../components';
 import Image from '../../components/Image';
@@ -10,7 +10,7 @@ import Colors from '../../res/Colors';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
-import { showShare } from '../../utils/MutualUtil';
+import { showShare, showToast } from '../../utils/MutualUtil';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
@@ -100,6 +100,13 @@ export default class PaySuccess extends PureComponent {
     });
   }
 
+  toCopy = () => {
+    Clipboard.setString(`收件人：北京酱爆潮流科技有限公司
+手机号码：18888888888
+邮寄地址：北京市朝阳区朝外SOHO0823`);
+    showToast('邮寄信息已复制');
+  }
+
   renderBottom = () => {
     const { navigation } = this.props;
     const payType = navigation.getParam('payType') || TestPayType;
@@ -165,9 +172,11 @@ export default class PaySuccess extends PureComponent {
     }
     const hints = payType === 'management' ? [
       { text: '指定快递：顺丰快递', needStar: true },
+      { text: '收件人：北京酱爆潮流科技有限公司' },
+      { text: '手机号码：18888888888' },
       { text: '邮寄地址：北京市朝阳区朝外SOHO0823' },
-      { text: '联系方式：18888888888' },
     ] : [];
+    const Wrapper = payType === 'management' ? TouchableOpacity : View;
 
     return (
       <View style={styles.container}>
@@ -190,14 +199,14 @@ export default class PaySuccess extends PureComponent {
             }
           </View>
           {this.renderBottom()}
-          <View style={{ width: wPx2P(375), paddingHorizontal: 20, marginTop: 15 }}>
+          <Wrapper activeOpacity={1} onPress={this.toCopy} style={{ width: wPx2P(375), paddingHorizontal: 20, marginTop: 15 }}>
             {hints.map((v, i) => (
               <View key={i} style={{ flexDirection: 'row', marginTop: 2 }}>
                 {v.needStar ? <Text style={styles.hint}>* </Text> : <Text style={[styles.hint, { color: 'transparent' }]}>* </Text>}
                 <Text style={[styles.hint, { flex: 1 }]}>{v.text}</Text>
               </View>
             ))}
-          </View>
+          </Wrapper>
         </ScrollView>
         <BottomBtnGroup btns={btns} />
       </View>
