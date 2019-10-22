@@ -17,17 +17,24 @@ import { md5 } from '../utils/Md5Util';
 import { store } from '../router/Router';
 import { getScreenWidth } from '../common/Constant';
 import { needUpdate } from '../utils/commonUtils';
-
 import api from './api';
 
-const baseURL = 'http://api.dropstore.cn';
 const appVersion = DeviceInfo.getVersion();
+const deviceInfo = {
+  unique_id: DeviceInfo.getUniqueID(),
+  app_version: appVersion,
+  system: DeviceInfo.getSystemName(),
+  device_brand: escape(DeviceInfo.getBrand()),
+  device_id: DeviceInfo.getDeviceId(),
+};
+const baseURL = 'http://api.dropstore.cn';
 let networkIsConnected = true;
 const timeout = 5000;
 const headers = header => ({
   ...header,
+  ...deviceInfo,
+  carrier: DeviceInfo.getCarrier(),
   Authorization: store.getState().userInfo.user_s_id,
-  device_id: DeviceInfo.getUniqueID(),
 });
 
 // 监听网络变化
