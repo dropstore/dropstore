@@ -77,7 +77,6 @@ export default class ShopListItemCom extends PureComponent {
             <Image style={styles.qihuo} source={item.is_stock === '2' ? require('../../../res/image/qihuo.png') : require('../../../res/image/xianhuo.png')} />
           </View>
           <View style={styles.bottom}>
-            <Price price={item.price} offsetBottom={3} />
             <View style={styles.rightBottom}>
               {
                 showText && (
@@ -109,6 +108,7 @@ export default class ShopListItemCom extends PureComponent {
                 )
               }
             </View>
+            <Price price={item.price} offsetBottom={3} />
           </View>
         </View>
       </ScaleView>
