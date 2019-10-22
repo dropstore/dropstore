@@ -8,9 +8,8 @@ import {
 import { wPx2P } from '../../../utils/ScreenUtil';
 import { showToast } from '../../../utils/MutualUtil';
 import Colors from '../../../res/Colors';
-import { Aldrich, YaHei } from '../../../res/FontFamily';
+import { Aldrich, RuiXian } from '../../../res/FontFamily';
 import { getScreenWidth, MAX_TIME } from '../../../common/Constant';
-import TitleWithTag from './TitleWithTag';
 import { formatDate } from '../../../utils/commonUtils';
 
 export default class ShopListItemCom extends PureComponent {
@@ -52,20 +51,24 @@ export default class ShopListItemCom extends PureComponent {
     const isStart = isStartState || item.start_time - now < 1;
     const showText = (parseInt(item.end_time) - now < MAX_TIME && item.end_time > now)
     || (parseInt(item.start_time) - now < MAX_TIME && item.start_time > now);
+
     return (
       <ScaleView style={{ ...styles.scaleView, marginLeft: index % 2 === 0 ? 8 : 9 }} onPress={this.toShopDetailPage}>
-        <TitleWithTag text={item.activity_name} bType={item.b_type} />
+        <Text style={styles.shopTitle} numberOfLines={2}>{item.activity_name}</Text>
         <View>
-          <View style={{ marginTop: 5 }}>
+          <View>
             <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
-            <Image style={styles.qihuo} source={item.is_stock === '2' ? require('../../../res/image/qihuo.png') : require('../../../res/image/xianhuo.png')} />
+            <Image
+              style={styles.qian}
+              source={item.b_type === '2' ? require('../../../res/image/tag-qiang.png') : require('../../../res/image/tag-qian.png')}
+            />
           </View>
           <View style={styles.bottom}>
             <View style={styles.rightBottom}>
               {
                 showText && (
                   <View style={[styles.biankuang, { borderColor: isStart ? Colors.YELLOW : '#0084FF' }]}>
-                    <Text style={{ color: isStart ? Colors.YELLOW : '#0084FF', fontSize: 7, textAlign: 'right' }}>
+                    <Text style={{ color: isStart ? Colors.YELLOW : '#0084FF', fontSize: 7 }}>
                       {`${isStart ? '距活动结束' : '距活动开始'}`}
                     </Text>
                   </View>
@@ -103,7 +106,6 @@ export default class ShopListItemCom extends PureComponent {
 const styles = StyleSheet.create({
   rightBottom: {
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
   },
   scaleView: {
     backgroundColor: Colors.WHITE_COLOR,
@@ -115,6 +117,12 @@ const styles = StyleSheet.create({
     width: (getScreenWidth() - 26) / 2,
     justifyContent: 'space-between',
   },
+  shopTitle: {
+    fontSize: 13,
+    fontFamily: RuiXian,
+    textAlign: 'justify',
+    lineHeight: 14,
+  },
   time: {
     fontFamily: Aldrich,
     fontSize: 12,
@@ -123,17 +131,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  qihuo: {
-    height: 23,
-    width: 41,
+  qian: {
+    height: wPx2P(18),
+    width: wPx2P(63),
     position: 'absolute',
     right: 0,
-  },
-  shopTitle: {
-    fontSize: 12,
-    color: 'rgba(0,0,0,1)',
-    fontFamily: YaHei,
-    textAlign: 'justify',
   },
   imageShoe: {
     width: wPx2P(129),
@@ -150,5 +152,6 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 2,
     paddingHorizontal: 1,
+    alignSelf: 'flex-start',
   },
 });
