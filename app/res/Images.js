@@ -45,7 +45,6 @@ const IMAGES = {
   nosex: require('./image/nosex.png'),
 
   // 自由贸易
-  cha: require('./image/cha.png'),
   chaNew: require('./image/chaNew.png'),
   wenhao: require('./image/wenhao.png'),
   search: require('./image/search.png'),
