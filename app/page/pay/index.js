@@ -38,7 +38,7 @@ export default class Pay extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      choosedIndex: -1,
+      choosedIndex: 0,
     };
   }
 
