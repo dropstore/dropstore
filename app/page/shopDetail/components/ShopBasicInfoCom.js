@@ -54,7 +54,7 @@ export default class ShopBasicInfoCom extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <View>
-        <ImageBackground useFadeImage resizeMode="cover" source={{ uri: activityInfo.activity.image }} style={styles.imageShoe}>
+        <ImageBackground useFadeImage source={{ uri: activityInfo.activity.image }} style={styles.imageShoe}>
           <Image style={styles.iconMask} source={require('../../../res/image/icon_mask.png')} />
         </ImageBackground>
         <View style={{ paddingHorizontal: 16 }}>

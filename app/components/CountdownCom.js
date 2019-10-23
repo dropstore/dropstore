@@ -92,7 +92,10 @@ export default class CountdownCom extends PureComponent<Props> {
     } = this.props;
     const { text } = this.state;
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
+      <View style={{
+        flexDirection: 'row', alignItems: 'center', position: 'relative', bottom: -1,
+      }}
+      >
         {prefix && <Text style={prefixStyle || style}>{prefix}</Text>}
         <Text style={{ textAlign: 'right', ...style }}>
           {text}

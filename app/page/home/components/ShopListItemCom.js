@@ -77,7 +77,6 @@ export default class ShopListItemCom extends PureComponent {
               {
                 isStart ? (
                   <CountdownCom
-                    offset={Platform.OS === 'ios' ? null : -1.8}
                     time={item.end_time}
                     style={{ ...styles.time, color: '#C51616' }}
                     endTimerText="已结束"
@@ -85,7 +84,6 @@ export default class ShopListItemCom extends PureComponent {
                   />
                 ) : (
                   <CountdownCom
-                    offset={Platform.OS === 'ios' ? null : -1.8}
                     time={item.start_time}
                     finish={this.activityStart}
                     style={{ ...styles.time, color: '#0084FF' }}
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
   scaleView: {
     backgroundColor: Colors.WHITE_COLOR,
     marginTop: 7,
-    padding: 10,
+    padding: 6,
     paddingBottom: 7,
     borderRadius: 2,
     overflow: 'hidden',
@@ -122,6 +120,7 @@ const styles = StyleSheet.create({
     fontFamily: RuiXian,
     textAlign: 'justify',
     lineHeight: 14,
+    marginBottom: 2,
   },
   time: {
     fontFamily: Aldrich,
