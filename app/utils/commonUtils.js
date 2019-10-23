@@ -115,7 +115,7 @@ function showNoPayment(navigation) {
         <Text style={styles.hint}>友情提示</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
           <Text style={{ fontSize: 14, fontFamily: YaHei }}>
-            {'支付未完成，可在您的库房'}
+            {'支付未完成，可在我的仓库'}
             <Text
               style={styles.kufang}
               onPress={() => {
@@ -125,7 +125,7 @@ function showNoPayment(navigation) {
                 });
               }}
             >
-              {'未完成'}
+              {'未付款'}
             </Text>
             {'中继续支付'}
           </Text>
