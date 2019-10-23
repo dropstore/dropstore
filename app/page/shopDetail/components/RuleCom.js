@@ -90,7 +90,7 @@ export default class RuleCom extends PureComponent {
               <Text style={styles.number}>{index + 1}</Text>
             </View>
             <View>
-              { group.map(item => <Text key={item} style={{ fontSize: 10, color: '#111' }}>{item}</Text>) }
+              { group.map(item => <Text key={item} style={{ fontSize: 10, fontFamily: YaHei }}>{item}</Text>) }
             </View>
           </View>
         ))
