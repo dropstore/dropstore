@@ -16,6 +16,7 @@ import {
   showShare, showToast, closeModalbox, showModalbox,
 } from '../../../../utils/MutualUtil';
 import { BottomBtnGroup } from '../../../../components';
+import SelectShoeSizeByUnJoinsCom from '../SelectShoeSizeByUnJoinsCom';
 
 function mapStateToProps() {
   return state => ({
@@ -35,11 +36,14 @@ class SelfBottomCom extends PureComponent {
   showOver = () => {
     const { shopDetailInfo, navigation } = this.props;
     const shopId = shopDetailInfo.data.activity.id;
+    const Wrapper = shopDetailInfo.data.is_join === 0 ? SelectShoeSizeByUnJoinsCom : SelectShoeSizeCom;
     showModalbox({
-      element: (<SelectShoeSizeCom
+      element: (<Wrapper
         shopId={shopId}
         navigation={navigation}
         closeBox={this.closeBox}
+        shopInfo={shopDetailInfo.data}
+        notStart
       />),
       options: {
         style: {
@@ -83,16 +87,11 @@ class SelfBottomCom extends PureComponent {
 
   setRightDOM = (shopInfo) => {
     const is_join = shopInfo.is_join;
-    // 是否存在未支付的佣金
-    const isPay = shopInfo.user_activity.pay_status;
-    const number = shopInfo.user_activity.number;
     // 未参加活动
-    const text = is_join === ShopConstant.NOT_JOIN ? '选择尺码'
-      : isPay == 0 && number !== 1 ? '支付佣金'
-        : shopInfo.user_activity.commission != 0 ? '招兵买码'
-          : '邀请助攻';
-    const action = text === '支付佣金' ? this._toCommissionPage : this.showOver;
-    return ({ text, onPress: debounce(action) });
+    const text = is_join === ShopConstant.NOT_JOIN ? (
+      shopInfo.activity.b_type === '1' ? '我要抽签' : '我要抢购'
+    ) : '招兵买码';
+    return ({ text, onPress: debounce(this.showOver) });
   };
 
   _showShare = () => {
@@ -117,10 +116,8 @@ class SelfBottomCom extends PureComponent {
     const { shopDetailInfo: { data: shopInfo }, navigation } = this.props;
     // 活动子类型:1、抽签；2、抢购
     const b_type = shopInfo.activity.b_type;
-    // 活动开始时间
-    const start_time = shopInfo.activity.start_time;
     // 活动未开始
-    if (checkTime(start_time) > 0) {
+    if (checkTime(shopInfo.activity.start_time) > 0) {
       return this._normalDOM(shopInfo, false);
     }
     if (b_type === ShopConstant.DRAW) {

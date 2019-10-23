@@ -45,19 +45,29 @@ class SelectShoeSizeByUnJoinsCom extends Component {
 
   confirmChoose = () => {
     const {
-      shopId, closeBox, navigation, shopInfo,
+      shopId, closeBox, navigation, shopInfo, notStart, fetchSimpleData,
     } = this.props;
     const { chooseId } = this.state;
     closeBox();
-    const params = {
-      activity_id: shopId,
-      size_id: chooseId,
-    };
-    requestApi('doBuyNow', { params }).then((res) => {
-      navigation.push('Panicstatus', {
-        shopInfo, payData: res.data, Panicstatus: true, title: '抢购成功',
+    if (notStart) {
+      const params = {
+        activity_id: shopId,
+        size_list: JSON.stringify([{ id: chooseId, num: 1 }]),
+      };
+      requestApi('startTuan', { params, isShowLoading: true }).then(() => {
+        fetchSimpleData('activityInfo', { id: shopId }, 'refresh');
       });
-    });
+    } else {
+      const params = {
+        activity_id: shopId,
+        size_id: chooseId,
+      };
+      requestApi('doBuyNow', { params }).then((res) => {
+        navigation.push('Panicstatus', {
+          shopInfo, payData: res.data, Panicstatus: true, title: '抢购成功',
+        });
+      });
+    }
   };
 
   render() {

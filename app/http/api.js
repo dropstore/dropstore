@@ -181,4 +181,5 @@ export default {
   getShoeSizeList: { url: '/free/get_all_size' },
   getManagementPrice: { url: '/order/do_add_free_trade' },
   doBuyNow: { url: '/order/do_buy_now' },
+  startTuan: { url: '/activity/do_add_user_activity' },
 };
