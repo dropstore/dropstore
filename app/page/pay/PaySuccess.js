@@ -50,7 +50,7 @@ export default class PaySuccess extends PureComponent {
       commission: `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`,
     }[payType];
     const title = payType === 'buyActivityGoods' ? '差购买成功文案' : shopInfo.activity?.b_type === '2'
-      ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元佣金`
+      ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元现金`
       : `快来炒饭APP帮我抽一支幸运签，中签后你可立获${shopInfo.user_activity.commission / 100}元现金`;
     showShare({
       text: shopInfo.goods.goods_name,

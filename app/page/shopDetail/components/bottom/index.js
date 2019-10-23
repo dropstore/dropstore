@@ -106,8 +106,8 @@ class SelfBottomCom extends PureComponent {
       text: shopInfo.goods.goods_name,
       img: shopInfo.goods.icon,
       url,
-      title: shopInfo.activity.b_type === '2' ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元佣金`
-        : `快来炒饭APP帮我抽一支幸运签，中签可立获${shopInfo.user_activity.commission / 100}元佣金`,
+      title: shopInfo.activity.b_type === '2' ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元现金`
+        : `快来炒饭APP帮我抽一支幸运签，中签可立获${shopInfo.user_activity.commission / 100}元现金`,
     }).then(() => {
       // 分享成功回调
     });
