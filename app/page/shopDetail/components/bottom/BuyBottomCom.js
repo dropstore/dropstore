@@ -38,7 +38,7 @@ class BuyBottomCom extends PureComponent {
     const params = { activity_id };
     request(url, { params, isShowLoading: true }).then((res) => {
       navigation.push('Panicstatus', {
-        shopInfo, payData: res.data, Panicstatus: true, title: '抢购成功',
+        shopInfo, payData: res.data, Panicstatus: true, title: '抢购成功', needHintPay: isLeading,
       });
     }).catch(() => {
       navigation.push('Panicstatus', {

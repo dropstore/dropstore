@@ -41,10 +41,11 @@ class Panicstatus extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    if (navigation.getParam('Panicstatus')) {
-      window.waitPay = navigation.getParam('payData').order_id;
-    } else {
+    if (!navigation.getParam('Panicstatus')) {
       this.fetchData();
+    }
+    if (navigation.getParam('needHintPay')) {
+      window.waitPay = navigation.getParam('payData').order_id;
     }
   }
 
