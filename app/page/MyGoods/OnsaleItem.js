@@ -21,6 +21,7 @@ export default class OnsaleItem extends PureComponent {
         item={item}
         btns={btns}
         price={item.price}
+        showSeal={item.goods_status === '6'}
         timePrefix="预计入库"
         timeText={item.is_stock === '2' ? item.storage_time : null}
       />
