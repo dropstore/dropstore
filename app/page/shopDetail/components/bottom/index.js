@@ -89,7 +89,7 @@ class SelfBottomCom extends PureComponent {
     // 未参加活动
     const text = is_join === ShopConstant.NOT_JOIN ? '选择尺码'
       : isPay == 0 && number !== 1 ? '支付佣金'
-        : shopInfo.user_activity.commission != 0 ? '扩充团队'
+        : shopInfo.user_activity.commission != 0 ? '招兵买码'
           : '邀请助攻';
     const action = text === '支付佣金' ? this._toCommissionPage : this.showOver;
     return ({ text, onPress: debounce(action) });
