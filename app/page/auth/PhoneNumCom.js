@@ -37,46 +37,59 @@ class PhoneNumCom extends PureComponent {
     this.clearInterval();
   }
 
+  // onChange = (formatted, mobile) => {
+  //   const { code } = this.state;
+  //   const { onChange } = this.props;
+  //   if (mobile.length === 11) {
+  //     const { userInfo: { sendPhone, sendTime } } = this.props;
+  //     if (sendPhone === mobile && Date.now() - sendTime < 60000) {
+  //       this.startTimer(true);
+  //     } else {
+  //       this.clearInterval();
+  //       this.setState({ timer: null });
+  //     }
+  //   }
+  //   onChange(mobile, code);
+  //   this.setState({ mobile });
+  // }
+
+  // startTimer = (samePhone) => {
+  //   const { userInfo } = this.props;
+  //   const time = Math.min(parseInt((59000 - Date.now() + userInfo.sendTime) / 1000), 59);
+  //   this.setState({
+  //     timer: samePhone ? time : 59,
+  //   });
+  //   this.intervalTimer = setInterval(() => {
+  //     const { timer } = this.state;
+  //     if (timer > 1) {
+  //       this.setState({ timer: timer - 1 });
+  //     } else {
+  //       this.clearInterval();
+  //       this.setState({ timer: null });
+  //     }
+  //   }, 1000);
+  // }
+
+  // toSendCode =() => {
+  //   const { userInfo, sendMessage } = this.props;
+  //   const { mobile } = this.state;
+  //   if (mobile.length < 11) {
+  //     showToast('请输入正确的手机号码');
+  //   }
+  //   if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
+  //     sendMessage('/user/send_message', mobile, Date.now()).then(() => {
+  //       showToast(`验证码已发送至${mobile}`);
+  //       this.startTimer();
+  //       this.codeInput.focus();
+  //     }).catch(() => this.clearInterval());
+  //   }
+  // }
+
   onChange = (formatted, mobile) => {
     const { code } = this.state;
     const { onChange } = this.props;
-    if (mobile.length === 11) {
-      const { userInfo: { sendPhone, sendTime } } = this.props;
-      if (sendPhone === mobile && Date.now() - sendTime < 60000) {
-        this.startTimer(true);
-      } else {
-        this.clearInterval();
-        this.setState({ timer: null });
-      }
-    }
     onChange(mobile, code);
     this.setState({ mobile });
-  }
-
-  onChangeText = (formatted, code) => {
-    const { onChange } = this.props;
-    const { mobile } = this.state;
-    onChange(mobile, code);
-    this.setState({ code });
-  }
-
-  toSendCode =() => {
-    const { userInfo, sendMessage } = this.props;
-    const { mobile } = this.state;
-    if (mobile.length < 11) {
-      showToast('请输入正确的手机号码');
-    }
-    if ((Date.now() - userInfo.sendTime > 60000) || userInfo.sendPhone !== mobile) {
-      sendMessage('/user/send_message', mobile, Date.now()).then(() => {
-        showToast(`验证码已发送至${mobile}`);
-        this.startTimer();
-        this.codeInput.focus();
-      }).catch(() => this.clearInterval());
-    }
-  }
-
-  clearInterval = () => {
-    this.intervalTimer && clearInterval(this.intervalTimer);
   }
 
   startTimer = (samePhone) => {
@@ -94,6 +107,30 @@ class PhoneNumCom extends PureComponent {
         this.setState({ timer: null });
       }
     }, 1000);
+  }
+
+  onChangeText = (formatted, code) => {
+    const { onChange } = this.props;
+    const { mobile } = this.state;
+    onChange(mobile, code);
+    this.setState({ code });
+  }
+
+  toSendCode =() => {
+    const { sendMessage } = this.props;
+    const { mobile } = this.state;
+    if (mobile.length < 11) {
+      showToast('请输入正确的手机号码');
+    }
+    sendMessage('/user/send_message', mobile, Date.now()).then(() => {
+      showToast(`验证码已发送至${mobile}`);
+      this.startTimer();
+      this.codeInput.focus();
+    }).catch(() => this.clearInterval());
+  }
+
+  clearInterval = () => {
+    this.intervalTimer && clearInterval(this.intervalTimer);
   }
 
   render() {
