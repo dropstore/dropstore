@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     fontFamily: RuiXian,
     fontSize: 15,
-    lineHeight: 16,
+    lineHeight: 17,
   },
 });

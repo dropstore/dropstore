@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     fontFamily: RuiXian,
     textAlign: 'justify',
     flex: 1,
-    lineHeight: 14,
+    lineHeight: 15,
   },
   time: {
     fontSize: 11,
