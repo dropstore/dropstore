@@ -74,7 +74,7 @@ class PutOnSale extends PureComponent {
     } else {
       requestApi('freeTradeToRelease', { params }).then(() => {
         fetchListData('warehouse');
-        navigation.push('MyGoods', {
+        navigation.navigate('MyGoods', {
           title: '我的库房',
           type: 'warehouse',
         });
