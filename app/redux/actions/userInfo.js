@@ -150,11 +150,12 @@ function updateUser(params) {
 
 // 获取用户信息
 function getUser() {
-  return (dispatch) => {
+  return dispatch => new Promise((resolve) => {
     request('/user/userinfo', { params: { uid: -1 } }).then((res) => {
       dispatch(receiveUser(res.data));
+      resolve();
     });
-  };
+  });
 }
 
 // 退出登录

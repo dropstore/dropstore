@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity, RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { STATUSBAR_HEIGHT, getScreenWidth, getScreenHeight } from '../../common/Constant';
 import { Image, AvatarWithShadow } from '../../components';
 import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { getUser } from '../../redux/actions/userInfo';
 import Colors from '../../res/Colors';
 
 const HEADER_HEIGHT = 44;
@@ -19,10 +21,19 @@ function mapStateToProps() {
   });
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    getUser,
+  }, dispatch);
+}
+
 class PersonalCenterPage extends PureComponent {
   constructor(props) {
     super(props);
     const { onIndexChange } = this.props;
+    this.state = {
+      refreshing: false,
+    };
     this.list1 = [
       {
         title: '我的库房', icon: 'myWarehouse', route: 'MyGoods', params: { title: '我的库房', onIndexChange },
@@ -56,52 +67,71 @@ class PersonalCenterPage extends PureComponent {
     }
   }
 
+  onRefresh = () => {
+    const { getUser } = this.props;
+    this.setState({ refreshing: true });
+    getUser().then(() => {
+      this.setState({ refreshing: false });
+    });
+  }
+
   render() {
     const { navigation, userInfo } = this.props;
+    const { refreshing } = this.state;
     return (
-      <ScrollView bounces={false} style={styles.container} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View style={styles.headerWrapper}>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <AvatarWithShadow
-                source={{ uri: userInfo.avatar }}
-                size={userInfo.avatar !== -1 ? wPx2P(47) : wPx2P(36)}
-              />
-              <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
-                  <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={userInfo.sex === '女' ? Images.littleGirl : Images.littleBoy} />
-                  {userInfo.age * 1 > 0 && <Text style={{ color: '#bbb', fontSize: 11, marginLeft: 5 }}>{`${userInfo.age}岁`}</Text>}
+      <View style={styles.container}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={(
+            <RefreshControl
+              tintColor={Colors.YELLOW}
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
+            />
+        )}
+        >
+          <View style={styles.header}>
+            <View style={styles.headerWrapper}>
+              <View style={{ flex: 1, flexDirection: 'row' }}>
+                <AvatarWithShadow
+                  source={{ uri: userInfo.avatar }}
+                  size={userInfo.avatar !== -1 ? wPx2P(47) : wPx2P(36)}
+                />
+                <View style={{ alignSelf: 'flex-end', marginLeft: wPx2P(14) }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.name}>{`${userInfo.user_name || `Droper${(userInfo.id || '').padStart(6, '100000')}`}`}</Text>
+                    <Image style={{ height: 12, width: 12, marginLeft: 5 }} source={userInfo.sex === '女' ? Images.littleGirl : Images.littleBoy} />
+                    {userInfo.age * 1 > 0 && <Text style={{ color: '#bbb', fontSize: 11, marginLeft: 5 }}>{`${userInfo.age}岁`}</Text>}
+                  </View>
+                  <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
                 </View>
-                <Text style={styles.id}>{`ID: ${(userInfo.id || '').padStart(6, '100000')}`}</Text>
               </View>
+              <TouchableOpacity onPress={() => navigation.navigate('Setting', { title: '个人资料' })} style={styles.editWrapper}>
+                <Text style={styles.edit}>编辑资料</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate('Setting', { title: '个人资料' })} style={styles.editWrapper}>
-              <Text style={styles.edit}>编辑资料</Text>
-            </TouchableOpacity>
+            <View style={styles.hengtiao} />
+            <View style={styles.walletWrapper}>
+              <TouchableOpacity
+                style={styles.walletLeft}
+                onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}
+              >
+                <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
+                <Text style={styles.moenyText}>账户总余额(￥)</Text>
+              </TouchableOpacity>
+              <View style={styles.shutiao} />
+              <TouchableOpacity
+                style={styles.walletLeft}
+                onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
+              >
+                <Text style={styles.moeny}>{(userInfo.zqrate * 1).toFixed(2)}</Text>
+                <Text style={styles.moenyText}>我的中签率</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.hengtiao} />
-          <View style={styles.walletWrapper}>
-            <TouchableOpacity
-              style={styles.walletLeft}
-              onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}
-            >
-              <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
-              <Text style={styles.moenyText}>账户总余额(￥)</Text>
-            </TouchableOpacity>
-            <View style={styles.shutiao} />
-            <TouchableOpacity
-              style={styles.walletLeft}
-              onPress={() => navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/drawlots', title: '中签率说明' })}
-            >
-              <Text style={styles.moeny}>{(userInfo.zqrate * 1).toFixed(2)}</Text>
-              <Text style={styles.moenyText}>我的中签率</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={{ flex: 1, backgroundColor: Colors.MAIN_BACK, paddingTop: 7 }}>
-          <View style={styles.list1}>
-            {
+          <View style={{ height: '300%', backgroundColor: Colors.MAIN_BACK, paddingTop: 7 }}>
+            <View style={styles.list1}>
+              {
               this.list1.map((v, i) => (
                 <TouchableOpacity
                   key={v.title}
@@ -116,9 +146,9 @@ class PersonalCenterPage extends PureComponent {
                 </TouchableOpacity>
               ))
             }
-          </View>
-          <View style={styles.list2}>
-            {
+            </View>
+            <View style={styles.list2}>
+              {
               this.list2.map((v, i) => (
                 <TouchableOpacity
                   onPress={() => this.onPress(v)}
@@ -138,9 +168,10 @@ class PersonalCenterPage extends PureComponent {
                 </TouchableOpacity>
               ))
             }
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -148,6 +179,8 @@ class PersonalCenterPage extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUSBAR_HEIGHT,
+    backgroundColor: '#fff',
   },
   editWrapper: {
     height: wPx2P(25),
@@ -163,7 +196,7 @@ const styles = StyleSheet.create({
     fontSize: wPx2P(10),
   },
   header: {
-    paddingTop: wPx2P(31 + STATUSBAR_HEIGHT),
+    paddingTop: wPx2P(31),
     alignItems: 'center',
     backgroundColor: '#fff',
   },
@@ -302,4 +335,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(PersonalCenterPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalCenterPage);
