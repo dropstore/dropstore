@@ -73,21 +73,25 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
             });
           } else if (type === 'edit') {
             request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
-              navigation.navigate('PayDetail', {
-                title: '支付服务费',
-                api: {
-                  type: 'freeTradeToRelease',
-                  params: { order_id: item.order_id, price: value },
-                },
-                type: 5,
-                payType: 'service',
-                goodsInfo: {
-                  ...item,
-                  image: (item.goods || item).image,
-                  goods_name: (item.goods || item).goods_name,
-                  price: value * 100,
-                },
-              });
+              if (store.getState().simpleData?.appOptions?.data?.x_fee > 0) {
+                navigation.navigate('PayDetail', {
+                  title: '支付服务费',
+                  api: {
+                    type: 'freeTradeToRelease',
+                    params: { order_id: item.order_id, price: value },
+                  },
+                  type: 5,
+                  payType: 'service',
+                  goodsInfo: {
+                    ...item,
+                    image: (item.goods || item).image,
+                    goods_name: (item.goods || item).goods_name,
+                    price: value * 100,
+                  },
+                });
+              } else {
+                refresh();
+              }
               resolve();
             });
           } else if (type === 'cancel') {
@@ -116,7 +120,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
     navigation.navigate('pay', {
       title: '选择支付账户',
       type: '1',
-      payType: item.goods_status === '4' ? 'service' : item.order_type === '1' ? 'buyGoods' : 'buyActivityGoods',
+      payType: item.order_type === '1' ? 'buyGoods' : 'buyActivityGoods',
       payData: {
         order_id: item.order_id,
         price: item.order_price,

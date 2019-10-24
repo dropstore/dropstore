@@ -102,7 +102,7 @@ const request = async (url, {
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
-    console.log(error.message, data, `${baseURL}${url}`, error);
+    console.log(error.message, data, `${baseURL}${url}`, error, headers());
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
     } else if (error.response) {
