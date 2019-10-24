@@ -28,7 +28,7 @@ function getActivityList(type, { fetchNextPage = false } = {}) {
       type,
       limit: activityData.limit,
       pn: page,
-      image_size_times: 0.35,
+      image_size_times: 0.5,
     };
     dispatch(requestActivityList(type));
     request('/activity/activity_list', { params }).then((res) => {

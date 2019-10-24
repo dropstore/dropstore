@@ -75,7 +75,7 @@ export default class ListItem extends PureComponent<Props> {
           <View style={[styles.middle, { marginTop: 10 }]}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end', flex: 1 }}>
               {price && <Price price={price} offsetBottom={2} /> }
-              {price && priceTag && <Tag style={{ marginLeft: 3, marginBottom: 1 }} text={priceTag} />}
+              {price && priceTag && <Tag style={{ marginLeft: 3, marginBottom: 2 }} text={priceTag} />}
             </View>
             {
               timeText ? (

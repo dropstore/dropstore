@@ -1,35 +1,36 @@
 import React, { PureComponent } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import {
+  Text, StyleSheet, View, Platform,
+} from 'react-native';
 import { BrowalliaNew } from '../res/FontFamily';
 
 export default class Price extends PureComponent {
   render() {
-    const { price, offsetBottom } = this.props;
-    const text = `${price / 100}`;
+    const { price } = this.props;
     return (
-      <View style={{
-        flexDirection: 'row', alignItems: 'flex-end', position: 'relative', marginRight: 4, bottom: -offsetBottom || 0,
-      }}
-      >
-        <Text style={[styles.bigPrice, styles.price]}>{text[0]}</Text>
-        <Text style={[styles.price, styles.littlePrice]}>{`${text.slice(1)}￥`}</Text>
+      <View style={styles.wrapper}>
+        <Text style={styles.qian}>￥</Text>
+        <Text style={styles.price}>{price / 100}</Text>
       </View>
+
     );
   }
 }
 
 const styles = StyleSheet.create({
-  bigPrice: {
-    transform: [{ scale: 1.8 }, { translateX: 1 }, { translateY: -2.2 }],
-    fontWeight: '500',
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    height: 22,
   },
-  littlePrice: {
-    transform: [{ translateX: 4 }],
-    fontWeight: 'bold',
+  qian: {
+    fontSize: 10,
+    position: 'relative',
   },
   price: {
-    fontSize: 14,
-    position: 'relative',
     fontFamily: BrowalliaNew,
+    fontSize: 20,
+    top: Platform.OS === 'ios' ? -2.5 : 3.5,
+    position: 'relative',
   },
 });
