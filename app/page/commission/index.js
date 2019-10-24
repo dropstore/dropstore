@@ -42,7 +42,6 @@ class Commission extends PureComponent {
   _toPay = () => {
     const { inputCommission } = this.state;
     const { activityInfo: { data: shopInfo }, navigation } = this.props;
-    // let minPrice = shopInfo.activity.min_price;
     if (inputCommission < 1) {
       // return showToast(`单人佣金不能低于1元`);
     }
