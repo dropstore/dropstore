@@ -9,8 +9,8 @@ import OriginalCost from './originalCost';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [
-  { key: 'originalCost', title: '原价发售', screen: OriginalCost },
-  { key: 'selfSupport', title: '炒饭自营', screen: SelfSupport },
+  { key: 'originalCost', title: '原价自营', screen: OriginalCost },
+  { key: 'selfSupport', title: '炒饭发售', screen: SelfSupport },
   // { key: 'luckyCharm', title: '球鞋锦鲤',screen: LuckyCharm },
   // { key: 'reserve', title: '球鞋预定',screen: Reserve },
 ];
