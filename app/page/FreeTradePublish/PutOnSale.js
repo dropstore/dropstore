@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -5,13 +6,14 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { PADDING_TAB } from '../../common/Constant';
-import { Image } from '../../components';
+import { Image, ShoeImageHeader } from '../../components';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import Colors from '../../res/Colors';
-import { wPx2P } from '../../utils/ScreenUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { fetchSimpleData } from '../../redux/actions/simpleData';
 import { showToast } from '../../utils/MutualUtil';
+import { requestApi } from '../../http/Axios';
+import { fetchListData } from '../../redux/actions/listData';
 
 const TYPE = 'warehousePutOnSale';
 
@@ -25,6 +27,7 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchSimpleData,
+    fetchListData,
   }, dispatch);
 }
 
@@ -42,7 +45,7 @@ class PutOnSale extends PureComponent {
 
   toPay = () => {
     const { price, agreed } = this.state;
-    const { navigation } = this.props;
+    const { navigation, appOptions, fetchListData } = this.props;
     if (!agreed) {
       showToast('同意卖家须知后可继续上架');
       return;
@@ -51,21 +54,32 @@ class PutOnSale extends PureComponent {
       showToast('请输入价格');
       return;
     }
-    navigation.navigate('PayDetail', {
-      title: '支付服务费',
-      api: {
-        type: 'freeTradeToRelease',
-        params: { order_id: this.item.order_id, price },
-      },
-      type: 4,
-      payType: 'service',
-      goodsInfo: {
-        ...this.item,
-        price: price * 100,
-        image: (this.item.goods || this.item).image,
-        goods_name: (this.item.goods || this.item).goods_name,
-      },
-    });
+    const params = { order_id: this.item.order_id, price };
+    if (appOptions?.data?.fee > 0) {
+      navigation.navigate('PayDetail', {
+        title: '支付服务费',
+        api: {
+          type: 'freeTradeToRelease',
+          params,
+        },
+        type: 4,
+        payType: 'service',
+        goodsInfo: {
+          ...this.item,
+          price: price * 100,
+          image: (this.item.goods || this.item).image,
+          goods_name: (this.item.goods || this.item).goods_name,
+        },
+      });
+    } else {
+      requestApi('freeTradeToRelease', { params }).then(() => {
+        fetchListData('warehouse');
+        navigation.push('MyGoods', {
+          title: '我的库房',
+          type: 'warehouse',
+        });
+      });
+    }
   }
 
   toWeb = () => {
@@ -82,17 +96,20 @@ class PutOnSale extends PureComponent {
     const { info, appOptions } = this.props;
     const { price, agreed } = this.state;
     const deposit = Math.ceil(price * appOptions?.data?.fee) / 100;
+    const text = [
+      '平台资费标准说明',
+      '现在将对用户在炒饭APP交易过程中产生的费用作出如下说明',
+      '转账服务费：第三方支付平台对每笔转账收取的手续费及平台转账服务提供的技术支持服务费用。',
+      '平台服务费：包含鉴别费(对每件商品进行多重鉴别真伪服务产生的服务费用)，包装服务费(商品发货至买家时所需的各类包装材料及人工包装服务所产生的服务费用)。',
+      '仓库管理费：对每件商品进行仓库储存所产生的服务费用。',
+    ];
+    const item = { ...this.item, goods_name: (this.item.goods || this.item).goods_name, image: (this.item.goods || this.item).image };
+
     return (
       <View style={{ flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false} alwaysBounceVertical={false} style={styles.scrollView}>
-          <View style={styles.shoesInfo}>
-            <View style={styles.shoesInfoTop}>
-              <Image style={{ width: wPx2P(166), height: wPx2P(97) }} source={{ uri: (this.item.goods || this.item).image }} />
-              <View style={styles.shoesInfoNameBox}>
-                <Text style={styles.title}>{(this.item.goods || this.item).goods_name}</Text>
-                <Text style={{ fontSize: 12 }}>{`SIZE : ${this.item.size}`}</Text>
-              </View>
-            </View>
+          <View style={styles.top}>
+            <ShoeImageHeader style={{ marginHorizontal: 0 }} item={item} showSize showPrice={false} />
             <View style={styles.shoeSalePrice}>
               <Text style={{ fontSize: 13 }}>
                 {'最高售价：'}
@@ -104,22 +121,34 @@ class PutOnSale extends PureComponent {
               </Text>
             </View>
           </View>
-          <View style={styles.shoesCommission}>
-            <View style={styles.inputPrice}>
-              <Text style={{ color: '#999' }}>￥</Text>
-              <TextInput
-                style={styles.inputPriceTextare}
-                keyboardType="numeric"
-                placeholder="输入价格"
-                maxLength={9}
-                selectionColor="#00AEFF"
-                underlineColorAndroid="transparent"
-                clearButtonMode="while-editing"
-                onChangeText={(price) => { this.setState({ price }); }}
-              />
+          <View style={{ paddingHorizontal: 9 }}>
+            <View style={styles.shoesCommission}>
+              <View style={styles.inputPrice}>
+                <Text style={{ color: '#999' }}>￥</Text>
+                <TextInput
+                  style={styles.inputPriceTextare}
+                  keyboardType="numeric"
+                  placeholder="输入价格"
+                  maxLength={9}
+                  selectionColor="#00AEFF"
+                  underlineColorAndroid="transparent"
+                  clearButtonMode="while-editing"
+                  onChangeText={(price) => { this.setState({ price }); }}
+                />
+              </View>
+              <View style={styles.shoesCommissionMoney}>
+                <Text style={styles.priceText}>{`平台服务费(${appOptions?.data?.fee}%)：￥${deposit}`}</Text>
+              </View>
             </View>
-            <View style={styles.shoesCommissionMoney}>
-              <Text style={styles.priceText}>{`平台服务费(${appOptions?.data?.fee}%)：￥${deposit}`}</Text>
+            <View style={[styles.orderInfo, { paddingVertical: 10 }]}>
+              {
+                text.map((v, i) => (
+                  <View key={i} style={{ flexDirection: 'row', marginTop: 2 }}>
+                    {i > 1 && <Text style={styles.text}>* </Text>}
+                    <Text style={[styles.text, { flex: 1 }]}>{v}</Text>
+                  </View>
+                ))
+              }
             </View>
           </View>
         </ScrollView>
@@ -154,35 +183,23 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     lineHeight: 18,
   },
+  top: {
+    backgroundColor: '#fff',
+    borderRadius: 2,
+    marginHorizontal: 9,
+    marginTop: 7,
+    paddingBottom: 9,
+  },
   scrollView: {
     flex: 1,
     backgroundColor: '#efefef',
-    paddingTop: 9,
-    paddingLeft: 9,
-    paddingRight: 9,
-  },
-  shoesInfo: {
-    padding: 14,
-    backgroundColor: '#fff',
-  },
-  shoesInfoTop: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    borderBottomColor: '#F2F2F2',
-    borderBottomWidth: 1,
-    paddingBottom: 12,
   },
   shoeSalePrice: {
     marginTop: 14,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  shoesInfoNameBox: {
-    flex: 1,
-    justifyContent: 'space-between',
-    marginLeft: 10,
+    paddingHorizontal: 9,
   },
   inputPrice: {
     flexDirection: 'row',
@@ -288,6 +305,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#37B6EB',
   },
-
+  orderInfo: {
+    paddingHorizontal: 12,
+    backgroundColor: '#fff',
+    marginTop: 9,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  text: {
+    fontSize: 11,
+    color: '#888',
+    textAlign: 'justify',
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(PutOnSale);

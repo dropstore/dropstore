@@ -8,19 +8,23 @@ import { RuiXian } from '../res/FontFamily';
 type Props = {
   item: Number,
   showSize?: Boolean,
-  showPrice?: Boolean
+  showPrice?: Boolean,
+  style?: Object,
 };
 
 export default class ShoeImageHeader extends PureComponent<Props> {
   static defaultProps = {
     showSize: null,
     showPrice: true,
+    style: {},
   }
 
   render() {
-    const { item, showSize, showPrice } = this.props;
+    const {
+      item, showSize, showPrice, style,
+    } = this.props;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, style]}>
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <Text style={styles.title}>{item.goods_name}</Text>
@@ -38,13 +42,13 @@ export default class ShoeImageHeader extends PureComponent<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 9,
     borderRadius: 2,
     overflow: 'hidden',
     backgroundColor: '#fff',
     marginTop: 8,
     flexDirection: 'row',
     padding: 12,
+    marginHorizontal: 9,
   },
   image: {
     height: wPx2P(93),
