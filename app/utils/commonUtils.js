@@ -123,6 +123,7 @@ function showNoPayment(navigation) {
                   title: '我的库房',
                   type: 'warehouse',
                 });
+                closeModalbox();
               }}
             >
               {'未付款'}
