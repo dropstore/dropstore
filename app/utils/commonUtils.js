@@ -206,6 +206,38 @@ function showChooseSize(height, onChoosed, onClosed) {
   });
 }
 
+function shareAcyivity(shopInfo, payType) {
+  const notPay = !payType && (shopInfo.is_join === 0 || shopInfo.user_activity.commission < 1);
+  const aId = shopInfo.activity?.id;
+  const uAId = shopInfo.user_activity?.id;
+  const uId = shopInfo.user_activity?.user_id;
+  const isDraw = shopInfo.activity.b_type === '1';
+  let baseUrl = 'http://m.dropstore.cn/index.html#/panicbuyingWithFriend';
+  let url = `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}&pay=${notPay ? 0 : 1}`;
+  let title = notPay ? `我在炒饭APP上发现了一个${isDraw ? '抽签' : '抢购'}活动，快来参与吧` : isDraw
+    ? `快来炒饭APP帮我抽一支幸运签，中签可立获${shopInfo.user_activity.commission / 100}元现金`
+    : `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元现金`;
+  if (payType === 'buyActivityGoods') {
+    baseUrl = 'http://m.dropstore.cn/index.html#/buysuccess';
+    url = `${baseUrl}?id=${shopInfo.order_id}`;
+    title = '差购买成功文案';
+  }
+  console.log({
+    text: shopInfo.goods.goods_name,
+    img: shopInfo.goods.icon,
+    url,
+    title,
+  });
+  showShare({
+    text: shopInfo.goods.goods_name,
+    img: shopInfo.goods.icon,
+    url,
+    title,
+  }).then(() => {
+    // 分享成功回调
+  });
+}
+
 const styles = StyleSheet.create({
   modal: {
     backgroundColor: '#fff',
@@ -250,5 +282,5 @@ const styles = StyleSheet.create({
 });
 
 export {
-  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare, showChooseSize,
+  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare, showChooseSize, shareAcyivity,
 };

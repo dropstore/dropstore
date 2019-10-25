@@ -11,10 +11,8 @@ import BuyBottomCom from './BuyBottomCom';
 import ShopConstant from '../../../../common/ShopConstant';
 import { getSimpleData } from '../../../../redux/reselect/simpleData';
 import { checkTime } from '../../../../utils/TimeUtils';
-import { debounce } from '../../../../utils/commonUtils';
-import {
-  showShare, showToast, closeModalbox, showModalbox,
-} from '../../../../utils/MutualUtil';
+import { debounce, shareAcyivity } from '../../../../utils/commonUtils';
+import { showToast, closeModalbox, showModalbox } from '../../../../utils/MutualUtil';
 import { BottomBtnGroup } from '../../../../components';
 import SelectShoeSizeByUnJoinsCom from '../SelectShoeSizeByUnJoinsCom';
 
@@ -97,22 +95,7 @@ class SelfBottomCom extends PureComponent {
   _showShare = () => {
     const { shopDetailInfo } = this.props;
     const shopInfo = shopDetailInfo.data;
-    const aId = shopInfo.activity.id;
-    const uAId = shopInfo.user_activity.id;
-    const uId = shopInfo.user_activity.user_id;
-    const notPay = shopInfo.is_join === 0 || shopInfo.user_activity.commission < 1;
-    const isDraw = shopInfo.activity.b_type === '1';
-    const url = `${ShopConstant.SHARE_BASE_URL}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}&pay=${notPay ? 0 : 1}`;
-    showShare({
-      text: shopInfo.goods.goods_name,
-      img: shopInfo.goods.icon,
-      url,
-      title: notPay ? `我在炒饭APP上发现了一个${isDraw ? '抽签' : '抢购'}活动，快来参与吧` : isDraw
-        ? `快来炒饭APP帮我抽一支幸运签，中签可立获${shopInfo.user_activity.commission / 100}元现金`
-        : `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元现金`,
-    }).then(() => {
-      // 分享成功回调
-    });
+    shareAcyivity(shopInfo);
   };
 
   render() {

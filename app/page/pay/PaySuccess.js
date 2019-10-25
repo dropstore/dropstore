@@ -8,9 +8,8 @@ import { BottomBtnGroup, CountdownCom, FadeImage } from '../../components';
 import Image from '../../components/Image';
 import Colors from '../../res/Colors';
 import { YaHei, RuiXian } from '../../res/FontFamily';
-import ShopConstant from '../../common/ShopConstant';
-import { debounce } from '../../utils/commonUtils';
-import { showShare, showToast } from '../../utils/MutualUtil';
+import { debounce, shareAcyivity } from '../../utils/commonUtils';
+import { showToast } from '../../utils/MutualUtil';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
@@ -37,29 +36,7 @@ export default class PaySuccess extends PureComponent {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo') || TestShopInfo;
     const payType = navigation.getParam('payType') || TestPayType;
-    const is_join = shopInfo.is_join;
-    const aId = shopInfo.activity?.id;
-    const uAId = shopInfo.user_activity?.id;
-    const uId = shopInfo.user_activity?.user_id;
-    const baseUrl = {
-      buyActivityGoods: ShopConstant.SHARE_BYU_SUCCESS_URL,
-      commission: is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL,
-    }[payType];
-    const url = {
-      buyActivityGoods: `${baseUrl}?id=${shopInfo.order_id}`,
-      commission: `${baseUrl}?id=${aId}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`,
-    }[payType];
-    const title = payType === 'buyActivityGoods' ? '差购买成功文案' : shopInfo.activity?.b_type === '2'
-      ? `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元现金`
-      : `快来炒饭APP帮我抽一支幸运签，中签后你可立获${shopInfo.user_activity.commission / 100}元现金`;
-    showShare({
-      text: shopInfo.goods.goods_name,
-      img: shopInfo.goods.image,
-      url,
-      title,
-    }).then(() => {
-      // 分享成功回调
-    });
+    shareAcyivity(shopInfo, payType);
   };
 
   confirm = () => {
@@ -177,7 +154,6 @@ export default class PaySuccess extends PureComponent {
       { text: '邮寄地址：北京市朝阳区朝外SOHO0823' },
     ] : [];
     const Wrapper = payType === 'management' ? TouchableOpacity : View;
-
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center', paddingTop: 10 }} showsVerticalScrollIndicator={false}>
@@ -193,6 +169,7 @@ export default class PaySuccess extends PureComponent {
                   time={shopInfo.activity.end_time}
                   style={styles.time}
                   prefix="距活动结束 "
+                  noMax
                   prefixStyle={[styles.time, { color: '#727272' }]}
                 />
               )
