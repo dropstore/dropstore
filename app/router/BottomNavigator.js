@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { PureComponent } from 'react';
 import {
-  View, StyleSheet, TouchableWithoutFeedback, Animated, Text, Platform,
+  View, StyleSheet, TouchableWithoutFeedback, Animated, Text, Platform, DeviceEventEmitter,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -62,6 +62,11 @@ class BottomNavigator extends PureComponent {
   componentDidMount() {
     const { navigation, userInfo, fetchSimpleData } = this.props;
     fetchSimpleData('appOptions', { user_id: userInfo.id });
+    this.listener = DeviceEventEmitter.addListener('chanFunEvent', (type, params) => {
+      if (type === 'navigate') {
+        navigation.navigate(params);
+      }
+    });
     this.didBlurSubscription = navigation.addListener(
       'willFocus',
       (payload) => {
@@ -75,6 +80,7 @@ class BottomNavigator extends PureComponent {
 
   componentWillUnmount() {
     this.didBlurSubscription && this.didBlurSubscription.remove();
+    this.listener && this.listener.remove();
   }
 
   onIndexChange = (index) => {

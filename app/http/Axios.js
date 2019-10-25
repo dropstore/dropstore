@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import NetInfo from '@react-native-community/netinfo';
 import DeviceInfo from 'react-native-device-info';
+import { DeviceEventEmitter } from 'react-native';
 import {
   showToast, showToastLoading, hideToastLoading,
 } from '../utils/MutualUtil';
@@ -102,6 +103,9 @@ const request = async (url, {
       throw new Error(response.data.callbackMsg);
     }
   } catch (error) {
+    if (error.message === '用户未登录') {
+      DeviceEventEmitter.emit('chanFunEvent', 'navigate', 'Auth');
+    }
     console.log(error.message, data, `${baseURL}${url}`, error, headers());
     if (error.code === 'ECONNABORTED' && error.request._response === 'timeout') {
       showToast(Strings.connectTimeout);
