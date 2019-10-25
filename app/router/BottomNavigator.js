@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 const HOME_ICON_WIDTH = wPx2P(70);
-const PADDING_HORIZONTAL = wPx2P(22);
+const PADDING_HORIZONTAL = wPx2P(30);
 const TAB_HEIGHT = 46;
 const ROUTES = [
   { screen: FreeTrade, key: 'freeTrade', title: '交易' },
@@ -156,7 +156,7 @@ class BottomNavigator extends PureComponent {
                   {
                     v
                       ? (
-                        <Animated.View style={[styles.item, { opacity: this.opacity[index] }]}>
+                        <Animated.View style={[styles.item, { opacity: this.opacity[index], paddingHorizontal: v.key === 'home' ? wPx2P(30) : 0 }]}>
                           {
                             v.key === 'home'
                               ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
