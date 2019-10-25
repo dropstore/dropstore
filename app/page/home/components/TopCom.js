@@ -63,7 +63,7 @@ class TopCom extends PureComponent {
 const _styles = StyleSheet.create({
   topImage: {
     width: wPx2P(375),
-    height: wPx2P(138),
+    height: wPx2P(180),
     alignSelf: 'center',
   },
 });
