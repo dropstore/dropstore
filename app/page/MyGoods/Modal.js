@@ -59,8 +59,12 @@ class Modal extends PureComponent {
         });
       }
     } else if (step === 2) {
-      successCallback(text, type).then(() => {
-        this.setState({ step: 3 });
+      successCallback(text, type).then((close) => {
+        if (close) {
+          this.close();
+        } else {
+          this.setState({ step: 3 });
+        }
       });
     }
   }
@@ -128,7 +132,6 @@ class Modal extends PureComponent {
   render() {
     const { text, step } = this.state;
     const { item } = this.props;
-
     return (
       <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 307 : 247 }]}>
         {
@@ -138,7 +141,7 @@ class Modal extends PureComponent {
               <View style={{ flexDirection: 'row' }}>
                 <Text style={{ fontSize: 11, fontFamily: YaHei, color: '#A4A4A4' }}>当前价格：</Text>
                 <Text style={styles.oldText}>
-                  {`${(item.order_price || item.price) / 100}￥`}
+                  {`${item.sell_price / 100}￥`}
                 </Text>
               </View>
               <TextInput

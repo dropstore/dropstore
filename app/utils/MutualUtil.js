@@ -72,8 +72,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
               resolve();
             });
           } else if (type === 'edit') {
-            request('/free/edit_price', { params: { price: value, id: item.free_id } }).then((res) => {
-              console.log(res);
+            request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
               if (store.getState().simpleData?.appOptions?.data?.x_fee > 0) {
                 navigation.navigate('PayDetail', {
                   title: '支付服务费',
@@ -94,12 +93,17 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
                 refresh();
               }
               resolve();
-            });
-          } else if (type === 'cancel') {
-            request('/free/off_shelf', { params: { id: item.free_id } }).then((res) => {
-              console.log(res);
+            }).catch(() => {
               refresh();
               resolve();
+            });
+          } else if (type === 'cancel') {
+            request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
+              refresh();
+              resolve();
+            }).catch(() => {
+              refresh();
+              resolve(true);
             });
           }
         })}
