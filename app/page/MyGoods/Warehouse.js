@@ -30,10 +30,6 @@ export default class Warehouse extends PureComponent {
       btns = [
         { text: '填写物流信息', color: '#000', onPress: () => this.onPress('express') },
       ];
-    } else if (['3'].includes(item.goods_status)) {
-      btns = [
-        { text: '寄回', onPress: () => this.onPress('sendBack') },
-      ];
     }
     return (
       <ListItem
