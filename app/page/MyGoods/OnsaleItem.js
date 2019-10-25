@@ -12,7 +12,7 @@ export default class OnsaleItem extends PureComponent {
 
   render() {
     const { item } = this.props;
-    const btns = [
+    const btns = item.goods_status === '6' ? [] : [
       { text: '改价', color: '#000', onPress: () => this.onPress('edit') },
       { text: '下架', color: '#A2A2A2', onPress: () => this.onPress('cancel') },
     ];
