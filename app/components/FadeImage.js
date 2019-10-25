@@ -43,7 +43,8 @@ export default class FadeImage extends PureComponent<Props, State> {
     const {
       style, resizeMode, children, source,
     } = this.props;
-    if (!source) {
+
+    if (!source || (source.constructor === Object && typeof source.uri !== 'string')) {
       return null;
     } if (Platform.OS === 'ios') {
       const Wrapper = source.constructor !== Object ? FastImage : Image;

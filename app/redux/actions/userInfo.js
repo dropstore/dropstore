@@ -158,12 +158,13 @@ function getUser() {
   });
 }
 
-// 退出登录
-function logout() {
+// 重新登录
+function toLogIn(navigation) {
   return (dispatch) => {
     AsyncStorage.removeItem('token');
     dispatch(resetUser());
     dispatch(resetAllSimpleData());
+    navigation.navigate('Auth');
   };
 }
 
@@ -198,6 +199,6 @@ function updatePassword(password, new_password) {
 
 export {
   receiveAuth, sendMessage, setMessageSendFlag, messageAuth, updateUser, getUser,
-  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, logout,
+  receiveUser, receiveIosNativeDeviceId, weChatAuth, resetUser, weChatBind, toLogIn,
   setPassword, updatePassword, mobileBind, wxBindMobile,
 };

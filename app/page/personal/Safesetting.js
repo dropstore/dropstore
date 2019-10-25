@@ -10,12 +10,11 @@ import clear from 'react-native-clear-cache';
 import Image from '../../components/Image';
 import Images from '../../res/Images';
 import Colors from '../../res/Colors';
-import { updateUser, weChatBind, logout } from '../../redux/actions/userInfo';
+import { updateUser, weChatBind, toLogIn } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 
 const bottomList = [
-  // { title: '切换账号', type: 'changeAccount' },
-  { title: '退出登录', type: 'logout' },
+  { title: '切换账号', type: 'toLogIn' },
 ];
 
 function mapStateToProps() {
@@ -26,7 +25,7 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    updateUser, weChatBind, logout,
+    updateUser, weChatBind, toLogIn,
   }, dispatch);
 }
 
@@ -59,7 +58,7 @@ class Safesetting extends PureComponent {
   }
 
   onPress = (type) => {
-    const { navigation, weChatBind, logout } = this.props;
+    const { navigation, weChatBind, toLogIn } = this.props;
     const { list } = this.state;
     if (type === 'clearCache') {
       clear.runClearCache(() => {
@@ -67,7 +66,7 @@ class Safesetting extends PureComponent {
           this.setState({ cache, unit });
         });
       });
-    } else if (type === 'logout') {
+    } else if (type === 'toLogIn') {
       Alert.alert(
         '',
         '确认退出登录吗？',
@@ -76,9 +75,7 @@ class Safesetting extends PureComponent {
           {
             text: '确定',
             onPress: () => {
-              logout();
-              navigation.getParam('onIndexChange')(2);
-              navigation.goBack();
+              toLogIn(navigation);
             },
           },
         ],

@@ -23,7 +23,7 @@ export default class ImageOrFastImage extends PureComponent<Props, State> {
     const {
       source, style, resizeMode, onPress, hitSlop,
     } = this.props;
-    if (!source) { return null; }
+    if (!source || (source.constructor === Object && typeof source.uri !== 'string')) { return null; }
     const Wrapper = Platform.OS === 'ios' && source.constructor !== Object ? FastImage : Image;
     if (onPress) {
       return (
