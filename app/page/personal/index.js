@@ -75,6 +75,12 @@ class PersonalCenterPage extends PureComponent {
     });
   }
 
+  toBalanceDetail = () => {
+    const { navigation, getUser } = this.props;
+    getUser();
+    navigation.navigate('BalanceDetail', { title: '明细' });
+  }
+
   render() {
     const { navigation, userInfo } = this.props;
     const { refreshing } = this.state;
@@ -112,10 +118,7 @@ class PersonalCenterPage extends PureComponent {
             </View>
             <View style={styles.hengtiao} />
             <View style={styles.walletWrapper}>
-              <TouchableOpacity
-                style={styles.walletLeft}
-                onPress={() => navigation.navigate('BalanceDetail', { title: '明细' })}
-              >
+              <TouchableOpacity style={styles.walletLeft} onPress={this.toBalanceDetail}>
                 <Text style={styles.moeny}>{(userInfo.balance / 100).toFixed(2)}</Text>
                 <Text style={styles.moenyText}>账户总余额(￥)</Text>
               </TouchableOpacity>
