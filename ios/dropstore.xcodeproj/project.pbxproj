@@ -67,7 +67,6 @@
 		C2F95A70230BC8A400C77678 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F95A6F230BC8A400C77678 /* CoreMotion.framework */; };
 		C2F95B1A230BD20E00C77678 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F95B19230BD20E00C77678 /* libsqlite3.0.tbd */; };
 		CE8E6100438E47DBB9E9ADB3 /* libRNCNetInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 743F541AAA2548D299B4D46C /* libRNCNetInfo.a */; };
-		D40EE88E230BE33F00CA4F52 /* Super Mario World Text Box.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */; };
 		D422FDFB231B6B89001EA602 /* InputMask.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D422FDFA231B6B89001EA602 /* InputMask.framework */; };
 		D422FDFC231B6B89001EA602 /* InputMask.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D422FDFA231B6B89001EA602 /* InputMask.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */; };
@@ -86,9 +85,6 @@
 		D46F1CB42317BB9800E0ED6F /* QBImagePicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D46F1CB62317BB9B00E0ED6F /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */; };
 		D46F1CB72317BB9B00E0ED6F /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D4C6DC79231E536E00E4C596 /* Aldrich-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */; };
-		D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */; };
-		D4CA672C2351DDB100302882 /* ruixian.TTF in Resources */ = {isa = PBXBuildFile; fileRef = D4CA66F62351DDB100302882 /* ruixian.TTF */; };
 		D513C320C3814A44B5C5143A /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */; };
 		DC7D1A31FD8F4E72B0E1F93F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B729B459F2A743E980DB1156 /* libBVLinearGradient.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -586,7 +582,6 @@
 		CA40E32A86FE4A0DB1D4D53B /* libFastImage-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libFastImage-tvOS.a"; sourceTree = "<group>"; };
 		D0358EB7F5D24E98899C6798 /* libimageCropPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libimageCropPicker.a; sourceTree = "<group>"; };
 		D3D4752806934763BD284BF2 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
-		D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Super Mario World Text Box.ttf"; sourceTree = "<group>"; };
 		D422FDFA231B6B89001EA602 /* InputMask.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = InputMask.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46A21D6230BB55E00EE6CA5 /* UMSocialSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = UMSocialSDKResources.bundle; sourceTree = "<group>"; };
 		D46A21D7230BB55E00EE6CA5 /* UShareUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UShareUI.framework; sourceTree = "<group>"; };
@@ -606,9 +601,6 @@
 		D46A2227230BB5AA00EE6CA5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D46F1CAF2317BB9100E0ED6F /* RSKImageCropper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RSKImageCropper.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/RSKImageCropper.framework"; sourceTree = "<group>"; };
 		D46F1CB12317BB9400E0ED6F /* QBImagePicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QBImagePicker.framework; path = "../node_modules/react-native-image-crop-picker/ios/ImageCropPickerSDK/QBImagePicker.framework"; sourceTree = "<group>"; };
-		D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Aldrich-Regular.ttf"; sourceTree = "<group>"; };
-		D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
-		D4CA66F62351DDB100302882 /* ruixian.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = ruixian.TTF; sourceTree = "<group>"; };
 		D4EF51772317B7FA003E4F6E /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EF51792317B803003E4F6E /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB8E2958C62B43458F0AC9B9 /* RCTClearCacheModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTClearCacheModule.xcodeproj; path = "../node_modules/react-native-clear-cache/ios/RCTClearCacheModule.xcodeproj"; sourceTree = "<group>"; };
@@ -849,10 +841,6 @@
 		2EC46F3B25D242FA85AC1A18 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D4CA66F62351DDB100302882 /* ruixian.TTF */,
-				D40EE85A230BE33F00CA4F52 /* Super Mario World Text Box.ttf */,
-				D4C6DC41231E536E00E4C596 /* Aldrich-Regular.ttf */,
-				D4C6DC7A231E637B00E4C596 /* Roboto-BlackItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1806,13 +1794,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D40EE88E230BE33F00CA4F52 /* Super Mario World Text Box.ttf in Resources */,
 				C2CA2714230BECA2005FA070 /* AlipaySDK.bundle in Resources */,
-				D4C6DC79231E536E00E4C596 /* Aldrich-Regular.ttf in Resources */,
-				D4C6DC7B231E637B00E4C596 /* Roboto-BlackItalic.ttf in Resources */,
 				D46A2217230BB55E00EE6CA5 /* UMSocialSDKResources.bundle in Resources */,
 				C2CA2739230BF218005FA070 /* README.txt in Resources */,
-				D4CA672C2351DDB100302882 /* ruixian.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

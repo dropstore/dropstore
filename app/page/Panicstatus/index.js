@@ -12,7 +12,7 @@ import { bindActionCreators } from 'redux';
 import {
   Image, BottomBtnGroup, FadeImage, PullToRefresh, BottomPay,
 } from '../../components';
-import { Mario, YaHei, RuiXian } from '../../res/FontFamily';
+import { YaHei, RuiXian } from '../../res/FontFamily';
 import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
@@ -203,7 +203,6 @@ const styles = StyleSheet.create({
   },
   time: {
     fontSize: 16,
-    fontFamily: Mario,
     color: '#000',
   },
   shopName: {
