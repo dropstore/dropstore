@@ -120,12 +120,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>我们将访问您的相册，是否同意？</string>
 	<key>UIAppFonts</key>
-	<array>
-		<string>ruixian.TTF</string>
-		<string>Roboto-BlackItalic.ttf</string>
-		<string>Aldrich-Regular.ttf</string>
-		<string>Super Mario World Text Box.ttf</string>
-	</array>
+	<array/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
