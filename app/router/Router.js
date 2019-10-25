@@ -22,7 +22,6 @@ import GenderSize from '../page/auth/GenderSize';
 import PhoneNum from '../page/auth/PhoneNum';
 
 import shopDetail from '../page/shopDetail';
-// import luckDetail from '../page/home/luckyCharm/Luckydetail';
 import pay from '../page/pay';
 import PaySuccess from '../page/pay/PaySuccess';
 import commission from '../page/commission';
