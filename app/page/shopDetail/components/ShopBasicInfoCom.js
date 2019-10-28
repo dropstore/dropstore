@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CountdownCom, ImageBackground } from '../../../components';
+import { CountdownCom, ImageBackground, ImageNetUnkoneSize } from '../../../components';
 import { YaHei } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
 import { wPx2P } from '../../../utils/ScreenUtil';
@@ -54,9 +54,13 @@ export default class ShopBasicInfoCom extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <View>
-        <ImageBackground useFadeImage source={{ uri: activityInfo.activity.image }} style={styles.imageShoe}>
-          {/* <Image style={styles.iconMask} source={require('../../../res/image/icon_mask.png')} /> */}
-        </ImageBackground>
+        <ImageNetUnkoneSize
+          style={{ width: wPx2P(375) }}
+          source={{ uri: activityInfo.activity.image }}
+        />
+        {/* <ImageBackground useFadeImage source={{ uri: activityInfo.activity.image }} style={styles.imageShoe}>
+          <Image style={styles.iconMask} source={require('../../../res/image/icon_mask.png')} />
+        </ImageBackground> */}
         <View style={{ paddingHorizontal: 16 }}>
           <Text style={styles.shopTitle}>{activityInfo.activity.activity_name}</Text>
           { this.setTimeDOM(activityInfo) }
