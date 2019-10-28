@@ -41,7 +41,7 @@ export default class ListItem extends PureComponent<Props> {
     const {
       item, showSeal, RightBottom, timePrefix, timeText, btns, price, priceTag, CountdownCom, Hint,
     } = this.props;
-    const image = item.icon;
+    const image = (item.goods || item).icon;
     const goods_name = (item.goods || item).goods_name;
     return (
       <View style={styles.container}>

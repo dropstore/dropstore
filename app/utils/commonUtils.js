@@ -222,12 +222,6 @@ function shareAcyivity(shopInfo, payType) {
     url = `${baseUrl}?id=${shopInfo.order_id}`;
     title = '差购买成功文案';
   }
-  console.log({
-    text: shopInfo.goods.goods_name,
-    img: shopInfo.goods.icon,
-    url,
-    title,
-  });
   showShare({
     text: shopInfo.goods.goods_name,
     img: shopInfo.goods.icon,

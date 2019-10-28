@@ -68,7 +68,7 @@ class PutOnSale extends PureComponent {
           ...this.item,
           price: price * 100,
           image: (this.item.goods || this.item).image,
-          icon: this.item.icon,
+          icon: (this.item.goods || this.item).icon,
           goods_name: (this.item.goods || this.item).goods_name,
         },
       });

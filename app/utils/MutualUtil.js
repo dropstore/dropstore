@@ -85,7 +85,7 @@ export const MyGoodsItemOnPress = (type, route, navigation, item, refresh) => {
                   goodsInfo: {
                     ...item,
                     image: (item.goods || item).image,
-                    icon: item.icon,
+                    icon: (item.goods || item).icon,
                     goods_name: (item.goods || item).goods_name,
                     price: value * 100,
                   },
