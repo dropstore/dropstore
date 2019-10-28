@@ -9,7 +9,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { YaHei } from '../../../res/FontFamily';
 import Colors from '../../../res/Colors';
 import ShopConstant from '../../../common/ShopConstant';
-import { checkTime } from '../../../utils/TimeUtils';
 
 const DATA_1 = [
   ['选择商品'],
@@ -60,7 +59,7 @@ export default class RuleCom extends PureComponent {
    */
   buyStatus = (status, start_time) => {
     // 活动已开始
-    if (checkTime(start_time) < 0) {
+    if (start_time - Date.now() / 1000 < 0) {
       // 未参加
       if (status === ShopConstant.NOT_JOIN) {
         return null;

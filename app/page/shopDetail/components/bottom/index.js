@@ -10,7 +10,6 @@ import SelectShoeSizeCom from '../SelectShoeSizeCom';
 import BuyBottomCom from './BuyBottomCom';
 import ShopConstant from '../../../../common/ShopConstant';
 import { getSimpleData } from '../../../../redux/reselect/simpleData';
-import { checkTime } from '../../../../utils/TimeUtils';
 import { debounce, shareAcyivity } from '../../../../utils/commonUtils';
 import { showToast, closeModalbox, showModalbox } from '../../../../utils/MutualUtil';
 import { BottomBtnGroup } from '../../../../components';
@@ -103,7 +102,7 @@ class SelfBottomCom extends PureComponent {
     // 活动子类型:1、抽签；2、抢购
     const b_type = shopInfo.activity.b_type;
     // 活动未开始
-    if (checkTime(shopInfo.activity.start_time) > 0) {
+    if (shopInfo.activity.start_time - Date.now() / 1000 > 0) {
       return this._normalDOM(shopInfo, false);
     }
     if (b_type === ShopConstant.DRAW) {
