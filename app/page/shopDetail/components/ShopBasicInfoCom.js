@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CountdownCom, ImageBackground, ImageNetUnkoneSize } from '../../../components';
+import { CountdownCom, ImageNetUnkoneSize } from '../../../components';
 import { YaHei } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
 import { wPx2P } from '../../../utils/ScreenUtil';
