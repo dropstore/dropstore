@@ -4,15 +4,12 @@ import { TabView } from 'react-native-tab-view';
 import Animated from 'react-native-reanimated';
 import { TabBar } from '../../components';
 import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
-// import LuckyCharm from './luckyCharm';
 import OriginalCost from './originalCost';
 import SelfSupport from './selfSupport';
 
 const ROUTES = [
   { key: 'originalCost', title: '原价自营', screen: OriginalCost },
   { key: 'selfSupport', title: '炒饭发售', screen: SelfSupport },
-  // { key: 'luckyCharm', title: '球鞋锦鲤',screen: LuckyCharm },
-  // { key: 'reserve', title: '球鞋预定',screen: Reserve },
 ];
 
 class HomePage extends PureComponent {
@@ -47,14 +44,12 @@ class HomePage extends PureComponent {
     const { routes } = this.state;
     return (
       <View style={styles.tabView}>
-        <View style={styles.header}>
-          <TabBar
-            style={styles.tabBar}
-            routes={routes}
-            position={this.indexScrollPosition}
-            onIndexChange={this.onIndexChange}
-          />
-        </View>
+        <TabBar
+          style={styles.tabBar}
+          routes={routes}
+          position={this.indexScrollPosition}
+          onIndexChange={this.onIndexChange}
+        />
         <TabView
           style={{ flex: 1 }}
           navigationState={this.state}
@@ -79,10 +74,6 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     paddingTop: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 });
 
