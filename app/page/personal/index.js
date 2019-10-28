@@ -50,7 +50,7 @@ class PersonalCenterPage extends PureComponent {
     ];
     this.list2 = [
       {
-        title: '我的地址', icon: 'safesetting', route: 'Address', params: { title: '我的地址' },
+        title: '我的地址', icon: 'address', route: 'Address', params: { title: '我的地址' },
       },
       {
         title: '系统消息', icon: 'systemnotice', route: 'Message', params: { title: '系统通知', type: 'systemnotice' },

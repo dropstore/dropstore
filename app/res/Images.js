@@ -36,6 +36,7 @@ const IMAGES = {
   fashounotice: require('./image/fashounotice.png'),
   systemnotice: require('./image/systemnotice.png'),
   safesetting: require('./image/safesetting.png'),
+  address: require('./image/address.png'),
   littleBoy: require('./image/little-boy.png'),
   littleGirl: require('./image/little-girl.png'),
   // 个人设置
