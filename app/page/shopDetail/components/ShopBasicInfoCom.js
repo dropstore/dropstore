@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Image, CountdownCom, ImageBackground } from '../../../components';
+import { CountdownCom, ImageBackground } from '../../../components';
 import { YaHei } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
 import { wPx2P } from '../../../utils/ScreenUtil';
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
   shopTitle: {
     fontSize: 15,
     fontFamily: YaHei,
+    lineHeight: 17,
   },
   overView: {
     flexDirection: 'row',
