@@ -60,7 +60,7 @@ export default class ShopBasicInfoCom extends PureComponent {
         <View style={{ paddingHorizontal: 16 }}>
           <Text style={styles.shopTitle}>{activityInfo.activity.activity_name}</Text>
           { this.setTimeDOM(activityInfo) }
-          <Text style={{ fontSize: 13, marginTop: 3 }}>{activityInfo.goods.goods_name}</Text>
+          <Text style={{ fontSize: 13, marginTop: 3, lineHeight: 15 }}>{activityInfo.goods.goods_name}</Text>
         </View>
         <Text style={styles.price}>
           {`${activityInfo.activity.price / 100}￥`}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   shopTitle: {
     fontSize: 15,
     fontFamily: YaHei,
-    lineHeight: 17,
+    lineHeight: 18,
   },
   overView: {
     flexDirection: 'row',

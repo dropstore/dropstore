@@ -72,7 +72,7 @@ function needUpdate(appVersion, minVersion) {
           }}
           >
             <Text style={{
-              fontSize: 16, fontFamily: YaHei, textAlign: 'center', marginTop: 50,
+              fontSize: 16, fontFamily: YaHei, textAlign: 'center', marginTop: 50, lineHeight: 20,
             }}
             >
               {'版本太旧，请升级至最新版本'}
@@ -114,7 +114,7 @@ function showNoPayment(navigation) {
       <View style={styles.modal}>
         <Text style={styles.hint}>友情提示</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
-          <Text style={{ fontSize: 14, fontFamily: YaHei }}>
+          <Text style={{ fontSize: 14, fontFamily: YaHei, lineHeight: 17 }}>
             {'支付未完成，可在我的仓库'}
             <Text
               style={styles.kufang}

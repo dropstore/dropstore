@@ -211,6 +211,7 @@ const styles = StyleSheet.create({
     fontFamily: RuiXian,
     marginHorizontal: 17,
     textAlign: 'justify',
+    lineHeight: 15,
   },
   status: {
     fontSize: 20,

@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
     color: '#696969',
     marginTop: 20,
     marginHorizontal: 15,
+    lineHeight: 15,
   },
   time: {
     fontFamily: YaHei,

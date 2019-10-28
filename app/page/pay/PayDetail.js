@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: '#888',
     textAlign: 'justify',
+    lineHeight: 13,
   },
   itemWrapper0: {
     borderBottomWidth: StyleSheet.hairlineWidth,

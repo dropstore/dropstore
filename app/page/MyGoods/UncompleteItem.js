@@ -62,5 +62,6 @@ const styles = StyleSheet.create({
     color: '#858585',
     fontSize: 10,
     letterSpacing: -0.2,
+    lineHeight: 12,
   },
 });

@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     overflow: 'hidden',
     fontSize: 12,
+    lineHeight: 14,
     color: '#333',
     paddingVertical: 6,
   },

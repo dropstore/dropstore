@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     marginTop: 3,
     marginBottom: 10,
+    lineHeight: 12,
   },
   zhifu: {
     width: wPx2P(198),

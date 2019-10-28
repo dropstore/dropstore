@@ -119,7 +119,7 @@ class Modal extends PureComponent {
         <MenuTrigger />
         <MenuOptions
           renderOptionsContainer={() => (
-            <Text style={{ fontSize: 11, textAlign: 'justify', color: '#8F8F8F' }}>
+            <Text style={styles.jianding}>
               {'包含鉴别费(对每件商品进行多重鉴别真伪服务产生的服务费用)，包装服务费(商品发货至买家时所需的各类包装材料及人工包装服务所产生的服务费用)。'}
             </Text>
           )}
@@ -224,6 +224,12 @@ class Modal extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  jianding: {
+    fontSize: 11,
+    textAlign: 'justify',
+    color: '#8F8F8F',
+    lineHeight: 13,
+  },
   shoe: {
     width: 64.5,
     height: 40,
@@ -249,6 +255,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 5,
     textAlign: 'justify',
+    lineHeight: 13,
   },
   btns: {
     height: 45,
