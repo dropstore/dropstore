@@ -5,6 +5,7 @@ const initialState = {
   list: [],
   current: {},
   isChoosed: false,
+  isFetched: false,
 };
 
 export default handleActions({
@@ -12,6 +13,7 @@ export default handleActions({
     ...state,
     list: action.payload,
     current: action.payload.find(v => v.is_default),
+    isFetched: true,
   }),
   [setChoosedAddress]: (state, action) => ({
     ...state,

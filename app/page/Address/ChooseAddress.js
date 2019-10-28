@@ -63,10 +63,15 @@ class ChooseAddress extends PureComponent {
       this.toEdit(address);
     } else {
       setChoosedAddress(address);
-      navigation.navigate('PickUp', {
-        title: '支付运费',
-        address,
-      });
+      const onPress = navigation.getParam('onPress');
+      if (onPress) {
+        onPress();
+      } else {
+        navigation.navigate('PickUp', {
+          title: '支付运费',
+          address,
+        });
+      }
     }
   }
 

@@ -10,10 +10,12 @@ import { Image, KeyboardDismiss, FadeImage } from '../../components';
 import Colors from '../../res/Colors';
 import { showToast } from '../../utils/MutualUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
+import { getAddress } from '../../redux/reselect/address';
 
 function mapStateToProps() {
   return state => ({
     appOptions: getSimpleData(state, 'appOptions'),
+    address: getAddress(state),
   });
 }
 
@@ -128,11 +130,20 @@ class Modal extends PureComponent {
     );
   }
 
+  toChoose = () => {
+    const { navigation } = this.props;
+    navigation.navigate('ChooseAddress', {
+      title: '选择地址',
+      onPress: () => navigation.pop(),
+    });
+  }
+
   render() {
     const { text, step } = this.state;
-    const { item } = this.props;
+    const { item, address } = this.props;
+    const defaultAddress = address.current;
     return (
-      <KeyboardDismiss style={[styles.container, { height: [0, 4].includes(step) ? 307 : 247 }]}>
+      <KeyboardDismiss style={[styles.container, { height: step === 0 ? 307 : step === 4 ? 390 : 247 }]}>
         {
           step === 0 ? (
             <View style={{ flex: 1 }}>
@@ -184,7 +195,17 @@ class Modal extends PureComponent {
             ) : step === 4 ? (
               <View style={{ flex: 1 }}>
                 {this.renderShoe()}
-                <Text style={{ fontFamily: YaHei, color: '#A4A4A4', fontSize: 11 }}>
+                <View>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={{ color: '#212121', fontSize: 12 }}>收货人：酱爆</Text>
+                    <Text style={{ color: '#212121', fontSize: 12 }}>1383883838</Text>
+                  </View>
+                  <Text style={{ color: '#858585', fontSize: 11, marginTop: 2 }}>北京市朝阳区朝外SOHO B座823</Text>
+                </View>
+                <Text style={{
+                  fontFamily: YaHei, color: '#A4A4A4', fontSize: 11, marginTop: 10,
+                }}
+                >
                   {'物流公司：'}
                   <Text style={{ fontFamily: YaHei, fontSize: 11 }}>顺丰快递</Text>
                 </Text>
@@ -199,6 +220,23 @@ class Modal extends PureComponent {
                   onChangeText={this.onChangeText}
                 />
                 <Text style={styles.shouxufei}>物流信息填写后无法修改</Text>
+                <Text style={{ fontSize: 12, color: '#212121' }}>寄回地址</Text>
+                <TouchableOpacity
+                  onPress={this.toChoose}
+                  style={{ flexDirection: 'row', alignItems: 'center' }}
+                >
+                  <View style={{ flex: 1, marginRight: 10 }}>
+                    <View style={{
+                      flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+                    }}
+                    >
+                      <Text style={{ color: '#212121', fontSize: 12 }}>{defaultAddress.link_name}</Text>
+                      <Text style={{ color: '#212121', fontSize: 12 }}>{defaultAddress.mobile}</Text>
+                    </View>
+                    <Text numberOfLines={1} style={{ color: '#858585', fontSize: 11, marginTop: 2 }}>{defaultAddress.address}</Text>
+                  </View>
+                  <Image source={Images.iconRight} style={{ height: 9, width: 6 }} />
+                </TouchableOpacity>
               </View>
             ) : null
         }
@@ -269,12 +307,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   container: {
-    width: 307,
+    width: 265,
     backgroundColor: '#fff',
     borderRadius: 2,
     overflow: 'hidden',
-    paddingHorizontal: 32,
-    paddingTop: 35,
+    paddingHorizontal: 28,
+    paddingTop: 33,
     paddingBottom: 38,
   },
   oldText: {

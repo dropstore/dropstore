@@ -5,7 +5,10 @@ const receiveAddress = createAction('RECEIVE_ADDRESS');
 const setChoosedAddress = createAction('SET_CHOOSED_ADDRESS');
 
 function fetchAddress() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    if (getState().address.isFetched) {
+      return;
+    }
     request('/user/user_address', { params: { type: 1 } }).then((res) => {
       dispatch(receiveAddress(res.data.list));
     });

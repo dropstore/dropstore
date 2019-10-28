@@ -10,6 +10,7 @@ import Images from '../../res/Images';
 import { YaHei } from '../../res/FontFamily';
 import { wPx2P } from '../../utils/ScreenUtil';
 import { getUserInfo } from '../../redux/reselect/userInfo';
+import { fetchAddress } from '../../redux/actions/address';
 import { getUser } from '../../redux/actions/userInfo';
 import Colors from '../../res/Colors';
 
@@ -23,14 +24,15 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    getUser,
+    getUser, fetchAddress,
   }, dispatch);
 }
 
 class PersonalCenterPage extends PureComponent {
   constructor(props) {
     super(props);
-    const { onIndexChange } = this.props;
+    const { onIndexChange, fetchAddress } = this.props;
+    fetchAddress();
     this.state = {
       refreshing: false,
     };
@@ -170,7 +172,6 @@ class PersonalCenterPage extends PureComponent {
                     <Text style={[styles.itemTitle, { marginLeft: 5 }]}>{v.title}</Text>
                     <Image source={Images.iconRight} style={styles.right} />
                   </View>
-
                 </TouchableOpacity>
               ))
             }
