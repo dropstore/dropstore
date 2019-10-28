@@ -127,7 +127,6 @@ class BottomNavigator extends PureComponent {
     return (
       <View style={styles.container}>
         <TabView
-          style={{ flex: 1 }}
           navigationState={this.state}
           renderScene={this.renderScene}
           renderTabBar={this.renderTabBar}

@@ -22,7 +22,7 @@ export default class ListItem extends PureComponent {
     return (
       <ScaleView onPress={this.onPress} style={{ ...styles.container, marginLeft: index % 2 === 1 ? 8 : 9 }}>
         <Text numberOfLines={2} style={Styles.listTitle}>{item.goods_name}</Text>
-        <FadeImage source={{ uri: item.image }} style={styles.shoe} />
+        <FadeImage source={{ uri: item.icon }} style={styles.shoe} />
         {
           showPrice && (
             <View style={styles.bottom}>

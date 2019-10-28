@@ -9,7 +9,7 @@ export default class FreeTrade extends PureComponent {
     return (
       <View style={{ flex: 1 }}>
         <FreeTradeList
-          style={{ flex: 1, marginTop: STATUSBAR_AND_NAV_HEIGHT }}
+          style={{ marginTop: STATUSBAR_AND_NAV_HEIGHT }}
           type="freeTradeIndex"
           navigation={navigation}
         />
