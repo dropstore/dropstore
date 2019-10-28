@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontFamily: YaHei,
+    lineHeight: 16,
   },
   container: {
     borderRadius: 2,

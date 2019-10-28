@@ -5,7 +5,6 @@ import ActionSheet from './ActionSheet';
 import TabBar from './TabBar';
 import Frame from './Frame';
 import FadeImage from './FadeImage';
-import NoDataCom from './NoDataCom';
 import NavigationBarCom from './NavigationBarCom';
 import PullToRefresh from './PullToRefresh';
 import ScaleView from './ScaleView';
@@ -29,7 +28,7 @@ import ShoeImageHeader from './ShoeImageHeader';
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, FadeImage, Frame,
-  NoDataCom, NavigationBarCom, PullToRefresh, ScaleView,
+  NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ImageNetUnkoneSize,
   Global, Keyboard, FreeTradeList, BottomPay,
   AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag, InputVarySize,

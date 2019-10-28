@@ -27,16 +27,18 @@ import PaySuccess from '../page/pay/PaySuccess';
 import commission from '../page/commission';
 import Panicstatus from '../page/Panicstatus';
 
+import Address from '../page/Address';
+import AddressEdit from '../page/Address/AddressEdit';
+import ChooseAddress from '../page/Address/ChooseAddress';
+
 import Setting from '../page/personal/Setting';
 import Safesetting from '../page/personal/Safesetting';
-import AddressEdit from '../page/Address/AddressEdit';
 import Message from '../page/notice/Message';
 import BalanceExtract from '../page/personal/BalanceExtract';
 import BalanceDetail from '../page/personal/BalanceDetail';
 import Password from '../page/Password';
 import MyGoods from '../page/MyGoods';
 import PickUp from '../page/PickUp';
-import ChooseAddress from '../page/Address/ChooseAddress';
 import RestPay from '../page/notice/RestPay';
 
 import FreeTradeDetail from '../page/FreeTradeDetail';
@@ -151,6 +153,7 @@ const routesWithHeader = {
   PayDetail,
   PutOnSale,
   BrandListPage,
+  Address,
   FreeTradeSearch,
 };
 // 不需要导航头部的路由写在这里

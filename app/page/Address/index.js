@@ -24,7 +24,7 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-class ChooseAddress extends PureComponent {
+class Address extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
       <TouchableOpacity onPress={() => navigation.navigate('AddressEdit', { title: '添加收货地址' })}>
@@ -202,4 +202,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChooseAddress);
+export default connect(mapStateToProps, mapDispatchToProps)(Address);

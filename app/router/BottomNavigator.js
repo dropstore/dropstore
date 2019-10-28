@@ -144,11 +144,7 @@ class BottomNavigator extends PureComponent {
               return (
                 <TouchableWithoutFeedback
                   key={`v.key${i}`}
-                  hitSlop={{
-                    bottom: PADDING_TAB,
-                    left: i === 0 ? PADDING_HORIZONTAL : 0,
-                    right: i === arr.length - 1 ? PADDING_HORIZONTAL : 0,
-                  }}
+                  hitSlop={{ bottom: PADDING_TAB }}
                   onPressIn={() => this.onPressIn(index)}
                   onPressOut={() => this.onPressOut(index)}
                   onPress={() => this.onIndexChange(index)}
@@ -156,7 +152,13 @@ class BottomNavigator extends PureComponent {
                   {
                     v
                       ? (
-                        <Animated.View style={[styles.item, { opacity: this.opacity[index], paddingHorizontal: v.key === 'home' ? wPx2P(30) : 0 }]}>
+                        <Animated.View style={[styles.item, {
+                          opacity: this.opacity[index],
+                          paddingHorizontal: v.key === 'home' ? wPx2P(30) : 0,
+                          marginLeft: i === 0 ? PADDING_HORIZONTAL : 0,
+                          marginRight: i === arr.length - 1 ? PADDING_HORIZONTAL : 0,
+                        }]}
+                        >
                           {
                             v.key === 'home'
                               ? <Image style={styles.drop} source={indexState === index ? Images[v.key] : Images[`${v.key}Inactive`]} />
@@ -209,7 +211,6 @@ const styles = StyleSheet.create({
     width: getScreenWidth(),
     flexDirection: 'row',
     backgroundColor: '#fff',
-    paddingHorizontal: PADDING_HORIZONTAL,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ddd',
   },
@@ -222,19 +223,19 @@ const styles = StyleSheet.create({
   },
   drop: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(70),
+    height: HOME_ICON_WIDTH,
     position: 'absolute',
     bottom: PADDING_TAB + 6,
   },
   homeIcon: {
     width: HOME_ICON_WIDTH,
-    height: wPx2P(70),
+    height: HOME_ICON_WIDTH,
     position: 'absolute',
     bottom: PADDING_TAB + 6,
     zIndex: -1,
     backgroundColor: '#fff',
-    left: (getScreenWidth() - wPx2P(70)) / 2,
-    borderRadius: wPx2P(35),
+    left: (getScreenWidth() - HOME_ICON_WIDTH) / 2,
+    borderRadius: HOME_ICON_WIDTH / 2,
     overflow: 'hidden',
   },
   item: {
