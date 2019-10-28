@@ -28,7 +28,7 @@ export default class Warehouse extends PureComponent {
       }
     } else if (item.goods_status === '0') {
       btns = [
-        { text: '填写物流信息', color: '#000', onPress: () => this.onPress('express') },
+        { text: '填写物流信息', color: '#0a8ccf', onPress: () => this.onPress('express') },
       ];
     }
     return (
