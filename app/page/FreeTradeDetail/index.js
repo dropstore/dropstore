@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
-import {
-  View, StyleSheet, TouchableOpacity, Text,
-} from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
 import List from './List';
 import Colors from '../../res/Colors';
 import ListItemDetail from './ListItemDetail';
@@ -32,7 +29,6 @@ class MyGoods extends PureComponent {
       index: 0,
     };
     this.goods = navigation.getParam('item');
-    this.indexScrollPosition = new Animated.Value(0);
   }
 
   onIndexChange = (index) => {
@@ -48,34 +44,32 @@ class MyGoods extends PureComponent {
   }
 
   renderTabBar = (props) => {
-    this.indexScrollPosition = props.position;
-    return null;
-  }
-
-  render() {
     const { routes, index } = this.state;
     const { navigation } = this.props;
     return (
-      <View style={styles.tabView}>
-        <Header
-          onIndexChange={this.onIndexChange}
-          routes={routes}
-          index={index}
-          item={this.goods}
-          navigation={navigation}
-          indexScrollPosition={this.indexScrollPosition}
-        />
-        <TabView
-          style={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          renderTabBar={this.renderTabBar}
-          onIndexChange={this.onIndexChange}
-          useNativeDriver
-          initialLayout={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
-          lazy
-        />
-      </View>
+      <Header
+        onIndexChange={this.onIndexChange}
+        routes={routes}
+        index={index}
+        item={this.goods}
+        navigation={navigation}
+        indexScrollPosition={props.position}
+      />
+    );
+  }
+
+  render() {
+    return (
+      <TabView
+        style={styles.tabView}
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        renderTabBar={this.renderTabBar}
+        onIndexChange={this.onIndexChange}
+        useNativeDriver
+        initialLayout={{ width: getScreenWidth(), height: getScreenHeight() - STATUSBAR_AND_NAV_HEIGHT }}
+        lazy
+      />
     );
   }
 }
