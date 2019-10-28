@@ -49,15 +49,15 @@ class AuthLoading extends PureComponent {
       if (res[0][1]) {
         getUser(res[0][1]);
         navigation.navigate('Main');
-        // SplashScreen.hide();
+        SplashScreen.hide();
       } else {
-        // SplashScreen.hide();
+        SplashScreen.hide();
       }
       if (!res[1][1]) {
         this.setState({ showTreaty: true });
       }
     }).catch(() => {
-      // SplashScreen.hide();
+      SplashScreen.hide();
     });
   }
 
