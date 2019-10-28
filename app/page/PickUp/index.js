@@ -80,7 +80,7 @@ class PickUp extends PureComponent {
       <View style={{ flex: 1 }}>
         <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
           <View style={styles.header}>
-            <FadeImage source={{ uri: item.goods.image }} style={styles.shoe} />
+            <FadeImage source={{ uri: item.goods.icon }} style={styles.shoe} />
             <View style={{ flex: 1 }}>
               <View style={{ justifyContent: 'space-between', flex: 1 }}>
                 <Text style={styles.shopTitle}>{item.goods.goods_name}</Text>

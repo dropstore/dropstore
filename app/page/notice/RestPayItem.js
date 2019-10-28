@@ -20,7 +20,7 @@ export default class RestPayItem extends PureComponent {
       <Wrapper style={styles.container} onPress={this.changeChoosed}>
         <View style={styles.left}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-            <Image source={{ uri: item.image }} style={styles.shoe} />
+            <Image source={{ uri: item.icon }} style={styles.shoe} />
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Image source={{ uri: item.avatar }} style={styles.avatar} />
               <Text numberOfLines={1} style={{ fontSize: 13, flex: 1, marginBottom: 2 }}>{item.user_name}</Text>

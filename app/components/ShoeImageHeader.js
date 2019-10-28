@@ -25,7 +25,7 @@ export default class ShoeImageHeader extends PureComponent<Props> {
     } = this.props;
     return (
       <View style={[styles.container, style]}>
-        <Image source={{ uri: item.image }} style={styles.image} />
+        <Image source={{ uri: item.icon }} style={styles.image} />
         <View style={{ flex: 1, justifyContent: 'space-between' }}>
           <Text style={styles.title}>{item.goods_name}</Text>
           <View style={{ alignItems: 'flex-end', flexDirection: 'row', justifyContent: 'space-between' }}>

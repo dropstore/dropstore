@@ -80,11 +80,10 @@ class Modal extends PureComponent {
 
   renderShoe = () => {
     const { item } = this.props;
-    const image = (item.goods || item).image;
     const goods_name = (item.goods || item).goods_name;
     return (
       <View style={styles.titleWrapper}>
-        <FadeImage source={{ uri: image }} style={styles.shoe} />
+        <FadeImage source={{ uri: item.icon }} style={styles.shoe} />
         <Text numberOfLines={2} style={styles.title}>{goods_name}</Text>
       </View>
     );

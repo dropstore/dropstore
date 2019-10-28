@@ -67,12 +67,11 @@ class Panicstatus extends PureComponent {
     const aId = shopInfo.activity.id;
     const uAId = shopInfo.user_activity.id;
     const uId = shopInfo.user_activity.user_id;
-    const image = shopInfo.goods.image;
     const baseUrl = is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
     const url = `${baseUrl}?id=${order_id}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
     showShare({
       text: shopInfo.goods.goods_name,
-      img: image,
+      img: shopInfo.goods.icon,
       url,
       title: `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元佣金`,
     }).then(() => {

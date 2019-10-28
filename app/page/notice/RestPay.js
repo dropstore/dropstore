@@ -93,6 +93,7 @@ class RestPay extends Component {
         goods: {
           goods_name: payItems[0].activity_name,
           image: payItems[0].image,
+          icon: payItems[0].icon,
         },
         order_id: payItems[0].order_id,
       },

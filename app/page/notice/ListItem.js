@@ -38,6 +38,7 @@ export default class ListItem extends PureComponent {
           goods: {
             image: item.goods_image,
             goods_name: item.goods_name,
+            icon: item.icon,
           },
           order_id: item.order_id,
         },
@@ -72,7 +73,7 @@ export default class ListItem extends PureComponent {
         <Text style={styles.date}>{formatDate(item.add_time)}</Text>
         <Wrapper onPress={this.toPay} style={styles.container}>
           <View style={{ justifyContent: 'space-between', marginRight: 15 }}>
-            <ImageBackground useFadeImage source={{ uri: item.image }} style={styles.shoe}>
+            <ImageBackground useFadeImage source={{ uri: item.icon }} style={styles.shoe}>
               { item.type === '2' && <Image source={require('../../res/image/zhongqian.png')} style={styles.zhongqian} /> }
             </ImageBackground>
             { item.size ? <Text numberOfLines={1} style={styles.size}>{`SIZE: ${item.size}`}</Text> : null }
