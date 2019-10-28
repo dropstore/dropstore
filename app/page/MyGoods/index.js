@@ -3,7 +3,6 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
 import List from './List';
 import { TabBar } from '../../components';
 import { getScreenWidth } from '../../common/Constant';
@@ -49,7 +48,6 @@ class MyGoods extends PureComponent {
       routes,
       index: initIndex,
     };
-    this.indexScrollPosition = new Animated.Value(initIndex);
   }
 
   onIndexChange = (index) => {
@@ -62,43 +60,40 @@ class MyGoods extends PureComponent {
   }
 
   renderTabBar = (props) => {
-    this.indexScrollPosition = props.position;
-    return null;
+    const { routes, index } = this.state;
+    return (
+      <View style={styles.header}>
+        <TabBar
+          style={styles.tabBar}
+          routes={routes}
+          position={props.position}
+          onIndexChange={this.onIndexChange}
+        />
+        {
+          (this.routeType === 'Goods' || index === 0) && (
+            <HeaderRight
+              color={index === 0 ? Colors.RED : '#FF9600'}
+              prefix={`${this.routeType === 'Goods' ? (index === 0 ? '销售中: ' : '已卖出: ') : '库存 '}`}
+              apiType={routes[index].apiType}
+            />
+          )
+        }
+      </View>
+    );
   }
 
   render() {
-    const { routes, index } = this.state;
     return (
-      <View style={styles.tabView}>
-        <View style={styles.header}>
-          <TabBar
-            style={styles.tabBar}
-            routes={routes}
-            position={this.indexScrollPosition}
-            onIndexChange={this.onIndexChange}
-          />
-          {
-            (this.routeType === 'Goods' || index === 0) && (
-              <HeaderRight
-                color={index === 0 ? Colors.RED : '#FF9600'}
-                prefix={`${this.routeType === 'Goods' ? (index === 0 ? '销售中: ' : '已卖出: ') : '库存 '}`}
-                apiType={routes[index].apiType}
-              />
-            )
-          }
-        </View>
-
-        <TabView
-          style={{ flex: 1 }}
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          renderTabBar={this.renderTabBar}
-          onIndexChange={this.onIndexChange}
-          useNativeDriver
-          initialLayout={{ width: getScreenWidth() }}
-          lazy
-        />
-      </View>
+      <TabView
+        style={styles.tabView}
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        renderTabBar={this.renderTabBar}
+        onIndexChange={this.onIndexChange}
+        useNativeDriver
+        initialLayout={{ width: getScreenWidth() }}
+        lazy
+      />
     );
   }
 }

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import Animated from 'react-native-reanimated';
 import { TabBar } from '../../components';
 import { getScreenWidth, STATUSBAR_HEIGHT } from '../../common/Constant';
 import OriginalCost from './originalCost';
@@ -21,7 +20,6 @@ class HomePage extends PureComponent {
       index: initIndex,
       routes: ROUTES,
     };
-    this.indexScrollPosition = new Animated.Value(initIndex);
   }
 
   onIndexChange = (index) => {
@@ -36,31 +34,29 @@ class HomePage extends PureComponent {
   }
 
   renderTabBar = (props) => {
-    this.indexScrollPosition = props.position;
-    return null;
+    const { routes } = this.state;
+    return (
+      <TabBar
+        style={styles.tabBar}
+        routes={routes}
+        position={props.position}
+        onIndexChange={this.onIndexChange}
+      />
+    );
   }
 
   render() {
-    const { routes } = this.state;
     return (
-      <View style={styles.tabView}>
-        <TabBar
-          style={styles.tabBar}
-          routes={routes}
-          position={this.indexScrollPosition}
-          onIndexChange={this.onIndexChange}
-        />
-        <TabView
-          style={{ flex: 1 }}
-          navigationState={this.state}
-          renderScene={this.renderScene}
-          renderTabBar={this.renderTabBar}
-          onIndexChange={this.onIndexChange}
-          useNativeDriver
-          initialLayout={{ width: getScreenWidth() }}
-          lazy
-        />
-      </View>
+      <TabView
+        style={styles.tabView}
+        navigationState={this.state}
+        renderScene={this.renderScene}
+        renderTabBar={this.renderTabBar}
+        onIndexChange={this.onIndexChange}
+        useNativeDriver
+        initialLayout={{ width: getScreenWidth() }}
+        lazy
+      />
     );
   }
 }
