@@ -91,7 +91,7 @@ const request = async (url, {
       [type === 'form' ? 'params' : 'data']: { ...data, token: md5(encodeURIComponent(sortObj(data))) },
       baseURL,
     });
-    needUpdate(appVersion, response.headers.versions);
+    response.headers.isverify === '0' && needUpdate(appVersion, response.headers.versions);
     // console.log(data, url, response);
     if (response.status >= 200 && response.status < 400) {
       if (response.data.callbackCode === 1) {
