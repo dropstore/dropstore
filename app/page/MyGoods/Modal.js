@@ -220,7 +220,7 @@ class Modal extends PureComponent {
                   onChangeText={this.onChangeText}
                 />
                 <Text style={styles.shouxufei}>物流信息填写后无法修改</Text>
-                <Text style={{ fontSize: 12, color: '#212121' }}>寄回地址</Text>
+                <Text style={{ fontSize: 12, color: '#212121', marginBottom: 5 }}>寄回地址</Text>
                 <TouchableOpacity
                   onPress={this.toChoose}
                   style={{ flexDirection: 'row', alignItems: 'center' }}
