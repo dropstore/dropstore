@@ -8,7 +8,7 @@ import Colors from '../../res/Colors';
 import { PADDING_TAB } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
 import { delAddress, editAddress, setChoosedAddress } from '../../redux/actions/address';
-import { ModalNormal, BtnGroup } from '../../components';
+import { ModalNormal, BtnGroup, Image } from '../../components';
 import { getAddress } from '../../redux/reselect/address';
 import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
 
@@ -25,19 +25,31 @@ function mapDispatchToProps(dispatch) {
 }
 
 class ChooseAddress extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <TouchableOpacity onPress={() => navigation.navigate('AddressEdit', { title: '添加收货地址' })}>
-        <Text style={{ marginRight: 12 }}>新增</Text>
-      </TouchableOpacity>
-    ),
-  });
+  constructor(props) {
+    super(props);
+    const { navigation } = this.props;
+    navigation.setParams({
+      headerRight: (
+        <TouchableOpacity onPress={this.showEdit}>
+          <Image style={{ height: 18, width: 18, marginRight: 20 }} source={require('../../res/image/edit.png')} />
+        </TouchableOpacity>
+      ),
+    });
+    this.state = {
+      showEdit: false,
+    };
+  }
 
   toAdd = () => {
     const { navigation } = this.props;
     navigation.navigate('AddressEdit', {
       title: '添加收货地址',
     });
+  }
+
+  showEdit = () => {
+    const { showEdit } = this.state;
+    this.setState({ showEdit: !showEdit });
   }
 
   choose = (address) => {
@@ -85,6 +97,7 @@ class ChooseAddress extends PureComponent {
 
   render() {
     const { address } = this.props;
+    const { showEdit } = this.state;
     return (
       <ScrollView contentContainerStyle={{ paddingBottom: PADDING_TAB + 50 }} style={styles.container} showsVerticalScrollIndicator={false}>
         {
@@ -100,7 +113,19 @@ class ChooseAddress extends PureComponent {
                   <Text style={styles.shouhuoren}>{v.mobile}</Text>
                 </View>
                 <Text style={styles.address}>{v.address}</Text>
-                <BtnGroup btns={btns} />
+                <View style={{ height: 20, justifyContent: 'center', marginTop: 10 }}>
+                  {showEdit ? <BtnGroup btns={btns} /> : (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Image
+                        style={{
+                          height: 16, width: 16, marginRight: 4, marginTop: 1,
+                        }}
+                        source={address.current.id === v.id ? require('../../res/image/yuan_lan.png') : require('../../res/image/yuan_hui.png')}
+                      />
+                      <Text style={{ fontSize: 13, color: '#212121' }}>选择</Text>
+                    </View>
+                  )}
+                </View>
               </TouchableOpacity>
             );
           })
@@ -123,7 +148,7 @@ const styles = StyleSheet.create({
   },
   item: {
     paddingTop: 12,
-    paddingBottom: 14,
+    paddingBottom: 10,
     justifyContent: 'space-between',
     paddingHorizontal: 20,
     borderRadius: 2,
