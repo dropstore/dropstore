@@ -27,7 +27,6 @@ import PaySuccess from '../page/pay/PaySuccess';
 import commission from '../page/commission';
 import Panicstatus from '../page/Panicstatus';
 
-import Address from '../page/Address';
 import AddressEdit from '../page/Address/AddressEdit';
 import ChooseAddress from '../page/Address/ChooseAddress';
 
@@ -153,7 +152,6 @@ const routesWithHeader = {
   PayDetail,
   PutOnSale,
   BrandListPage,
-  Address,
   FreeTradeSearch,
 };
 // 不需要导航头部的路由写在这里

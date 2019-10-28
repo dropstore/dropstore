@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import Colors from '../../res/Colors';
 import { PADDING_TAB } from '../../common/Constant';
 import { YaHei } from '../../res/FontFamily';
-import { delAddress, editAddress, setChoosedAddress } from '../../redux/actions/address';
+import {
+  delAddress, editAddress, setChoosedAddress, fetchAddress,
+} from '../../redux/actions/address';
 import { ModalNormal, BtnGroup, Image } from '../../components';
 import { getAddress } from '../../redux/reselect/address';
 import { showModalbox, closeModalbox } from '../../utils/MutualUtil';
@@ -20,23 +22,26 @@ function mapStateToProps() {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    delAddress, editAddress, setChoosedAddress,
+    delAddress, editAddress, setChoosedAddress, fetchAddress,
   }, dispatch);
 }
 
 class ChooseAddress extends PureComponent {
   constructor(props) {
     super(props);
-    const { navigation } = this.props;
-    navigation.setParams({
-      headerRight: (
-        <TouchableOpacity onPress={this.showEdit}>
-          <Image style={{ height: 18, width: 18, marginRight: 20 }} source={require('../../res/image/edit.png')} />
-        </TouchableOpacity>
-      ),
-    });
+    const { navigation, fetchAddress } = this.props;
+    fetchAddress();
+    if (navigation.getParam('type') !== 'manage') {
+      navigation.setParams({
+        headerRight: (
+          <TouchableOpacity onPress={this.showEdit}>
+            <Image style={{ height: 18, width: 18, marginRight: 20 }} source={require('../../res/image/edit.png')} />
+          </TouchableOpacity>
+        ),
+      });
+    }
     this.state = {
-      showEdit: false,
+      showEdit: navigation.getParam('type') === 'manage',
     };
   }
 
@@ -54,11 +59,15 @@ class ChooseAddress extends PureComponent {
 
   choose = (address) => {
     const { navigation, setChoosedAddress } = this.props;
-    setChoosedAddress(address);
-    navigation.navigate('PickUp', {
-      title: '支付运费',
-      address,
-    });
+    if (navigation.getParam('type') === 'manage') {
+      this.toEdit(address);
+    } else {
+      setChoosedAddress(address);
+      navigation.navigate('PickUp', {
+        title: '支付运费',
+        address,
+      });
+    }
   }
 
   toEdit = (address) => {
