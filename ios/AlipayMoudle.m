@@ -36,18 +36,18 @@ RCTPromiseResolveBlock resolveBlock2 = nil;
 RCT_EXPORT_METHOD(pay:(NSString *)orderString
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject){
-  
+
   resolveBlock2 = resolve;
-  
+
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     dispatch_async(dispatch_get_main_queue(), ^{
       // NOTE: 调用支付结果开始支付
-      [[AlipaySDK defaultService] payOrder:orderString fromScheme:@"dropstore" callback:^(NSDictionary *resultDic) {
+      [[AlipaySDK defaultService] payOrder:orderString fromScheme:@"chaofun" callback:^(NSDictionary *resultDic) {
         resolveBlock2(resultDic);
       }];
     });
   });
-  
+
 }
 
 

@@ -1,4 +1,4 @@
-package com.dropstore.share;
+package com.chaofun.jiangbao.share;
 
 import java.util.ArrayList;
 import java.util.Arrays;

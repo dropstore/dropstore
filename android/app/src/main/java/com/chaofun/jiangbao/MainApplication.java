@@ -1,9 +1,9 @@
-package com.dropstore;
+package com.chaofun.jiangbao;
 
 import android.app.Application;
 
-import com.dropstore.aliay.AlipayModuleReactPackage;
-import com.dropstore.wxapi.WxpayPackage;
+import com.chaofun.jiangbao.aliay.AlipayModuleReactPackage;
+import com.chaofun.jiangbao.wxapi.WxpayPackage;
 import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.RNTextInputMask.RNTextInputMaskPackage;
@@ -23,10 +23,10 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.dropstore.share.RNUMConfigure;
+import com.chaofun.jiangbao.share.RNUMConfigure;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
-import com.dropstore.share.DplusReactPackage;
+import com.chaofun.jiangbao.share.DplusReactPackage;
 
 import java.util.Arrays;
 import java.util.List;

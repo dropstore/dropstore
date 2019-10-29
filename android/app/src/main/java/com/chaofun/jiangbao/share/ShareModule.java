@@ -1,4 +1,4 @@
-package com.dropstore.share;
+package com.chaofun.jiangbao.share;
 
 import java.net.URLEncoder;
 import java.util.Map;

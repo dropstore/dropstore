@@ -1,4 +1,4 @@
-package com.dropstore.wxapi;
+package com.chaofun.jiangbao.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;

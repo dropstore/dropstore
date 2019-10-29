@@ -38,10 +38,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>dropstore</string>
+			<string>chaofun</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dropstore</string>
+				<string>chaofun</string>
 			</array>
 		</dict>
 	</array>

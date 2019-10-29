@@ -1,4 +1,4 @@
-package com.dropstore.share;
+package com.chaofun.jiangbao.share;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package com.dropstore.aliay;
+package com.chaofun.jiangbao.aliay;
 
 import com.alipay.sdk.app.PayTask;
 import com.facebook.react.bridge.Arguments;

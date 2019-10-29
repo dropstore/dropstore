@@ -1,4 +1,4 @@
-package com.dropstore.wxapi;
+package com.chaofun.jiangbao.wxapi;
 
 import android.content.Intent;
 import com.umeng.socialize.UMShareAPI;

@@ -1,4 +1,4 @@
-package com.dropstore.wxapi;
+package com.chaofun.jiangbao.wxapi;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;

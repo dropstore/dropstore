@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:dropstore.xcodeproj">
+      location = "group:chaofun.xcodeproj">
    </FileRef>
 </Workspace>

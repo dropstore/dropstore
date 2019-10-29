@@ -142,7 +142,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dropstore"
+        applicationId "com.chaofun.jiangbao"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode _versionCode
@@ -181,7 +181,7 @@ android {
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-            def appName="dropstore"
+            def appName="chaofun"
             def versionCodes = ["armeabi-v7a": 1, "x86": 2]
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants

@@ -7,8 +7,8 @@ def upload_dysm
   dysm_path = ''
   ` curl https://upload.bugsnag.com/ \
     -F apiKey=961283162e19a612f4bcb06a1d20a806 \
-    -F dsym=@#{dysm_path}/Contents/Resources/DWARF/dropstore \
-    -F projectRoot=/Users/jasper_fu/Work/dropstore`
+    -F dsym=@#{dysm_path}/Contents/Resources/DWARF/chaofun \
+    -F projectRoot=/Users/jasper_fu/Work/chaofun`
 end
 
 def upload_sourcemap(platform, version)
@@ -32,19 +32,19 @@ end
 def update_version
   short_version = ARGV[1]
   bundle_version = ARGV[2]
-  new_content = File.read("ios/dropstore/Info.plist")
+  new_content = File.read("ios/chaofun/Info.plist")
   new_content.gsub!(/<key>CFBundleShortVersionString<\/key>\s+<string>(.*?)<\/string>/m,
     "<key>CFBundleShortVersionString<\/key>\n       <string>#{short_version}<\/string>")
   new_content.gsub!(/<key>CFBundleVersion<\/key>\s+<string>(\d+)<\/string>/m,
     "<key>CFBundleVersion<\/key>\n       <string>#{bundle_version}<\/string>")
-  File.open("ios/dropstore/Info.plist", "w") { |f| f.write new_content }
+  File.open("ios/chaofun/Info.plist", "w") { |f| f.write new_content }
 
   # new_content = File.read("android/app/src/main/AndroidManifest.xml")
   # new_content.gsub!(/<key>CFBundleShortVersionString<\/key>\s+<string>(.*?)<\/string>/m,
   #   "<key>CFBundleShortVersionString<\/key>\n       <string>#{short_version}<\/string>")
   # new_content.gsub!(/<key>CFBundleVersion<\/key>\s+<string>(\d+)<\/string>/m,
   #   "<key>CFBundleVersion<\/key>\n       <string>#{bundle_version}<\/string>")
-  # File.open("ios/dropstore/Info.plist", "w") { |f| f.write new_content }
+  # File.open("ios/chaofun/Info.plist", "w") { |f| f.write new_content }
 
   # new_content = File.read("android/app/build.gradle")
   # new_content.gsub!(/(?<=^\s+versionCode\s+)\d+/, short_version.gsub(/\./, ''))
@@ -62,16 +62,16 @@ end
 def export_appstore
   puts "---------- packing ios ------------"
   puts `yarn i`
-  new_content = File.read("ios/dropstore/Info.plist")
+  new_content = File.read("ios/chaofun/Info.plist")
   new_content = new_content.gsub(/<key>CFBundleDevelopmentRegion<\/key>/,
     "<key>method<\/key>\n  <string>ad-hoc<\/string>\n  <key>CFBundleDevelopmentRegion<\/key>")
   File.write("ios/adhoc.plist", new_content)
   puts `cd ios &&
     rm -rf build/* &&
-    xcodebuild clean -workspace dropstore.xcworkspace -scheme dropstore -configuration Release &&
-    xcodebuild archive -workspace dropstore.xcworkspace -scheme dropstore -archivePath build/dropstore.xcarchive &&
+    xcodebuild clean -workspace chaofun.xcworkspace -scheme chaofun -configuration Release &&
+    xcodebuild archive -workspace chaofun.xcworkspace -scheme chaofun -archivePath build/chaofun.xcarchive &&
     rvm use system &&
-    xcodebuild -exportArchive -archivePath build/dropstore.xcarchive -exportPath build -exportOptionsPlist adhoc.plist
+    xcodebuild -exportArchive -archivePath build/chaofun.xcarchive -exportPath build -exportOptionsPlist adhoc.plist
   `
   puts "---------- finish packing ios ------------"
   return true
@@ -94,10 +94,10 @@ end
 
 def bundleVersion(version)
   puts "---------- packing android: #{version} ------------"
-  new_content = File.read("ios/dropstore/Info.plist")
+  new_content = File.read("ios/chaofun/Info.plist")
   new_content.gsub!(/<key>CFBundleVersion<\/key>\s+<string>(\d+)<\/string>/m,
     "<key>CFBundleVersion<\/key>\n       <string>#{version}<\/string>")
-  File.open("ios/dropstore/Info.plist", "w") { |f| f.write new_content }
+  File.open("ios/chaofun/Info.plist", "w") { |f| f.write new_content }
 end
 
 def export_android(channel)
@@ -123,10 +123,10 @@ end
 def version(channel, version)
   version, build = version.split(':')
   if channel == :appstore
-    result = File.read('./ios/dropstore/Info.plist')
+    result = File.read('./ios/chaofun/Info.plist')
     current_version = result.match(/CFBundleShortVersionString\<\/key\>\s+\<string\>(\d+\.\d+.\d+)/)[1]
     result = result.gsub(current_version, version)
-    File.write('./ios/dropstore/Info.plist', result)
+    File.write('./ios/chaofun/Info.plist', result)
 
     result = File.read('./ios/today/Info.plist')
     current_version = result.match(/CFBundleShortVersionString\<\/key\>\s+\<string\>(\d+\.\d+.\d+)/)[1]
@@ -145,12 +145,12 @@ end
 if action == 'pack'
   case channel
   when "ios" then export_appstore()
-  when "android" then export_android('dropstore')
+  when "android" then export_android('chaofun')
   end
 elsif action == 'pnu'
   case channel
-  when "ios" then export_appstore() && upload(File.absolute_path('./ios/build/dropstore.ipa'))
-  when "android" then export_android('dropstore') && upload(File.absolute_path('./android/app/build/outputs/apk/dropstore.apk'))
+  when "ios" then export_appstore() && upload(File.absolute_path('./ios/build/chaofun.ipa'))
+  when "android" then export_android('chaofun') && upload(File.absolute_path('./android/app/build/outputs/apk/chaofun.apk'))
   end
 elsif action == 'version'
   case channel

@@ -1,4 +1,4 @@
-package com.dropstore;
+package com.chaofun.jiangbao;
 
 import android.os.Bundle;
 
@@ -7,7 +7,7 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 import org.devio.rn.splashscreen.SplashScreen;
-import com.dropstore.share.ShareModule;
+import com.chaofun.jiangbao.share.ShareModule;
 import android.view.WindowManager;
 import android.util.DisplayMetrics;
 
@@ -18,7 +18,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "dropstore";
+        return "chaofun";
     }
 
     @Override
