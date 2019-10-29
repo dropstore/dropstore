@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
+import Modalbox from 'react-native-modalbox';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import Images from '../../res/Images';
 import { Image, KeyboardDismiss, FadeImage } from '../../components';
@@ -11,6 +12,8 @@ import Colors from '../../res/Colors';
 import { showToast } from '../../utils/MutualUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { getAddress } from '../../redux/reselect/address';
+import { request } from '../../http/Axios';
+import { getAppOptions } from '../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -22,14 +25,10 @@ function mapStateToProps() {
 class Modal extends PureComponent {
   constructor(props) {
     super(props);
-    const { type } = this.props;
     this.state = {
       text: '',
-      step: {
-        edit: 0,
-        cancel: 2,
-        express: 4,
-      }[type],
+      step: -1,
+      item: {},
     };
   }
 
@@ -39,14 +38,59 @@ class Modal extends PureComponent {
     navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/help' });
   }
 
+  successCallback = value => new Promise((resolve) => {
+    const { navigation } = this.props;
+    const { item, type } = this.state;
+    if (type === 'express') {
+      request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
+        this.refresh();
+        resolve();
+      });
+    } else if (type === 'edit') {
+      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+        if (getAppOptions()?.x_fee > 0) {
+          navigation.navigate('PayDetail', {
+            title: '支付服务费',
+            api: {
+              type: 'freeTradeToRelease',
+              params: { order_id: item.order_id, price: value },
+            },
+            type: 5,
+            payType: 'service',
+            goodsInfo: {
+              ...item,
+              image: (item.goods || item).image,
+              icon: (item.goods || item).icon,
+              goods_name: (item.goods || item).goods_name,
+              price: value * 100,
+            },
+          });
+        } else {
+          this.refresh();
+        }
+        resolve();
+      }).catch(() => {
+        this.refresh();
+        resolve();
+      });
+    } else if (type === 'cancel') {
+      request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
+        this.refresh();
+        resolve();
+      }).catch(() => {
+        this.refresh();
+        resolve(true);
+      });
+    }
+  })
+
   sure = () => {
-    const { successCallback, type } = this.props;
     const { step, text } = this.state;
     if (step === 0) {
       if (text.length < 1) {
         showToast('请输入金额');
       } else {
-        successCallback(text, type).then(() => {
+        this.successCallback(text).then(() => {
           this.close();
         });
       }
@@ -56,12 +100,12 @@ class Modal extends PureComponent {
       if (text.length < 1) {
         showToast('请输入运单号');
       } else {
-        successCallback(text, type).then(() => {
+        this.successCallback(text).then(() => {
           this.close();
         });
       }
     } else if (step === 2) {
-      successCallback(text, type).then((close) => {
+      this.successCallback(text).then((close) => {
         if (close) {
           this.close();
         } else {
@@ -71,17 +115,12 @@ class Modal extends PureComponent {
     }
   }
 
-  close = () => {
-    const { closeModalbox } = this.props;
-    closeModalbox();
-  }
-
   onChangeText = (text) => {
     this.setState({ text });
   }
 
   renderShoe = () => {
-    const { item } = this.props;
+    const { item } = this.state;
     const goods_name = (item.goods || item).goods_name;
     return (
       <View style={styles.titleWrapper}>
@@ -92,14 +131,31 @@ class Modal extends PureComponent {
   }
 
   toKufang = () => {
-    const { navigation, route } = this.props;
+    const { navigation } = this.props;
     this.close();
-    if (route === 'Goods') {
-      navigation.push('MyGoods', {
-        title: '我的库房',
-        type: 'warehouse',
-      });
-    }
+    navigation.push('MyGoods', {
+      title: '我的库房',
+      type: 'warehouse',
+    });
+  }
+
+  open = (type, item, refresh) => {
+    this.state({
+      step: {
+        edit: 0,
+        cancel: 2,
+        express: 4,
+      }[type],
+      item,
+      type,
+    }, () => {
+      this.modalbox.open();
+    });
+    this.refresh = refresh;
+  }
+
+  close = () => {
+    this.modalbox.close();
   }
 
   renderTip = () => {
@@ -139,57 +195,60 @@ class Modal extends PureComponent {
   }
 
   render() {
-    const { text, step } = this.state;
-    const { item, address } = this.props;
+    const { text, step, item } = this.state;
+    const { address } = this.props;
     const defaultAddress = address.current;
+    if (step < 0) {
+      return null;
+    }
     return (
-      <KeyboardDismiss style={[styles.container, { height: step === 0 ? 307 : step === 4 ? 390 : 247 }]}>
-        {
-          step === 0 ? (
-            <View style={{ flex: 1 }}>
-              {this.renderShoe()}
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={{ fontSize: 11, fontFamily: YaHei, color: '#A4A4A4' }}>当前价格：</Text>
-                <Text style={styles.oldText}>
-                  {`${item.sell_price / 100}￥`}
-                </Text>
+      <Modalbox style={styles.modal} ref={(v) => { this.modalbox = v; }}>
+        <KeyboardDismiss style={[styles.container, { height: step === 0 ? 307 : step === 4 ? 390 : 247 }]}>
+          {
+            step === 0 ? (
+              <View style={{ flex: 1 }}>
+                {this.renderShoe()}
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ fontSize: 11, fontFamily: YaHei, color: '#A4A4A4' }}>当前价格：</Text>
+                  <Text style={styles.oldText}>
+                    {`${item.sell_price / 100}￥`}
+                  </Text>
+                </View>
+                <TextInput
+                  keyboardType="numeric"
+                  placeholderTextColor="#DEDEDE"
+                  underlineColorAndroid="transparent"
+                  style={styles.input}
+                  selectionColor="#00AEFF"
+                  clearButtonMode="while-editing"
+                  placeholder="预期价格"
+                  onChangeText={this.onChangeText}
+                />
+                {this.renderTip()}
               </View>
-              <TextInput
-                keyboardType="numeric"
-                placeholderTextColor="#DEDEDE"
-                underlineColorAndroid="transparent"
-                style={styles.input}
-                selectionColor="#00AEFF"
-                clearButtonMode="while-editing"
-                placeholder="预期价格"
-                onChangeText={this.onChangeText}
-              />
-              {this.renderTip()}
-            </View>
-          ) : step === 1 ? (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
-            </View>
-          )
-            : [2, 3].includes(step) ? (
+            ) : step === 1 ? (
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 20, fontFamily: YaHei }}>修改完成！</Text>
+              </View>
+            ) : [2, 3].includes(step) ? (
               <View style={{ flex: 1 }}>
                 <Text style={styles.hint}>友情提示</Text>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 17 }}>
                   {
-                  step === 2 ? (
-                    <Text style={{ fontSize: 14, fontFamily: YaHei }}>
-                      {'取消售卖，货品会回到您的'}
-                      <Text style={styles.kufang} onPress={this.toKufang}>库房</Text>
-                      {'中，你可以在库房中直接售卖！'}
-                    </Text>
-                  ) : (
-                    <Text style={{ fontSize: 14, fontFamily: YaHei }}>
-                      {'商品已取消售卖，可以到'}
-                      <Text style={styles.kufang} onPress={this.toKufang}>我的库房</Text>
-                      {'中查看，管理商品！'}
-                    </Text>
-                  )
-                }
+                    step === 2 ? (
+                      <Text style={{ fontSize: 14, fontFamily: YaHei }}>
+                        {'取消售卖，货品会回到您的'}
+                        <Text style={styles.kufang} onPress={this.toKufang}>库房</Text>
+                        {'中，你可以在库房中直接售卖！'}
+                      </Text>
+                    ) : (
+                      <Text style={{ fontSize: 14, fontFamily: YaHei }}>
+                        {'商品已取消售卖，可以到'}
+                        <Text style={styles.kufang} onPress={this.toKufang}>我的库房</Text>
+                        {'中查看，管理商品！'}
+                      </Text>
+                    )
+                  }
                 </View>
               </View>
             ) : step === 4 ? (
@@ -240,22 +299,23 @@ class Modal extends PureComponent {
               </View>
             ) : null
         }
-        <TouchableOpacity
-          onPress={this.sure}
-          style={[styles.btn, { backgroundColor: text.length === 0 && [4, 0].includes(step) ? '#DEDEDE' : Colors.YELLOW }]}
-        >
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          hitSlop={{
-            top: 20, left: 20, right: 20, bottom: 20,
-          }}
-          onPress={this.close}
-          style={styles.cha}
-        >
-          <Image source={require('../../res/image/close-x.png')} style={{ height: 12, width: 12 }} />
-        </TouchableOpacity>
-      </KeyboardDismiss>
+          <TouchableOpacity
+            onPress={this.sure}
+            style={[styles.btn, { backgroundColor: text.length === 0 && [4, 0].includes(step) ? '#DEDEDE' : Colors.YELLOW }]}
+          >
+            <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{`${step === 4 ? '发货' : '确定'}`}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            hitSlop={{
+              top: 20, left: 20, right: 20, bottom: 20,
+            }}
+            onPress={this.close}
+            style={styles.cha}
+          >
+            <Image source={require('../../res/image/close-x.png')} style={{ height: 12, width: 12 }} />
+          </TouchableOpacity>
+        </KeyboardDismiss>
+      </Modalbox>
     );
   }
 }

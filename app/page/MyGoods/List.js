@@ -39,19 +39,15 @@ class List extends PureComponent {
   }
 
   renderItem = ({ item }) => {
-    const {
-      type, navigation, route, itemAction,
-    } = this.props;
-    if (type === 'selled') {
-      return <SelledItem itemAction={itemAction} item={item} />;
-    } if (type === 'onSale') {
-      return <OnsaleItem itemAction={itemAction} route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
-    } if (type === 'sendOut') {
-      return <SendOutItem itemAction={itemAction} item={item} />;
-    } if (type === 'uncomplete') {
-      return <UncompleteItem itemAction={itemAction} route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
-    }
-    return <Warehouse itemAction={itemAction} route={route} refresh={this.fetchData} type={type} navigation={navigation} item={item} />;
+    const { type, route, itemAction } = this.props;
+    const Wrapper = {
+      selled: SelledItem,
+      onSale: OnsaleItem,
+      sendOut: SendOutItem,
+      uncomplete: UncompleteItem,
+      warehouse: Warehouse,
+    }[type];
+    return <Wrapper itemAction={itemAction} route={route} refresh={this.fetchData} type={type} item={item} />;
   }
 
   render() {

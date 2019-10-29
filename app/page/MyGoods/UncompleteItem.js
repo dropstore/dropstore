@@ -15,9 +15,9 @@ export default class UncompleteItem extends PureComponent {
 
   onPress = (type) => {
     const {
-      navigation, item, route, refresh, itemAction,
+      item, route, refresh, itemAction,
     } = this.props;
-    itemAction(type, route, navigation, item, refresh);
+    itemAction(type, route, item, refresh);
   }
 
   finish = () => {
