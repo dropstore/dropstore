@@ -87,14 +87,29 @@ class Panicstatus extends PureComponent {
     });
   }
 
+  renderHint = () => {
+    const { navigation } = this.props;
+    const shopInfo = navigation.getParam('shopInfo');
+    if (shopInfo.is_join === ShopConstant.MEMBER && navigation.getParam('isSuccess')) {
+      return (
+        <Text style={styles.hint}>
+          {'佣金到账'}
+          <Text style={{ fontSize: 12, color: Colors.RED }}>{shopInfo.user_activity.commission / 100}</Text>
+          {'元，请提醒团长尽快去付款'}
+        </Text>
+      );
+    }
+    return null;
+  }
+
   renderHeader = () => {
     const { navigation } = this.props;
     const data = navigation.getParam('shopInfo');
     const isSuccess = navigation.getParam('isSuccess');
     return (
       <View style={{ alignItems: 'center', backgroundColor: '#fff' }}>
-        <FadeImage style={styles.goodImage} source={{ uri: data.goods.image }} />
-        <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
+        <FadeImage resizeMode="contain" style={styles.goodImage} source={{ uri: data.goods.image }} />
+        {/* <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} /> */}
         <Text style={[styles.status, { color: isSuccess ? '#FFA700' : '#909090' }]}>{isSuccess ? '抢购成功' : '抢购失败'}</Text>
         <Text style={styles.shopName}>{data.goods.goods_name}</Text>
         {
@@ -128,6 +143,7 @@ class Panicstatus extends PureComponent {
           isSuccess ? (
             <View style={{ flex: 1, justifyContent: 'center' }}>
               {this.renderHeader()}
+              {this.renderHint()}
             </View>
           ) : (
             <PullToRefresh
@@ -165,6 +181,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  hint: {
+    fontSize: 12,
+    marginHorizontal: 17,
+    marginTop: 20,
+    textAlign: 'center',
+  },
   mainView: {
     minHeight: getScreenHeight() - STATUSBAR_HEIGHT - BOTTOM_BTN_HEIGHT,
     alignItems: 'center',
@@ -183,6 +205,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 17,
     textAlign: 'justify',
     lineHeight: 15,
+    marginBottom: 10,
   },
   status: {
     fontSize: 20,
@@ -190,8 +213,8 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   goodImage: {
-    width: wPx2P(258),
-    height: wPx2P(160),
+    width: wPx2P(375),
+    height: wPx2P(250),
     marginBottom: 10,
   },
   icon: {
