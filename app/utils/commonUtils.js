@@ -11,27 +11,23 @@ import { getScreenWidth } from '../common/Constant';
 
 const sizes = Array(26).fill('').map((v, i) => i / 2 + 35.5);
 let isChecked = false;
-function debounce(fun, delay = 1000) {
-  return (...params) => {
-    if (!fun.timer || Date.now() - fun.timer > delay) {
-      fun.timer = Date.now();
-      fun(...params);
-    }
-  };
-}
+export const debounce = (fun, delay = 1000) => (...params) => {
+  if (!fun.timer || Date.now() - fun.timer > delay) {
+    fun.timer = Date.now();
+    fun(...params);
+  }
+};
 
-function debounceDelay(fun, delay = 350) {
-  return (...params) => {
-    if (fun.timer) {
-      clearTimeout(fun.timer);
-    }
-    fun.timer = setTimeout(() => {
-      fun(...params);
-    }, delay);
-  };
-}
+export const debounceDelay = (fun, delay = 350) => (...params) => {
+  if (fun.timer) {
+    clearTimeout(fun.timer);
+  }
+  fun.timer = setTimeout(() => {
+    fun(...params);
+  }, delay);
+};
 
-function formatDate(time, format = 'yyyy-MM-dd hh:mm:ss') {
+export const formatDate = (time, format = 'yyyy-MM-dd hh:mm:ss') => {
   if (!time) { return ''; }
   const fullTime = new Date(time * 1000);
   return format
@@ -41,9 +37,9 @@ function formatDate(time, format = 'yyyy-MM-dd hh:mm:ss') {
     .replace('hh', `${fullTime.getHours()}`.padStart(2, 0))
     .replace('mm', `${fullTime.getMinutes()}`.padStart(2, 0))
     .replace('ss', `${fullTime.getSeconds()}`.padStart(2, 0));
-}
+};
 
-function formatTimeAgo(time) {
+export const formatTimeAgo = (time) => {
   const now = Date.now() / 1000;
   const diff = now - time;
   if (diff < 60) {
@@ -54,9 +50,9 @@ function formatTimeAgo(time) {
     return `${parseInt(diff / 3600)}小时前`;
   }
   return formatDate(time);
-}
+};
 
-function needUpdate(appVersion, minVersion) {
+export const needUpdate = (appVersion, minVersion) => {
   if (isChecked) { return; }
   isChecked = true;
   const arr1 = appVersion.split('.').map(v => v * 1);
@@ -106,9 +102,9 @@ function needUpdate(appVersion, minVersion) {
       });
     }
   });
-}
+};
 
-function showNoPayment(navigation) {
+export const showNoPayment = (navigation) => {
   showModalbox({
     element: (
       <View style={styles.modal}>
@@ -152,18 +148,18 @@ function showNoPayment(navigation) {
       },
     },
   });
-}
+};
 
-function toShare() {
+export const toShare = () => {
   showShare({
     text: '缺文案',
     img: 'https://www.baidu.com/img/bd_logo1.png?where=super',
     url: `http://m.dropstore.cn/index.html#/shareMyShoese/${store.getState().userInfo.id}`,
     title: `${store.getState().userInfo.user_name}在炒饭APP上有${store.getState().listData?.goodsOnSale?.count}双鞋正在销售，快来看看有没有你喜欢的吧`,
   });
-}
+};
 
-function showChooseSize(height, onChoosed, onClosed) {
+export const showChooseSize = (height, onChoosed, onClosed) => {
   showModalbox({
     element: (
       <ScrollView contentContainerStyle={styles.sizeModal}>
@@ -204,9 +200,9 @@ function showChooseSize(height, onChoosed, onClosed) {
       onClosed,
     },
   });
-}
+};
 
-function shareAcyivity(shopInfo, payType) {
+export const shareAcyivity = (shopInfo, payType) => {
   const notPay = !payType && (shopInfo.is_join === 0 || shopInfo.user_activity.commission < 1);
   const aId = shopInfo.activity?.id;
   const uAId = shopInfo.user_activity?.id;
@@ -230,7 +226,9 @@ function shareAcyivity(shopInfo, payType) {
   }).then(() => {
     // 分享成功回调
   });
-}
+};
+
+export const getAppOptions = () => store.getState().simpleData?.appOptions?.data;
 
 const styles = StyleSheet.create({
   modal: {
@@ -274,7 +272,3 @@ const styles = StyleSheet.create({
     borderRightWidth: StyleSheet.hairlineWidth,
   },
 });
-
-export {
-  debounce, debounceDelay, formatDate, formatTimeAgo, needUpdate, showNoPayment, toShare, showChooseSize, shareAcyivity,
-};

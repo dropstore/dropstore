@@ -9,7 +9,10 @@ import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import HeaderRight from './HeaderRight';
-import { toShare } from '../../utils/commonUtils';
+import { toShare, getAppOptions } from '../../utils/commonUtils';
+import Modalbox from '../../components/Global/Modalbox';
+import { request } from '../../http/Axios';
+import Modal from './Modal';
 
 class MyGoods extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
@@ -47,6 +50,7 @@ class MyGoods extends PureComponent {
     this.state = {
       routes,
       index: initIndex,
+      data: null,
     };
   }
 
@@ -56,7 +60,7 @@ class MyGoods extends PureComponent {
 
   renderScene = ({ route }) => {
     const { navigation } = this.props;
-    return <List navigation={navigation} apiType={route.apiType} route={this.routeType} type={route.key} />;
+    return <List itemAction={this.itemAction} navigation={navigation} apiType={route.apiType} route={this.routeType} type={route.key} />;
   }
 
   renderTabBar = (props) => {
@@ -82,18 +86,132 @@ class MyGoods extends PureComponent {
     );
   }
 
+  onClosed = () => {
+    this.setState({
+      data: null,
+    });
+  }
+
+  itemAction = (type, route, navigation, item, refresh) => {
+    if (['express', 'edit', 'cancel'].includes(type)) {
+      this.setState({
+        data: {
+          type, route, item, refresh,
+        },
+      });
+    } else if (['pickUp', 'sendBack'].includes(type)) {
+      navigation.navigate('PickUp', {
+        title: '支付运费',
+        item,
+      });
+    } else if (type === 'pay') {
+      navigation.navigate('pay', {
+        title: '选择支付账户',
+        type: '1',
+        payType: item.order_type === '1' ? 'buyGoods' : 'buyActivityGoods',
+        payData: {
+          order_id: item.order_id,
+          price: item.order_price,
+          management: item.order_type === '1' ? getAppOptions()?.management : null,
+        },
+        shopInfo: {
+          goods: item.goods,
+          order_id: item.order_id,
+        },
+      });
+    } else if (type === 'publish') {
+      navigation.navigate('PutOnSale', {
+        title: '发布商品',
+        item,
+      });
+    }
+  }
+
   render() {
+    const { data } = this.state;
+    const { navigation } = this.props;
     return (
-      <TabView
-        style={styles.tabView}
-        navigationState={this.state}
-        renderScene={this.renderScene}
-        renderTabBar={this.renderTabBar}
-        onIndexChange={this.onIndexChange}
-        useNativeDriver
-        initialLayout={{ width: getScreenWidth() }}
-        lazy
-      />
+      <View style={{ flex: 1 }}>
+        <TabView
+          style={styles.tabView}
+          navigationState={this.state}
+          renderScene={this.renderScene}
+          renderTabBar={this.renderTabBar}
+          onIndexChange={this.onIndexChange}
+          useNativeDriver
+          initialLayout={{ width: getScreenWidth() }}
+          lazy
+        />
+        {
+          data && (
+            <Modalbox
+              data={{
+                element: (<Modal
+                  route={data.route}
+                  navigation={navigation}
+                  closeModalbox={this.closeModalbox}
+                  type={data.type}
+                  item={data.item}
+                  successCallback={(value, type) => new Promise((resolve) => {
+                    const { item, refresh } = data;
+                    if (type === 'express') {
+                      request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
+                        refresh();
+                        resolve();
+                      });
+                    } else if (type === 'edit') {
+                      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+                        if (getAppOptions()?.x_fee > 0) {
+                          navigation.navigate('PayDetail', {
+                            title: '支付服务费',
+                            api: {
+                              type: 'freeTradeToRelease',
+                              params: { order_id: item.order_id, price: value },
+                            },
+                            type: 5,
+                            payType: 'service',
+                            goodsInfo: {
+                              ...item,
+                              image: (item.goods || item).image,
+                              icon: (item.goods || item).icon,
+                              goods_name: (item.goods || item).goods_name,
+                              price: value * 100,
+                            },
+                          });
+                        } else {
+                          refresh();
+                        }
+                        resolve();
+                      }).catch(() => {
+                        refresh();
+                        resolve();
+                      });
+                    } else if (type === 'cancel') {
+                      request('/free/off_shelf', { params: { id: item.free_id } }).then(() => {
+                        refresh();
+                        resolve();
+                      }).catch(() => {
+                        refresh();
+                        resolve(true);
+                      });
+                    }
+                  })}
+                />),
+                options: {
+                  style: {
+                    height: 287,
+                    backgroundColor: 'transparent',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  },
+                },
+              }}
+              ref={(v) => { this.modalbox = v; }}
+              onClosed={this.onClosed}
+            />
+          )
+        }
+      </View>
     );
   }
 }

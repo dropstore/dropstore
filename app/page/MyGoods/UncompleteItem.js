@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { CountdownCom } from '../../components';
 import Colors from '../../res/Colors';
-import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import { YaHei } from '../../res/FontFamily';
 import ListItem from './component/ListItem';
 
@@ -16,9 +15,9 @@ export default class UncompleteItem extends PureComponent {
 
   onPress = (type) => {
     const {
-      navigation, item, route, refresh,
+      navigation, item, route, refresh, itemAction,
     } = this.props;
-    MyGoodsItemOnPress(type, route, navigation, item, refresh);
+    itemAction(type, route, navigation, item, refresh);
   }
 
   finish = () => {

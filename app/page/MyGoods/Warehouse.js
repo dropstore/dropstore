@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
-import { MyGoodsItemOnPress } from '../../utils/MutualUtil';
 import ListItem from './component/ListItem';
 
 export default class Warehouse extends PureComponent {
   onPress = (type) => {
     const {
-      navigation, item, route, refresh,
+      navigation, item, route, refresh, itemAction,
     } = this.props;
-    MyGoodsItemOnPress(type, route, navigation, item, refresh);
+    itemAction(type, route, navigation, item, refresh);
   }
 
   render() {
