@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { CountdownCom, ImageNetUnkoneSize, ImageBackground } from '../../../components';
+import { CountdownCom, ActivityImage } from '../../../components';
 import { YaHei } from '../../../res/FontFamily';
 import ShopConstant from '../../../common/ShopConstant';
-import { wPx2P } from '../../../utils/ScreenUtil';
 import Colors from '../../../res/Colors';
 
 export default class ShopBasicInfoCom extends PureComponent {
@@ -54,9 +53,7 @@ export default class ShopBasicInfoCom extends PureComponent {
     const { activityInfo } = this.props;
     return (
       <View>
-        <ImageBackground useFadeImage source={{ uri: activityInfo.activity.image }} style={styles.imageShoe}>
-          {/* <Image style={styles.iconMask} source={require('../../../res/image/icon_mask.png')} /> */}
-        </ImageBackground>
+        <ActivityImage source={{ uri: activityInfo.activity.image }} />
         <View style={{ paddingHorizontal: 16 }}>
           <Text style={styles.shopTitle}>{activityInfo.activity.activity_name}</Text>
           { this.setTimeDOM(activityInfo) }
@@ -94,10 +91,6 @@ const styles = StyleSheet.create({
     color: 'rgba(107,107,107,1)',
     fontSize: 9,
     marginLeft: 3,
-  },
-  imageShoe: {
-    width: wPx2P(375),
-    height: wPx2P(250),
   },
   shopTitle: {
     fontSize: 15,

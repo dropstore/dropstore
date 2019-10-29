@@ -4,8 +4,9 @@ import React, { PureComponent } from 'react';
 import {
   ScrollView, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
-import { BottomBtnGroup, CountdownCom, FadeImage } from '../../components';
-import Image from '../../components/Image';
+import {
+  BottomBtnGroup, CountdownCom, FadeImage, Image, ActivityImage,
+} from '../../components';
 import Colors from '../../res/Colors';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import {
@@ -159,7 +160,7 @@ export default class PaySuccess extends PureComponent {
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: 'center', marginTop: STATUSBAR_HEIGHT + 20 }}>
-            <FadeImage style={styles.goodImage} source={{ uri: shopInfo.goods.image }} />
+            <ActivityImage source={{ uri: shopInfo.goods.image }} />
             <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
             <Text style={styles.shopName}>{shopInfo.goods.goods_name}</Text>
             <View style={styles.hengxian} />

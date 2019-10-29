@@ -24,12 +24,12 @@ import InputVarySize from './InputVarySize';
 import BtnGroup from './BtnGroup';
 import ShoeImageHeader from './ShoeImageHeader';
 import CustomHeader from './CustomHeader';
-
+import ActivityImage from './ActivityImage';
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
   ActionSheet, FadeImage, Frame, CustomHeader,
-  NavigationBarCom, PullToRefresh, ScaleView,
+  NavigationBarCom, PullToRefresh, ScaleView, ActivityImage,
   CountdownCom, Price, ModalNormal, ImageNetUnkoneSize,
   Global, Keyboard, FreeTradeList, BottomPay,
   AvatarWithShadow, NameAndGender, BottomBtnGroup, Tag, InputVarySize,

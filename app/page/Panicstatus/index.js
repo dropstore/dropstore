@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  Image, BottomBtnGroup, FadeImage, PullToRefresh, BottomPay,
+  BottomBtnGroup, PullToRefresh, BottomPay, ActivityImage,
 } from '../../components';
 import { YaHei, RuiXian } from '../../res/FontFamily';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
@@ -108,7 +108,7 @@ class Panicstatus extends PureComponent {
     const isSuccess = navigation.getParam('isSuccess');
     return (
       <View style={{ alignItems: 'center', backgroundColor: '#fff' }}>
-        <FadeImage resizeMode="contain" style={styles.goodImage} source={{ uri: data.goods.image }} />
+        <ActivityImage source={{ uri: data.goods.image }} />
         {/* <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} /> */}
         <Text style={[styles.status, { color: isSuccess ? '#FFA700' : '#909090' }]}>{isSuccess ? '抢购成功' : '抢购失败'}</Text>
         <Text style={styles.shopName}>{data.goods.goods_name}</Text>
@@ -211,11 +211,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: YaHei,
     marginVertical: 8,
-  },
-  goodImage: {
-    width: wPx2P(375),
-    height: wPx2P(250),
-    marginBottom: 10,
   },
   icon: {
     width: wPx2P(47),
