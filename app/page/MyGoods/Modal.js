@@ -140,7 +140,7 @@ class Modal extends PureComponent {
   }
 
   open = (type, item, refresh) => {
-    this.state({
+    this.setState({
       step: {
         edit: 0,
         cancel: 2,
@@ -321,6 +321,12 @@ class Modal extends PureComponent {
 }
 
 const styles = StyleSheet.create({
+  modal: {
+    height: 287,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   jianding: {
     fontSize: 11,
     textAlign: 'justify',
@@ -457,4 +463,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(Modal);
+export default connect(mapStateToProps, null, null, { forwardRef: true })(Modal);
