@@ -38,22 +38,23 @@ class Modal extends PureComponent {
     navigation.navigate('Web', { url: 'http://m.dropstore.cn/index.html#/help' });
   }
 
-  successCallback = value => new Promise((resolve) => {
-    const { navigation } = this.props;
-    const { item, type } = this.state;
+  successCallback = () => new Promise((resolve) => {
+    const { navigation, address } = this.props;
+    const { item, type, text } = this.state;
+    const defaultAddress = address.current;
     if (type === 'express') {
-      request('/order/do_add_express', { params: { to_express_id: value, order_id: item.order_id } }).then(() => {
+      request('/order/do_add_express', { params: { to_express_id: text, order_id: item.order_id, address_id: defaultAddress.id } }).then(() => {
         this.refresh();
         resolve();
       });
     } else if (type === 'edit') {
-      request('/free/edit_price', { params: { price: value, id: item.free_id } }).then(() => {
+      request('/free/edit_price', { params: { price: text, id: item.free_id } }).then(() => {
         if (getAppOptions()?.x_fee > 0) {
           navigation.navigate('PayDetail', {
             title: '支付服务费',
             api: {
               type: 'freeTradeToRelease',
-              params: { order_id: item.order_id, price: value },
+              params: { order_id: item.order_id, price: text },
             },
             type: 5,
             payType: 'service',
@@ -62,7 +63,7 @@ class Modal extends PureComponent {
               image: (item.goods || item).image,
               icon: (item.goods || item).icon,
               goods_name: (item.goods || item).goods_name,
-              price: value * 100,
+              price: text * 100,
             },
           });
         } else {
@@ -90,7 +91,7 @@ class Modal extends PureComponent {
       if (text.length < 1) {
         showToast('请输入金额');
       } else {
-        this.successCallback(text).then(() => {
+        this.successCallback().then(() => {
           this.close();
         });
       }
@@ -100,12 +101,12 @@ class Modal extends PureComponent {
       if (text.length < 1) {
         showToast('请输入运单号');
       } else {
-        this.successCallback(text).then(() => {
+        this.successCallback().then(() => {
           this.close();
         });
       }
     } else if (step === 2) {
-      this.successCallback(text).then((close) => {
+      this.successCallback().then((close) => {
         if (close) {
           this.close();
         } else {
