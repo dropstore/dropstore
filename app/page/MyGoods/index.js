@@ -100,7 +100,7 @@ class MyGoods extends PureComponent {
   toShare = () => {
     const item = {
       text: getGoodsOnSale()?.list?.[0].goods_name || '安全 简单 高效',
-      img: getGoodsOnSale()?.list?.[0].icon || '',
+      img: getGoodsOnSale()?.list?.[0].icon || 'http://image.dropstore.cn/tower/other/cf.png?x-oss-process=image/resize,m_lfit,w_60',
     };
     showShare({
       text: item.text,
