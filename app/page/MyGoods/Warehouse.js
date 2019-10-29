@@ -38,7 +38,7 @@ export default class Warehouse extends PureComponent {
         priceTag="买入价"
         btns={btns}
         timePrefix={item.is_stock === '1' ? '入库时间' : '预计入库'}
-        timeText={['4', '5'].includes(item.goods_status) ? (item.is_stock === '1' ? item.storage_time : item.add_time) : null}
+        timeText={['4', '5'].includes(item.goods_status) ? (item.is_stock === '2' ? item.storage_time : item.add_time) : null}
       />
     );
   }
