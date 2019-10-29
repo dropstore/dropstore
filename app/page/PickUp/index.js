@@ -10,7 +10,7 @@ import { FadeImage, BottomPay, BtnGroup } from '../../components';
 import { updateUser } from '../../redux/actions/userInfo';
 import { getUserInfo } from '../../redux/reselect/userInfo';
 import { wPx2P } from '../../utils/ScreenUtil';
-import { formatDate } from '../../utils/commonUtils';
+import { formatDate, getAppOptions, copy } from '../../utils/commonUtils';
 import { request } from '../../http/Axios';
 import { getAddress } from '../../redux/reselect/address';
 import { getSimpleData } from '../../redux/reselect/simpleData';
@@ -127,7 +127,7 @@ class PickUp extends PureComponent {
           </View>
           <Text style={styles.hint}>友情提示：</Text>
           <Text style={styles.hint1}>本站默认顺丰物流发货，若需其他物流方式请直接联系客服 :</Text>
-          <Text style={styles.hint1}>微信：dropservice</Text>
+          <Text onPress={() => copy('wx')} style={styles.hint1}>{`微信：${getAppOptions()?.wx}`}</Text>
           <Text style={[styles.hint1, { textAlign: 'right' }]}>物流价格由第三方物流公司提供</Text>
         </ScrollView>
 

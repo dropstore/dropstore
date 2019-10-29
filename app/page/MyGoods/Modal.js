@@ -13,7 +13,7 @@ import { showToast } from '../../utils/MutualUtil';
 import { getSimpleData } from '../../redux/reselect/simpleData';
 import { getAddress } from '../../redux/reselect/address';
 import { request } from '../../http/Axios';
-import { getAppOptions } from '../../utils/commonUtils';
+import { getAppOptions, copy } from '../../utils/commonUtils';
 
 function mapStateToProps() {
   return state => ({
@@ -255,17 +255,14 @@ class Modal extends PureComponent {
             ) : step === 4 ? (
               <View style={{ flex: 1 }}>
                 {this.renderShoe()}
-                <View>
+                <TouchableOpacity onPress={() => copy('address')}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={{ color: '#212121', fontSize: 12 }}>收货人：酱爆</Text>
-                    <Text style={{ color: '#212121', fontSize: 12 }}>1383883838</Text>
+                    <Text style={{ color: '#212121', fontSize: 12 }}>{`收货人：${getAppOptions()?.link_name}`}</Text>
+                    <Text style={{ color: '#212121', fontSize: 12 }}>{getAppOptions()?.mobile}</Text>
                   </View>
-                  <Text style={{ color: '#858585', fontSize: 11, marginTop: 2 }}>北京市朝阳区朝外SOHO B座823</Text>
-                </View>
-                <Text style={{
-                  fontFamily: YaHei, color: '#A4A4A4', fontSize: 11, marginTop: 10,
-                }}
-                >
+                  <Text style={{ color: '#858585', fontSize: 11, marginTop: 2 }}>{getAppOptions()?.address}</Text>
+                </TouchableOpacity>
+                <Text style={styles.wuliu}>
                   {'物流公司：'}
                   <Text style={{ fontFamily: YaHei, fontSize: 11 }}>顺丰快递</Text>
                 </Text>
@@ -333,6 +330,12 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     color: '#8F8F8F',
     lineHeight: 13,
+  },
+  wuliu: {
+    fontFamily: YaHei,
+    color: '#A4A4A4',
+    fontSize: 11,
+    marginTop: 10,
   },
   shoe: {
     width: 64.5,

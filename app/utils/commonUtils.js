@@ -1,8 +1,10 @@
 import {
-  View, Text, TouchableOpacity, Linking, StyleSheet, Platform, ScrollView,
+  View, Text, TouchableOpacity, Linking, StyleSheet, Platform, ScrollView, Clipboard,
 } from 'react-native';
 import React from 'react';
-import { showModalbox, closeModalbox, showShare } from './MutualUtil';
+import {
+  showModalbox, closeModalbox, showShare, showToast,
+} from './MutualUtil';
 import Colors from '../res/Colors';
 import { YaHei } from '../res/FontFamily';
 import { Image } from '../components';
@@ -229,6 +231,21 @@ export const shareAcyivity = (shopInfo, payType) => {
 };
 
 export const getAppOptions = () => store.getState().simpleData?.appOptions?.data;
+
+export const copy = (type) => {
+  const text = {
+    address: `收件人：${getAppOptions()?.link_name}
+手机号码：${getAppOptions()?.mobile}
+邮寄地址：${getAppOptions()?.address}`,
+    wx: getAppOptions()?.wx,
+  }[type];
+  const hint = {
+    address: '邮寄信息已复制',
+    wx: '微信号已复制',
+  }[type];
+  Clipboard.setString(text);
+  showToast(hint);
+};
 
 const styles = StyleSheet.create({
   modal: {

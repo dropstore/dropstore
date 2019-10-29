@@ -2,14 +2,15 @@
 // 支付成功页面，支付失败直接在支付页显示弹窗，不跳转到该页面
 import React, { PureComponent } from 'react';
 import {
-  ScrollView, StyleSheet, Text, View, TouchableOpacity, Clipboard,
+  ScrollView, StyleSheet, Text, View, TouchableOpacity,
 } from 'react-native';
 import { BottomBtnGroup, CountdownCom, FadeImage } from '../../components';
 import Image from '../../components/Image';
 import Colors from '../../res/Colors';
 import { YaHei, RuiXian } from '../../res/FontFamily';
-import { debounce, shareAcyivity } from '../../utils/commonUtils';
-import { showToast } from '../../utils/MutualUtil';
+import {
+  debounce, shareAcyivity, getAppOptions, copy,
+} from '../../utils/commonUtils';
 import { hPx2P, wPx2P } from '../../utils/ScreenUtil';
 import { STATUSBAR_HEIGHT } from '../../common/Constant';
 
@@ -78,10 +79,7 @@ export default class PaySuccess extends PureComponent {
   }
 
   toCopy = () => {
-    Clipboard.setString(`收件人：北京酱爆潮流科技有限公司
-手机号码：18888888888
-邮寄地址：北京市朝阳区朝外SOHO0823`);
-    showToast('邮寄信息已复制');
+    copy('address');
   }
 
   renderBottom = () => {
@@ -149,9 +147,9 @@ export default class PaySuccess extends PureComponent {
     }
     const hints = payType === 'management' ? [
       { text: '指定快递：顺丰快递', needStar: true },
-      { text: '收件人：北京酱爆潮流科技有限公司' },
-      { text: '手机号码：18888888888' },
-      { text: '邮寄地址：北京市朝阳区朝外SOHO0823' },
+      { text: `收件人：${getAppOptions()?.link_name}` },
+      { text: `手机号码：${getAppOptions()?.mobile}` },
+      { text: `邮寄地址：${getAppOptions()?.address}` },
     ] : [];
     const Wrapper = payType === 'management' ? TouchableOpacity : View;
     return (
