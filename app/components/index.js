@@ -23,11 +23,12 @@ import Tag from './Tag';
 import InputVarySize from './InputVarySize';
 import BtnGroup from './BtnGroup';
 import ShoeImageHeader from './ShoeImageHeader';
+import CustomHeader from './CustomHeader';
 
 
 export {
   Image, ImageBackground, KeyboardDismiss, TabBar,
-  ActionSheet, FadeImage, Frame,
+  ActionSheet, FadeImage, Frame, CustomHeader,
   NavigationBarCom, PullToRefresh, ScaleView,
   CountdownCom, Price, ModalNormal, ImageNetUnkoneSize,
   Global, Keyboard, FreeTradeList, BottomPay,

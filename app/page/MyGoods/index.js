@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import List from './List';
-import { TabBar } from '../../components';
+import { TabBar, CustomHeader } from '../../components';
 import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
@@ -14,26 +14,8 @@ import Modalbox from '../../components/Global/Modalbox';
 import { request } from '../../http/Axios';
 import Modal from './Modal';
 
-class MyGoods extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <TouchableOpacity
-        onPress={() => {
-          if (navigation.getParam('title') === '我的商品') {
-            toShare();
-          } else {
-            navigation.navigate('FreeTradePublish', {
-              title: '选择',
-            });
-          }
-        }}
-        style={styles.rightWrapper}
-      >
-        <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '我要出售'}</Text>
-      </TouchableOpacity>
-    ),
-  });
 
+class MyGoods extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
@@ -132,6 +114,23 @@ class MyGoods extends PureComponent {
     const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
+        <CustomHeader
+          navigation={navigation}
+          Right={(
+            <TouchableOpacity
+              onPress={() => {
+                if (navigation.getParam('title') === '我的商品') {
+                  toShare();
+                } else {
+                  navigation.navigate('FreeTradePublish', { title: '选择' });
+                }
+              }}
+              style={styles.rightWrapper}
+            >
+              <Text>{navigation.getParam('title') === '我的商品' ? '分享' : '我要出售'}</Text>
+            </TouchableOpacity>
+          )}
+        />
         <TabView
           style={styles.tabView}
           navigationState={this.state}
@@ -237,6 +236,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontFamily: YaHei,
+  },
+  nav: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 

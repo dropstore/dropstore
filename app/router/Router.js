@@ -95,7 +95,7 @@ const defaultNavigationOptions = ({ navigation }) => ({
         customBack ? customBack() : navigation.pop();
       }}
     >
-      <Image resizeMode="contain" style={{ height: 18, width: 11 }} source={Images.back} />
+      <Image style={{ height: 18, width: 11 }} source={Images.back} />
     </TouchableOpacity>
   ),
   headerRight: navigation.getParam('headerRight'),
@@ -143,7 +143,6 @@ const routesWithHeader = {
   commission: { ...navigationOptionsWithBorderBottom, screen: commission },
   BalanceExtract,
   Password,
-  MyGoods,
   RestPay,
   FreeTradeDetail,
   FreeTradePublish,
@@ -158,6 +157,7 @@ const routesWithHeader = {
 const routesWithoutHeader = {
   BottomNavigator: { screen: BottomNavigator, navigationOptions: { header: null } },
   PaySuccess: { screen: PaySuccess, navigationOptions: { header: null, gesturesEnabled: false } },
+  MyGoods: { screen: MyGoods, navigationOptions: { header: null } },
 };
 
 const MainStack = createStackNavigator({ ...routesWithHeader, ...routesWithoutHeader }, {
