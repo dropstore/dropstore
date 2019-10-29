@@ -152,15 +152,6 @@ export const showNoPayment = (navigation) => {
   });
 };
 
-export const toShare = () => {
-  showShare({
-    text: '缺文案',
-    img: 'https://www.baidu.com/img/bd_logo1.png?where=super',
-    url: `http://m.dropstore.cn/index.html#/shareMyShoese/${store.getState().userInfo.id}`,
-    title: `${store.getState().userInfo.user_name}在炒饭APP上有${store.getState().listData?.goodsOnSale?.count}双鞋正在销售，快来看看有没有你喜欢的吧`,
-  });
-};
-
 export const showChooseSize = (height, onChoosed, onClosed) => {
   showModalbox({
     element: (
@@ -218,7 +209,7 @@ export const shareAcyivity = (shopInfo, payType) => {
   if (payType === 'buyActivityGoods') {
     baseUrl = 'http://m.dropstore.cn/index.html#/buysuccess';
     url = `${baseUrl}?id=${shopInfo.order_id}`;
-    title = '差购买成功文案';
+    title = '快来看我在炒饭APP上抢到的潮鞋';
   }
   showShare({
     text: shopInfo.goods.goods_name,
@@ -231,6 +222,10 @@ export const shareAcyivity = (shopInfo, payType) => {
 };
 
 export const getAppOptions = () => store.getState().simpleData?.appOptions?.data;
+
+export const getUserInfo = () => store.getState().userInfo;
+
+export const getGoodsOnSale = () => store.getState().listData?.goodsOnSale;
 
 export const copy = (type) => {
   const text = {

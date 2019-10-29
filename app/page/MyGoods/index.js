@@ -9,8 +9,9 @@ import { getScreenWidth } from '../../common/Constant';
 import Colors from '../../res/Colors';
 import { YaHei } from '../../res/FontFamily';
 import HeaderRight from './HeaderRight';
-import { toShare, getAppOptions } from '../../utils/commonUtils';
+import { getAppOptions, getUserInfo, getGoodsOnSale } from '../../utils/commonUtils';
 import Modal from './Modal';
+import { showShare } from '../../utils/MutualUtil';
 
 class MyGoods extends PureComponent {
   constructor(props) {
@@ -96,10 +97,23 @@ class MyGoods extends PureComponent {
     }
   }
 
+  toShare = () => {
+    const item = {
+      text: getGoodsOnSale()?.list?.[0].goods_name || '安全 简单 高效',
+      img: getGoodsOnSale()?.list?.[0].icon || '',
+    };
+    showShare({
+      text: item.text,
+      img: item.img,
+      url: `http://m.dropstore.cn/index.html#/shareMyShoese/${getUserInfo()?.id}`,
+      title: `${getUserInfo()?.user_name}在炒饭APP上有${getGoodsOnSale()?.count}双鞋正在销售，快来看看有没有你喜欢的吧`,
+    });
+  };
+
   navRightOnPress = () => {
     const { navigation } = this.props;
     if (navigation.getParam('title') === '我的商品') {
-      toShare();
+      this.toShare();
     } else {
       navigation.navigate('FreeTradePublish', { title: '选择' });
     }
