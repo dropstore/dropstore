@@ -13,7 +13,6 @@ import {
   Image, BottomBtnGroup, FadeImage, PullToRefresh, BottomPay,
 } from '../../components';
 import { YaHei, RuiXian } from '../../res/FontFamily';
-import { showShare } from '../../utils/MutualUtil';
 import { wPx2P, hPx2P } from '../../utils/ScreenUtil';
 import ShopConstant from '../../common/ShopConstant';
 import { debounce } from '../../utils/commonUtils';
@@ -41,7 +40,7 @@ class Panicstatus extends PureComponent {
   constructor(props) {
     super(props);
     const { navigation } = this.props;
-    if (!navigation.getParam('Panicstatus')) {
+    if (!navigation.getParam('isSuccess')) {
       this.fetchData();
     }
     if (navigation.getParam('needHintPay')) {
@@ -59,33 +58,12 @@ class Panicstatus extends PureComponent {
     fetchListData(TYPE, { id, type: 'all' }, fetchType);
   }
 
-  toShare = () => {
-    const { navigation } = this.props;
-    const shopInfo = navigation.getParam('shopInfo');
-    const order_id = navigation.getParam('payData').order_id;
-    const is_join = shopInfo.is_join;
-    const aId = shopInfo.activity.id;
-    const uAId = shopInfo.user_activity.id;
-    const uId = shopInfo.user_activity.user_id;
-    const baseUrl = is_join === ShopConstant.NOT_JOIN ? ShopConstant.SHARE_BASE_URL_BUYED : ShopConstant.SHARE_BASE_URL;
-    const url = `${baseUrl}?id=${order_id}&u_a_id=${uAId}&activity_id=${aId}&inviter=${uId}`;
-    showShare({
-      text: shopInfo.goods.goods_name,
-      img: shopInfo.goods.icon,
-      url,
-      title: `快来炒饭APP帮我助攻抢购，成功可立获${shopInfo.user_activity.commission / 100}元佣金`,
-    }).then(() => {
-      // 分享成功回调
-    });
-  };
-
   toNext = () => {
     const { navigation } = this.props;
     const shopInfo = navigation.getParam('shopInfo');
-    const Panicstatus = navigation.getParam('Panicstatus');
     const payData = navigation.getParam('payData');
     const is_join = shopInfo.is_join;
-    if (!Panicstatus || is_join === ShopConstant.MEMBER) {
+    if (!navigation.getParam('isSuccess') || is_join === ShopConstant.MEMBER) {
       navigation.goBack();
     } else {
       navigation.navigate('pay', {
@@ -107,26 +85,20 @@ class Panicstatus extends PureComponent {
       shopId: item.id,
       type: item.type,
     });
-    // navigation.push('shopDetail', {
-    //   title: '商品详情',
-    //   rate: '+25',
-    //   shopId: item.id,
-    //   type: item.type,
-    // });
   }
 
   renderHeader = () => {
     const { navigation } = this.props;
     const data = navigation.getParam('shopInfo');
-    const Panicstatus = navigation.getParam('Panicstatus');
+    const isSuccess = navigation.getParam('isSuccess');
     return (
       <View style={{ alignItems: 'center', backgroundColor: '#fff' }}>
         <FadeImage style={styles.goodImage} source={{ uri: data.goods.image }} />
         <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
-        <Text style={[styles.status, { color: Panicstatus ? '#FFA700' : '#909090' }]}>{Panicstatus ? '抢购成功' : '抢购失败'}</Text>
+        <Text style={[styles.status, { color: isSuccess ? '#FFA700' : '#909090' }]}>{isSuccess ? '抢购成功' : '抢购失败'}</Text>
         <Text style={styles.shopName}>{data.goods.goods_name}</Text>
         {
-          !Panicstatus && (
+          !isSuccess && (
             <View style={styles.tuijianWrapper}>
               <Text style={styles.tuijian}>相关推荐</Text>
             </View>
@@ -144,16 +116,16 @@ class Panicstatus extends PureComponent {
   render() {
     const { navigation, listData } = this.props;
     const data = navigation.getParam('shopInfo');
-    const Panicstatus = navigation.getParam('Panicstatus');
+    const isSuccess = navigation.getParam('isSuccess');
     const payData = navigation.getParam('payData');
     const is_join = data.is_join;
-    const showPay = Panicstatus && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING);
+    const showPay = isSuccess && (is_join === ShopConstant.NOT_JOIN || is_join === ShopConstant.LEADING);
     const btns = [{ text: '确认', onPress: debounce(this.toNext) }];
 
     return (
       <View style={styles.container}>
         {
-          Panicstatus ? (
+          isSuccess ? (
             <View style={{ flex: 1, justifyContent: 'center' }}>
               {this.renderHeader()}
             </View>
