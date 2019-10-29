@@ -21,7 +21,7 @@ const TestShopInfo = {};
 //     goods_name: 'Air Jordan 2 BHM黑人月 2019 现货原价购',
 //   },
 //   activity: {
-//     b_type: '1',
+//     b_type: '2',
 //     end_time: Date.now() / 1000 + 5000,
 //   },
 //   user_activity: {
@@ -29,7 +29,7 @@ const TestShopInfo = {};
 //   },
 //   is_join: true,
 // };
-// commission支付佣金 buyGoods购买商品 buyActivityGoods 购买活动商品 postage支付邮费 service支付服务费 management库管费
+// commission 支付佣金 buyGoods 购买商品 buyActivityGoods 购买活动商品 postage 支付邮费 service 支付服务费 management 库管费
 const TestPayType = '';
 
 export default class PaySuccess extends PureComponent {
@@ -88,13 +88,17 @@ export default class PaySuccess extends PureComponent {
     const shopInfo = navigation.getParam('shopInfo') || TestShopInfo;
     if (payType === 'commission' && shopInfo?.activity?.b_type) {
       return (
-        <Text style={styles.share} onPress={this.showShare}>
-          {'赶快'}
-          <Text style={{ color: '#0097C2', fontSize: 13 }}>分享</Text>
-          {'活动链接给好友吧，'}
-          {shopInfo.activity.b_type === '1'
-            ? '每位好友的加入都能多一个抽中的机会' : '邀请好友来帮我抢购买资格'}
-        </Text>
+        <View style={styles.shareText}>
+          <Text style={{ fontSize: 13 }} onPress={this.showShare}>
+            {'赶快'}
+            <Text style={{ color: '#0097C2', fontSize: 13 }}>分享</Text>
+            {'活动链接给好友吧'}
+          </Text>
+          <Text style={{ fontSize: 13 }} onPress={this.showShare}>
+            {shopInfo.activity.b_type === '1'
+              ? '每位好友的加入都能多一个抽中的机会' : '邀请好友来帮我抢购买资格'}
+          </Text>
+        </View>
       );
     } if (['buyActivityGoods', 'buyGoods'].includes(payType)) {
       return (
@@ -151,10 +155,9 @@ export default class PaySuccess extends PureComponent {
       { text: `手机号码：${getAppOptions()?.mobile}` },
       { text: `邮寄地址：${getAppOptions()?.address}` },
     ] : [];
-    const Wrapper = payType === 'management' ? TouchableOpacity : View;
     return (
       <View style={styles.container}>
-        <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center', paddingTop: 10 }} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: 'center', marginTop: STATUSBAR_HEIGHT + 20 }}>
             <FadeImage style={styles.goodImage} source={{ uri: shopInfo.goods.image }} />
             <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
@@ -174,16 +177,20 @@ export default class PaySuccess extends PureComponent {
             }
           </View>
           {this.renderBottom()}
-          <Wrapper activeOpacity={1} onPress={this.toCopy} style={{ width: wPx2P(375), paddingHorizontal: 20, marginTop: 15 }}>
-            {hints.map((v, i) => (
-              <View key={i} style={{ flexDirection: 'row', marginTop: 2 }}>
-                {v.needStar ? <Text style={styles.hint}>* </Text> : <Text style={[styles.hint, { color: 'transparent' }]}>* </Text>}
-                <Text style={[styles.hint, { flex: 1 }]}>{v.text}</Text>
-              </View>
-            ))}
-          </Wrapper>
+          {
+            hints.length > 0 && (
+            <TouchableOpacity activeOpacity={1} onPress={this.toCopy} style={{ width: wPx2P(375), paddingHorizontal: 20, marginTop: 15 }}>
+              {hints.map((v, i) => (
+                <View key={i} style={{ flexDirection: 'row', marginTop: 2 }}>
+                  {v.needStar ? <Text style={styles.hint}>* </Text> : <Text style={[styles.hint, { color: 'transparent' }]}>* </Text>}
+                  <Text style={[styles.hint, { flex: 1 }]}>{v.text}</Text>
+                </View>
+              ))}
+            </TouchableOpacity>
+            )
+          }
         </ScrollView>
-        <BottomBtnGroup btns={btns} />
+        <BottomBtnGroup showShadow={false} btns={btns} />
       </View>
     );
   }
@@ -199,6 +206,20 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     width: wPx2P(345),
     marginVertical: 10,
+  },
+  scrollView: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 10,
+    // justifyContent: 'center',
+  },
+  shareText: {
+    position: 'absolute',
+    bottom: 3,
+    width: wPx2P(345),
+    paddingTop: 15,
+    borderTopColor: '#E2E2E2',
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
   mainView: {
     flex: 1,

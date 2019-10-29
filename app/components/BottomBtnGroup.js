@@ -16,13 +16,34 @@ type Props = {
     text: String
   }>,
   customLeft: any,
+  showShadow?: Boolean
 };
 
 export default class BottomBtnGroup extends PureComponent<Props> {
+  static defaultProps = {
+    showShadow: true,
+  }
+
   render() {
-    const { btns, customLeft } = this.props;
+    const { btns, customLeft, showShadow } = this.props;
+    const shadow = showShadow ? Platform.select({
+      ios: {
+        shadowColor: 'rgb(188, 188, 188)',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.35,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 30,
+        position: 'relative',
+      },
+    }) : {};
     return (
-      <View style={[styles.container, { justifyContent: (btns.length === 2 || customLeft) ? 'space-between' : 'flex-end' }]}>
+      <View style={[styles.container, {
+        justifyContent: (btns.length === 2 || customLeft) ? 'space-between' : 'flex-end',
+        ...shadow,
+      }]}
+      >
         {customLeft}
         {
           btns.map(((v, i) => (
@@ -50,18 +71,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     flexDirection: 'row',
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgb(188, 188, 188)',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.35,
-        shadowRadius: 5,
-      },
-      android: {
-        elevation: 30,
-        position: 'relative',
-      },
-    }),
   },
   item: {
     width: wPx2P(168),
