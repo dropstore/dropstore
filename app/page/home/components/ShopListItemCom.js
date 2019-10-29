@@ -31,6 +31,7 @@ export default class ShopListItemCom extends PureComponent {
     const { item, index } = this.props;
     const now = Date.now() / 1000;
     const isEnd = item.end_time - now < 1;
+    const isStart = item.start_time - now < 1;
 
     return (
       <ScaleView style={{ ...styles.scaleView, marginLeft: index % 2 === 0 ? 8 : 9 }} onPress={this.toShopDetailPage}>
@@ -44,7 +45,7 @@ export default class ShopListItemCom extends PureComponent {
         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
           <FadeImage resizeMode="contain" style={styles.imageShoe} source={{ uri: item.icon }} />
         </View>
-        <Text style={{ fontSize: 11, color: isEnd ? '#C51616' : '#0084FF' }}>{isEnd ? '已结束' : '活动中' }</Text>
+        <Text style={{ fontSize: 11, color: isEnd ? '#C51616' : '#0084FF' }}>{isEnd ? '已结束' : isStart ? '抢购中' : '活动中' }</Text>
         <Text style={styles.shopTitle} numberOfLines={2}>{item.activity_name}</Text>
       </ScaleView>
     );
