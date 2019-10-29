@@ -109,7 +109,6 @@ class Panicstatus extends PureComponent {
     return (
       <View style={{ alignItems: 'center', backgroundColor: '#fff' }}>
         <ActivityImage source={{ uri: data.goods.image }} />
-        {/* <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} /> */}
         <Text style={[styles.status, { color: isSuccess ? '#FFA700' : '#909090' }]}>{isSuccess ? '抢购成功' : '抢购失败'}</Text>
         <Text style={styles.shopName}>{data.goods.goods_name}</Text>
         {

@@ -161,7 +161,6 @@ export default class PaySuccess extends PureComponent {
         <ScrollView contentContainerStyle={styles.scrollView} showsVerticalScrollIndicator={false}>
           <View style={{ alignItems: 'center', marginTop: STATUSBAR_HEIGHT + 20 }}>
             <ActivityImage source={{ uri: shopInfo.goods.image }} />
-            <Image style={styles.icon} source={require('../../res/image/chaofan_hui.png')} />
             <Text style={styles.shopName}>{shopInfo.goods.goods_name}</Text>
             <View style={styles.hengxian} />
             <Text style={styles.status}>支付成功!</Text>
